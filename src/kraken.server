@@ -1,0 +1,44 @@
+<?php
+
+/**
+ * Declare paths
+ */
+$basePath = __DIR__;
+$dataPath = $basePath . '/kraken-data';
+
+/**
+ * Include autoloader & dependencies
+ */
+require $basePath . '/vendor/autoload.php';
+
+if (!defined('STDIN'))
+{
+    echo("Tried to execute program outside of CLI mode or not enough parameters have been passed.\n");
+    exit(1);
+}
+
+/**
+ * Create Console Server instance
+ */
+try
+{
+    $process = (new \Kraken\Boot\ConsoleServerBoot)
+        ->controller(
+            'Kraken\\Console\\Server\\ConsoleServer'
+        )
+        ->constructor([
+            null,
+            'ConsoleServer',
+            'ConsoleServer'
+        ])
+        ->boot(
+            $dataPath
+        );
+
+    $process
+        ->create();
+}
+catch (\Exception $ex)
+{
+    echo \Kraken\Exception\Exception::toString($ex) . PHP_EOL;
+}

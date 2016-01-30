@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * Declare paths
+ */
+$dataPath = realpath(__DIR__ . '/..');
+$basePath = realpath($dataPath . '/..');
+
+/**
+ * Include autoloader & dependencies.
+ */
+require $basePath . '/vendor/autoload.php';
+require_once $dataPath . '/autorun/autoload.params';
+
+/**
+ * Create thread instance.
+ */
+try
+{
+    $process = (new \Kraken\Boot\ThreadBoot)
+        ->params([
+            'prefix' => 'App',
+            'name'   => $name
+        ])
+        ->constructor([
+            $parent,
+            $alias,
+            $name
+        ])
+        ->boot(
+            $dataPath
+        );
+
+    $process
+        ->create();
+}
+catch (\Exception $ex)
+{
+    echo \Kraken\Exception\Exception::toString($ex) . PHP_EOL;
+}

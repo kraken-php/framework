@@ -1,0 +1,49 @@
+{
+    "name": "kraken-php/kraken-framework",
+    "description": "The first and only multi-processed, multi-threaded, fault-tolerant framework for PHP.",
+    "keywords": [
+        "kraken", "framework", "websocket", "socket", "server", "asynchronous", "soa", "thread", "process", "fault-tolerant", "fault-tolerance"
+    ],
+    "license": "MIT",
+    "homepage": "http://kraken-php.com",
+    "authors": [
+        {
+            "name": "Kamil Jamroz"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0",
+        "symfony/console": "2.6.*",
+        "league/flysystem": "1.0.*",
+        "league/container": "1.3.*",
+        "monolog/monolog": "1.13.*"
+    },
+    "require-dev": {
+
+    },
+    "suggest": {
+        "ext-libevent": ">=0.1.0",
+        "ext-event": "~1.0",
+        "ext-libev": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kraken\\": "src",
+            "App\\": "app/"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "Kraken\\Composer\\ScriptHandler::buildBootstrap"
+        ],
+        "post-update-cmd": [
+            "Kraken\\Composer\\ScriptHandler::buildBootstrap"
+        ]
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.2-dev"
+        }
+    }
+}

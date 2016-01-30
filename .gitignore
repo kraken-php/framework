@@ -1,0 +1,6 @@
+kraken-data/log/*
+kraken-data/tmp/*
+.idea
+vendor/
+composer.lock
+composer.phar

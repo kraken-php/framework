@@ -1,0 +1,31 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Declare paths
+ */
+$basePath = __DIR__;
+$dataPath = $basePath . '/kraken-data';
+
+/**
+ * Include autoloader & dependencies
+ */
+require $basePath . '/vendor/autoload.php';
+
+/**
+ * Create console instance
+ */
+try
+{
+    $console = (new \Kraken\Boot\ConsoleClientBoot)
+        ->boot(
+            $dataPath
+        );
+
+    $console
+        ->start();
+}
+catch (\Exception $ex)
+{
+    echo \Kraken\Exception\Exception::toString($ex) . PHP_EOL;
+}
