@@ -28,22 +28,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Kraken\\": "src",
-            "App\\": "app/"
+            "Kraken\\": "src"
         }
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "Kraken\\Composer\\ScriptHandler::buildBootstrap"
-        ],
-        "post-update-cmd": [
-            "Kraken\\Composer\\ScriptHandler::buildBootstrap"
-        ]
     },
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "dev-master": "0.2-dev"
+            "dev-master": "0.3-dev"
         }
     }
 }
