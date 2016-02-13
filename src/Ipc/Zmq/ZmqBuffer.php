@@ -105,16 +105,13 @@ class ZmqBuffer extends BaseEventEmitter
             {
                 $message = (array) $message;
                 $sent = (bool) $this->socket->sendmulti($message, ZMQ::MODE_DONTWAIT);
-//                if ($sent)
-//                {
-                    unset($this->messages[$i]);
-                    if (0 === count($this->messages))
-                    {
-                        $this->loop->removeWriteStream($this->fd);
-                        $this->listening = false;
-                        $this->emit('end');
-                    }
-//                }
+                unset($this->messages[$i]);
+                if (0 === count($this->messages))
+                {
+                    $this->loop->removeWriteStream($this->fd);
+                    $this->listening = false;
+                    $this->emit('end');
+                }
             }
             catch (ZMQSocketException $ex)
             {
