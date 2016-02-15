@@ -32,22 +32,14 @@ class TestCase extends \Kraken\Test\Unit\TestCase
     /**
      * @var LoopExtendedInterface
      */
-    protected static $loop;
+    protected $loop;
 
     /**
      * @return LoopExtendedInterface
      */
     public function loop()
     {
-        return self::$loop;
-    }
-
-    /**
-     * Prepare simulation environment
-     */
-    public static function setUpBeforeClass()
-    {
-        self::$loop = new Loop(new StreamSelectLoop());
+        return $this->loop;
     }
 
     /**
@@ -55,7 +47,8 @@ class TestCase extends \Kraken\Test\Unit\TestCase
      */
     public function setUp()
     {
-        self::$loop->flush(true);
+        $this->loop = new Loop(new StreamSelectLoop());
+        $this->loop->flush(true);
     }
 
     /**

@@ -3,10 +3,10 @@
 namespace Kraken\Test\Unit\Stream;
 
 use Kraken\Loop\LoopInterface;
-use Kraken\Stream\StreamAsync;
+use Kraken\Stream\AsyncStream;
 use Kraken\Test\Unit\TestCase;
 
-class StreamAsyncTest extends TestCase
+class AsyncStreamTest extends TestCase
 {
     public function testApiPauseAndResumeAndIsPaused()
     {
@@ -44,37 +44,13 @@ class StreamAsyncTest extends TestCase
     /**
      * @param resource|null $resource
      * @param LoopInterface|null $loop
-     * @return StreamAsync
+     * @return AsyncStream
      */
     private function createStreamMock($resource = null, $loop = null)
     {
-        return new StreamAsync(
+        return new AsyncStream(
             is_null($resource) ? fopen('php://temp', 'r+') : $resource,
             is_null($loop) ? $this->createLoopMock() : $loop
         );
-    }
-
-    /**
-     * @return LoopInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private function createWritableLoopMock()
-    {
-        $loop = $this->createLoopMock();
-        $loop
-            ->expects($this->once())
-            ->method('addWriteStream')
-            ->will($this->returnCallback(function($stream, $listener) {
-                call_user_func($listener, $stream);
-            }));
-
-        return $loop;
-    }
-
-    /**
-     * @return LoopInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private function createLoopMock()
-    {
-        return $this->getMock('Kraken\Loop\LoopInterface');
     }
 }

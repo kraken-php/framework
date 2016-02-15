@@ -2,24 +2,13 @@
 
 namespace Kraken\Stream;
 
-use Kraken\Event\BaseEventEmitter;
 use Kraken\Exception\Io\ReadException;
 use Kraken\Exception\Io\WriteException;
 use Kraken\Exception\Runtime\InvalidArgumentException;
 use Exception;
 
-class Stream extends BaseEventEmitter implements StreamInterface
+class Stream extends StreamSeeker implements StreamInterface
 {
-    /**
-     * @var resource
-     */
-    protected $resource;
-
-    /**
-     * @var bool
-     */
-    protected $autoClose;
-
     /**
      * @var bool
      */
@@ -29,11 +18,6 @@ class Stream extends BaseEventEmitter implements StreamInterface
      * @var bool
      */
     protected $writable;
-
-    /**
-     * @var bool
-     */
-    protected $closing;
 
     /**
      * @var int
@@ -47,22 +31,11 @@ class Stream extends BaseEventEmitter implements StreamInterface
      */
     public function __construct($resource, $autoClose = true)
     {
-        if (!is_resource($resource))
-        {
-             throw new InvalidArgumentException('First parameter must be a valid resource.');
-        }
+        parent::__construct($resource, $autoClose);
 
-        $this->resource = $resource;
-        $this->autoClose = $autoClose;
         $this->readable = true;
         $this->writable = true;
-        $this->closing = false;
         $this->bufferSize = 4096;
-
-        if (function_exists('stream_set_blocking'))
-        {
-            stream_set_blocking($this->resource, 0);
-        }
 
         if (function_exists('stream_set_read_buffer'))
         {
@@ -75,64 +48,11 @@ class Stream extends BaseEventEmitter implements StreamInterface
      */
     public function __destruct()
     {
-        $this->handleClose();
-
-        parent::__destruct();
-
-        unset($this->resource);
-        unset($this->autoClose);
         unset($this->readable);
         unset($this->writable);
-        unset($this->closing);
         unset($this->bufferSize);
-    }
 
-    /**
-     * @override
-     */
-    public function getResource()
-    {
-        return $this->resource;
-    }
-
-    /**
-     * @override
-     */
-    public function getMetadata()
-    {
-        return stream_get_meta_data($this->resource);
-    }
-
-    /**
-     * @override
-     */
-    public function getStreamType()
-    {
-        return $this->getMetadata()['stream_type'];
-    }
-
-    /**
-     * @override
-     */
-    public function getWrapperType()
-    {
-        return $this->getMetadata()['wrapper_type'];
-    }
-
-    /**
-     * @override
-     */
-    public function isOpen()
-    {
-        return !$this->closing && ($this->writable || $this->readable);
-    }
-
-    /**
-     * @override
-     */
-    public function isSeekable()
-    {
-        return $this->getMetadata()['seekable'];
+        parent::__destruct();
     }
 
     /**
@@ -165,60 +85,6 @@ class Stream extends BaseEventEmitter implements StreamInterface
     public function getBufferSize()
     {
         return $this->bufferSize;
-    }
-
-    /**
-     * @override
-     */
-    public function tell()
-    {
-        if (!$this->isSeekable())
-        {
-            throw new ReadException('Cannt tell offset of this kind of stream.');
-        }
-
-        $ret = ftell($this->resource);
-        if ($ret === false)
-        {
-            throw new ReadException('Cannot tell offset of stream.');
-        }
-
-        return $ret;
-    }
-
-    /**
-     * @override
-     */
-    public function seek($offset, $whence = SEEK_SET)
-    {
-        if (!$this->isSeekable())
-        {
-            throw new WriteException('Cannt seek on this kind of stream.');
-        }
-
-        $pointer = fseek($this->resource, $offset, $whence);
-        if ($pointer === false)
-        {
-            throw new WriteException('Cannot seek on stream.');
-        }
-
-        $this->emit('seek', [ $pointer ]);
-    }
-
-    /**
-     * @override
-     */
-    public function rewind()
-    {
-        if (!$this->isSeekable())
-        {
-            throw new WriteException('Cannt rewind this kind of stream.');
-        }
-
-        if (false === rewind($this->resource))
-        {
-            throw new WriteException('Cannot rewind stream.');
-        }
     }
 
     /**
@@ -272,8 +138,10 @@ class Stream extends BaseEventEmitter implements StreamInterface
                 new ReadException('Cannot read stream.')
             );
         }
-
-        $this->emit('data', [ $ret ]);
+        else if ($ret !== '')
+        {
+            $this->emit('data', [ $ret ]);
+        }
 
         return $ret;
     }
@@ -295,38 +163,5 @@ class Stream extends BaseEventEmitter implements StreamInterface
         $this->emit('close');
 
         $this->handleClose();
-    }
-
-//    public function pipe(WritableStreamInterface $dest, array $options = array())
-//    {
-//        Util::pipe($this, $dest, $options);
-//
-//        return $dest;
-//    }
-
-    /**
-     * Emit error event and the throws it too.
-     *
-     * @param Exception $ex
-     * @return null
-     * @throws Exception
-     */
-    protected function throwAndEmitException(Exception $ex)
-    {
-        $this->emit('error', [ $ex ]);
-        throw $ex;
-    }
-
-    /**
-     * Handle the close of the stream object.
-     *
-     * @internal
-     */
-    public function handleClose()
-    {
-        if ($this->autoClose === true && is_resource($this->resource))
-        {
-            fclose($this->resource);
-        }
     }
 }

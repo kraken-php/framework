@@ -16,8 +16,7 @@
         "symfony/console": "2.6.*",
         "league/flysystem": "1.0.*",
         "league/container": "1.3.*",
-        "monolog/monolog": "1.13.*",
-        "react/socket": "*"
+        "monolog/monolog": "1.13.*"
     },
     "require-dev": {
         "phpunit/phpunit": "4.8.*"

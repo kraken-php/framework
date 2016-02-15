@@ -9,7 +9,7 @@ use Kraken\Event\EventEmitterInterface;
  *
  * @event data<string>
  */
-interface StreamReadableInterface extends EventEmitterInterface, StreamSeekableInterface
+interface StreamReaderInterface extends EventEmitterInterface, StreamSeekerInterface
 {
     /**
      * Check if stream is readable.

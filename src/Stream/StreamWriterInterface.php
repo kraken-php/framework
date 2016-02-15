@@ -9,7 +9,7 @@ use Kraken\Event\EventEmitterInterface;
  *
  * @event drain
  */
-interface StreamWritableInterface extends EventEmitterInterface, StreamSeekableInterface
+interface StreamWriterInterface extends EventEmitterInterface, StreamSeekerInterface
 {
     /**
      * Check if stream is writable.

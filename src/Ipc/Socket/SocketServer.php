@@ -68,6 +68,8 @@ class SocketServer extends BaseEventEmitter implements SocketServerInterface
      */
     public function __destruct()
     {
+        $this->handleClose();
+
         parent::__destruct();
 
         unset($this->socket);
@@ -81,7 +83,7 @@ class SocketServer extends BaseEventEmitter implements SocketServerInterface
      */
     public function getLocalEndpoint()
     {
-        return $this->getEndpoint();
+        return $this->parseEndpoint();
     }
 
     /**
@@ -122,6 +124,14 @@ class SocketServer extends BaseEventEmitter implements SocketServerInterface
     public function isOpen()
     {
         return $this->open;
+    }
+
+    /**
+     * @override
+     */
+    public function isPaused()
+    {
+        return $this->paused;
     }
 
     /**
@@ -216,6 +226,10 @@ class SocketServer extends BaseEventEmitter implements SocketServerInterface
     }
 
     /**
+     * Create the client resource.
+     *
+     * This method creates client resource for socket connections.
+     *
      * @param resource $resource
      * @return SocketInterface
      */
@@ -259,7 +273,7 @@ class SocketServer extends BaseEventEmitter implements SocketServerInterface
         {
             if ($this->getStreamType() === Socket::TYPE_UNIX)
             {
-                $path = substr($this->getEndpoint(), 7);
+                $path = substr($this->parseEndpoint(), 7);
                 unlink($path);
             }
             fclose($this->socket);
@@ -269,7 +283,7 @@ class SocketServer extends BaseEventEmitter implements SocketServerInterface
     /**
      * @return string
      */
-    private function getEndpoint()
+    private function parseEndpoint()
     {
         $name = stream_socket_get_name($this->socket, false);
         $type = $this->getStreamType();

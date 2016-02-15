@@ -2,9 +2,9 @@
 
 namespace Kraken\Ipc\Socket;
 
-use Kraken\Stream\StreamAsyncInterface;
+use Kraken\Stream\AsyncStreamInterface;
 
-interface SocketInterface extends StreamAsyncInterface
+interface SocketInterface extends AsyncStreamInterface
 {
     /**
      * Get socket local endpoint.

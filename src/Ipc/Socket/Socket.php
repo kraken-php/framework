@@ -6,10 +6,10 @@ use Exception;
 use Kraken\Exception\Runtime\InstantiationException;
 use Kraken\Exception\RuntimeException;
 use Kraken\Loop\LoopInterface;
-use Kraken\Stream\StreamAsync;
+use Kraken\Stream\AsyncStream;
 use LogicException;
 
-class Socket extends StreamAsync implements SocketInterface
+class Socket extends AsyncStream implements SocketInterface
 {
     /**
      * @var string

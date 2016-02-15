@@ -5,16 +5,14 @@ namespace Kraken\Stream;
 use Exception;
 use Kraken\Exception\Io\WriteException;
 use Kraken\Exception\Runtime\InvalidArgumentException;
+use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
 use Kraken\Pattern\Buffer\BufferInterface;
 use Kraken\Pattern\Buffer\BufferMemorySoft;
 
-class StreamAsync extends Stream implements StreamAsyncInterface
+class AsyncStream extends Stream implements AsyncStreamInterface
 {
-    /**
-     * @var LoopInterface
-     */
-    protected $loop;
+    use LoopAwareTrait;
 
     /**
      * @var bool
@@ -45,15 +43,6 @@ class StreamAsync extends Stream implements StreamAsyncInterface
         $this->listening = false;
         $this->paused = true;
         $this->buffer = new BufferMemorySoft();
-
-//        $this->buffer->on('error', function(Exception $ex) {
-//            $this->emit('error', [ $ex ]);
-//            $this->close();
-//        });
-//
-//        $this->buffer->on('drain', function() {
-//            $this->emit('drain');
-//        });
 
         $this->resume();
     }
@@ -188,11 +177,6 @@ class StreamAsync extends Stream implements StreamAsyncInterface
         }
         catch (Exception $ex)
         {}
-
-        if (!is_resource($this->resource) || feof($this->resource))
-        {
-            $this->close();
-        }
     }
 
     /**

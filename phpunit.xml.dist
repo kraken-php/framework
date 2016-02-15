@@ -8,6 +8,8 @@
          processIsolation="false"
          stopOnError="false"
          stopOnFailure="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
          syntaxCheck="true"
          colors="true"
          verbose="true">

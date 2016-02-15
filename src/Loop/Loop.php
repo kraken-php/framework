@@ -24,7 +24,7 @@ class Loop implements LoopExtendedInterface
      */
     public function __destruct()
     {
-        unset($this->loop);
+//        unset($this->loop);
     }
 
     /**

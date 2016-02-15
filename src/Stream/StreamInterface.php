@@ -2,5 +2,5 @@
 
 namespace Kraken\Stream;
 
-interface StreamInterface extends StreamWritableInterface, StreamReadableInterface
+interface StreamInterface extends StreamWriterInterface, StreamReaderInterface
 {}

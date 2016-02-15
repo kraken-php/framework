@@ -19,8 +19,8 @@ class SocketTest extends TestCase
             ->simulate(function() use($endpoint) {
                 $loop = $this->loop();
                 $events = $this->createEventCollection();
-                $server = new SocketServer($endpoint, $loop);
 
+                $server = new SocketServer($endpoint, $loop);
                 $server->on('connect', function(SocketInterface $conn) use($server, $events) {
                     $conn->on('data', function($data) use($server, $conn, $events) {
                         $events->enqueue($this->createEvent('data', $data));

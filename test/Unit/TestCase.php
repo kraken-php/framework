@@ -2,6 +2,7 @@
 
 namespace Kraken\Test\Unit;
 
+use Kraken\Loop\LoopInterface;
 use Kraken\Test\Unit\Stub\CallableStub;
 
 class TestCase extends \PHPUnit_Framework_TestCase
@@ -65,10 +66,50 @@ class TestCase extends \PHPUnit_Framework_TestCase
     /**
      * Creates a callable mock.
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return callable|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function createCallableMock()
     {
         return $this->getMock(CallableStub::class);
+    }
+
+    /**
+     * @return LoopInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function createLoopMock()
+    {
+        return $this->getMock('Kraken\Loop\LoopInterface');
+    }
+
+    /**
+     * @return LoopInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function createWritableLoopMock()
+    {
+        $loop = $this->createLoopMock();
+        $loop
+            ->expects($this->once())
+            ->method('addWriteStream')
+            ->will($this->returnCallback(function($stream, $listener) {
+                call_user_func($listener, $stream);
+            }));
+
+        return $loop;
+    }
+
+    /**
+     * @return LoopInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function createReadableLoopMock()
+    {
+        $loop = $this->createLoopMock();
+        $loop
+            ->expects($this->once())
+            ->method('addReadStream')
+            ->will($this->returnCallback(function($stream, $listener) {
+                call_user_func($listener, $stream);
+            }));
+
+        return $loop;
     }
 }

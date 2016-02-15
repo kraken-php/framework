@@ -8,7 +8,7 @@ use Kraken\Exception\Io\WriteException;
 use Kraken\Exception\Runtime\InvalidArgumentException;
 use Exception;
 
-class StreamSeeker extends BaseEventEmitter implements StreamSeekableInterface
+class StreamSeeker extends BaseEventEmitter implements StreamSeekerInterface
 {
     /**
      * @var resource
