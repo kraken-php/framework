@@ -9,7 +9,7 @@ use Kraken\Event\EventEmitterInterface;
  *
  * @event data<string>
  */
-interface ReadableStreamInterface extends EventEmitterInterface, StreamBasicInterface
+interface StreamReadableInterface extends EventEmitterInterface, StreamSeekableInterface
 {
     /**
      * Check if stream is readable.
@@ -29,19 +29,17 @@ interface ReadableStreamInterface extends EventEmitterInterface, StreamBasicInte
      */
     public function read($length = null);
 
-//    /**
-//     * Pause incoming data and all events.
-//     *
-//     * @return mixed
-//     */
-//    public function pause();
-//
-//    /**
-//     * Resume incoming data and all events.
-//     *
-//     * @return mixed
-//     */
-//    public function resume();
+    /**
+     * Set the size of stream buffer in bytes.
+     *
+     * @param int $bufferSize
+     */
+    public function setBufferSize($bufferSize);
 
-//    public function pipe(WritableStreamInterface $dest, array $options = array());
+    /**
+     * Get the current size of stream buffer.
+     *
+     * @return int
+     */
+    public function getBufferSize();
 }

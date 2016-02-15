@@ -6,7 +6,7 @@ namespace Kraken\Stream;
  * @event error<Exception>
  * @event close
  */
-interface StreamBasicInterface
+interface StreamBaseInterface
 {
     /**
      * Return the wrapped resource.
@@ -23,18 +23,18 @@ interface StreamBasicInterface
     public function getMetadata();
 
     /**
-     * Set the size of stream buffer in bytes.
+     * Return type of stream.
      *
-     * @param int $bufferSize
+     * @return string
      */
-    public function setBufferSize($bufferSize);
+    public function getStreamType();
 
     /**
-     * Get the current size of stream buffer.
+     * Return type of stream wrapper.
      *
-     * @return int
+     * @return string
      */
-    public function getBufferSize();
+    public function getWrapperType();
 
     /**
      * Check if stream is open.

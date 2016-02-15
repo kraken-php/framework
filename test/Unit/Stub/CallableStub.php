@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Test\Stub;
+namespace Kraken\Test\Unit\Stub;
 
 class CallableStub
 {

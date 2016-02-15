@@ -1,17 +1,11 @@
 <?php
 
-namespace Kraken\Stream\Buffer;
+namespace Kraken\Pattern\Buffer;
 
-use Kraken\Event\EventEmitterInterface;
+use Kraken\Exception\Io\ReadException;
 use Kraken\Exception\Io\WriteException;
 
-/**
- * @event drain
- * @event full-drain
- * @event error(Exception)
- * @event close
- */
-interface BufferInterface extends EventEmitterInterface
+interface BufferInterface
 {
     /**
      * Set the size of stream buffer in bytes.
@@ -35,6 +29,21 @@ interface BufferInterface extends EventEmitterInterface
      * @throws WriteException
      */
     public function write($text);
+
+    /**
+     * Read all data from the buffer.
+     *
+     * @return string
+     * @throws ReadException
+     */
+    public function read();
+
+    /**
+     * Flush given number of bytes from Buffer or flush it completely if $length is set to null.
+     *
+     * @param int|null $length
+     */
+    public function flush($length = null);
 
     /**
      * Close the Buffer and prevent any further writes.

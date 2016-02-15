@@ -8,7 +8,7 @@ use Kraken\Exception\Io\WriteException;
 use Kraken\Exception\Runtime\InvalidArgumentException;
 use Exception;
 
-class Stream extends BaseEventEmitter implements StreamInterface
+class StreamWriter extends BaseEventEmitter implements StreamWritableInterface
 {
     /**
      * @var resource
@@ -19,11 +19,6 @@ class Stream extends BaseEventEmitter implements StreamInterface
      * @var bool
      */
     protected $autoClose;
-
-    /**
-     * @var bool
-     */
-    protected $readable;
 
     /**
      * @var bool
@@ -54,7 +49,6 @@ class Stream extends BaseEventEmitter implements StreamInterface
 
         $this->resource = $resource;
         $this->autoClose = $autoClose;
-        $this->readable = true;
         $this->writable = true;
         $this->closing = false;
         $this->bufferSize = 4096;
@@ -62,11 +56,6 @@ class Stream extends BaseEventEmitter implements StreamInterface
         if (function_exists('stream_set_blocking'))
         {
             stream_set_blocking($this->resource, 0);
-        }
-
-        if (function_exists('stream_set_read_buffer'))
-        {
-            stream_set_read_buffer($this->resource, 0);
         }
     }
 
@@ -81,7 +70,6 @@ class Stream extends BaseEventEmitter implements StreamInterface
 
         unset($this->resource);
         unset($this->autoClose);
-        unset($this->readable);
         unset($this->writable);
         unset($this->closing);
         unset($this->bufferSize);
@@ -124,7 +112,7 @@ class Stream extends BaseEventEmitter implements StreamInterface
      */
     public function isOpen()
     {
-        return !$this->closing && ($this->writable || $this->readable);
+        return !$this->closing && $this->writable;
     }
 
     /**
@@ -133,14 +121,6 @@ class Stream extends BaseEventEmitter implements StreamInterface
     public function isSeekable()
     {
         return $this->getMetadata()['seekable'];
-    }
-
-    /**
-     * @override
-     */
-    public function isReadable()
-    {
-        return $this->readable;
     }
 
     /**

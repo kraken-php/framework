@@ -1,11 +1,21 @@
 <?php
 
-namespace Kraken\Test;
+namespace Kraken\Test\Unit;
 
-use Kraken\Test\Stub\CallableStub;
+use Kraken\Test\Unit\Stub\CallableStub;
 
 class TestCase extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Return project root.
+     *
+     * @return string
+     */
+    protected function basePath()
+    {
+        return realpath(__DIR__ . '/..');
+    }
+
     /**
      * Creates a callback that must be called $amount times or the test will fail.
      *

@@ -9,7 +9,7 @@ use Kraken\Exception\Io\WriteException;
 /**
  * @event seek callable(int)
  */
-interface SeekableStreamInterface extends EventEmitterInterface, StreamBasicInterface
+interface StreamSeekableInterface extends EventEmitterInterface, StreamBaseInterface
 {
     /**
      * Check if stream is seekable.

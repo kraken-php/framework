@@ -5,16 +5,20 @@
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         processIsolation="true"
+         processIsolation="false"
          stopOnError="false"
          stopOnFailure="false"
          syntaxCheck="true"
          colors="true"
-         verbose="true"
-        >
+         verbose="true">
+
     <testsuites>
-        <testsuite name="KrakenPHP Test Suite">
-            <directory suffix="Test.php">test</directory>
+        <testsuite name="KrakenPHP Unit Test Suite">
+            <directory suffix="Test.php">test/Unit</directory>
+        </testsuite>
+
+        <testsuite name="KrakenPHP Integration Test Suite">
+            <directory suffix="Test.php">test/Integration</directory>
         </testsuite>
     </testsuites>
 

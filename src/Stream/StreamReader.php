@@ -8,7 +8,7 @@ use Kraken\Exception\Io\WriteException;
 use Kraken\Exception\Runtime\InvalidArgumentException;
 use Exception;
 
-class Stream extends BaseEventEmitter implements StreamInterface
+class StreamReader extends BaseEventEmitter implements StreamReadableInterface
 {
     /**
      * @var resource
@@ -24,11 +24,6 @@ class Stream extends BaseEventEmitter implements StreamInterface
      * @var bool
      */
     protected $readable;
-
-    /**
-     * @var bool
-     */
-    protected $writable;
 
     /**
      * @var bool
@@ -55,7 +50,6 @@ class Stream extends BaseEventEmitter implements StreamInterface
         $this->resource = $resource;
         $this->autoClose = $autoClose;
         $this->readable = true;
-        $this->writable = true;
         $this->closing = false;
         $this->bufferSize = 4096;
 
@@ -82,7 +76,6 @@ class Stream extends BaseEventEmitter implements StreamInterface
         unset($this->resource);
         unset($this->autoClose);
         unset($this->readable);
-        unset($this->writable);
         unset($this->closing);
         unset($this->bufferSize);
     }
@@ -124,7 +117,7 @@ class Stream extends BaseEventEmitter implements StreamInterface
      */
     public function isOpen()
     {
-        return !$this->closing && ($this->writable || $this->readable);
+        return !$this->closing && $this->readable;
     }
 
     /**
@@ -141,14 +134,6 @@ class Stream extends BaseEventEmitter implements StreamInterface
     public function isReadable()
     {
         return $this->readable;
-    }
-
-    /**
-     * @override
-     */
-    public function isWritable()
-    {
-        return $this->writable;
     }
 
     /**
@@ -224,32 +209,6 @@ class Stream extends BaseEventEmitter implements StreamInterface
     /**
      * @override
      */
-    public function write($text)
-    {
-        if (!$this->writable)
-        {
-            return $this->throwAndEmitException(
-                new WriteException('Stream is no longer writable.')
-            );
-        }
-
-        $sent = fwrite($this->resource, $text);
-
-        if ($sent === false)
-        {
-            return $this->throwAndEmitException(
-                new WriteException('Error occurred while writing to the stream resource.')
-            );
-        }
-
-        $this->emit('drain');
-
-        return true;
-    }
-
-    /**
-     * @override
-     */
     public function read($length = null)
     {
         if (!$this->readable)
@@ -296,13 +255,6 @@ class Stream extends BaseEventEmitter implements StreamInterface
 
         $this->handleClose();
     }
-
-//    public function pipe(WritableStreamInterface $dest, array $options = array())
-//    {
-//        Util::pipe($this, $dest, $options);
-//
-//        return $dest;
-//    }
 
     /**
      * Emit error event and the throws it too.
