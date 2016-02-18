@@ -2,15 +2,14 @@
 
 namespace Kraken\Container;
 
-use Exception;
-use Kraken\Bridge\League\Container\LeagueContainerFactory;
-use Kraken\Bridge\League\Container\LeagueContainerInterface;
-use Kraken\Bridge\League\Container\LeagueContainerAwareInterface;
 use Kraken\Container\Method\FactoryMethod;
 use Kraken\Exception\Io\ReadException;
 use Kraken\Exception\Io\WriteException;
+use League\Container\Container as LeagueContainer;
+use League\Container\ContainerInterface as LeagueContainerInterface;
+use Exception;
 
-class Container implements ContainerInterface, LeagueContainerAwareInterface
+class Container implements ContainerInterface
 {
     /**
      * @var LeagueContainerInterface
@@ -31,14 +30,6 @@ class Container implements ContainerInterface, LeagueContainerAwareInterface
     public function __destruct()
     {
         unset($this->container);
-    }
-
-    /**
-     * @return LeagueContainerInterface
-     */
-    public function getLeagueContainer()
-    {
-        return $this->container;
     }
 
     /**
@@ -234,6 +225,6 @@ class Container implements ContainerInterface, LeagueContainerAwareInterface
      */
     protected function createContainer()
     {
-        return LeagueContainerFactory::create();
+        return new LeagueContainer();
     }
 }
