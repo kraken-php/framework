@@ -1,5 +1,5 @@
 {
-    "name": "kraken-php/kraken-framework",
+    "name": "kraken-php/framework",
     "description": "The first and only multi-processed, multi-threaded, fault-tolerant framework for PHP.",
     "keywords": [
         "kraken", "framework", "websocket", "socket", "server", "asynchronous", "soa", "thread", "process", "fault-tolerant", "fault-tolerance"
