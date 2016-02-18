@@ -18,7 +18,7 @@ class Core extends Container implements CoreInterface
     /**
      * @var string
      */
-    const VERSION = '0.2.1';
+    const VERSION = '0.2.2';
 
     /**
      * @var string
