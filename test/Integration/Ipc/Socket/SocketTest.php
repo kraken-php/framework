@@ -5,6 +5,7 @@ namespace Kraken\Test\Integration\Ipc\Socket;
 use Kraken\Ipc\Socket\Socket;
 use Kraken\Ipc\Socket\SocketInterface;
 use Kraken\Ipc\Socket\SocketServer;
+use Kraken\Ipc\Socket\SocketServerInterface;
 use Kraken\Test\Integration\TestCase;
 use Kraken\Test\Unit\Stub\EventCollection;
 
@@ -21,8 +22,8 @@ class SocketTest extends TestCase
                 $events = $this->createEventCollection();
 
                 $server = new SocketServer($endpoint, $loop);
-                $server->on('connect', function(SocketInterface $conn) use($server, $events) {
-                    $conn->on('data', function($data) use($server, $conn, $events) {
+                $server->on('connect', function(SocketServerInterface $server, SocketInterface $conn) use($events) {
+                    $conn->on('data', function(SocketInterface $conn, $data) use($server, $events) {
                         $events->enqueue($this->createEvent('data', $data));
                         $conn->write('secret answer!');
                         $server->close();
@@ -34,9 +35,9 @@ class SocketTest extends TestCase
                 });
 
                 $client = new Socket($endpoint, $loop);
-                $client->on('data', function($data) use($client, $loop, $events) {
+                $client->on('data', function(SocketInterface $conn, $data) use($loop, $events) {
                     $events->enqueue($this->createEvent('data', $data));
-                    $client->close();
+                    $conn->close();
                     $loop->stop();
                 });
                 $client->on('error', $this->expectCallableNever());

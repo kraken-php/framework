@@ -2,12 +2,8 @@
 
 namespace Kraken\Test\Integration\Stream;
 
-use Kraken\Stream\AsyncStream;
 use Kraken\Stream\AsyncStreamReaderInterface;
 use Kraken\Stream\AsyncStreamWriterInterface;
-use Kraken\Stream\Stream;
-use Kraken\Stream\StreamReader;
-use Kraken\Stream\StreamWriter;
 use Kraken\Test\Integration\TestCase;
 use Kraken\Test\Unit\Stub\EventCollection;
 use ReflectionClass;
@@ -38,9 +34,9 @@ class AsyncStreamTest extends TestCase
                     fopen("file://$local/temp", 'w+'),
                     $loop
                 );
-                $reader->on('data', function($data) use($reader, $events) {
+                $reader->on('data', function(AsyncStreamReaderInterface $conn, $data) use($events) {
                     $events->enqueue($this->createEvent('data', $data));
-                    $reader->close();
+                    $conn->close();
                 });
                 $reader->on('drain', $this->expectCallableNever());
                 $reader->on('error', $this->expectCallableNever());
@@ -57,7 +53,7 @@ class AsyncStreamTest extends TestCase
                     $loop
                 );
                 $writer->on('data', $this->expectCallableNever());
-                $writer->on('drain', function() use($writer, $events) {
+                $writer->on('drain', function(AsyncStreamWriterInterface $writer) use($events) {
                     $events->enqueue($this->createEvent('drain'));
                     $writer->close();
                 });

@@ -25,7 +25,7 @@ class StreamTest extends TestCase
         $capturedData = null;
         $readData = null;
 
-        $reader->on('data', function($data) use(&$capturedData) {
+        $reader->on('data', function($origin, $data) use(&$capturedData) {
             $capturedData = $data;
         });
         $reader->on('error', $this->expectCallableNever());
@@ -55,7 +55,7 @@ class StreamTest extends TestCase
         $capturedData = null;
         $readData = null;
 
-        $reader->on('data', function($data) use(&$capturedData) {
+        $reader->on('data', function($origin, $data) use(&$capturedData) {
             $capturedData = $data;
         });
         $reader->on('drain', $this->expectCallableNever());

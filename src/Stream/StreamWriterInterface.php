@@ -7,14 +7,14 @@ use Kraken\Event\EventEmitterInterface;
 /**
  * @override
  *
- * @event drain
+ * @event drain(object)
  */
 interface StreamWriterInterface extends EventEmitterInterface, StreamSeekerInterface
 {
     /**
      * Check if stream is writable.
      *
-     * @return bool
+     * @return
      */
     public function isWritable();
 

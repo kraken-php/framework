@@ -144,7 +144,7 @@ class StreamSeeker extends BaseEventEmitter implements StreamSeekerInterface
             throw new WriteException('Cannot seek on stream.');
         }
 
-        $this->emit('seek', [ $pointer ]);
+        $this->emit('seek', [ $this, $pointer ]);
     }
 
     /**
@@ -177,7 +177,7 @@ class StreamSeeker extends BaseEventEmitter implements StreamSeekerInterface
         $this->readable = false;
         $this->writable = false;
 
-        $this->emit('close');
+        $this->emit('close', [ $this ]);
 
         $this->handleClose();
     }
@@ -191,7 +191,7 @@ class StreamSeeker extends BaseEventEmitter implements StreamSeekerInterface
      */
     protected function throwAndEmitException(Exception $ex)
     {
-        $this->emit('error', [ $ex ]);
+        $this->emit('error', [ $this, $ex ]);
         throw $ex;
     }
 

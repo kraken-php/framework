@@ -7,7 +7,7 @@ use Kraken\Event\EventEmitterInterface;
 /**
  * @override
  *
- * @event data<string>
+ * @event data(object, string)
  */
 interface StreamReaderInterface extends EventEmitterInterface, StreamSeekerInterface
 {

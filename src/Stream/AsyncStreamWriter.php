@@ -146,7 +146,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
 
         if ($sent === false)
         {
-            $this->emit('error', [ new WriteException('Error occurred while writing to the stream resource.') ]);
+            $this->emit('error', [ $this, new WriteException('Error occurred while writing to the stream resource.') ]);
             return;
         }
 
@@ -156,13 +156,13 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
 
         if ($lenAfter > 0 && $lenBefore >= $this->bufferSize && $lenAfter < $this->bufferSize)
         {
-            $this->emit('drain');
+            $this->emit('drain', [ $this ]);
         }
         else if ($lenAfter === 0)
         {
             $this->loop->removeWriteStream($this->resource);
             $this->listening = false;
-            $this->emit('drain');
+            $this->emit('drain', [ $this ]);
         }
     }
 

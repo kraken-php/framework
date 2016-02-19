@@ -3,8 +3,8 @@
 namespace Kraken\Stream;
 
 /**
- * @event error<Exception>
- * @event close
+ * @event error(object, Exception)
+ * @event close(object)
  */
 interface StreamBaseInterface
 {

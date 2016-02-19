@@ -7,7 +7,7 @@ use Kraken\Loop\LoopResourceInterface;
 use Kraken\Stream\StreamBaseInterface;
 
 /**
- * @event connect(SocketInterface)
+ * @event connect(object, SocketInterface)
  */
 interface SocketServerInterface extends EventEmitterInterface, LoopResourceInterface, StreamBaseInterface
 {

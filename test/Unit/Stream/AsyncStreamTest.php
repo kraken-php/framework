@@ -28,8 +28,10 @@ class AsyncStreamTest extends TestCase
 
         $expectedData = "foobar\n";
         $capturedData = null;
+        $capturedOrigin = null;
 
-        $stream->on('data', function($data) use(&$capturedData) {
+        $stream->on('data', function($origin, $data) use(&$capturedOrigin, &$capturedData) {
+            $capturedOrigin = $origin;
             $capturedData = $data;
         });
         $stream->on('drain', $this->expectCallableOnce());
@@ -39,6 +41,7 @@ class AsyncStreamTest extends TestCase
         $stream->handleData($stream->getResource());
 
         $this->assertSame($expectedData, $capturedData);
+        $this->assertSame($stream, $capturedOrigin);
     }
 
     /**

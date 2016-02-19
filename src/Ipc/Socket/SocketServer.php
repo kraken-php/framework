@@ -146,7 +146,7 @@ class SocketServer extends BaseEventEmitter implements SocketServerInterface
 
         $this->open = false;
 
-        $this->emit('close');
+        $this->emit('close', [ $this ]);
 
         $this->handleClose();
     }
@@ -249,7 +249,7 @@ class SocketServer extends BaseEventEmitter implements SocketServerInterface
 
         if ($newSocket === false)
         {
-            $this->emit('error', [ new ReadException('Socket could not accept new connection.') ]);
+            $this->emit('error', [ $this, new ReadException('Socket could not accept new connection.') ]);
             return;
         }
 
@@ -257,7 +257,7 @@ class SocketServer extends BaseEventEmitter implements SocketServerInterface
 
         $client = $this->createClient($newSocket);
 
-        $this->emit('connect', [ $client ]);
+        $this->emit('connect', [ $this, $client ]);
     }
 
     /**

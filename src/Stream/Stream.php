@@ -5,7 +5,6 @@ namespace Kraken\Stream;
 use Kraken\Exception\Io\ReadException;
 use Kraken\Exception\Io\WriteException;
 use Kraken\Exception\Runtime\InvalidArgumentException;
-use Exception;
 
 class Stream extends StreamSeeker implements StreamInterface
 {
@@ -108,7 +107,7 @@ class Stream extends StreamSeeker implements StreamInterface
             );
         }
 
-        $this->emit('drain');
+        $this->emit('drain', [ $this ]);
 
         return true;
     }
@@ -140,7 +139,7 @@ class Stream extends StreamSeeker implements StreamInterface
         }
         else if ($ret !== '')
         {
-            $this->emit('data', [ $ret ]);
+            $this->emit('data', [ $this, $ret ]);
         }
 
         return $ret;
@@ -160,7 +159,7 @@ class Stream extends StreamSeeker implements StreamInterface
         $this->readable = false;
         $this->writable = false;
 
-        $this->emit('close');
+        $this->emit('close', [ $this ]);
 
         $this->handleClose();
     }

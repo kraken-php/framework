@@ -7,7 +7,7 @@ use Kraken\Exception\Io\ReadException;
 use Kraken\Exception\Io\WriteException;
 
 /**
- * @event seek callable(int)
+ * @event seek(object, int)
  */
 interface StreamSeekerInterface extends EventEmitterInterface, StreamBaseInterface
 {

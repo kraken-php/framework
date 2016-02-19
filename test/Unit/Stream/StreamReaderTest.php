@@ -39,8 +39,10 @@ class StreamReaderTest extends StreamSeekerTest
 
         $expectedData = "foobar\n";
         $capturedData = null;
+        $capturedOrigin = null;
 
-        $stream->on('data', function($data) use(&$capturedData) {
+        $stream->on('data', function($origin, $data) use(&$capturedOrigin, &$capturedData) {
+            $capturedOrigin = $origin;
             $capturedData = $data;
         });
 
@@ -49,6 +51,7 @@ class StreamReaderTest extends StreamSeekerTest
 
         $this->assertSame($expectedData, $stream->read());
         $this->assertSame($expectedData, $capturedData);
+        $this->assertSame($stream, $capturedOrigin);
     }
 
     /**

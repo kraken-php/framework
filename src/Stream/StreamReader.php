@@ -97,7 +97,7 @@ class StreamReader extends StreamSeeker implements StreamReaderInterface
         }
         else if ($ret !== '')
         {
-            $this->emit('data', [ $ret ]);
+            $this->emit('data', [ $this, $ret ]);
         }
 
         return $ret;
@@ -117,7 +117,7 @@ class StreamReader extends StreamSeeker implements StreamReaderInterface
         $this->readable = false;
         $this->writable = false;
 
-        $this->emit('close');
+        $this->emit('close', [ $this ]);
 
         $this->handleClose();
     }
