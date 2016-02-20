@@ -2,51 +2,109 @@
 
 namespace Kraken\Pattern\Buffer;
 
-use Kraken\Exception\Io\ReadException;
-use Kraken\Exception\Io\WriteException;
+use ArrayAccess;
+use Countable;
+use IteratorAggregate;
 
-interface BufferInterface
+interface BufferInterface extends ArrayAccess, Countable, IteratorAggregate
 {
     /**
-     * Set the size of stream buffer in bytes.
-     *
-     * @param int $bufferSize
+     * @return string
      */
-    public function setBufferSize($bufferSize);
+    public function __toString();
 
     /**
-     * Get the current size of stream buffer.
+     * Current length of the buffer.
      *
      * @return int
      */
-    public function getBufferSize();
+    public function length();
 
     /**
-     * Write additional data to buffer.
+     * Determines if the buffer is empty.
      *
-     * @param string $text
      * @return bool
-     * @throws WriteException
      */
-    public function write($text);
+    public function isEmpty();
 
     /**
-     * Read all data from the buffer.
+     * Pushes the given string onto the end of the buffer.
+     *
+     * @param string $data
+     */
+    public function push($data);
+
+    /**
+     * Puts the given string at the beginning of the buffer.
+     *
+     * @param string $data
+     */
+    public function unshift($data);
+
+    /**
+     * Remove the given number of characters (at most) from the buffer starting at the beginning.
+     *
+     * @param int $length
+     * @return string
+     */
+    public function shift($length);
+
+    /**
+     * Returns the given number of characters (at most) from the buffer without removing them from the buffer.
+     *
+     * @param int $length
+     * @param int $offset
+     * @return string
+     */
+    public function peek($length = 0, $offset = 0);
+
+    /**
+     * Remove the given number of characters (at most) from the buffer starting at the end.
+     *
+     * @param int $length
+     * @return string
+     */
+    public function pop($length);
+
+    /**
+     * Remove and returns the given number of characters (at most) from the buffer.
+     *
+     * @param int $length
+     * @param int $offset
+     * @return string
+     */
+    public function remove($length, $offset = 0);
+
+    /**
+     * Remove and returns all data in the buffer.
      *
      * @return string
-     * @throws ReadException
      */
-    public function read();
+    public function drain();
 
     /**
-     * Flush given number of bytes from Buffer or flush it completely if $length is set to null.
+     * Insert the string at the given position in the buffer.
      *
-     * @param int|null $length
+     * @param string $string
+     * @param int $position
      */
-    public function flush($length = null);
+    public function insert($string, $position);
 
     /**
-     * Close the Buffer and prevent any further writes.
+     * Replace all occurences of $search with $replace. See str_replace() function.
+     *
+     * @param mixed $search
+     * @param mixed $replace
+     * @return int
      */
-    public function close();
+    public function replace($search, $replace);
+
+    /**
+     * Return the position of the given pattern in the buffer if it exists, or false if it does not.
+     *
+     * @param string $string
+     * @param bool $reverse
+     * @return int|bool
+     */
+    public function search($string, $reverse = false);
 }

@@ -27,6 +27,13 @@ class StreamSeekerTest extends TestCase
         $this->assertSame($resource, $stream->getResource());
     }
 
+    public function testApiGetResourceId_ReturnsValidResourceId()
+    {
+        $resource = fopen('php://temp', 'r+');
+        $stream = $this->createStreamMock($resource);
+        $this->assertSame((int)$resource, $stream->getResourceId());
+    }
+
     public function testApiGetMetadata_ReturnsValidMetadata()
     {
         $stream = $this->createStreamMock();

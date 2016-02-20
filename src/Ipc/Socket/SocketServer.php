@@ -97,6 +97,14 @@ class SocketServer extends BaseEventEmitter implements SocketServerInterface
     /**
      * @override
      */
+    public function getResourceId()
+    {
+        return (int) $this->socket;
+    }
+
+    /**
+     * @override
+     */
     public function getMetadata()
     {
         return stream_get_meta_data($this->socket);

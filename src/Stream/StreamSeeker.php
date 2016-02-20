@@ -72,6 +72,14 @@ class StreamSeeker extends BaseEventEmitter implements StreamSeekerInterface
     /**
      * @override
      */
+    public function getResourceId()
+    {
+        return (int) $this->resource;
+    }
+
+    /**
+     * @override
+     */
     public function getMetadata()
     {
         return stream_get_meta_data($this->resource);

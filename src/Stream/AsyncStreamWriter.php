@@ -6,8 +6,8 @@ use Kraken\Exception\Io\WriteException;
 use Kraken\Exception\Runtime\InvalidArgumentException;
 use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
+use Kraken\Pattern\Buffer\Buffer;
 use Kraken\Pattern\Buffer\BufferInterface;
-use Kraken\Pattern\Buffer\BufferMemorySoft;
 
 class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterface
 {
@@ -41,7 +41,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
         $this->loop = $loop;
         $this->listening = false;
         $this->paused = true;
-        $this->buffer = new BufferMemorySoft();
+        $this->buffer = new Buffer();
 
         $this->resume();
     }
@@ -73,7 +73,6 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
     public function setBufferSize($bufferSize)
     {
         $this->bufferSize = $bufferSize;
-        $this->buffer->setBufferSize($bufferSize);
     }
 
     /**
@@ -104,7 +103,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
         if ($this->paused)
         {
             $this->paused = false;
-            if ($this->buffer->read() !== '')
+            if ($this->buffer->peek() !== '')
             {
                 $this->loop->addWriteStream($this->resource, [ $this, 'handleWrite' ]);
             }
@@ -123,7 +122,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
             );
         }
 
-        $status = $this->buffer->write($text);
+        $this->buffer->push($text);
 
         if (!$this->listening && !$this->paused)
         {
@@ -131,7 +130,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
             $this->loop->addWriteStream($this->resource, [ $this, 'handleWrite' ]);
         }
 
-        return $status;
+        return $this->buffer->length() < $this->bufferSize;
     }
 
     /**
@@ -141,7 +140,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
      */
     public function handleWrite()
     {
-        $text = $this->buffer->read();
+        $text = $this->buffer->peek();
         $sent = fwrite($this->resource, $text);
 
         if ($sent === false)
@@ -152,7 +151,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
 
         $lenBefore = strlen($text);
         $lenAfter = $lenBefore - $sent;
-        $this->buffer->flush($sent);
+        $this->buffer->remove($sent);
 
         if ($lenAfter > 0 && $lenBefore >= $this->bufferSize && $lenAfter < $this->bufferSize)
         {

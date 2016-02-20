@@ -16,6 +16,13 @@ interface StreamBaseInterface
     public function getResource();
 
     /**
+     * Return file descriptor of wrapped resource.
+     *
+     * @return int
+     */
+    public function getResourceId();
+
+    /**
      * Return array containg metadata of stream.
      *
      * @return string[]
