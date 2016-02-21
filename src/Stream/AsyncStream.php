@@ -92,7 +92,9 @@ class AsyncStream extends Stream implements AsyncStreamInterface
         if (!$this->paused)
         {
             $this->paused = true;
+            $this->listening = false;
             $this->loop->removeReadStream($this->resource);
+            $this->loop->removeWriteStream($this->resource);
         }
     }
 
@@ -105,6 +107,11 @@ class AsyncStream extends Stream implements AsyncStreamInterface
         {
             $this->paused = false;
             $this->loop->addReadStream($this->resource, [ $this, 'handleData' ]);
+            if ($this->buffer->isEmpty() === false)
+            {
+                $this->listening = true;
+                $this->loop->addWriteStream($this->resource, [ $this, 'handleWrite' ]);
+            }
         }
     }
 
@@ -129,6 +136,30 @@ class AsyncStream extends Stream implements AsyncStreamInterface
         }
 
         return $this->buffer->length() < $this->bufferSize;
+    }
+
+    /**
+     * @override
+     */
+    public function close()
+    {
+        if ($this->closing)
+        {
+            return;
+        }
+
+        $this->closing = true;
+        $this->readable = false;
+        $this->writable = false;
+
+        if ($this->buffer->isEmpty() === false)
+        {
+            $this->writeEnd();
+        }
+
+        $this->emit('close', [ $this ]);
+
+        $this->handleClose();
     }
 
     /**
@@ -186,5 +217,25 @@ class AsyncStream extends Stream implements AsyncStreamInterface
         $this->pause();
 
         parent::handleClose();
+    }
+
+    /**
+     *
+     */
+    private function writeEnd()
+    {
+        do
+        {
+            try
+            {
+                $sent = fwrite($this->resource, $this->buffer->peek());
+                $this->buffer->remove($sent);
+            }
+            catch (Exception $ex)
+            {
+                $sent = 0;
+            }
+        }
+        while (is_resource($this->resource) && $sent > 0 && !$this->buffer->isEmpty());
     }
 }

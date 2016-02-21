@@ -2,6 +2,7 @@
 
 namespace Kraken\Stream;
 
+use Exception;
 use Kraken\Exception\Io\WriteException;
 use Kraken\Exception\Runtime\InvalidArgumentException;
 use Kraken\Loop\LoopAwareTrait;
@@ -91,6 +92,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
         if (!$this->paused)
         {
             $this->paused = true;
+            $this->listening = false;
             $this->loop->removeWriteStream($this->resource);
         }
     }
@@ -103,8 +105,9 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
         if ($this->paused)
         {
             $this->paused = false;
-            if ($this->buffer->peek() !== '')
+            if ($this->buffer->isEmpty() === false)
             {
+                $this->listening = true;
                 $this->loop->addWriteStream($this->resource, [ $this, 'handleWrite' ]);
             }
         }
@@ -131,6 +134,30 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
         }
 
         return $this->buffer->length() < $this->bufferSize;
+    }
+
+    /**
+     * @override
+     */
+    public function close()
+    {
+        if ($this->closing)
+        {
+            return;
+        }
+
+        $this->closing = true;
+        $this->readable = false;
+        $this->writable = false;
+
+        if ($this->buffer->isEmpty() === false)
+        {
+            $this->writeEnd();
+        }
+
+        $this->emit('close', [ $this ]);
+
+        $this->handleClose();
     }
 
     /**
@@ -163,6 +190,11 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
             $this->listening = false;
             $this->emit('drain', [ $this ]);
         }
+
+        if ($this->closing)
+        {
+            $this->close();
+        }
     }
 
     /**
@@ -173,5 +205,25 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
         $this->pause();
 
         parent::handleClose();
+    }
+
+    /**
+     *
+     */
+    private function writeEnd()
+    {
+        do
+        {
+            try
+            {
+                $sent = fwrite($this->resource, $this->buffer->peek());
+                $this->buffer->remove($sent);
+            }
+            catch (Exception $ex)
+            {
+                $sent = 0;
+            }
+        }
+        while (is_resource($this->resource) && $sent > 0 && !$this->buffer->isEmpty());
     }
 }
