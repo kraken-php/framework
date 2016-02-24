@@ -9,7 +9,7 @@ use Kraken\Stream\StreamBaseInterface;
 /**
  * @event connect(object, SocketInterface)
  */
-interface SocketServerInterface extends EventEmitterInterface, LoopResourceInterface, StreamBaseInterface
+interface SocketListenerInterface extends EventEmitterInterface, LoopResourceInterface, StreamBaseInterface
 {
     /**
      * Get server endpoint.

@@ -40,6 +40,7 @@ class SocketTest extends TestCase
     {
         $server = stream_socket_server($this->tempSocketRemoteAddress());
         $socket = $this->createSocketMock($this->tempSocketRemoteAddress());
+
         $this->assertRegExp('#^tcp://(([0-9]*?)\.){3}([0-9]*?):([0-9]*?)$#si', $socket->getLocalEndpoint());
     }
 
@@ -48,7 +49,29 @@ class SocketTest extends TestCase
         $remote = $this->tempSocketRemoteAddress();
         $server = stream_socket_server($remote);
         $socket = $this->createSocketMock($remote);
+
         $this->assertEquals($remote, $socket->getRemoteEndpoint());
+    }
+
+    public function testApiGetLocalAddress_ReturnsValidAddress()
+    {
+        $server = stream_socket_server($this->tempSocketRemoteAddress());
+        $socket = $this->createSocketMock($this->tempSocketRemoteAddress());
+
+        $pattern = '#^(([0-9]*?)\.){3}([0-9]*?):([0-9]*?)$#si';
+
+        $this->assertRegExp($pattern, $socket->getLocalAddress());
+    }
+
+    public function testApiGetRemoteAddress_ReturnsValidAddress()
+    {
+        $remote = $this->tempSocketRemoteAddress();
+        $server = stream_socket_server($remote);
+        $socket = $this->createSocketMock($remote);
+
+        $address = str_replace('tcp://', '', $remote);
+
+        $this->assertEquals($address, $socket->getRemoteAddress());
     }
 
     /**

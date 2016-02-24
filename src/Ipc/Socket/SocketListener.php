@@ -11,7 +11,7 @@ use Kraken\Exception\RuntimeException;
 use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
 
-class SocketServer extends BaseEventEmitter implements SocketServerInterface
+class SocketListener extends BaseEventEmitter implements SocketListenerInterface
 {
     use LoopAwareTrait;
 
