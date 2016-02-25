@@ -4,7 +4,7 @@ namespace Kraken\Channel;
 
 use Kraken\Loop\LoopInterface;
 use Kraken\Parser\Json\JsonParser;
-use Kraken\Pattern\Factory\Factory;
+use Kraken\Util\Factory\Factory;
 
 class ChannelFactory extends Factory implements ChannelFactoryInterface
 {

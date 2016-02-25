@@ -4,7 +4,7 @@ namespace Kraken\Io\Http\Driver;
 
 use Kraken\Io\Http\Driver\Reader\HttpReader;
 use Kraken\Io\Http\Driver\Reader\HttpReaderInterface;
-use Kraken\Pattern\Buffer\BufferInterface;
+use Kraken\Util\Buffer\BufferInterface;
 
 class HttpDriver implements HttpDriverInterface
 {

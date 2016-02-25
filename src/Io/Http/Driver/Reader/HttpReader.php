@@ -9,7 +9,7 @@ use Kraken\Io\Http\Driver\Parser\HttpParser;
 use Kraken\Io\Http\Driver\Parser\HttpParserInterface;
 use Kraken\Io\Http\HttpRequest;
 use Kraken\Io\Http\HttpResponse;
-use Kraken\Pattern\Buffer\BufferInterface;
+use Kraken\Util\Buffer\BufferInterface;
 use GuzzleHttp\Psr7;
 use Exception;
 

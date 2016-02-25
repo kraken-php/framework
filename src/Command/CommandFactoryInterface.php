@@ -2,7 +2,7 @@
 
 namespace Kraken\Command;
 
-use Kraken\Pattern\Factory\FactoryInterface;
+use Kraken\Util\Factory\FactoryInterface;
 
 interface CommandFactoryInterface extends FactoryInterface
 {}

@@ -6,8 +6,8 @@ use Kraken\Throwable\Io\WriteException;
 use Kraken\Throwable\Runtime\InvalidArgumentException;
 use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
-use Kraken\Pattern\Buffer\Buffer;
-use Kraken\Pattern\Buffer\BufferInterface;
+use Kraken\Util\Buffer\Buffer;
+use Kraken\Util\Buffer\BufferInterface;
 use Error;
 use Exception;
 

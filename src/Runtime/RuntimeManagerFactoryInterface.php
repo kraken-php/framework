@@ -2,7 +2,7 @@
 
 namespace Kraken\Runtime;
 
-use Kraken\Pattern\Factory\FactoryInterface;
+use Kraken\Util\Factory\FactoryInterface;
 
 interface RuntimeManagerFactoryInterface extends FactoryInterface
 {}

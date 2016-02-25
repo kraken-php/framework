@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Pattern\Buffer;
+namespace Kraken\Util\Buffer;
 
 use Kraken\Throwable\Runtime\OutOfBoundsException;
 use SeekableIterator;

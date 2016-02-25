@@ -3,7 +3,7 @@
 namespace Kraken\Command;
 
 use Kraken\Core\CoreInputContextInterface;
-use Kraken\Pattern\Factory\Factory;
+use Kraken\Util\Factory\Factory;
 
 class CommandFactory extends Factory implements CommandFactoryInterface
 {

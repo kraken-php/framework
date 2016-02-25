@@ -6,7 +6,7 @@ use League\Flysystem\AdapterInterface;
 use League\Flysystem\Adapter\Local;
 use Kraken\Filesystem\Adapter\AdapterLocal;
 use Kraken\Filesystem\FilesystemAdapterSimpleFactory;
-use Kraken\Pattern\Factory\SimpleFactoryInterface;
+use Kraken\Util\Factory\SimpleFactoryInterface;
 
 class LocalFactory extends FilesystemAdapterSimpleFactory implements SimpleFactoryInterface
 {

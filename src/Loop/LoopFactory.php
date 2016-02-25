@@ -6,8 +6,8 @@ use Kraken\Loop\Model\ExtEventLoop;
 use Kraken\Loop\Model\LibEventLoop;
 use Kraken\Loop\Model\LibEvLoop;
 use Kraken\Loop\Model\StreamSelectLoop;
-use Kraken\Pattern\Factory\Factory;
-use Kraken\Pattern\Factory\FactoryInterface;
+use Kraken\Util\Factory\Factory;
+use Kraken\Util\Factory\FactoryInterface;
 
 class LoopFactory extends Factory implements FactoryInterface
 {

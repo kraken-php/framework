@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Pattern\Factory;
+namespace Kraken\Util\Factory;
 
 class Factory implements FactoryInterface
 {

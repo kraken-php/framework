@@ -8,7 +8,7 @@ use League\Flysystem\Filesystem;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Rackspace\RackspaceAdapter;
 use Kraken\Filesystem\FilesystemAdapterSimpleFactory;
-use Kraken\Pattern\Factory\SimpleFactoryInterface;
+use Kraken\Util\Factory\SimpleFactoryInterface;
 
 class RackspaceFactory extends FilesystemAdapterSimpleFactory implements SimpleFactoryInterface
 {

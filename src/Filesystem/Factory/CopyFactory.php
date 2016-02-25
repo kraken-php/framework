@@ -6,7 +6,7 @@ use Barracuda\Copy\API;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Copy\CopyAdapter;
 use Kraken\Filesystem\FilesystemAdapterSimpleFactory;
-use Kraken\Pattern\Factory\SimpleFactoryInterface;
+use Kraken\Util\Factory\SimpleFactoryInterface;
 
 class CopyFactory extends FilesystemAdapterSimpleFactory implements SimpleFactoryInterface
 {

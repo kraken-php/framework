@@ -7,7 +7,7 @@ use Kraken\Io\Http\Driver\HttpDriverInterface;
 use Kraken\Io\IoMessageInterface;
 use Kraken\Io\IoServerComponentInterface;
 use Kraken\Io\IoConnectionInterface;
-use Kraken\Pattern\Buffer\Buffer;
+use Kraken\Util\Buffer\Buffer;
 use Error;
 use Exception;
 

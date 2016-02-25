@@ -2,8 +2,8 @@
 
 namespace Kraken\Filesystem;
 
-use Kraken\Pattern\Factory\Factory;
-use Kraken\Pattern\Factory\SimpleFactoryInterface;
+use Kraken\Util\Factory\Factory;
+use Kraken\Util\Factory\SimpleFactoryInterface;
 
 class FilesystemAdapterFactory extends Factory implements FilesystemAdapterFactoryInterface
 {

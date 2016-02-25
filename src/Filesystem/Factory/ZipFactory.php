@@ -5,7 +5,7 @@ namespace Kraken\Filesystem\Factory;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\ZipArchive\ZipArchiveAdapter;
 use Kraken\Filesystem\FilesystemAdapterSimpleFactory;
-use Kraken\Pattern\Factory\SimpleFactoryInterface;
+use Kraken\Util\Factory\SimpleFactoryInterface;
 
 class ZipFactory extends FilesystemAdapterSimpleFactory implements SimpleFactoryInterface
 {

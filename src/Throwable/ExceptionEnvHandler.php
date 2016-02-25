@@ -2,8 +2,8 @@
 
 namespace Kraken\Throwable;
 
-use Kraken\Pattern\Enum\EnumTrait;
-use Kraken\Pattern\Enum\EnumInterface;
+use Kraken\Util\Enum\EnumTrait;
+use Kraken\Util\Enum\EnumInterface;
 
 class ExceptionEnvHandler implements EnumInterface
 {

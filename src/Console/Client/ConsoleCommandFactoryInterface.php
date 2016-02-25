@@ -2,7 +2,7 @@
 
 namespace Kraken\Console\Client;
 
-use Kraken\Pattern\Factory\FactoryInterface;
+use Kraken\Util\Factory\FactoryInterface;
 
 interface ConsoleCommandFactoryInterface extends FactoryInterface
 {}

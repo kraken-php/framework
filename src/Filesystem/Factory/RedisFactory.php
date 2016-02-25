@@ -6,7 +6,7 @@ use Danhunsaker\Flysystem\Redis\RedisAdapter;
 use Predis\Client;
 use League\Flysystem\AdapterInterface;
 use Kraken\Filesystem\FilesystemAdapterSimpleFactory;
-use Kraken\Pattern\Factory\SimpleFactoryInterface;
+use Kraken\Util\Factory\SimpleFactoryInterface;
 
 class RedisFactory extends FilesystemAdapterSimpleFactory implements SimpleFactoryInterface
 {

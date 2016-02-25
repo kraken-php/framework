@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Pattern\Buffer;
+namespace Kraken\Util\Buffer;
 
 class Buffer implements BufferInterface
 {

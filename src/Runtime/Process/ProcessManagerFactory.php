@@ -2,7 +2,7 @@
 
 namespace Kraken\Runtime\Process;
 
-use Kraken\Pattern\Factory\Factory;
+use Kraken\Util\Factory\Factory;
 use Kraken\Runtime\Process\Manager\ProcessManagerNull;
 use ReflectionClass;
 

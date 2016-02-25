@@ -6,7 +6,7 @@ use Aws\S3\S3Client;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\AwsS3v3\AwsS3Adapter;
 use Kraken\Filesystem\FilesystemAdapterSimpleFactory;
-use Kraken\Pattern\Factory\SimpleFactoryInterface;
+use Kraken\Util\Factory\SimpleFactoryInterface;
 
 class Aws3v3Factory extends FilesystemAdapterSimpleFactory implements SimpleFactoryInterface
 {

@@ -2,7 +2,7 @@
 
 namespace Kraken\Runtime\Thread;
 
-use Kraken\Pattern\Factory\Factory;
+use Kraken\Util\Factory\Factory;
 use Kraken\Runtime\Thread\Manager\ThreadManagerNull;
 use ReflectionClass;
 

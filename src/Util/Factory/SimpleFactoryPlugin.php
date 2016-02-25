@@ -1,12 +1,12 @@
 <?php
 
-namespace Kraken\Pattern\Factory;
+namespace Kraken\Util\Factory;
 
 use Kraken\Throwable\Runtime\ExecutionException;
 use Error;
 use Exception;
 
-class FactoryPlugin implements FactoryPluginInterface
+class SimpleFactoryPlugin implements SimpleFactoryPluginInterface
 {
     /**
      * @var bool
@@ -14,10 +14,10 @@ class FactoryPlugin implements FactoryPluginInterface
     protected $registered;
 
     /**
-     * @param FactoryInterface $factory
+     * @param SimpleFactoryInterface $factory
      * @throws ExecutionException
      */
-    public function registerPlugin(FactoryInterface $factory)
+    public function registerPlugin(SimpleFactoryInterface $factory)
     {
         try
         {
@@ -35,24 +35,24 @@ class FactoryPlugin implements FactoryPluginInterface
     }
 
     /**
-     * @param FactoryInterface $factory
+     * @param SimpleFactoryInterface $factory
      */
-    public function unregisterPlugin(FactoryInterface $factory)
+    public function unregisterPlugin(SimpleFactoryInterface $factory)
     {
         $this->unregister($factory);
         $this->registered = false;
     }
 
     /**
-     * @param FactoryInterface $factory
+     * @param SimpleFactoryInterface $factory
      */
-    protected function register(FactoryInterface $factory)
+    protected function register(SimpleFactoryInterface $factory)
     {}
 
     /**
-     * @param FactoryInterface $factory
+     * @param SimpleFactoryInterface $factory
      */
-    protected function unregister(FactoryInterface $factory)
+    protected function unregister(SimpleFactoryInterface $factory)
     {}
 
     /**
@@ -61,6 +61,6 @@ class FactoryPlugin implements FactoryPluginInterface
      */
     protected function exception($ex)
     {
-        throw new ExecutionException("FactoryPlugin [" . get_class($this) . "] raised an error.", $ex);
+        throw new ExecutionException("SimpleFactoryPlugin [" . get_class($this) . "] raised an error.", $ex);
     }
 }

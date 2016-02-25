@@ -2,10 +2,10 @@
 
 namespace Kraken\Test\Integration\Pattern\Buffer;
 
-use Kraken\Pattern\Buffer\Buffer;
-use Kraken\Pattern\Buffer\BufferInterface;
-use Kraken\Pattern\Buffer\BufferIterator;
 use Kraken\Test\Integration\TestCase;
+use Kraken\Util\Buffer\Buffer;
+use Kraken\Util\Buffer\BufferInterface;
+use Kraken\Util\Buffer\BufferIterator;
 
 class BufferTest extends TestCase
 {

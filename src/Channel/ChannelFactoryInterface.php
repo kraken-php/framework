@@ -2,7 +2,7 @@
 
 namespace Kraken\Channel;
 
-use Kraken\Pattern\Factory\FactoryInterface;
+use Kraken\Util\Factory\FactoryInterface;
 
 interface ChannelFactoryInterface extends FactoryInterface
 {}

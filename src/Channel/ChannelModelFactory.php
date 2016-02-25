@@ -5,7 +5,7 @@ namespace Kraken\Channel;
 use Kraken\Channel\Model\Null\NullModel;
 use Kraken\Channel\Model\Zmq\ZmqDealer;
 use Kraken\Loop\LoopInterface;
-use Kraken\Pattern\Factory\Factory;
+use Kraken\Util\Factory\Factory;
 
 class ChannelModelFactory extends Factory implements ChannelModelFactoryInterface
 {

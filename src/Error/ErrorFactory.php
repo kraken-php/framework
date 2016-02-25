@@ -2,7 +2,7 @@
 
 namespace Kraken\Error;
 
-use Kraken\Pattern\Factory\Factory;
+use Kraken\Util\Factory\Factory;
 
 class ErrorFactory extends Factory implements ErrorFactoryInterface
 {

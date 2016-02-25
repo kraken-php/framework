@@ -6,7 +6,7 @@ use Sabre\DAV\Client;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\WebDAV\WebDAVAdapter;
 use Kraken\Filesystem\FilesystemAdapterSimpleFactory;
-use Kraken\Pattern\Factory\SimpleFactoryInterface;
+use Kraken\Util\Factory\SimpleFactoryInterface;
 
 class WebDavFactory extends FilesystemAdapterSimpleFactory implements SimpleFactoryInterface
 {

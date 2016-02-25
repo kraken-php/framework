@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Pattern\Enum;
+namespace Kraken\Util\Enum;
 
 interface EnumInterface
 {

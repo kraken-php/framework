@@ -4,7 +4,7 @@ namespace Kraken\Io\Http\Driver\Reader;
 
 use Kraken\Io\Http\HttpRequestInterface;
 use Kraken\Io\Http\HttpResponseInterface;
-use Kraken\Pattern\Buffer\BufferInterface;
+use Kraken\Util\Buffer\BufferInterface;
 use Exception;
 
 interface HttpReaderInterface

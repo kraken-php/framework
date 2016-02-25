@@ -6,7 +6,7 @@ use Dropbox\Client;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Dropbox\DropboxAdapter;
 use Kraken\Filesystem\FilesystemAdapterSimpleFactory;
-use Kraken\Pattern\Factory\SimpleFactoryInterface;
+use Kraken\Util\Factory\SimpleFactoryInterface;
 
 class DropboxFactory extends FilesystemAdapterSimpleFactory implements SimpleFactoryInterface
 {
