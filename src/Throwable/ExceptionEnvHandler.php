@@ -34,7 +34,6 @@ class ExceptionEnvHandler implements EnumInterface
      */
     public static function handleException($ex)
     {
-        // TODO Kraken-11: prepare better uncaught exception callback
         echo (string) $ex;
     }
 }

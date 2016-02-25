@@ -2,22 +2,25 @@
 
 namespace Kraken\Throwable;
 
-abstract class ExceptionHelper
+use Error;
+use Exception;
+
+abstract class ThrowableHelper
 {
     /**
      * @param string[] $ex
      * @return string
      */
-    public static function parseMessage($ex)
+    public static function parseThrowableMessage($ex)
     {
         $array = [
             '[',
-            self::getExceptionBasename($ex['class']),
+            self::getThrowableBasename($ex['class']),
             '] '
         ];
         $message = $ex['message'];
 
-        if (!self::isErrorException($ex['class']))
+        if (!self::isThrowableError($ex['class']))
         {
             $array = array_merge($array, [
                 '"',
@@ -42,13 +45,13 @@ abstract class ExceptionHelper
      * @param int $offset
      * @return mixed
      */
-    public static function getExceptionStack($ex, &$data = [], $offset = 0)
+    public static function getThrowableStack($ex, &$data = [], $offset = 0)
     {
-        $data = self::getExceptionData($ex, $offset);
+        $data = self::getThrowableData($ex, $offset);
 
         if (($current = $ex->getPrevious()) !== null)
         {
-            self::getExceptionStack($current, $data['prev'], count(self::getTraceElements($ex)));
+            self::getThrowableStack($current, $data['prev'], count(self::getTraceElements($ex)));
         }
 
         return $data;
@@ -59,7 +62,7 @@ abstract class ExceptionHelper
      * @param int $offset
      * @return string[]
      */
-    public static function getExceptionData($ex, $offset = 0)
+    public static function getThrowableData($ex, $offset = 0)
     {
         return [
             'message'   => $ex->getMessage(),
@@ -81,7 +84,7 @@ abstract class ExceptionHelper
     {
         $trace = $ex->getTrace();
         $elements = [
-            '[exception thrown] ' . self::getExceptionBasename(get_class($ex))
+            '[exception thrown] ' . self::getThrowableBasename(get_class($ex))
         ];
 
         foreach ($trace as $currentTrack)
@@ -169,7 +172,7 @@ abstract class ExceptionHelper
      * @param string $class
      * @return string
      */
-    protected static function getExceptionBasename($class)
+    protected static function getThrowableBasename($class)
     {
         $tmp = explode('\\', $class);
         $className = end($tmp);
@@ -181,7 +184,7 @@ abstract class ExceptionHelper
      * @param string $class
      * @return bool
      */
-    protected static function isErrorException($class)
+    protected static function isThrowableError($class)
     {
         return in_array($class, [
             'Kraken\Throwable\Interpreter\FatalException',

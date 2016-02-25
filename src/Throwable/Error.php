@@ -6,9 +6,9 @@ abstract class Error extends \Error
 {
     /**
      * @param string $message
-     * @param \Error $previous
+     * @param \Error|\Exception $previous
      */
-    public function __construct($message = 'Unknown exception', \Error $previous = null)
+    public function __construct($message = 'Unknown exception', $previous = null)
     {
         parent::__construct($message, 0, $previous);
     }
@@ -22,10 +22,10 @@ abstract class Error extends \Error
     }
 
     /**
-     * @param \Error $ex
+     * @param \Error|\Exception $ex
      * @return string
      */
-    public static function toString(\Error $ex)
+    public static function toString($ex)
     {
         return implode("\n", [
             "",
@@ -36,22 +36,22 @@ abstract class Error extends \Error
     }
 
     /**
-     * @param \Error $ex
+     * @param \Error|\Exception $ex
      * @return mixed
      */
-    public static function toTrace(\Error $ex)
+    public static function toTrace($ex)
     {
-        return ErrorHelper::getErrorStack($ex);
+        return ThrowableHelper::getThrowableStack($ex);
     }
 
     /**
-     * @param \Error $ex
+     * @param \Error|\Exception $ex
      * @return string[]
      */
-    public static function toTraceStack(\Error $ex)
+    public static function toTraceStack($ex)
     {
         $list = [];
-        for ($stack = ErrorHelper::getErrorStack($ex); $stack !== null; $stack = $stack['prev'])
+        for ($stack = ThrowableHelper::getThrowableStack($ex); $stack !== null; $stack = $stack['prev'])
         {
             $list = array_merge($stack['trace'], $list);
         }
@@ -60,25 +60,25 @@ abstract class Error extends \Error
     }
 
     /**
-     * @param \Error $ex
+     * @param \Error|\Exception $ex
      * @return string[]
      */
-    public static function toExceptionStack(\Error $ex)
+    public static function toExceptionStack($ex)
     {
         $list = [];
-        for ($stack = ErrorHelper::getErrorStack($ex); $stack !== null; $stack = $stack['prev'])
+        for ($stack = ThrowableHelper::getThrowableStack($ex); $stack !== null; $stack = $stack['prev'])
         {
-            $list[] = ErrorHelper::parseMessage($stack);
+            $list[] = ThrowableHelper::parseThrowableMessage($stack);
         }
 
         return array_reverse($list);
     }
 
     /**
-     * @param \Error $ex
+     * @param \Error|\Exception $ex
      * @return string
      */
-    public static function toTraceString(\Error $ex)
+    public static function toTraceString($ex)
     {
         $stack = [];
         $i = 0;
@@ -92,10 +92,10 @@ abstract class Error extends \Error
     }
 
     /**
-     * @param \Error $ex
+     * @param \Error|\Exception $ex
      * @return string
      */
-    public static function toExceptionString(\Error $ex)
+    public static function toExceptionString($ex)
     {
         $stack = [];
         $i = 0;

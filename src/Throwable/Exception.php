@@ -41,7 +41,7 @@ abstract class Exception extends \Exception
      */
     public static function toTrace($ex)
     {
-        return ExceptionHelper::getExceptionStack($ex);
+        return ThrowableHelper::getThrowableStack($ex);
     }
 
     /**
@@ -51,7 +51,7 @@ abstract class Exception extends \Exception
     public static function toTraceStack($ex)
     {
         $list = [];
-        for ($stack = ExceptionHelper::getExceptionStack($ex); $stack !== null; $stack = $stack['prev'])
+        for ($stack = ThrowableHelper::getThrowableStack($ex); $stack !== null; $stack = $stack['prev'])
         {
             $list = array_merge($stack['trace'], $list);
         }
@@ -66,9 +66,9 @@ abstract class Exception extends \Exception
     public static function toExceptionStack($ex)
     {
         $list = [];
-        for ($stack = ExceptionHelper::getExceptionStack($ex); $stack !== null; $stack = $stack['prev'])
+        for ($stack = ThrowableHelper::getThrowableStack($ex); $stack !== null; $stack = $stack['prev'])
         {
-            $list[] = ExceptionHelper::parseMessage($stack);
+            $list[] = ThrowableHelper::parseThrowableMessage($stack);
         }
 
         return array_reverse($list);
