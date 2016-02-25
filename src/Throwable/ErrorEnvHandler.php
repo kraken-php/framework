@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Error;
+namespace Kraken\Throwable;
 
 use Kraken\Core\CoreInputContextInterface;
 use Kraken\Exception\Interpreter\FatalException;
