@@ -2,6 +2,7 @@
 
 namespace Kraken\Promise;
 
+use Error;
 use Exception;
 
 class Promise implements PromiseInterface
@@ -73,6 +74,10 @@ class Promise implements PromiseInterface
                     try
                     {
                         $notify($onProgress($update));
+                    }
+                    catch (Error $ex)
+                    {
+                        $notify($ex);
                     }
                     catch (Exception $ex)
                     {
@@ -255,7 +260,7 @@ class Promise implements PromiseInterface
     }
 
     /**
-     * @param Exception|string $reason
+     * @param Error|Exception|string $reason
      * @return PromiseInterface
      */
     public function reject($reason = null)
@@ -269,7 +274,7 @@ class Promise implements PromiseInterface
     }
 
     /**
-     * @param Exception|string $reason
+     * @param Error|Exception|string $reason
      * @return PromiseInterface
      */
     public function cancel($reason = null)
@@ -319,7 +324,7 @@ class Promise implements PromiseInterface
     }
 
     /**
-     * @return Exception|string|null
+     * @return Error|Exception|string|null
      */
     public function reason()
     {

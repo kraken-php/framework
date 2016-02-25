@@ -2,6 +2,7 @@
 
 namespace Kraken\Promise;
 
+use Error;
 use Exception;
 
 class Deferred implements DeferredInterface
@@ -85,7 +86,7 @@ class Deferred implements DeferredInterface
     }
 
     /**
-     * @param Exception|string|null $reason
+     * @param Error|Exception|string|null $reason
      * @return PromiseInterface
      */
     public function reject($reason = null)
@@ -96,7 +97,7 @@ class Deferred implements DeferredInterface
     }
 
     /**
-     * @param Exception|string|null $reason
+     * @param Error|Exception|string|null $reason
      * @return PromiseInterface
      */
     public function cancel($reason = null)

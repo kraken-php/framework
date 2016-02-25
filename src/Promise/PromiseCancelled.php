@@ -2,6 +2,7 @@
 
 namespace Kraken\Promise;
 
+use Error;
 use Exception;
 
 class PromiseCancelled implements PromiseInterface
@@ -9,12 +10,12 @@ class PromiseCancelled implements PromiseInterface
     use PromiseStaticTrait;
 
     /**
-     * @var Exception|string|null
+     * @var Error|Exception|string|null
      */
     protected $reason;
 
     /**
-     * @param Exception|string|null $reason
+     * @param Error|Exception|string|null $reason
      */
     public function __construct($reason = null)
     {
@@ -47,6 +48,10 @@ class PromiseCancelled implements PromiseInterface
         {
             return self::doCancel($onCancel($this->reason));
         }
+        catch (Error $ex)
+        {
+            return new PromiseCancelled($ex);
+        }
         catch (Exception $ex)
         {
             return new PromiseCancelled($ex);
@@ -58,6 +63,7 @@ class PromiseCancelled implements PromiseInterface
      * @param callable|null $onRejected
      * @param callable|null $onCancel
      * @param callable|null $onProgress
+     * @throws Error|Exception
      */
     public function done(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null, callable $onProgress = null)
     {
@@ -198,7 +204,7 @@ class PromiseCancelled implements PromiseInterface
     }
 
     /**
-     * @param Exception|string|null $reason
+     * @param Error|Exception|string|null $reason
      */
     public function reject($reason = null)
     {
@@ -206,7 +212,7 @@ class PromiseCancelled implements PromiseInterface
     }
 
     /**
-     * @param Exception|string|null $reason
+     * @param Error|Exception|string|null $reason
      */
     public function cancel($reason = null)
     {
@@ -230,7 +236,7 @@ class PromiseCancelled implements PromiseInterface
     }
 
     /**
-     * @return Exception|string|null
+     * @return Error|Exception|string|null
      */
     public function reason()
     {
@@ -238,8 +244,8 @@ class PromiseCancelled implements PromiseInterface
     }
 
     /**
-     * @param Exception|string $reason
-     * @throws Exception
+     * @param Error|Exception|string $reason
+     * @throws Error|Exception
      */
     protected function throwError($reason)
     {

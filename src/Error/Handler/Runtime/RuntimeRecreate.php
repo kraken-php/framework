@@ -2,12 +2,13 @@
 
 namespace Kraken\Error\Handler\Runtime;
 
-use Exception;
 use Kraken\Promise\Promise;
 use Kraken\Error\ErrorHandlerBase;
 use Kraken\Error\ErrorHandlerInterface;
 use Kraken\Exception\Runtime\RejectionException;
 use Kraken\Runtime\Runtime;
+use Error;
+use Exception;
 
 class RuntimeRecreate extends ErrorHandlerBase implements ErrorHandlerInterface
 {
@@ -19,11 +20,11 @@ class RuntimeRecreate extends ErrorHandlerBase implements ErrorHandlerInterface
     ];
 
     /**
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @param mixed[] $params
      * @return mixed
      */
-    protected function handler(Exception $ex, $params = [])
+    protected function handler($ex, $params = [])
     {
         $manager = $this->runtime->manager();
         $alias = $params['origin'];

@@ -127,7 +127,7 @@ class HttpSession implements HttpSessionInterface
      * @override
      * @inheritDoc
      */
-    public function handleError(IoConnectionInterface $conn, Exception $ex)
+    public function handleError(IoConnectionInterface $conn, $ex)
     {
         return $this->component->handleError($conn, $ex);
     }

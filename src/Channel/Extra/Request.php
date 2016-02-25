@@ -2,7 +2,6 @@
 
 namespace Kraken\Channel\Extra;
 
-use Exception;
 use Kraken\Channel\ChannelProtocolInterface;
 use Kraken\Exception\LazyException;
 use Kraken\Exception\Runtime\TimeoutException;
@@ -12,6 +11,8 @@ use Kraken\Promise\PromiseInterface;
 use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelBaseInterface;
 use Kraken\Support\TimeSupport;
+use Error;
+use Exception;
 
 class Request
 {
@@ -150,7 +151,7 @@ class Request
 
     /**
      * @param PromiseInterface $promise
-     * @param Exception|LazyException $ex
+     * @param Error|Exception|LazyException $ex
      */
     protected function retryOrReset(PromiseInterface $promise, $ex)
     {

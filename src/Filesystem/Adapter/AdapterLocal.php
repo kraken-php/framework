@@ -2,10 +2,11 @@
 
 namespace Kraken\Filesystem\Adapter;
 
-use Exception;
-use League\Flysystem\Adapter\Local;
 use Kraken\Exception\Runtime\InstantiationException;
 use Kraken\Filesystem\FilesystemAdapterInterface;
+use League\Flysystem\Adapter\Local;
+use Error;
+use Exception;
 
 class AdapterLocal extends Local implements FilesystemAdapterInterface
 {
@@ -32,6 +33,10 @@ class AdapterLocal extends Local implements FilesystemAdapterInterface
         try
         {
             parent::__construct($rootDir, $writeFlags, $linkHandling, $permissions);
+        }
+        catch (Error $ex)
+        {
+            throw new InstantiationException("AdapterLocal could not be initalized.", $ex);
         }
         catch (Exception $ex)
         {

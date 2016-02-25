@@ -2,8 +2,9 @@
 
 namespace Kraken\Error;
 
-use Exception;
 use Kraken\Exception\Runtime\ExecutionException;
+use Error;
+use Exception;
 
 class ErrorManagerPlugin implements ErrorManagerPluginInterface
 {
@@ -22,6 +23,10 @@ class ErrorManagerPlugin implements ErrorManagerPluginInterface
         {
             $this->register($manager);
             $this->registered = true;
+        }
+        catch (Error $ex)
+        {
+            $this->exception($ex);
         }
         catch (Exception $ex)
         {
@@ -51,10 +56,10 @@ class ErrorManagerPlugin implements ErrorManagerPluginInterface
     {}
 
     /**
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @throws ExecutionException
      */
-    protected function exception(Exception $ex)
+    protected function exception($ex)
     {
         throw new ExecutionException("ServiceProvider [" . get_class($this) . "] raised an error.", $ex);
     }

@@ -2,7 +2,6 @@
 
 namespace Kraken\Runtime\Process\Manager;
 
-use Exception;
 use Kraken\Core\EnvironmentInterface;
 use Kraken\Exception\Io\ReadException;
 use Kraken\Exception\Runtime\InstantiationException;
@@ -19,6 +18,8 @@ use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeInterface;
 use Kraken\System\SystemInterface;
+use Error;
+use Exception;
 
 class ProcessManagerBase implements ProcessManagerInterface
 {
@@ -85,6 +86,10 @@ class ProcessManagerBase implements ProcessManagerInterface
         try
         {
             $this->processes = $this->selectFromStorage();
+        }
+        catch (Error $ex)
+        {
+            throw new InstantiationException('ProcessManagerBase could not be initialized.');
         }
         catch (Exception $ex)
         {
@@ -496,6 +501,10 @@ class ProcessManagerBase implements ProcessManagerInterface
             $this->updateStorage([ $alias => $record ]);
             $this->processes[$alias] = $record;
         }
+        catch (Error $ex)
+        {
+            return false;
+        }
         catch (Exception $ex)
         {
             return false;
@@ -515,6 +524,10 @@ class ProcessManagerBase implements ProcessManagerInterface
         {
             unset($this->processes[$alias]);
             $this->updateStorage();
+        }
+        catch (Error $ex)
+        {
+            return false;
         }
         catch (Exception $ex)
         {

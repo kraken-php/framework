@@ -2,10 +2,11 @@
 
 namespace Kraken\Console\Client;
 
-use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Error;
+use Exception;
 
 abstract class ConsoleCommand extends Command
 {
@@ -68,9 +69,9 @@ abstract class ConsoleCommand extends Command
     }
 
     /**
-     * @param Exception $ex
+     * @param Error|Exception $ex
      */
-    protected function onFailure(Exception $ex)
+    protected function onFailure($ex)
     {
         $this->failureMessage(get_class($ex), $ex->getMessage());
     }
@@ -122,7 +123,7 @@ abstract class ConsoleCommand extends Command
                 function($value) {
                     $this->onSuccess($value);
                 },
-                function(Exception $ex) {
+                function($ex) {
                     $this->onFailure($ex);
                 }
             )

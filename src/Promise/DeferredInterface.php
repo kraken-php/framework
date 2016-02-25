@@ -2,6 +2,7 @@
 
 namespace Kraken\Promise;
 
+use Error;
 use Exception;
 
 interface DeferredInterface
@@ -13,13 +14,13 @@ interface DeferredInterface
     public function resolve($value = null);
 
     /**
-     * @param Exception|string|null $reason
+     * @param Error|Exception|string|null $reason
      * @return PromiseInterface
      */
     public function reject($reason = null);
 
     /**
-     * @param Exception|string|null $reason
+     * @param Error|Exception|string|null $reason
      * @return PromiseInterface
      */
     public function cancel($reason = null);

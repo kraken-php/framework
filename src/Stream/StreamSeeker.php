@@ -6,6 +6,7 @@ use Kraken\Event\BaseEventEmitter;
 use Kraken\Exception\Io\ReadException;
 use Kraken\Exception\Io\WriteException;
 use Kraken\Exception\Runtime\InvalidArgumentException;
+use Error;
 use Exception;
 
 class StreamSeeker extends BaseEventEmitter implements StreamSeekerInterface
@@ -193,11 +194,11 @@ class StreamSeeker extends BaseEventEmitter implements StreamSeekerInterface
     /**
      * Emit error event and the throws it too.
      *
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @return null
-     * @throws Exception
+     * @throws Error|Exception
      */
-    protected function throwAndEmitException(Exception $ex)
+    protected function throwAndEmitException($ex)
     {
         $this->emit('error', [ $this, $ex ]);
         throw $ex;

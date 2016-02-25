@@ -2,7 +2,6 @@
 
 namespace Kraken\Console\Server\Provider\Channel;
 
-use Exception;
 use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelProtocolInterface;
 use Kraken\Channel\ChannelCompositeInterface;
@@ -17,6 +16,8 @@ use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeInterface;
+use Error;
+use Exception;
 
 class ChannelProvider extends ServiceProvider implements ServiceProviderInterface
 {
@@ -239,6 +240,10 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         try
         {
             return $this->commander->execute($command, $params);
+        }
+        catch (Error $ex)
+        {
+            return Promise::doReject($ex);
         }
         catch (Exception $ex)
         {

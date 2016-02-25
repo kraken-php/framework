@@ -10,7 +10,8 @@ $basePath = realpath($dataPath . '/..');
  * Include autoloader & dependencies.
  */
 require $basePath . '/vendor/autoload.php';
-require_once $dataPath . '/autorun/autoload.params';
+require $dataPath . '/autorun/autorun.php5.polyfill';
+require_once $dataPath . '/autorun/autorun.params';
 
 /**
  * Create thread instance.
@@ -33,6 +34,10 @@ try
 
     $process
         ->create();
+}
+catch (\Error $ex)
+{
+    echo \Kraken\Throwable\Error::toString($ex) . PHP_EOL;
 }
 catch (\Exception $ex)
 {

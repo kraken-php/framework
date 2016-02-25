@@ -2,17 +2,18 @@
 
 namespace Kraken\Runtime;
 
-use Exception;
 use Kraken\Event\EventEmitterInterface;
 use Kraken\Exception\Runtime\RejectionException;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
-use ReflectionClass;
 use Kraken\Core\CoreInterface;
 use Kraken\Error\ErrorManagerInterface;
 use Kraken\Exception\Runtime\LogicException;
 use Kraken\Loop\Loop;
 use Kraken\Loop\LoopExtendedInterface;
+use Error;
+use Exception;
+use ReflectionClass;
 
 class RuntimeModel implements RuntimeModelInterface
 {
@@ -483,10 +484,10 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @param mixed[] $params
      */
-    public function fail(Exception $ex, $params = [])
+    public function fail($ex, $params = [])
     {
         $manager = $this->errorManager();
         $this->setLoopState(self::LOOP_STATE_FAILED);
@@ -501,6 +502,11 @@ class RuntimeModel implements RuntimeModelInterface
                             throw $reason;
                         }
                     );
+            }
+            catch (Error $ex)
+            {
+                $manager
+                    ->handle($ex);
             }
             catch (Exception $ex)
             {
@@ -558,6 +564,10 @@ class RuntimeModel implements RuntimeModelInterface
                     throw new LogicException('RuntimeModel::setState() tried switching to invalid state.');
             }
         }
+        catch (Error $ex)
+        {
+            throw $ex;
+        }
         catch (Exception $ex)
         {
             throw $ex;
@@ -595,6 +605,10 @@ class RuntimeModel implements RuntimeModelInterface
             try
             {
                 $this->loop()->start();
+            }
+            catch (Error $ex)
+            {
+                $this->fail($ex);
             }
             catch (Exception $ex)
             {

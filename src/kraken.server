@@ -10,6 +10,7 @@ $dataPath = $basePath . '/kraken-data';
  * Include autoloader & dependencies
  */
 require $basePath . '/vendor/autoload.php';
+require $dataPath . '/autorun/autorun.php5.polyfill';
 
 if (!defined('STDIN'))
 {
@@ -37,6 +38,10 @@ try
 
     $process
         ->create();
+}
+catch (\Error $ex)
+{
+    echo \Kraken\Throwable\Error::toString($ex) . PHP_EOL;
 }
 catch (\Exception $ex)
 {

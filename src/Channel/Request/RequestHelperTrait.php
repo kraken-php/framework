@@ -5,6 +5,7 @@ namespace Kraken\Channel\Request;
 use Kraken\Exception\LazyException;
 use Kraken\Exception\Runtime\TimeoutException;
 use Kraken\Support\TimeSupport;
+use Error;
 use Exception;
 
 trait RequestHelperTrait
@@ -72,7 +73,7 @@ trait RequestHelperTrait
 
     /**
      * @param string $pid
-     * @param Exception|LazyException $ex
+     * @param Error|Exception|LazyException $ex
      */
     protected function rejectRequest($pid, $ex)
     {
@@ -83,7 +84,7 @@ trait RequestHelperTrait
 
     /**
      * @param string $pid
-     * @param Exception|LazyException $ex
+     * @param Error|Exception|LazyException $ex
      */
     protected function cancelRequest($pid, $ex)
     {

@@ -2,12 +2,13 @@
 
 namespace Kraken\Error;
 
-use Exception;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Exception\Runtime\MissingFieldException;
 use Kraken\Exception\Runtime\RejectionException;
 use Kraken\Runtime\RuntimeInterface;
+use Error;
+use Exception;
 
 class ErrorHandlerBase implements ErrorHandlerInterface
 {
@@ -52,21 +53,21 @@ class ErrorHandlerBase implements ErrorHandlerInterface
     }
 
     /**
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @param mixed[] $params
      * @return PromiseInterface
      */
-    public function __invoke(Exception $ex, $params = [])
+    public function __invoke($ex, $params = [])
     {
         return $this->handle($ex, $params);
     }
 
     /**
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @param mixed[] $params
      * @return PromiseInterface
      */
-    public function handle(Exception $ex, $params = [])
+    public function handle($ex, $params = [])
     {
         foreach ($this->requires as $require)
         {
@@ -85,12 +86,12 @@ class ErrorHandlerBase implements ErrorHandlerInterface
     }
 
     /**
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @param mixed[] $params
      * @return mixed
      * @throws RejectionException
      */
-    protected function handler(Exception $ex, $params = [])
+    protected function handler($ex, $params = [])
     {
         throw new RejectionException('[' . get_class($this) . '] code undefined.');
     }

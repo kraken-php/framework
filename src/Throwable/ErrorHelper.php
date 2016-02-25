@@ -1,8 +1,10 @@
 <?php
 
-namespace Kraken\Exception;
+namespace Kraken\Throwable;
 
-abstract class ExceptionHelper
+use Error;
+
+abstract class ErrorHelper
 {
     /**
      * @param string[] $ex
@@ -12,12 +14,12 @@ abstract class ExceptionHelper
     {
         $array = [
             '[',
-            self::getExceptionBasename($ex['class']),
+            self::getErrorBasename($ex['class']),
             '] '
         ];
         $message = $ex['message'];
 
-        if (!self::isErrorException($ex['class']))
+        if (!self::isErrorError($ex['class']))
         {
             $array = array_merge($array, [
                 '"',
@@ -37,29 +39,29 @@ abstract class ExceptionHelper
     }
 
     /**
-     * @param \Error|\Exception $ex
+     * @param Error $ex
      * @param string[] &$data
      * @param int $offset
      * @return mixed
      */
-    public static function getExceptionStack($ex, &$data = [], $offset = 0)
+    public static function getErrorStack(\Error $ex, &$data = [], $offset = 0)
     {
-        $data = self::getExceptionData($ex, $offset);
+        $data = self::getErrorData($ex, $offset);
 
         if (($current = $ex->getPrevious()) !== null)
         {
-            self::getExceptionStack($current, $data['prev'], count(self::getTraceElements($ex)));
+            self::getErrorStack($current, $data['prev'], count(self::getTraceElements($ex)));
         }
 
         return $data;
     }
 
     /**
-     * @param \Error|\Exception $ex
+     * @param Error $ex
      * @param int $offset
      * @return string[]
      */
-    public static function getExceptionData($ex, $offset = 0)
+    public static function getErrorData(Error $ex, $offset = 0)
     {
         return [
             'message'   => $ex->getMessage(),
@@ -73,15 +75,15 @@ abstract class ExceptionHelper
     }
 
     /**
-     * @param \Error|\Exception $ex
+     * @param Error $ex
      * @param int $offset
      * @return string[]
      */
-    protected static function getTraceElements($ex, $offset = 0)
+    protected static function getTraceElements(Error $ex, $offset = 0)
     {
         $trace = $ex->getTrace();
         $elements = [
-            '[exception thrown] ' . self::getExceptionBasename(get_class($ex))
+            '[exception thrown] ' . self::getErrorBasename(get_class($ex))
         ];
 
         foreach ($trace as $currentTrack)
@@ -169,7 +171,7 @@ abstract class ExceptionHelper
      * @param string $class
      * @return string
      */
-    protected static function getExceptionBasename($class)
+    protected static function getErrorBasename($class)
     {
         $tmp = explode('\\', $class);
         $className = end($tmp);
@@ -181,7 +183,7 @@ abstract class ExceptionHelper
      * @param string $class
      * @return bool
      */
-    protected static function isErrorException($class)
+    protected static function isErrorError($class)
     {
         return in_array($class, [
             'Kraken\Exception\Interpreter\FatalException',

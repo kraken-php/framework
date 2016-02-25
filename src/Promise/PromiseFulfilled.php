@@ -2,6 +2,7 @@
 
 namespace Kraken\Promise;
 
+use Error;
 use Exception;
 
 class PromiseFulfilled implements PromiseInterface
@@ -46,6 +47,10 @@ class PromiseFulfilled implements PromiseInterface
         try
         {
             return self::doResolve($onFulfilled($this->value));
+        }
+        catch (Error $ex)
+        {
+            return new PromiseRejected($ex);
         }
         catch (Exception $ex)
         {
@@ -191,7 +196,7 @@ class PromiseFulfilled implements PromiseInterface
     }
 
     /**
-     * @param Exception|string|null $reason
+     * @param Error|Exception|string|null $reason
      */
     public function reject($reason = null)
     {
@@ -199,7 +204,7 @@ class PromiseFulfilled implements PromiseInterface
     }
 
     /**
-     * @param Exception|string|null $reason
+     * @param Error|Exception|string|null $reason
      */
     public function cancel($reason = null)
     {
@@ -223,7 +228,7 @@ class PromiseFulfilled implements PromiseInterface
     }
 
     /**
-     * @return Exception|string|null
+     * @return Error|Exception|string|null
      */
     public function reason()
     {

@@ -30,9 +30,9 @@ class ExceptionEnvHandler implements EnumInterface
     const E_NOTICE = 1;
 
     /**
-     * @param \Exception $ex
+     * @param \Error|\Exception $ex
      */
-    public static function handleException(\Exception $ex)
+    public static function handleException($ex)
     {
         // TODO Kraken-11: prepare better uncaught exception callback
         echo (string) $ex;

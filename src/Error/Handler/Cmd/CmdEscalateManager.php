@@ -2,12 +2,13 @@
 
 namespace Kraken\Error\Handler\Cmd;
 
-use Exception;
 use Kraken\Channel\ChannelBaseInterface;
 use Kraken\Channel\Extra\Request;
 use Kraken\Error\ErrorHandlerBase;
 use Kraken\Error\ErrorHandlerInterface;
 use Kraken\Runtime\RuntimeCommand;
+use Error;
+use Exception;
 
 class CmdEscalateManager extends ErrorHandlerBase implements ErrorHandlerInterface
 {
@@ -40,11 +41,11 @@ class CmdEscalateManager extends ErrorHandlerBase implements ErrorHandlerInterfa
     }
 
     /**
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @param mixed[] $params
      * @return mixed
      */
-    protected function handler(Exception $ex, $params = [])
+    protected function handler($ex, $params = [])
     {
         $req = new Request(
             $this->channel,

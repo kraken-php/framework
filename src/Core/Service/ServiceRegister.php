@@ -2,6 +2,7 @@
 
 namespace Kraken\Core\Service;
 
+use Error;
 use Kraken\Core\CoreInterface;
 use Kraken\Exception\Exception;
 use Kraken\Exception\Runtime\ExecutionException;
@@ -55,6 +56,8 @@ class ServiceRegister
             {
                 $this->unregisterProvider($provider);
             }
+            catch (Error $ex)
+            {}
             catch (Exception $ex)
             {}
         }
@@ -78,6 +81,10 @@ class ServiceRegister
             $this->registerAliases();
 
             $this->booted = true;
+        }
+        catch (Error $ex)
+        {
+            throw new ExecutionException("ServiceRegister could not be booted.", $ex);
         }
         catch (Exception $ex)
         {
@@ -320,6 +327,10 @@ class ServiceRegister
                     $provider->registerProvider($this->core);
                 }
             }
+            catch (Error $ex)
+            {
+                throw new ExecutionException("ServiceProvider " . $this->getProviderClass($provider) . " failed during registration.", $ex);
+            }
             catch (Exception $ex)
             {
                 throw new ExecutionException("ServiceProvider " . $this->getProviderClass($provider) . " failed during registration.", $ex);
@@ -338,6 +349,10 @@ class ServiceRegister
             {
                 $this->core->alias($alias, $concrete);
             }
+            catch (Error $ex)
+            {
+                throw new ExecutionException("Alias [$alias] could not have be registered.", $ex);
+            }
             catch (Exception $ex)
             {
                 throw new ExecutionException("Alias [$alias] could not have be registered.", $ex);
@@ -355,6 +370,10 @@ class ServiceRegister
             try
             {
                 $provider->bootProvider($this->core);
+            }
+            catch (Error $ex)
+            {
+                throw new ExecutionException("ServiceProvider " . $this->getProviderClass($provider) . " failed during boot.", $ex);
             }
             catch (Exception $ex)
             {

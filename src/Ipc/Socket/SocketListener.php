@@ -2,7 +2,6 @@
 
 namespace Kraken\Ipc\Socket;
 
-use Exception;
 use Kraken\Event\BaseEventEmitter;
 use Kraken\Exception\Io\ReadException;
 use Kraken\Exception\Runtime\InstantiationException;
@@ -10,6 +9,8 @@ use Kraken\Exception\Runtime\LogicException;
 use Kraken\Exception\RuntimeException;
 use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
+use Error;
+use Exception;
 
 class SocketListener extends BaseEventEmitter implements SocketListenerInterface
 {
@@ -56,6 +57,10 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
             $this->paused = true;
 
             $this->resume();
+        }
+        catch (Error $ex)
+        {
+            throw new InstantiationException('SocketServer could not be created.');
         }
         catch (Exception $ex)
         {

@@ -2,20 +2,21 @@
 
 namespace Kraken\Promise;
 
-use Exception;
 use Kraken\Exception\LazyException;
+use Error;
+use Exception;
 
 class PromiseRejected implements PromiseInterface
 {
     use PromiseStaticTrait;
 
     /**
-     * @var Exception|LazyException|string|null
+     * @var Error|Exception|LazyException|string|null
      */
     protected $reason;
 
     /**
-     * @param Exception|string|null
+     * @param Error|Exception|string|null
      */
     public function __construct($reason = null)
     {
@@ -47,6 +48,10 @@ class PromiseRejected implements PromiseInterface
         try
         {
             return self::doResolve($onRejected($this->reason()));
+        }
+        catch (Error $ex)
+        {
+            return new PromiseRejected($ex);
         }
         catch (Exception $ex)
         {
@@ -198,7 +203,7 @@ class PromiseRejected implements PromiseInterface
     }
 
     /**
-     * @param Exception|string|null $reason
+     * @param Error|Exception|string|null $reason
      */
     public function reject($reason = null)
     {
@@ -206,7 +211,7 @@ class PromiseRejected implements PromiseInterface
     }
 
     /**
-     * @param Exception|string|null $reason
+     * @param Error|Exception|string|null $reason
      */
     public function cancel($reason = null)
     {
@@ -230,7 +235,7 @@ class PromiseRejected implements PromiseInterface
     }
 
     /**
-     * @return Exception|string|null
+     * @return Error|Exception|string|null
      */
     public function reason()
     {
@@ -238,8 +243,8 @@ class PromiseRejected implements PromiseInterface
     }
 
     /**
-     * @param Exception|string $reason
-     * @throws Exception
+     * @param Error|Exception|string $reason
+     * @throws Error|Exception
      */
     protected function throwError($reason)
     {

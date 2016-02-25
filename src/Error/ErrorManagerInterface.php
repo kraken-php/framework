@@ -2,21 +2,22 @@
 
 namespace Kraken\Error;
 
-use Exception;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Exception\Runtime\ExecutionException;
 use Kraken\Exception\Runtime\IllegalCallException;
 use Kraken\Exception\Runtime\LogicException;
+use Error;
+use Exception;
 
 interface ErrorManagerInterface
 {
     /**
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @param mixed[] $params
      * @return PromiseInterface
      * @throws ExecutionException
      */
-    public function __invoke(Exception $ex, $params = []);
+    public function __invoke($ex, $params = []);
 
     /**
      * @param string $key
@@ -62,10 +63,10 @@ interface ErrorManagerInterface
     public function removeHandler($exception);
 
     /**
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @param mixed[] $params
      * @return PromiseInterface
      * @throws ExecutionException
      */
-    public function handle(Exception $ex, $params = []);
+    public function handle($ex, $params = []);
 }

@@ -15,13 +15,13 @@ class LazyException
     protected $message;
 
     /**
-     * @var \Exception|LazyException|null
+     * @var \Error|\Exception|LazyException|null
      */
     protected $prev;
 
     /**
-     * @param \Exception|string[]|string $exceptionOrMessage
-     * @param \Exception|LazyException $prev
+     * @param \Error|\Exception|string[]|string $exceptionOrMessage
+     * @param \Error|\Exception|LazyException $prev
      */
     public function __construct($exceptionOrMessage, $prev = null)
     {
@@ -45,7 +45,7 @@ class LazyException
     }
 
     /**
-     * @return Exception
+     * @return \Error|\Exception
      */
     public function toException()
     {
@@ -103,7 +103,7 @@ class LazyException
     }
 
     /**
-     * @return \Exception|null
+     * @return \Error|\Exception|null
      */
     final public function getPrevious()
     {

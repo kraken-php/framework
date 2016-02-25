@@ -2,6 +2,7 @@
 
 namespace Kraken\Runtime;
 
+use Error;
 use Exception;
 use Kraken\Core\CoreAwareInterface;
 use Kraken\Core\CoreInputContextInterface;
@@ -80,10 +81,11 @@ interface RuntimeModelInterface extends
     public function stop();
 
     /**
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @param mixed[] $params
+     * @throws Exception
      */
-    public function fail(Exception $ex, $params = []);
+    public function fail($ex, $params = []);
 
     /**
      *

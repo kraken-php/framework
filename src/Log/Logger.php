@@ -2,11 +2,12 @@
 
 namespace Kraken\Log;
 
-use Exception;
-use Monolog\Logger as Monolog;
 use Kraken\Exception\Runtime\InstantiationException;
 use Kraken\Exception\Io\WriteException;
 use Kraken\Log\Handler\HandlerInterface;
+use Monolog\Logger as Monolog;
+use Error;
+use Exception;
 
 class Logger implements LoggerInterface
 {
@@ -73,7 +74,11 @@ class Logger implements LoggerInterface
             $this->logger = new LoggerWrapper($name, $loggersList, $processorsList);
             $this->loggerClass = get_class($this->logger);
         }
-        catch(Exception $ex)
+        catch (Error $ex)
+        {
+            throw new InstantiationException("Logger could not be constructed.", $ex);
+        }
+        catch (Exception $ex)
         {
             throw new InstantiationException("Logger could not be constructed.", $ex);
         }
@@ -117,7 +122,11 @@ class Logger implements LoggerInterface
         {
             return $this->logger->popHandler();
         }
-        catch(\Exception $ex)
+        catch (Error $ex)
+        {
+            return null;
+        }
+        catch (Exception $ex)
         {
             return null;
         }
@@ -143,7 +152,11 @@ class Logger implements LoggerInterface
         {
             $this->logger->pushProcessor($callback);
         }
-        catch(Exception $ex)
+        catch (Error $ex)
+        {
+            throw new WriteException("Processor could not be pushed.", $ex);
+        }
+        catch (Exception $ex)
         {
             throw new WriteException("Processor could not be pushed.", $ex);
         }
@@ -160,7 +173,11 @@ class Logger implements LoggerInterface
         {
             return $this->logger->popProcessor();
         }
-        catch(Exception $ex)
+        catch (Error $ex)
+        {
+            return null;
+        }
+        catch (Exception $ex)
         {
             return null;
         }
@@ -189,7 +206,11 @@ class Logger implements LoggerInterface
         {
             return $this->logger->addRecord($level, $message, $context);
         }
-        catch(Exception $ex)
+        catch (Error $ex)
+        {
+            throw new WriteException("Record could not be added.", $ex);
+        }
+        catch (Exception $ex)
         {
             throw new WriteException("Record could not be added.", $ex);
         }
@@ -217,7 +238,11 @@ class Logger implements LoggerInterface
         {
             return ${$this->loggerClass}::getLevelName($level);
         }
-        catch(Exception $ex)
+        catch (Error $ex)
+        {
+            return null;
+        }
+        catch (Exception $ex)
         {
             return null;
         }
@@ -251,7 +276,11 @@ class Logger implements LoggerInterface
         {
             return $this->logger->log($level, $message, $context);
         }
-        catch(Exception $ex)
+        catch (Error $ex)
+        {
+            throw new WriteException("Record with undefined level could not be logged.", $ex);
+        }
+        catch (Exception $ex)
         {
             throw new WriteException("Record with undefined level could not be logged.", $ex);
         }
@@ -273,7 +302,11 @@ class Logger implements LoggerInterface
         {
             return $this->logger->debug($message, $context);
         }
-        catch(Exception $ex)
+        catch (Error $ex)
+        {
+            throw new WriteException("Record with debug level could not be logged.", $ex);
+        }
+        catch (Exception $ex)
         {
             throw new WriteException("Record with debug level could not be logged.", $ex);
         }
@@ -295,7 +328,11 @@ class Logger implements LoggerInterface
         {
             return $this->logger->info($message, $context);
         }
-        catch(Exception $ex)
+        catch (Error $ex)
+        {
+            throw new WriteException("Record with info level could not be logged.", $ex);
+        }
+        catch (Exception $ex)
         {
             throw new WriteException("Record with info level could not be logged.", $ex);
         }
@@ -317,7 +354,11 @@ class Logger implements LoggerInterface
         {
             return $this->logger->notice($message, $context);
         }
-        catch(Exception $ex)
+        catch (Error $ex)
+        {
+            throw new WriteException("Record with notice level could not be logged.", $ex);
+        }
+        catch (Exception $ex)
         {
             throw new WriteException("Record with notice level could not be logged.", $ex);
         }
@@ -339,7 +380,11 @@ class Logger implements LoggerInterface
         {
             return $this->logger->warning($message, $context);
         }
-        catch(Exception $ex)
+        catch (Error $ex)
+        {
+            throw new WriteException("Record with warning level could not be logged.", $ex);
+        }
+        catch (Exception $ex)
         {
             throw new WriteException("Record with warning level could not be logged.", $ex);
         }
@@ -361,7 +406,11 @@ class Logger implements LoggerInterface
         {
             return $this->logger->error($message, $context);
         }
-        catch(Exception $ex)
+        catch (Error $ex)
+        {
+            throw new WriteException("Record with debug level could not be logged.", $ex);
+        }
+        catch (Exception $ex)
         {
             throw new WriteException("Record with debug level could not be logged.", $ex);
         }
@@ -383,7 +432,11 @@ class Logger implements LoggerInterface
         {
             return $this->logger->critical($message, $context);
         }
-        catch(Exception $ex)
+        catch (Error $ex)
+        {
+            throw new WriteException("Record with debug level could not be logged.", $ex);
+        }
+        catch (Exception $ex)
         {
             throw new WriteException("Record with debug level could not be logged.", $ex);
         }
@@ -405,7 +458,11 @@ class Logger implements LoggerInterface
         {
             return $this->logger->alert($message, $context);
         }
-        catch(Exception $ex)
+        catch (Error $ex)
+        {
+            throw new WriteException("Record with debug level could not be logged.", $ex);
+        }
+        catch (Exception $ex)
         {
             throw new WriteException("Record with debug level could not be logged.", $ex);
         }
@@ -427,7 +484,11 @@ class Logger implements LoggerInterface
         {
             return $this->logger->emergency($message, $context);
         }
-        catch(Exception $ex)
+        catch (Error $ex)
+        {
+            throw new WriteException("Record with debug level could not be logged.", $ex);
+        }
+        catch (Exception $ex)
         {
             throw new WriteException("Record with debug level could not be logged.", $ex);
         }

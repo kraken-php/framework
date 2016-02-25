@@ -2,7 +2,6 @@
 
 namespace Kraken\Runtime;
 
-use Exception;
 use Kraken\Core\CoreInterface;
 use Kraken\Event\EventEmitter;
 use Kraken\Event\EventHandler;
@@ -10,6 +9,8 @@ use Kraken\Loop\LoopInterface;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Runtime\Provider\Runtime\RuntimeAutowireProvider;
 use Kraken\Runtime\Provider\Runtime\RuntimeProvider;
+use Error;
+use Exception;
 
 abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
 {
@@ -310,11 +311,11 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @param mixed[] $params
      * @throws Exception
      */
-    public function fail(Exception $ex, $params = [])
+    public function fail($ex, $params = [])
     {
         $this->model->fail($ex, $params);
     }

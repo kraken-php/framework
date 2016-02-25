@@ -2,6 +2,7 @@
 
 namespace Kraken\Io\Http\Driver\Reader;
 
+use Error;
 use Kraken\Exception\Io\ReadException;
 use Kraken\Exception\Runtime\InvalidFormatException;
 use Kraken\Io\Http\Driver\Parser\HttpParser;
@@ -93,6 +94,10 @@ class HttpReader implements HttpReaderInterface
         {
             $request = $this->parser->parseRequest($buffer->drain());
         }
+        catch (Error $ex)
+        {
+            throw new InvalidFormatException('Could not parse start line.');
+        }
         catch (Exception $ex)
         {
             throw new InvalidFormatException('Could not parse start line.');
@@ -123,6 +128,10 @@ class HttpReader implements HttpReaderInterface
         try
         {
             $response = $this->parser->parseResponse($buffer->drain());
+        }
+        catch (Error $ex)
+        {
+            throw new InvalidFormatException('Could not parse start line.');
         }
         catch (Exception $ex)
         {

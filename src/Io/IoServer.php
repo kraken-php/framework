@@ -10,6 +10,7 @@ use Kraken\Io\Socket\SocketServer;
 use Kraken\Io\Socket\SocketServerInterface;
 use Kraken\Ipc\Socket\SocketListenerInterface;
 use Kraken\Loop\LoopInterface;
+use Error;
 use Exception;
 
 class IoServer implements IoServerInterface
@@ -47,6 +48,10 @@ class IoServer implements IoServerInterface
             $this->server = $server;
             $this->router = $router;
             $this->listener = $listener;
+        }
+        catch (Error $ex)
+        {
+            throw new InstantiationException("[" . __CLASS__ . "] could not be created.", $ex);
         }
         catch (Exception $ex)
         {

@@ -2,6 +2,7 @@
 
 namespace Kraken\Channel;
 
+use Error;
 use Exception;
 
 class ChannelRequest
@@ -78,20 +79,20 @@ class ChannelRequest
     }
 
     /**
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @return mixed
      */
-    public function reject(Exception $ex)
+    public function reject($ex)
     {
         $callback = $this->onFailure();
         return $callback($ex);
     }
 
     /**
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @return mixed
      */
-    public function cancel(Exception $ex)
+    public function cancel($ex)
     {
         $callback = $this->onCancel();
         return $callback($ex);

@@ -3,6 +3,7 @@
 namespace Kraken\Io;
 
 use Kraken\Io\Http\HttpRequestInterface;
+use Error;
 use Exception;
 
 interface IoServerComponentInterface
@@ -37,8 +38,8 @@ interface IoServerComponentInterface
      * the Exception is sent back down the stack, handled by the Server and bubbled back up the application through this method
      *
      * @param IoConnectionInterface $conn
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @throws Exception
      */
-    public function handleError(IoConnectionInterface $conn, Exception $ex);
+    public function handleError(IoConnectionInterface $conn, $ex);
 }

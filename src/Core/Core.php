@@ -6,12 +6,13 @@ use Kraken\Container\Container;
 use Kraken\Core\Service\ServiceRegisterInterface;
 use Kraken\Core\Service\ServiceRegister;
 use Kraken\Core\Service\ServiceProviderInterface;
-use Kraken\Exception\Exception;
 use Kraken\Exception\Runtime\ExecutionException;
 use Kraken\Exception\Runtime\IllegalCallException;
 use Kraken\Exception\Runtime\InstantiationException;
 use Kraken\Exception\Io\WriteException;
 use Kraken\Runtime\Runtime;
+use Error;
+use Exception;
 
 class Core extends Container implements CoreInterface
 {
@@ -57,6 +58,10 @@ class Core extends Container implements CoreInterface
             $this->registerDefaultProviders();
             $this->registerDefaultAliases();
         }
+        catch (Error $ex)
+        {
+            throw new InstantiationException("Core module could not be initalized.", $ex);
+        }
         catch (Exception $ex)
         {
             throw new InstantiationException("Core module could not be initalized.", $ex);
@@ -84,6 +89,10 @@ class Core extends Container implements CoreInterface
             $this->bootProviders();
 
             return $this;
+        }
+        catch (Error $ex)
+        {
+            throw new InstantiationException("Core module could not be booted.", $ex);
         }
         catch (Exception $ex)
         {
@@ -169,6 +178,10 @@ class Core extends Container implements CoreInterface
         {
             $this->serviceRegister->registerProvider($provider, $force);
         }
+        catch (Error $ex)
+        {
+            throw new ExecutionException("Provider could not be registered.", $ex);
+        }
         catch (Exception $ex)
         {
             throw new ExecutionException("Provider could not be registered.", $ex);
@@ -184,6 +197,10 @@ class Core extends Container implements CoreInterface
         try
         {
             $this->serviceRegister->unregisterProvider($provider);
+        }
+        catch (Error $ex)
+        {
+            throw new ExecutionException("Provider could not be unregistered.", $ex);
         }
         catch (Exception $ex)
         {

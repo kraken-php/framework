@@ -2,13 +2,14 @@
 
 namespace Kraken\Error;
 
-use Exception;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Exception\Runtime\ExecutionException;
 use Kraken\Exception\Runtime\IllegalCallException;
 use Kraken\Exception\Runtime\LogicException;
 use Kraken\Runtime\RuntimeInterface;
+use Error;
+use Exception;
 
 class ErrorManager implements ErrorManagerInterface
 {
@@ -58,12 +59,12 @@ class ErrorManager implements ErrorManagerInterface
     }
 
     /**
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @param mixed[] $params
      * @return PromiseInterface
      * @throws ExecutionException
      */
-    public function __invoke(Exception $ex, $params = [])
+    public function __invoke($ex, $params = [])
     {
         return $this->handle($ex, $params);
     }
@@ -149,12 +150,12 @@ class ErrorManager implements ErrorManagerInterface
     }
 
     /**
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @param mixed[] $params
      * @param int $try
      * @return PromiseInterface
      */
-    public function handle(Exception $ex, $params = [], &$try = 0)
+    public function handle($ex, $params = [], &$try = 0)
     {
         $classBaseEx = get_class($ex);
         $classes = array_merge([ $classBaseEx ], class_parents($ex));
@@ -201,6 +202,10 @@ class ErrorManager implements ErrorManagerInterface
         try
         {
             $handler = $this->params['factory']->create($name, [ $this->runtime, [] ]);
+        }
+        catch (Error $ex)
+        {
+            throw new IllegalCallException("Tried to invoke [$name] which is undefined.");
         }
         catch (Exception $ex)
         {

@@ -2,10 +2,11 @@
 
 namespace Kraken\Stream;
 
-use Exception;
 use Kraken\Exception\Runtime\InvalidArgumentException;
 use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
+use Error;
+use Exception;
 
 class AsyncStreamReader extends StreamReader implements AsyncStreamReaderInterface
 {
@@ -109,6 +110,8 @@ class AsyncStreamReader extends StreamReader implements AsyncStreamReaderInterfa
         {
             $this->read();
         }
+        catch (Error $ex)
+        {}
         catch (Exception $ex)
         {}
     }

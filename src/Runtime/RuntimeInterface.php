@@ -2,13 +2,14 @@
 
 namespace Kraken\Runtime;
 
-use Exception;
 use Kraken\Core\CoreGetterAwareInterface;
 use Kraken\Core\CoreInputContextInterface;
 use Kraken\Event\EventEmitterInterface;
 use Kraken\Event\EventHandler;
 use Kraken\Loop\LoopGetterAwareInterface;
 use Kraken\Promise\PromiseInterface;
+use Error;
+use Exception;
 
 /**
  * @event beforeCreate
@@ -157,10 +158,11 @@ interface RuntimeInterface extends
     public function stop();
 
     /**
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @param mixed[] $params
+     * @throws Exception
      */
-    public function fail(Exception $ex, $params = []);
+    public function fail($ex, $params = []);
 
     /**
      *

@@ -2,6 +2,7 @@
 
 namespace Kraken\Core\Service;
 
+use Error;
 use Exception;
 use Kraken\Core\CoreInterface;
 use Kraken\Exception\Runtime\ExecutionException;
@@ -58,6 +59,10 @@ class ServiceProvider implements ServiceProviderInterface
             $this->register($core);
             $this->registered = true;
         }
+        catch (Error $ex)
+        {
+            $this->exception($ex);
+        }
         catch (Exception $ex)
         {
             $this->exception($ex);
@@ -82,6 +87,10 @@ class ServiceProvider implements ServiceProviderInterface
         try
         {
             $this->boot($core);
+        }
+        catch (Error $ex)
+        {
+            $this->exception($ex);
         }
         catch (Exception $ex)
         {
@@ -110,10 +119,10 @@ class ServiceProvider implements ServiceProviderInterface
     {}
 
     /**
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @throws ExecutionException
      */
-    protected function exception(Exception $ex)
+    protected function exception($ex)
     {
         throw new ExecutionException("ServiceProvider [" . get_class($this) . "] raised an error.", $ex);
     }

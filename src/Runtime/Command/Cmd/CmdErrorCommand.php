@@ -2,11 +2,12 @@
 
 namespace Kraken\Runtime\Command\Cmd;
 
-use Exception;
 use Kraken\Command\Command;
 use Kraken\Command\CommandInterface;
 use Kraken\Error\ErrorManagerInterface;
 use Kraken\Exception\Runtime\RejectionException;
+use Error;
+use Exception;
 
 class CmdErrorCommand extends Command implements CommandInterface
 {
@@ -51,6 +52,10 @@ class CmdErrorCommand extends Command implements CommandInterface
         {
             throw new $class($message);
         }
+        catch (Error $ex)
+        {
+            $this->handleException($origin, $ex);
+        }
         catch (Exception $ex)
         {
             $this->handleException($origin, $ex);
@@ -59,11 +64,15 @@ class CmdErrorCommand extends Command implements CommandInterface
 
     /**
      * @param string $origin
-     * @param Exception $ex
+     * @param Error|Exception $ex
      */
-    protected function handleException($origin, Exception $ex)
+    protected function handleException($origin, $ex)
     {
         try
+        {
+            $this->manager->handle($ex, [ 'origin' => $origin ]);
+        }
+        catch (Error $ex)
         {
             $this->manager->handle($ex, [ 'origin' => $origin ]);
         }

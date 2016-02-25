@@ -9,6 +9,7 @@ use Kraken\Io\IoMessageInterface;
 use Kraken\Io\Websocket\Driver\WsDriver;
 use Kraken\Io\Websocket\Driver\WsDriverInterface;
 use Kraken\Io\IoServerComponentInterface;
+use Error;
 use Exception;
 use SplObjectStorage;
 use StdClass;
@@ -110,7 +111,7 @@ class WsServer implements WsServerInterface
     /**
      * @override
      */
-    public function handleError(IoConnectionInterface $conn, Exception $ex)
+    public function handleError(IoConnectionInterface $conn, $ex)
     {
         if ($conn->WebSocket->established && $this->connectionCollection->contains($conn))
         {
@@ -139,6 +140,10 @@ class WsServer implements WsServerInterface
         try
         {
             $response = $conn->WebSocket->version->wsHandshake($request);
+        }
+        catch (Error $ex)
+        {
+            return;
         }
         catch (Exception $ex)
         {
@@ -176,41 +181,41 @@ class WsServer implements WsServerInterface
         return $this->wsDriver;
     }
 
-    /**
-     * @param string
-     * @return boolean
-     */
-    protected function isSubProtocolSupported($name)
-    {
-        if (!$this->isSpGenerated)
-        {
-            if ($this->component instanceof WsServerInterface)
-            {
-                $this->acceptedSubProtocols = array_flip($this->component->getSubProtocols());
-            }
-
-            $this->isSpGenerated = true;
-        }
-
-        return array_key_exists($name, $this->acceptedSubProtocols);
-    }
-
-    /**
-     * @param string[] $protocols
-     * @return string
-     */
-    protected function getSubProtocolString($protocols = [])
-    {
-        foreach ($protocols as $protocol)
-        {
-            if ($this->isSubProtocolSupported($protocol))
-            {
-                return $protocol;
-            }
-        }
-
-        return '';
-    }
+//    /**
+//     * @param string
+//     * @return boolean
+//     */
+//    protected function isSubProtocolSupported($name)
+//    {
+//        if (!$this->isSpGenerated)
+//        {
+//            if ($this->component instanceof WsServerInterface)
+//            {
+//                $this->acceptedSubProtocols = array_flip($this->component->getSubProtocols());
+//            }
+//
+//            $this->isSpGenerated = true;
+//        }
+//
+//        return array_key_exists($name, $this->acceptedSubProtocols);
+//    }
+//
+//    /**
+//     * @param string[] $protocols
+//     * @return string
+//     */
+//    protected function getSubProtocolString($protocols = [])
+//    {
+//        foreach ($protocols as $protocol)
+//        {
+//            if ($this->isSubProtocolSupported($protocol))
+//            {
+//                return $protocol;
+//            }
+//        }
+//
+//        return '';
+//    }
 
     /**
      * Close a connection with an HTTP response.

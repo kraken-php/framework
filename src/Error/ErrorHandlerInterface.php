@@ -2,22 +2,23 @@
 
 namespace Kraken\Error;
 
-use Exception;
 use Kraken\Promise\PromiseInterface;
+use Error;
+use Exception;
 
 interface ErrorHandlerInterface
 {
     /**
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @param mixed[] $params
      * @return PromiseInterface
      */
-    public function __invoke(Exception $ex, $params = []);
+    public function __invoke($ex, $params = []);
 
     /**
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @param mixed[] $params
      * @return PromiseInterface
      */
-    public function handle(Exception $ex, $params = []);
+    public function handle($ex, $params = []);
 }

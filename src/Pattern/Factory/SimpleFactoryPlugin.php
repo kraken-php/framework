@@ -2,8 +2,9 @@
 
 namespace Kraken\Pattern\Factory;
 
-use Exception;
 use Kraken\Exception\Runtime\ExecutionException;
+use Error;
+use Exception;
 
 class SimpleFactoryPlugin implements SimpleFactoryPluginInterface
 {
@@ -22,6 +23,10 @@ class SimpleFactoryPlugin implements SimpleFactoryPluginInterface
         {
             $this->register($factory);
             $this->registered = true;
+        }
+        catch (Error $ex)
+        {
+            $this->exception($ex);
         }
         catch (Exception $ex)
         {
@@ -51,10 +56,10 @@ class SimpleFactoryPlugin implements SimpleFactoryPluginInterface
     {}
 
     /**
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @throws ExecutionException
      */
-    protected function exception(Exception $ex)
+    protected function exception($ex)
     {
         throw new ExecutionException("SimpleFactoryPlugin [" . get_class($this) . "] raised an error.", $ex);
     }

@@ -2,13 +2,14 @@
 
 namespace Kraken\Filesystem;
 
-use Exception;
-use League\Flysystem\AdapterInterface as LeagueAdapterInterface;
-use League\Flysystem\Filesystem as LeagueFilesystem;
-use League\Flysystem\FilesystemInterface as LeagueFilesystemInterface;
 use Kraken\Exception\Io\ReadException;
 use Kraken\Exception\Io\WriteException;
 use Kraken\Exception\Runtime\InstantiationException;
+use League\Flysystem\AdapterInterface as LeagueAdapterInterface;
+use League\Flysystem\Filesystem as LeagueFilesystem;
+use League\Flysystem\FilesystemInterface as LeagueFilesystemInterface;
+use Error;
+use Exception;
 
 class Filesystem implements FilesystemInterface
 {
@@ -52,6 +53,10 @@ class Filesystem implements FilesystemInterface
         {
             $this->fs = new LeagueFilesystem($adapter);
         }
+        catch (Error $ex)
+        {
+            throw new InstantiationException('Filesystem could not be initialized.', $ex);
+        }
         catch (Exception $ex)
         {
             throw new InstantiationException('Filesystem could not be initialized.', $ex);
@@ -79,6 +84,10 @@ class Filesystem implements FilesystemInterface
         {
             return $this->fs->has($path);
         }
+        catch (Error $ex)
+        {
+            throw new ReadException("File $path does not exist.", $ex);
+        }
         catch (Exception $ex)
         {
             throw new ReadException("File $path does not exist.", $ex);
@@ -97,6 +106,10 @@ class Filesystem implements FilesystemInterface
         try
         {
             $this->fs->rename($source, $destination);
+        }
+        catch (Error $ex)
+        {
+            throw new WriteException("File $source could not be moved to $destination.", $ex);
         }
         catch (Exception $ex)
         {
@@ -117,6 +130,10 @@ class Filesystem implements FilesystemInterface
         {
             return $this->fs->getMetadata($path)['type'] === 'file';
         }
+        catch (Error $ex)
+        {
+            throw new ReadException("Path $path could not be determined to be file or not.", $ex);
+        }
         catch (Exception $ex)
         {
             throw new ReadException("Path $path could not be determined to be file or not.", $ex);
@@ -135,6 +152,10 @@ class Filesystem implements FilesystemInterface
         try
         {
             return $this->fs->getMetadata($path)['type'] === 'dir';
+        }
+        catch (Error $ex)
+        {
+            throw new ReadException("Path $path could not be determined to be directory or not.", $ex);
         }
         catch (Exception $ex)
         {
@@ -164,6 +185,10 @@ class Filesystem implements FilesystemInterface
 
             return array_values(array_filter($contents, $filter));
         }
+        catch (Error $ex)
+        {
+            throw new ReadException("Directory $directory items could not be listed.", $ex);
+        }
         catch (Exception $ex)
         {
             throw new ReadException("Directory $directory items could not be listed.", $ex);
@@ -191,6 +216,10 @@ class Filesystem implements FilesystemInterface
             };
 
             return array_values(array_filter($contents, $filter));
+        }
+        catch (Error $ex)
+        {
+            throw new ReadException("Directory $directory files could not be listed.", $ex);
         }
         catch (Exception $ex)
         {
@@ -220,6 +249,10 @@ class Filesystem implements FilesystemInterface
 
             return array_values(array_filter($contents, $filter));
         }
+        catch (Error $ex)
+        {
+            throw new ReadException("Directory $directory subdirectories could not be listed.", $ex);
+        }
         catch (Exception $ex)
         {
             throw new ReadException("Directory $directory subdirectories could not be listed.", $ex);
@@ -238,6 +271,10 @@ class Filesystem implements FilesystemInterface
         try
         {
             return $this->fs->getVisibility($path);
+        }
+        catch (Error $ex)
+        {
+            throw new ReadException("File $path visibility could not be determined.", $ex);
         }
         catch (Exception $ex)
         {
@@ -311,6 +348,10 @@ class Filesystem implements FilesystemInterface
         {
             $this->fs->write($path, $contents, $this->prepareConfig($visibility));
         }
+        catch (Error $ex)
+        {
+            throw new WriteException("File $path could not be created.", $ex);
+        }
         catch (Exception $ex)
         {
             throw new WriteException("File $path could not be created.", $ex);
@@ -331,6 +372,10 @@ class Filesystem implements FilesystemInterface
         {
             $this->fs->put($path, $contents, $this->prepareConfig($visibility));
         }
+        catch (Error $ex)
+        {
+            throw new WriteException("File $path could not be overwritten.", $ex);
+        }
         catch (Exception $ex)
         {
             throw new WriteException("File $path could not be overwritten.", $ex);
@@ -350,6 +395,10 @@ class Filesystem implements FilesystemInterface
         {
             $this->fs->update($path, $this->fs->read($path) . $contents);
         }
+        catch (Error $ex)
+        {
+            throw new WriteException("File $path could not be appeneded.", $ex);
+        }
         catch (Exception $ex)
         {
             throw new WriteException("File $path could not be appeneded.", $ex);
@@ -368,6 +417,10 @@ class Filesystem implements FilesystemInterface
         try
         {
             $this->fs->update($path, $contents . $this->fs->read($path));
+        }
+        catch (Error $ex)
+        {
+            throw new WriteException("File $path could not be prepended.", $ex);
         }
         catch (Exception $ex)
         {
@@ -417,6 +470,10 @@ class Filesystem implements FilesystemInterface
         {
             $this->fs->copy($source, $destination);
         }
+        catch (Error $ex)
+        {
+            throw new WriteException("File $source could not have benn copied to $destination.", $ex);
+        }
         catch (Exception $ex)
         {
             throw new WriteException("File $source could not have benn copied to $destination.", $ex);
@@ -435,6 +492,10 @@ class Filesystem implements FilesystemInterface
         {
             $this->fs->delete($path);
         }
+        catch (Error $ex)
+        {
+            throw new WriteException("File $path could not be removed.", $ex);
+        }
         catch (Exception $ex)
         {
             throw new WriteException("File $path could not be removed.", $ex);
@@ -452,6 +513,10 @@ class Filesystem implements FilesystemInterface
         try
         {
             $this->fs->update($path, '');
+        }
+        catch (Error $ex)
+        {
+            throw new WriteException("File $path could not be erased.", $ex);
         }
         catch (Exception $ex)
         {
@@ -472,6 +537,10 @@ class Filesystem implements FilesystemInterface
         {
             return $this->fs->getSize($path);
         }
+        catch (Error $ex)
+        {
+            throw new ReadException("File $path size could not be determined.", $ex);
+        }
         catch (Exception $ex)
         {
             throw new ReadException("File $path size could not be determined.", $ex);
@@ -490,6 +559,10 @@ class Filesystem implements FilesystemInterface
         try
         {
             return $this->fs->getMetadata($path)['type'];
+        }
+        catch (Error $ex)
+        {
+            throw new ReadException("File $path type could not be determined.", $ex);
         }
         catch (Exception $ex)
         {
@@ -510,6 +583,10 @@ class Filesystem implements FilesystemInterface
         {
             return $this->fs->getMimetype($path);
         }
+        catch (Error $ex)
+        {
+            throw new ReadException("File $path mimetype could not be determined.", $ex);
+        }
         catch (Exception $ex)
         {
             throw new ReadException("File $path mimetype could not be determined.", $ex);
@@ -528,6 +605,10 @@ class Filesystem implements FilesystemInterface
         try
         {
             return $this->fs->getTimestamp($path);
+        }
+        catch (Error $ex)
+        {
+            throw new ReadException("File $path timestamp could not be determined.", $ex);
         }
         catch (Exception $ex)
         {
@@ -559,6 +640,10 @@ class Filesystem implements FilesystemInterface
         try
         {
             $this->fs->createDir($dirname, $this->prepareConfig($visibility));
+        }
+        catch (Error $ex)
+        {
+            throw new WriteException("Directory $dirname could not be created.", $ex);
         }
         catch (Exception $ex)
         {
@@ -606,6 +691,10 @@ class Filesystem implements FilesystemInterface
         {
             $this->fs->deleteDir($dirname);
         }
+        catch (Error $ex)
+        {
+            throw new WriteException("Directory $dirname could not be removed.", $ex);
+        }
         catch (Exception $ex)
         {
             throw new WriteException("Directory $dirname could not be removed.", $ex);
@@ -635,6 +724,10 @@ class Filesystem implements FilesystemInterface
                     $this->fs->delete($item['path']);
                 }
             }
+        }
+        catch (Error $ex)
+        {
+            throw new WriteException("Directory $dirname could not be erased.", $ex);
         }
         catch (Exception $ex)
         {

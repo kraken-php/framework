@@ -2,11 +2,12 @@
 
 namespace Kraken\Error\Handler\Cmd;
 
-use Exception;
 use Kraken\Error\ErrorHandlerBase;
 use Kraken\Error\ErrorHandlerInterface;
 use Kraken\Log\Logger;
 use Kraken\Log\LoggerInterface;
+use Error;
+use Exception;
 
 class CmdLog extends ErrorHandlerBase implements ErrorHandlerInterface
 {
@@ -37,11 +38,11 @@ class CmdLog extends ErrorHandlerBase implements ErrorHandlerInterface
     }
 
     /**
-     * @param Exception $ex
+     * @param Error|Exception $ex
      * @param mixed[] $params
      * @return mixed
      */
-    protected function handler(Exception $ex, $params = [])
+    protected function handler($ex, $params = [])
     {
         $this->logger->log(
             $this->context['level'], \Kraken\Exception\Exception::toString($ex)

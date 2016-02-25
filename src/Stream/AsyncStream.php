@@ -2,13 +2,14 @@
 
 namespace Kraken\Stream;
 
-use Exception;
 use Kraken\Exception\Io\WriteException;
 use Kraken\Exception\Runtime\InvalidArgumentException;
 use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
 use Kraken\Pattern\Buffer\Buffer;
 use Kraken\Pattern\Buffer\BufferInterface;
+use Error;
+use Exception;
 
 class AsyncStream extends Stream implements AsyncStreamInterface
 {
@@ -205,6 +206,8 @@ class AsyncStream extends Stream implements AsyncStreamInterface
         {
             $this->read();
         }
+        catch (Error $ex)
+        {}
         catch (Exception $ex)
         {}
     }
@@ -230,6 +233,10 @@ class AsyncStream extends Stream implements AsyncStreamInterface
             {
                 $sent = fwrite($this->resource, $this->buffer->peek());
                 $this->buffer->remove($sent);
+            }
+            catch (Error $ex)
+            {
+                $sent = 0;
             }
             catch (Exception $ex)
             {

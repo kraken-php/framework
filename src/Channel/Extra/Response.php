@@ -2,12 +2,13 @@
 
 namespace Kraken\Channel\Extra;
 
-use Exception;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelBaseInterface;
 use Kraken\Channel\ChannelProtocolInterface;
+use Error;
+use Exception;
 
 class Response
 {
@@ -22,7 +23,7 @@ class Response
     protected $protocol;
 
     /**
-     * @var string|string[]|Exception
+     * @var string|string[]|Error|Exception
      */
     protected $message;
 
@@ -34,7 +35,7 @@ class Response
     /**
      * @param ChannelBaseInterface $channel
      * @param ChannelProtocolInterface $protocol
-     * @param string|string[]|Exception $message
+     * @param string|string[]|Error|Exception $message
      * @param mixed[] $params
      */
     public function __construct($channel, $protocol, $message, $params = [])

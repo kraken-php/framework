@@ -7,6 +7,7 @@ use Kraken\Exception\Io\ReadException;
 use Kraken\Exception\Io\WriteException;
 use League\Container\Container as LeagueContainer;
 use League\Container\ContainerInterface as LeagueContainerInterface;
+use Error;
 use Exception;
 
 class Container implements ContainerInterface
@@ -45,6 +46,10 @@ class Container implements ContainerInterface
         {
             $object = $this->container->add($alias);
         }
+        catch (Error $ex)
+        {
+            throw new WriteException("Binding definition of [$alias] to Container failed.", $ex);
+        }
         catch (Exception $ex)
         {
             throw new WriteException("Binding definition of [$alias] to Container failed.", $ex);
@@ -69,6 +74,10 @@ class Container implements ContainerInterface
         {
             $this->container->add($alias, $object, true);
         }
+        catch (Error $ex)
+        {
+            throw new WriteException("Binding instance of [$alias] to Container failed.", $ex);
+        }
         catch (Exception $ex)
         {
             throw new WriteException("Binding instance of [$alias] to Container failed.", $ex);
@@ -91,6 +100,10 @@ class Container implements ContainerInterface
             // TODO Kraken-28
             $this->container->add($new, $this->container->get($existing));
         }
+        catch (Error $ex)
+        {
+            throw new WriteException("Binding alias of [$new] as [$existing] to Container failed.", $ex);
+        }
         catch (Exception $ex)
         {
             throw new WriteException("Binding alias of [$new] as [$existing] to Container failed.", $ex);
@@ -109,6 +122,10 @@ class Container implements ContainerInterface
         try
         {
             $object = $this->container->singleton($alias);
+        }
+        catch (Error $ex)
+        {
+            throw new WriteException("Binding singleton of [$alias] to Container failed.", $ex);
         }
         catch (Exception $ex)
         {
@@ -134,6 +151,10 @@ class Container implements ContainerInterface
         {
             $this->container->add($alias, $param);
         }
+        catch (Error $ex)
+        {
+            throw new WriteException("Binding param of [$alias] to Container failed.");
+        }
         catch (Exception $ex)
         {
             throw new WriteException("Binding param of [$alias] to Container failed.");
@@ -151,6 +172,10 @@ class Container implements ContainerInterface
         try
         {
             $this->container->add($alias, new FactoryMethod($factoryMethod, $parameters), true);
+        }
+        catch (Error $ex)
+        {
+            throw new WriteException("Binding factory of [$alias] to Container failed.", $ex);
         }
         catch (Exception $ex)
         {
@@ -178,6 +203,10 @@ class Container implements ContainerInterface
             }
 
             return $object;
+        }
+        catch (Error $ex)
+        {
+            throw new ReadException("Resolving object of [$alias] from Container failed.", $ex);
         }
         catch (Exception $ex)
         {
@@ -213,6 +242,10 @@ class Container implements ContainerInterface
         try
         {
             return $this->container->call($callable, $parameters);
+        }
+        catch (Error $ex)
+        {
+            throw new ReadException("Calling function with Container failed.", $ex);
         }
         catch (Exception $ex)
         {

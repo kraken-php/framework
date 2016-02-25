@@ -8,6 +8,7 @@ use Kraken\Io\IoMessageInterface;
 use Kraken\Io\IoServerComponentInterface;
 use Kraken\Io\IoConnectionInterface;
 use Kraken\Pattern\Buffer\Buffer;
+use Error;
 use Exception;
 
 class HttpServer implements HttpServerInterface
@@ -83,6 +84,10 @@ class HttpServer implements HttpServerInterface
                     return;
                 }
             }
+            catch (Error $ex)
+            {
+                return $this->close($conn, 413);
+            }
             catch (Exception $ex)
             {
                 return $this->close($conn, 413);
@@ -103,7 +108,7 @@ class HttpServer implements HttpServerInterface
     /**
      * @override
      */
-    public function handleError(IoConnectionInterface $conn, Exception $ex)
+    public function handleError(IoConnectionInterface $conn, $ex)
     {
         if ($conn->httpHeadersReceived)
         {

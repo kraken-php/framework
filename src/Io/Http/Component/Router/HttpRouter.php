@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
+use Error;
 use Exception;
 
 class HttpRouter implements HttpRouterInterface
@@ -181,6 +182,10 @@ class HttpRouter implements HttpRouterInterface
         {
             $route = $this->matcher->match($message->getUri()->getPath());
         }
+        catch (Error $ex)
+        {
+            return $this->close($conn, 500);
+        }
         catch (MethodNotAllowedException $nae)
         {
             return $this->close($conn, 403);
@@ -197,6 +202,10 @@ class HttpRouter implements HttpRouterInterface
             $conn->controller->handleConnect($conn);
             $conn->controller->handleMessage($conn, $message);
         }
+        catch (Error $ex)
+        {
+            $conn->controller->handleError($conn, $ex);
+        }
         catch (Exception $ex)
         {
             $conn->controller->handleError($conn, $ex);
@@ -207,7 +216,7 @@ class HttpRouter implements HttpRouterInterface
      * @override
      * @inheritDoc
      */
-    public function handleError(IoConnectionInterface $conn, Exception $ex)
+    public function handleError(IoConnectionInterface $conn, $ex)
     {
         if (isset($conn->controller))
         {
@@ -215,6 +224,8 @@ class HttpRouter implements HttpRouterInterface
             {
                 return $conn->controller->handleError($conn, $ex);
             }
+            catch (Error $ex)
+            {}
             catch (Exception $ex)
             {}
         }

@@ -2,6 +2,7 @@
 
 namespace Kraken\Promise;
 
+use Error;
 use Exception;
 
 interface PromiseInterface extends DeferredInterface
@@ -20,6 +21,7 @@ interface PromiseInterface extends DeferredInterface
      * @param callable|null $onRejected
      * @param callable|null $onCancel
      * @param callable|null $onProgress
+     * @throws Error|Exception
      */
     public function done(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null, callable $onProgress = null);
 
@@ -87,7 +89,7 @@ interface PromiseInterface extends DeferredInterface
     public function value();
 
     /**
-     * @return Exception|string|null
+     * @return Error|Exception|string|null
      */
     public function reason();
 }

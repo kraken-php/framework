@@ -11,6 +11,13 @@ $dataPath = $basePath . '/kraken-data';
  * Include autoloader & dependencies
  */
 require $basePath . '/vendor/autoload.php';
+require $dataPath . '/autorun/autorun.php5.polyfill';
+
+if (!defined('STDIN'))
+{
+    echo("Tried to execute program outside of CLI mode or not enough parameters have been passed.\n");
+    exit(1);
+}
 
 /**
  * Create console instance
@@ -24,6 +31,10 @@ try
 
     $console
         ->start();
+}
+catch (\Error $ex)
+{
+    echo \Kraken\Throwable\Error::toString($ex) . PHP_EOL;
 }
 catch (\Exception $ex)
 {

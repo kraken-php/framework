@@ -5,6 +5,7 @@ use Kraken\Io\IoMessage;
 use Kraken\Io\IoServerComponentInterface;
 use Kraken\Ipc\Socket\SocketInterface;
 use Kraken\Ipc\Socket\SocketListenerInterface;
+use Error;
 use Exception;
 
 class SocketServer implements SocketServerInterface
@@ -57,6 +58,10 @@ class SocketServer implements SocketServerInterface
             $socket->on('error', [$this, 'handleError']);
             $socket->on('close', [$this, 'handleDisconnect']);
         }
+        catch (Error $ex)
+        {
+            $this->close($socket);
+        }
         catch (Exception $ex)
         {
             $this->close($socket);
@@ -75,6 +80,10 @@ class SocketServer implements SocketServerInterface
         {
             $this->component->handleMEssage($socket->conn, new IoMessage($data));
         }
+        catch (Error $ex)
+        {
+            $this->handleError($socket, $ex);
+        }
         catch (Exception $ex)
         {
             $this->handleError($socket, $ex);
@@ -92,6 +101,10 @@ class SocketServer implements SocketServerInterface
         {
             $this->component->handleDisconnect($socket->conn);
         }
+        catch (Error $ex)
+        {
+            $this->handleError($socket, $ex);
+        }
         catch (Exception $ex)
         {
             $this->handleError($socket, $ex);
@@ -104,13 +117,17 @@ class SocketServer implements SocketServerInterface
      * Handler triggered when an error has occured during doing operation on existing connection.
      *
      * @param SocketInterface $socket
-     * @param Exception $ex
+     * @param Error|Exception $ex
      */
     public function handleError($socket, $ex)
     {
         try
         {
             $this->component->handleError($socket->conn, $ex);
+        }
+        catch (Error $ex)
+        {
+            $this->close($socket);
         }
         catch (Exception $ex)
         {

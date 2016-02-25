@@ -2,7 +2,6 @@
 
 namespace Kraken\Error;
 
-use Exception;
 use Kraken\Core\CoreInputContextInterface;
 use Kraken\Exception\Interpreter\FatalException;
 use Kraken\Exception\Interpreter\NoticeException;
@@ -10,6 +9,8 @@ use Kraken\Exception\Interpreter\WarningException;
 use Kraken\Pattern\Enum\EnumTrait;
 use Kraken\Pattern\Enum\EnumInterface;
 use Kraken\Runtime\Runtime;
+use Error;
+use Exception;
 
 abstract class ErrorEnvHandler implements EnumInterface
 {
@@ -76,6 +77,10 @@ abstract class ErrorEnvHandler implements EnumInterface
         try
         {
             self::handleError($err['type'], $err['message'], $err['file'], $err['line']);
+        }
+        catch (Error $ex)
+        {
+            echo \Kraken\Throwable\Error::toString($ex) . PHP_EOL;
         }
         catch (Exception $ex)
         {

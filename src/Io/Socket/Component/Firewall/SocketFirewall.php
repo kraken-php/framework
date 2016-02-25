@@ -128,7 +128,7 @@ class SocketFirewall implements SocketFirewallInterface
      * @override
      * @inheritDoc
      */
-    public function handleError(IoConnectionInterface $conn, Exception $ex)
+    public function handleError(IoConnectionInterface $conn, $ex)
     {
         if (!$this->isBlocked($conn->getHost()))
         {
