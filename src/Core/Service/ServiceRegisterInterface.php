@@ -2,10 +2,10 @@
 
 namespace Kraken\Core\Service;
 
-use Kraken\Exception\Runtime\ExecutionException;
-use Kraken\Exception\Runtime\InvalidArgumentException;
-use Kraken\Exception\Resource\ResourceDefinedException;
-use Kraken\Exception\Resource\ResourceUndefinedException;
+use Kraken\Throwable\Runtime\ExecutionException;
+use Kraken\Throwable\Runtime\InvalidArgumentException;
+use Kraken\Throwable\Resource\ResourceDefinedException;
+use Kraken\Throwable\Resource\ResourceUndefinedException;
 
 interface ServiceRegisterInterface
 {

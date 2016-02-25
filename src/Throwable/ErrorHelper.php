@@ -186,9 +186,9 @@ abstract class ErrorHelper
     protected static function isErrorError($class)
     {
         return in_array($class, [
-            'Kraken\Exception\Interpreter\FatalException',
-            'Kraken\Exception\Interpreter\WarningException',
-            'Kraken\Exception\Interpreter\FatalException'
+            'Kraken\Throwable\Interpreter\FatalException',
+            'Kraken\Throwable\Interpreter\WarningException',
+            'Kraken\Throwable\Interpreter\FatalException'
         ], true);
     }
 }

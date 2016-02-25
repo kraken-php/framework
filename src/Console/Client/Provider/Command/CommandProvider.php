@@ -7,8 +7,8 @@ use Kraken\Console\Client\ConsoleCommandFactory;
 use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
-use Kraken\Exception\Resource\ResourceUndefinedException;
-use Kraken\Exception\Runtime\InvalidArgumentException;
+use Kraken\Throwable\Resource\ResourceUndefinedException;
+use Kraken\Throwable\Runtime\InvalidArgumentException;
 use Kraken\Pattern\Factory\FactoryPluginInterface;
 
 class CommandProvider extends ServiceProvider implements ServiceProviderInterface

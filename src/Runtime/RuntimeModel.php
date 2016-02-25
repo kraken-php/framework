@@ -3,12 +3,12 @@
 namespace Kraken\Runtime;
 
 use Kraken\Event\EventEmitterInterface;
-use Kraken\Exception\Runtime\RejectionException;
+use Kraken\Throwable\Runtime\RejectionException;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Core\CoreInterface;
 use Kraken\Error\ErrorManagerInterface;
-use Kraken\Exception\Runtime\LogicException;
+use Kraken\Throwable\Runtime\LogicException;
 use Kraken\Loop\Loop;
 use Kraken\Loop\LoopExtendedInterface;
 use Error;

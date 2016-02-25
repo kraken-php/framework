@@ -8,8 +8,8 @@ use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Error\ErrorFactory;
 use Kraken\Error\ErrorManager;
-use Kraken\Exception\Resource\ResourceUndefinedException;
-use Kraken\Exception\Runtime\InvalidArgumentException;
+use Kraken\Throwable\Resource\ResourceUndefinedException;
+use Kraken\Throwable\Runtime\InvalidArgumentException;
 use Kraken\Pattern\Factory\FactoryPluginInterface;
 
 class ErrorProvider extends ServiceProvider implements ServiceProviderInterface

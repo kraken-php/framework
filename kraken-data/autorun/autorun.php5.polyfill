@@ -5,16 +5,16 @@
  * After that procedure we have hierarchy:
  *
  * /Exception
- *    /Kraken/Exception/Exception
+ *    /Kraken/Throwable/Exception
  *    /Error
- *       /Kraken/Error/Error
+ *       /Kraken/Throwable/Error
  *
  * ... in PHP5, and
  *
  * /Exception
- *    /Kraken/Exception/Exception
+ *    /Kraken/Throwable/Exception
  * /Error
- *    /Kraken/Error/Error
+ *    /Kraken/Throwable/Error
  *
  * ... in PHP7
  *
@@ -29,15 +29,15 @@
  * {
  *    // will catch /Error in PHP5
  *    // will catch /Error in PHP7
- *    // will catch /Kraken/Error/Error in PHP5
- *    // will catch /Kraken/Error/Error in PHP7
+ *    // will catch /Kraken/Throwable/Error in PHP5
+ *    // will catch /Kraken/Throwable/Error in PHP7
  * }
  * catch (Exception $ex)
  * {
  *    // will catch /Exception in PHP5
  *    // will catch /Exception in PHP7
- *    // will catch /Kraken/Exception/Exception in PHP5
- *    // will catch /Kraken/Exception/Exception in PHP7
+ *    // will catch /Kraken/Throwable/Exception in PHP5
+ *    // will catch /Kraken/Throwable/Exception in PHP7
  * }
  *
  * [...] and all methods that expects Exception should expect now Error|Exception, ex:

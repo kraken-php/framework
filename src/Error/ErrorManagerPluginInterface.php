@@ -2,7 +2,7 @@
 
 namespace Kraken\Error;
 
-use Kraken\Exception\Runtime\ExecutionException;
+use Kraken\Throwable\Runtime\ExecutionException;
 
 interface ErrorManagerPluginInterface
 {

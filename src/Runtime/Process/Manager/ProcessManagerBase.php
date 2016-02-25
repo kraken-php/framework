@@ -3,16 +3,16 @@
 namespace Kraken\Runtime\Process\Manager;
 
 use Kraken\Core\EnvironmentInterface;
-use Kraken\Exception\Io\ReadException;
-use Kraken\Exception\Runtime\InstantiationException;
-use Kraken\Exception\Runtime\InvalidArgumentException;
-use Kraken\Exception\Runtime\RejectionException;
+use Kraken\Throwable\Io\ReadException;
+use Kraken\Throwable\Runtime\InstantiationException;
+use Kraken\Throwable\Runtime\InvalidArgumentException;
+use Kraken\Throwable\Runtime\RejectionException;
 use Kraken\Filesystem\FilesystemInterface;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Channel\ChannelBaseInterface;
 use Kraken\Channel\Extra\Request;
-use Kraken\Exception\Resource\ResourceDefinedException;
+use Kraken\Throwable\Resource\ResourceDefinedException;
 use Kraken\Runtime\Process\ProcessManagerInterface;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\Runtime;

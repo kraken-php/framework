@@ -3,9 +3,9 @@
 namespace Kraken\Channel\Extra;
 
 use Kraken\Channel\ChannelProtocolInterface;
-use Kraken\Exception\LazyException;
-use Kraken\Exception\Runtime\TimeoutException;
-use Kraken\Exception\System\TaskUnfinishedException;
+use Kraken\Throwable\LazyException;
+use Kraken\Throwable\Runtime\TimeoutException;
+use Kraken\Throwable\System\TaskUnfinishedException;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Channel\Channel;

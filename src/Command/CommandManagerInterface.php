@@ -3,7 +3,7 @@
 namespace Kraken\Command;
 
 use Kraken\Promise\PromiseInterface;
-use Kraken\Exception\Runtime\ExecutionException;
+use Kraken\Throwable\Runtime\ExecutionException;
 
 interface CommandManagerInterface
 {

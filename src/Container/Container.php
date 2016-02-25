@@ -3,8 +3,8 @@
 namespace Kraken\Container;
 
 use Kraken\Container\Method\FactoryMethod;
-use Kraken\Exception\Io\ReadException;
-use Kraken\Exception\Io\WriteException;
+use Kraken\Throwable\Io\ReadException;
+use Kraken\Throwable\Io\WriteException;
 use League\Container\Container as LeagueContainer;
 use League\Container\ContainerInterface as LeagueContainerInterface;
 use Error;

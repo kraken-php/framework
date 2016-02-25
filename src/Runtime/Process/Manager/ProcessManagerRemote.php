@@ -2,7 +2,7 @@
 
 namespace Kraken\Runtime\Process\Manager;
 
-use Kraken\Exception\Runtime\RejectionException;
+use Kraken\Throwable\Runtime\RejectionException;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Channel\ChannelBaseInterface;

@@ -8,7 +8,7 @@ use Kraken\Command\Command;
 use Kraken\Command\CommandInterface;
 use Kraken\Config\Config;
 use Kraken\Config\ConfigInterface;
-use Kraken\Exception\Runtime\RejectionException;
+use Kraken\Throwable\Runtime\RejectionException;
 use Kraken\Runtime\RuntimeCommand;
 
 class ProjectStatusCommand extends Command implements CommandInterface

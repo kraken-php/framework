@@ -4,8 +4,8 @@ namespace Kraken\Error;
 
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
-use Kraken\Exception\Runtime\MissingFieldException;
-use Kraken\Exception\Runtime\RejectionException;
+use Kraken\Throwable\Runtime\MissingFieldException;
+use Kraken\Throwable\Runtime\RejectionException;
 use Kraken\Runtime\RuntimeInterface;
 use Error;
 use Exception;

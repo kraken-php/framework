@@ -3,9 +3,9 @@
 namespace Kraken\Throwable;
 
 use Kraken\Core\CoreInputContextInterface;
-use Kraken\Exception\Interpreter\FatalException;
-use Kraken\Exception\Interpreter\NoticeException;
-use Kraken\Exception\Interpreter\WarningException;
+use Kraken\Throwable\Interpreter\FatalException;
+use Kraken\Throwable\Interpreter\NoticeException;
+use Kraken\Throwable\Interpreter\WarningException;
 use Kraken\Pattern\Enum\EnumTrait;
 use Kraken\Pattern\Enum\EnumInterface;
 use Kraken\Runtime\Runtime;
@@ -84,7 +84,7 @@ abstract class ErrorEnvHandler implements EnumInterface
         }
         catch (Exception $ex)
         {
-            echo \Kraken\Exception\Exception::toString($ex) . PHP_EOL;
+            echo \Kraken\Throwable\Exception::toString($ex) . PHP_EOL;
         }
 
         // TODO Kraken-102

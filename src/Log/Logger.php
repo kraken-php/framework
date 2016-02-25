@@ -2,8 +2,8 @@
 
 namespace Kraken\Log;
 
-use Kraken\Exception\Runtime\InstantiationException;
-use Kraken\Exception\Io\WriteException;
+use Kraken\Throwable\Runtime\InstantiationException;
+use Kraken\Throwable\Io\WriteException;
 use Kraken\Log\Handler\HandlerInterface;
 use Monolog\Logger as Monolog;
 use Error;

@@ -49,7 +49,7 @@ class EnvironmentProvider extends ServiceProvider implements ServiceProviderInte
 
         $env->registerErrorHandler([ 'Kraken\Throwable\ErrorEnvHandler', 'handleError' ]);
         $env->registerShutdownHandler([ 'Kraken\Throwable\ErrorEnvHandler', 'handleShutdown' ]);
-        $env->registerExceptionHandler([ 'Kraken\Exception\ExceptionEnvHandler', 'handleException' ]);
+        $env->registerExceptionHandler([ 'Kraken\Throwable\ExceptionEnvHandler', 'handleException' ]);
 
         $core->instance(
             'Kraken\Core\EnvironmentInterface',

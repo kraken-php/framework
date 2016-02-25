@@ -2,7 +2,7 @@
 
 namespace Kraken\Test\Unit\Pattern\Buffer;
 
-use Kraken\Exception\Runtime\OutOfBoundsException;
+use Kraken\Throwable\Runtime\OutOfBoundsException;
 use Kraken\Pattern\Buffer\Buffer;
 use Kraken\Pattern\Buffer\BufferInterface;
 use Kraken\Pattern\Buffer\BufferIterator;

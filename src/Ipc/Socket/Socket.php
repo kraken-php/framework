@@ -2,9 +2,9 @@
 
 namespace Kraken\Ipc\Socket;
 
-use Kraken\Exception\Runtime\InstantiationException;
-use Kraken\Exception\Runtime\LogicException;
-use Kraken\Exception\RuntimeException;
+use Kraken\Throwable\Runtime\InstantiationException;
+use Kraken\Throwable\Runtime\LogicException;
+use Kraken\Throwable\RuntimeException;
 use Kraken\Loop\LoopInterface;
 use Kraken\Stream\AsyncStream;
 use Error;

@@ -7,13 +7,13 @@ use Kraken\Channel\Request\RequestHelperTrait;
 use Kraken\Channel\Response\ResponseHelperTrait;
 use Kraken\Event\EventEmitter;
 use Kraken\Event\EventHandler;
-use Kraken\Exception\LazyException;
-use Kraken\Exception\System\TaskUnfinishedException;
+use Kraken\Throwable\LazyException;
+use Kraken\Throwable\System\TaskUnfinishedException;
 use Kraken\Loop\LoopInterface;
-use Kraken\Exception\Exception;
-use Kraken\Exception\Runtime\InstantiationException;
-use Kraken\Exception\Resource\ResourceUndefinedException;
-use Kraken\Exception\Runtime\LogicException;
+use Kraken\Throwable\Exception;
+use Kraken\Throwable\Runtime\InstantiationException;
+use Kraken\Throwable\Resource\ResourceUndefinedException;
+use Kraken\Throwable\Runtime\LogicException;
 use Kraken\Loop\Timer\TimerInterface;
 use Kraken\Support\GeneratorSupport;
 use Kraken\Support\StringSupport;
@@ -750,7 +750,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
         {
             $this->resolveRequest($pid, $message);
         }
-        else if ($exception === 'Kraken\Exception\System\TaskUnfinishedException')
+        else if ($exception === 'Kraken\Throwable\System\TaskUnfinishedException')
         {
             $this->cancelRequest($pid, new LazyException([ $exception, $message ]));
         }

@@ -3,8 +3,8 @@
 namespace Kraken\Stream;
 
 use Kraken\Event\EventEmitterInterface;
-use Kraken\Exception\Io\ReadException;
-use Kraken\Exception\Io\WriteException;
+use Kraken\Throwable\Io\ReadException;
+use Kraken\Throwable\Io\WriteException;
 
 /**
  * @event seek(object, int)

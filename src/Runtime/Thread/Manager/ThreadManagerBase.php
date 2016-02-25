@@ -2,13 +2,13 @@
 
 namespace Kraken\Runtime\Thread\Manager;
 
-use Kraken\Exception\Runtime\InvalidArgumentException;
-use Kraken\Exception\Runtime\RejectionException;
+use Kraken\Throwable\Runtime\InvalidArgumentException;
+use Kraken\Throwable\Runtime\RejectionException;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Channel\ChannelBaseInterface;
 use Kraken\Channel\Extra\Request;
-use Kraken\Exception\Resource\ResourceDefinedException;
+use Kraken\Throwable\Resource\ResourceDefinedException;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\RuntimeInterface;

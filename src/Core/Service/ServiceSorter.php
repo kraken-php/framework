@@ -2,8 +2,8 @@
 
 namespace Kraken\Core\Service;
 
-use Kraken\Exception\Resource\ResourceUndefinedException;
-use Kraken\Exception\Runtime\OverflowException;
+use Kraken\Throwable\Resource\ResourceUndefinedException;
+use Kraken\Throwable\Runtime\OverflowException;
 
 class ServiceSorter
 {

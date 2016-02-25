@@ -2,8 +2,8 @@
 
 namespace Kraken\Stream;
 
-use Kraken\Exception\Io\ReadException;
-use Kraken\Exception\Runtime\InvalidArgumentException;
+use Kraken\Throwable\Io\ReadException;
+use Kraken\Throwable\Runtime\InvalidArgumentException;
 
 class StreamReader extends StreamSeeker implements StreamReaderInterface
 {

@@ -45,7 +45,7 @@ class CmdLog extends ErrorHandlerBase implements ErrorHandlerInterface
     protected function handler($ex, $params = [])
     {
         $this->logger->log(
-            $this->context['level'], \Kraken\Exception\Exception::toString($ex)
+            $this->context['level'], \Kraken\Throwable\Exception::toString($ex)
         );
     }
 }

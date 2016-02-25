@@ -2,7 +2,7 @@
 
 namespace Kraken\Test\Unit\Ipc\Socket;
 
-use Kraken\Exception\Runtime\InstantiationException;
+use Kraken\Throwable\Runtime\InstantiationException;
 use Kraken\Ipc\Socket\SocketListener;
 use Kraken\Loop\LoopInterface;
 use Kraken\Test\Unit\TestCase;

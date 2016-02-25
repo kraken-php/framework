@@ -2,8 +2,8 @@
 
 namespace Kraken\Channel\Request;
 
-use Kraken\Exception\LazyException;
-use Kraken\Exception\Runtime\TimeoutException;
+use Kraken\Throwable\LazyException;
+use Kraken\Throwable\Runtime\TimeoutException;
 use Kraken\Support\TimeSupport;
 use Error;
 use Exception;

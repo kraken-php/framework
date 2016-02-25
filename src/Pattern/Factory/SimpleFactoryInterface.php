@@ -2,8 +2,8 @@
 
 namespace Kraken\Pattern\Factory;
 
-use Kraken\Exception\Runtime\IllegalCallException;
-use Kraken\Exception\Runtime\IllegalFieldException;
+use Kraken\Throwable\Runtime\IllegalCallException;
+use Kraken\Throwable\Runtime\IllegalFieldException;
 
 interface SimpleFactoryInterface
 {

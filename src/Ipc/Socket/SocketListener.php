@@ -3,10 +3,10 @@
 namespace Kraken\Ipc\Socket;
 
 use Kraken\Event\BaseEventEmitter;
-use Kraken\Exception\Io\ReadException;
-use Kraken\Exception\Runtime\InstantiationException;
-use Kraken\Exception\Runtime\LogicException;
-use Kraken\Exception\RuntimeException;
+use Kraken\Throwable\Io\ReadException;
+use Kraken\Throwable\Runtime\InstantiationException;
+use Kraken\Throwable\Runtime\LogicException;
+use Kraken\Throwable\RuntimeException;
 use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
 use Error;

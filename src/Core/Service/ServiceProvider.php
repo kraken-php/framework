@@ -5,7 +5,7 @@ namespace Kraken\Core\Service;
 use Error;
 use Exception;
 use Kraken\Core\CoreInterface;
-use Kraken\Exception\Runtime\ExecutionException;
+use Kraken\Throwable\Runtime\ExecutionException;
 
 class ServiceProvider implements ServiceProviderInterface
 {

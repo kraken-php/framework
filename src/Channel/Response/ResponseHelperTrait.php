@@ -66,7 +66,7 @@ trait ResponseHelperTrait
      */
     protected function resolveOrRejectResponse($pid, $exception)
     {
-        if ($exception !== 'Kraken\Exception\System\TaskUnfinishedException')
+        if ($exception !== 'Kraken\Throwable\System\TaskUnfinishedException')
         {
             unset($this->reps[$pid]);
             $this->handledReps[$pid] = new Response($pid, '', TimeSupport::now() + $this->handledRepsTimeout);

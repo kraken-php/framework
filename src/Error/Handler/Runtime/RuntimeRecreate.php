@@ -5,7 +5,7 @@ namespace Kraken\Error\Handler\Runtime;
 use Kraken\Promise\Promise;
 use Kraken\Error\ErrorHandlerBase;
 use Kraken\Error\ErrorHandlerInterface;
-use Kraken\Exception\Runtime\RejectionException;
+use Kraken\Throwable\Runtime\RejectionException;
 use Kraken\Runtime\Runtime;
 use Error;
 use Exception;

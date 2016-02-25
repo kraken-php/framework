@@ -2,7 +2,7 @@
 
 namespace Kraken\Filesystem;
 
-use Kraken\Exception\Io\ReadException;
+use Kraken\Throwable\Io\ReadException;
 
 interface FilesystemManagerInterface extends FilesystemInterface
 {

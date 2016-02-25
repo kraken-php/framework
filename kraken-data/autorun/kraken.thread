@@ -41,5 +41,5 @@ catch (\Error $ex)
 }
 catch (\Exception $ex)
 {
-    echo \Kraken\Exception\Exception::toString($ex) . PHP_EOL;
+    echo \Kraken\Throwable\Exception::toString($ex) . PHP_EOL;
 }

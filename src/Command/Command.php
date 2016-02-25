@@ -4,7 +4,7 @@ namespace Kraken\Command;
 
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
-use Kraken\Exception\Runtime\RejectionException;
+use Kraken\Throwable\Runtime\RejectionException;
 use Kraken\Runtime\RuntimeInterface;
 
 class Command implements CommandInterface

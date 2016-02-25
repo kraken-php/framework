@@ -3,8 +3,8 @@
 namespace Kraken\Io\Http\Driver\Reader;
 
 use Error;
-use Kraken\Exception\Io\ReadException;
-use Kraken\Exception\Runtime\InvalidFormatException;
+use Kraken\Throwable\Io\ReadException;
+use Kraken\Throwable\Runtime\InvalidFormatException;
 use Kraken\Io\Http\Driver\Parser\HttpParser;
 use Kraken\Io\Http\Driver\Parser\HttpParserInterface;
 use Kraken\Io\Http\HttpRequest;

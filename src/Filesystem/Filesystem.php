@@ -2,9 +2,9 @@
 
 namespace Kraken\Filesystem;
 
-use Kraken\Exception\Io\ReadException;
-use Kraken\Exception\Io\WriteException;
-use Kraken\Exception\Runtime\InstantiationException;
+use Kraken\Throwable\Io\ReadException;
+use Kraken\Throwable\Io\WriteException;
+use Kraken\Throwable\Runtime\InstantiationException;
 use League\Flysystem\AdapterInterface as LeagueAdapterInterface;
 use League\Flysystem\Filesystem as LeagueFilesystem;
 use League\Flysystem\FilesystemInterface as LeagueFilesystemInterface;

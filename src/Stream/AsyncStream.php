@@ -2,8 +2,8 @@
 
 namespace Kraken\Stream;
 
-use Kraken\Exception\Io\WriteException;
-use Kraken\Exception\Runtime\InvalidArgumentException;
+use Kraken\Throwable\Io\WriteException;
+use Kraken\Throwable\Runtime\InvalidArgumentException;
 use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
 use Kraken\Pattern\Buffer\Buffer;

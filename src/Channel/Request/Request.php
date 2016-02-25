@@ -2,7 +2,7 @@
 
 namespace Kraken\Channel\Request;
 
-use Kraken\Exception\LazyException;
+use Kraken\Throwable\LazyException;
 use Error;
 use Exception;
 

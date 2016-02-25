@@ -2,7 +2,7 @@
 
 namespace Kraken\Pattern\Factory;
 
-use Kraken\Exception\Runtime\ExecutionException;
+use Kraken\Throwable\Runtime\ExecutionException;
 
 interface FactoryPluginInterface
 {
