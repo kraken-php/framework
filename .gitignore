@@ -1,7 +1,8 @@
 kraken-data/log/*
 kraken-data/tmp/*
+kraken-doc/
+kraken-playground/
 .idea
-doc/
 vendor/
 composer.lock
 composer.phar
