@@ -1,128 +1,128 @@
 <?php
 namespace Kraken\Io\Socket;
 
-//use Ratchet\MessageComponentInterface;
-//use React\EventLoop\LoopInterface;
-//use React\Socket\ServerInterface;
-//use React\EventLoop\Factory as LoopFactory;
-//use React\Socket\Server as Reactor;
-use Kraken\Io\ServerComponentInterface;
+use Kraken\Io\IoMessage;
+use Kraken\Io\IoServerComponentInterface;
 use Kraken\Ipc\Socket\SocketInterface;
-use Kraken\Ipc\Socket\SocketServerInterface;
-use Kraken\Loop\LoopInterface;
+use Kraken\Ipc\Socket\SocketListenerInterface;
+use Exception;
 
-/**
- * Creates an open-ended socket to listen on a port for incoming connections.
- * Events are delegated through this to attached applications
- */
-class SocketServer
+class SocketServer implements SocketServerInterface
 {
     /**
-     * @var ServerComponentInterface
+     * @var IoServerComponentInterface
      */
     protected $component;
 
     /**
-     * @var SocketServerInterface
+     * @var SocketListenerInterface
      */
     protected $socket;
 
     /**
-     * @var LoopInterface
+     * @param IoServerComponentInterface $component
+     * @param SocketListenerInterface $socket
      */
-    protected $loop;
-
-    /**
-     * Array of React event handlers
-     * @var \SplFixedArray
-     */
-    protected $handlers;
-
-    /**
-     * @param ServerComponentInterface $component
-     * @param SocketServerInterface $socket
-     * @param LoopInterface $loop
-     */
-    public function __construct(ServerComponentInterface $component, SocketServerInterface $socket, LoopInterface $loop)
+    public function __construct(IoServerComponentInterface $component, SocketListenerInterface $socket)
     {
         $this->component = $component;
         $this->socket = $socket;
-        $this->loop = $loop;
 
         $socket->on('connect', [ $this, 'handleConnect' ]);
-
-//        $this->handlers = new \SplFixedArray(3);
-//        $this->handlers[0] = array($this, 'handleData');
-//        $this->handlers[1] = array($this, 'handleEnd');
-//        $this->handlers[2] = array($this, 'handleError');
     }
 
-//    /**
-//     * @param  \Ratchet\MessageComponentInterface $component The application that I/O will call when events are received
-//     * @param  int                                $port      The port to server sockets on
-//     * @param  string                             $address   The address to receive sockets on (0.0.0.0 means receive connections from any)
-//     * @return IoServer
-//     */
-//    public static function factory(MessageComponentInterface $component, $port = 80, $address = '0.0.0.0') {
-//        $loop   = LoopFactory::create();
-//        $socket = new Reactor($loop);
-//        $socket->listen($port, $address);
-//
-//        return new static($component, $socket, $loop);
-//    }
-
     /**
-     * Triggered when a new connection is received from SocketServer.
      *
-     * @param SocketInterface $conn
      */
-    public function handleConnect($conn)
+    public function __destruct()
     {
-        $conn->decor = new IoConnection($conn);
-
-        $conn->decor->resourceId    = (int)$conn->stream;
-        $conn->decor->remoteAddress = $conn->getRemoteAddress();
-
-        $this->app->onOpen($conn->decor);
-
-        $conn->on('data', $this->handlers[0]);
-        $conn->on('end', $this->handlers[1]);
-        $conn->on('error', $this->handlers[2]);
+        unset($this->socket);
     }
 
     /**
-     * Data has been received from React
-     * @param string                            $data
-     * @param \React\Socket\ConnectionInterface $conn
+     * Handler triggered when a new connection is received from SocketListener.
+     *
+     * @param SocketListenerInterface $server
+     * @param SocketInterface $socket
      */
-    public function handleData($data, $conn) {
-        try {
-            $this->app->onMessage($conn->decor, $data);
-        } catch (\Exception $e) {
-            $this->handleError($e, $conn);
+    public function handleConnect($server, $socket)
+    {
+        $socket->conn = new SocketConnection($socket);
+
+        try
+        {
+            $this->component->handleConnect($socket->conn);
+
+            $socket->on('data', [$this, 'handleData']);
+            $socket->on('error', [$this, 'handleError']);
+            $socket->on('close', [$this, 'handleDisconnect']);
+        }
+        catch (Exception $ex)
+        {
+            $this->close($socket);
         }
     }
 
     /**
-     * A connection has been closed by React
-     * @param \React\Socket\ConnectionInterface $conn
+     * Handler triggered when a new data is received from existing connection.
+     *
+     * @param SocketInterface $socket
+     * @param mixed $data
      */
-    public function handleEnd($conn) {
-        try {
-            $this->app->onClose($conn->decor);
-        } catch (\Exception $e) {
-            $this->handleError($e, $conn);
+    public function handleData($socket, $data)
+    {
+        try
+        {
+            $this->component->handleMEssage($socket->conn, new IoMessage($data));
         }
-
-        unset($conn->decor);
+        catch (Exception $ex)
+        {
+            $this->handleError($socket, $ex);
+        }
     }
 
     /**
-     * An error has occurred, let the listening application know
-     * @param \Exception                        $e
-     * @param \React\Socket\ConnectionInterface $conn
+     * Handler triggered when an existing connection is being closed.
+     *
+     * @param SocketInterface $socket
      */
-    public function handleError(\Exception $e, $conn) {
-        $this->app->onError($conn->decor, $e);
+    public function handleDisconnect($socket)
+    {
+        try
+        {
+            $this->component->handleDisconnect($socket->conn);
+        }
+        catch (Exception $ex)
+        {
+            $this->handleError($socket, $ex);
+        }
+
+        unset($socket->conn);
+    }
+
+    /**
+     * Handler triggered when an error has occured during doing operation on existing connection.
+     *
+     * @param SocketInterface $socket
+     * @param Exception $ex
+     */
+    public function handleError($socket, $ex)
+    {
+        try
+        {
+            $this->component->handleError($socket->conn, $ex);
+        }
+        catch (Exception $ex)
+        {
+            $this->close($socket);
+        }
+    }
+
+    /**
+     * @param SocketInterface $socket
+     */
+    protected function close(SocketInterface $socket)
+    {
+        $socket->close();
     }
 }

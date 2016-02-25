@@ -2,10 +2,10 @@
 
 namespace Kraken\Io\Socket;
 
-use Kraken\Io\ServerConnectionInterface;
+use Kraken\Io\IoConnectionInterface;
 use Kraken\Ipc\Socket\SocketInterface;
 
-class SocketConnection implements ServerConnectionInterface
+class SocketConnection implements IoConnectionInterface
 {
     /**
      * @var SocketInterface
@@ -30,16 +30,67 @@ class SocketConnection implements ServerConnectionInterface
 
     /**
      * @override
+     * @inheritDoc
      */
-    function send($data)
+    public function getResourceId()
+    {
+        return $this->conn->getResourceId();
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getEndpoint()
+    {
+        return $this->conn->getRemoteEndpoint();
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getAddress()
+    {
+        return $this->conn->getRemoteAddress();
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getHost()
+    {
+        $address = explode(':', $this->getAddress());
+
+        return $address[0];
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getPort()
+    {
+        $address = explode(':', $this->getAddress());
+
+        return $address[1];
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function send($data)
     {
         $this->conn->write($data);
     }
 
     /**
      * @override
+     * @inheritDoc
      */
-    function close()
+    public function close()
     {
         $this->conn->close();
     }
