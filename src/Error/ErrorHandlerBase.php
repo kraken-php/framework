@@ -4,7 +4,7 @@ namespace Kraken\Error;
 
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
-use Kraken\Throwable\Runtime\MissingFieldException;
+use Kraken\Throwable\Runtime\IllegalCallException;
 use Kraken\Throwable\Runtime\RejectionException;
 use Kraken\Runtime\RuntimeInterface;
 use Error;
@@ -74,7 +74,7 @@ class ErrorHandlerBase implements ErrorHandlerInterface
             if (!isset($params[$require]))
             {
                 return Promise::doReject(
-                    new MissingFieldException('Missing parameter [' . $require . '] for [' . get_class($this) . '].')
+                    new IllegalCallException('Missing parameter [' . $require . '] for [' . get_class($this) . '].')
                 );
             }
         }
