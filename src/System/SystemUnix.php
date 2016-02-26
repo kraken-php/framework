@@ -1,10 +1,8 @@
 <?php
 
-namespace Kraken\System\Unix;
+namespace Kraken\System;
 
-use Kraken\System\SystemInterface;
-
-class UnixSystem implements SystemInterface
+class SystemUnix implements SystemInterface
 {
     /**
      * Run command asynchronously, and get pid of its process.

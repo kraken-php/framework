@@ -17,7 +17,7 @@ use Kraken\Runtime\RuntimeManager;
 use Kraken\Runtime\RuntimeManagerFactoryInterface;
 use Kraken\Runtime\RuntimeManagerInterface;
 use Kraken\Runtime\Thread\ThreadManagerFactory;
-use Kraken\System\Unix\UnixSystem;
+use Kraken\System\SystemUnix;
 
 class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderInterface
 {
@@ -45,7 +45,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
      */
     protected function register(CoreInterface $core)
     {
-        $system  = new UnixSystem();
+        $system  = new SystemUnix();
         $config  = $core->make('Kraken\Config\ConfigInterface');
         $env     = $core->make('Kraken\Core\EnvironmentInterface');
         $fs      = $core->make('Kraken\Filesystem\FilesystemInterface');
