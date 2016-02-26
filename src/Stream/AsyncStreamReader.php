@@ -2,7 +2,7 @@
 
 namespace Kraken\Stream;
 
-use Kraken\Throwable\Runtime\InvalidArgumentException;
+use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
 use Error;

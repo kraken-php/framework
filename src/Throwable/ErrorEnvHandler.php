@@ -3,12 +3,12 @@
 namespace Kraken\Throwable;
 
 use Kraken\Core\CoreInputContextInterface;
-use Kraken\Throwable\Interpreter\FatalException;
-use Kraken\Throwable\Interpreter\NoticeException;
-use Kraken\Throwable\Interpreter\WarningException;
+use Kraken\Runtime\Runtime;
+use Kraken\Throwable\Error\FatalError;
+use Kraken\Throwable\Error\NoticeError;
+use Kraken\Throwable\Error\WarningError;
 use Kraken\Util\Enum\EnumTrait;
 use Kraken\Util\Enum\EnumInterface;
-use Kraken\Runtime\Runtime;
 use Error;
 use Exception;
 
@@ -41,9 +41,9 @@ abstract class ErrorEnvHandler implements EnumInterface
      * @param string $message
      * @param string $file
      * @param int $line
-     * @throws FatalException
-     * @throws NoticeException
-     * @throws WarningException
+     * @throws FatalError
+     * @throws NoticeError
+     * @throws WarningError
      */
     public static function handleError($code, $message, $file, $line)
     {
@@ -55,15 +55,15 @@ abstract class ErrorEnvHandler implements EnumInterface
 
         if ($type === self::E_NOTICE)
         {
-            throw new NoticeException($message);
+            throw new NoticeError($message);
         }
         else if ($type === self::E_WARNING)
         {
-            throw new WarningException($message);
+            throw new WarningError($message);
         }
         else if ($type === self::E_ERROR)
         {
-            throw new FatalException($message);
+            throw new FatalError($message);
         }
     }
 

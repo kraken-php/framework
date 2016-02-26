@@ -3,16 +3,16 @@
 namespace Kraken\Runtime\Process\Manager;
 
 use Kraken\Core\EnvironmentInterface;
-use Kraken\Throwable\Io\ReadException;
-use Kraken\Throwable\Runtime\InstantiationException;
-use Kraken\Throwable\Runtime\InvalidArgumentException;
-use Kraken\Throwable\Runtime\RejectionException;
+use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
+use Kraken\Throwable\Exception\Logic\InstantiationException;
+use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
+use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 use Kraken\Filesystem\FilesystemInterface;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Channel\ChannelBaseInterface;
 use Kraken\Channel\Extra\Request;
-use Kraken\Throwable\Resource\ResourceDefinedException;
+use Kraken\Throwable\Exception\Logic\Resource\ResourceDefinedException;
 use Kraken\Runtime\Process\ProcessManagerInterface;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\Runtime;
@@ -549,7 +549,7 @@ class ProcessManagerBase implements ProcessManagerInterface
 
     /**
      * @param string[] $with
-     * @throws ReadException
+     * @throws IoReadException
      */
     private function updateStorage($with = [])
     {
@@ -566,7 +566,7 @@ class ProcessManagerBase implements ProcessManagerInterface
 
     /**
      * @return string[][]
-     * @throws ReadException
+     * @throws IoReadException
      */
     private function selectFromStorage()
     {

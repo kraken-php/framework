@@ -2,8 +2,8 @@
 
 namespace Kraken\Filesystem;
 
-use Kraken\Throwable\Io\ReadException;
-use Kraken\Throwable\Io\WriteException;
+use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
+use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
 
 interface FilesystemInterface
 {
@@ -12,7 +12,7 @@ interface FilesystemInterface
      *
      * @param string $path
      * @return bool
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function exists($path);
 
@@ -21,7 +21,7 @@ interface FilesystemInterface
      *
      * @param string $source
      * @param string $destination
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function move($source, $destination);
 
@@ -30,7 +30,7 @@ interface FilesystemInterface
      *
      * @param string $path
      * @return bool
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function isFile($path);
 
@@ -39,7 +39,7 @@ interface FilesystemInterface
      *
      * @param string $path
      * @return bool
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function isDir($path);
 
@@ -50,7 +50,7 @@ interface FilesystemInterface
      * @param bool $recursive
      * @param string $filterPattern
      * @return array
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function contents($directory = '', $recursive = false, $filterPattern = '');
 
@@ -61,7 +61,7 @@ interface FilesystemInterface
      * @param bool $recursive
      * @param string $filterPattern
      * @return array
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function files($directory = '', $recursive = false, $filterPattern = '');
 
@@ -72,7 +72,7 @@ interface FilesystemInterface
      * @param bool $recursive
      * @param string $filterPattern
      * @return array
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function directories($directory = '', $recursive = false, $filterPattern = '');
 
@@ -81,7 +81,7 @@ interface FilesystemInterface
      *
      * @param string $path
      * @return string
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function visibility($path);
 
@@ -90,7 +90,7 @@ interface FilesystemInterface
      *
      * @param string $path
      * @return bool
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function isPublic($path = '');
 
@@ -99,7 +99,7 @@ interface FilesystemInterface
      *
      * @param string $path
      * @return bool
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function isPrivate($path = '');
 
@@ -107,7 +107,7 @@ interface FilesystemInterface
      * Sets visibility of file or directory to public.
      *
      * @param string $path
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function setPublic($path = '');
 
@@ -115,7 +115,7 @@ interface FilesystemInterface
      * Sets visibility of file or directory to private.
      *
      * @param string $path
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function setPrivate($path = '');
 
@@ -125,7 +125,7 @@ interface FilesystemInterface
      * @param string $path
      * @param string $contents
      * @param string $visibility
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function create($path, $contents = '', $visibility = Filesystem::VISIBILITY_DEFAULT);
 
@@ -135,7 +135,7 @@ interface FilesystemInterface
      * @param string $path
      * @param string $contents
      * @param string $visibility
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function write($path, $contents = '', $visibility = Filesystem::VISIBILITY_DEFAULT);
 
@@ -144,7 +144,7 @@ interface FilesystemInterface
      *
      * @param string $path
      * @param string $contents
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function append($path, $contents);
 
@@ -153,7 +153,7 @@ interface FilesystemInterface
      *
      * @param string $path
      * @param string $contents
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function prepend($path, $contents);
 
@@ -162,7 +162,7 @@ interface FilesystemInterface
      *
      * @param string $path
      * @return string
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function read($path);
 
@@ -171,7 +171,7 @@ interface FilesystemInterface
      *
      * @param string $path
      * @return mixed
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function req($path);
 
@@ -180,7 +180,7 @@ interface FilesystemInterface
      *
      * @param string $source
      * @param string $destination
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function copy($source, $destination);
 
@@ -188,7 +188,7 @@ interface FilesystemInterface
      * Remove a file.
      *
      * @param string $path
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function remove($path);
 
@@ -196,7 +196,7 @@ interface FilesystemInterface
      * Erase a file.
      *
      * @param string $path
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function erase($path);
 
@@ -205,7 +205,7 @@ interface FilesystemInterface
      *
      * @param $path
      * @return int
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function size($path);
 
@@ -214,7 +214,7 @@ interface FilesystemInterface
      *
      * @param string $path
      * @return string
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function type($path);
 
@@ -223,7 +223,7 @@ interface FilesystemInterface
      *
      * @param string $path
      * @return string
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function mimetype($path);
 
@@ -232,7 +232,7 @@ interface FilesystemInterface
      *
      * @param string $path
      * @return string
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function timestamp($path);
 
@@ -241,7 +241,7 @@ interface FilesystemInterface
      *
      * @param string $path
      * @return string
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function extension($path);
 
@@ -250,7 +250,7 @@ interface FilesystemInterface
      *
      * @param string $dirname
      * @param string $visibility
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function createDir($dirname, $visibility = Filesystem::VISIBILITY_DEFAULT);
 
@@ -259,7 +259,7 @@ interface FilesystemInterface
      *
      * @param string $source
      * @param string $destination
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function copyDir($source, $destination);
 
@@ -267,7 +267,7 @@ interface FilesystemInterface
      * Remove a directory.
      *
      * @param string $dirname
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function removeDir($dirname);
 
@@ -275,7 +275,7 @@ interface FilesystemInterface
      * Erase a directory.
      *
      * @param string $dirname
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function eraseDir($dirname = '');
 }

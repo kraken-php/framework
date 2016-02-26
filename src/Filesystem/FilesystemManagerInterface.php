@@ -2,7 +2,7 @@
 
 namespace Kraken\Filesystem;
 
-use Kraken\Throwable\Io\ReadException;
+use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
 
 interface FilesystemManagerInterface extends FilesystemInterface
 {
@@ -49,7 +49,7 @@ interface FilesystemManagerInterface extends FilesystemInterface
      *
      * @param string $path
      * @return string[]
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function filterPrefix($path);
 }

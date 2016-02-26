@@ -3,12 +3,10 @@
 namespace Kraken\Io\Http\Driver\Reader;
 
 use Error;
-use Kraken\Throwable\Io\ReadException;
-use Kraken\Throwable\Runtime\InvalidFormatException;
+use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
+use Kraken\Throwable\Exception\Logic\InvalidFormatException;
 use Kraken\Io\Http\Driver\Parser\HttpParser;
 use Kraken\Io\Http\Driver\Parser\HttpParserInterface;
-use Kraken\Io\Http\HttpRequest;
-use Kraken\Io\Http\HttpResponse;
 use Kraken\Util\Buffer\BufferInterface;
 use GuzzleHttp\Psr7;
 use Exception;
@@ -82,7 +80,7 @@ class HttpReader implements HttpReaderInterface
         {
             if ($buffer->length() > $this->maxStartLineLength)
             {
-                throw new ReadException(
+                throw new IoReadException(
                     sprintf('Message start line exceeded maximum size of %d bytes.', $this->maxStartLineLength)
                 );
             }
@@ -117,7 +115,7 @@ class HttpReader implements HttpReaderInterface
         {
             if ($buffer->length() > $this->maxStartLineLength)
             {
-                throw new ReadException(
+                throw new IoReadException(
                     sprintf('Message start line exceeded maximum size of %d bytes.', $this->maxStartLineLength)
                 );
             }
@@ -193,7 +191,7 @@ class HttpReader implements HttpReaderInterface
 //
 //        if (false === $position)
 //        {
-//            throw new ReadException(
+//            throw new IoReadException(
 //                sprintf('Message start line exceeded maximum size of %d bytes.', $this->maxStartLineLength)
 //            );
 //        }
@@ -258,7 +256,7 @@ class HttpReader implements HttpReaderInterface
 //            {
 //                if ($buffer->getLength() >= $this->maxSize)
 //                {
-//                    throw new ReadException(
+//                    throw new IoReadException(
 //                        sprintf('Message header exceeded maximum size of %d bytes.', $this->maxSize)
 //                    );
 //                }
@@ -298,7 +296,7 @@ class HttpReader implements HttpReaderInterface
 //        }
 //        while ($size < $this->maxSize);
 //
-//        throw new ReadException(
+//        throw new IoReadException(
 //            sprintf('Message header exceeded maximum size of %d bytes.', $this->maxSize)
 //        );
 //    }
@@ -320,7 +318,7 @@ class HttpReader implements HttpReaderInterface
 //    /**
 //     * @param string[][] $headers
 //     * @return string
-//     * @throws ReadException
+//     * @throws IoReadException
 //     */
 //    protected function findHost($headers)
 //    {
@@ -332,6 +330,6 @@ class HttpReader implements HttpReaderInterface
 //            }
 //        }
 //
-//        throw new ReadException('No host header in message.');
+//        throw new IoReadException('No host header in message.');
 //    }
 }

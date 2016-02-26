@@ -4,7 +4,7 @@ namespace Kraken\Error;
 
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
-use Kraken\Throwable\Runtime\RejectionException;
+use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 use Error;
 use Exception;
 

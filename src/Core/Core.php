@@ -6,10 +6,10 @@ use Kraken\Container\Container;
 use Kraken\Core\Service\ServiceRegisterInterface;
 use Kraken\Core\Service\ServiceRegister;
 use Kraken\Core\Service\ServiceProviderInterface;
-use Kraken\Throwable\Runtime\ExecutionException;
-use Kraken\Throwable\Runtime\IllegalCallException;
-use Kraken\Throwable\Runtime\InstantiationException;
-use Kraken\Throwable\Io\WriteException;
+use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Kraken\Throwable\Exception\Logic\IllegalCallException;
+use Kraken\Throwable\Exception\Logic\InstantiationException;
+use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
 use Kraken\Runtime\Runtime;
 use Error;
 use Exception;
@@ -319,7 +319,7 @@ class Core extends Container implements CoreInterface
     }
 
     /**
-     * @throws WriteException
+     * @throws IoWriteException
      */
     protected function registerDefaultAliases()
     {

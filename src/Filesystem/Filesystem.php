@@ -2,9 +2,9 @@
 
 namespace Kraken\Filesystem;
 
-use Kraken\Throwable\Io\ReadException;
-use Kraken\Throwable\Io\WriteException;
-use Kraken\Throwable\Runtime\InstantiationException;
+use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
+use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
+use Kraken\Throwable\Exception\Logic\InstantiationException;
 use League\Flysystem\AdapterInterface as LeagueAdapterInterface;
 use League\Flysystem\Filesystem as LeagueFilesystem;
 use League\Flysystem\FilesystemInterface as LeagueFilesystemInterface;
@@ -76,7 +76,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param string $path
      * @return bool
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function exists($path)
     {
@@ -86,11 +86,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new ReadException("File $path does not exist.", $ex);
+            throw new IoReadException("File $path does not exist.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new ReadException("File $path does not exist.", $ex);
+            throw new IoReadException("File $path does not exist.", $ex);
         }
     }
 
@@ -99,7 +99,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param string $source
      * @param string $destination
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function move($source, $destination)
     {
@@ -109,11 +109,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new WriteException("File $source could not be moved to $destination.", $ex);
+            throw new IoWriteException("File $source could not be moved to $destination.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new WriteException("File $source could not be moved to $destination.", $ex);
+            throw new IoWriteException("File $source could not be moved to $destination.", $ex);
         }
     }
 
@@ -122,7 +122,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param string $path
      * @return bool
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function isFile($path)
     {
@@ -132,11 +132,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new ReadException("Path $path could not be determined to be file or not.", $ex);
+            throw new IoReadException("Path $path could not be determined to be file or not.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new ReadException("Path $path could not be determined to be file or not.", $ex);
+            throw new IoReadException("Path $path could not be determined to be file or not.", $ex);
         }
     }
 
@@ -145,7 +145,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param string $path
      * @return bool
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function isDir($path)
     {
@@ -155,11 +155,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new ReadException("Path $path could not be determined to be directory or not.", $ex);
+            throw new IoReadException("Path $path could not be determined to be directory or not.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new ReadException("Path $path could not be determined to be directory or not.", $ex);
+            throw new IoReadException("Path $path could not be determined to be directory or not.", $ex);
         }
     }
 
@@ -170,7 +170,7 @@ class Filesystem implements FilesystemInterface
      * @param bool $recursive
      * @param string $filterPattern
      * @return array
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function contents($directory = '', $recursive = false, $filterPattern = '')
     {
@@ -187,11 +187,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new ReadException("Directory $directory items could not be listed.", $ex);
+            throw new IoReadException("Directory $directory items could not be listed.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new ReadException("Directory $directory items could not be listed.", $ex);
+            throw new IoReadException("Directory $directory items could not be listed.", $ex);
         }
     }
 
@@ -202,7 +202,7 @@ class Filesystem implements FilesystemInterface
      * @param bool $recursive
      * @param string $filterPattern
      * @return array
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function files($directory = '', $recursive = false, $filterPattern = '')
     {
@@ -219,11 +219,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new ReadException("Directory $directory files could not be listed.", $ex);
+            throw new IoReadException("Directory $directory files could not be listed.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new ReadException("Directory $directory files could not be listed.", $ex);
+            throw new IoReadException("Directory $directory files could not be listed.", $ex);
         }
     }
 
@@ -234,7 +234,7 @@ class Filesystem implements FilesystemInterface
      * @param bool $recursive
      * @param string $filterPattern
      * @return array
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function directories($directory = '', $recursive = false, $filterPattern = '')
     {
@@ -251,11 +251,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new ReadException("Directory $directory subdirectories could not be listed.", $ex);
+            throw new IoReadException("Directory $directory subdirectories could not be listed.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new ReadException("Directory $directory subdirectories could not be listed.", $ex);
+            throw new IoReadException("Directory $directory subdirectories could not be listed.", $ex);
         }
     }
 
@@ -264,7 +264,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param string $path
      * @return string
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function visibility($path)
     {
@@ -274,11 +274,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new ReadException("File $path visibility could not be determined.", $ex);
+            throw new IoReadException("File $path visibility could not be determined.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new ReadException("File $path visibility could not be determined.", $ex);
+            throw new IoReadException("File $path visibility could not be determined.", $ex);
         }
     }
 
@@ -287,7 +287,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param string $path
      * @return bool
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function isPublic($path = '')
     {
@@ -299,7 +299,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param string $path
      * @return bool
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function isPrivate($path = '')
     {
@@ -310,13 +310,13 @@ class Filesystem implements FilesystemInterface
      * Sets visibility of file or directory to public.
      *
      * @param string $path
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function setPublic($path = '')
     {
         if (!$this->fs->setVisibility($path, static::VISIBILITY_PUBLIC))
         {
-            throw new WriteException("File $path visibility could not be set to public.");
+            throw new IoWriteException("File $path visibility could not be set to public.");
         }
     }
 
@@ -324,13 +324,13 @@ class Filesystem implements FilesystemInterface
      * Sets visibility of file or directory to private.
      *
      * @param string $path
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function setPrivate($path = '')
     {
         if (!$this->fs->setVisibility($path, static::VISIBILITY_PRIVATE))
         {
-            throw new WriteException("File $path visibility could not be set to private.");
+            throw new IoWriteException("File $path visibility could not be set to private.");
         }
     }
 
@@ -340,7 +340,7 @@ class Filesystem implements FilesystemInterface
      * @param string $path
      * @param string $contents
      * @param string $visibility
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function create($path, $contents = '', $visibility = self::VISIBILITY_DEFAULT)
     {
@@ -350,11 +350,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new WriteException("File $path could not be created.", $ex);
+            throw new IoWriteException("File $path could not be created.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new WriteException("File $path could not be created.", $ex);
+            throw new IoWriteException("File $path could not be created.", $ex);
         }
     }
 
@@ -364,7 +364,7 @@ class Filesystem implements FilesystemInterface
      * @param string $path
      * @param string $contents
      * @param string $visibility
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function write($path, $contents = '', $visibility = self::VISIBILITY_DEFAULT)
     {
@@ -374,11 +374,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new WriteException("File $path could not be overwritten.", $ex);
+            throw new IoWriteException("File $path could not be overwritten.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new WriteException("File $path could not be overwritten.", $ex);
+            throw new IoWriteException("File $path could not be overwritten.", $ex);
         }
     }
 
@@ -387,7 +387,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param string $path
      * @param string $contents
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function append($path, $contents)
     {
@@ -397,11 +397,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new WriteException("File $path could not be appeneded.", $ex);
+            throw new IoWriteException("File $path could not be appeneded.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new WriteException("File $path could not be appeneded.", $ex);
+            throw new IoWriteException("File $path could not be appeneded.", $ex);
         }
     }
 
@@ -410,7 +410,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param string $path
      * @param string $contents
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function prepend($path, $contents)
     {
@@ -420,11 +420,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new WriteException("File $path could not be prepended.", $ex);
+            throw new IoWriteException("File $path could not be prepended.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new WriteException("File $path could not be prepended.", $ex);
+            throw new IoWriteException("File $path could not be prepended.", $ex);
         }
     }
 
@@ -433,13 +433,13 @@ class Filesystem implements FilesystemInterface
      *
      * @param string $path
      * @return string
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function read($path)
     {
         if (($ret = $this->fs->read($path)) === false)
         {
-            throw new ReadException("File $path could not be read.");
+            throw new IoReadException("File $path could not be read.");
         }
 
         return $ret;
@@ -450,7 +450,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param string $path
      * @return mixed
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function req($path)
     {
@@ -462,7 +462,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param string $source
      * @param string $destination
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function copy($source, $destination)
     {
@@ -472,11 +472,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new WriteException("File $source could not have benn copied to $destination.", $ex);
+            throw new IoWriteException("File $source could not have benn copied to $destination.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new WriteException("File $source could not have benn copied to $destination.", $ex);
+            throw new IoWriteException("File $source could not have benn copied to $destination.", $ex);
         }
     }
 
@@ -484,7 +484,7 @@ class Filesystem implements FilesystemInterface
      * Remove a file.
      *
      * @param string $path
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function remove($path)
     {
@@ -494,11 +494,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new WriteException("File $path could not be removed.", $ex);
+            throw new IoWriteException("File $path could not be removed.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new WriteException("File $path could not be removed.", $ex);
+            throw new IoWriteException("File $path could not be removed.", $ex);
         }
     }
 
@@ -506,7 +506,7 @@ class Filesystem implements FilesystemInterface
      * Erase a file.
      *
      * @param string $path
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function erase($path)
     {
@@ -516,11 +516,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new WriteException("File $path could not be erased.", $ex);
+            throw new IoWriteException("File $path could not be erased.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new WriteException("File $path could not be erased.", $ex);
+            throw new IoWriteException("File $path could not be erased.", $ex);
         }
     }
 
@@ -529,7 +529,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param $path
      * @return int
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function size($path)
     {
@@ -539,11 +539,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new ReadException("File $path size could not be determined.", $ex);
+            throw new IoReadException("File $path size could not be determined.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new ReadException("File $path size could not be determined.", $ex);
+            throw new IoReadException("File $path size could not be determined.", $ex);
         }
     }
 
@@ -552,7 +552,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param string $path
      * @return string
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function type($path)
     {
@@ -562,11 +562,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new ReadException("File $path type could not be determined.", $ex);
+            throw new IoReadException("File $path type could not be determined.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new ReadException("File $path type could not be determined.", $ex);
+            throw new IoReadException("File $path type could not be determined.", $ex);
         }
     }
 
@@ -575,7 +575,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param string $path
      * @return string
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function mimetype($path)
     {
@@ -585,11 +585,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new ReadException("File $path mimetype could not be determined.", $ex);
+            throw new IoReadException("File $path mimetype could not be determined.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new ReadException("File $path mimetype could not be determined.", $ex);
+            throw new IoReadException("File $path mimetype could not be determined.", $ex);
         }
     }
 
@@ -598,7 +598,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param string $path
      * @return string
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function timestamp($path)
     {
@@ -608,11 +608,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new ReadException("File $path timestamp could not be determined.", $ex);
+            throw new IoReadException("File $path timestamp could not be determined.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new ReadException("File $path timestamp could not be determined.", $ex);
+            throw new IoReadException("File $path timestamp could not be determined.", $ex);
         }
     }
 
@@ -621,7 +621,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param string $path
      * @return string
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function extension($path)
     {
@@ -633,7 +633,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param string $dirname
      * @param string $visibility
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function createDir($dirname, $visibility = self::VISIBILITY_DEFAULT)
     {
@@ -643,11 +643,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new WriteException("Directory $dirname could not be created.", $ex);
+            throw new IoWriteException("Directory $dirname could not be created.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new WriteException("Directory $dirname could not be created.", $ex);
+            throw new IoWriteException("Directory $dirname could not be created.", $ex);
         }
     }
 
@@ -656,7 +656,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param string $source
      * @param string $destination
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function copyDir($source, $destination)
     {
@@ -683,7 +683,7 @@ class Filesystem implements FilesystemInterface
      * Remove a directory.
      *
      * @param string $dirname
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function removeDir($dirname)
     {
@@ -693,11 +693,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new WriteException("Directory $dirname could not be removed.", $ex);
+            throw new IoWriteException("Directory $dirname could not be removed.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new WriteException("Directory $dirname could not be removed.", $ex);
+            throw new IoWriteException("Directory $dirname could not be removed.", $ex);
         }
     }
 
@@ -705,7 +705,7 @@ class Filesystem implements FilesystemInterface
      * Erase a directory.
      *
      * @param string $dirname
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function eraseDir($dirname = '')
     {
@@ -727,11 +727,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new WriteException("Directory $dirname could not be erased.", $ex);
+            throw new IoWriteException("Directory $dirname could not be erased.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new WriteException("Directory $dirname could not be erased.", $ex);
+            throw new IoWriteException("Directory $dirname could not be erased.", $ex);
         }
     }
 

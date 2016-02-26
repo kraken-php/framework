@@ -2,9 +2,9 @@
 
 namespace Kraken\Ipc\Socket;
 
-use Kraken\Throwable\Runtime\InstantiationException;
-use Kraken\Throwable\Runtime\LogicException;
-use Kraken\Throwable\RuntimeException;
+use Kraken\Throwable\Exception\Logic\InstantiationException;
+use Kraken\Throwable\Exception\LogicException;
+use Kraken\Throwable\Exception\RuntimeException;
 use Kraken\Loop\LoopInterface;
 use Kraken\Stream\AsyncStream;
 use Error;
@@ -93,7 +93,7 @@ class Socket extends AsyncStream implements SocketInterface
      * @param string $endpoint
      * @param mixed[] $options
      * @return resource
-     * @throws RuntimeException
+     * @throws LogicException
      */
     protected function createClient($endpoint, $options = [])
     {

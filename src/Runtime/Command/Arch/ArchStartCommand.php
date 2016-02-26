@@ -5,7 +5,7 @@ namespace Kraken\Runtime\Command\Arch;
 use Kraken\Channel\Extra\Request;
 use Kraken\Command\Command;
 use Kraken\Command\CommandInterface;
-use Kraken\Throwable\Runtime\RejectionException;
+use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 use Kraken\Promise\Promise;
 use Kraken\Runtime\RuntimeCommand;
 

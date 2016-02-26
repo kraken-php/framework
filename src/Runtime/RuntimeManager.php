@@ -4,7 +4,7 @@ namespace Kraken\Runtime;
 
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
-use Kraken\Throwable\Resource\ResourceUndefinedException;
+use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
 use Kraken\Runtime\Process\ProcessManagerInterface;
 use Kraken\Runtime\Thread\ThreadManagerInterface;
 

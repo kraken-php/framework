@@ -4,9 +4,9 @@ namespace Kraken\Core;
 
 use Kraken\Container\ContainerInterface;
 use Kraken\Core\Service\ServiceProviderInterface;
-use Kraken\Throwable\Runtime\ExecutionException;
-use Kraken\Throwable\Runtime\IllegalCallException;
-use Kraken\Throwable\Runtime\InstantiationException;
+use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Kraken\Throwable\Exception\Logic\IllegalCallException;
+use Kraken\Throwable\Exception\Logic\InstantiationException;
 
 interface CoreInterface extends ContainerInterface
 {

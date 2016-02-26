@@ -2,8 +2,8 @@
 
 namespace Kraken\Util\Factory;
 
-use Kraken\Throwable\Runtime\IllegalCallException;
-use Kraken\Throwable\Runtime\IllegalFieldException;
+use Kraken\Throwable\Exception\Logic\IllegalCallException;
+use Kraken\Throwable\Exception\Logic\IllegalFieldException;
 
 trait FactoryTrait
 {

@@ -4,8 +4,8 @@ namespace Kraken\Channel\Extra;
 
 use Kraken\Channel\ChannelProtocolInterface;
 use Kraken\Throwable\LazyException;
-use Kraken\Throwable\Runtime\TimeoutException;
-use Kraken\Throwable\System\TaskUnfinishedException;
+use Kraken\Throwable\Exception\Runtime\Execution\TimeoutException;
+use Kraken\Throwable\Exception\System\TaskIncompleteException;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Channel\Channel;
@@ -155,7 +155,7 @@ class Request
      */
     protected function retryOrReset(PromiseInterface $promise, $ex)
     {
-        if ($ex instanceof TaskUnfinishedException)
+        if ($ex instanceof TaskIncompleteException)
         {
             $this->counter = 1;
             $this->channel->getLoop()->afterTick(function() use($promise) {

@@ -2,7 +2,7 @@
 
 namespace Kraken\Test\Unit\Stream;
 
-use Kraken\Throwable\Runtime\InvalidArgumentException;
+use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Stream\StreamInterface;
 use Kraken\Stream\StreamSeeker;
 use Kraken\Test\Unit\TestCase;

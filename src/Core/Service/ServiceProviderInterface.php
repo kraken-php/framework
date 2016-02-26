@@ -3,7 +3,7 @@
 namespace Kraken\Core\Service;
 
 use Kraken\Core\CoreInterface;
-use Kraken\Throwable\Runtime\ExecutionException;
+use Kraken\Throwable\Exception\Runtime\ExecutionException;
 
 interface ServiceProviderInterface
 {

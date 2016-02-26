@@ -3,8 +3,8 @@
 namespace Kraken\Container;
 
 use Kraken\Container\Method\FactoryMethod;
-use Kraken\Throwable\Io\ReadException;
-use Kraken\Throwable\Io\WriteException;
+use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
+use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
 use League\Container\Container as LeagueContainer;
 use League\Container\ContainerInterface as LeagueContainerInterface;
 use Error;
@@ -36,7 +36,7 @@ class Container implements ContainerInterface
     /**
      * @param string $alias
      * @param mixed[] $definition
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function bind($alias, $definition = [])
     {
@@ -48,16 +48,16 @@ class Container implements ContainerInterface
         }
         catch (Error $ex)
         {
-            throw new WriteException("Binding definition of [$alias] to Container failed.", $ex);
+            throw new IoWriteException("Binding definition of [$alias] to Container failed.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new WriteException("Binding definition of [$alias] to Container failed.", $ex);
+            throw new IoWriteException("Binding definition of [$alias] to Container failed.", $ex);
         }
 
         if ($object === null)
         {
-            throw new WriteException("Binding definition of [$alias] to Container failed.");
+            throw new IoWriteException("Binding definition of [$alias] to Container failed.");
         }
 
         $object->withArguments($definition);
@@ -66,7 +66,7 @@ class Container implements ContainerInterface
     /**
      * @param string $alias
      * @param object $object
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function instance($alias, $object)
     {
@@ -76,18 +76,18 @@ class Container implements ContainerInterface
         }
         catch (Error $ex)
         {
-            throw new WriteException("Binding instance of [$alias] to Container failed.", $ex);
+            throw new IoWriteException("Binding instance of [$alias] to Container failed.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new WriteException("Binding instance of [$alias] to Container failed.", $ex);
+            throw new IoWriteException("Binding instance of [$alias] to Container failed.", $ex);
         }
     }
 
     /**
      * @param string $new
      * @param string $existing
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function alias($new, $existing)
     {
@@ -102,18 +102,18 @@ class Container implements ContainerInterface
         }
         catch (Error $ex)
         {
-            throw new WriteException("Binding alias of [$new] as [$existing] to Container failed.", $ex);
+            throw new IoWriteException("Binding alias of [$new] as [$existing] to Container failed.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new WriteException("Binding alias of [$new] as [$existing] to Container failed.", $ex);
+            throw new IoWriteException("Binding alias of [$new] as [$existing] to Container failed.", $ex);
         }
     }
 
     /**
      * @param string $alias
      * @param mixed[] $definition
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function singleton($alias, $definition = [])
     {
@@ -125,16 +125,16 @@ class Container implements ContainerInterface
         }
         catch (Error $ex)
         {
-            throw new WriteException("Binding singleton of [$alias] to Container failed.", $ex);
+            throw new IoWriteException("Binding singleton of [$alias] to Container failed.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new WriteException("Binding singleton of [$alias] to Container failed.", $ex);
+            throw new IoWriteException("Binding singleton of [$alias] to Container failed.", $ex);
         }
 
         if ($object === null)
         {
-            throw new WriteException("Binding singleton of [$alias] to Container failed.");
+            throw new IoWriteException("Binding singleton of [$alias] to Container failed.");
         }
 
         $object->withArguments($definition);
@@ -143,7 +143,7 @@ class Container implements ContainerInterface
     /**
      * @param string $alias
      * @param scalar $param
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function param($alias, $param)
     {
@@ -153,11 +153,11 @@ class Container implements ContainerInterface
         }
         catch (Error $ex)
         {
-            throw new WriteException("Binding param of [$alias] to Container failed.");
+            throw new IoWriteException("Binding param of [$alias] to Container failed.");
         }
         catch (Exception $ex)
         {
-            throw new WriteException("Binding param of [$alias] to Container failed.");
+            throw new IoWriteException("Binding param of [$alias] to Container failed.");
         }
     }
 
@@ -165,7 +165,7 @@ class Container implements ContainerInterface
      * @param string $alias
      * @param callable $factoryMethod
      * @param mixed[] $parameters
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function factory($alias, callable $factoryMethod, $parameters = [])
     {
@@ -175,11 +175,11 @@ class Container implements ContainerInterface
         }
         catch (Error $ex)
         {
-            throw new WriteException("Binding factory of [$alias] to Container failed.", $ex);
+            throw new IoWriteException("Binding factory of [$alias] to Container failed.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new WriteException("Binding factory of [$alias] to Container failed.", $ex);
+            throw new IoWriteException("Binding factory of [$alias] to Container failed.", $ex);
         }
     }
 
@@ -187,7 +187,7 @@ class Container implements ContainerInterface
      * @param string $alias
      * @param mixed[] $parameters
      * @return mixed
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function make($alias, $parameters = [])
     {
@@ -206,11 +206,11 @@ class Container implements ContainerInterface
         }
         catch (Error $ex)
         {
-            throw new ReadException("Resolving object of [$alias] from Container failed.", $ex);
+            throw new IoReadException("Resolving object of [$alias] from Container failed.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new ReadException("Resolving object of [$alias] from Container failed.", $ex);
+            throw new IoReadException("Resolving object of [$alias] from Container failed.", $ex);
         }
     }
 
@@ -235,7 +235,7 @@ class Container implements ContainerInterface
      * @param callable $callable
      * @param mixed[] $parameters
      * @return mixed
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function call(callable $callable, $parameters = [])
     {
@@ -245,11 +245,11 @@ class Container implements ContainerInterface
         }
         catch (Error $ex)
         {
-            throw new ReadException("Calling function with Container failed.", $ex);
+            throw new IoReadException("Calling function with Container failed.", $ex);
         }
         catch (Exception $ex)
         {
-            throw new ReadException("Calling function with Container failed.", $ex);
+            throw new IoReadException("Calling function with Container failed.", $ex);
         }
     }
 

@@ -3,10 +3,10 @@
 namespace Kraken\Ipc\Socket;
 
 use Kraken\Event\BaseEventEmitter;
-use Kraken\Throwable\Io\ReadException;
-use Kraken\Throwable\Runtime\InstantiationException;
-use Kraken\Throwable\Runtime\LogicException;
-use Kraken\Throwable\RuntimeException;
+use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
+use Kraken\Throwable\Exception\Logic\InstantiationException;
+use Kraken\Throwable\Exception\LogicException;
+use Kraken\Throwable\Exception\RuntimeException;
 use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
 use Error;
@@ -196,7 +196,7 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
      * @param string $endpoint
      * @param mixed[] $config
      * @return resource
-     * @throws RuntimeException
+     * @throws LogicException
      */
     protected function createServer($endpoint, $config = [])
     {
@@ -262,7 +262,7 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
 
         if ($newSocket === false)
         {
-            $this->emit('error', [ $this, new ReadException('Socket could not accept new connection.') ]);
+            $this->emit('error', [ $this, new IoReadException('Socket could not accept new connection.') ]);
             return;
         }
 

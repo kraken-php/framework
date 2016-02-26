@@ -5,12 +5,12 @@ namespace Kraken\Core\Service;
 use Error;
 use Kraken\Core\CoreInterface;
 use Kraken\Throwable\Exception;
-use Kraken\Throwable\Runtime\ExecutionException;
-use Kraken\Throwable\Runtime\IllegalCallException;
-use Kraken\Throwable\Runtime\InvalidArgumentException;
-use Kraken\Throwable\Resource\ResourceDefinedException;
-use Kraken\Throwable\Resource\ResourceUndefinedException;
-use Kraken\Throwable\Runtime\OverflowException;
+use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Kraken\Throwable\Exception\Logic\IllegalCallException;
+use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
+use Kraken\Throwable\Exception\Logic\Resource\ResourceDefinedException;
+use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
+use Kraken\Throwable\Exception\Runtime\OverflowException;
 
 class ServiceRegister
 {

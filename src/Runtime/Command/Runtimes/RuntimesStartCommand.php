@@ -4,7 +4,7 @@ namespace Kraken\Runtime\Command\Runtimes;
 
 use Kraken\Command\Command;
 use Kraken\Command\CommandInterface;
-use Kraken\Throwable\Runtime\RejectionException;
+use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 
 class RuntimesStartCommand extends Command implements CommandInterface
 {

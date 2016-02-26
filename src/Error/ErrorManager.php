@@ -4,9 +4,9 @@ namespace Kraken\Error;
 
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
-use Kraken\Throwable\Runtime\ExecutionException;
-use Kraken\Throwable\Runtime\IllegalCallException;
-use Kraken\Throwable\Runtime\LogicException;
+use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Kraken\Throwable\Exception\Logic\IllegalCallException;
+use Kraken\Throwable\Exception\LogicException;
 use Kraken\Runtime\RuntimeInterface;
 use Error;
 use Exception;
@@ -108,7 +108,6 @@ class ErrorManager implements ErrorManagerInterface
     /**
      * @param string $exception
      * @param ErrorHandlerInterface|string|string[] $handler
-     * @throws IllegalCallException
      * @throws LogicException
      */
     public function setHandler($exception, $handler)
@@ -189,7 +188,6 @@ class ErrorManager implements ErrorManagerInterface
     /**
      * @param string $name
      * @return ErrorHandlerInterface
-     * @throws IllegalCallException
      * @throws LogicException
      */
     protected function resolveHandler($name)

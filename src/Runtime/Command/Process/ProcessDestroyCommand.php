@@ -4,7 +4,7 @@ namespace Kraken\Runtime\Command\Process;
 
 use Kraken\Command\Command;
 use Kraken\Command\CommandInterface;
-use Kraken\Throwable\Runtime\RejectionException;
+use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 
 class ProcessDestroyCommand extends Command implements CommandInterface
 {

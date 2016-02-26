@@ -2,7 +2,7 @@
 
 namespace Kraken\Channel;
 
-use Kraken\Throwable\Resource\ResourceUndefinedException;
+use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
 
 interface ChannelRouterCompositeInterface extends ChannelRouterBaseInterface
 {

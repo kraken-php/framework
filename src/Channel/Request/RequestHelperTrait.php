@@ -3,7 +3,7 @@
 namespace Kraken\Channel\Request;
 
 use Kraken\Throwable\LazyException;
-use Kraken\Throwable\Runtime\TimeoutException;
+use Kraken\Throwable\Exception\Runtime\Execution\TimeoutException;
 use Kraken\Support\TimeSupport;
 use Error;
 use Exception;

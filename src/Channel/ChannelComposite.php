@@ -5,7 +5,7 @@ namespace Kraken\Channel;
 use Kraken\Event\BaseEventEmitter;
 use Kraken\Event\EventHandler;
 use Kraken\Loop\LoopInterface;
-use Kraken\Throwable\Resource\ResourceUndefinedException;
+use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
 use Kraken\Support\GeneratorSupport;
 use Kraken\Support\TimeSupport;
 

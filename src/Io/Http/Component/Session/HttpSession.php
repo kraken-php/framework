@@ -2,7 +2,7 @@
 
 namespace Kraken\Io\Http\Component\Session;
 
-use Kraken\Throwable\RuntimeException;
+use Kraken\Throwable\Exception\RuntimeException;
 use Kraken\Io\IoConnectionInterface;
 use Kraken\Io\IoMessageInterface;
 use Kraken\Io\IoServerComponentInterface;

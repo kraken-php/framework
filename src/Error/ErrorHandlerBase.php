@@ -4,8 +4,8 @@ namespace Kraken\Error;
 
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
-use Kraken\Throwable\Runtime\IllegalCallException;
-use Kraken\Throwable\Runtime\RejectionException;
+use Kraken\Throwable\Exception\Logic\IllegalCallException;
+use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 use Kraken\Runtime\RuntimeInterface;
 use Error;
 use Exception;

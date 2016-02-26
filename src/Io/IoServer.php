@@ -2,7 +2,7 @@
 
 namespace Kraken\Io;
 
-use Kraken\Throwable\Runtime\InstantiationException;
+use Kraken\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Io\Http\Component\Router\HttpRouter;
 use Kraken\Io\Http\Component\Router\HttpRouterInterface;
 use Kraken\Io\Http\HttpServer;

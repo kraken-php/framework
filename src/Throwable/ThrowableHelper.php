@@ -2,9 +2,6 @@
 
 namespace Kraken\Throwable;
 
-use Error;
-use Exception;
-
 abstract class ThrowableHelper
 {
     /**

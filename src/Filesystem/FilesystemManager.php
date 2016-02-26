@@ -2,8 +2,8 @@
 
 namespace Kraken\Filesystem;
 
-use Kraken\Throwable\Io\ReadException;
-use Kraken\Throwable\Io\WriteException;
+use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
+use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
 
 class FilesystemManager implements FilesystemManagerInterface
 {
@@ -94,13 +94,13 @@ class FilesystemManager implements FilesystemManagerInterface
      *
      * @param string $path
      * @return string[]
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function filterPrefix($path)
     {
         if (!preg_match('#^.+\:\/\/.*#', $path))
         {
-            throw new ReadException("No prefix detected in [$path].");
+            throw new IoReadException("No prefix detected in [$path].");
         }
 
         list($prefix, $newPath) = explode('://', $path, 2);
@@ -113,7 +113,7 @@ class FilesystemManager implements FilesystemManagerInterface
      *
      * @param string $path
      * @return bool
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function exists($path)
     {
@@ -121,7 +121,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new ReadException("No filesystem saved under prefix [$prefix].");
+            throw new IoReadException("No filesystem saved under prefix [$prefix].");
         }
 
         return $fs->exists($path);
@@ -132,7 +132,7 @@ class FilesystemManager implements FilesystemManagerInterface
      *
      * @param string $source
      * @param string $destination
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function move($source, $destination)
     {
@@ -141,7 +141,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($sourceFs = $this->getFilesystem($sourcePrefix)) === null || ($destFs = $this->getFilesystem($destPrefix)) === null)
         {
-            throw new WriteException("No filesystem saved under prefix [$sourcePrefix].");
+            throw new IoWriteException("No filesystem saved under prefix [$sourcePrefix].");
         }
 
         $destFs->write($destPath, $sourceFs->read($sourcePath));
@@ -153,7 +153,7 @@ class FilesystemManager implements FilesystemManagerInterface
      *
      * @param string $path
      * @return bool
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function isFile($path)
     {
@@ -161,7 +161,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new ReadException("No filesystem saved under prefix [$prefix].");
+            throw new IoReadException("No filesystem saved under prefix [$prefix].");
         }
 
         return $fs->isFile($path);
@@ -172,7 +172,7 @@ class FilesystemManager implements FilesystemManagerInterface
      *
      * @param string $path
      * @return bool
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function isDir($path)
     {
@@ -180,7 +180,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new ReadException("No filesystem saved under prefix [$prefix].");
+            throw new IoReadException("No filesystem saved under prefix [$prefix].");
         }
 
         return $fs->isDir($path);
@@ -193,7 +193,7 @@ class FilesystemManager implements FilesystemManagerInterface
      * @param bool $recursive
      * @param string $filterPattern
      * @return array
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function contents($directory = '', $recursive = false, $filterPattern = '')
     {
@@ -201,7 +201,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new ReadException("No filesystem saved under prefix [$prefix].");
+            throw new IoReadException("No filesystem saved under prefix [$prefix].");
         }
 
         return $fs->contents($directory, $recursive, $filterPattern);
@@ -214,7 +214,7 @@ class FilesystemManager implements FilesystemManagerInterface
      * @param bool $recursive
      * @param string $filterPattern
      * @return array
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function files($directory = '', $recursive = false, $filterPattern = '')
     {
@@ -222,7 +222,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new ReadException("No filesystem saved under prefix [$prefix].");
+            throw new IoReadException("No filesystem saved under prefix [$prefix].");
         }
 
         return $fs->files($directory);
@@ -235,7 +235,7 @@ class FilesystemManager implements FilesystemManagerInterface
      * @param bool $recursive
      * @param string $filterPattern
      * @return array
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function directories($directory = '', $recursive = false, $filterPattern = '')
     {
@@ -243,7 +243,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new ReadException("No filesystem saved under prefix [$prefix].");
+            throw new IoReadException("No filesystem saved under prefix [$prefix].");
         }
 
         return $fs->directories($directory, $recursive, $filterPattern);
@@ -254,7 +254,7 @@ class FilesystemManager implements FilesystemManagerInterface
      *
      * @param string $path
      * @return string
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function visibility($path)
     {
@@ -262,7 +262,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new ReadException("No filesystem saved under prefix [$prefix].");
+            throw new IoReadException("No filesystem saved under prefix [$prefix].");
         }
 
         return $fs->visibility($path);
@@ -273,7 +273,7 @@ class FilesystemManager implements FilesystemManagerInterface
      *
      * @param string $path
      * @return bool
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function isPublic($path = '')
     {
@@ -281,7 +281,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new ReadException("No filesystem saved under prefix [$prefix].");
+            throw new IoReadException("No filesystem saved under prefix [$prefix].");
         }
 
         return $fs->isPublic($path);
@@ -292,7 +292,7 @@ class FilesystemManager implements FilesystemManagerInterface
      *
      * @param string $path
      * @return bool
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function isPrivate($path = '')
     {
@@ -300,7 +300,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new ReadException("No filesystem saved under prefix [$prefix].");
+            throw new IoReadException("No filesystem saved under prefix [$prefix].");
         }
 
         return $fs->isPrivate($path);
@@ -310,7 +310,7 @@ class FilesystemManager implements FilesystemManagerInterface
      * Sets visibility of file or directory to public.
      *
      * @param string $path
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function setPublic($path = '')
     {
@@ -318,7 +318,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new WriteException("No filesystem saved under prefix [$prefix].");
+            throw new IoWriteException("No filesystem saved under prefix [$prefix].");
         }
 
         $fs->setPublic($path);
@@ -328,7 +328,7 @@ class FilesystemManager implements FilesystemManagerInterface
      * Sets visibility of file or directory to private.
      *
      * @param string $path
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function setPrivate($path = '')
     {
@@ -336,7 +336,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new WriteException("No filesystem saved under prefix [$prefix].");
+            throw new IoWriteException("No filesystem saved under prefix [$prefix].");
         }
 
         $fs->setPrivate($path);
@@ -348,7 +348,7 @@ class FilesystemManager implements FilesystemManagerInterface
      * @param string $path
      * @param string $contents
      * @param string $visibility
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function create($path, $contents = '', $visibility = Filesystem::VISIBILITY_DEFAULT)
     {
@@ -356,7 +356,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new WriteException("No filesystem saved under prefix [$prefix].");
+            throw new IoWriteException("No filesystem saved under prefix [$prefix].");
         }
 
         $fs->create($path, $contents, $visibility);
@@ -368,7 +368,7 @@ class FilesystemManager implements FilesystemManagerInterface
      * @param string $path
      * @param string $contents
      * @param string $visibility
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function write($path, $contents = '', $visibility = Filesystem::VISIBILITY_DEFAULT)
     {
@@ -376,7 +376,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new WriteException("No filesystem saved under prefix [$prefix].");
+            throw new IoWriteException("No filesystem saved under prefix [$prefix].");
         }
 
         $fs->write($path, $contents, $visibility);
@@ -387,7 +387,7 @@ class FilesystemManager implements FilesystemManagerInterface
      *
      * @param string $path
      * @param string $contents
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function append($path, $contents)
     {
@@ -395,7 +395,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new WriteException("No filesystem saved under prefix [$prefix].");
+            throw new IoWriteException("No filesystem saved under prefix [$prefix].");
         }
 
         $fs->append($path, $contents);
@@ -406,7 +406,7 @@ class FilesystemManager implements FilesystemManagerInterface
      *
      * @param string $path
      * @param string $contents
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function prepend($path, $contents)
     {
@@ -414,7 +414,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new WriteException("No filesystem saved under prefix [$prefix].");
+            throw new IoWriteException("No filesystem saved under prefix [$prefix].");
         }
 
         $fs->prepend($path, $contents);
@@ -425,7 +425,7 @@ class FilesystemManager implements FilesystemManagerInterface
      *
      * @param string $path
      * @return string
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function read($path)
     {
@@ -433,7 +433,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new ReadException("No filesystem saved under prefix [$prefix].");
+            throw new IoReadException("No filesystem saved under prefix [$prefix].");
         }
 
         return $fs->read($path);
@@ -444,7 +444,7 @@ class FilesystemManager implements FilesystemManagerInterface
      *
      * @param string $path
      * @return mixed
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function req($path)
     {
@@ -452,7 +452,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new ReadException("No filesystem saved under prefix [$prefix].");
+            throw new IoReadException("No filesystem saved under prefix [$prefix].");
         }
 
         return $fs->req($path);
@@ -463,7 +463,7 @@ class FilesystemManager implements FilesystemManagerInterface
      *
      * @param string $source
      * @param string $destination
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function copy($source, $destination)
     {
@@ -472,7 +472,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($sourceFs = $this->getFilesystem($sourcePrefix)) === null || ($destFs = $this->getFilesystem($destPrefix)) === null)
         {
-            throw new WriteException("No filesystem saved under prefix [$sourcePrefix].");
+            throw new IoWriteException("No filesystem saved under prefix [$sourcePrefix].");
         }
 
         $destFs->write($destPath, $sourceFs->read($sourcePath));
@@ -482,7 +482,7 @@ class FilesystemManager implements FilesystemManagerInterface
      * Remove a file.
      *
      * @param string $path
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function remove($path)
     {
@@ -490,7 +490,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new WriteException("No filesystem saved under prefix [$prefix].");
+            throw new IoWriteException("No filesystem saved under prefix [$prefix].");
         }
 
         $fs->remove($path);
@@ -500,7 +500,7 @@ class FilesystemManager implements FilesystemManagerInterface
      * Erase a file.
      *
      * @param string $path
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function erase($path)
     {
@@ -508,7 +508,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new WriteException("No filesystem saved under prefix [$prefix].");
+            throw new IoWriteException("No filesystem saved under prefix [$prefix].");
         }
 
         $fs->erase($path);
@@ -519,7 +519,7 @@ class FilesystemManager implements FilesystemManagerInterface
      *
      * @param $path
      * @return int
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function size($path)
     {
@@ -527,7 +527,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new ReadException("No filesystem saved under prefix [$prefix].");
+            throw new IoReadException("No filesystem saved under prefix [$prefix].");
         }
 
         return $fs->size($path);
@@ -538,7 +538,7 @@ class FilesystemManager implements FilesystemManagerInterface
      *
      * @param string $path
      * @return string
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function type($path)
     {
@@ -546,7 +546,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new ReadException("No filesystem saved under prefix [$prefix].");
+            throw new IoReadException("No filesystem saved under prefix [$prefix].");
         }
 
         return $fs->type($path);
@@ -557,7 +557,7 @@ class FilesystemManager implements FilesystemManagerInterface
      *
      * @param string $path
      * @return string
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function mimetype($path)
     {
@@ -565,7 +565,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new ReadException("No filesystem saved under prefix [$prefix].");
+            throw new IoReadException("No filesystem saved under prefix [$prefix].");
         }
 
         return $fs->mimetype($path);
@@ -576,7 +576,7 @@ class FilesystemManager implements FilesystemManagerInterface
      *
      * @param string $path
      * @return string
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function timestamp($path)
     {
@@ -584,7 +584,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new ReadException("No filesystem saved under prefix [$prefix].");
+            throw new IoReadException("No filesystem saved under prefix [$prefix].");
         }
 
         return $fs->timestamp($path);
@@ -595,7 +595,7 @@ class FilesystemManager implements FilesystemManagerInterface
      *
      * @param string $path
      * @return string
-     * @throws ReadException
+     * @throws IoReadException
      */
     public function extension($path)
     {
@@ -603,7 +603,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new ReadException("No filesystem saved under prefix [$prefix].");
+            throw new IoReadException("No filesystem saved under prefix [$prefix].");
         }
 
         return $fs->extension($path);
@@ -614,7 +614,7 @@ class FilesystemManager implements FilesystemManagerInterface
      *
      * @param string $dirname
      * @param string $visibility
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function createDir($dirname, $visibility = Filesystem::VISIBILITY_DEFAULT)
     {
@@ -622,7 +622,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new WriteException("No filesystem saved under prefix [$prefix].");
+            throw new IoWriteException("No filesystem saved under prefix [$prefix].");
         }
 
         $fs->createDir($dirname, $visibility);
@@ -633,7 +633,7 @@ class FilesystemManager implements FilesystemManagerInterface
      *
      * @param string $source
      * @param string $destination
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function copyDir($source, $destination)
     {
@@ -642,7 +642,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($sourceFs = $this->getFilesystem($sourcePrefix)) === null || ($destFs = $this->getFilesystem($destPrefix)) === null)
         {
-            throw new WriteException("No filesystem saved under prefix [$sourcePrefix].");
+            throw new IoWriteException("No filesystem saved under prefix [$sourcePrefix].");
         }
 
         $filesList = $sourceFs->contents($sourcePath, true);
@@ -668,7 +668,7 @@ class FilesystemManager implements FilesystemManagerInterface
      * Remove a directory.
      *
      * @param string $dirname
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function removeDir($dirname)
     {
@@ -676,7 +676,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new WriteException("No filesystem saved under prefix [$prefix].");
+            throw new IoWriteException("No filesystem saved under prefix [$prefix].");
         }
 
         $fs->removeDir($dirname);
@@ -686,7 +686,7 @@ class FilesystemManager implements FilesystemManagerInterface
      * Erase a directory.
      *
      * @param string $dirname
-     * @throws WriteException
+     * @throws IoWriteException
      */
     public function eraseDir($dirname = '')
     {
@@ -694,7 +694,7 @@ class FilesystemManager implements FilesystemManagerInterface
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new WriteException("No filesystem saved under prefix [$prefix].");
+            throw new IoWriteException("No filesystem saved under prefix [$prefix].");
         }
 
         $fs->eraseDir($dirname);

@@ -7,17 +7,17 @@ use Kraken\Channel\Request\RequestHelperTrait;
 use Kraken\Channel\Response\ResponseHelperTrait;
 use Kraken\Event\EventEmitter;
 use Kraken\Event\EventHandler;
-use Kraken\Throwable\LazyException;
-use Kraken\Throwable\System\TaskUnfinishedException;
 use Kraken\Loop\LoopInterface;
-use Kraken\Throwable\Exception;
-use Kraken\Throwable\Runtime\InstantiationException;
-use Kraken\Throwable\Resource\ResourceUndefinedException;
-use Kraken\Throwable\Runtime\LogicException;
 use Kraken\Loop\Timer\TimerInterface;
 use Kraken\Support\GeneratorSupport;
 use Kraken\Support\StringSupport;
 use Kraken\Support\TimeSupport;
+use Kraken\Throwable\LazyException;
+use Kraken\Throwable\Exception\System\TaskIncompleteException;
+use Kraken\Throwable\Exception;
+use Kraken\Throwable\Exception\Logic\InstantiationException;
+use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
+use Kraken\Throwable\Exception\LogicException;
 
 class ChannelBase extends EventEmitter implements ChannelBaseInterface
 {
@@ -750,7 +750,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
         {
             $this->resolveRequest($pid, $message);
         }
-        else if ($exception === 'Kraken\Throwable\System\TaskUnfinishedException')
+        else if ($exception === 'Kraken\Throwable\Exception\System\TaskIncompleteException')
         {
             $this->cancelRequest($pid, new LazyException([ $exception, $message ]));
         }
@@ -777,7 +777,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
             foreach ($unfinished as $response)
             {
                 $protocol = new ChannelProtocol('', $response->pid(), '', $response->alias(), '', '', $this->now());
-                $response = new Response($this, $protocol, new TaskUnfinishedException("Task unfinished."));
+                $response = new Response($this, $protocol, new TaskIncompleteException("Task unfinished."));
                 $response->call();
             }
         });

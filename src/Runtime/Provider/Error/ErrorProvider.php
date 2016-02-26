@@ -10,8 +10,8 @@ use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Error\ErrorHandlerInterface;
 use Kraken\Error\ErrorManagerInterface;
 use Kraken\Error\ErrorManagerPluginInterface;
-use Kraken\Throwable\Resource\ResourceUndefinedException;
-use Kraken\Throwable\Runtime\InvalidArgumentException;
+use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
+use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 
 class ErrorProvider extends ServiceProvider implements ServiceProviderInterface
 {
@@ -92,9 +92,9 @@ class ErrorProvider extends ServiceProvider implements ServiceProviderInterface
         $handlers = (array) $config->get('error.manager.handlers');
 
         $default = [
-            'Kraken\Throwable\System\ChildUnresponsiveException'   => [ 'RuntimeRecreate', 'ContainerContinue' ],
-            'Kraken\Throwable\System\ParentUnresponsiveException'  => 'ContainerDestroy',
-            'Exception'                                            => [ 'CmdLog', 'ContainerContinue' ]
+            'Kraken\Throwable\Exception\System\ChildUnresponsiveException'   => [ 'RuntimeRecreate', 'ContainerContinue' ],
+            'Kraken\Throwable\Exception\System\ParentUnresponsiveException'  => 'ContainerDestroy',
+            'Exception'                                                      => [ 'CmdLog', 'ContainerContinue' ]
         ];
 
         $plugins = (array) $config->get('error.manager.plugins');

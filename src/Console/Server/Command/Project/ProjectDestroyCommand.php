@@ -6,7 +6,7 @@ use Kraken\Command\Command;
 use Kraken\Command\CommandInterface;
 use Kraken\Config\Config;
 use Kraken\Config\ConfigInterface;
-use Kraken\Throwable\Runtime\RejectionException;
+use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 
 class ProjectDestroyCommand extends Command implements CommandInterface
 {
