@@ -18,14 +18,14 @@ class ConsoleClientCore extends Core implements CoreInterface
     protected function defaultProviders()
     {
         return [
-            'Kraken\Provider\Channel\ChannelProvider',
-            'Kraken\Provider\Config\ConfigProvider',
-            'Kraken\Provider\Container\ContainerProvider',
-            'Kraken\Provider\Core\CoreProvider',
-            'Kraken\Provider\Core\EnvironmentProvider',
-            'Kraken\Provider\Event\EventProvider',
-            'Kraken\Provider\Log\LogProvider',
-            'Kraken\Provider\Loop\LoopProvider',
+            'Kraken\Core\Provider\Channel\ChannelProvider',
+            'Kraken\Core\Provider\Config\ConfigProvider',
+            'Kraken\Core\Provider\Container\ContainerProvider',
+            'Kraken\Core\Provider\Core\CoreProvider',
+            'Kraken\Core\Provider\Core\EnvironmentProvider',
+            'Kraken\Core\Provider\Event\EventProvider',
+            'Kraken\Core\Provider\Log\LogProvider',
+            'Kraken\Core\Provider\Loop\LoopProvider',
             'Kraken\Console\Client\Provider\Channel\ChannelProvider',
             'Kraken\Console\Client\Provider\Command\CommandProvider',
             'Kraken\Console\Client\Provider\Console\SymfonyProvider',

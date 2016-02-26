@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Provider\Channel;
+namespace Kraken\Core\Provider\Channel;
 
 use Exception;
 use Kraken\Channel\ChannelFactory;

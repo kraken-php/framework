@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Provider\Filesystem;
+namespace Kraken\Core\Provider\Filesystem;
 
 use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;

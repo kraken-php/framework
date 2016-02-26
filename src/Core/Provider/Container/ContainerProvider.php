@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Provider\Container;
+namespace Kraken\Core\Provider\Container;
 
 use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;

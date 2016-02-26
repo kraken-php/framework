@@ -1,32 +1,32 @@
 <?php
 
-namespace Kraken\Provider\Error;
+namespace Kraken\Core\Provider\Command;
 
 use Exception;
+use Kraken\Command\CommandFactory;
+use Kraken\Command\CommandManager;
 use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
-use Kraken\Error\ErrorFactory;
-use Kraken\Error\ErrorManager;
 use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Util\Factory\FactoryPluginInterface;
 
-class ErrorProvider extends ServiceProvider implements ServiceProviderInterface
+class CommandProvider extends ServiceProvider implements ServiceProviderInterface
 {
     /**
      * @var string[]
      */
     protected $requires = [
-        'Kraken\Runtime\RuntimeInterface'
+        'Kraken\Core\CoreInputContextInterface'
     ];
 
     /**
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Error\ErrorFactoryInterface',
-        'Kraken\Error\ErrorManagerInterface'
+        'Kraken\Command\CommandFactoryInterface',
+        'Kraken\Command\CommandManagerInterface'
     ];
 
     /**
@@ -34,23 +34,19 @@ class ErrorProvider extends ServiceProvider implements ServiceProviderInterface
      */
     protected function register(CoreInterface $core)
     {
-        $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
+        $context = $core->make('Kraken\Core\CoreInputContextInterface');
 
-        $factory = new ErrorFactory();
-        $default = [
-            'factory' => $factory
-        ];
+        $factory = new CommandFactory($context);
+        $manager = new CommandManager();
 
         $core->instance(
-            'Kraken\Error\ErrorFactoryInterface',
+            'Kraken\Command\CommandFactoryInterface',
             $factory
         );
 
-        $core->factory(
-            'Kraken\Error\ErrorManagerInterface',
-            function($config = []) use($runtime, $default) {
-                return new ErrorManager($runtime, array_merge($default, $config));
-            }
+        $core->instance(
+            'Kraken\Command\CommandManagerInterface',
+            $manager
         );
     }
 
@@ -60,11 +56,11 @@ class ErrorProvider extends ServiceProvider implements ServiceProviderInterface
     protected function unregister(CoreInterface $core)
     {
         $core->remove(
-            'Kraken\Error\ErrorFactoryInterface'
+            'Kraken\Command\CommandFactoryInterface'
         );
 
         $core->remove(
-            'Kraken\Error\ErrorManagerInterface'
+            'Kraken\Command\CommandManagerInterface'
         );
     }
 
@@ -74,24 +70,24 @@ class ErrorProvider extends ServiceProvider implements ServiceProviderInterface
      */
     protected function boot(CoreInterface $core)
     {
-        $config  = $core->make('Kraken\Config\ConfigInterface');
-        $factory = $core->make('Kraken\Error\ErrorFactoryInterface');
+        $config = $core->make('Kraken\Config\ConfigInterface');
+        $factory = $core->make('Kraken\Command\CommandFactoryInterface');
 
-        $handlers = (array) $config->get('error.handlers');
-        foreach ($handlers as $handlerClass)
+        $commands = (array) $config->get('command.models');
+        foreach ($commands as $commandClass)
         {
-            if (!class_exists($handlerClass))
+            if (!class_exists($commandClass))
             {
-                throw new ResourceUndefinedException("ErrorHandler [$handlerClass] does not exist.");
+                throw new ResourceUndefinedException("Command [$commandClass] does not exist.");
             }
 
             $factory
-                ->define($handlerClass, function($runtime, $context = []) use($handlerClass) {
-                    return new $handlerClass($runtime, $context);
+                ->define($commandClass, function($runtime, $context = []) use($commandClass) {
+                    return new $commandClass($runtime, $context);
                 });
         }
 
-        $plugins = (array) $config->get('error.plugins');
+        $plugins = (array) $config->get('command.plugins');
         foreach ($plugins as $pluginClass)
         {
             if (!class_exists($pluginClass))

@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Provider\Config;
+namespace Kraken\Core\Provider\Config;
 
 use Kraken\Config\Config;
 use Kraken\Config\ConfigFactory;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Provider\Event;
+namespace Kraken\Core\Provider\Event;
 
 use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;

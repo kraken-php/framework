@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Provider\Loop;
+namespace Kraken\Core\Provider\Loop;
 
 use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;

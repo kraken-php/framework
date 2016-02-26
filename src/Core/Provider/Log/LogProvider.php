@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Provider\Log;
+namespace Kraken\Core\Provider\Log;
 
 use Kraken\Config\ConfigInterface;
 use Kraken\Core\CoreInterface;
