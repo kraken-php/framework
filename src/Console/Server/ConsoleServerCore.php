@@ -32,9 +32,9 @@ class ConsoleServerCore extends Core implements CoreInterface
             'Kraken\Provider\Loop\LoopProvider',
             'Kraken\Console\Server\Provider\Channel\ChannelProvider',
             'Kraken\Console\Server\Provider\Command\CommandProvider',
-            'Kraken\Runtime\Provider\Command\CommandProvider',
-            'Kraken\Runtime\Provider\Error\ErrorProvider',
-            'Kraken\Runtime\Provider\Runtime\RuntimeManagerProvider'
+            'Kraken\Runtime\Container\Provider\Command\CommandProvider',
+            'Kraken\Runtime\Container\Provider\Error\ErrorProvider',
+            'Kraken\Runtime\Container\Provider\Runtime\RuntimeManagerProvider'
         ];
     }
 

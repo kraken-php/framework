@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Runtime\Provider\Channel;
+namespace Kraken\Runtime\Container\Provider\Channel;
 
 use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelBaseInterface;

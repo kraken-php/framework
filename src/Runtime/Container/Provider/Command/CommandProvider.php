@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Runtime\Provider\Command;
+namespace Kraken\Runtime\Container\Provider\Command;
 
 use Kraken\Command\CommandFactoryInterface;
 use Kraken\Command\CommandInterface;

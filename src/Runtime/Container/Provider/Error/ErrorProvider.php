@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Runtime\Provider\Error;
+namespace Kraken\Runtime\Container\Provider\Error;
 
 use Exception;
 use Kraken\Config\ConfigInterface;
