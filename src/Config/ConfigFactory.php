@@ -3,7 +3,7 @@
 namespace Kraken\Config;
 
 use Kraken\Filesystem\FilesystemInterface;
-use Kraken\Parser\ParserInterface;
+use Kraken\Util\Parser\ParserInterface;
 
 class ConfigFactory
 {

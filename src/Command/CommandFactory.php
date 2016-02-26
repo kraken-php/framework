@@ -2,16 +2,15 @@
 
 namespace Kraken\Command;
 
-use Kraken\Core\CoreInputContextInterface;
 use Kraken\Util\Factory\Factory;
 
 class CommandFactory extends Factory implements CommandFactoryInterface
 {
     /**
-     * @param CoreInputContextInterface $context
+     * @param $context
      * @param string[] $params
      */
-    public function __construct(CoreInputContextInterface $context, $params = [])
+    public function __construct($params = [])
     {
         parent::__construct();
 

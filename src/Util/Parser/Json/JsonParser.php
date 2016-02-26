@@ -1,8 +1,8 @@
 <?php
 
-namespace Kraken\Parser\Json;
+namespace Kraken\Util\Parser\Json;
 
-use Kraken\Parser\ParserInterface;
+use Kraken\Util\Parser\ParserInterface;
 
 class JsonParser implements ParserInterface
 {

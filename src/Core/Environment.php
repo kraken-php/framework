@@ -3,6 +3,7 @@
 namespace Kraken\Core;
 
 use Kraken\Config\ConfigInterface;
+use Kraken\Runtime\Runtime;
 
 class Environment implements EnvironmentInterface
 {
@@ -98,7 +99,9 @@ class Environment implements EnvironmentInterface
     public function registerShutdownHandler(callable $handler)
     {
         register_shutdown_function(function() use($handler) {
-            return $handler($this->context);
+            return $handler(
+                $this->context->type() === Runtime::UNIT_PROCESS
+            );
         });
     }
 

@@ -2,7 +2,7 @@
 
 namespace Kraken\Channel;
 
-use Kraken\Parser\ParserInterface;
+use Kraken\Util\Parser\ParserInterface;
 
 class ChannelEncoder implements ChannelEncoderInterface
 {

@@ -2,8 +2,6 @@
 
 namespace Kraken\Throwable;
 
-use Kraken\Core\CoreInputContextInterface;
-use Kraken\Runtime\Runtime;
 use Kraken\Throwable\Error\FatalError;
 use Kraken\Throwable\Error\NoticeError;
 use Kraken\Throwable\Error\WarningError;
@@ -68,9 +66,9 @@ abstract class ErrorEnvHandler implements EnumInterface
     }
 
     /**
-     * @param CoreInputContextInterface $context
+     * @param bool $forceKill
      */
-    public static function handleShutdown(CoreInputContextInterface $context)
+    public static function handleShutdown($forceKill = false)
     {
         $err = error_get_last();
 
@@ -87,8 +85,7 @@ abstract class ErrorEnvHandler implements EnumInterface
             echo \Kraken\Throwable\Exception::toString($ex) . PHP_EOL;
         }
 
-        // TODO Kraken-102
-        if ($context->type() === Runtime::UNIT_PROCESS)
+        if ($forceKill)
         {
             posix_kill(posix_getpid(), 9);
         }

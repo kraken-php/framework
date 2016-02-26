@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Parser;
+namespace Kraken\Util\Parser;
 
 interface ParserInterface
 {
