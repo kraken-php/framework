@@ -5,27 +5,19 @@ namespace Kraken\Command;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
-use Kraken\Runtime\RuntimeInterface;
 
 class Command implements CommandInterface
 {
-    /**
-     * @var RuntimeInterface
-     */
-    protected $runtime;
-
     /**
      * @var mixed[]
      */
     protected $context;
 
     /**
-     * @param RuntimeInterface $runtime
      * @param mixed[] $context
      */
-    public function __construct(RuntimeInterface $runtime, $context = [])
+    public function __construct($context = [])
     {
-        $this->runtime = $runtime;
         $this->context = $context;
 
         $this->construct();
@@ -38,7 +30,6 @@ class Command implements CommandInterface
     {
         $this->destruct();
 
-        unset($this->runtime);
         unset($this->context);
     }
 

@@ -2,7 +2,7 @@
 
 namespace Kraken\Runtime\Command\Container;
 
-use Kraken\Command\Command;
+use Kraken\Runtime\Command\Command;
 use Kraken\Command\CommandInterface;
 
 class ContainerContinueCommand extends Command implements CommandInterface

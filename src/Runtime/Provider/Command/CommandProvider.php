@@ -48,44 +48,44 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function defaultCommands(ConfigInterface $config, CommandFactoryInterface $factory, RuntimeInterface $runtime)
     {
         return [
-            'arch:start'            => $factory->create('ArchStartCommand', [ $runtime ]),
-            'arch:stop'             => $factory->create('ArchStopCommand', [ $runtime ]),
-            'arch:status'           => $factory->create('ArchStatusCommand', [ $runtime ]),
-            'process:exists'        => $factory->create('ProcessExistsCommand', [ $runtime ]),
-            'process:create'        => $factory->create('ProcessCreateCommand', [ $runtime ]),
-            'process:destroy'       => $factory->create('ProcessDestroyCommand', [ $runtime ]),
-            'process:start'         => $factory->create('ProcessStartCommand', [ $runtime ]),
-            'process:stop'          => $factory->create('ProcessStopCommand', [ $runtime ]),
-            'processes:create'      => $factory->create('ProcessesCreateCommand', [ $runtime ]),
-            'processes:destroy'     => $factory->create('ProcessesDestroyCommand', [ $runtime ]),
-            'processes:start'       => $factory->create('ProcessesStartCommand', [ $runtime ]),
-            'processes:stop'        => $factory->create('ProcessesStopCommand', [ $runtime ]),
-            'processes:get'         => $factory->create('ProcessesGetCommand', [ $runtime ]),
-            'thread:exists'         => $factory->create('ThreadExistsCommand', [ $runtime ]),
-            'thread:create'         => $factory->create('ThreadCreateCommand', [ $runtime ]),
-            'thread:destroy'        => $factory->create('ThreadDestroyCommand', [ $runtime ]),
-            'thread:start'          => $factory->create('ThreadStartCommand', [ $runtime ]),
-            'thread:stop'           => $factory->create('ThreadStopCommand', [ $runtime ]),
-            'threads:create'        => $factory->create('ThreadsCreateCommand', [ $runtime ]),
-            'threads:destroy'       => $factory->create('ThreadsDestroyCommand', [ $runtime ]),
-            'threads:start'         => $factory->create('ThreadsStartCommand', [ $runtime ]),
-            'threads:stop'          => $factory->create('ThreadsStopCommand', [ $runtime ]),
-            'threads:get'           => $factory->create('ThreadsGetCommand', [ $runtime ]),
-            'runtime:exists'        => $factory->create('RuntimeExistsCommand', [ $runtime ]),
-            'runtime:destroy'       => $factory->create('RuntimeDestroyCommand', [ $runtime ]),
-            'runtime:start'         => $factory->create('RuntimeStartCommand', [ $runtime ]),
-            'runtime:stop'          => $factory->create('RuntimeStopCommand', [ $runtime ]),
-            'runtimes:destroy'      => $factory->create('RuntimesDestroyCommand', [ $runtime ]),
-            'runtimes:start'        => $factory->create('RuntimesStartCommand', [ $runtime ]),
-            'runtimes:stop'         => $factory->create('RuntimesStopCommand', [ $runtime ]),
-            'runtimes:get'          => $factory->create('RuntimesGetCommand', [ $runtime ]),
-            'container:continue'    => $factory->create('ContainerContinueCommand', [ $runtime ]),
-            'container:destroy'     => $factory->create('ContainerDestroyCommand', [ $runtime ]),
-            'container:start'       => $factory->create('ContainerStartCommand', [ $runtime ]),
-            'container:stop'        => $factory->create('ContainerStopCommand', [ $runtime ]),
-            'container:status'      => $factory->create('ContainerStatusCommand', [ $runtime ]),
-            'cmd:ping'              => $factory->create('CmdPingCommand', [ $runtime ]),
-            'cmd:error'             => $factory->create('CmdErrorCommand', [ $runtime ])
+            'arch:start'            => $factory->create('ArchStartCommand',         [[ 'runtime' => $runtime ]]),
+            'arch:stop'             => $factory->create('ArchStopCommand',          [[ 'runtime' => $runtime ]]),
+            'arch:status'           => $factory->create('ArchStatusCommand',        [[ 'runtime' => $runtime ]]),
+            'process:exists'        => $factory->create('ProcessExistsCommand',     [[ 'runtime' => $runtime ]]),
+            'process:create'        => $factory->create('ProcessCreateCommand',     [[ 'runtime' => $runtime ]]),
+            'process:destroy'       => $factory->create('ProcessDestroyCommand',    [[ 'runtime' => $runtime ]]),
+            'process:start'         => $factory->create('ProcessStartCommand',      [[ 'runtime' => $runtime ]]),
+            'process:stop'          => $factory->create('ProcessStopCommand',       [[ 'runtime' => $runtime ]]),
+            'processes:create'      => $factory->create('ProcessesCreateCommand',   [[ 'runtime' => $runtime ]]),
+            'processes:destroy'     => $factory->create('ProcessesDestroyCommand',  [[ 'runtime' => $runtime ]]),
+            'processes:start'       => $factory->create('ProcessesStartCommand',    [[ 'runtime' => $runtime ]]),
+            'processes:stop'        => $factory->create('ProcessesStopCommand',     [[ 'runtime' => $runtime ]]),
+            'processes:get'         => $factory->create('ProcessesGetCommand',      [[ 'runtime' => $runtime ]]),
+            'thread:exists'         => $factory->create('ThreadExistsCommand',      [[ 'runtime' => $runtime ]]),
+            'thread:create'         => $factory->create('ThreadCreateCommand',      [[ 'runtime' => $runtime ]]),
+            'thread:destroy'        => $factory->create('ThreadDestroyCommand',     [[ 'runtime' => $runtime ]]),
+            'thread:start'          => $factory->create('ThreadStartCommand',       [[ 'runtime' => $runtime ]]),
+            'thread:stop'           => $factory->create('ThreadStopCommand',        [[ 'runtime' => $runtime ]]),
+            'threads:create'        => $factory->create('ThreadsCreateCommand',     [[ 'runtime' => $runtime ]]),
+            'threads:destroy'       => $factory->create('ThreadsDestroyCommand',    [[ 'runtime' => $runtime ]]),
+            'threads:start'         => $factory->create('ThreadsStartCommand',      [[ 'runtime' => $runtime ]]),
+            'threads:stop'          => $factory->create('ThreadsStopCommand',       [[ 'runtime' => $runtime ]]),
+            'threads:get'           => $factory->create('ThreadsGetCommand',        [[ 'runtime' => $runtime ]]),
+            'runtime:exists'        => $factory->create('RuntimeExistsCommand',     [[ 'runtime' => $runtime ]]),
+            'runtime:destroy'       => $factory->create('RuntimeDestroyCommand',    [[ 'runtime' => $runtime ]]),
+            'runtime:start'         => $factory->create('RuntimeStartCommand',      [[ 'runtime' => $runtime ]]),
+            'runtime:stop'          => $factory->create('RuntimeStopCommand',       [[ 'runtime' => $runtime ]]),
+            'runtimes:destroy'      => $factory->create('RuntimesDestroyCommand',   [[ 'runtime' => $runtime ]]),
+            'runtimes:start'        => $factory->create('RuntimesStartCommand',     [[ 'runtime' => $runtime ]]),
+            'runtimes:stop'         => $factory->create('RuntimesStopCommand',      [[ 'runtime' => $runtime ]]),
+            'runtimes:get'          => $factory->create('RuntimesGetCommand',       [[ 'runtime' => $runtime ]]),
+            'container:continue'    => $factory->create('ContainerContinueCommand', [[ 'runtime' => $runtime ]]),
+            'container:destroy'     => $factory->create('ContainerDestroyCommand',  [[ 'runtime' => $runtime ]]),
+            'container:start'       => $factory->create('ContainerStartCommand',    [[ 'runtime' => $runtime ]]),
+            'container:stop'        => $factory->create('ContainerStopCommand',     [[ 'runtime' => $runtime ]]),
+            'container:status'      => $factory->create('ContainerStatusCommand',   [[ 'runtime' => $runtime ]]),
+            'cmd:ping'              => $factory->create('CmdPingCommand',           [[ 'runtime' => $runtime ]]),
+            'cmd:error'             => $factory->create('CmdErrorCommand',          [[ 'runtime' => $runtime ]])
         ];
     }
 
@@ -101,7 +101,7 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
         $commands = [];
         foreach ($cmds as $name=>$command)
         {
-            $commands[$name] = $factory->create($command, [ $runtime ]);
+            $commands[$name] = $factory->create($command, [[ 'runtime' => $runtime ]]);
         }
 
         return $commands;

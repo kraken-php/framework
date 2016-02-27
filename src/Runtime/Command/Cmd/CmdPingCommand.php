@@ -2,7 +2,7 @@
 
 namespace Kraken\Runtime\Command\Cmd;
 
-use Kraken\Command\Command;
+use Kraken\Runtime\Command\Command;
 use Kraken\Command\CommandInterface;
 
 class CmdPingCommand extends Command implements CommandInterface

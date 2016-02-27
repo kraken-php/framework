@@ -2,25 +2,18 @@
 
 namespace Kraken\Core\Provider\Command;
 
-use Exception;
-use Kraken\Command\CommandFactory;
 use Kraken\Command\CommandManager;
 use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
+use Kraken\Runtime\Command\CommandFactory;
 use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Util\Factory\FactoryPluginInterface;
+use Exception;
 
 class CommandProvider extends ServiceProvider implements ServiceProviderInterface
 {
-    /**
-     * @var string[]
-     */
-    protected $requires = [
-        'Kraken\Core\CoreInputContextInterface'
-    ];
-
     /**
      * @var string[]
      */
@@ -34,9 +27,7 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
      */
     protected function register(CoreInterface $core)
     {
-        $context = $core->make('Kraken\Core\CoreInputContextInterface');
-
-        $factory = new CommandFactory($context);
+        $factory = new CommandFactory();
         $manager = new CommandManager();
 
         $core->instance(

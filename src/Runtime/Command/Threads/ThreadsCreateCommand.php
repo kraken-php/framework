@@ -2,8 +2,8 @@
 
 namespace Kraken\Runtime\Command\Threads;
 
-use Kraken\Command\Command;
 use Kraken\Command\CommandInterface;
+use Kraken\Runtime\Command\Command;
 use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 
 class ThreadsCreateCommand extends Command implements CommandInterface

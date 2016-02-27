@@ -1,13 +1,13 @@
 <?php
 
-namespace Kraken\Command;
+namespace Kraken\Runtime\Command;
 
+use Kraken\Command\CommandFactoryInterface;
 use Kraken\Util\Factory\Factory;
 
 class CommandFactory extends Factory implements CommandFactoryInterface
 {
     /**
-     * @param $context
      * @param string[] $params
      */
     public function __construct($params = [])
