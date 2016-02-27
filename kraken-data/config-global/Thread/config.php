@@ -91,11 +91,11 @@ return [
     'runtime' => [
         'manager' => [
             'process' => [
-                'class'  => 'Kraken\Runtime\Process\Manager\ProcessManagerNull',
+                'class'  => 'Kraken\Runtime\Container\Manager\ProcessManagerNull',
                 'config' => []
             ],
             'thread' => [
-                'class'  => 'Kraken\Runtime\Thread\Manager\ThreadManagerBase',
+                'class'  => 'Kraken\Runtime\Container\Manager\ThreadManagerBase',
                 'config' => []
             ]
         ]

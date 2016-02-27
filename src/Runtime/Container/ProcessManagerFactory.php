@@ -1,9 +1,9 @@
 <?php
 
-namespace Kraken\Runtime\Process;
+namespace Kraken\Runtime\Container;
 
 use Kraken\Util\Factory\Factory;
-use Kraken\Runtime\Process\Manager\ProcessManagerNull;
+use Kraken\Runtime\Container\Manager\ProcessManagerNull;
 use ReflectionClass;
 
 class ProcessManagerFactory extends Factory implements ProcessManagerFactoryInterface
@@ -17,8 +17,8 @@ class ProcessManagerFactory extends Factory implements ProcessManagerFactoryInte
 
         $factory = $this;
         $factory
-            ->define('Kraken\Runtime\Process\Manager\ProcessManagerBase', function($config) {
-                $reflection = (new ReflectionClass('Kraken\Runtime\Process\Manager\ProcessManagerBase'));
+            ->define('Kraken\Runtime\Container\Manager\ProcessManagerBase', function($config) {
+                $reflection = (new ReflectionClass('Kraken\Runtime\Container\Manager\ProcessManagerBase'));
                 return $reflection->newInstanceArgs([
                     $config['runtime'],
                     $config['channel'],
@@ -27,15 +27,15 @@ class ProcessManagerFactory extends Factory implements ProcessManagerFactoryInte
                     $config['filesystem']
                 ]);
             })
-            ->define('Kraken\Runtime\Process\Manager\ProcessManagerRemote', function($config) {
-                $reflection = (new ReflectionClass('Kraken\Runtime\Process\Manager\ProcessManagerRemote'));
+            ->define('Kraken\Runtime\Container\Manager\ProcessManagerRemote', function($config) {
+                $reflection = (new ReflectionClass('Kraken\Runtime\Container\Manager\ProcessManagerRemote'));
                 return $reflection->newInstanceArgs([
                     $config['runtime'],
                     $config['channel'],
                     $config['receiver']
                 ]);
             })
-            ->define('Kraken\Runtime\Process\Manager\ProcessManagerNull', function($config) {
+            ->define('Kraken\Runtime\Container\Manager\ProcessManagerNull', function($config) {
                 return new ProcessManagerNull();
             })
         ;

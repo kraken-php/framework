@@ -1,17 +1,17 @@
 <?php
 
-namespace Kraken\Runtime\Process;
+namespace Kraken\Runtime\Container;
 
 use Kraken\Promise\PromiseInterface;
 use Kraken\Runtime\Runtime;
 
-interface ProcessManagerInterface
+interface ThreadManagerInterface
 {
     /**
      * @param string $alias
      * @return bool
      */
-    public function existsProcess($alias);
+    public function existsThread($alias);
 
     /**
      * @param string $alias
@@ -19,61 +19,61 @@ interface ProcessManagerInterface
      * @param int $flags
      * @return PromiseInterface
      */
-    public function createProcess($alias, $name, $flags = Runtime::CREATE_DEFAULT);
+    public function createThread($alias, $name, $flags = Runtime::CREATE_DEFAULT);
 
     /**
      * @param string $alias
      * @param int $flags
      * @return PromiseInterface
      */
-    public function destroyProcess($alias, $flags = Runtime::DESTROY_FORCE_SOFT);
+    public function destroyThread($alias, $flags = Runtime::DESTROY_FORCE_SOFT);
 
     /**
      * @param string $alias
      * @return PromiseInterface
      */
-    public function startProcess($alias);
+    public function startThread($alias);
 
     /**
      * @param string $alias
      * @return PromiseInterface
      */
-    public function stopProcess($alias);
+    public function stopThread($alias);
 
     /**
      * @param string[][] $definitions
      * @param int $flags
      * @return PromiseInterface
      */
-    public function createProcesses($definitions, $flags = Runtime::CREATE_DEFAULT);
+    public function createThreads($definitions, $flags = Runtime::CREATE_DEFAULT);
 
     /**
      * @param string[] $aliases
      * @param int $flags
      * @return PromiseInterface
      */
-    public function destroyProcesses($aliases, $flags = Runtime::DESTROY_FORCE_SOFT);
+    public function destroyThreads($aliases, $flags = Runtime::DESTROY_FORCE_SOFT);
 
     /**
      * @param $aliases
      * @return PromiseInterface
      */
-    public function startProcesses($aliases);
+    public function startThreads($aliases);
 
     /**
      * @param $aliases
      * @return PromiseInterface
      */
-    public function stopProcesses($aliases);
+    public function stopThreads($aliases);
 
     /**
      * @return PromiseInterface
      */
-    public function getProcesses();
+    public function getThreads();
 
     /**
      * @param int $flags
      * @return PromiseInterface
      */
-    public function flushProcesses($flags = Runtime::DESTROY_KEEP);
+    public function flushThreads($flags = Runtime::DESTROY_KEEP);
 }

@@ -5,8 +5,8 @@ namespace Kraken\Runtime;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
-use Kraken\Runtime\Process\ProcessManagerInterface;
-use Kraken\Runtime\Thread\ThreadManagerInterface;
+use Kraken\Runtime\Container\ProcessManagerInterface;
+use Kraken\Runtime\Container\ThreadManagerInterface;
 
 class RuntimeManager implements RuntimeManagerInterface
 {

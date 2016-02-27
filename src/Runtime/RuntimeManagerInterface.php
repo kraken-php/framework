@@ -3,8 +3,8 @@
 namespace Kraken\Runtime;
 
 use Kraken\Promise\PromiseInterface;
-use Kraken\Runtime\Process\ProcessManagerInterface;
-use Kraken\Runtime\Thread\ThreadManagerInterface;
+use Kraken\Runtime\Container\ProcessManagerInterface;
+use Kraken\Runtime\Container\ThreadManagerInterface;
 
 interface RuntimeManagerInterface extends ProcessManagerInterface, ThreadManagerInterface
 {

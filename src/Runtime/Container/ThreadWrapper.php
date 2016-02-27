@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Runtime\Thread;
+namespace Kraken\Runtime\Container;
 
 use Thread;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Runtime\Thread\Manager;
+namespace Kraken\Runtime\Container\Manager;
 
 use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 use Kraken\Promise\Promise;
@@ -10,7 +10,7 @@ use Kraken\Channel\Extra\Request;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\RuntimeInterface;
-use Kraken\Runtime\Thread\ThreadManagerInterface;
+use Kraken\Runtime\Container\ThreadManagerInterface;
 
 class ThreadManagerRemote implements ThreadManagerInterface
 {

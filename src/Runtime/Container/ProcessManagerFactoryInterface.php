@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Runtime\Process;
+namespace Kraken\Runtime\Container;
 
 use Kraken\Runtime\RuntimeManagerFactoryInterface;
 

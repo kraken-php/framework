@@ -16,7 +16,7 @@ use Kraken\Runtime\RuntimeInterface;
 use Kraken\Runtime\RuntimeManager;
 use Kraken\Runtime\RuntimeManagerFactoryInterface;
 use Kraken\Runtime\RuntimeManagerInterface;
-use Kraken\Runtime\Thread\ThreadManagerFactory;
+use Kraken\Runtime\Container\ThreadManagerFactory;
 use Kraken\System\SystemUnix;
 
 class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderInterface
@@ -36,7 +36,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
      */
     protected $provides = [
         'Kraken\Runtime\Container\Process\ProcessManagerInterface',
-        'Kraken\Runtime\Thread\ThreadManagerInterface',
+        'Kraken\Runtime\Container\ThreadManagerInterface',
         'Kraken\Runtime\RuntimeManagerInterface'
     ];
 
@@ -93,7 +93,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
         );
 
         $core->instance(
-            'Kraken\Runtime\Thread\ThreadManagerInterface',
+            'Kraken\Runtime\Container\ThreadManagerInterface',
             $managerThread
         );
 
@@ -113,7 +113,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
         );
 
         $core->remove(
-            'Kraken\Runtime\Thread\ThreadManagerInterface'
+            'Kraken\Runtime\Container\ThreadManagerInterface'
         );
 
         $core->remove(

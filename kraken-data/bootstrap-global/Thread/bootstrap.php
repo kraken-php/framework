@@ -4,7 +4,7 @@
  * Any modifications in this file should be done with exceptional care.
  */
 
-$core = new \Kraken\Runtime\Thread\ThreadCore(
+$core = new \Kraken\Runtime\Container\ThreadCore(
     __DIR__ . '/../../'
 );
 

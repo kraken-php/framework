@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Runtime\Process\Manager;
+namespace Kraken\Runtime\Container\Manager;
 
 use Kraken\Core\EnvironmentInterface;
 use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
@@ -13,7 +13,7 @@ use Kraken\Promise\PromiseInterface;
 use Kraken\Channel\ChannelBaseInterface;
 use Kraken\Channel\Extra\Request;
 use Kraken\Throwable\Exception\Logic\Resource\ResourceDefinedException;
-use Kraken\Runtime\Process\ProcessManagerInterface;
+use Kraken\Runtime\Container\ProcessManagerInterface;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeInterface;

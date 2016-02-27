@@ -4,7 +4,7 @@
  * Any modifications in this file should be done with exceptional care.
  */
 
-$core = new \Kraken\Runtime\Process\ProcessCore(
+$core = new \Kraken\Runtime\Container\ProcessCore(
     __DIR__ . '/../../'
 );
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Runtime\Thread\Manager;
+namespace Kraken\Runtime\Container\Manager;
 
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
@@ -12,8 +12,8 @@ use Kraken\Throwable\Exception\Logic\Resource\ResourceDefinedException;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\RuntimeInterface;
-use Kraken\Runtime\Thread\ThreadManagerInterface;
-use Kraken\Runtime\Thread\ThreadWrapper;
+use Kraken\Runtime\Container\ThreadManagerInterface;
+use Kraken\Runtime\Container\ThreadWrapper;
 
 class ThreadManagerBase implements ThreadManagerInterface
 {

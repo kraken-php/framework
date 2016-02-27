@@ -1,20 +1,20 @@
 <?php
 
-namespace Kraken\Runtime\Thread\Manager;
+namespace Kraken\Runtime\Container\Manager;
 
 use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
+use Kraken\Runtime\Container\ProcessManagerInterface;
 use Kraken\Runtime\Runtime;
-use Kraken\Runtime\Thread\ThreadManagerInterface;
 
-class ThreadManagerNull implements ThreadManagerInterface
+class ProcessManagerNull implements ProcessManagerInterface
 {
     /**
      * @param string $alias
      * @return bool
      */
-    public function existsThread($alias)
+    public function existsProcess($alias)
     {
         return false;
     }
@@ -25,10 +25,10 @@ class ThreadManagerNull implements ThreadManagerInterface
      * @param int $flags
      * @return PromiseInterface
      */
-    public function createThread($alias, $name, $flags = Runtime::CREATE_DEFAULT)
+    public function createProcess($alias, $name, $flags = Runtime::CREATE_DEFAULT)
     {
         return Promise::doReject(
-            new RejectionException("Thread [$alias] could not be created.")
+            new RejectionException("Process [$alias] could not be created.")
         );
     }
 
@@ -37,10 +37,10 @@ class ThreadManagerNull implements ThreadManagerInterface
      * @param int $flags
      * @return PromiseInterface
      */
-    public function destroyThread($alias, $flags = Runtime::DESTROY_FORCE_SOFT)
+    public function destroyProcess($alias, $flags = Runtime::DESTROY_FORCE_SOFT)
     {
         return Promise::doResolve(
-            "Thread [$alias] was not needed to be destroyed, because it had not existed."
+            "Process [$alias] was not needed to be destroyed, because it had not existed."
         );
     }
 
@@ -48,7 +48,7 @@ class ThreadManagerNull implements ThreadManagerInterface
      * @param string $alias
      * @return PromiseInterface
      */
-    public function startThread($alias)
+    public function startProcess($alias)
     {
         return Promise::doReject(
             new RejectionException("Runtime [$alias] could not be started.")
@@ -59,7 +59,7 @@ class ThreadManagerNull implements ThreadManagerInterface
      * @param string $alias
      * @return PromiseInterface
      */
-    public function stopThread($alias)
+    public function stopProcess($alias)
     {
         return Promise::doReject(
             new RejectionException("Runtime [$alias] could not be stopped.")
@@ -71,10 +71,10 @@ class ThreadManagerNull implements ThreadManagerInterface
      * @param int $flags
      * @return PromiseInterface
      */
-    public function createThreads($definitions, $flags = Runtime::CREATE_DEFAULT)
+    public function createProcesses($definitions, $flags = Runtime::CREATE_DEFAULT)
     {
         return Promise::doReject(
-            new RejectionException("Threads could not be created.")
+            new RejectionException("Processes could not be created.")
         );
     }
 
@@ -83,10 +83,10 @@ class ThreadManagerNull implements ThreadManagerInterface
      * @param int $flags
      * @return PromiseInterface
      */
-    public function destroyThreads($aliases, $flags = Runtime::DESTROY_FORCE_SOFT)
+    public function destroyProcesses($aliases, $flags = Runtime::DESTROY_FORCE_SOFT)
     {
         return Promise::doResolve(
-            "Threads have been destroyed."
+            "Processes have been destroyed."
         );
     }
 
@@ -94,10 +94,10 @@ class ThreadManagerNull implements ThreadManagerInterface
      * @param $aliases
      * @return PromiseInterface
      */
-    public function startThreads($aliases)
+    public function startProcesses($aliases)
     {
         return Promise::doReject(
-            new RejectionException("Threads could not be started.")
+            new RejectionException("Processes could not be started.")
         );
     }
 
@@ -105,17 +105,17 @@ class ThreadManagerNull implements ThreadManagerInterface
      * @param $aliases
      * @return PromiseInterface
      */
-    public function stopThreads($aliases)
+    public function stopProcesses($aliases)
     {
         return Promise::doReject(
-            new RejectionException("Threads could not be stopped.")
+            new RejectionException("Processes could not be stopped.")
         );
     }
 
     /**
      * @return PromiseInterface
      */
-    public function getThreads()
+    public function getProcesses()
     {
         return Promise::doResolve([]);
     }
@@ -124,10 +124,10 @@ class ThreadManagerNull implements ThreadManagerInterface
      * @param int $flags
      * @return PromiseInterface
      */
-    public function flushThreads($flags = Runtime::DESTROY_KEEP)
+    public function flushProcesses($flags = Runtime::DESTROY_KEEP)
     {
         return Promise::doResolve(
-            "Threads have been flushed."
+            "Processes have been flushed."
         );
     }
 }
