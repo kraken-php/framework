@@ -7,17 +7,17 @@ use Kraken\Config\ConfigInterface;
 use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
-use Kraken\Throwable\Exception\System\ChildUnresponsiveException;
-use Kraken\Throwable\Exception\System\ParentUnresponsiveException;
 use Kraken\Loop\Timer\TimerCollection;
-use Kraken\Runtime\Container\Process\ProcessManagerFactory;
+use Kraken\Runtime\Container\ProcessManagerFactory;
+use Kraken\Runtime\Container\ThreadManagerFactory;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeInterface;
 use Kraken\Runtime\RuntimeManager;
 use Kraken\Runtime\RuntimeManagerFactoryInterface;
 use Kraken\Runtime\RuntimeManagerInterface;
-use Kraken\Runtime\Container\ThreadManagerFactory;
 use Kraken\System\SystemUnix;
+use Kraken\Throwable\Exception\System\ChildUnresponsiveException;
+use Kraken\Throwable\Exception\System\ParentUnresponsiveException;
 
 class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderInterface
 {
