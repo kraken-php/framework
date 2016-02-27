@@ -4,7 +4,7 @@ namespace Kraken\Runtime\Command\Cmd;
 
 use Kraken\Runtime\Command\Command;
 use Kraken\Command\CommandInterface;
-use Kraken\Supervision\ErrorManagerInterface;
+use Kraken\Supervision\SupervisorInterface;
 use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 use Error;
 use Exception;
@@ -12,7 +12,7 @@ use Exception;
 class CmdErrorCommand extends Command implements CommandInterface
 {
     /**
-     * @var ErrorManagerInterface
+     * @var SupervisorInterface
      */
     protected $manager;
 

@@ -10,7 +10,7 @@ use Kraken\Runtime\RuntimeInterface;
 use Error;
 use Exception;
 
-class ErrorHandlerBase implements ErrorHandlerInterface
+class SolverBase implements SolverInterface
 {
     /**
      * @var RuntimeInterface

@@ -6,8 +6,8 @@ use Exception;
 use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
-use Kraken\Supervision\ErrorFactory;
-use Kraken\Supervision\ErrorManager;
+use Kraken\Supervision\SolverFactory;
+use Kraken\Supervision\Supervisor;
 use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Util\Factory\FactoryPluginInterface;
@@ -25,8 +25,8 @@ class ErrorProvider extends ServiceProvider implements ServiceProviderInterface
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Supervision\ErrorFactoryInterface',
-        'Kraken\Supervision\ErrorManagerInterface'
+        'Kraken\Supervision\SolverFactoryInterface',
+        'Kraken\Supervision\SupervisorInterface'
     ];
 
     /**
@@ -36,20 +36,20 @@ class ErrorProvider extends ServiceProvider implements ServiceProviderInterface
     {
         $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
 
-        $factory = new ErrorFactory();
+        $factory = new SolverFactory();
         $default = [
             'factory' => $factory
         ];
 
         $core->instance(
-            'Kraken\Supervision\ErrorFactoryInterface',
+            'Kraken\Supervision\SolverFactoryInterface',
             $factory
         );
 
         $core->factory(
-            'Kraken\Supervision\ErrorManagerInterface',
+            'Kraken\Supervision\SupervisorInterface',
             function($config = []) use($runtime, $default) {
-                return new ErrorManager($runtime, array_merge($default, $config));
+                return new Supervisor($runtime, array_merge($default, $config));
             }
         );
     }
@@ -60,11 +60,11 @@ class ErrorProvider extends ServiceProvider implements ServiceProviderInterface
     protected function unregister(CoreInterface $core)
     {
         $core->remove(
-            'Kraken\Supervision\ErrorFactoryInterface'
+            'Kraken\Supervision\SolverFactoryInterface'
         );
 
         $core->remove(
-            'Kraken\Supervision\ErrorManagerInterface'
+            'Kraken\Supervision\SupervisorInterface'
         );
     }
 
@@ -75,14 +75,14 @@ class ErrorProvider extends ServiceProvider implements ServiceProviderInterface
     protected function boot(CoreInterface $core)
     {
         $config  = $core->make('Kraken\Config\ConfigInterface');
-        $factory = $core->make('Kraken\Supervision\ErrorFactoryInterface');
+        $factory = $core->make('Kraken\Supervision\SolverFactoryInterface');
 
         $handlers = (array) $config->get('error.handlers');
         foreach ($handlers as $handlerClass)
         {
             if (!class_exists($handlerClass))
             {
-                throw new ResourceUndefinedException("ErrorHandler [$handlerClass] does not exist.");
+                throw new ResourceUndefinedException("Solver [$handlerClass] does not exist.");
             }
 
             $factory
@@ -96,14 +96,14 @@ class ErrorProvider extends ServiceProvider implements ServiceProviderInterface
         {
             if (!class_exists($pluginClass))
             {
-                throw new ResourceUndefinedException("FactoryPlugin [$pluginClass] does not exist.");
+                throw new ResourceUndefinedException("SupervisorPlugin [$pluginClass] does not exist.");
             }
 
             $plugin = new $pluginClass();
 
             if (!($plugin instanceof FactoryPluginInterface))
             {
-                throw new InvalidArgumentException("FactoryPlugin [$pluginClass] does not implement FactoryPluginInterface.");
+                throw new InvalidArgumentException("SupervisorPlugin [$pluginClass] does not implement SupervisorPluginInterface.");
             }
 
             $plugin->registerPlugin($factory);

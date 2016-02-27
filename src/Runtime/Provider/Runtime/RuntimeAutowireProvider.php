@@ -30,7 +30,7 @@ class RuntimeAutowireProvider extends ServiceProvider implements ServiceProvider
 
         $model = $runtime->model();
         $model->setLoop($loop);
-        $model->setErrorManager($error);
+        $model->setSupervisor($error);
         $model->setRuntimeManager($manager);
     }
 }

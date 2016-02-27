@@ -3,13 +3,13 @@
 namespace Kraken\Supervision\Handler\Runtime;
 
 use Kraken\Channel\ChannelBaseInterface;
-use Kraken\Supervision\ErrorHandlerBase;
-use Kraken\Supervision\ErrorHandlerInterface;
+use Kraken\Supervision\SolverBase;
+use Kraken\Supervision\SolverInterface;
 use Kraken\Runtime\RuntimeCommand;
 use Error;
 use Exception;
 
-class RuntimeContinue extends ErrorHandlerBase implements ErrorHandlerInterface
+class RuntimeContinue extends SolverBase implements SolverInterface
 {
     /**
      * @var string[]

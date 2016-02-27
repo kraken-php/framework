@@ -3,14 +3,14 @@
 namespace Kraken\Supervision\Handler\Runtime;
 
 use Kraken\Promise\Promise;
-use Kraken\Supervision\ErrorHandlerBase;
-use Kraken\Supervision\ErrorHandlerInterface;
+use Kraken\Supervision\SolverBase;
+use Kraken\Supervision\SolverInterface;
 use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 use Kraken\Runtime\Runtime;
 use Error;
 use Exception;
 
-class RuntimeRecreate extends ErrorHandlerBase implements ErrorHandlerInterface
+class RuntimeRecreate extends SolverBase implements SolverInterface
 {
     /**
      * @var string[]

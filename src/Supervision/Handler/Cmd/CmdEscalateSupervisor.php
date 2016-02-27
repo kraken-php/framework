@@ -2,13 +2,13 @@
 
 namespace Kraken\Supervision\Handler\Cmd;
 
-use Kraken\Supervision\ErrorHandlerBase;
-use Kraken\Supervision\ErrorHandlerInterface;
+use Kraken\Supervision\SolverBase;
+use Kraken\Supervision\SolverInterface;
 use Kraken\Promise\Promise;
 use Error;
 use Exception;
 
-class CmdEscalateSupervisor extends ErrorHandlerBase implements ErrorHandlerInterface
+class CmdEscalateSupervisor extends SolverBase implements SolverInterface
 {
     /**
      * @param Error|Exception $ex

@@ -2,14 +2,14 @@
 
 namespace Kraken\Supervision\Handler\Cmd;
 
-use Kraken\Supervision\ErrorHandlerBase;
-use Kraken\Supervision\ErrorHandlerInterface;
+use Kraken\Supervision\SolverBase;
+use Kraken\Supervision\SolverInterface;
 use Kraken\Log\Logger;
 use Kraken\Log\LoggerInterface;
 use Error;
 use Exception;
 
-class CmdLog extends ErrorHandlerBase implements ErrorHandlerInterface
+class CmdLog extends SolverBase implements SolverInterface
 {
     /**
      * @var LoggerInterface

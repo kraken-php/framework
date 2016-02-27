@@ -9,7 +9,7 @@ use Kraken\Throwable\Exception\LogicException;
 use Error;
 use Exception;
 
-interface ErrorManagerInterface
+interface SupervisorInterface
 {
     /**
      * @param Error|Exception $ex
@@ -45,7 +45,7 @@ interface ErrorManagerInterface
 
     /**
      * @param string $exception
-     * @param ErrorHandlerInterface|string|string[] $handler
+     * @param SolverInterface|string|string[] $handler
      * @throws IllegalCallException
      * @throws LogicException
      */
@@ -53,7 +53,7 @@ interface ErrorManagerInterface
 
     /**
      * @param string $exception
-     * @return ErrorHandlerInterface|null
+     * @return SolverInterface|null
      */
     public function getHandler($exception);
 

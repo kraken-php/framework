@@ -2,7 +2,7 @@
 
 namespace Kraken\Runtime\Supervision\Remote;
 
-use Kraken\Supervision\ErrorManagerInterface;
+use Kraken\Supervision\SupervisorInterface;
 
-interface SupervisionManagerInterface extends ErrorManagerInterface
+interface SupervisionManagerInterface extends SupervisorInterface
 {}

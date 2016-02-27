@@ -6,7 +6,7 @@ use Kraken\Throwable\Exception\Runtime\ExecutionException;
 use Error;
 use Exception;
 
-class ErrorManagerPlugin implements ErrorManagerPluginInterface
+class SupervisorPlugin implements SupervisorPluginInterface
 {
     /**
      * @var bool
@@ -14,10 +14,10 @@ class ErrorManagerPlugin implements ErrorManagerPluginInterface
     protected $registered;
 
     /**
-     * @param ErrorManagerInterface $manager
+     * @param SupervisorInterface $manager
      * @throws ExecutionException
      */
-    public function registerPlugin(ErrorManagerInterface $manager)
+    public function registerPlugin(SupervisorInterface $manager)
     {
         try
         {
@@ -35,24 +35,24 @@ class ErrorManagerPlugin implements ErrorManagerPluginInterface
     }
 
     /**
-     * @param ErrorManagerInterface $manager
+     * @param SupervisorInterface $manager
      */
-    public function unregisterPlugin(ErrorManagerInterface $manager)
+    public function unregisterPlugin(SupervisorInterface $manager)
     {
         $this->unregister($manager);
         $this->registered = false;
     }
 
     /**
-     * @param ErrorManagerInterface $manager
+     * @param SupervisorInterface $manager
      */
-    protected function register(ErrorManagerInterface $manager)
+    protected function register(SupervisorInterface $manager)
     {}
 
     /**
-     * @param ErrorManagerInterface $manager
+     * @param SupervisorInterface $manager
      */
-    protected function unregister(ErrorManagerInterface $manager)
+    protected function unregister(SupervisorInterface $manager)
     {}
 
     /**

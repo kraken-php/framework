@@ -8,15 +8,15 @@ use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 use Error;
 use Exception;
 
-class ErrorHandlerComposite implements ErrorHandlerInterface
+class SolverComposite implements SolverInterface
 {
     /**
-     * @var ErrorHandlerInterface[]
+     * @var SolverInterface[]
      */
     protected $handlers;
 
     /**
-     * @param ErrorHandlerInterface[] $handlers
+     * @param SolverInterface[] $handlers
      */
     public function __construct($handlers = [])
     {

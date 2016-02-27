@@ -2,13 +2,13 @@
 
 namespace Kraken\Supervision\Handler\Runtime;
 
-use Kraken\Supervision\ErrorHandlerBase;
-use Kraken\Supervision\ErrorHandlerInterface;
+use Kraken\Supervision\SolverBase;
+use Kraken\Supervision\SolverInterface;
 use Kraken\Runtime\Runtime;
 use Error;
 use Exception;
 
-class RuntimeDestroySoft extends ErrorHandlerBase implements ErrorHandlerInterface
+class RuntimeDestroySoft extends SolverBase implements SolverInterface
 {
     /**
      * @var string[]

@@ -2,12 +2,12 @@
 
 namespace Kraken\Supervision\Handler\Cmd;
 
-use Kraken\Supervision\ErrorHandlerBase;
-use Kraken\Supervision\ErrorHandlerInterface;
+use Kraken\Supervision\SolverBase;
+use Kraken\Supervision\SolverInterface;
 use Error;
 use Exception;
 
-class CmdDoNothing extends ErrorHandlerBase implements ErrorHandlerInterface
+class CmdDoNothing extends SolverBase implements SolverInterface
 {
     /**
      * @param Error|Exception $ex

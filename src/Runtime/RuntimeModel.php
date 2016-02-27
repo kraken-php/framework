@@ -7,7 +7,7 @@ use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Core\CoreInterface;
-use Kraken\Supervision\ErrorManagerInterface;
+use Kraken\Supervision\SupervisorInterface;
 use Kraken\Throwable\Exception\LogicException;
 use Kraken\Loop\Loop;
 use Kraken\Loop\LoopExtendedInterface;
@@ -83,9 +83,9 @@ class RuntimeModel implements RuntimeModelInterface
     protected $loopNextState;
 
     /**
-     * @var ErrorManagerInterface
+     * @var SupervisorInterface
      */
-    protected $errorManager;
+    protected $supervisor;
 
     /**
      * @var EventEmitterInterface
@@ -110,7 +110,7 @@ class RuntimeModel implements RuntimeModelInterface
         $this->loopBackup = null;
         $this->loopState = self::LOOP_STATE_STOPPED;
         $this->loopNextState = self::LOOP_STATE_STOPPED;
-        $this->errorManager = null;
+        $this->supervisor = null;
         $this->eventEmitter = null;
     }
 
@@ -130,7 +130,7 @@ class RuntimeModel implements RuntimeModelInterface
         unset($this->loopBackup);
         unset($this->loopState);
         unset($this->loopNextState);
-        unset($this->errorManager);
+        unset($this->supervisor);
         unset($this->eventEmitter);
     }
 
@@ -240,27 +240,27 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @param ErrorManagerInterface $manager
+     * @param SupervisorInterface $supervisor
      */
-    public function setErrorManager(ErrorManagerInterface $manager)
+    public function setSupervisor(SupervisorInterface $supervisor)
     {
-        $this->errorManager = $manager;
+        $this->supervisor = $supervisor;
     }
 
     /**
-     * @return ErrorManagerInterface
+     * @return SupervisorInterface
      */
-    public function getErrorManager()
+    public function getSupervisor()
     {
-        return $this->errorManager;
+        return $this->supervisor;
     }
 
     /**
-     * @return ErrorManagerInterface
+     * @return SupervisorInterface
      */
-    public function errorManager()
+    public function supervisor()
     {
-        return $this->errorManager;
+        return $this->supervisor;
     }
 
     /**
@@ -489,7 +489,7 @@ class RuntimeModel implements RuntimeModelInterface
      */
     public function fail($ex, $params = [])
     {
-        $manager = $this->errorManager();
+        $manager = $this->supervisor();
         $this->setLoopState(self::LOOP_STATE_FAILED);
         $this->loop()->afterTick(function() use($manager, $ex, $params) {
             try

@@ -11,7 +11,7 @@ use Kraken\Runtime\RuntimeInterface;
 use Error;
 use Exception;
 
-class ErrorManager implements ErrorManagerInterface
+class Supervisor implements SupervisorInterface
 {
     /**
      * @var RuntimeInterface
@@ -24,14 +24,14 @@ class ErrorManager implements ErrorManagerInterface
     protected $params;
 
     /**
-     * @var ErrorHandlerInterface[]
+     * @var SolverInterface[]
      */
     protected $rules;
 
     /**
      * @param RuntimeInterface $runtime
      * @param mixed[] $params
-     * @param ErrorHandlerInterface[] $rules
+     * @param SolverInterface[] $rules
      */
     public function __construct(RuntimeInterface $runtime, $params = [], $rules = [])
     {
@@ -107,7 +107,7 @@ class ErrorManager implements ErrorManagerInterface
 
     /**
      * @param string $exception
-     * @param ErrorHandlerInterface|string|string[] $handler
+     * @param SolverInterface|string|string[] $handler
      * @throws LogicException
      */
     public function setHandler($exception, $handler)
@@ -125,7 +125,7 @@ class ErrorManager implements ErrorManagerInterface
                 $handlers[] = $this->resolveHandler($name);
             }
 
-            $handler = new ErrorHandlerComposite($handlers);
+            $handler = new SolverComposite($handlers);
         }
 
         $this->rules[$exception] = $handler;
@@ -133,7 +133,7 @@ class ErrorManager implements ErrorManagerInterface
 
     /**
      * @param string $exception
-     * @return ErrorHandlerInterface|null
+     * @return SolverInterface|null
      */
     public function getHandler($exception)
     {
@@ -174,7 +174,7 @@ class ErrorManager implements ErrorManagerInterface
         if ($chosen === null)
         {
             return Promise::doReject(
-                new ExecutionException("ErrorHandlerInterface [$classBaseEx] is not registered.")
+                new ExecutionException("SolverInterface [$classBaseEx] is not registered.")
             );
         }
 
@@ -187,7 +187,7 @@ class ErrorManager implements ErrorManagerInterface
 
     /**
      * @param string $name
-     * @return ErrorHandlerInterface
+     * @return SolverInterface
      * @throws LogicException
      */
     protected function resolveHandler($name)

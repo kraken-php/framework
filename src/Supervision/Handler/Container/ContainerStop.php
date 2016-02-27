@@ -2,12 +2,12 @@
 
 namespace Kraken\Supervision\Handler\Container;
 
-use Kraken\Supervision\ErrorHandlerBase;
-use Kraken\Supervision\ErrorHandlerInterface;
+use Kraken\Supervision\SolverBase;
+use Kraken\Supervision\SolverInterface;
 use Error;
 use Exception;
 
-class ContainerStop extends ErrorHandlerBase implements ErrorHandlerInterface
+class ContainerStop extends SolverBase implements SolverInterface
 {
     /**
      * @param Error|Exception $ex

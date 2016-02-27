@@ -4,13 +4,13 @@ namespace Kraken\Supervision\Handler\Cmd;
 
 use Kraken\Channel\ChannelBaseInterface;
 use Kraken\Channel\Extra\Request;
-use Kraken\Supervision\ErrorHandlerBase;
-use Kraken\Supervision\ErrorHandlerInterface;
+use Kraken\Supervision\SolverBase;
+use Kraken\Supervision\SolverInterface;
 use Kraken\Runtime\RuntimeCommand;
 use Error;
 use Exception;
 
-class CmdEscalateManager extends ErrorHandlerBase implements ErrorHandlerInterface
+class CmdEscalateManager extends SolverBase implements SolverInterface
 {
     /**
      * @var ChannelBaseInterface

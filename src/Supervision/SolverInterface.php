@@ -6,7 +6,7 @@ use Kraken\Promise\PromiseInterface;
 use Error;
 use Exception;
 
-interface ErrorHandlerInterface
+interface SolverInterface
 {
     /**
      * @param Error|Exception $ex

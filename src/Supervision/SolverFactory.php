@@ -4,7 +4,7 @@ namespace Kraken\Supervision;
 
 use Kraken\Util\Factory\Factory;
 
-class ErrorFactory extends Factory implements ErrorFactoryInterface
+class SolverFactory extends Factory implements SolverFactoryInterface
 {
     /**
      *
@@ -16,7 +16,7 @@ class ErrorFactory extends Factory implements ErrorFactoryInterface
         $handlers = [
             'CmdDoNothing'          => 'Kraken\Supervision\Handler\Cmd\CmdDoNothing',
             'CmdEscalateManager'    => 'Kraken\Supervision\Handler\Cmd\CmdEscalateManager',
-            'CmdEscalateSupervisor' => 'kraken\Error\Handler\Cmd\CmdEscalateSupervisor',
+            'CmdEscalateSupervisor' => 'Kraken\Supervision\Handler\Cmd\CmdEscalateSupervisor',
             'CmdLog'                => 'Kraken\Supervision\Handler\Cmd\CmdLog',
             'RuntimeContinue'       => 'Kraken\Supervision\Handler\Runtime\RuntimeContinue',
             'RuntimeDestroy'        => 'Kraken\Supervision\Handler\Runtime\RuntimeDestroy',
