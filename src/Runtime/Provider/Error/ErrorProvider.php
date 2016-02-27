@@ -7,9 +7,9 @@ use Kraken\Config\ConfigInterface;
 use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
-use Kraken\Error\ErrorHandlerInterface;
-use Kraken\Error\ErrorManagerInterface;
-use Kraken\Error\ErrorManagerPluginInterface;
+use Kraken\Supervision\ErrorHandlerInterface;
+use Kraken\Supervision\ErrorManagerInterface;
+use Kraken\Supervision\ErrorManagerPluginInterface;
 use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 
@@ -20,16 +20,16 @@ class ErrorProvider extends ServiceProvider implements ServiceProviderInterface
      */
     protected $requires = [
         'Kraken\Config\ConfigInterface',
-        'Kraken\Error\ErrorManagerInterface',
-        'Kraken\Error\ErrorFactoryInterface'
+        'Kraken\Supervision\ErrorManagerInterface',
+        'Kraken\Supervision\ErrorFactoryInterface'
     ];
 
     /**
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Runtime\RuntimeErrorManagerInterface',
-        'Kraken\Runtime\RuntimeErrorSupervisorInterface'
+        'Kraken\Runtime\Supervision\Base\SupervisionManagerInterface',
+        'Kraken\Runtime\Supervision\Remote\SupervisionManagerInterface'
     ];
 
     /**
@@ -39,16 +39,16 @@ class ErrorProvider extends ServiceProvider implements ServiceProviderInterface
     {
         $config = $core->make('Kraken\Config\ConfigInterface');
 
-        $errorManager    = $core->make('Kraken\Error\ErrorManagerInterface', $config->get('error.manager.params'));
-        $errorSupervisor = $core->make('Kraken\Error\ErrorManagerInterface', $config->get('error.supervisor.params'));
+        $errorManager    = $core->make('Kraken\Supervision\ErrorManagerInterface', $config->get('error.manager.params'));
+        $errorSupervisor = $core->make('Kraken\Supervision\ErrorManagerInterface', $config->get('error.supervisor.params'));
 
         $core->instance(
-            'Kraken\Runtime\RuntimeErrorManagerInterface',
+            'Kraken\Runtime\Supervision\Base\SupervisionManagerInterface',
             $errorManager
         );
 
         $core->instance(
-            'Kraken\Runtime\RuntimeErrorSupervisorInterface',
+            'Kraken\Runtime\Supervision\Remote\SupervisionManagerInterface',
             $errorSupervisor
         );
     }
@@ -59,11 +59,11 @@ class ErrorProvider extends ServiceProvider implements ServiceProviderInterface
     protected function unregister(CoreInterface $core)
     {
         $core->remove(
-            'Kraken\Runtime\RuntimeErrorManagerInterface'
+            'Kraken\Runtime\Supervision\Base\SupervisionManagerInterface'
         );
 
         $core->remove(
-            'Kraken\Runtime\RuntimeErrorSupervisorInterface'
+            'Kraken\Runtime\Supervision\Remote\SupervisionManagerInterface'
         );
     }
 
@@ -75,8 +75,8 @@ class ErrorProvider extends ServiceProvider implements ServiceProviderInterface
     {
         $config = $core->make('Kraken\Config\ConfigInterface');
 
-        $errorManager    = $core->make('Kraken\Runtime\RuntimeErrorManagerInterface');
-        $errorSupervisor = $core->make('Kraken\Runtime\RuntimeErrorSupervisorInterface');
+        $errorManager    = $core->make('Kraken\Runtime\Supervision\Base\SupervisionManagerInterface');
+        $errorSupervisor = $core->make('Kraken\Runtime\Supervision\Remote\SupervisionManagerInterface');
 
         $this->bootErrorManager($errorManager, $config);
         $this->bootErrorSupervisor($errorSupervisor, $config);

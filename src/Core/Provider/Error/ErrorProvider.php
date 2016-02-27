@@ -6,8 +6,8 @@ use Exception;
 use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
-use Kraken\Error\ErrorFactory;
-use Kraken\Error\ErrorManager;
+use Kraken\Supervision\ErrorFactory;
+use Kraken\Supervision\ErrorManager;
 use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Util\Factory\FactoryPluginInterface;
@@ -25,8 +25,8 @@ class ErrorProvider extends ServiceProvider implements ServiceProviderInterface
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Error\ErrorFactoryInterface',
-        'Kraken\Error\ErrorManagerInterface'
+        'Kraken\Supervision\ErrorFactoryInterface',
+        'Kraken\Supervision\ErrorManagerInterface'
     ];
 
     /**
@@ -42,12 +42,12 @@ class ErrorProvider extends ServiceProvider implements ServiceProviderInterface
         ];
 
         $core->instance(
-            'Kraken\Error\ErrorFactoryInterface',
+            'Kraken\Supervision\ErrorFactoryInterface',
             $factory
         );
 
         $core->factory(
-            'Kraken\Error\ErrorManagerInterface',
+            'Kraken\Supervision\ErrorManagerInterface',
             function($config = []) use($runtime, $default) {
                 return new ErrorManager($runtime, array_merge($default, $config));
             }
@@ -60,11 +60,11 @@ class ErrorProvider extends ServiceProvider implements ServiceProviderInterface
     protected function unregister(CoreInterface $core)
     {
         $core->remove(
-            'Kraken\Error\ErrorFactoryInterface'
+            'Kraken\Supervision\ErrorFactoryInterface'
         );
 
         $core->remove(
-            'Kraken\Error\ErrorManagerInterface'
+            'Kraken\Supervision\ErrorManagerInterface'
         );
     }
 
@@ -75,7 +75,7 @@ class ErrorProvider extends ServiceProvider implements ServiceProviderInterface
     protected function boot(CoreInterface $core)
     {
         $config  = $core->make('Kraken\Config\ConfigInterface');
-        $factory = $core->make('Kraken\Error\ErrorFactoryInterface');
+        $factory = $core->make('Kraken\Supervision\ErrorFactoryInterface');
 
         $handlers = (array) $config->get('error.handlers');
         foreach ($handlers as $handlerClass)

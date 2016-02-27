@@ -6,7 +6,7 @@ use Error;
 use Exception;
 use Kraken\Core\CoreAwareInterface;
 use Kraken\Core\CoreInputContextInterface;
-use Kraken\Error\ErrorManagerAwareInterface;
+use Kraken\Supervision\ErrorManagerAwareInterface;
 use Kraken\Event\EventEmitterAwareInterface;
 use Kraken\Loop\LoopExtendedAwareInterface;
 use Kraken\Promise\PromiseInterface;

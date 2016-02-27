@@ -14,7 +14,7 @@ class RuntimeAutowireProvider extends ServiceProvider implements ServiceProvider
     protected $requires = [
         'Kraken\Loop\LoopExtendedInterface',
         'Kraken\Runtime\RuntimeInterface',
-        'Kraken\Runtime\RuntimeErrorManagerInterface',
+        'Kraken\Runtime\Supervision\Base\SupervisionManagerInterface',
         'Kraken\Runtime\RuntimeManagerInterface'
     ];
 
@@ -25,7 +25,7 @@ class RuntimeAutowireProvider extends ServiceProvider implements ServiceProvider
     {
         $loop    = $core->make('Kraken\Loop\LoopExtendedInterface');
         $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
-        $error   = $core->make('Kraken\Runtime\RuntimeErrorManagerInterface');
+        $error   = $core->make('Kraken\Runtime\Supervision\Base\SupervisionManagerInterface');
         $manager = $core->make('Kraken\Runtime\RuntimeManagerInterface');
 
         $model = $runtime->model();

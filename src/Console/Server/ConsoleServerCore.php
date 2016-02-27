@@ -52,13 +52,14 @@ class ConsoleServerCore extends Core implements CoreInterface
             'Core'              => 'Kraken\Core\CoreInterface',
             'Emitter'           => 'Kraken\Event\EventEmitterInterface',
             'Environment'       => 'Kraken\Core\EnvironmentInterface',
-            'ErrorManager'      => 'Kraken\Runtime\RuntimeErrorManagerInterface',
-            'ErrorSupervisor'   => 'Kraken\Runtime\RuntimeErrorSupervisorInterface',
             'Filesystem'        => 'Kraken\Filesystem\FilesystemInterface',
             'Filesystem.Disk'   => 'Kraken\Filesystem\FilesystemInterface',
             'Filesystem.Cloud'  => 'Kraken\Filesystem\FilesystemManagerInterface',
             'Logger'            => 'Kraken\Log\LoggerInterface',
-            'Loop'              => 'Kraken\Loop\LoopInterface'
+            'Loop'              => 'Kraken\Loop\LoopInterface',
+            'Supervisor'        => 'Kraken\Runtime\Supervision\Base\SupervisionManagerInterface',
+            'Supervisor.Base'   => 'Kraken\Runtime\Supervision\Base\SupervisionManagerInterface',
+            'Supervisor.Remote' => 'Kraken\Runtime\Supervision\Remote\SupervisionManagerInterface'
         ];
     }
 }
