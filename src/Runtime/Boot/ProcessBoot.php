@@ -1,12 +1,12 @@
 <?php
 
-namespace Kraken\Boot;
+namespace Kraken\Runtime\Boot;
 
 use ReflectionClass;
 use Kraken\Runtime\RuntimeInterface;
 use Kraken\Support\StringSupport;
 
-class ThreadBoot
+class ProcessBoot
 {
     /**
      * @var mixed[]
@@ -29,7 +29,7 @@ class ThreadBoot
     public function __construct()
     {
         $this->controllerParams = [];
-        $this->controllerClass = '\\%prefix%\\Thread\\%name%\\%name%Controller';
+        $this->controllerClass = '\\%prefix%\\Process\\%name%\\%name%Controller';
         $this->params = [
             'prefix' => 'Kraken',
             'name'   => 'Undefined'
@@ -48,7 +48,7 @@ class ThreadBoot
 
     /**
      * @param string $class
-     * @return ThreadBoot
+     * @return ProcessBoot
      */
     public function controller($class)
     {
@@ -59,7 +59,7 @@ class ThreadBoot
 
     /**
      * @param mixed[] $args
-     * @return ThreadBoot
+     * @return ProcessBoot
      */
     public function constructor($args)
     {
@@ -70,7 +70,7 @@ class ThreadBoot
 
     /**
      * @param string[] $params
-     * @return ThreadBoot
+     * @return ProcessBoot
      */
     public function params($params)
     {
@@ -102,7 +102,7 @@ class ThreadBoot
         else
         {
             $core = require(
-                $datapath . '/bootstrap-global/Thread/bootstrap.php'
+                $datapath . '/bootstrap-global/Process/bootstrap.php'
             );
         }
 

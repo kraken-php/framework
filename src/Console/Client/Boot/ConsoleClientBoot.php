@@ -1,12 +1,12 @@
 <?php
 
-namespace Kraken\Boot;
+namespace Kraken\Console\Client\Boot;
 
 use ReflectionClass;
-use Kraken\Runtime\RuntimeInterface;
+use Kraken\Console\Client\ConsoleClientInterface;
 use Kraken\Support\StringSupport;
 
-class ProcessBoot
+class ConsoleBoot
 {
     /**
      * @var mixed[]
@@ -29,7 +29,7 @@ class ProcessBoot
     public function __construct()
     {
         $this->controllerParams = [];
-        $this->controllerClass = '\\%prefix%\\Process\\%name%\\%name%Controller';
+        $this->controllerClass = '\\Kraken\\Console\\Client\\ConsoleClient';
         $this->params = [
             'prefix' => 'Kraken',
             'name'   => 'Undefined'
@@ -81,31 +81,20 @@ class ProcessBoot
 
     /**
      * @param string $path
-     * @return RuntimeInterface
+     * @return ConsoleClientInterface
      */
     public function boot($path)
     {
-        $datapath = realpath($path);
+        $core = require(
+            realpath($path) . '/bootstrap/ConsoleClient/bootstrap.php'
+        );
+
         $controller = (new ReflectionClass(
             StringSupport::parametrize($this->controllerClass, $this->params)
         ))
         ->newInstanceArgs(
             array_merge($this->controllerParams)
         );
-
-        if (file_exists($datapath . '/bootstrap/' . $controller->name() . '/bootstrap.php'))
-        {
-            $core = require(
-                $datapath . '/bootstrap/' . $controller->name() . '/bootstrap.php'
-            );
-        }
-        else
-        {
-            $core = require(
-                $datapath . '/bootstrap-global/Process/bootstrap.php'
-            );
-        }
-
         $controller
             ->setCore($core);
 

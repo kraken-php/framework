@@ -23,7 +23,7 @@ if (!defined('STDIN'))
  */
 try
 {
-    $process = (new \Kraken\Boot\ConsoleServerBoot)
+    $process = (new \Kraken\Console\Server\Boot\ConsoleBoot)
         ->controller(
             'Kraken\\Console\\Server\\ConsoleServer'
         )

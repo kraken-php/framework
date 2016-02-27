@@ -1,12 +1,12 @@
 <?php
 
-namespace Kraken\Boot;
+namespace Kraken\Runtime\Boot;
 
 use ReflectionClass;
-use Kraken\Console\Client\ConsoleClientInterface;
+use Kraken\Runtime\RuntimeInterface;
 use Kraken\Support\StringSupport;
 
-class ConsoleClientBoot
+class ThreadBoot
 {
     /**
      * @var mixed[]
@@ -29,7 +29,7 @@ class ConsoleClientBoot
     public function __construct()
     {
         $this->controllerParams = [];
-        $this->controllerClass = '\\Kraken\\Console\\Client\\ConsoleClient';
+        $this->controllerClass = '\\%prefix%\\Thread\\%name%\\%name%Controller';
         $this->params = [
             'prefix' => 'Kraken',
             'name'   => 'Undefined'
@@ -48,7 +48,7 @@ class ConsoleClientBoot
 
     /**
      * @param string $class
-     * @return ProcessBoot
+     * @return ThreadBoot
      */
     public function controller($class)
     {
@@ -59,7 +59,7 @@ class ConsoleClientBoot
 
     /**
      * @param mixed[] $args
-     * @return ProcessBoot
+     * @return ThreadBoot
      */
     public function constructor($args)
     {
@@ -70,7 +70,7 @@ class ConsoleClientBoot
 
     /**
      * @param string[] $params
-     * @return ProcessBoot
+     * @return ThreadBoot
      */
     public function params($params)
     {
@@ -81,20 +81,31 @@ class ConsoleClientBoot
 
     /**
      * @param string $path
-     * @return ConsoleClientInterface
+     * @return RuntimeInterface
      */
     public function boot($path)
     {
-        $core = require(
-            realpath($path) . '/bootstrap/ConsoleClient/bootstrap.php'
-        );
-
+        $datapath = realpath($path);
         $controller = (new ReflectionClass(
             StringSupport::parametrize($this->controllerClass, $this->params)
         ))
         ->newInstanceArgs(
             array_merge($this->controllerParams)
         );
+
+        if (file_exists($datapath . '/bootstrap/' . $controller->name() . '/bootstrap.php'))
+        {
+            $core = require(
+                $datapath . '/bootstrap/' . $controller->name() . '/bootstrap.php'
+            );
+        }
+        else
+        {
+            $core = require(
+                $datapath . '/bootstrap-global/Thread/bootstrap.php'
+            );
+        }
+
         $controller
             ->setCore($core);
 
