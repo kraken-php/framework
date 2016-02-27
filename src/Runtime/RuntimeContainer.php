@@ -7,8 +7,8 @@ use Kraken\Event\EventEmitter;
 use Kraken\Event\EventHandler;
 use Kraken\Loop\LoopInterface;
 use Kraken\Promise\PromiseInterface;
-use Kraken\Runtime\Container\Provider\Runtime\RuntimeAutowireProvider;
-use Kraken\Runtime\Container\Provider\Runtime\RuntimeProvider;
+use Kraken\Runtime\Provider\Runtime\RuntimeAutowireProvider;
+use Kraken\Runtime\Provider\Runtime\RuntimeProvider;
 use Error;
 use Exception;
 

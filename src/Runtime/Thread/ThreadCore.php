@@ -30,11 +30,11 @@ class ThreadCore extends Core implements CoreInterface
             'Kraken\Core\Provider\Filesystem\FilesystemProvider',
             'Kraken\Core\Provider\Log\LogProvider',
             'Kraken\Core\Provider\Loop\LoopProvider',
-            'Kraken\Runtime\Container\Provider\Channel\ChannelProvider',
-            'Kraken\Runtime\Container\Provider\Command\CommandProvider',
-            'Kraken\Runtime\Container\Provider\Console\ConsoleProvider',
-            'Kraken\Runtime\Container\Provider\Error\ErrorProvider',
-            'Kraken\Runtime\Container\Provider\Runtime\RuntimeManagerProvider'
+            'Kraken\Runtime\Provider\Channel\ChannelProvider',
+            'Kraken\Runtime\Provider\Command\CommandProvider',
+            'Kraken\Runtime\Provider\Console\ConsoleProvider',
+            'Kraken\Runtime\Provider\Error\ErrorProvider',
+            'Kraken\Runtime\Provider\Runtime\RuntimeManagerProvider'
         ];
     }
 
