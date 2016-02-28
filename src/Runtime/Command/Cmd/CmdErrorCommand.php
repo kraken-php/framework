@@ -4,7 +4,7 @@ namespace Kraken\Runtime\Command\Cmd;
 
 use Kraken\Runtime\Command\Command;
 use Kraken\Command\CommandInterface;
-use Kraken\Supervision\SupervisorInterface;
+use Kraken\Supervisor\SupervisorInterface;
 use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 use Error;
 use Exception;
@@ -21,7 +21,7 @@ class CmdErrorCommand extends Command implements CommandInterface
      */
     protected function construct()
     {
-        $this->manager = $this->runtime->core()->make('Kraken\Runtime\Supervision\Remote\SupervisionManagerInterface');
+        $this->manager = $this->runtime->core()->make('Kraken\Runtime\Supervisor\SupervisorRemoteInterface');
     }
 
     /**

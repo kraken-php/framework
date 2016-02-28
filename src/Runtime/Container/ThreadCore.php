@@ -25,7 +25,7 @@ class ThreadCore extends Core implements CoreInterface
             'Kraken\Core\Provider\Container\ContainerProvider',
             'Kraken\Core\Provider\Core\CoreProvider',
             'Kraken\Core\Provider\Core\EnvironmentProvider',
-            'Kraken\Core\Provider\Error\ErrorProvider',
+            'Kraken\Core\Provider\Supervisor\SupervisorProvider',
             'Kraken\Core\Provider\Event\EventProvider',
             'Kraken\Core\Provider\Filesystem\FilesystemProvider',
             'Kraken\Core\Provider\Log\LogProvider',
@@ -33,7 +33,7 @@ class ThreadCore extends Core implements CoreInterface
             'Kraken\Runtime\Provider\Channel\ChannelProvider',
             'Kraken\Runtime\Provider\Command\CommandProvider',
             'Kraken\Runtime\Provider\Console\ConsoleProvider',
-            'Kraken\Runtime\Provider\Error\ErrorProvider',
+            'Kraken\Runtime\Provider\Supervisor\SupervisorProvider',
             'Kraken\Runtime\Provider\Runtime\RuntimeManagerProvider'
         ];
     }
@@ -59,9 +59,9 @@ class ThreadCore extends Core implements CoreInterface
             'Filesystem.Cloud'  => 'Kraken\Filesystem\FilesystemManagerInterface',
             'Logger'            => 'Kraken\Log\LoggerInterface',
             'Loop'              => 'Kraken\Loop\LoopInterface',
-            'Supervisor'        => 'Kraken\Runtime\Supervision\Base\SupervisionManagerInterface',
-            'Supervisor.Base'   => 'Kraken\Runtime\Supervision\Base\SupervisionManagerInterface',
-            'Supervisor.Remote' => 'Kraken\Runtime\Supervision\Remote\SupervisionManagerInterface'
+            'Supervisor'        => 'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
+            'Supervisor.Base'   => 'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
+            'Supervisor.Remote' => 'Kraken\Runtime\Supervisor\SupervisorRemoteInterface'
         ];
     }
 }

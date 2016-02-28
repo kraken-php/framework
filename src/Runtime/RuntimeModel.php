@@ -7,7 +7,7 @@ use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Core\CoreInterface;
-use Kraken\Supervision\SupervisorInterface;
+use Kraken\Supervisor\SupervisorInterface;
 use Kraken\Throwable\Exception\LogicException;
 use Kraken\Loop\Loop;
 use Kraken\Loop\LoopExtendedInterface;
