@@ -35,7 +35,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Runtime\Container\Process\ProcessManagerInterface',
+        'Kraken\Runtime\Container\ProcessManagerInterface',
         'Kraken\Runtime\Container\ThreadManagerInterface',
         'Kraken\Runtime\RuntimeManagerInterface'
     ];
@@ -68,7 +68,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
 
         if ($core->unit() === Runtime::UNIT_THREAD)
         {
-            $factoryProcess->remove('Kraken\Runtime\Container\Process\Manager\ProcessManagerBase');
+            $factoryProcess->remove('Kraken\Runtime\Container\Manager\ProcessManagerBase');
         }
 
         $managerProcess = $this->createManager(
@@ -88,7 +88,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
         $managerRuntime = new RuntimeManager($managerProcess, $managerThread);
 
         $core->instance(
-            'Kraken\Runtime\Container\Process\ProcessManagerInterface',
+            'Kraken\Runtime\Container\ProcessManagerInterface',
             $managerProcess
         );
 
@@ -109,7 +109,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
     protected function unregister(CoreInterface $core)
     {
         $core->remove(
-            'Kraken\Runtime\Container\Process\ProcessManagerInterface'
+            'Kraken\Runtime\Container\ProcessManagerInterface'
         );
 
         $core->remove(
