@@ -36,7 +36,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Runtime\RuntimeChannelInterface'
+        'Kraken\Runtime\Channel\ChannelInterface'
     ];
 
     /**
@@ -78,7 +78,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         ;
 
         $core->instance(
-            'Kraken\Runtime\RuntimeChannelInterface',
+            'Kraken\Runtime\Channel\ChannelInterface',
             $composite
         );
     }
@@ -91,7 +91,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         unset($this->commander);
 
         $core->remove(
-            'Kraken\Runtime\RuntimeChannelInterface'
+            'Kraken\Runtime\Channel\ChannelInterface'
         );
     }
 
@@ -101,15 +101,8 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function boot(CoreInterface $core)
     {
         $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
-        $channel = $core->make('Kraken\Runtime\RuntimeChannelInterface');
-        $console = $core->make('Kraken\Runtime\RuntimeConsoleInterface');
-
-//        $channel->on('connect', function($alias) {
-//            echo "Connected [$alias]\n";
-//        });
-//        $channel->on('disconnect', function($alias) {
-//            echo "Disconnected [$alias]\n";
-//        });
+        $channel = $core->make('Kraken\Runtime\Channel\ChannelInterface');
+        $console = $core->make('Kraken\Runtime\Channel\ConsoleInterface');
 
         if ($runtime->parent() === null)
         {

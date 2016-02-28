@@ -35,7 +35,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Runtime\RuntimeChannelInterface'
+        'Kraken\Runtime\Channel\ChannelInterface'
     ];
 
     /**
@@ -82,7 +82,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         $this->applyConsoleRouting($runtime, $composite);
 
         $core->instance(
-            'Kraken\Runtime\RuntimeChannelInterface',
+            'Kraken\Runtime\Channel\ChannelInterface',
             $composite
         );
     }
@@ -95,7 +95,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         unset($this->commander);
 
         $core->remove(
-            'Kraken\Runtime\RuntimeChannelInterface'
+            'Kraken\Runtime\Channel\ChannelInterface'
         );
     }
 
@@ -105,7 +105,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function boot(CoreInterface $core)
     {
         $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
-        $channel = $core->make('Kraken\Runtime\RuntimeChannelInterface');
+        $channel = $core->make('Kraken\Runtime\Channel\ChannelInterface');
 
         $runtime->on('create', [ $channel, 'start' ]);
         $runtime->on('destroy', [ $channel, 'stop' ]);

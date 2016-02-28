@@ -26,7 +26,7 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Runtime\RuntimeConsoleInterface'
+        'Kraken\Runtime\Channel\ConsoleInterface'
     ];
 
     /**
@@ -49,7 +49,7 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
         ]);
 
         $core->instance(
-            'Kraken\Runtime\RuntimeConsoleInterface',
+            'Kraken\Runtime\Channel\ConsoleInterface',
             $console
         );
     }
@@ -60,7 +60,7 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function unregister(CoreInterface $core)
     {
         $core->remove(
-            'Kraken\Runtime\RuntimeConsoleInterface'
+            'Kraken\Runtime\Channel\ConsoleInterface'
         );
     }
 
@@ -70,8 +70,8 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function boot(CoreInterface $core)
     {
         $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
-        $channel = $core->make('Kraken\Runtime\RuntimeChannelInterface');
-        $console = $core->make('Kraken\Runtime\RuntimeConsoleInterface');
+        $channel = $core->make('Kraken\Runtime\Channel\ChannelInterface');
+        $console = $core->make('Kraken\Runtime\Channel\ConsoleInterface');
 
         $this->applyConsoleRouting($channel, $console);
 

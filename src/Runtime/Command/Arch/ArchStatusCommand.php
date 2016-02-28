@@ -20,7 +20,7 @@ class ArchStatusCommand extends Command implements CommandInterface
      */
     protected function construct()
     {
-        $this->channel = $this->runtime->core()->make('Kraken\Runtime\RuntimeChannelInterface');
+        $this->channel = $this->runtime->core()->make('Kraken\Runtime\Channel\ChannelInterface');
     }
 
     /**

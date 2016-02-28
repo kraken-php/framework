@@ -30,7 +30,7 @@ class ProjectStatusCommand extends Command implements CommandInterface
     {
         $config = $this->runtime->core()->make('Kraken\Config\ConfigInterface');
 
-        $this->channel = $this->runtime->core()->make('Kraken\Runtime\RuntimeChannelInterface');
+        $this->channel = $this->runtime->core()->make('Kraken\Runtime\Channel\ChannelInterface');
         $this->config = new Config($config->get('core.project'));
     }
 

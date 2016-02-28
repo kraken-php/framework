@@ -44,8 +44,8 @@ class ConsoleServerCore extends Core implements CoreInterface
     protected function defaultAliases()
     {
         return [
-            'Channel'           => 'Kraken\Runtime\RuntimeChannelInterface',
-            'Channel.Internal'  => 'Kraken\Runtime\RuntimeChannelInterface',
+            'Channel'           => 'Kraken\Runtime\Channel\ChannelInterface',
+            'Channel.Internal'  => 'Kraken\Runtime\Channel\ChannelInterface',
             'CommandManager'    => 'Kraken\Command\CommandManagerInterface',
             'Config'            => 'Kraken\Config\ConfigInterface',
             'Container'         => 'Kraken\Container\ContainerInterface',

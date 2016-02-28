@@ -44,12 +44,12 @@ class ProcessCore extends Core implements CoreInterface
     protected function defaultAliases()
     {
         return [
-            'Channel'           => 'Kraken\Runtime\RuntimeChannelInterface',
-            'Channel.Internal'  => 'Kraken\Runtime\RuntimeChannelInterface',
-            'Channel.Console'   => 'Kraken\Runtime\RuntimeConsoleInterface',
+            'Channel'           => 'Kraken\Runtime\Channel\ChannelInterface',
+            'Channel.Internal'  => 'Kraken\Runtime\Channel\ChannelInterface',
+            'Channel.Console'   => 'Kraken\Runtime\Channel\ConsoleInterface',
             'CommandManager'    => 'Kraken\Command\CommandManagerInterface',
             'Config'            => 'Kraken\Config\ConfigInterface',
-            'Console'           => 'Kraken\Runtime\RuntimeConsoleInterface',
+            'Console'           => 'Kraken\Runtime\Channel\ConsoleInterface',
             'Container'         => 'Kraken\Container\ContainerInterface',
             'Core'              => 'Kraken\Core\CoreInterface',
             'Emitter'           => 'Kraken\Event\EventEmitterInterface',
