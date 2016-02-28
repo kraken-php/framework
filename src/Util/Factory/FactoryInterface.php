@@ -61,6 +61,11 @@ interface FactoryInterface
     public function create($name, $args = []);
 
     /**
+     * @param callable[] $factoryMethods
+     */
+    public function addDefinitions($factoryMethods);
+
+    /**
      * @return mixed[]
      */
     public function getDefinitions();

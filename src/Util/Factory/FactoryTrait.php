@@ -129,7 +129,18 @@ trait FactoryTrait
     }
 
     /**
-     * @return mixed[]
+     * @param callable[] $factoryMethods
+     */
+    public function addDefinitions($factoryMethods)
+    {
+        foreach ($factoryMethods as $name=>$factoryMethod)
+        {
+            $this->define($name, $factoryMethod);
+        }
+    }
+
+    /**
+     * @return callable[]
      */
     public function getDefinitions()
     {
