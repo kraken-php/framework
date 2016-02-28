@@ -27,26 +27,35 @@ class TimerCollection implements TimerCollectionInterface
 
     /**
      * @param string $name
+     * @return bool
+     */
+    public function existsTimer($name)
+    {
+        return isset($this->timers[$name]);
+    }
+
+    /**
+     * @param string $name
      * @param TimerInterface $timer
      */
-    public function add($name, TimerInterface $timer)
+    public function addTimer($name, TimerInterface $timer)
     {
         $this->timers[$name] = $timer;
     }
 
     /**
      * @param string $name
-     * @return TimerInterface
+     * @return TimerInterface|null
      */
-    public function get($name)
+    public function getTimer($name)
     {
-        return $this->timers[$name];
+        return $this->existsTimer($name) ? $this->timers[$name] : null;
     }
 
     /**
      * @param string $name
      */
-    public function remove($name)
+    public function removeTimer($name)
     {
         unset($this->timers[$name]);
     }

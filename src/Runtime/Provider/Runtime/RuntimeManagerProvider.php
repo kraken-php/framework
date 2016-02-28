@@ -139,18 +139,21 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
             }
 
             $timer = $runtime->loop()->addTimer($keepalive, function() use($alias, $runtime, $timerCollection) {
-                $timerCollection->remove($alias);
+                $timerCollection->removeTimer($alias);
                 $runtime->fail(
                     new ChildUnresponsiveException("Child runtime [$alias] is unresponsive."),
                     [ 'origin' => $alias ]
                 );
             });
 
-            $timerCollection->add($alias, $timer);
+            $timerCollection->addTimer($alias, $timer);
         });
         $channel->on('connect', function($alias) use($timerCollection) {
-            $timerCollection->get($alias)->cancel();
-            $timerCollection->remove($alias);
+            if (($timer = $timerCollection->getTimer($alias)) !== null)
+            {
+                $timer->cancel();
+                $timerCollection->removeTimer($alias);
+            }
         });
 
         $channel = $composite->bus('master');
@@ -162,18 +165,21 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
             }
 
             $timer = $runtime->loop()->addTimer($keepalive, function() use($alias, $runtime, $timerCollection) {
-                $timerCollection->remove($alias);
+                $timerCollection->removeTimer($alias);
                 $runtime->fail(
                     new ParentUnresponsiveException("Parent runtime [$alias] is unresponsive."),
                     [ 'origin' => $alias ]
                 );
             });
 
-            $timerCollection->add($alias, $timer);
+            $timerCollection->addTimer($alias, $timer);
         });
         $channel->on('connect', function($alias) use($timerCollection) {
-            $timerCollection->get($alias)->cancel();
-            $timerCollection->remove($alias);
+            if (($timer = $timerCollection->getTimer($alias)) !== null)
+            {
+                $timer->cancel();
+                $timerCollection->removeTimer($alias);
+            }
         });
     }
 

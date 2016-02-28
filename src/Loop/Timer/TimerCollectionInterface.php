@@ -6,18 +6,24 @@ interface TimerCollectionInterface
 {
     /**
      * @param string $name
+     * @return bool
+     */
+    public function existsTimer($name);
+
+    /**
+     * @param string $name
      * @param TimerInterface $timer
      */
-    public function add($name, TimerInterface $timer);
+    public function addTimer($name, TimerInterface $timer);
 
     /**
      * @param string $name
-     * @return TimerInterface
+     * @return TimerInterface|null
      */
-    public function get($name);
+    public function getTimer($name);
 
     /**
      * @param string $name
      */
-    public function remove($name);
+    public function removeTimer($name);
 }
