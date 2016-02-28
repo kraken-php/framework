@@ -92,9 +92,11 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
         $handlers = (array) $config->get('error.manager.handlers');
 
         $default = [
-            'Kraken\Throwable\Exception\System\ChildUnresponsiveException'   => [ 'RuntimeRecreate', 'ContainerContinue' ],
-            'Kraken\Throwable\Exception\System\ParentUnresponsiveException'  => 'ContainerDestroy',
-            'Exception'                                                      => [ 'CmdLog', 'ContainerContinue' ]
+            $this->systemException('ChildUnresponsiveException')   => [ 'RuntimeRecreate', 'ContainerContinue' ],
+            $this->systemException('ParentUnresponsiveException')  => [ 'ContainerDestroy' ],
+            $this->systemError('FatalError')                       => [ 'CmdLog', 'ContainerDestroy' ],
+            'Error'                                                => [ 'CmdLog', 'ContainerContinue' ],
+            'Exception'                                            => [ 'CmdLog', 'ContainerContinue' ]
         ];
 
         $plugins = (array) $config->get('error.manager.plugins');
@@ -112,7 +114,9 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
         $handlers = (array) $config->get('error.supervisor.handlers');
 
         $default = [
-            'Exception' => 'ContainerContinue'
+            $this->systemError('FatalError')    => 'ContainerDestroy',
+            'Error'                             => 'ContainerContinue',
+            'Exception'                         => 'ContainerContinue'
         ];
 
         $plugins = (array) $config->get('error.supervisor.plugins');
@@ -160,5 +164,23 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
         {
             $supervisor->setHandler($exception, $handler);
         }
+    }
+
+    /**
+     * @param string $error
+     * @return string
+     */
+    private function systemError($error)
+    {
+        return 'Kraken\Throwable\Error\\' . $error;
+    }
+
+    /**
+     * @param string $exception
+     * @return string
+     */
+    private function systemException($exception)
+    {
+        return 'Kraken\Throwable\Exception\System\\' . $exception;
     }
 }
