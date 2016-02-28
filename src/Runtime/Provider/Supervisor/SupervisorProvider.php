@@ -39,8 +39,8 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
     {
         $config = $core->make('Kraken\Config\ConfigInterface');
 
-        $errorManager    = $core->make('Kraken\Supervisor\SupervisorInterface', $config->get('error.manager.params'));
-        $errorSupervisor = $core->make('Kraken\Supervisor\SupervisorInterface', $config->get('error.supervisor.params'));
+        $errorManager    = $core->make('Kraken\Supervisor\SupervisorInterface', [ null, $config->get('error.manager.params') ]);
+        $errorSupervisor = $core->make('Kraken\Supervisor\SupervisorInterface', [ null, $config->get('error.supervisor.params') ]);
 
         $core->instance(
             'Kraken\Runtime\Supervisor\SupervisorBaseInterface',

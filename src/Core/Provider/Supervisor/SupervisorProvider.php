@@ -6,7 +6,8 @@ use Exception;
 use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
-use Kraken\Supervisor\SolverFactory;
+use Kraken\Runtime\Supervisor\SolverFactory;
+use Kraken\Supervisor\SolverFactoryInterface;
 use Kraken\Supervisor\Supervisor;
 use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
@@ -36,10 +37,8 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
     {
         $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
 
-        $factory = new SolverFactory();
-        $default = [
-            'factory' => $factory
-        ];
+        $factory = new SolverFactory($runtime);
+        $config = [];
 
         $core->instance(
             'Kraken\Supervisor\SolverFactoryInterface',
@@ -48,8 +47,12 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
 
         $core->factory(
             'Kraken\Supervisor\SupervisorInterface',
-            function($config = []) use($runtime, $default) {
-                return new Supervisor($runtime, array_merge($default, $config));
+            function (SolverFactoryInterface $passedFactory = null, $passedConfig = [], $passedRules = []) use($factory, $config) {
+                return new Supervisor(
+                    $passedFactory !== null ? $passedFactory : $factory,
+                    array_merge($config, $passedConfig),
+                    $passedRules
+                );
             }
         );
     }

@@ -3,7 +3,7 @@
 namespace Kraken\Runtime\Supervisor\Runtime;
 
 use Kraken\Promise\Promise;
-use Kraken\Supervisor\SolverBase;
+use Kraken\Runtime\Supervisor\SolverBase;
 use Kraken\Supervisor\SolverInterface;
 use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 use Kraken\Runtime\Runtime;

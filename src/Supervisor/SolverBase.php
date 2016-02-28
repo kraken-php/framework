@@ -6,17 +6,11 @@ use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
 use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
-use Kraken\Runtime\RuntimeInterface;
 use Error;
 use Exception;
 
 class SolverBase implements SolverInterface
 {
-    /**
-     * @var RuntimeInterface
-     */
-    protected $runtime;
-
     /**
      * @var mixed[]
      */
@@ -28,12 +22,10 @@ class SolverBase implements SolverInterface
     protected $requires;
 
     /**
-     * @param RuntimeInterface $runtime
      * @param mixed[] $context
      */
-    public function __construct(RuntimeInterface $runtime, $context = [])
+    public function __construct($context = [])
     {
-        $this->runtime = $runtime;
         $this->context = $context;
         $this->requires = [];
 
@@ -47,7 +39,6 @@ class SolverBase implements SolverInterface
     {
         $this->destruct();
 
-        unset($this->runtime);
         unset($this->context);
         unset($this->requires);
     }

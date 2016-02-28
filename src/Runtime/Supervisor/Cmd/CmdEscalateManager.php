@@ -4,7 +4,7 @@ namespace Kraken\Runtime\Supervisor\Cmd;
 
 use Kraken\Channel\ChannelBaseInterface;
 use Kraken\Channel\Extra\Request;
-use Kraken\Supervisor\SolverBase;
+use Kraken\Runtime\Supervisor\SolverBase;
 use Kraken\Supervisor\SolverInterface;
 use Kraken\Runtime\RuntimeCommand;
 use Error;

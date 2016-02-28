@@ -7,16 +7,15 @@ use Kraken\Promise\PromiseInterface;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
 use Kraken\Throwable\Exception\LogicException;
-use Kraken\Runtime\RuntimeInterface;
 use Error;
 use Exception;
 
 class Supervisor implements SupervisorInterface
 {
     /**
-     * @var RuntimeInterface
+     * @var SolverFactoryInterface
      */
-    protected $runtime;
+    protected $factory;
 
     /**
      * @var mixed[]
@@ -29,13 +28,15 @@ class Supervisor implements SupervisorInterface
     protected $rules;
 
     /**
-     * @param RuntimeInterface $runtime
+     * @param SolverFactoryInterface $factory
      * @param mixed[] $params
      * @param SolverInterface[] $rules
      */
-    public function __construct(RuntimeInterface $runtime, $params = [], $rules = [])
+    public function __construct(SolverFactoryInterface $factory, $params = [], $rules = [])
     {
-        $this->runtime = $runtime;
+        $this->factory = $factory;
+        $this->params = [];
+        $this->rules = [];
 
         foreach ($params as $paramKey=>$paramValue)
         {
@@ -53,7 +54,7 @@ class Supervisor implements SupervisorInterface
      */
     public function __destruct()
     {
-        unset($this->runtime);
+        unset($this->factory);
         unset($this->params);
         unset($this->rules);
     }
@@ -192,14 +193,9 @@ class Supervisor implements SupervisorInterface
      */
     protected function resolveHandler($name)
     {
-        if (!isset($this->params['factory']))
-        {
-            throw new LogicException('Tried to invoke handler as string without having set factory.');
-        }
-
         try
         {
-            $handler = $this->params['factory']->create($name, [ $this->runtime, [] ]);
+            $handler = $this->factory->create($name);
         }
         catch (Error $ex)
         {

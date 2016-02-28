@@ -1,17 +1,26 @@
 <?php
 
-namespace Kraken\Supervisor;
+namespace Kraken\Runtime\Supervisor;
 
+use Kraken\Runtime\RuntimeInterface;
+use Kraken\Supervisor\SolverFactoryInterface;
 use Kraken\Util\Factory\Factory;
 
 class SolverFactory extends Factory implements SolverFactoryInterface
 {
     /**
-     *
+     * @var RuntimeInterface
      */
-    public function __construct()
+    protected $runtime;
+
+    /**
+     * @param RuntimeInterface $runtime
+     */
+    public function __construct(RuntimeInterface $runtime)
     {
         parent::__construct();
+
+        $this->runtime = $runtime;
 
         $handlers = [
             'CmdDoNothing'          => 'Kraken\Runtime\Supervisor\Cmd\CmdDoNothing',
@@ -38,16 +47,31 @@ class SolverFactory extends Factory implements SolverFactoryInterface
     }
 
     /**
+     *
+     */
+    public function __destruct()
+    {
+        unset($this->runtime);
+    }
+
+    /**
      * @param string $name
      */
     private function registerHandler($name, $class)
     {
+        $runtime = $this->runtime;
         $this
-            ->define($name, function($runtime, $context = []) use($class) {
-                return new $class($runtime, $context);
+            ->define($name, function($context = []) use($class, $runtime) {
+                return new $class(array_merge(
+                    [ 'runtime' => $runtime ],
+                    $context
+                ));
             })
-            ->define($class, function($runtime, $context = []) use($class) {
-                return new $class($runtime, $context);
+            ->define($class, function($context = []) use($class, $runtime) {
+                return new $class(array_merge(
+                    [ 'runtime' => $runtime ],
+                    $context
+                ));
             })
         ;
     }

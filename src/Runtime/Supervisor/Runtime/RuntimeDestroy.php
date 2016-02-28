@@ -2,7 +2,7 @@
 
 namespace Kraken\Runtime\Supervisor\Runtime;
 
-use Kraken\Supervisor\SolverBase;
+use Kraken\Runtime\Supervisor\SolverBase;
 use Kraken\Supervisor\SolverInterface;
 use Kraken\Runtime\Runtime;
 use Error;
