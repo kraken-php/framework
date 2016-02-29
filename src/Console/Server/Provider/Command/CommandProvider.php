@@ -50,7 +50,7 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
 
         foreach ($cmds as $key=>$class)
         {
-            $cmds[$key] = $this->create($class, [ $runtime ]);
+            $cmds[$key] = $this->create($class, [[ 'runtime' => $runtime ]]);
         }
 
         return $cmds;

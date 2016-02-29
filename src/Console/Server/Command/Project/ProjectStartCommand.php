@@ -2,7 +2,7 @@
 
 namespace Kraken\Console\Server\Command\Project;
 
-use Kraken\Command\Command;
+use Kraken\Runtime\Command\Command;
 use Kraken\Command\CommandInterface;
 use Kraken\Config\Config;
 use Kraken\Config\ConfigInterface;
