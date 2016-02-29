@@ -6,9 +6,9 @@ use Kraken\Runtime\Runtime;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Kraken\Console\Client\ConsoleCommand;
+use Kraken\Console\Client\Command\Command;
 
-class ProjectCreateCommand extends ConsoleCommand
+class ProjectCreateCommand extends Command
 {
     /**
      *

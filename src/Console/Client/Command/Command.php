@@ -1,24 +1,24 @@
 <?php
 
-namespace Kraken\Console\Client;
+namespace Kraken\Console\Client\Command;
 
-use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Error;
 use Exception;
 
-abstract class ConsoleCommand extends Command
+abstract class Command extends SymfonyCommand
 {
     /**
-     * @var ConsoleCommandHandlerInterface
+     * @var CommandHandlerInterface
      */
     protected $manager;
 
     /**
-     * @param ConsoleCommandHandlerInterface $manager
+     * @param CommandHandlerInterface $manager
      */
-    public function __construct(ConsoleCommandHandlerInterface $manager)
+    public function __construct(CommandHandlerInterface $manager)
     {
         parent::__construct(null);
 
@@ -149,10 +149,12 @@ abstract class ConsoleCommand extends Command
         $data = [];
         $header = [];
         $lengths = [];
+        $mbLengths = [];
         foreach ($input[0] as $key=>$value)
         {
             $header[] = $key;
             $lengths[$key] = strlen($key);
+            $mbLengths[$key] = mb_strlen($key);
         }
         $data[] = $header;
 
@@ -167,9 +169,16 @@ abstract class ConsoleCommand extends Command
                 }
 
                 $len = strlen($value);
+                $mbLen = mb_strlen($value);
+
                 if ($len > $lengths[$key])
                 {
                     $lengths[$key] = $len;
+                }
+
+                if ($mbLen > $mbLengths[$key])
+                {
+                    $mbLengths[$key] = $mbLen;
                 }
             }
 
@@ -183,31 +192,20 @@ abstract class ConsoleCommand extends Command
         }
         $mask .= PHP_EOL;
 
-
-        foreach ($lengths as $length)
+        $mbMask = '|';
+        foreach ($mbLengths as $mbLength)
         {
-            print('+' . str_repeat('-', $length+2));
+            $mbMask .= ' %-' . $mbLength . '.' . $mbLength . 's |';
         }
-        print('+' . PHP_EOL);
+        $mbMask .= PHP_EOL;
 
-        call_user_func_array('printf', array_merge([ $mask ], $header));
+        call_user_func_array('printf', array_merge([ $mbMask ], $header));
+        call_user_func_array('printf', array_merge([ $mbMask ], $data[1]));
 
-        foreach ($lengths as $length)
-        {
-            print('+' . str_repeat('-', $length+2));
-        }
-        print('+' . PHP_EOL);
-
-        for ($i=1; $i<count($data); $i++)
+        for ($i=2; $i<count($data); $i++)
         {
             call_user_func_array('printf', array_merge([ $mask ], $data[$i]));
         }
-
-        foreach ($lengths as $length)
-        {
-            print('+' . str_repeat('-', $length+2));
-        }
-        print('+' . PHP_EOL);
     }
 
     /**

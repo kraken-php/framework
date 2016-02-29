@@ -39,8 +39,8 @@ class SymfonyProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function boot(CoreInterface $core)
     {
         $config  = $core->make('Kraken\Config\ConfigInterface');
-        $factory = $core->make('Kraken\Console\Client\ConsoleCommandFactoryInterface');
-        $handler = $core->make('Kraken\Console\Client\ConsoleCommandHandlerInterface');
+        $factory = $core->make('Kraken\Console\Client\Command\CommandFactoryInterface');
+        $handler = $core->make('Kraken\Console\Client\Command\CommandHandlerInterface');
         $console = $core->make('Kraken\Console\Client\ConsoleClientInterface');
 
         $cmds = (array) $factory->getDefinitions();

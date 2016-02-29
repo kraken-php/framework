@@ -1,10 +1,10 @@
 <?php
 
-namespace Kraken\Console\Client;
+namespace Kraken\Console\Client\Command;
 
 use Kraken\Promise\PromiseInterface;
 
-interface ConsoleCommandHandlerInterface
+interface CommandHandlerInterface
 {
     /**
      * @param string|null $commandParent

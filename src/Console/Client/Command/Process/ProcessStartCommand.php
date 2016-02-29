@@ -5,9 +5,9 @@ namespace Kraken\Console\Client\Command\Process;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Kraken\Console\Client\ConsoleCommand;
+use Kraken\Console\Client\Command\Command;
 
-class ProcessStartCommand extends ConsoleCommand
+class ProcessStartCommand extends Command
 {
     /**
      *

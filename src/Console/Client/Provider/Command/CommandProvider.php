@@ -3,7 +3,7 @@
 namespace Kraken\Console\Client\Provider\Command;
 
 use Exception;
-use Kraken\Console\Client\ConsoleCommandFactory;
+use Kraken\Console\Client\Command\CommandFactory;
 use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
@@ -24,7 +24,7 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Console\Client\ConsoleCommandFactoryInterface'
+        'Kraken\Console\Client\Command\CommandFactoryInterface'
     ];
 
     /**
@@ -34,7 +34,7 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function register(CoreInterface $core)
     {
         $config = $core->make('Kraken\Config\ConfigInterface');
-        $factory = new ConsoleCommandFactory();
+        $factory = new CommandFactory();
 
         $commands = (array) $config->get('command.models');
         foreach ($commands as $commandClass)
@@ -69,7 +69,7 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
         }
 
         $core->instance(
-            'Kraken\Console\Client\ConsoleCommandFactoryInterface',
+            'Kraken\Console\Client\Command\CommandFactoryInterface',
             $factory
         );
     }
@@ -80,7 +80,7 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function unregister(CoreInterface $core)
     {
         $core->remove(
-            'Kraken\Console\Client\ConsoleCommandFactoryInterface'
+            'Kraken\Console\Client\Command\CommandFactoryInterface'
         );
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace Kraken\Console\Client;
+namespace Kraken\Console\Client\Command;
 
 use Kraken\Util\Factory\Factory;
 
-class ConsoleCommandFactory extends Factory implements ConsoleCommandFactoryInterface
+class CommandFactory extends Factory implements CommandFactoryInterface
 {
     /**
      * @param string[] $params

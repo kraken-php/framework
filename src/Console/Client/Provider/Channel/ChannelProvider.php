@@ -24,7 +24,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Console\Client\ConsoleChannelInterface'
+        'Kraken\Console\Client\Channel\ConsoleInterface'
     ];
 
     /**
@@ -54,7 +54,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         });
 
         $core->instance(
-            'Kraken\Console\Client\ConsoleChannelInterface',
+            'Kraken\Console\Client\Channel\ConsoleInterface',
             $channel
         );
     }
@@ -65,7 +65,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function unregister(CoreInterface $core)
     {
         $core->remove(
-            'Kraken\Console\Client\ConsoleChannelInterface'
+            'Kraken\Console\Client\Channel\ConsoleInterface'
         );
     }
 
@@ -76,17 +76,12 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
     {
         $router = $channel->input();
         $router->addAnchor(
-            new RuleHandler(function($params) {
-//                echo "Got command from console!\n";
-//                var_dump($params['protocol']);
-            })
+            new RuleHandler(function($params) {})
         );
 
         $router = $channel->output();
         $router->addAnchor(
             new RuleHandler(function($params) use($channel) {
-//                echo "Send command from console!\n";
-//                var_dump($params['protocol']);
                 $channel->push(
                     $params['alias'],
                     $params['protocol'],

@@ -7,9 +7,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Kraken\Console\Client\ConsoleCommand;
+use Kraken\Console\Client\Command\Command;
 
-class RuntimeDestroyCommand extends ConsoleCommand
+class RuntimeDestroyCommand extends Command
 {
     /**
      *

@@ -4,9 +4,9 @@ namespace Kraken\Console\Client\Command\Project;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Kraken\Console\Client\ConsoleCommand;
+use Kraken\Console\Client\Command\Command;
 
-class ProjectStopCommand extends ConsoleCommand
+class ProjectStopCommand extends Command
 {
     /**
      *

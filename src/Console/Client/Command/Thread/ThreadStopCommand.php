@@ -5,9 +5,9 @@ namespace Kraken\Console\Client\Command\Thread;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Kraken\Console\Client\ConsoleCommand;
+use Kraken\Console\Client\Command\Command;
 
-class ThreadStopCommand extends ConsoleCommand
+class ThreadStopCommand extends Command
 {
     /**
      *

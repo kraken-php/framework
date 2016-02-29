@@ -6,9 +6,9 @@ use Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Kraken\Console\Client\ConsoleCommand;
+use Kraken\Console\Client\Command\Command;
 
-class ProcessExistsCommand extends ConsoleCommand
+class ProcessExistsCommand extends Command
 {
     /**
      *

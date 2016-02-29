@@ -5,9 +5,9 @@ namespace Kraken\Console\Client\Command\Project;
 use Kraken\Runtime\Runtime;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Kraken\Console\Client\ConsoleCommand;
+use Kraken\Console\Client\Command\Command;
 
-class ProjectStatusCommand extends ConsoleCommand
+class ProjectStatusCommand extends Command
 {
     /**
      * @param mixed $value
@@ -44,22 +44,35 @@ class ProjectStatusCommand extends ConsoleCommand
 
     /**
      * @param mixed $current
-     * @param int $cnt
+     * @param string $prefix
+     * @param bool $isLast
      * @return mixed
      */
-    private function buildTable($current, $cnt = 0)
+    private function buildTable($current, $prefix = '', $isLast = false)
     {
         $data = [];
+        $currentPrefix = ($prefix === '') ? '' : substr($prefix, 0, -2) . ($isLast ? '└-' : '├-');
 
         $data[] = [
-            'alias' => str_repeat('_', $cnt) . $current['alias'],
-            'name'  => str_repeat('_', $cnt) . $current['name'],
+            'alias' => $currentPrefix . $current['alias'],
+            'name'  => $current['name'],
             'state' => $this->parseState($current['state'])
         ];
 
-        foreach ($current['children'] as $child)
+        $count = count($current['children']);
+
+        for ($i=0; $i<$count; ++$i)
         {
-            $data = array_merge($data, $this->buildTable($child, $cnt+2));
+            $child = $current['children'][$i];
+
+            if ($i === $count-1)
+            {
+                $data = array_merge($data, $this->buildTable($child, $prefix . '  ', true));
+            }
+            else
+            {
+                $data = array_merge($data, $this->buildTable($child, $prefix . '| '));
+            }
         }
 
         return $data;

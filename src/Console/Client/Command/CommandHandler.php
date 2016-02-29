@@ -1,13 +1,13 @@
 <?php
 
-namespace Kraken\Console\Client;
+namespace Kraken\Console\Client\Command;
 
 use Kraken\Channel\ChannelBaseInterface;
 use Kraken\Channel\Extra\Request;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Runtime\RuntimeCommand;
 
-class ConsoleCommandHandler implements ConsoleCommandHandlerInterface
+class CommandHandler implements CommandHandlerInterface
 {
     /**
      * @var ChannelBaseInterface

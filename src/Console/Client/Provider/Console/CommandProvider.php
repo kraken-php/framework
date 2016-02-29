@@ -2,7 +2,7 @@
 
 namespace Kraken\Console\Client\Provider\Console;
 
-use Kraken\Console\Client\ConsoleCommandHandler;
+use Kraken\Console\Client\Command\CommandHandler;
 use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
@@ -13,14 +13,14 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
      * @var string[]
      */
     protected $requires = [
-        'Kraken\Console\Client\ConsoleChannelInterface'
+        'Kraken\Console\Client\Channel\ConsoleInterface'
     ];
 
     /**
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Console\Client\ConsoleCommandHandlerInterface'
+        'Kraken\Console\Client\Command\CommandHandlerInterface'
     ];
 
     /**
@@ -28,12 +28,12 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
      */
     protected function register(CoreInterface $core)
     {
-        $channel = $core->make('Kraken\Console\Client\ConsoleChannelInterface');
+        $channel = $core->make('Kraken\Console\Client\Channel\ConsoleInterface');
 
-        $manager = new ConsoleCommandHandler($channel, 'ConsoleServer');
+        $manager = new CommandHandler($channel, 'ConsoleServer');
 
         $core->instance(
-            'Kraken\Console\Client\ConsoleCommandHandlerInterface',
+            'Kraken\Console\Client\Command\CommandHandlerInterface',
             $manager
         );
     }
@@ -44,7 +44,7 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function unregister(CoreInterface $core)
     {
         $core->remove(
-            'Kraken\Console\Client\ConsoleCommandHandlerInterface'
+            'Kraken\Console\Client\Command\CommandHandlerInterface'
         );
     }
 }
