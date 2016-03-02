@@ -2,6 +2,7 @@
 
 namespace Kraken\Loop;
 
+use Kraken\Loop\Flow\FlowController;
 use Kraken\Loop\Timer\TimerInterface;
 
 interface LoopModelInterface
@@ -140,6 +141,16 @@ interface LoopModelInterface
      * Instruct a running event loop to stop.
      */
     public function stop();
+
+    /**
+     * @param mixed $flowController
+     */
+    public function setFlowController($flowController);
+
+    /**
+     * @return FlowController
+     */
+    public function getFlowController();
 
     /**
      * @param bool $all

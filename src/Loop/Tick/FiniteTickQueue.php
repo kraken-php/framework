@@ -9,6 +9,10 @@ class FiniteTickQueue
 {
     private $eventLoop;
     private $queue;
+    /**
+     * @var callable
+     */
+    private $callback;
 
     /**
      * @param LoopModelInterface $eventLoop The event loop passed as the first parameter to callbacks.
@@ -48,13 +52,16 @@ class FiniteTickQueue
         // Only invoke as many callbacks as were on the queue when tick() was called.
         $count = $this->queue->count();
 
-        while ($count--)
+//        var_dump('tick=' . $count);
+
+        while ($count-- && $this->eventLoop->isRunning())
         {
-            call_user_func(
-                $this->queue->dequeue(),
-                $this->eventLoop
-            );
+            $this->callback = $this->queue->dequeue();
+            $callback = $this->callback;
+            $callback($this->eventLoop);
         }
+
+//        var_dump('tick=' . $count);
     }
 
     /**

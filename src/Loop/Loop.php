@@ -2,6 +2,7 @@
 
 namespace Kraken\Loop;
 
+use Kraken\Loop\Flow\FlowController;
 use Kraken\Loop\Timer\TimerInterface;
 
 class Loop implements LoopExtendedInterface
@@ -225,5 +226,21 @@ class Loop implements LoopExtendedInterface
     public function stop()
     {
         $this->loop->stop();
+    }
+
+    /**
+     * @param mixed $flowController
+     */
+    public function setFlowController($flowController)
+    {
+        $this->loop->setFlowController($flowController);
+    }
+
+    /**
+     * @return FlowController
+     */
+    public function getFlowController()
+    {
+        return $this->loop->getFlowController();
     }
 }

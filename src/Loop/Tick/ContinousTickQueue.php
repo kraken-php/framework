@@ -9,6 +9,10 @@ class ContinousTickQueue
 {
     private $eventLoop;
     private $queue;
+    /**
+     * @var callable
+     */
+    private $callback;
 
     /**
      * @param LoopModelInterface $eventLoop The event loop passed as the first parameter to callbacks.
@@ -46,12 +50,11 @@ class ContinousTickQueue
      */
     public function tick()
     {
-        while (!$this->queue->isEmpty())
+        while (!$this->queue->isEmpty() && $this->eventLoop->isRunning())
         {
-            call_user_func(
-                $this->queue->dequeue(),
-                $this->eventLoop
-            );
+            $this->callback = $this->queue->dequeue();
+            $callback = $this->callback;
+            $callback($this->eventLoop);
         }
     }
 

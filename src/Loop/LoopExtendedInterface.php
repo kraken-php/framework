@@ -2,6 +2,8 @@
 
 namespace Kraken\Loop;
 
+use Kraken\Loop\Flow\FlowController;
+
 interface LoopExtendedInterface extends LoopInterface
 {
     /**
@@ -50,4 +52,15 @@ interface LoopExtendedInterface extends LoopInterface
      *
      */
     public function stop();
+
+
+    /**
+     * @param mixed $flowController
+     */
+    public function setFlowController($flowController);
+
+    /**
+     * @return FlowController
+     */
+    public function getFlowController();
 }

@@ -2,12 +2,13 @@
 
 namespace Kraken\Loop\Model;
 
-use Kraken\Loop\LoopModelInterface;
+use Kraken\Loop\Flow\FlowController;
 use Kraken\Loop\Tick\ContinousTickQueue;
 use Kraken\Loop\Tick\FiniteTickQueue;
 use Kraken\Loop\Timer\Timer;
 use Kraken\Loop\Timer\TimerInterface;
 use Kraken\Loop\Timer\Timers;
+use Kraken\Loop\LoopModelInterface;
 
 class StreamSelectLoop implements LoopModelInterface
 {
@@ -36,6 +37,8 @@ class StreamSelectLoop implements LoopModelInterface
      */
     protected $futureTickQueue;
 
+    protected $flowController;
+
     /**
      * @var
      */
@@ -53,11 +56,12 @@ class StreamSelectLoop implements LoopModelInterface
         $this->nextTickQueue = new ContinousTickQueue($this);
         $this->futureTickQueue = new FiniteTickQueue($this);
         $this->timers = new Timers();
+        $this->flowController = new FlowController();
     }
 
     public function isRunning()
     {
-        return $this->running;
+        return $this->flowController->isRunning;
     }
 
     /**
@@ -67,7 +71,8 @@ class StreamSelectLoop implements LoopModelInterface
     {
         $key = (int) $stream;
 
-        if (!isset($this->readStreams[$key])) {
+        if (!isset($this->readStreams[$key]))
+        {
             $this->readStreams[$key] = $stream;
             $this->readListeners[$key] = $listener;
         }
@@ -80,7 +85,8 @@ class StreamSelectLoop implements LoopModelInterface
     {
         $key = (int) $stream;
 
-        if (!isset($this->writeStreams[$key])) {
+        if (!isset($this->writeStreams[$key]))
+        {
             $this->writeStreams[$key] = $stream;
             $this->writeListeners[$key] = $listener;
         }
@@ -198,13 +204,14 @@ class StreamSelectLoop implements LoopModelInterface
      */
     public function tick()
     {
+        $this->flowController->isRunning = true;
+
         $this->nextTickQueue->tick();
-
         $this->futureTickQueue->tick();
-
         $this->timers->tick();
-
         $this->waitForStreamActivity(0);
+
+        $this->flowController->isRunning = false;
     }
 
     /**
@@ -212,16 +219,22 @@ class StreamSelectLoop implements LoopModelInterface
      */
     public function start()
     {
-        if ($this->running)
+        if ($this->flowController->isRunning)
         {
             return;
         }
 
-        $this->running = true;
+//        $this->addPeriodicTimer(1, function() {
+//            usleep(1);
+//        });
+
+        $this->flowController->isRunning = true;
         $this->startTickQueue->tick();
 
-        while ($this->running) {
+        while ($this->flowController->isRunning) {
 //            echo "Enter loop\n";
+
+//            pcntl_signal_dispatch();
 
             $this->nextTickQueue->tick();
 
@@ -232,7 +245,7 @@ class StreamSelectLoop implements LoopModelInterface
 //            echo "End of loop\n";
 
             // Next-tick or future-tick queues have pending callbacks ...
-            if (!$this->running || !$this->nextTickQueue->isEmpty() || !$this->futureTickQueue->isEmpty()) {
+            if (!$this->flowController->isRunning || !$this->nextTickQueue->isEmpty() || !$this->futureTickQueue->isEmpty()) {
                 $timeout = 0;
 
             // There is a pending timer, only block until it is due ...
@@ -262,13 +275,29 @@ class StreamSelectLoop implements LoopModelInterface
      */
     public function stop()
     {
-        if (!$this->running)
+        if (!$this->flowController->isRunning)
         {
             return;
         }
 
         $this->stopTickQueue->tick();
-        $this->running = false;
+        $this->flowController->isRunning = false;
+    }
+
+    /**
+     * @param mixed $flowController
+     */
+    public function setFlowController($flowController)
+    {
+        $this->flowController = $flowController;
+    }
+
+    /**
+     * @return FlowController
+     */
+    public function getFlowController()
+    {
+        return $this->flowController;
     }
 
     /**
@@ -286,7 +315,7 @@ class StreamSelectLoop implements LoopModelInterface
             $this->$key = $loop->$key;
         }
 
-        $this->running = false;
+        $this->flowController->isRunning = false;
 
         return $this;
     }
@@ -360,19 +389,25 @@ class StreamSelectLoop implements LoopModelInterface
 
         $this->streamSelect($read, $write, $timeout);
 
-        foreach ($read as $stream) {
+        foreach ($read as $stream)
+        {
             $key = (int) $stream;
 
-            if (isset($this->readListeners[$key])) {
-                call_user_func($this->readListeners[$key], $stream, $this);
+            if (isset($this->readListeners[$key]))
+            {
+                $callable = $this->readListeners[$key];
+                $callable($stream, $this);
             }
         }
 
-        foreach ($write as $stream) {
+        foreach ($write as $stream)
+        {
             $key = (int) $stream;
 
-            if (isset($this->writeListeners[$key])) {
-                call_user_func($this->writeListeners[$key], $stream, $this);
+            if (isset($this->writeListeners[$key]))
+            {
+                $callable = $this->writeListeners[$key];
+                $callable($stream, $this);
             }
         }
     }
@@ -389,7 +424,8 @@ class StreamSelectLoop implements LoopModelInterface
      */
     private function streamSelect(array &$read, array &$write, $timeout)
     {
-        if ($read || $write) {
+        if ($read || $write)
+        {
             $except = null;
 
             return stream_select($read, $write, $except, $timeout === null ? null : 0, $timeout);
