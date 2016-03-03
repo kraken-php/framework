@@ -2,18 +2,19 @@
 
 namespace Kraken\Runtime\Container\Manager;
 
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Channel\Extra\Request;
+use Kraken\Channel\ChannelBaseInterface;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
-use Kraken\Channel\ChannelBaseInterface;
-use Kraken\Channel\Extra\Request;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceDefinedException;
+use Kraken\Runtime\Container\Thread\ThreadController;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\RuntimeInterface;
+use Kraken\Runtime\Container\Thread\ThreadWrapper;
 use Kraken\Runtime\Container\ThreadManagerInterface;
-use Kraken\Runtime\Container\ThreadWrapper;
+use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
+use Kraken\Throwable\Exception\Logic\Resource\ResourceDefinedException;
+use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 
 class ThreadManagerBase implements ThreadManagerInterface
 {
@@ -119,7 +120,9 @@ class ThreadManagerBase implements ThreadManagerInterface
             );
         }
 
+        $controller = new ThreadController();
         $wrapper = new ThreadWrapper(
+            $controller,
             $this->runtime->core()->dataPath(),
             $this->runtime->alias(),
             $alias,

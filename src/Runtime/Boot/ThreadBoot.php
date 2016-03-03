@@ -2,12 +2,18 @@
 
 namespace Kraken\Runtime\Boot;
 
-use ReflectionClass;
+use Kraken\Runtime\Container\Thread\ThreadController;
 use Kraken\Runtime\RuntimeInterface;
 use Kraken\Support\StringSupport;
+use ReflectionClass;
 
 class ThreadBoot
 {
+    /**
+     * @var ThreadController
+     */
+    protected $threadController;
+
     /**
      * @var mixed[]
      */
@@ -24,10 +30,11 @@ class ThreadBoot
     protected $params;
 
     /**
-     *
+     * @param ThreadController $threadController
      */
-    public function __construct()
+    public function __construct(ThreadController $threadController = null)
     {
+        $this->runtimeController = ($threadController !== null) ? $threadController : new ThreadController();
         $this->controllerParams = [];
         $this->controllerClass = '\\%prefix%\\Thread\\%name%\\%name%Controller';
         $this->params = [
@@ -41,6 +48,7 @@ class ThreadBoot
      */
     public function __destruct()
     {
+        unset($this->runtimeController);
         unset($this->controllerParams);
         unset($this->controllerClass);
         unset($this->params);
@@ -118,6 +126,10 @@ class ThreadBoot
 
         $core
             ->boot();
+
+        $controller
+            ->getLoop()
+            ->setFlowController($this->runtimeController);
 
         $controller
             ->internalConstruct($core);

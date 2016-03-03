@@ -2,12 +2,18 @@
 
 namespace Kraken\Runtime\Boot;
 
-use ReflectionClass;
+use Kraken\Runtime\Container\Process\ProcessController;
 use Kraken\Runtime\RuntimeInterface;
 use Kraken\Support\StringSupport;
+use ReflectionClass;
 
 class ProcessBoot
 {
+    /**
+     * @var ProcessController
+     */
+    protected $runtimeController;
+
     /**
      * @var mixed[]
      */
@@ -24,10 +30,11 @@ class ProcessBoot
     protected $params;
 
     /**
-     *
+     * @param ProcessController $runtimeController
      */
-    public function __construct()
+    public function __construct(ProcessController $runtimeController = null)
     {
+        $this->runtimeController = ($runtimeController !== null) ? $runtimeController : new ProcessController();
         $this->controllerParams = [];
         $this->controllerClass = '\\%prefix%\\Process\\%name%\\%name%Controller';
         $this->params = [
@@ -41,6 +48,7 @@ class ProcessBoot
      */
     public function __destruct()
     {
+        unset($this->runtimeController);
         unset($this->controllerParams);
         unset($this->controllerClass);
         unset($this->params);
@@ -118,6 +126,10 @@ class ProcessBoot
 
         $core
             ->boot();
+
+        $controller
+            ->getLoop()
+            ->setFlowController($this->runtimeController);
 
         $controller
             ->internalConstruct($core);

@@ -9,6 +9,7 @@ if (!defined('STDIN') || $argc < 3)
     exit(1);
 }
 
+$controller = null;
 $parent = (string) $argv[1];
 $alias  = (string) $argv[2];
 $name   = (string) $argv[3];

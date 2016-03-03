@@ -1,11 +1,16 @@
 <?php
 
-namespace Kraken\Runtime\Container;
+namespace Kraken\Runtime\Container\Thread;
 
 use Thread;
 
 class ThreadWrapper extends Thread
 {
+    /**
+     * @var ThreadController
+     */
+    public $controller;
+
     /**
      * @var string
      */
@@ -32,8 +37,9 @@ class ThreadWrapper extends Thread
      * @param string $alias
      * @param string $name
      */
-    public function __construct($datapath, $parent, $alias, $name)
+    public function __construct($controller, $datapath, $parent, $alias, $name)
     {
+        $this->controller = $controller;
         $this->datapath = $datapath;
         $this->parent = $parent;
         $this->alias = $alias;
@@ -45,6 +51,7 @@ class ThreadWrapper extends Thread
      */
     public function __destruct()
     {
+//        unset($this->controller);
         unset($this->datapath);
         unset($this->parent);
         unset($this->alias);
@@ -56,12 +63,26 @@ class ThreadWrapper extends Thread
      */
     public function run()
     {
-        $parent = $this->parent;
-        $alias  = $this->alias;
-        $name   = $this->name;
+        $controller = $this->controller;
+        $parent     = $this->parent;
+        $alias      = $this->alias;
+        $name       = $this->name;
 
         require(
             $this->datapath . '/autorun/kraken.thread'
         );
+    }
+
+    /**
+     * @return bool
+     */
+    public function kill()
+    {
+        if (!is_callable('parent::kill'))
+        {
+            return $this->controller->kill();
+        }
+
+        return parent::kill();
     }
 }
