@@ -8,6 +8,11 @@ use Kraken\Runtime\Runtime;
 class Environment implements EnvironmentInterface
 {
     /**
+     * @var int
+     */
+    const SIGTERM = 15;
+
+    /**
      * @var CoreInputContextInterface
      */
     protected $context;
@@ -111,5 +116,13 @@ class Environment implements EnvironmentInterface
     public function registerExceptionHandler(callable $handler)
     {
         set_exception_handler($handler);
+    }
+
+    /**
+     * @param callable $handler
+     */
+    public function registerTerminationHandler(callable $handler)
+    {
+        pcntl_signal(self::SIGTERM, $handler);
     }
 }
