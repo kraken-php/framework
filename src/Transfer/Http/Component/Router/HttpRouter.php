@@ -120,7 +120,7 @@ class HttpRouter implements HttpRouterInterface
                 [ '_controller' => $component ],
                 [ 'Origin' => '127.0.0.1' ],
                 [],
-                '127.0.0.1'
+                'localhost'
             )
         );
 
@@ -163,11 +163,17 @@ class HttpRouter implements HttpRouterInterface
      */
     public function handleMessage(IoConnectionInterface $conn, IoMessageInterface $message)
     {
+        if (!$message instanceof HttpRequestInterface)
+        {
+            $conn->controller->handleMessage($conn, $message);
+            return;
+        }
+
         if (($header = $message->getHeaderLine('Origin')) !== '')
         {
             $origin = parse_url($header, PHP_URL_HOST) ?: $header;
 
-            if ($origin !== '' && !$this->isBlocked($origin))
+            if ($origin !== '' && $this->isBlocked($origin))
             {
                 return $this->close($conn, 403);
             }
