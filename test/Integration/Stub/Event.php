@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Test\Unit\Stub;
+namespace Kraken\Test\Integration\Stub;
 
 class Event
 {

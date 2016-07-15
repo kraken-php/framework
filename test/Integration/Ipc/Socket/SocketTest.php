@@ -6,8 +6,8 @@ use Kraken\Ipc\Socket\Socket;
 use Kraken\Ipc\Socket\SocketInterface;
 use Kraken\Ipc\Socket\SocketListener;
 use Kraken\Ipc\Socket\SocketListenerInterface;
+use Kraken\Test\Integration\Stub\Simulation;
 use Kraken\Test\Integration\TestCase;
-use Kraken\Test\Unit\Stub\EventCollection;
 
 class SocketTest extends TestCase
 {
@@ -17,46 +17,42 @@ class SocketTest extends TestCase
     public function testSocketWritesAndReadsDataCorrectly($endpoint)
     {
         $this
-            ->simulate(function() use($endpoint) {
-                $loop = $this->loop();
-                $events = $this->createEventCollection();
+            ->simulate(function(Simulation $sim) use($endpoint) {
+                $loop = $sim->getLoop();
 
                 $server = new SocketListener($endpoint, $loop);
-                $server->on('connect', function(SocketListenerInterface $server, SocketInterface $conn) use($events) {
-                    $conn->on('data', function(SocketInterface $conn, $data) use($server, $events) {
-                        $events->enqueue($this->createEvent('data', $data));
+                $server->on('connect', function(SocketListenerInterface $server, SocketInterface $conn) use($sim) {
+                    $conn->on('data', function(SocketInterface $conn, $data) use($server, $sim) {
+                        $sim->expectEvent('data', $data);
                         $conn->write('secret answer!');
                         $server->close();
                     });
                 });
                 $server->on('error', $this->expectCallableNever());
-                $server->on('close', function() use($events) {
-                    $events->enqueue($this->createEvent('close'));
+                $server->on('close', function() use($sim) {
+                    $sim->expectEvent('close');
                 });
 
                 $client = new Socket($endpoint, $loop);
-                $client->on('data', function(SocketInterface $conn, $data) use($loop, $events) {
-                    $events->enqueue($this->createEvent('data', $data));
+                $client->on('data', function(SocketInterface $conn, $data) use($loop, $sim) {
+                    $sim->expectEvent('data', $data);
                     $conn->close();
-                    $loop->stop();
+                    $sim->done();
                 });
                 $client->on('error', $this->expectCallableNever());
-                $client->on('close', function() use($events) {
-                    $events->enqueue($this->createEvent('close'));
+                $client->on('close', function() use($sim) {
+                    $sim->expectEvent('close');
                 });
 
                 $client->write('secret question!');
-
-                return $events;
             })
-            ->done(function(EventCollection $events) {
-                $this->assertEvents($events, [
-                    $this->createEvent('data', 'secret question!'),
-                    $this->createEvent('close'),
-                    $this->createEvent('data', 'secret answer!'),
-                    $this->createEvent('close')
-                ]);
-            });
+            ->expect([
+                [ 'data', 'secret question!' ],
+                [ 'close' ],
+                [ 'data', 'secret answer!' ],
+                [ 'close' ]
+            ])
+        ;
     }
 
     /**

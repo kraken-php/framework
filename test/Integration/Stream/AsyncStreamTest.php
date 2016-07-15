@@ -4,8 +4,8 @@ namespace Kraken\Test\Integration\Stream;
 
 use Kraken\Stream\AsyncStreamReaderInterface;
 use Kraken\Stream\AsyncStreamWriterInterface;
+use Kraken\Test\Integration\Stub\Simulation;
 use Kraken\Test\Integration\TestCase;
-use Kraken\Test\Unit\Stub\EventCollection;
 use ReflectionClass;
 
 class AsyncStreamTest extends TestCase
@@ -24,27 +24,26 @@ class AsyncStreamTest extends TestCase
     public function testAsyncStream_WritesAndReadsDataCorrectly($readerClass, $writerClass)
     {
         $this
-            ->simulate(function() use($readerClass, $writerClass) {
-                $loop = $this->loop();
+            ->simulate(function(Simulation $sim) use($readerClass, $writerClass) {
+                $loop = $sim->getLoop();
                 $local = $this->basePath();
-                $events = $this->createEventCollection();
                 $cnt = 0;
 
                 $reader = (new ReflectionClass($readerClass))->newInstance(
                     fopen("file://$local/temp", 'w+'),
                     $loop
                 );
-                $reader->on('data', function(AsyncStreamReaderInterface $conn, $data) use($events) {
-                    $events->enqueue($this->createEvent('data', $data));
+                $reader->on('data', function(AsyncStreamReaderInterface $conn, $data) use($sim) {
+                    $sim->expectEvent('data', $data);
                     $conn->close();
                 });
                 $reader->on('drain', $this->expectCallableNever());
                 $reader->on('error', $this->expectCallableNever());
-                $reader->on('close', function() use($events, &$cnt, $loop) {
-                    $events->enqueue($this->createEvent('close'));
+                $reader->on('close', function() use($sim, &$cnt) {
+                    $sim->expectEvent('close');
                     if (++$cnt === 2)
                     {
-                        $loop->stop();
+                        $sim->done();
                     }
                 });
 
@@ -53,31 +52,28 @@ class AsyncStreamTest extends TestCase
                     $loop
                 );
                 $writer->on('data', $this->expectCallableNever());
-                $writer->on('drain', function(AsyncStreamWriterInterface $writer) use($events) {
-                    $events->enqueue($this->createEvent('drain'));
+                $writer->on('drain', function(AsyncStreamWriterInterface $writer) use($sim) {
+                    $sim->expectEvent('drain');
                     $writer->close();
                 });
                 $writer->on('error', $this->expectCallableNever());
-                $writer->on('close', function() use($events, &$cnt, $loop) {
-                    $events->enqueue($this->createEvent('close'));
+                $writer->on('close', function() use($sim, &$cnt) {
+                    $sim->expectEvent('close');
                     if (++$cnt === 2)
                     {
-                        $loop->stop();
+                        $sim->done();
                     }
                 });
 
                 $writer->write('message!');
-
-                return $events;
             })
-            ->done(function(EventCollection $events) {
-                $this->assertEvents($events, [
-                    $this->createEvent('drain'),
-                    $this->createEvent('close'),
-                    $this->createEvent('data', 'message!'),
-                    $this->createEvent('close')
-                ]);
-            });
+            ->expect([
+                [ 'drain' ],
+                [ 'close' ],
+                [ 'data', 'message!' ],
+                [ 'close' ]
+            ])
+        ;
     }
 
     /**

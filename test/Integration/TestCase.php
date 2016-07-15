@@ -2,15 +2,9 @@
 
 namespace Kraken\Test\Integration;
 
-use Kraken\Event\BaseEventEmitter;
-use Kraken\Event\EventEmitterInterface;
-use Kraken\Loop\Loop;
-use Kraken\Loop\LoopExtendedInterface;
-use Kraken\Loop\Model\StreamSelectLoop;
-use Kraken\Promise\Promise;
-use Kraken\Promise\PromiseInterface;
-use Kraken\Test\Unit\Stub\Event;
-use Kraken\Test\Unit\Stub\EventCollection;
+use Kraken\Test\Integration\Stub\Event;
+use Kraken\Test\Integration\Stub\Simulation;
+use Exception;
 
 class TestCase extends \Kraken\Test\Unit\TestCase
 {
@@ -27,67 +21,70 @@ class TestCase extends \Kraken\Test\Unit\TestCase
     /**
      * @var string
      */
-    const MSG_EVENT_GET_ASSERTION_FAILED = "Expected event mismatch.\nExpected event %s, got event %s.";
+    const MSG_EVENT_GET_ASSERTION_FAILED = "Expected event count mismatch after %s events.\nExpected event %s, got event %s.";
 
     /**
-     * @var LoopExtendedInterface
+     * @var Simulation
      */
-    protected $loop;
-
-    /**
-     * @return LoopExtendedInterface
-     */
-    public function loop()
-    {
-        return $this->loop;
-    }
+    private $simulation;
 
     /**
      *
      */
     public function setUp()
     {
-        $this->loop = new Loop(new StreamSelectLoop());
-        $this->loop->flush(true);
+        $this->simulation = new Simulation;
+    }
+
+    /**
+     *
+     */
+    public function tearDown()
+    {
+        unset($this->simulation);
     }
 
     /**
      * Run test scenario as simulation.
      *
-     * @param callable(TestCase) $simulation
-     * @return PromiseInterface
+     * @param callable(Simulation) $scenario
+     * @return TestCase
      */
-    public function simulate(callable $simulation)
+    public function simulate(callable $scenario)
     {
-        $data = $simulation($this);
-        $promise = new Promise();
+        try
+        {
+            $this->simulation->setScenario($scenario);
+            $this->simulation->begin();
+        }
+        catch (Exception $ex)
+        {
+            $this->fail($ex->getMessage());
+        }
 
-        $loop = $this->loop();
-        $loop->addTimer(15, function() use($loop) {
-            $loop->stop();
-            $this->fail('Timeout for test has been reached.');
-        });
-        $loop->start();
-
-        return $promise->resolve($data);
+        return $this;
     }
 
     /**
-     * @return EventCollection
+     * @param $events
+     * @return TestCase
      */
-    public function createEventCollection()
+    public function expect($events)
     {
-        return new EventCollection();
-    }
+        $expectedEvents = [];
 
-    /**
-     * @param string $name
-     * @param mixed[] $data
-     * @return Event
-     */
-    public function createEvent($name, $data = [])
-    {
-        return new Event($name, $data);
+        foreach ($events as $event)
+        {
+            $data = isset($event[1]) ? $event[1] : [];
+            $expectedEvents[] = new Event($event[0], $data);
+        }
+
+        $this->assertEvents(
+            $this->simulation->getExpectedEvents(),
+            $expectedEvents
+        );
+
+        return $this;
     }
 
     /**
@@ -98,18 +95,18 @@ class TestCase extends \Kraken\Test\Unit\TestCase
     {
         $count = max(count($actualEvents), count($expectedEvents));
 
-        for ($i=0; $i<$count; ++$i)
+        for ($i=0; $i<$count; $i++)
         {
             if (!isset($actualEvents[$i]))
             {
                 $this->fail(
-                    sprintf(self::MSG_EVENT_GET_ASSERTION_FAILED, $expectedEvents[$i]->name(), 'null')
+                    sprintf(self::MSG_EVENT_GET_ASSERTION_FAILED, $i, $expectedEvents[$i]->name(), 'null')
                 );
             }
             else if (!isset($expectedEvents[$i]))
             {
                 $this->fail(
-                    sprintf(self::MSG_EVENT_GET_ASSERTION_FAILED, 'null', $actualEvents[$i]->name())
+                    sprintf(self::MSG_EVENT_GET_ASSERTION_FAILED, $i, 'null', $actualEvents[$i]->name())
                 );
             }
 

@@ -11,6 +11,11 @@ use Kraken\Loop\Timer\TimerInterface;
 interface LoopInterface
 {
     /**
+     * @return bool
+     */
+    public function isRunning();
+
+    /**
      * Register a listener to be notified when a stream is ready to read.
      *
      * @param resource $stream

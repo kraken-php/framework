@@ -84,6 +84,14 @@ class Loop implements LoopExtendedInterface
     }
 
     /**
+     * @return bool
+     */
+    public function isRunning()
+    {
+        return $this->loop->isRunning();
+    }
+
+    /**
      * Register a listener to be notified when a stream is ready to read.
      *
      * @param stream   $stream   The PHP stream resource to check.
