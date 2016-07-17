@@ -49,6 +49,21 @@ class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Creates a callback that must be called twice.
+     *
+     * @return callable|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function expectCallableTwice()
+    {
+        $mock = $this->createCallableMock();
+        $mock
+            ->expects($this->exactly(2))
+            ->method('__invoke');
+
+        return $mock;
+    }
+
+    /**
      * Creates a callable that must not be called once.
      *
      * @return callable|\PHPUnit_Framework_MockObject_MockObject
