@@ -9,6 +9,11 @@ class EventEmitter implements EventEmitterInterface
     /**
      * @var int
      */
+    const EVENTS_DEFAULT = 0;
+
+    /**
+     * @var int
+     */
     const EVENTS_FORWARD = 0;
 
     /**

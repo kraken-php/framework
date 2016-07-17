@@ -10,10 +10,7 @@ trait AsyncEventEmitterTrait
     use BaseEventEmitterTrait;
 
     /**
-     * @param int $pointer
-     * @param string $event
-     * @param callable $listener
-     * @return callable
+     * @see BaseEventEmitterTrait::attachOnListener
      */
     protected function attachOnListener($pointer, $event, callable $listener)
     {
@@ -26,10 +23,7 @@ trait AsyncEventEmitterTrait
     }
 
     /**
-     * @param int $pointer
-     * @param string $event
-     * @param callable $listener
-     * @return callable
+     * @see BaseEventEmitterTrait::attachOnceListener
      */
     protected function attachOnceListener($pointer, $event, callable $listener)
     {

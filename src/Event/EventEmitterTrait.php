@@ -35,25 +35,23 @@ trait EventEmitterTrait
     }
 
     /**
-     * @param int $emitterBlocked
+     * @see EventEmitterInterface::setMode
      */
-    public function setBlocking($emitterBlocked)
+    public function setMode($emitterMode)
     {
-        $this->emitter->setBlocking($emitterBlocked);
+        $this->emitter->setMode($emitterMode);
     }
 
     /**
-     * @return EventEmitterInterface
+     * @see EventEmitterInterface::getMode
      */
-    public function emitter()
+    public function getMode()
     {
-        return $this->emitter->emitter();
+        return $this->emitter->getMode();
     }
 
     /**
-     * @param string $event
-     * @param callable $listener
-     * @return EventHandler
+     * @see EventEmitterInterface::on
      */
     public function on($event, callable $listener)
     {
@@ -61,9 +59,7 @@ trait EventEmitterTrait
     }
 
     /**
-     * @param string $event
-     * @param callable $listener
-     * @return EventHandler
+     * @see EventEmitterInterface::once
      */
     public function once($event, callable $listener)
     {
@@ -71,8 +67,7 @@ trait EventEmitterTrait
     }
 
     /**
-     * @param string $event
-     * @param callable $listener
+     * @see EventEmitterInterface::removeListener
      */
     public function removeListener($event, callable $listener)
     {
@@ -80,17 +75,23 @@ trait EventEmitterTrait
     }
 
     /**
-     * @param string|null $event
+     * @see EventEmitterInterface::removeListeners
      */
-    public function removeAllListeners($event = null)
+    public function removeListeners($event)
     {
-        $this->emitter->removeAllListeners($event);
+        $this->emitter->removeListeners($event);
     }
 
     /**
-     * @param string $event
-     * @param callable $listener
-     * @return int|null
+     * @see EventEmitterInterface::removeAllListeners
+     */
+    public function removeAllListeners()
+    {
+        $this->emitter->removeAllListeners();
+    }
+
+    /**
+     * @see EventEmitterInterface::findListener
      */
     public function findListener($event, callable $listener)
     {
@@ -98,8 +99,7 @@ trait EventEmitterTrait
     }
 
     /**
-     * @param string $event
-     * @param mixed[] $arguments
+     * @see EventEmitterInterface::emit
      */
     public function emit($event, $arguments = [])
     {
@@ -107,9 +107,7 @@ trait EventEmitterTrait
     }
 
     /**
-     * @param EventEmitterInterface $emitter
-     * @param string $event
-     * @return EventHandler
+     * @see EventEmitterInterface::copyEvent
      */
     public function copyEvent(EventEmitterInterface $emitter, $event)
     {
@@ -117,9 +115,7 @@ trait EventEmitterTrait
     }
 
     /**
-     * @param EventEmitterInterface $emitter
-     * @param string[] $events
-     * @return EventHandler[]
+     * @see EventEmitterInterface::copyEvents
      */
     public function copyEvents(EventEmitterInterface $emitter, $events)
     {
@@ -127,8 +123,7 @@ trait EventEmitterTrait
     }
 
     /**
-     * @param EventEmitterInterface $emitter
-     * @return EventEmitterInterface
+     * @see EventEmitterInterface::forwardEvents
      */
     public function forwardEvents(EventEmitterInterface $emitter)
     {
@@ -136,61 +131,10 @@ trait EventEmitterTrait
     }
 
     /**
-     * @param EventEmitterInterface $emitter
-     * @return EventEmitterInterface
+     * @see EventEmitterInterface::discardEvents
      */
     public function discardEvents(EventEmitterInterface $emitter)
     {
         return $this->emitter->discardEvents($emitter);
-    }
-
-    /**
-     * @param EventEmitterInterface $emitter
-     */
-    public function addEventEmitterForwarder(EventEmitterInterface $emitter)
-    {
-        $this->emitter->addEventEmitterForwarder($emitter);
-    }
-
-    /**
-     * @param EventEmitterInterface $emitter
-     */
-    public function addEventEmitterListener(EventEmitterInterface $emitter)
-    {
-        $this->emitter->addEventEmitterListener($emitter);
-    }
-
-    /**
-     * @param EventEmitterInterface $emitter
-     */
-    public function removeEventEmitterForwarder(EventEmitterInterface $emitter)
-    {
-        $this->emitter->removeEventEmitterForwarder($emitter);
-    }
-
-    /**
-     * @param EventEmitterInterface $emitter
-     */
-    public function removeEventEmitterListener(EventEmitterInterface $emitter)
-    {
-        $this->emitter->removeEventEmitterListener($emitter);
-    }
-
-    /**
-     * @param EventEmitterInterface $emitter
-     * @return int|null
-     */
-    public function findEventEmitterForwarder(EventEmitterInterface $emitter)
-    {
-        return $this->emitter->findEventEmitterForwarder($emitter);
-    }
-
-    /**
-     * @param EventEmitterInterface $emitter
-     * @return int|null
-     */
-    public function findEventEmitterListener(EventEmitterInterface $emitter)
-    {
-        return $this->emitter->findEventEmitterListener($emitter);
     }
 }

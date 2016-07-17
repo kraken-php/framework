@@ -5,16 +5,29 @@ namespace Kraken\Event;
 interface EventEmitterInterface
 {
     /**
-     * @param int $emitterBlocked
+     * Set mode for EventEmitter behaviour.
+     *
+     * Set mode for EventEmitter behaviour. $emitterMode can be one of:
+     * EventEmitter::EVENTS_FORWARD Allows all events to be forwarded (Default)
+     * EventEmitter::EVENTS_DISCARD Disallows all events from being forwarded
+     * EventEmitter::EVENTS_DISCARD_INCOMING Discards only listeners attached to $this emitter
+     * EventEmitter::EVENTS_DISCARD_OUTCOMING Discards only further emits on forwarder
+     *
+     * @param int $emitterMode
      */
-    public function setBlocking($emitterBlocked);
+    public function setMode($emitterMode);
 
     /**
-     * @return EventEmitterInterface
+     * Returns mode of EventEmitter behaviour.
+     *
+     * @see setMode
+     * @return int
      */
-    public function emitter();
+    public function getMode();
 
     /**
+     * Set listener for event. This method returns EventHandler.
+     *
      * @param string $event
      * @param callable $listener
      * @return EventHandler
@@ -22,6 +35,8 @@ interface EventEmitterInterface
     public function on($event, callable $listener);
 
     /**
+     * Set listener for event that will fire only once. This method returns EventHandler
+     *
      * @param string $event
      * @param callable $listener
      * @return EventHandler
@@ -29,17 +44,30 @@ interface EventEmitterInterface
     public function once($event, callable $listener);
 
     /**
+     * Remove existing listener for event.
+     *
      * @param string $event
      * @param callable $listener
      */
     public function removeListener($event, callable $listener);
 
     /**
-     * @param string|null $event
+     * Remove all listeners for event.
+     *
+     * @param string $event
      */
-    public function removeAllListeners($event = null);
+    public function removeListeners($event);
 
     /**
+     * Remove all listeners.
+     */
+    public function removeAllListeners();
+
+    /**
+     * Find listener for event.
+     *
+     * Find listener for event. Returns int greater or equal 0 if listener is found or null if not.
+     *
      * @param string $event
      * @param callable $listener
      * @return int|null
@@ -47,12 +75,16 @@ interface EventEmitterInterface
     public function findListener($event, callable $listener);
 
     /**
+     * Emit event with specified arguments.
+     *
      * @param string $event
      * @param mixed[] $arguments
      */
     public function emit($event, $arguments = []);
 
     /**
+     * Forward event to another emitter.
+     *
      * @param EventEmitterInterface $emitter
      * @param string $event
      * @return EventHandler
@@ -60,6 +92,8 @@ interface EventEmitterInterface
     public function copyEvent(EventEmitterInterface $emitter, $event);
 
     /**
+     * Forward set of events to another emitter.
+     *
      * @param EventEmitterInterface $emitter
      * @param string[] $events
      * @return EventHandler[]
@@ -67,46 +101,18 @@ interface EventEmitterInterface
     public function copyEvents(EventEmitterInterface $emitter, $events);
 
     /**
+     * Forward all events to another emitter.
+     *
      * @param EventEmitterInterface $emitter
      * @return EventEmitterInterface
      */
     public function forwardEvents(EventEmitterInterface $emitter);
 
     /**
+     * Discard events previously forwarded to another emitter.
+     *
      * @param EventEmitterInterface $emitter
      * @return EventEmitterInterface
      */
     public function discardEvents(EventEmitterInterface $emitter);
-
-    /**
-     * @param EventEmitterInterface $emitter
-     */
-    public function addEventEmitterForwarder(EventEmitterInterface $emitter);
-
-    /**
-     * @param EventEmitterInterface $emitter
-     */
-    public function addEventEmitterListener(EventEmitterInterface $emitter);
-
-    /**
-     * @param EventEmitterInterface $emitter
-     */
-    public function removeEventEmitterForwarder(EventEmitterInterface $emitter);
-
-    /**
-     * @param EventEmitterInterface $emitter
-     */
-    public function removeEventEmitterListener(EventEmitterInterface $emitter);
-
-    /**
-     * @param EventEmitterInterface $emitter
-     * @return int|null
-     */
-    public function findEventEmitterForwarder(EventEmitterInterface $emitter);
-
-    /**
-     * @param EventEmitterInterface $emitter
-     * @return int|null
-     */
-    public function findEventEmitterListener(EventEmitterInterface $emitter);
 }

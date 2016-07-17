@@ -7,28 +7,35 @@ class EventHandler
     /**
      * @var EventEmitterInterface
      */
-    protected $emitter;
+    private $emitter;
 
     /**
      * @var string
      */
-    protected $event;
+    private $event;
 
     /**
      * @var callable
      */
-    protected $listener;
+    private $handler;
+
+    /**
+     * @var callable
+     */
+    private $listener;
 
     /**
      * @param EventEmitterInterface $emitter
      * @param string $event
-     * @param callable $listener
+     * @param callable $handler
+     * @param callable|null $listener
      */
-    public function __construct(EventEmitterInterface $emitter, $event, callable $listener)
+    public function __construct(EventEmitterInterface $emitter, $event, callable $handler, callable $listener = null)
     {
         $this->emitter = $emitter;
         $this->event = $event;
-        $this->listener = $listener;
+        $this->handler = $handler;
+        $this->listener = $listener !== null ? $listener : $handler;
     }
 
     /**
@@ -38,13 +45,14 @@ class EventHandler
     {
         unset($this->emitter);
         unset($this->event);
+        unset($this->handler);
         unset($this->listener);
     }
 
     /**
      * @return EventEmitterInterface
      */
-    public function emitter()
+    public function getEmitter()
     {
         return $this->emitter;
     }
@@ -52,7 +60,7 @@ class EventHandler
     /**
      * @return string
      */
-    public function event()
+    public function getEvent()
     {
         return $this->event;
     }
@@ -60,7 +68,15 @@ class EventHandler
     /**
      * @return callable
      */
-    public function listener()
+    public function getHandler()
+    {
+        return $this->handler;
+    }
+
+    /**
+     * @return callable
+     */
+    public function getListener()
     {
         return $this->listener;
     }
@@ -70,6 +86,6 @@ class EventHandler
      */
     public function cancel()
     {
-        $this->emitter->removeListener($this->event(), $this->listener());
+        $this->emitter->removeListener($this->getEvent(), $this->getHandler());
     }
 }
