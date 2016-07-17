@@ -36,4 +36,24 @@ trait AsyncEventEmitterTrait
             });
         };
     }
+
+    /**
+     * @see BaseEventEmitterTrait::attachTimesListener
+     */
+    protected function attachTimesListener($pointer, $event, $limit, callable $listener)
+    {
+        $emitter = $this;
+        return function() use($emitter, $listener, $event, $pointer, &$limit) {
+            if (--$limit === 0)
+            {
+                unset($limit);
+                unset($emitter->emitterEventHandlers[$event][$pointer]);
+            }
+
+            $args = func_get_args();
+            $this->getLoop()->afterTick(function() use($listener, $args) {
+                call_user_func_array($listener, $args);
+            });
+        };
+    }
 }

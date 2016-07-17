@@ -96,6 +96,36 @@ trait BaseEventEmitterTrait
     }
 
     /**
+     * @see EventEmitterInterface::times
+     */
+    public function times($event, $limit, callable $listener)
+    {
+        if ($limit === 0)
+        {
+            return $this->on($event, $listener);
+        }
+
+        if (!isset($this->emitterEventHandlers[$event]))
+        {
+            $this->emitterPointer[$event] = 0;
+            $this->emitterEventHandlers[$event] = [];
+        }
+
+        $pointer = &$this->emitterPointer[$event];
+        $limit = $limit > 0 ? $limit : 1;
+        $eventListener = new EventHandler(
+            $this,
+            $event,
+            $listener,
+            $this->attachTimesListener($pointer, $event, $limit, $listener)
+        );
+
+        $this->emitterEventHandlers[$event][$pointer++] = $eventListener;
+
+        return $eventListener;
+    }
+
+    /**
      * @see EventEmitterInterface::removeListener
      */
     public function removeListener($event, callable $listener)
@@ -246,6 +276,27 @@ trait BaseEventEmitterTrait
         $emitter = $this;
         return function() use($emitter, $listener, $event, $pointer) {
             unset($emitter->emitterEventHandlers[$event][$pointer]);
+
+            return call_user_func_array($listener, func_get_args());
+        };
+    }
+
+    /**
+     * @param int $pointer
+     * @param string $event
+     * @param int $limit
+     * @param callable $listener
+     * @return callable
+     */
+    protected function attachTimesListener($pointer, $event, $limit, callable $listener)
+    {
+        $emitter = $this;
+        return function() use($emitter, $listener, $event, $pointer, &$limit) {
+            if (--$limit === 0)
+            {
+                unset($limit);
+                unset($emitter->emitterEventHandlers[$event][$pointer]);
+            }
 
             return call_user_func_array($listener, func_get_args());
         };

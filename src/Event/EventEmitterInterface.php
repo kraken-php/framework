@@ -44,6 +44,16 @@ interface EventEmitterInterface
     public function once($event, callable $listener);
 
     /**
+     * Set listener for event that will fire at most as many times as set limit to. This method returns EventHandler
+     *
+     * @param string $event
+     * @param int $limit
+     * @param callable $listener
+     * @return EventHandler
+     */
+    public function times($event, $limit, callable $listener);
+
+    /**
      * Remove existing listener for event.
      *
      * @param string $event

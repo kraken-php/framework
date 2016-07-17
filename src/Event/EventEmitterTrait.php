@@ -55,7 +55,9 @@ trait EventEmitterTrait
      */
     public function on($event, callable $listener)
     {
-        return $this->emitter->on($event, $listener);
+        $handler = $this->emitter->on($event, $listener);
+
+        return new EventHandler($this, $handler->getEvent(), $handler->getHandler(), $handler->getListener());
     }
 
     /**
@@ -63,7 +65,19 @@ trait EventEmitterTrait
      */
     public function once($event, callable $listener)
     {
-        return $this->emitter->once($event, $listener);
+        $handler = $this->emitter->once($event, $listener);
+
+        return new EventHandler($this, $handler->getEvent(), $handler->getHandler(), $handler->getListener());
+    }
+
+    /**
+     * @see EventEmitterInterface::times
+     */
+    public function times($event, $limit, callable $listener)
+    {
+        $handler = $this->emitter->times($event, $limit, $listener);
+
+        return new EventHandler($this, $handler->getEvent(), $handler->getHandler(), $handler->getListener());
     }
 
     /**
