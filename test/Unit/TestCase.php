@@ -12,9 +12,17 @@ class TestCase extends \PHPUnit_Framework_TestCase
      *
      * @return string
      */
-    protected function basePath()
+    public function basePath()
     {
         return realpath(__DIR__ . '/..');
+    }
+
+    /**
+     * @return TestCase
+     */
+    public function getTest()
+    {
+        return $this;
     }
 
     /**
@@ -23,7 +31,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
      * @param $amount
      * @return callable|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected function expectCallableExactly($amount)
+    public function expectCallableExactly($amount)
     {
         $mock = $this->createCallableMock();
         $mock
@@ -38,7 +46,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
      *
      * @return callable|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected function expectCallableOnce()
+    public function expectCallableOnce()
     {
         $mock = $this->createCallableMock();
         $mock
@@ -53,7 +61,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
      *
      * @return callable|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected function expectCallableTwice()
+    public function expectCallableTwice()
     {
         $mock = $this->createCallableMock();
         $mock
@@ -68,7 +76,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
      *
      * @return callable|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected function expectCallableNever()
+    public function expectCallableNever()
     {
         $mock = $this->createCallableMock();
         $mock
@@ -83,7 +91,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
      *
      * @return callable|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected function createCallableMock()
+    public function createCallableMock()
     {
         return $this->getMock(CallableStub::class);
     }
@@ -91,7 +99,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     /**
      * @return LoopInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected function createLoopMock()
+    public function createLoopMock()
     {
         return $this->getMock('Kraken\Loop\LoopInterface');
     }
@@ -99,7 +107,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     /**
      * @return LoopInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected function createWritableLoopMock()
+    public function createWritableLoopMock()
     {
         $loop = $this->createLoopMock();
         $loop
@@ -115,7 +123,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     /**
      * @return LoopInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected function createReadableLoopMock()
+    public function createReadableLoopMock()
     {
         $loop = $this->createLoopMock();
         $loop
