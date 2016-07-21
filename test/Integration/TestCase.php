@@ -2,6 +2,10 @@
 
 namespace Kraken\Test\Integration;
 
+use Kraken\Loop\Model\StreamSelectLoop;
+use Kraken\Loop\Loop;
+use Kraken\Loop\LoopExtendedInterface;
+use Kraken\Loop\LoopInterface;
 use Kraken\Test\Integration\Stub\Event;
 use Kraken\Test\Integration\Stub\Simulation;
 use Exception;
@@ -24,6 +28,11 @@ class TestCase extends \Kraken\Test\Unit\TestCase
     const MSG_EVENT_GET_ASSERTION_FAILED = "Expected event count mismatch after %s events.\nExpected event %s, got event %s.";
 
     /**
+     * @var LoopExtendedInterface
+     */
+    private $loop;
+
+    /**
      * @var Simulation
      */
     private $simulation;
@@ -33,7 +42,10 @@ class TestCase extends \Kraken\Test\Unit\TestCase
      */
     public function setUp()
     {
-        $this->simulation = new Simulation;
+        $this->loop = new Loop(new StreamSelectLoop);
+        $this->loop->flush(true);
+
+        $this->simulation = new Simulation($this->loop);
     }
 
     /**
@@ -42,6 +54,15 @@ class TestCase extends \Kraken\Test\Unit\TestCase
     public function tearDown()
     {
         unset($this->simulation);
+        unset($this->loop);
+    }
+
+    /**
+     * @return LoopInterface
+     */
+    public function getLoop()
+    {
+        return $this->loop;
     }
 
     /**

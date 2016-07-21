@@ -2,14 +2,13 @@
 
 namespace Kraken\Test\Integration\Stub;
 
-use Kraken\Loop\Model\StreamSelectLoop;
-use Kraken\Loop\Loop;
 use Kraken\Loop\LoopExtendedInterface;
 use Kraken\Loop\LoopInterface;
 use Kraken\Promise\PromiseInterface;
 use Exception;
+use ReflectionClass;
 
-class Simulation
+class Simulation implements SimulationInterface
 {
     /**
      * @var LoopExtendedInterface
@@ -17,7 +16,7 @@ class Simulation
     private $loop;
 
     /**
-     * @var callable(Simulation)
+     * @var callable(SimulationInterface)
      */
     private $scenario;
 
@@ -32,27 +31,26 @@ class Simulation
     private $failureMessage;
 
     /**
-     * @var callable(Simulation)
+     * @var callable(SimulationInterface)
      */
     private $startCallback;
 
     /**
-     * @var callable(Simulation)
+     * @var callable(SimulationInterface)
      */
     private $stopCallback;
 
     /**
-     * @param callable(Simulation)|null $scenario
+     * @param LoopExtendedInterface $loop
      */
-    public function __construct(callable $scenario = null)
+    public function __construct(LoopExtendedInterface $loop)
     {
-        $this->scenario = $scenario !== null ? $scenario : function() {};
+        $this->loop = $loop;
+        $this->scenario = function() {};
         $this->successEvents = new EventCollection();
         $this->failureMessage = null;
         $this->startCallback = function() {};
         $this->stopCallback = function() {};
-
-        $this->create();
     }
 
     /**
@@ -61,8 +59,8 @@ class Simulation
     public function __destruct()
     {
         $this->stop();
-        $this->destroy();
 
+        unset($loop);
         unset($this->scenario);
         unset($this->successEvents);
         unset($this->failureMessage);
@@ -71,7 +69,7 @@ class Simulation
     }
 
     /**
-     * @param callable(Simulation) $scenario
+     * @param callable(SimulationInterface) $scenario
      */
     public function setScenario(callable $scenario)
     {
@@ -79,7 +77,7 @@ class Simulation
     }
 
     /**
-     * @return callable(Simulation)|null $scenario
+     * @return callable(SimulationInterface)|null $scenario
      */
     public function getScenario()
     {
@@ -153,6 +151,24 @@ class Simulation
     }
 
     /**
+     * @param string $model
+     * @param mixed[] $config
+     * @return object
+     */
+    public function reflect($model, $config = [])
+    {
+        foreach ($config as $key=>$value)
+        {
+            if ($value === 'Kraken\Loop\Loop' || $value === 'Kraken\Loop\LoopInterface')
+            {
+                $config[$key] = $this->getLoop();
+            }
+        }
+
+        return (new ReflectionClass($model))->newInstanceArgs($config);
+    }
+
+    /**
      * @throws Exception
      */
     private function start()
@@ -186,27 +202,9 @@ class Simulation
         if ($this->loop !== null && $this->loop->isRunning())
         {
             $this->loop->stop();
-            $this->loop->flush(true);
 
             $callable = $this->stopCallback;
             $callable($this);
         }
-    }
-
-    /**
-     *
-     */
-    private function create()
-    {
-        $this->loop = new Loop(new StreamSelectLoop);
-        $this->loop->flush(true);
-    }
-
-    /**
-     *
-     */
-    private function destroy()
-    {
-        unset($this->loop);
     }
 }
