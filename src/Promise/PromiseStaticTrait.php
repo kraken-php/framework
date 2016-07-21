@@ -59,7 +59,7 @@ trait PromiseStaticTrait
                     return self::doResolve([]);
                 }
 
-                return new Promise(function($resolve, $reject, $cancel, $notify) use($array) {
+                return new Promise(function($resolve, $reject, $cancel) use($array) {
                     $toResolve = count($array);
                     $values    = [];
 
@@ -76,8 +76,7 @@ trait PromiseStaticTrait
                                     }
                                 },
                                 $reject,
-                                $cancel,
-                                $notify
+                                $cancel
                             );
                     }
                 });
@@ -97,11 +96,11 @@ trait PromiseStaticTrait
                     return self::doResolve();
                 }
 
-                return new Promise(function($resolve, $reject, $cancel, $notify) use($array) {
+                return new Promise(function($resolve, $reject, $cancel) use($array) {
                     foreach ($array as $promiseOrValue)
                     {
                         self::doResolve($promiseOrValue)
-                            ->done($resolve, $reject, $cancel, $notify);
+                            ->done($resolve, $reject, $cancel);
                     }
                 });
             });
@@ -133,7 +132,7 @@ trait PromiseStaticTrait
                     return self::doResolve([]);
                 }
 
-                return new Promise(function($resolve, $reject, $cancel, $notify) use($array, $howMany) {
+                return new Promise(function($resolve, $reject, $cancel) use($array, $howMany) {
                     $len       = count($array);
                     $toResolve = min($howMany, $len);
                     $toReject  = ($len - $toResolve) + 1;
@@ -171,7 +170,7 @@ trait PromiseStaticTrait
                         };
 
                         self::doResolve($promiseOrValue)
-                            ->done($fulfiller, $rejecter, $cancel, $notify);
+                            ->done($fulfiller, $rejecter, $cancel);
                     }
                 });
             });
@@ -191,7 +190,7 @@ trait PromiseStaticTrait
                     return self::doResolve([]);
                 }
 
-                return new Promise(function($resolve, $reject, $cancel, $notify) use($array, $mapFunc) {
+                return new Promise(function($resolve, $reject, $cancel) use($array, $mapFunc) {
                     $toResolve = count($array);
                     $values    = [];
 
@@ -209,8 +208,7 @@ trait PromiseStaticTrait
                                     }
                                 },
                                 $reject,
-                                $cancel,
-                                $notify
+                                $cancel
                             );
                     }
                 });

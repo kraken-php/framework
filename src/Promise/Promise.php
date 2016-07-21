@@ -321,9 +321,6 @@ class Promise implements PromiseInterface
             },
             function($reason = null) {
                 $this->cancel($reason);
-            },
-            function($update = null) {
-                $this->notify($update);
             }
         );
     }
