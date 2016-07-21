@@ -13,6 +13,8 @@ class StreamTest extends TestCase
     {
         $local = $this->basePath();
         unlink("$local/temp");
+
+        parent::tearDown();
     }
 
     public function testStream_WriteAndReadDataScenario()

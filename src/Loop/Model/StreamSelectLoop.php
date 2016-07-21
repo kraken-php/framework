@@ -61,7 +61,7 @@ class StreamSelectLoop implements LoopModelInterface
 
     public function isRunning()
     {
-        return $this->flowController->isRunning;
+        return isset($this->flowController->isRunning) ? $this->flowController->isRunning : false;
     }
 
     /**

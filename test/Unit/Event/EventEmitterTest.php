@@ -388,7 +388,7 @@ class EventEmitterTest extends TestCase
     /**
      * @return LoopInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected function createLoopMock()
+    public function createLoopMock()
     {
         $loop = parent::createLoopMock();
         $loop
