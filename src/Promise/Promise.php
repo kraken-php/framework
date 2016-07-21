@@ -84,7 +84,7 @@ class Promise implements PromiseInterface
             $this->result()->done($onFulfilled, $onRejected, $onCancel);
         }
 
-        $this->handlers[] = function (PromiseInterface $promise) use ($onFulfilled, $onRejected, $onCancel) {
+        $this->handlers[] = function(PromiseInterface $promise) use($onFulfilled, $onRejected, $onCancel) {
             $promise
                 ->done($onFulfilled, $onRejected, $onCancel);
         };
@@ -312,16 +312,27 @@ class Promise implements PromiseInterface
             return;
         }
 
-        $resolver(
-            function($value = null) {
-                $this->resolve($value);
-            },
-            function($reason = null) {
-                $this->reject($reason);
-            },
-            function($reason = null) {
-                $this->cancel($reason);
-            }
-        );
+        try
+        {
+            $resolver(
+                function ($value = null) {
+                    $this->resolve($value);
+                },
+                function ($reason = null) {
+                    $this->reject($reason);
+                },
+                function ($reason = null) {
+                    $this->cancel($reason);
+                }
+            );
+        }
+        catch (Error $ex)
+        {
+            $this->reject($ex);
+        }
+        catch (Exception $ex)
+        {
+            $this->reject($ex);
+        }
     }
 }

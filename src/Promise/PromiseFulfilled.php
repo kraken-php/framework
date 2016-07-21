@@ -2,6 +2,7 @@
 
 namespace Kraken\Promise;
 
+use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Error;
 use Exception;
 
@@ -14,9 +15,17 @@ class PromiseFulfilled implements PromiseInterface
 
     /**
      * @param mixed|null $value
+     * @throws InvalidArgumentException
      */
     public function __construct($value = null)
     {
+        if ($value instanceof PromiseInterface)
+        {
+            throw new InvalidArgumentException(
+                'You cannot create PromiseFulfilled with a promise. Use Promise::doResolve($promiseOrValue) instead.'
+            );
+        }
+
         $this->value = $value;
     }
 

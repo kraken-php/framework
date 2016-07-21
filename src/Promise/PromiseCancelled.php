@@ -232,7 +232,7 @@ class PromiseCancelled implements PromiseInterface
      */
     protected function throwError($reason)
     {
-        if ($reason instanceof Exception)
+        if ($reason instanceof Exception || $reason instanceof Error)
         {
             throw $reason;
         }

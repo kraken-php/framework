@@ -2,6 +2,8 @@
 
 namespace Kraken\Promise;
 
+use Kraken\Throwable\Exception\Runtime\UnderflowException;
+
 trait PromiseStaticTrait
 {
     /**
@@ -29,7 +31,9 @@ trait PromiseStaticTrait
             return new PromiseRejected($promiseOrValue);
         }
 
-        return $promiseOrValue;
+        return self::doResolve($promiseOrValue)->then(function($value) {
+            return new PromiseRejected($value);
+        });
     }
 
     /**
@@ -127,9 +131,18 @@ trait PromiseStaticTrait
     {
         return self::doResolve($promisesOrValues)
             ->then(function($array) use($howMany) {
-                if (!is_array($array) || !$array || $howMany < 1)
+                if (!is_array($array) || $howMany < 1)
                 {
                     return self::doResolve([]);
+                }
+
+                $len = count($array);
+
+                if ($len < $howMany)
+                {
+                    return self::doReject(new UnderflowException(
+                        sprintf('Input array must contain at least %d items but contains only %s items.', $howMany, $len)
+                    ));
                 }
 
                 return new Promise(function($resolve, $reject, $cancel) use($array, $howMany) {
@@ -212,7 +225,8 @@ trait PromiseStaticTrait
                             );
                     }
                 });
-            });
+            })
+        ;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Kraken\Promise;
 
+use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 use Kraken\Throwable\LazyException;
 use Error;
@@ -16,9 +17,17 @@ class PromiseRejected implements PromiseInterface
 
     /**
      * @param Error|Exception|string|null
+     * @throws InvalidArgumentException
      */
     public function __construct($reason = null)
     {
+        if ($reason instanceof PromiseInterface)
+        {
+            throw new InvalidArgumentException(
+                'You cannot create PromiseRejected with a promise. Use Promise::doReject($promiseOrValue) instead.'
+            );
+        }
+
         $this->reason = $reason;
     }
 
@@ -73,7 +82,7 @@ class PromiseRejected implements PromiseInterface
 
         if ($result instanceof self)
         {
-            $this->throwError($this->reason());
+            $this->throwError($result->reason());
         }
 
         if ($result instanceof PromiseInterface)
@@ -232,7 +241,7 @@ class PromiseRejected implements PromiseInterface
      */
     protected function throwError($reason)
     {
-        if ($reason instanceof Exception)
+        if ($reason instanceof Exception || $reason instanceof Error)
         {
             throw $reason;
         }
