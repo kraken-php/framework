@@ -8,6 +8,11 @@ use Exception;
 interface DeferredInterface
 {
     /**
+     * @return PromiseInterface
+     */
+    public function promise();
+
+    /**
      * @param mixed|null $value
      * @return PromiseInterface
      */
@@ -24,10 +29,4 @@ interface DeferredInterface
      * @return PromiseInterface
      */
     public function cancel($reason = null);
-
-    /**
-     * @param mixed|null $update
-     * @return PromiseInterface
-     */
-    public function notify($update = null);
 }

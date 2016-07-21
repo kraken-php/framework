@@ -11,28 +11,25 @@ interface PromiseInterface extends DeferredInterface
      * @param callable|null $onFulfilled
      * @param callable|null $onRejected
      * @param callable|null $onCancel
-     * @param callable|null $onProgress
      * @return PromiseInterface
      */
-    public function then(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null, callable $onProgress = null);
+    public function then(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null);
 
     /**
      * @param callable|null $onFulfilled
      * @param callable|null $onRejected
      * @param callable|null $onCancel
-     * @param callable|null $onProgress
      * @throws Error|Exception
      */
-    public function done(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null, callable $onProgress = null);
+    public function done(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null);
 
     /**
      * @param callable|null $onFulfilled
      * @param callable|null $onRejected
      * @param callable|null $onCancel
-     * @param callable|null $onProgress
      * @return PromiseInterface
      */
-    public function spread(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null, callable $onProgress = null);
+    public function spread(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null);
 
     /**
      * @param callable $onSuccess
@@ -51,12 +48,6 @@ interface PromiseInterface extends DeferredInterface
      * @return PromiseInterface
      */
     public function abort(callable $onCancel);
-
-    /**
-     * @param callable $onProgress
-     * @return PromiseInterface
-     */
-    public function progress(callable $onProgress);
 
     /**
      * @param callable $onFulfilledOrRejected

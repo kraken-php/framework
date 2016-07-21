@@ -22,11 +22,6 @@ class Promise implements PromiseInterface
     /**
      * @var callable[]
      */
-    protected $progressHandlers;
-
-    /**
-     * @var callable[]
-     */
     protected $cancellers;
 
     /**
@@ -36,7 +31,6 @@ class Promise implements PromiseInterface
     {
         $this->result = null;
         $this->handlers = [];
-        $this->progressHandlers = [];
         $this->cancellers = [];
 
         $this->mutate($resolver);
@@ -49,7 +43,6 @@ class Promise implements PromiseInterface
     {
         unset($this->result);
         unset($this->handlers);
-        unset($this->progressHandlers);
         unset($this->cancellers);
     }
 
@@ -57,47 +50,23 @@ class Promise implements PromiseInterface
      * @param callable|null $onFulfilled
      * @param callable|null $onRejected
      * @param callable|null $onCancel
-     * @param callable|null $onProgress
      * @return PromiseInterface
      */
-    public function then(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null, callable $onProgress = null)
+    public function then(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null)
     {
         if (null !== $this->result)
         {
-            return $this->result()->then($onFulfilled, $onRejected, $onCancel, $onProgress);
+            return $this->result()->then($onFulfilled, $onRejected, $onCancel);
         }
 
-        return new static(function($resolve, $reject, $cancel, $notify) use($onFulfilled, $onRejected, $onCancel, $onProgress) {
-            if ($onProgress)
-            {
-                $progressHandler = function($update) use($notify, $onProgress) {
-                    try
-                    {
-                        $notify($onProgress($update));
-                    }
-                    catch (Error $ex)
-                    {
-                        $notify($ex);
-                    }
-                    catch (Exception $ex)
-                    {
-                        $notify($ex);
-                    }
-                };
-            }
-            else
-            {
-                $progressHandler = $notify;
-            }
+        return new static(function($resolve, $reject, $cancel) use($onFulfilled, $onRejected, $onCancel) {
 
-            $this->handlers[] = function(PromiseInterface $promise) use($resolve, $reject, $cancel, $onFulfilled, $onRejected, $onCancel, $progressHandler) {
+            $this->handlers[] = function(PromiseInterface $promise) use($resolve, $reject, $cancel, $onFulfilled, $onRejected, $onCancel) {
                 $promise
                     ->then($onFulfilled, $onRejected, $onCancel)
-                    ->done($resolve, $reject, $cancel, $progressHandler)
+                    ->done($resolve, $reject, $cancel)
                 ;
             };
-
-            $this->progressHandlers[] = $progressHandler;
 
             $this->cancellers[] = $cancel;
         });
@@ -107,34 +76,27 @@ class Promise implements PromiseInterface
      * @param callable|null $onFulfilled
      * @param callable|null $onRejected
      * @param callable|null $onCancel
-     * @param callable|null $onProgress
      */
-    public function done(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null, callable $onProgress = null)
+    public function done(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null)
     {
         if (null !== $this->result)
         {
-            $this->result()->done($onFulfilled, $onRejected, $onCancel, $onProgress);
+            $this->result()->done($onFulfilled, $onRejected, $onCancel);
         }
 
         $this->handlers[] = function (PromiseInterface $promise) use ($onFulfilled, $onRejected, $onCancel) {
             $promise
                 ->done($onFulfilled, $onRejected, $onCancel);
         };
-
-        if ($onProgress !== null)
-        {
-            $this->progressHandlers[] = $onProgress;
-        }
     }
 
     /**
      * @param callable|null $onFulfilled
      * @param callable|null $onRejected
      * @param callable|null $onCancel
-     * @param callable|null $onProgress
      * @return PromiseInterface
      */
-    public function spread(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null, callable $onProgress = null)
+    public function spread(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null)
     {
         return $this->then(
             function($values) use($onFulfilled) {
@@ -145,9 +107,6 @@ class Promise implements PromiseInterface
             },
             function($reasons) use($onCancel) {
                 call_user_func_array($onCancel, (array) $reasons);
-            },
-            function($updates) use($onProgress) {
-                call_user_func_array($onProgress, (array) $updates);
             }
         );
     }
@@ -177,15 +136,6 @@ class Promise implements PromiseInterface
     public function abort(callable $onCancel)
     {
         return $this->then(null, null, $onCancel);
-    }
-
-    /**
-     * @param callable $onProgress
-     * @return PromiseInterface
-     */
-    public function progress(callable $onProgress)
-    {
-        return $this->then(null, null, null, $onProgress);
     }
 
     /**
@@ -246,6 +196,14 @@ class Promise implements PromiseInterface
     }
 
     /**
+     * @return PromiseInterface
+     */
+    public function promise()
+    {
+        return $this;
+    }
+
+    /**
      * @param mixed $value
      * @return PromiseInterface
      */
@@ -297,25 +255,6 @@ class Promise implements PromiseInterface
     }
 
     /**
-     * @param mixed $update
-     * @return PromiseInterface
-     */
-    public function notify($update = null)
-    {
-        if (null !== $this->result || $update === $this)
-        {
-            return $this->result;
-        }
-
-        foreach ($this->progressHandlers as $handler)
-        {
-            $handler($update);
-        }
-
-        return $this;
-    }
-
-    /**
      * @return mixed|null
      */
     public function value()
@@ -341,7 +280,6 @@ class Promise implements PromiseInterface
 
         $this->result = $promise;
         $this->handlers = [];
-        $this->progressHandlers = [];
 
         foreach ($handlers as $handler)
         {

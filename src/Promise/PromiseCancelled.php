@@ -7,8 +7,6 @@ use Exception;
 
 class PromiseCancelled implements PromiseInterface
 {
-    use PromiseStaticTrait;
-
     /**
      * @var Error|Exception|string|null
      */
@@ -34,10 +32,9 @@ class PromiseCancelled implements PromiseInterface
      * @param callable|null $onFulfilled
      * @param callable|null $onRejected
      * @param callable|null $onCancel
-     * @param callable|null $onProgress
      * @return PromiseInterface
      */
-    public function then(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null, callable $onProgress = null)
+    public function then(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null)
     {
         if (null === $onCancel)
         {
@@ -46,7 +43,7 @@ class PromiseCancelled implements PromiseInterface
 
         try
         {
-            return self::doCancel($onCancel($this->reason));
+            return Promise::doCancel($onCancel($this->reason));
         }
         catch (Error $ex)
         {
@@ -62,10 +59,9 @@ class PromiseCancelled implements PromiseInterface
      * @param callable|null $onFulfilled
      * @param callable|null $onRejected
      * @param callable|null $onCancel
-     * @param callable|null $onProgress
      * @throws Error|Exception
      */
-    public function done(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null, callable $onProgress = null)
+    public function done(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null)
     {
         if (null === $onCancel)
         {
@@ -89,10 +85,9 @@ class PromiseCancelled implements PromiseInterface
      * @param callable|null $onFulfilled
      * @param callable|null $onRejected
      * @param callable|null $onCancel
-     * @param callable|null $onProgress
      * @return PromiseInterface
      */
-    public function spread(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null, callable $onProgress = null)
+    public function spread(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null)
     {
         return $this->then(
             function($values) use($onFulfilled) {
@@ -103,9 +98,6 @@ class PromiseCancelled implements PromiseInterface
             },
             function($reasons) use($onCancel) {
                 call_user_func_array($onCancel, (array) $reasons);
-            },
-            function($updates) use($onProgress) {
-                call_user_func_array($onProgress, (array) $updates);
             }
         );
     }
@@ -138,15 +130,6 @@ class PromiseCancelled implements PromiseInterface
     }
 
     /**
-     * @param callable $onProgress
-     * @return PromiseInterface
-     */
-    public function progress(callable $onProgress)
-    {
-        return $this->then(null, null, null, $onProgress);
-    }
-
-    /**
      * @param callable $onFulfilledOrRejected
      * @return PromiseInterface
      */
@@ -156,7 +139,7 @@ class PromiseCancelled implements PromiseInterface
             null,
             null,
             function($reason) use($onFulfilledOrRejected) {
-                return self::doResolve($onFulfilledOrRejected())->then(function() use($reason) {
+                return Promise::doResolve($onFulfilledOrRejected())->then(function() use($reason) {
                     return new static($reason);
                 });
             }
@@ -196,6 +179,14 @@ class PromiseCancelled implements PromiseInterface
     }
 
     /**
+     * @return PromiseInterface
+     */
+    public function promise()
+    {
+        return $this;
+    }
+
+    /**
      * @param mixed|null $value
      */
     public function resolve($value = null)
@@ -215,14 +206,6 @@ class PromiseCancelled implements PromiseInterface
      * @param Error|Exception|string|null $reason
      */
     public function cancel($reason = null)
-    {
-        // DoNothing
-    }
-
-    /**
-     * @param mixed|null $update
-     */
-    public function notify($update = null)
     {
         // DoNothing
     }
