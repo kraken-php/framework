@@ -12,6 +12,8 @@ class PromiseTest extends TestCase
      */
     public function testPromise_SupportsVeryDeepNesting()
     {
+        ini_set('xdebug.max_nesting_level', 8192);
+
         $deferreds = [];
 
         for ($i = 0; $i < 50; $i++)
