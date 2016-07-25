@@ -6,7 +6,7 @@ use Kraken\Loop\LoopInterface;
 use Kraken\Stream\AsyncStreamReader;
 use Kraken\_Unit\TestCase;
 
-class AsyncStreamReaderTest extends TestCase
+class AsyncStreamReaderTest extends StreamSeekerTest
 {
     public function testApiRead_ReadsDataProperly()
     {
@@ -35,7 +35,7 @@ class AsyncStreamReaderTest extends TestCase
      * @param LoopInterface|null $loop
      * @return AsyncStreamReader
      */
-    private function createAsyncStreamReaderMock($resource = null, $loop = null)
+    protected function createAsyncStreamReaderMock($resource = null, $loop = null)
     {
         return new AsyncStreamReader(
             is_null($resource) ? fopen('php://temp', 'r+') : $resource,

@@ -4,9 +4,8 @@ namespace Kraken\_Unit\Stream;
 
 use Kraken\Loop\LoopInterface;
 use Kraken\Stream\AsyncStreamWriter;
-use Kraken\_Unit\TestCase;
 
-class AsyncStreamWriterTest extends TestCase
+class AsyncStreamWriterTest extends StreamSeekerTest
 {
     public function testApiWrite_WritesDataProperly()
     {
@@ -28,7 +27,7 @@ class AsyncStreamWriterTest extends TestCase
      * @param LoopInterface|null $loop
      * @return AsyncStreamWriter
      */
-    private function createAsyncStreamWriterMock($resource = null, $loop = null)
+    protected function createAsyncStreamWriterMock($resource = null, $loop = null)
     {
         return new AsyncStreamWriter(
             is_null($resource) ? fopen('php://temp', 'r+') : $resource,

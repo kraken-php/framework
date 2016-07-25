@@ -6,7 +6,7 @@ use Kraken\Loop\LoopInterface;
 use Kraken\Stream\AsyncStream;
 use Kraken\_Unit\TestCase;
 
-class AsyncStreamTest extends TestCase
+class AsyncStreamTest extends AsyncStreamWriterTest
 {
     public function testApiPauseAndResumeAndIsPaused()
     {
@@ -49,7 +49,7 @@ class AsyncStreamTest extends TestCase
      * @param LoopInterface|null $loop
      * @return AsyncStream
      */
-    private function createStreamMock($resource = null, $loop = null)
+    protected function createStreamMock($resource = null, $loop = null)
     {
         return new AsyncStream(
             is_null($resource) ? fopen('php://temp', 'r+') : $resource,
