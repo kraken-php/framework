@@ -36,7 +36,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Kraken\\Test\\": "test"
+            "Kraken\\_Module\\": "test/_Module",
+            "Kraken\\_Unit\\": "test/_Unit"
         }
     },
     "minimum-stability": "dev",

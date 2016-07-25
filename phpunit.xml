@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="test/bootstrap.php"
+         backupGlobals="false"
+         backupStaticAttributes="false"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
+         syntaxCheck="true"
+         colors="true"
+         verbose="true">
+
+    <testsuites>
+        <testsuite name="Kraken Unit Test Suite">
+            <directory suffix="Test.php">test/_Unit</directory>
+        </testsuite>
+
+        <testsuite name="Kraken Module Test Suite">
+            <directory suffix="Test.php">test/_Module</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src</directory>
+        </whitelist>
+    </filter>
+</phpunit>
