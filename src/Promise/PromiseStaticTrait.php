@@ -8,6 +8,8 @@ use Kraken\Throwable\Exception\Runtime\UnderflowException;
 trait PromiseStaticTrait
 {
     /**
+     * Resolve Promise or value.
+     *
      * @param PromiseInterface|mixed $promiseOrValue
      * @return PromiseInterface
      */
@@ -22,6 +24,8 @@ trait PromiseStaticTrait
     }
 
     /**
+     * Reject Promise or value.
+     *
      * @param PromiseInterface|mixed $promiseOrValue
      * @return PromiseInterface
      */
@@ -38,6 +42,8 @@ trait PromiseStaticTrait
     }
 
     /**
+     * Cancel Promise or value.
+     *
      * @param PromiseInterface|mixed $promiseOrValue
      * @return PromiseInterface
      */
@@ -60,6 +66,12 @@ trait PromiseStaticTrait
     }
 
     /**
+     * Return Promise that will resolve only once all the items in $promisesOrValues have resolved.
+     *
+     * Return Promise that will resolve only once all the items in $promisesOrValues have resolved. The resolution
+     * value of the returned promise will be an array containing the resolution values of each of the items in
+     * $promisesOrValues.
+     *
      * @param PromiseInterface[]|mixed[] $promisesOrValues
      * @return PromiseInterface
      */
@@ -71,6 +83,11 @@ trait PromiseStaticTrait
     }
 
     /**
+     * Initiate a competitive race that allows one winner.
+     *
+     * Initiate a competitive race that allows one winner. Returns a promise which is resolved in the same way
+     * the first settled promise resolves.
+     *
      * @param PromiseInterface[]|mixed[] $promisesOrValues
      * @return PromiseInterface
      */
@@ -109,6 +126,11 @@ trait PromiseStaticTrait
     }
 
     /**
+     * Return a promise that will resolve when any one of the items in $promisesOrValues resolves.
+     *
+     * Return a promise that will resolve when any one of the items in $promisesOrValues resolves. The resolution value
+     * of the returned promise will be the resolution value of the triggering item.
+     *
      * @param PromiseInterface[]|mixed[] $promisesOrValues
      * @return PromiseInterface
      */
@@ -121,6 +143,12 @@ trait PromiseStaticTrait
     }
 
     /**
+     * Return Promise that will resolve when $howMany of the supplied items in $promisesOrValues resolve.
+     *
+     * Return Promise that will resolve when $howMany of the supplied items in $promisesOrValues resolve. The resolution
+     * value of the returned promise will be an array of length $howMany containing the resolution values of
+     * the triggering items.
+     *
      * @param PromiseInterface[]|mixed[] $promisesOrValues
      * @param int $howMany
      * @return PromiseInterface
@@ -196,6 +224,10 @@ trait PromiseStaticTrait
     }
 
     /**
+     * Map promises and/or values using specified $mapFunc.
+     *
+     * @see array_map
+     *
      * @param PromiseInterface[]|mixed[] $promisesOrValues
      * @param callable $mapFunc
      * @return PromiseInterface
@@ -239,6 +271,10 @@ trait PromiseStaticTrait
     }
 
     /**
+     * Reduce Promises and/or values using $reduceFunc with $initialValue being Promise or primitive value.
+     *
+     * @see array_reduce
+     *
      * @param PromiseInterface[]|mixed[] $promisesOrValues
      * @param callable $reduceFunc
      * @param PromiseInterface|mixed|null $initialValue

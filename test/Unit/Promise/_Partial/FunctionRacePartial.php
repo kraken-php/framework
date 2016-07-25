@@ -70,7 +70,7 @@ trait FunctionRacePartial
         $d2 = new Deferred();
         $d3 = new Deferred();
 
-        Promise::race([ $d1->promise(), $d2->promise(), $d3->promise() ])
+        Promise::race([ $d1->getPromise(), $d2->getPromise(), $d3->getPromise() ])
             ->then(
                 $mock
             );
@@ -97,7 +97,7 @@ trait FunctionRacePartial
         $d2 = new Deferred();
         $d3 = new Deferred();
 
-        Promise::race([ $d1->promise(), $d2->promise(), $d3->promise() ])
+        Promise::race([ $d1->getPromise(), $d2->getPromise(), $d3->getPromise() ])
             ->then(
                 $test->expectCallableNever(),
                 $mock
@@ -150,7 +150,7 @@ trait FunctionRacePartial
             ->expects($test->once())
             ->method('cancel');
 
-        Promise::race([ $deferred->promise(), $mock2 ])
+        Promise::race([ $deferred->getPromise(), $mock2 ])
             ->cancel();
     }
 
@@ -175,7 +175,7 @@ trait FunctionRacePartial
             ->expects($test->once())
             ->method('cancel');
 
-        Promise::race([ $deferred->promise(), $mock2 ])
+        Promise::race([ $deferred->getPromise(), $mock2 ])
             ->cancel();
     }
 }

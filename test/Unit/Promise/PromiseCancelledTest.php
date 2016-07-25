@@ -23,7 +23,7 @@ class PromiseCancelledTest extends TestCase
         $promise = null;
 
         return new DeferredBridge([
-            'promise' => function() use (&$promise) {
+            'getPromise' => function() use (&$promise) {
                 if (!$promise)
                 {
                     throw new Exception(sprintf("[%s] must be cancelled before obtaining the promise.", PromiseCancelled::class));

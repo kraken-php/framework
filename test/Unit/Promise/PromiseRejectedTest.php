@@ -23,7 +23,7 @@ class PromiseRejectedTest extends TestCase
         $promise = null;
 
         return new DeferredBridge([
-            'promise' => function() use (&$promise) {
+            'getPromise' => function() use (&$promise) {
                 if (!$promise)
                 {
                     throw new Exception(sprintf("[%s] must be rejected before obtaining the promise.", PromiseRejected::class));

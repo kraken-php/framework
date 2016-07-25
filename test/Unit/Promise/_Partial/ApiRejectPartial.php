@@ -37,7 +37,7 @@ trait ApiRejectPartial
             ->with($test->identicalTo(1));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 $mock
@@ -62,7 +62,7 @@ trait ApiRejectPartial
             ->with($test->identicalTo(1));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 $mock
@@ -87,7 +87,7 @@ trait ApiRejectPartial
             ->with($test->identicalTo(1));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 $mock
@@ -112,7 +112,7 @@ trait ApiRejectPartial
             ->with($test->identicalTo(1));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever()
             )
@@ -140,7 +140,7 @@ trait ApiRejectPartial
             ->with($test->identicalTo(1));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 null,
                 function($value) use($deferred) {
@@ -172,7 +172,7 @@ trait ApiRejectPartial
             ->with($test->identicalTo(1));
 
         $test->assertNull(
-            $deferred->promise()->done(null, $mock)
+            $deferred->getPromise()->done(null, $mock)
         );
 
         $deferred
@@ -189,7 +189,7 @@ trait ApiRejectPartial
 
         $test->setExpectedException(Exception::class, 'UnhandledRejectionException');
         $test->assertNull(
-            $deferred->promise()->done(null, function() {
+            $deferred->getPromise()->done(null, function() {
                 throw new \Exception('UnhandledRejectionException');
             })
         );
@@ -208,7 +208,7 @@ trait ApiRejectPartial
 
         $test->setExpectedException(RejectionException::class);
         $test->assertNull(
-            $deferred->promise()->done()
+            $deferred->getPromise()->done()
         );
 
         $deferred
@@ -225,7 +225,7 @@ trait ApiRejectPartial
 
         $test->setExpectedException(RejectionException::class);
         $test->assertNull(
-            $deferred->promise()->done(null, function() {
+            $deferred->getPromise()->done(null, function() {
                 return Promise::doReject();
             })
         );
@@ -244,7 +244,7 @@ trait ApiRejectPartial
 
         $test->setExpectedException(Exception::class, 'UnhandledRejectionException');
         $test->assertNull(
-            $deferred->promise()->done(null, function() {
+            $deferred->getPromise()->done(null, function() {
                 return Promise::doReject(new Exception('UnhandledRejectionException'));
             })
         );
@@ -263,9 +263,9 @@ trait ApiRejectPartial
 
         $test->setExpectedException(RejectionException::class);
         $d = new Deferred();
-        $promise = $d->promise();
+        $promise = $d->getPromise();
 
-        $test->assertNull($deferred->promise()->done(null, function() use($promise) {
+        $test->assertNull($deferred->getPromise()->done(null, function() use($promise) {
             return $promise;
         }));
 
@@ -283,7 +283,7 @@ trait ApiRejectPartial
 
         $test->setExpectedException(Exception::class, 'UnhandledRejectionException');
         $test->assertNull(
-            $deferred->promise()->done()
+            $deferred->getPromise()->done()
         );
 
         $deferred
@@ -301,10 +301,10 @@ trait ApiRejectPartial
         $exception = new Exception('UnhandledRejectionException');
         $d = new Deferred();
 
-        $result = Promise::doResolve(Promise::doResolve($d->promise()->then(function() use($exception) {
+        $result = Promise::doResolve(Promise::doResolve($d->getPromise()->then(function() use($exception) {
             $d = new Deferred();
             $d->resolve();
-            return Promise::doResolve($d->promise()->then(function() {}))->then(
+            return Promise::doResolve($d->getPromise()->then(function() {}))->then(
                 function() use($exception) {
                     throw $exception;
                 }
@@ -324,7 +324,7 @@ trait ApiRejectPartial
         $test = $this->getTest();
 
         $test->assertNull(
-            $deferred->promise()->done(null, function($exception) {})
+            $deferred->getPromise()->done(null, function($exception) {})
         );
 
         $deferred
@@ -347,7 +347,7 @@ trait ApiRejectPartial
             ->with($test->identicalTo($exception));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->always($test->expectCallableOnce())
             ->then(
                 null,
@@ -374,7 +374,7 @@ trait ApiRejectPartial
             ->with($test->identicalTo($exception));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->always(function() {
                 return 1;
             })
@@ -403,7 +403,7 @@ trait ApiRejectPartial
             ->with($test->identicalTo($exception));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->always(function() {
                 return Promise::doResolve(1);
             })
@@ -432,7 +432,7 @@ trait ApiRejectPartial
             ->with($test->identicalTo($exception));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->always(function() use ($exception) {
                 throw $exception;
             })
@@ -461,7 +461,7 @@ trait ApiRejectPartial
             ->with($test->identicalTo($exception));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->always(function() use($exception) {
                 return Promise::doReject($exception);
             })
@@ -483,7 +483,7 @@ trait ApiRejectPartial
         $test = $this->getTest();
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->reject()
             ->then(
                 null,

@@ -134,7 +134,7 @@ trait FunctionAnyPartial
         $d1 = new Deferred();
         $d2 = new Deferred();
 
-        Promise::any([ 'abc' => $d1->promise(), 1 => $d2->promise() ])
+        Promise::any([ 'abc' => $d1->getPromise(), 1 => $d2->getPromise() ])
             ->then(
                 $mock
             );
@@ -179,7 +179,7 @@ trait FunctionAnyPartial
             ->expects($test->never())
             ->method('__invoke');
 
-        $promise = $deferred->promise();
+        $promise = $deferred->getPromise();
         $promise
             ->then(
                 null,

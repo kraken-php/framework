@@ -34,7 +34,7 @@ trait PromisePendingPartial
         $deferred = $this->createDeferred();
         $test = $this->getTest();
 
-        $test->assertInstanceOf(PromiseInterface::class, $deferred->promise()->then());
+        $test->assertInstanceOf(PromiseInterface::class, $deferred->getPromise()->then());
     }
 
     /**
@@ -45,7 +45,7 @@ trait PromisePendingPartial
         $deferred = $this->createDeferred();
         $test = $this->getTest();
 
-        $test->assertInstanceOf(PromiseInterface::class, $deferred->promise()->then(null, null, null));
+        $test->assertInstanceOf(PromiseInterface::class, $deferred->getPromise()->then(null, null, null));
     }
 
     /**
@@ -56,7 +56,7 @@ trait PromisePendingPartial
         $deferred = $this->createDeferred();
         $test = $this->getTest();
 
-        $test->assertNull($deferred->promise()->done());
+        $test->assertNull($deferred->getPromise()->done());
     }
 
     /**
@@ -67,7 +67,7 @@ trait PromisePendingPartial
         $deferred = $this->createDeferred();
         $test = $this->getTest();
 
-        $test->assertNull($deferred->promise()->done(null, null, null));
+        $test->assertNull($deferred->getPromise()->done(null, null, null));
     }
     /**
      *
@@ -77,7 +77,7 @@ trait PromisePendingPartial
         $deferred = $this->createDeferred();
         $test = $this->getTest();
 
-        $test->assertInstanceOf(PromiseInterface::class, $deferred->promise()->always(function () {}));
+        $test->assertInstanceOf(PromiseInterface::class, $deferred->getPromise()->always(function () {}));
     }
 
     /**
@@ -88,7 +88,7 @@ trait PromisePendingPartial
         $deferred = $this->createDeferred();
         $test = $this->getTest();
 
-        $test->assertTrue($deferred->promise()->isPending());
+        $test->assertTrue($deferred->getPromise()->isPending());
     }
 
     /**
@@ -99,7 +99,7 @@ trait PromisePendingPartial
         $deferred = $this->createDeferred();
         $test = $this->getTest();
 
-        $test->assertFalse($deferred->promise()->isFulfilled());
+        $test->assertFalse($deferred->getPromise()->isFulfilled());
     }
 
     /**
@@ -110,7 +110,7 @@ trait PromisePendingPartial
         $deferred = $this->createDeferred();
         $test = $this->getTest();
 
-        $test->assertFalse($deferred->promise()->isRejected());
+        $test->assertFalse($deferred->getPromise()->isRejected());
     }
 
     /**
@@ -121,7 +121,7 @@ trait PromisePendingPartial
         $deferred = $this->createDeferred();
         $test = $this->getTest();
 
-        $test->assertFalse($deferred->promise()->isCancelled());
+        $test->assertFalse($deferred->getPromise()->isCancelled());
     }
 
     /**

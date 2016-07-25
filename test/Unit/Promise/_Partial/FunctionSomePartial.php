@@ -212,7 +212,7 @@ trait FunctionSomePartial
             ->method('cancel');
 
         Promise::some(
-            [ $deferred->promise(), $mock2 ],
+            [ $deferred->getPromise(), $mock2 ],
             1
         );
     }
@@ -238,7 +238,7 @@ trait FunctionSomePartial
             ->method('cancel');
 
         Promise::some(
-            [ $deferred->promise(), $mock2 ],
+            [ $deferred->getPromise(), $mock2 ],
             2
         );
     }

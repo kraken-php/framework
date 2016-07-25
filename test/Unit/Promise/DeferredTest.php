@@ -22,10 +22,10 @@ class DeferredTest extends TestCase
         $d = new Deferred();
 
         return new DeferredBridge([
-            'promise' => [ $d, 'promise' ],
-            'resolve' => [ $d, 'resolve' ],
-            'reject'  => [ $d, 'reject' ],
-            'cancel'  => [ $d, 'cancel' ],
+            'getPromise' => [ $d, 'getPromise' ],
+            'resolve'    => [ $d, 'resolve' ],
+            'reject'     => [ $d, 'reject' ],
+            'cancel'     => [ $d, 'cancel' ],
         ]);
     }
 

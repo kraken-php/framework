@@ -38,7 +38,7 @@ trait ApiCancelPartial
             ->with($test->identicalTo(1));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 $test->expectCallableNever(),
@@ -64,7 +64,7 @@ trait ApiCancelPartial
             ->with($test->identicalTo(1));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 $test->expectCallableNever(),
@@ -90,7 +90,7 @@ trait ApiCancelPartial
             ->with($test->identicalTo(1));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 $test->expectCallableNever(),
@@ -110,7 +110,7 @@ trait ApiCancelPartial
         $test = $this->getTest();
         $str = '';
 
-        $promise = $deferred->promise();
+        $promise = $deferred->getPromise();
         $promise
             ->then(null, null, function() use(&$str) {
                 $str .= 'A';
@@ -149,7 +149,7 @@ trait ApiCancelPartial
             ->with($test->identicalTo(1));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 $test->expectCallableNever()
@@ -184,7 +184,7 @@ trait ApiCancelPartial
             ->method('__invoke')
             ->with($test->identicalTo(1));
 
-        $promise1 = $deferred->promise();
+        $promise1 = $deferred->getPromise();
         $promise2 = $promise1
             ->then(
                 $test->expectCallableNever(),
@@ -221,7 +221,7 @@ trait ApiCancelPartial
             ->method('__invoke')
             ->with($test->identicalTo(1));
 
-        $promise1 = $deferred->promise();
+        $promise1 = $deferred->getPromise();
         $promise2 = $promise1
             ->then(
                 $test->expectCallableNever(),
@@ -253,7 +253,7 @@ trait ApiCancelPartial
             ->with($test->identicalTo(null));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 $test->expectCallableNever(),
@@ -278,7 +278,7 @@ trait ApiCancelPartial
             ->method('__invoke');
 
         $promise = $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 null,
                 null,
@@ -291,7 +291,7 @@ trait ApiCancelPartial
             )
             ->then(
                 function() {
-                    return (new Deferred)->promise();
+                    return (new Deferred)->getPromise();
                 }
             )
             ->then(
@@ -311,7 +311,7 @@ trait ApiCancelPartial
     {
         $deferred = $this->createDeferred();
         $test = $this->getTest();
-        $promise = $deferred->promise();
+        $promise = $deferred->getPromise();
 
         $promise
             ->then(
@@ -339,7 +339,7 @@ trait ApiCancelPartial
         $test = $this->getTest();
 
         $promise = $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 $test->expectCallableNever(),
@@ -363,7 +363,7 @@ trait ApiCancelPartial
     {
         $deferred = $this->createDeferred();
         $test = $this->getTest();
-        $promise = $deferred->promise();
+        $promise = $deferred->getPromise();
 
         $promise
             ->then(
@@ -389,7 +389,7 @@ trait ApiCancelPartial
     {
         $deferred = $this->createDeferred();
         $test = $this->getTest();
-        $promise = $deferred->promise();
+        $promise = $deferred->getPromise();
 
         $promise
             ->then(
@@ -409,7 +409,7 @@ trait ApiCancelPartial
     {
         $deferred = $this->createDeferred();
         $test = $this->getTest();
-        $promise = $deferred->promise();
+        $promise = $deferred->getPromise();
 
         $promise
             ->then()
@@ -445,7 +445,7 @@ trait ApiCancelPartial
             ->with($test->identicalTo(1));
 
         $test->assertNull(
-            $deferred->promise()->done(null, null, $mock)
+            $deferred->getPromise()->done(null, null, $mock)
         );
 
         $deferred
@@ -462,7 +462,7 @@ trait ApiCancelPartial
 
         $test->setExpectedException(Exception::class, 'UnhandledRejectionException');
         $test->assertNull(
-            $deferred->promise()->done(
+            $deferred->getPromise()->done(
                 null,
                 null,
                 function() {
@@ -485,7 +485,7 @@ trait ApiCancelPartial
 
         $test->setExpectedException(CancellationException::class);
         $test->assertNull(
-            $deferred->promise()->done(
+            $deferred->getPromise()->done(
                 null,
                 null,
                 function() {
@@ -514,7 +514,7 @@ trait ApiCancelPartial
             ->with($test->identicalTo($value));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->always(
                 $test->expectCallableOnce()
             )
@@ -544,7 +544,7 @@ trait ApiCancelPartial
             ->with($test->identicalTo($value));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->always(
                 function() {
                     return 1;
@@ -576,7 +576,7 @@ trait ApiCancelPartial
             ->with($test->identicalTo($value));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->always(
                 function() {
                     return Promise::doResolve(1);
@@ -601,7 +601,7 @@ trait ApiCancelPartial
         $test = $this->getTest();
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->cancel()
             ->then(
                 null,

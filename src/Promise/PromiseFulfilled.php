@@ -38,10 +38,8 @@ class PromiseFulfilled implements PromiseInterface
     }
 
     /**
-     * @param callable|null $onFulfilled
-     * @param callable|null $onRejected
-     * @param callable|null $onCancel
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function then(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null)
     {
@@ -52,7 +50,7 @@ class PromiseFulfilled implements PromiseInterface
 
         try
         {
-            return Promise::doResolve($onFulfilled($this->value));
+            return Promise::doResolve($onFulfilled($this->getValue()));
         }
         catch (Error $ex)
         {
@@ -65,9 +63,8 @@ class PromiseFulfilled implements PromiseInterface
     }
 
     /**
-     * @param callable|null $onFulfilled
-     * @param callable|null $onRejected
-     * @param callable|null $onCancel
+     * @override
+     * @inheritDoc
      */
     public function done(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null)
     {
@@ -76,7 +73,7 @@ class PromiseFulfilled implements PromiseInterface
             return;
         }
 
-        $result = $onFulfilled($this->value);
+        $result = $onFulfilled($this->getValue());
 
         if ($result instanceof PromiseInterface)
         {
@@ -85,10 +82,8 @@ class PromiseFulfilled implements PromiseInterface
     }
 
     /**
-     * @param callable|null $onFulfilled
-     * @param callable|null $onRejected
-     * @param callable|null $onCancel
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function spread(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null)
     {
@@ -106,8 +101,8 @@ class PromiseFulfilled implements PromiseInterface
     }
 
     /**
-     * @param callable $onSuccess
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function success(callable $onSuccess)
     {
@@ -115,8 +110,8 @@ class PromiseFulfilled implements PromiseInterface
     }
 
     /**
-     * @param callable $onFailure
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function failure(callable $onFailure)
     {
@@ -124,8 +119,8 @@ class PromiseFulfilled implements PromiseInterface
     }
 
     /**
-     * @param callable $onCancel
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function abort(callable $onCancel)
     {
@@ -133,8 +128,8 @@ class PromiseFulfilled implements PromiseInterface
     }
 
     /**
-     * @param callable $onFulfilledOrRejected
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function always(callable $onFulfilledOrRejected)
     {
@@ -148,7 +143,8 @@ class PromiseFulfilled implements PromiseInterface
     }
 
     /**
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function isPending()
     {
@@ -156,7 +152,8 @@ class PromiseFulfilled implements PromiseInterface
     }
 
     /**
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function isFulfilled()
     {
@@ -164,7 +161,8 @@ class PromiseFulfilled implements PromiseInterface
     }
 
     /**
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function isRejected()
     {
@@ -172,7 +170,8 @@ class PromiseFulfilled implements PromiseInterface
     }
 
     /**
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function isCancelled()
     {
@@ -180,16 +179,17 @@ class PromiseFulfilled implements PromiseInterface
     }
 
     /**
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
-    public function promise()
+    public function getPromise()
     {
         return $this;
     }
 
     /**
-     * @param mixed|null $value
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function resolve($value = null)
     {
@@ -197,8 +197,8 @@ class PromiseFulfilled implements PromiseInterface
     }
 
     /**
-     * @param Error|Exception|string|null $reason
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function reject($reason = null)
     {
@@ -206,8 +206,8 @@ class PromiseFulfilled implements PromiseInterface
     }
 
     /**
-     * @param Error|Exception|string|null $reason
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function cancel($reason = null)
     {
@@ -215,17 +215,17 @@ class PromiseFulfilled implements PromiseInterface
     }
 
     /**
-     * @return mixed|null
+     * @see Promise::getValue
      */
-    protected function value()
+    protected function getValue()
     {
         return $this->value;
     }
 
     /**
-     * @return Error|Exception|string|null
+     * @see Promise::getReason
      */
-    protected function reason()
+    protected function getReason()
     {
         return null;
     }

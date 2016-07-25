@@ -93,13 +93,13 @@ trait FunctionResolvePartial
 
         $d = new Deferred();
         $d->resolve(false);
-        $result = Promise::doResolve(Promise::doResolve($d->promise()->then(function($val) {
+        $result = Promise::doResolve(Promise::doResolve($d->getPromise()->then(function($val) {
             $d = new Deferred();
             $d->resolve($val);
             $identity = function($val) {
                 return $val;
             };
-            return Promise::doResolve($d->promise()->then($identity))->then(
+            return Promise::doResolve($d->getPromise()->then($identity))->then(
                 function ($val) {
                     return !$val;
                 }

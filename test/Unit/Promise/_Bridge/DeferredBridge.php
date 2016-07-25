@@ -31,9 +31,9 @@ class DeferredBridge implements DeferredInterface
      * @override
      * @inheritDoc
      */
-    public function promise()
+    public function getPromise()
     {
-        return call_user_func_array($this->callbacks['promise'], func_get_args());
+        return call_user_func_array($this->callbacks['getPromise'], func_get_args());
     }
 
     /**

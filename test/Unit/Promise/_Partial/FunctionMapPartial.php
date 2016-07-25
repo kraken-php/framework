@@ -133,8 +133,8 @@ trait FunctionMapPartial
     {
         $test = $this->getTest();
 
-        $d1 = (new Deferred())->promise();
-        $d2 = (new Deferred())->promise();
+        $d1 = (new Deferred())->getPromise();
+        $d2 = (new Deferred())->getPromise();
 
         $d1
             ->then(

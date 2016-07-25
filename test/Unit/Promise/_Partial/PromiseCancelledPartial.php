@@ -47,7 +47,7 @@ trait PromiseCancelledPartial
         $deferred->cancel(2);
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 $test->expectCallableNever(),
@@ -72,7 +72,7 @@ trait PromiseCancelledPartial
         $deferred->cancel(1);
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 $test->expectCallableNever(),
@@ -97,7 +97,7 @@ trait PromiseCancelledPartial
         $deferred->cancel(1);
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 $test->expectCallableNever(),
@@ -127,7 +127,7 @@ trait PromiseCancelledPartial
         $deferred->cancel(1);
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 $test->expectCallableNever(),
@@ -159,7 +159,7 @@ trait PromiseCancelledPartial
         $deferred->cancel(1);
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 $test->expectCallableNever(),
@@ -191,7 +191,7 @@ trait PromiseCancelledPartial
         $deferred->cancel(1);
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 $test->expectCallableNever(),
@@ -222,7 +222,7 @@ trait PromiseCancelledPartial
 
         $deferred->cancel(1);
 
-        $test->assertNull($deferred->promise()->done(null, null, $mock));
+        $test->assertNull($deferred->getPromise()->done(null, null, $mock));
     }
 
     /**
@@ -237,7 +237,7 @@ trait PromiseCancelledPartial
 
         $deferred->cancel(1);
 
-        $test->assertNull($deferred->promise()->done(null, null, function() {
+        $test->assertNull($deferred->getPromise()->done(null, null, function() {
             throw new Exception('CancellationException');
         }));
     }
@@ -254,7 +254,7 @@ trait PromiseCancelledPartial
 
         $deferred->cancel(1);
 
-        $test->assertNull($deferred->promise()->done(null, null, function() {
+        $test->assertNull($deferred->getPromise()->done(null, null, function() {
             return Promise::doCancel();
         }));
     }
@@ -271,7 +271,7 @@ trait PromiseCancelledPartial
 
         $deferred->cancel(1);
 
-        $test->assertNull($deferred->promise()->done());
+        $test->assertNull($deferred->getPromise()->done());
     }
 
     /**
@@ -286,7 +286,7 @@ trait PromiseCancelledPartial
 
         $deferred->cancel(new Exception('CancellationException'));
 
-        $test->assertNull($deferred->promise()->done());
+        $test->assertNull($deferred->getPromise()->done());
     }
 
     /**
@@ -301,7 +301,7 @@ trait PromiseCancelledPartial
 
         $deferred->cancel(1);
 
-        $test->assertNull($deferred->promise()->done(null, null, function() {
+        $test->assertNull($deferred->getPromise()->done(null, null, function() {
             return Promise::doCancel();
         }));
     }
@@ -318,7 +318,7 @@ trait PromiseCancelledPartial
 
         $deferred->cancel(1);
 
-        $test->assertNull($deferred->promise()->done(null, null, function() {
+        $test->assertNull($deferred->getPromise()->done(null, null, function() {
             return Promise::doCancel(new Exception('CancellationException'));
         }));
     }
@@ -333,7 +333,7 @@ trait PromiseCancelledPartial
 
         $deferred->cancel();
 
-        $test->assertInstanceOf(PromiseCancelled::class, $deferred->promise()->cancel());
+        $test->assertInstanceOf(PromiseCancelled::class, $deferred->getPromise()->cancel());
     }
 
     /**
@@ -347,7 +347,7 @@ trait PromiseCancelledPartial
         $deferred->cancel();
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->resolve()
             ->then(
                 null,
@@ -367,7 +367,7 @@ trait PromiseCancelledPartial
         $deferred->cancel();
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->reject()
             ->then(
                 null,
@@ -394,7 +394,7 @@ trait PromiseCancelledPartial
         $deferred->cancel($exception);
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->always(
                 $test->expectCallableOnce()
             )
@@ -423,7 +423,7 @@ trait PromiseCancelledPartial
         $deferred->cancel($exception);
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->always(
                 function() {
                     return 1;
@@ -453,7 +453,7 @@ trait PromiseCancelledPartial
 
         $deferred->cancel($exception);
         $deferred
-            ->promise()
+            ->getPromise()
             ->always(
                 function() {
                     return Promise::doResolve(1);
@@ -486,7 +486,7 @@ trait PromiseCancelledPartial
         $deferred->cancel($ex1);
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->always(
                 function() use($ex2) {
                     throw $ex2;
@@ -519,7 +519,7 @@ trait PromiseCancelledPartial
         $deferred->cancel($ex1);
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->always(function() use($ex2) {
                 return Promise::doReject($ex2);
             })
@@ -540,7 +540,7 @@ trait PromiseCancelledPartial
 
         $deferred->cancel();
 
-        $test->assertFalse($deferred->promise()->isPending());
+        $test->assertFalse($deferred->getPromise()->isPending());
     }
 
     /**
@@ -553,7 +553,7 @@ trait PromiseCancelledPartial
 
         $deferred->cancel();
 
-        $test->assertFalse($deferred->promise()->isFulfilled());
+        $test->assertFalse($deferred->getPromise()->isFulfilled());
     }
 
     /**
@@ -566,7 +566,7 @@ trait PromiseCancelledPartial
 
         $deferred->cancel();
 
-        $test->assertFalse($deferred->promise()->isRejected());
+        $test->assertFalse($deferred->getPromise()->isRejected());
     }
 
     /**
@@ -579,7 +579,7 @@ trait PromiseCancelledPartial
 
         $deferred->cancel();
 
-        $test->assertTrue($deferred->promise()->isCancelled());
+        $test->assertTrue($deferred->getPromise()->isCancelled());
     }
 
     /**
@@ -653,7 +653,7 @@ trait PromiseCancelledPartial
 
         $deferred->cancel([ 1, 2, 3 ]);
         $deferred
-            ->promise()
+            ->getPromise()
             ->spread(
                 $test->expectCallableNever(),
                 $test->expectCallableNever(),

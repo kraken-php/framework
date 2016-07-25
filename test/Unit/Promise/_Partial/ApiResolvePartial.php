@@ -37,7 +37,7 @@ trait ApiResolvePartial
             ->with($test->identicalTo(1));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then($mock);
 
         $deferred
@@ -59,7 +59,7 @@ trait ApiResolvePartial
             ->with($test->identicalTo(1));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then($mock);
 
         $deferred
@@ -81,7 +81,7 @@ trait ApiResolvePartial
             ->with($test->identicalTo(1));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 $mock,
@@ -107,7 +107,7 @@ trait ApiResolvePartial
             ->with($test->identicalTo(1));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 null,
                 $test->expectCallableNever(),
@@ -138,7 +138,7 @@ trait ApiResolvePartial
             ->with($test->identicalTo(1));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 function($value) use($deferred) {
                     $deferred->resolve(3);
@@ -170,7 +170,7 @@ trait ApiResolvePartial
             ->with($test->identicalTo(1));
 
         $test->assertNull(
-            $deferred->promise()->done($mock)
+            $deferred->getPromise()->done($mock)
         );
 
         $deferred
@@ -187,7 +187,7 @@ trait ApiResolvePartial
 
         $test->setExpectedException(Exception::class, 'UnhandledRejectionException');
         $test->assertNull(
-            $deferred->promise()->done(function() {
+            $deferred->getPromise()->done(function() {
                 throw new Exception('UnhandledRejectionException');
             })
         );
@@ -206,7 +206,7 @@ trait ApiResolvePartial
 
         $test->setExpectedException(RejectionException::class);
         $test->assertNull(
-            $deferred->promise()->done(function() {
+            $deferred->getPromise()->done(function() {
                 return Promise::doReject();
             })
         );
@@ -231,7 +231,7 @@ trait ApiResolvePartial
             ->with($test->identicalTo($value));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->always($test->expectCallableOnce())
             ->then($mock);
 
@@ -255,7 +255,7 @@ trait ApiResolvePartial
             ->with($test->identicalTo($value));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->always(function () {
                 return 1;
             })
@@ -281,7 +281,7 @@ trait ApiResolvePartial
             ->with($test->identicalTo($value));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->always(function() {
                 return Promise::doResolve(1);
             })
@@ -307,7 +307,7 @@ trait ApiResolvePartial
             ->with($test->identicalTo($exception));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->always(function() use($exception) {
                 throw $exception;
             })
@@ -336,7 +336,7 @@ trait ApiResolvePartial
             ->with($test->identicalTo($exception));
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->always(function() use($exception) {
                 return Promise::doReject($exception);
             })
@@ -358,7 +358,7 @@ trait ApiResolvePartial
         $test = $this->getTest();
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->resolve()
             ->then(
                 $test->expectCallableOnce()

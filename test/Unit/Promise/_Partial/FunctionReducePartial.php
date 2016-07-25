@@ -300,7 +300,7 @@ trait FunctionReducePartial
             ->with($test->identicalTo([ 1, 2, 3 ]));
 
         Promise::reduce(
-            [ $d1->promise(), $d2->promise(), $d3->promise() ],
+            [ $d1->getPromise(), $d2->getPromise(), $d3->getPromise() ],
             $insertIntoArray,
             []
         )->then($mock);
@@ -317,8 +317,8 @@ trait FunctionReducePartial
     {
         $test = $this->getTest();
 
-        $p1 = (new Deferred)->promise();
-        $p2 = (new Deferred)->promise();
+        $p1 = (new Deferred)->getPromise();
+        $p2 = (new Deferred)->getPromise();
 
         $p1
             ->then(

@@ -30,12 +30,12 @@ class PromiseTest extends TestCase
         });
 
         return new DeferredBridge([
-            'promise' => function() use($promise) {
+            'getPromise' => function() use($promise) {
                 return $promise;
             },
-            'resolve' => $resolveCallback,
-            'reject'  => $rejectCallback,
-            'cancel'  => $cancelCallback
+            'resolve'    => $resolveCallback,
+            'reject'     => $rejectCallback,
+            'cancel'     => $cancelCallback
         ]);
     }
 

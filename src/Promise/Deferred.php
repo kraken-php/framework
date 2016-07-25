@@ -57,9 +57,10 @@ class Deferred implements DeferredInterface
     }
 
     /**
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
-    public function promise()
+    public function getPromise()
     {
         if (null === $this->promise)
         {
@@ -74,34 +75,34 @@ class Deferred implements DeferredInterface
     }
 
     /**
-     * @param mixed|null $value
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function resolve($value = null)
     {
-        $this->promise();
+        $this->getPromise();
 
         return call_user_func($this->resolveCallback, $value);
     }
 
     /**
-     * @param Error|Exception|string|null $reason
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function reject($reason = null)
     {
-        $this->promise();
+        $this->getPromise();
 
         return call_user_func($this->rejectCallback, $reason);
     }
 
     /**
-     * @param Error|Exception|string|null $reason
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function cancel($reason = null)
     {
-        $this->promise();
+        $this->getPromise();
 
         return call_user_func($this->cancelCallback, $reason);
     }

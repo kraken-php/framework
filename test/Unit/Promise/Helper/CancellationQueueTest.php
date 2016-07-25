@@ -113,6 +113,6 @@ class CancellationQueueTest extends TestCase
      */
     private function createPromise()
     {
-        return (new Deferred)->promise();
+        return (new Deferred)->getPromise();
     }
 }

@@ -48,7 +48,7 @@ trait PromiseRejectedPartial
         $deferred->reject(2);
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 $mock
@@ -72,7 +72,7 @@ trait PromiseRejectedPartial
         $deferred->reject(1);
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 $mock
@@ -96,7 +96,7 @@ trait PromiseRejectedPartial
         $deferred->reject(1);
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 function() {}
@@ -124,7 +124,7 @@ trait PromiseRejectedPartial
         $deferred->reject(1);
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 function($val) {
@@ -154,7 +154,7 @@ trait PromiseRejectedPartial
         $deferred->reject(1);
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 function ($val) {
@@ -191,7 +191,7 @@ trait PromiseRejectedPartial
         $deferred->reject(1);
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 $mock1
@@ -219,7 +219,7 @@ trait PromiseRejectedPartial
         $deferred->reject(1);
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->then(
                 $test->expectCallableNever(),
                 function ($val) {
@@ -248,7 +248,7 @@ trait PromiseRejectedPartial
 
         $deferred->reject(1);
 
-        $test->assertNull($deferred->promise()->done(null, $mock));
+        $test->assertNull($deferred->getPromise()->done(null, $mock));
     }
 
     /**
@@ -263,7 +263,7 @@ trait PromiseRejectedPartial
 
         $deferred->reject(1);
 
-        $test->assertNull($deferred->promise()->done(null, function() {
+        $test->assertNull($deferred->getPromise()->done(null, function() {
             throw new Exception('UnhandledRejectionException');
         }));
     }
@@ -280,7 +280,7 @@ trait PromiseRejectedPartial
 
         $deferred->reject(1);
 
-        $test->assertNull($deferred->promise()->done());
+        $test->assertNull($deferred->getPromise()->done());
     }
 
     /**
@@ -295,7 +295,7 @@ trait PromiseRejectedPartial
 
         $deferred->reject(new Exception('RejectionException'));
 
-        $test->assertNull($deferred->promise()->done());
+        $test->assertNull($deferred->getPromise()->done());
     }
 
     /**
@@ -310,7 +310,7 @@ trait PromiseRejectedPartial
 
         $deferred->reject(1);
 
-        $test->assertNull($deferred->promise()->done(null, function() {
+        $test->assertNull($deferred->getPromise()->done(null, function() {
             return Promise::doReject();
         }));
     }
@@ -327,7 +327,7 @@ trait PromiseRejectedPartial
 
         $deferred->reject(1);
 
-        $test->assertNull($deferred->promise()->done(null, function() {
+        $test->assertNull($deferred->getPromise()->done(null, function() {
             return Promise::doReject(new Exception('UnhandledRejectionException'));
         }));
     }
@@ -344,10 +344,10 @@ trait PromiseRejectedPartial
         $d = new Deferred();
         $d->resolve();
 
-        $result = Promise::doResolve(Promise::doResolve($d->promise()->then(function() use($exception) {
+        $result = Promise::doResolve(Promise::doResolve($d->getPromise()->then(function() use($exception) {
             $d = new Deferred();
             $d->resolve();
-            return Promise::doResolve($d->promise()->then(function() {}))->then(
+            return Promise::doResolve($d->getPromise()->then(function() {}))->then(
                 function () use ($exception) {
                     throw $exception;
                 }
@@ -368,7 +368,7 @@ trait PromiseRejectedPartial
         $deferred->reject(new Exception('UnhandledRejectionException'));
 
         $test->assertNull(
-            $deferred->promise()->done(null, function($ex) {})
+            $deferred->getPromise()->done(null, function($ex) {})
         );
     }
 
@@ -384,7 +384,7 @@ trait PromiseRejectedPartial
 //            ->method('__invoke')
 //            ->with($test->identicalTo(1));
 //        $deferred->reject(1);
-//        $deferred->promise()->otherwise($mock);
+//        $deferred->getPromise()->otherwise($mock);
 //    }
 
 //    /**
@@ -400,7 +400,7 @@ trait PromiseRejectedPartial
 //            ->method('__invoke')
 //            ->with($test->identicalTo($exception));
 //        $deferred->reject($exception);
-//        $deferred->promise()
+//        $deferred->getPromise()
 //            ->otherwise(function ($reason) use ($mock) {
 //                $mock($reason);
 //            });
@@ -419,7 +419,7 @@ trait PromiseRejectedPartial
 //            ->method('__invoke')
 //            ->with($test->identicalTo($exception));
 //        $deferred->reject($exception);
-//        $deferred->promise()
+//        $deferred->getPromise()
 //            ->otherwise(function (\InvalidArgumentException $reason) use ($mock) {
 //                $mock($reason);
 //            });
@@ -434,7 +434,7 @@ trait PromiseRejectedPartial
 //        $exception = new \Exception();
 //        $mock = $test->expectCallableNever();
 //        $deferred->reject($exception);
-//        $deferred->promise()
+//        $deferred->getPromise()
 //            ->otherwise(function (\InvalidArgumentException $reason) use ($mock) {
 //                $mock($reason);
 //            });
@@ -458,7 +458,7 @@ trait PromiseRejectedPartial
         $deferred->reject($exception);
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->always($test->expectCallableOnce())
             ->then(
                 null,
@@ -484,7 +484,7 @@ trait PromiseRejectedPartial
         $deferred->reject($exception);
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->always(function() {
                 return 1;
             })
@@ -508,7 +508,7 @@ trait PromiseRejectedPartial
 
         $deferred->reject($exception);
         $deferred
-            ->promise()
+            ->getPromise()
             ->always(function() {
                 return Promise::doResolve(1);
             })
@@ -538,7 +538,7 @@ trait PromiseRejectedPartial
         $deferred->reject($ex1);
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->always(function() use($ex2) {
                 throw $ex2;
             })
@@ -568,7 +568,7 @@ trait PromiseRejectedPartial
         $deferred->reject($ex1);
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->always(function() use ($ex2) {
                 return Promise::doReject($ex2);
             })
@@ -588,7 +588,7 @@ trait PromiseRejectedPartial
 
         $deferred->reject();
 
-        $test->assertInstanceOf(PromiseRejected::class, $deferred->promise()->cancel());
+        $test->assertInstanceOf(PromiseRejected::class, $deferred->getPromise()->cancel());
     }
 
     /**
@@ -602,7 +602,7 @@ trait PromiseRejectedPartial
         $deferred->reject();
 
         $deferred
-            ->promise()
+            ->getPromise()
             ->cancel()
             ->then(
                 null,
@@ -621,7 +621,7 @@ trait PromiseRejectedPartial
 
         $deferred->reject();
 
-        $test->assertFalse($deferred->promise()->isPending());
+        $test->assertFalse($deferred->getPromise()->isPending());
     }
 
     /**
@@ -634,7 +634,7 @@ trait PromiseRejectedPartial
 
         $deferred->reject();
 
-        $test->assertFalse($deferred->promise()->isFulfilled());
+        $test->assertFalse($deferred->getPromise()->isFulfilled());
     }
 
     /**
@@ -647,7 +647,7 @@ trait PromiseRejectedPartial
 
         $deferred->reject();
 
-        $test->assertTrue($deferred->promise()->isRejected());
+        $test->assertTrue($deferred->getPromise()->isRejected());
     }
 
     /**
@@ -660,7 +660,7 @@ trait PromiseRejectedPartial
 
         $deferred->reject();
 
-        $test->assertFalse($deferred->promise()->isCancelled());
+        $test->assertFalse($deferred->getPromise()->isCancelled());
     }
 
     /**
@@ -735,7 +735,7 @@ trait PromiseRejectedPartial
 
         $deferred->reject([ 1, 2, 3 ]);
         $deferred
-            ->promise()
+            ->getPromise()
             ->spread(
                 $test->expectCallableNever(),
                 $mock,

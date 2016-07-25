@@ -19,7 +19,7 @@ class PromiseTest extends TestCase
         for ($i = 0; $i < 20; $i++)
         {
             $deferreds[] = $d = new Deferred();
-            $p = $d->promise();
+            $p = $d->getPromise();
             $last = $p;
             for ($j = 0; $j < 1000; $j++)
             {
@@ -36,7 +36,7 @@ class PromiseTest extends TestCase
             if ($p) {
                 $d->resolve($p);
             }
-            $p = $d->promise();
+            $p = $d->getPromise();
         }
 
         $deferreds[0]->resolve(true);
@@ -47,6 +47,6 @@ class PromiseTest extends TestCase
             ->method('__invoke')
             ->with($this->identicalTo(true));
 
-        $deferreds[0]->promise()->then($mock);
+        $deferreds[0]->getPromise()->then($mock);
     }
 }
