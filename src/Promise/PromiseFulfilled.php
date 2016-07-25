@@ -189,32 +189,35 @@ class PromiseFulfilled implements PromiseInterface
 
     /**
      * @param mixed|null $value
+     * @return PromiseInterface
      */
     public function resolve($value = null)
     {
-        // DoNothing
+        return $this;
     }
 
     /**
      * @param Error|Exception|string|null $reason
+     * @return PromiseInterface
      */
     public function reject($reason = null)
     {
-        // DoNothing
+        return $this;
     }
 
     /**
      * @param Error|Exception|string|null $reason
+     * @return PromiseInterface
      */
     public function cancel($reason = null)
     {
-        // DoNothing
+        return $this;
     }
 
     /**
      * @return mixed|null
      */
-    public function value()
+    protected function value()
     {
         return $this->value;
     }
@@ -222,7 +225,7 @@ class PromiseFulfilled implements PromiseInterface
     /**
      * @return Error|Exception|string|null
      */
-    public function reason()
+    protected function reason()
     {
         return null;
     }

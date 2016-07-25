@@ -4,6 +4,8 @@ namespace Kraken\Promise;
 
 use Error;
 use Exception;
+use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
+use Kraken\Throwable\Exception\Runtime\Execution\CancellationException;
 
 class PromiseCancelled implements PromiseInterface
 {
@@ -14,9 +16,17 @@ class PromiseCancelled implements PromiseInterface
 
     /**
      * @param Error|Exception|string|null $reason
+     * @throws InvalidArgumentException
      */
     public function __construct($reason = null)
     {
+        if ($reason instanceof PromiseInterface)
+        {
+            throw new InvalidArgumentException(
+                'You cannot create PromiseCancelled with a promise. Use Promise::doCancel($promiseOrValue) instead.'
+            );
+        }
+
         $this->reason = $reason;
     }
 
@@ -43,16 +53,22 @@ class PromiseCancelled implements PromiseInterface
 
         try
         {
-            return Promise::doCancel($onCancel($this->reason));
+            return Promise::doResolve($onCancel($this->reason()))
+                ->then(
+                    function() {
+                        return Promise::doCancel($this->reason());
+                    },
+                    function() {
+                        return Promise::doCancel($this->reason());
+                    }
+                );
         }
         catch (Error $ex)
-        {
-            return new PromiseCancelled($ex);
-        }
+        {}
         catch (Exception $ex)
-        {
-            return new PromiseCancelled($ex);
-        }
+        {}
+
+        return Promise::doCancel($this->reason());
     }
 
     /**
@@ -65,14 +81,14 @@ class PromiseCancelled implements PromiseInterface
     {
         if (null === $onCancel)
         {
-            $this->throwError($this->reason);
+            $this->throwError($this->reason());
         }
 
-        $result = $onCancel($this->reason);
+        $result = $onCancel($this->reason());
 
         if ($result instanceof self)
         {
-            $this->throwError($this->reason);
+            $this->throwError($result->reason());
         }
 
         if ($result instanceof PromiseInterface)
@@ -188,32 +204,35 @@ class PromiseCancelled implements PromiseInterface
 
     /**
      * @param mixed|null $value
+     * @return PromiseInterface
      */
     public function resolve($value = null)
     {
-        // DoNothing
+        return $this;
     }
 
     /**
      * @param Error|Exception|string|null $reason
+     * @return PromiseInterface
      */
     public function reject($reason = null)
     {
-        // DoNothing
+        return $this;
     }
 
     /**
      * @param Error|Exception|string|null $reason
+     * @return PromiseInterface
      */
     public function cancel($reason = null)
     {
-        // DoNothing
+        return $this;
     }
 
     /**
      * @return mixed|null
      */
-    public function value()
+    protected function value()
     {
         return null;
     }
@@ -221,7 +240,7 @@ class PromiseCancelled implements PromiseInterface
     /**
      * @return Error|Exception|string|null
      */
-    public function reason()
+    protected function reason()
     {
         return $this->reason;
     }
@@ -232,11 +251,11 @@ class PromiseCancelled implements PromiseInterface
      */
     protected function throwError($reason)
     {
-        if ($reason instanceof Exception || $reason instanceof Error)
+        if ($reason instanceof Error || $reason instanceof Exception)
         {
             throw $reason;
         }
 
-        throw new Exception($reason);
+        throw new CancellationException($reason);
     }
 }

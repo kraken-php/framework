@@ -197,32 +197,35 @@ class PromiseRejected implements PromiseInterface
 
     /**
      * @param mixed|null $value
+     * @return PromiseInterface
      */
     public function resolve($value = null)
     {
-        // DoNothing
+        return $this;
     }
 
     /**
      * @param Error|Exception|string|null $reason
+     * @return PromiseInterface
      */
     public function reject($reason = null)
     {
-        // DoNothing
+        return $this;
     }
 
     /**
      * @param Error|Exception|string|null $reason
+     * @return PromiseInterface
      */
     public function cancel($reason = null)
     {
-        // DoNothing
+        return $this;
     }
 
     /**
      * @return mixed|null
      */
-    public function value()
+    protected function value()
     {
         return null;
     }
@@ -230,7 +233,7 @@ class PromiseRejected implements PromiseInterface
     /**
      * @return Error|Exception|string|null
      */
-    public function reason()
+    protected function reason()
     {
         return ($this->reason instanceof LazyException) ? $this->reason->toException() : $this->reason;
     }
@@ -241,7 +244,7 @@ class PromiseRejected implements PromiseInterface
      */
     protected function throwError($reason)
     {
-        if ($reason instanceof Exception || $reason instanceof Error)
+        if ($reason instanceof Error || $reason instanceof Exception)
         {
             throw $reason;
         }

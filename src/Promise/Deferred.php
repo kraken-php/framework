@@ -28,14 +28,20 @@ class Deferred implements DeferredInterface
     protected $cancelCallback;
 
     /**
-     *
+     * @var callable|null
      */
-    public function __construct()
+    protected $canceller;
+
+    /**
+     * @param callable $canceller
+     */
+    public function __construct($canceller = null)
     {
         $this->promise = null;
         $this->resolveCallback = function($value = null) {};
         $this->rejectCallback = function($reason = null) {};
         $this->cancelCallback = function($reason = null) {};
+        $this->canceller = $canceller;
     }
 
     /**
@@ -47,6 +53,7 @@ class Deferred implements DeferredInterface
         unset($this->resolveCallback);
         unset($this->rejectCallback);
         unset($this->cancelCallback);
+        unset($this->canceller);
     }
 
     /**
@@ -60,7 +67,7 @@ class Deferred implements DeferredInterface
                 $this->resolveCallback = $resolve;
                 $this->rejectCallback  = $reject;
                 $this->cancelCallback  = $cancel;
-            });
+            }, $this->canceller);
         }
 
         return $this->promise;

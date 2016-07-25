@@ -20,18 +20,41 @@ class Promise implements PromiseInterface
     protected $handlers;
 
     /**
-     * @var callable[]
+     * @var callable
      */
-    protected $cancellers;
+    protected $canceller;
+
+    /**
+     * @var int
+     */
+    protected $currentCancellations;
+
+    /**
+     * @var int
+     */
+    protected $requiredCancellations;
 
     /**
      * @param callable|null $resolver
+     * @param callable|null $canceller
      */
-    public function __construct(callable $resolver = null)
+    public function __construct(callable $resolver = null, callable $canceller = null)
     {
         $this->result = null;
         $this->handlers = [];
-        $this->cancellers = [];
+        $this->canceller = function($reason = null) use($canceller) {
+            try
+            {
+                return $canceller !== null && ($result = $canceller($reason)) instanceof self ? $result : $this;
+            }
+            catch (Error $ex)
+            {}
+            catch (Exception $ex)
+            {}
+            return $this;
+        };
+        $this->currentCancellations = 0;
+        $this->requiredCancellations = 0;
 
         $this->mutate($resolver);
     }
@@ -43,7 +66,9 @@ class Promise implements PromiseInterface
     {
         unset($this->result);
         unset($this->handlers);
-        unset($this->cancellers);
+        unset($this->canceller);
+        unset($this->currentCancellations);
+        unset($this->requiredCancellations);
     }
 
     /**
@@ -59,6 +84,23 @@ class Promise implements PromiseInterface
             return $this->result()->then($onFulfilled, $onRejected, $onCancel);
         }
 
+        if (null !== $this->canceller)
+        {
+            $this->requiredCancellations++;
+
+            $canceller = function($reason = null) {
+                if (++$this->currentCancellations >= $this->requiredCancellations)
+                {
+                    return $this->cancel($reason);
+                }
+                return null;
+            };
+        }
+        else
+        {
+            $canceller = null;
+        }
+
         return new static(function($resolve, $reject, $cancel) use($onFulfilled, $onRejected, $onCancel) {
 
             $this->handlers[] = function(PromiseInterface $promise) use($resolve, $reject, $cancel, $onFulfilled, $onRejected, $onCancel) {
@@ -67,9 +109,7 @@ class Promise implements PromiseInterface
                     ->done($resolve, $reject, $cancel)
                 ;
             };
-
-            $this->cancellers[] = $cancel;
-        });
+        }, $canceller);
     }
 
     /**
@@ -237,27 +277,32 @@ class Promise implements PromiseInterface
      */
     public function cancel($reason = null)
     {
-        if ($reason === $this)
+        if (null !== $this->result || $reason === $this)
         {
             return $this->result;
         }
-        else if (null !== $this->result)
-        {
-            foreach ($this->cancellers as $canceller)
-            {
-                $canceller($reason);
-            }
 
-            return $this->result;
+        $target = $this;
+
+        if (null !== $this->canceller)
+        {
+            $canceller = $this->canceller;
+            $this->canceller = null;
+            $target = $canceller($reason);
         }
 
-        return $this->settle(self::doCancel($reason));
+        if ($target === $this)
+        {
+            return $target->settle(self::doCancel($reason));
+        }
+
+        return $target;
     }
 
     /**
      * @return mixed|null
      */
-    public function value()
+    protected function value()
     {
         return $this->isFulfilled() ? $this->result->value() : null;
     }
@@ -265,7 +310,7 @@ class Promise implements PromiseInterface
     /**
      * @return Error|Exception|string|null
      */
-    public function reason()
+    protected function reason()
     {
         return ($this->isRejected() || $this->isCancelled()) ? $this->result->reason() : null;
     }

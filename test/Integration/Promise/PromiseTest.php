@@ -16,12 +16,12 @@ class PromiseTest extends TestCase
 
         $deferreds = [];
 
-        for ($i = 0; $i < 50; $i++)
+        for ($i = 0; $i < 20; $i++)
         {
             $deferreds[] = $d = new Deferred();
             $p = $d->promise();
             $last = $p;
-            for ($j = 0; $j < 500; $j++)
+            for ($j = 0; $j < 1000; $j++)
             {
                 $last = $last->then(function($result) {
                     return $result;

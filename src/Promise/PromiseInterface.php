@@ -64,6 +64,7 @@ interface PromiseInterface extends DeferredInterface
      * @return bool
      */
     public function isFulfilled();
+
     /**
      * @return bool
      */
@@ -73,14 +74,4 @@ interface PromiseInterface extends DeferredInterface
      * @return bool
      */
     public function isCancelled();
-
-    /**
-     * @return mixed|null
-     */
-    public function value();
-
-    /**
-     * @return Error|Exception|string|null
-     */
-    public function reason();
 }
