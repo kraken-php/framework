@@ -609,4 +609,38 @@ trait ApiCancelPartial
                 $test->expectCallableOnce()
             );
     }
+
+    /**
+     *
+     */
+    public function testApiCancel_Returns_FromCancellationHandler()
+    {
+        $deferred = $this->createDeferred();
+        $test = $this->getTest();
+        $ex = new Exception('Error');
+
+        $mock = $test->createCallableMock();
+        $mock
+            ->expects($test->once())
+            ->method('__invoke')
+            ->with($test->identicalTo($ex));
+
+        $deferred
+            ->getPromise()
+            ->spread(
+                null,
+                null,
+                function() use($ex) {
+                    return Promise::doCancel($ex);
+                }
+            )
+            ->then(
+                null,
+                null,
+                $mock
+            );
+
+        $deferred
+            ->cancel();
+    }
 }

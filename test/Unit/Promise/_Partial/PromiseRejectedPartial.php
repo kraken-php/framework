@@ -742,4 +742,34 @@ trait PromiseRejectedPartial
                 $test->expectCallableNever()
             );
     }
+
+    /**
+     *
+     */
+    public function testApiSpread_Returns_FromRejectionHandler_ForRejectedPromise()
+    {
+        $deferred = $this->createDeferred();
+        $test = $this->getTest();
+        $ex = new Exception('Error');
+
+        $mock = $test->createCallableMock();
+        $mock
+            ->expects($test->once())
+            ->method('__invoke')
+            ->with($test->identicalTo($ex));
+
+        $deferred->reject();
+        $deferred
+            ->getPromise()
+            ->spread(
+                null,
+                function() use($ex) {
+                    return Promise::doReject($ex);
+                }
+            )
+            ->then(
+                null,
+                $mock
+            );
+    }
 }

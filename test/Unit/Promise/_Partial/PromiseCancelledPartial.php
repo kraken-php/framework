@@ -660,4 +660,36 @@ trait PromiseCancelledPartial
                 $mock
             );
     }
+
+    /**
+     *
+     */
+    public function testApiSpread_Returns_FromCancellationHandler_ForCancelledPromise()
+    {
+        $deferred = $this->createDeferred();
+        $test = $this->getTest();
+        $ex = new Exception('Error');
+
+        $mock = $test->createCallableMock();
+        $mock
+            ->expects($test->once())
+            ->method('__invoke')
+            ->with($test->identicalTo($ex));
+
+        $deferred->cancel();
+        $deferred
+            ->getPromise()
+            ->spread(
+                null,
+                null,
+                function() use($ex) {
+                    return Promise::doCancel($ex);
+                }
+            )
+            ->then(
+                null,
+                null,
+                $mock
+            );
+    }
 }

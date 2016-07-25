@@ -364,4 +364,34 @@ trait ApiResolvePartial
                 $test->expectCallableOnce()
             );
     }
+
+    /**
+     *
+     */
+    public function testApiResolve_Returns_FromFulfillmentHandler()
+    {
+        $deferred = $this->createDeferred();
+        $test = $this->getTest();
+        $value = 5;
+
+        $mock = $test->createCallableMock();
+        $mock
+            ->expects($test->once())
+            ->method('__invoke')
+            ->with($test->identicalTo($value));
+
+        $deferred
+            ->getPromise()
+            ->spread(
+                function() use($value) {
+                    return Promise::doResolve($value);
+                }
+            )
+            ->then(
+                $mock
+            );
+
+        $deferred
+            ->resolve();
+    }
 }

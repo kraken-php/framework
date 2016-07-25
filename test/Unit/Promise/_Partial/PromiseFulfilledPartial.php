@@ -585,4 +585,32 @@ trait PromiseFulfilledPartial
                 $test->expectCallableNever()
             );
     }
+
+    /**
+     *
+     */
+    public function testApiSpread_Returns_FromFulfillmentHandler_ForFullfilledPromise()
+    {
+        $deferred = $this->createDeferred();
+        $test = $this->getTest();
+        $value = 5;
+
+        $mock = $test->createCallableMock();
+        $mock
+            ->expects($test->once())
+            ->method('__invoke')
+            ->with($test->identicalTo($value));
+
+        $deferred->resolve();
+        $deferred
+            ->getPromise()
+            ->spread(
+                function() use($value) {
+                    return Promise::doResolve($value);
+                }
+            )
+            ->then(
+                $mock
+            );
+    }
 }

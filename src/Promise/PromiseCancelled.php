@@ -100,14 +100,10 @@ class PromiseCancelled implements PromiseInterface
     public function spread(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null)
     {
         return $this->then(
-            function($values) use($onFulfilled) {
-                call_user_func_array($onFulfilled, (array) $values);
-            },
-            function($rejections) use($onRejected) {
-                call_user_func_array($onRejected, (array) $rejections);
-            },
+            null,
+            null,
             function($reasons) use($onCancel) {
-                call_user_func_array($onCancel, (array) $reasons);
+                return call_user_func_array($onCancel, (array) $reasons);
             }
         );
     }
