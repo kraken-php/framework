@@ -122,7 +122,7 @@ class Config implements ConfigInterface
      */
     public function getOverwriteHandlerMerger($current, $new)
     {
-        return ArraySupport::merge($current, $new);
+        return ArraySupport::merge([ $current, $new ]);
     }
 
     /**
@@ -132,7 +132,7 @@ class Config implements ConfigInterface
      */
     public function getOverwriteHandlerReplacer($current, $new)
     {
-        return ArraySupport::replace($current, $new);
+        return ArraySupport::replace([ $current, $new ]);
     }
 
     /**

@@ -27,18 +27,7 @@ abstract class ArraySupport
             return false;
         }
 
-        $keys = explode('.', $key);
-        $currentElement = $array;
-
-        foreach ($keys as $currentKey)
-        {
-            if (!is_array($currentElement) || !array_key_exists($currentKey, $currentElement))
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return array_key_exists($key, static::flatten($array));
     }
 
     /**
@@ -185,11 +174,11 @@ abstract class ArraySupport
     /**
      * Merge several arrays, preserving dot notation.
      *
+     * @param array[] $arrays
      * @return array
      */
-    public static function merge()
+    public static function merge($arrays)
     {
-        $arrays = func_get_args();
         $merged = [];
 
         foreach ($arrays as $array)
@@ -203,11 +192,11 @@ abstract class ArraySupport
     /**
      * Merge several arrays.
      *
+     * @param array[] $arrays
      * @return array
      */
-    public static function replace()
+    public static function replace($arrays)
     {
-        $arrays = func_get_args();
         $merged = [];
 
         foreach ($arrays as $array)
@@ -232,7 +221,7 @@ abstract class ArraySupport
     }
 
     /**
-     * Flatten a single recursion of array
+     * Flatten a single recursion of array.
      *
      * @param array $recursion
      * @param string $prefix

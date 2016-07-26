@@ -80,6 +80,19 @@ abstract class StringSupport
             $found = array_merge($found, static::findOne($pattern, $entries));
         }
 
-        return array_unique($found);
+        $found = array_unique($found);
+        $results = [];
+
+        foreach ($entries as $entry)
+        {
+            if (in_array($entry, $found, true) === true)
+            {
+                $results[] = $entry;
+            }
+        }
+
+        unset($found);
+
+        return $results;
     }
 }
