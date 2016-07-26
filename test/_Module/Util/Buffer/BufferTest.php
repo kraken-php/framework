@@ -2,12 +2,12 @@
 
 namespace Kraken\_Module\Util\Buffer;
 
-use Kraken\_Module\TestCase;
+use Kraken\Test\TModule;
 use Kraken\Util\Buffer\Buffer;
 use Kraken\Util\Buffer\BufferInterface;
 use Kraken\Util\Buffer\BufferIterator;
 
-class BufferTest extends TestCase
+class BufferTest extends TModule
 {
     /**
      * @var string

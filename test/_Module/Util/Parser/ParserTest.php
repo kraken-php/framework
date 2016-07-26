@@ -2,12 +2,12 @@
 
 namespace Kraken\_Module\Util\Parser;
 
-use Kraken\_Module\TestCase;
+use Kraken\Test\TModule;
 use Kraken\Util\Parser\Json\JsonParser;
 use Kraken\Util\Parser\ParserInterface;
 use StdClass;
 
-class ParserTest extends TestCase
+class ParserTest extends TModule
 {
     /**
      * @dataProvider arrayParsersProvider

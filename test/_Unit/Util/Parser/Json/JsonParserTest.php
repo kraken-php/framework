@@ -2,12 +2,12 @@
 
 namespace Kraken\_Unit\Util\Parser\Json;
 
-use Kraken\_Unit\TestCase;
+use Kraken\Test\TUnit;
 use Kraken\Util\Parser\Json\JsonParser;
 use Kraken\Util\Parser\ParserInterface;
 use StdClass;
 
-class JsonParserTest extends TestCase
+class JsonParserTest extends TUnit
 {
     /**
      *

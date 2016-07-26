@@ -3,11 +3,11 @@
 namespace Kraken\_Unit\Support;
 
 use Kraken\_Unit\Support\_Mock\ArraySupportMock;
-use Kraken\_Unit\TestCase;
 use Kraken\Support\ArraySupport;
+use Kraken\Test\TUnit;
 use StdClass;
 
-class ArraySupportTest extends TestCase
+class ArraySupportTest extends TUnit
 {
     /**
      *

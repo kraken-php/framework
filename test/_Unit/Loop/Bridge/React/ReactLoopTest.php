@@ -3,9 +3,9 @@
 namespace Kraken\_Unit\Loop\Bridge\React;
 
 use Kraken\Loop\Bridge\React\ReactLoop;
-use Kraken\_Unit\TestCase;
+use Kraken\Test\TUnit;
 
-class ReactLoopTest extends TestCase
+class ReactLoopTest extends TUnit
 {
     /**
      * @var resource

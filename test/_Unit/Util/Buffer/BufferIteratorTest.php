@@ -2,13 +2,13 @@
 
 namespace Kraken\_Unit\Util\Buffer;
 
-use Kraken\_Unit\TestCase;
+use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\Runtime\OutOfBoundsException;
 use Kraken\Util\Buffer\Buffer;
 use Kraken\Util\Buffer\BufferInterface;
 use Kraken\Util\Buffer\BufferIterator;
 
-class BufferIteratorTest extends TestCase
+class BufferIteratorTest extends TUnit
 {
     /**
      * @var string

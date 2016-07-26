@@ -2,12 +2,12 @@
 
 namespace Kraken\_Unit\Ipc\Socket;
 
-use Kraken\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Ipc\Socket\SocketListener;
 use Kraken\Loop\LoopInterface;
-use Kraken\_Unit\TestCase;
+use Kraken\Test\TUnit;
+use Kraken\Throwable\Exception\Logic\InstantiationException;
 
-class SocketListenerTest extends TestCase
+class SocketListenerTest extends TUnit
 {
     public function testConstructor()
     {

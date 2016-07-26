@@ -1,16 +1,16 @@
 <?php
 
-namespace Kraken\_Module;
+namespace Kraken\Test;
 
 use Kraken\Loop\Model\StreamSelectLoop;
 use Kraken\Loop\Loop;
 use Kraken\Loop\LoopExtendedInterface;
 use Kraken\Loop\LoopInterface;
-use Kraken\_Module\Stub\Event;
-use Kraken\_Module\Stub\Simulation;
+use Kraken\Test\Stub\Event;
+use Kraken\Test\Stub\Simulation;
 use Exception;
 
-class TestCase extends \Kraken\_Unit\TestCase
+class TModule extends TUnit
 {
     /**
      * @var string
@@ -69,7 +69,7 @@ class TestCase extends \Kraken\_Unit\TestCase
      * Run test scenario as simulation.
      *
      * @param callable(Simulation) $scenario
-     * @return TestCase
+     * @return TModule
      */
     public function simulate(callable $scenario)
     {
@@ -88,7 +88,7 @@ class TestCase extends \Kraken\_Unit\TestCase
 
     /**
      * @param $events
-     * @return TestCase
+     * @return TModule
      */
     public function expect($events)
     {

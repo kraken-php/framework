@@ -3,9 +3,9 @@
 namespace Kraken\_Module\Event;
 
 use Kraken\Event\EventEmitter;
-use Kraken\_Module\TestCase;
+use Kraken\Test\TModule;
 
-class EventTest extends TestCase
+class EventTest extends TModule
 {
     /**
      *

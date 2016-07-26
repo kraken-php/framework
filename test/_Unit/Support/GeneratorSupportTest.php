@@ -3,10 +3,10 @@
 namespace Kraken\_Unit\Support;
 
 use Kraken\_Unit\Support\_Mock\GeneratorSupportMock;
-use Kraken\_Unit\TestCase;
 use Kraken\Support\GeneratorSupport;
+use Kraken\Test\TUnit;
 
-class GeneratorSupportTest extends TestCase
+class GeneratorSupportTest extends TUnit
 {
     /**
      *

@@ -5,9 +5,9 @@ namespace Kraken\_Unit\Event;
 use Kraken\Event\EventEmitter;
 use Kraken\Event\EventEmitterInterface;
 use Kraken\Loop\LoopInterface;
-use Kraken\_Unit\TestCase;
+use Kraken\Test\TUnit;
 
-class EventEmitterTest extends TestCase
+class EventEmitterTest extends TUnit
 {
     /**
      * @dataProvider emitterProvider

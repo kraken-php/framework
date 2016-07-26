@@ -1,11 +1,11 @@
 <?php
 
-namespace Kraken\_Unit;
+namespace Kraken\Test;
 
 use Kraken\Loop\LoopInterface;
-use Kraken\_Unit\Stub\CallableStub;
+use Kraken\Test\Stub\Callback;
 
-class TestCase extends \PHPUnit_Framework_TestCase
+class TUnit extends \PHPUnit_Framework_TestCase
 {
     /**
      * Return project root.
@@ -18,7 +18,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return TestCase
+     * @return TUnit
      */
     public function getTest()
     {
@@ -93,7 +93,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
      */
     public function createCallableMock()
     {
-        return $this->getMock(CallableStub::class);
+        return $this->getMock(Callback::class);
     }
 
     /**

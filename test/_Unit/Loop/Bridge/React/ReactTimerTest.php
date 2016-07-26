@@ -6,9 +6,9 @@ use Kraken\Loop\Bridge\React\ReactLoopInterface;
 use Kraken\Loop\Bridge\React\ReactTimer;
 use Kraken\Loop\LoopInterface;
 use Kraken\Loop\Timer\TimerInterface;
-use Kraken\_Unit\TestCase;
+use Kraken\Test\TUnit;
 
-class ReactTimerTest extends TestCase
+class ReactTimerTest extends TUnit
 {
     public function testApiGetActualTimer_ReturnsTimerPassedInConstructor()
     {

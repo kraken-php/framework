@@ -2,13 +2,13 @@
 
 namespace Kraken\_Unit\Promise\Helper;
 
-use Exception;
 use Kraken\Promise\Helper\CancellationQueue;
 use Kraken\Promise\Deferred;
 use Kraken\Promise\PromiseInterface;
-use Kraken\_Unit\TestCase;
+use Kraken\Test\TUnit;
+use Exception;
 
-class CancellationQueueTest extends TestCase
+class CancellationQueueTest extends TUnit
 {
     /**
      *

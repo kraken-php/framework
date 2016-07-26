@@ -2,16 +2,16 @@
 
 namespace Kraken\_Unit\Promise;
 
-use Kraken\Promise\DeferredInterface;
-use Kraken\Promise\Promise;
-use Kraken\Promise\PromiseInterface;
 use Kraken\_Unit\Promise\_Bridge\DeferredBridge;
 use Kraken\_Unit\Promise\_Partial\FullTestPartial;
 use Kraken\_Unit\Promise\_Partial\FunctionTestPartial;
-use Kraken\_Unit\TestCase;
+use Kraken\Promise\DeferredInterface;
+use Kraken\Promise\Promise;
+use Kraken\Promise\PromiseInterface;
+use Kraken\Test\TUnit;
 use Exception;
 
-class PromiseTest extends TestCase
+class PromiseTest extends TUnit
 {
     use FullTestPartial;
     use FunctionTestPartial;

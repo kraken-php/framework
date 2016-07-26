@@ -2,12 +2,12 @@
 
 namespace Kraken\_Unit\Stream;
 
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Stream\StreamInterface;
 use Kraken\Stream\StreamSeeker;
-use Kraken\_Unit\TestCase;
+use Kraken\Test\TUnit;
+use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 
-class StreamSeekerTest extends TestCase
+class StreamSeekerTest extends TUnit
 {
     public function testConstructor()
     {

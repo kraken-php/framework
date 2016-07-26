@@ -3,9 +3,9 @@
 namespace Kraken\_Module\Promise;
 
 use Kraken\Promise\Deferred;
-use Kraken\_Module\TestCase;
+use Kraken\Test\TModule;
 
-class PromiseTest extends TestCase
+class PromiseTest extends TModule
 {
     /**
      *

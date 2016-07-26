@@ -2,11 +2,11 @@
 
 namespace Kraken\_Unit\Util\Enum;
 
-use Kraken\_Unit\TestCase;
 use Kraken\_Unit\Util\Enum\_Mock\EnumMock;
+use Kraken\Test\TUnit;
 use Kraken\Util\Enum\EnumInterface;
 
-class EnumTraitTest extends TestCase
+class EnumTraitTest extends TUnit
 {
     /**
      *

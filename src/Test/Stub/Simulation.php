@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\_Module\Stub;
+namespace Kraken\Test\Stub;
 
 use Kraken\Loop\LoopExtendedInterface;
 use Kraken\Loop\LoopInterface;

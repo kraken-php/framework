@@ -3,14 +3,14 @@
 namespace Kraken\_Unit\Util\Factory;
 
 use Kraken\_Unit\Util\Factory\_Mock\SimpleFactoryPluginMock;
-use Kraken\_Unit\TestCase;
+use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
 use Kraken\Util\Factory\SimpleFactory;
 use Kraken\Util\Factory\SimpleFactoryInterface;
 use Kraken\Util\Factory\SimpleFactoryPluginInterface;
 use Exception;
 
-class SimpleFactoryPluginTest extends TestCase
+class SimpleFactoryPluginTest extends TUnit
 {
     /**
      *

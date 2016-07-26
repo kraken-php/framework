@@ -5,9 +5,9 @@ namespace Kraken\_Module\Stream;
 use Kraken\Stream\Stream;
 use Kraken\Stream\StreamReader;
 use Kraken\Stream\StreamWriter;
-use Kraken\_Module\TestCase;
+use Kraken\Test\TModule;
 
-class StreamTest extends TestCase
+class StreamTest extends TModule
 {
     public function tearDown()
     {

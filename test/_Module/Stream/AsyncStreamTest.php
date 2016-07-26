@@ -4,11 +4,11 @@ namespace Kraken\_Module\Stream;
 
 use Kraken\Stream\AsyncStreamReaderInterface;
 use Kraken\Stream\AsyncStreamWriterInterface;
-use Kraken\_Module\Stub\Simulation;
-use Kraken\_Module\TestCase;
+use Kraken\Test\Stub\SimulationInterface;
+use Kraken\Test\TModule;
 use ReflectionClass;
 
-class AsyncStreamTest extends TestCase
+class AsyncStreamTest extends TModule
 {
     public function tearDown()
     {
@@ -24,7 +24,7 @@ class AsyncStreamTest extends TestCase
     public function testAsyncStream_WritesAndReadsDataCorrectly($readerClass, $writerClass)
     {
         $this
-            ->simulate(function(Simulation $sim) use($readerClass, $writerClass) {
+            ->simulate(function(SimulationInterface $sim) use($readerClass, $writerClass) {
                 $loop = $sim->getLoop();
                 $local = $this->basePath();
                 $cnt = 0;

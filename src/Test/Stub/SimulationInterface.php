@@ -1,12 +1,9 @@
 <?php
 
-namespace Kraken\_Module\Stub;
+namespace Kraken\Test\Stub;
 
-use Kraken\Loop\LoopExtendedInterface;
 use Kraken\Loop\LoopInterface;
 use Kraken\Promise\PromiseInterface;
-use Exception;
-use ReflectionClass;
 
 interface SimulationInterface
 {

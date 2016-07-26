@@ -4,10 +4,10 @@ namespace Kraken\_Unit\Util\Factory;
 
 use Kraken\_Unit\Util\Factory\_Mock\SimpleFactoryMock;
 use Kraken\_Unit\Util\Factory\_Partial\SimpleFactoryPartial;
-use Kraken\_Unit\TestCase;
+use Kraken\Test\TUnit;
 use Kraken\Util\Factory\SimpleFactoryInterface;
 
-class SimpleFactoryTraitTest extends TestCase
+class SimpleFactoryTraitTest extends TUnit
 {
     use SimpleFactoryPartial;
 

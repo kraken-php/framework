@@ -2,10 +2,9 @@
 
 namespace Kraken\_Module\Util\Factory;
 
-use Exception;
-use Kraken\_Module\TestCase;
 use Kraken\_Unit\Util\Factory\_Mock\FactoryPluginMock;
 use Kraken\_Unit\Util\Factory\_Mock\SimpleFactoryPluginMock;
+use Kraken\Test\TModule;
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
 use Kraken\Util\Factory\Factory;
 use Kraken\Util\Factory\FactoryInterface;
@@ -13,9 +12,10 @@ use Kraken\Util\Factory\FactoryPluginInterface;
 use Kraken\Util\Factory\SimpleFactory;
 use Kraken\Util\Factory\SimpleFactoryInterface;
 use Kraken\Util\Factory\SimpleFactoryPluginInterface;
+use Exception;
 use StdClass;
 
-class FactoryTest extends TestCase
+class FactoryTest extends TModule
 {
     /**
      *

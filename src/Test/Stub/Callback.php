@@ -1,8 +1,8 @@
 <?php
 
-namespace Kraken\_Unit\Stub;
+namespace Kraken\Test\Stub;
 
-class CallableStub
+class Callback
 {
     public function __invoke()
     {}

@@ -6,10 +6,10 @@ use Kraken\Ipc\Socket\Socket;
 use Kraken\Ipc\Socket\SocketInterface;
 use Kraken\Ipc\Socket\SocketListener;
 use Kraken\Ipc\Socket\SocketListenerInterface;
-use Kraken\_Module\Stub\Simulation;
-use Kraken\_Module\TestCase;
+use Kraken\Test\Stub\SimulationInterface;
+use Kraken\Test\TModule;
 
-class SocketTest extends TestCase
+class SocketTest extends TModule
 {
     /**
      * @dataProvider endpointProvider
@@ -17,7 +17,7 @@ class SocketTest extends TestCase
     public function testSocketWritesAndReadsDataCorrectly($endpoint)
     {
         $this
-            ->simulate(function(Simulation $sim) use($endpoint) {
+            ->simulate(function(SimulationInterface $sim) use($endpoint) {
                 $loop = $sim->getLoop();
 
                 $server = new SocketListener($endpoint, $loop);

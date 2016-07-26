@@ -2,16 +2,16 @@
 
 namespace Kraken\_Unit\Promise;
 
+use Kraken\_Unit\Promise\_Bridge\DeferredBridge;
+use Kraken\_Unit\Promise\_Partial\PromiseCancelledPartial;
 use Kraken\Promise\DeferredInterface;
 use Kraken\Promise\PromiseCancelled;
 use Kraken\Promise\PromiseInterface;
+use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
-use Kraken\_Unit\Promise\_Bridge\DeferredBridge;
-use Kraken\_Unit\Promise\_Partial\PromiseCancelledPartial;
-use Kraken\_Unit\TestCase;
 use Exception;
 
-class PromiseCancelledTest extends TestCase
+class PromiseCancelledTest extends TUnit
 {
     use PromiseCancelledPartial;
 

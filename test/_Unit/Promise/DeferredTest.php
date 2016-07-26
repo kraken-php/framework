@@ -2,15 +2,15 @@
 
 namespace Kraken\_Unit\Promise;
 
+use Kraken\_Unit\Promise\_Bridge\DeferredBridge;
+use Kraken\_Unit\Promise\_Partial\FullTestPartial;
 use Kraken\Promise\Deferred;
 use Kraken\Promise\DeferredInterface;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
-use Kraken\_Unit\Promise\_Bridge\DeferredBridge;
-use Kraken\_Unit\Promise\_Partial\FullTestPartial;
-use Kraken\_Unit\TestCase;
+use Kraken\Test\TUnit;
 
-class DeferredTest extends TestCase
+class DeferredTest extends TUnit
 {
     use FullTestPartial;
 

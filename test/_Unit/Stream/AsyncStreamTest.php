@@ -4,7 +4,6 @@ namespace Kraken\_Unit\Stream;
 
 use Kraken\Loop\LoopInterface;
 use Kraken\Stream\AsyncStream;
-use Kraken\_Unit\TestCase;
 
 class AsyncStreamTest extends AsyncStreamWriterTest
 {

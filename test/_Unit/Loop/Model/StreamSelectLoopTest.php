@@ -3,9 +3,9 @@
 namespace Kraken\_Unit\Loop;
 
 use Kraken\Loop\Model\StreamSelectLoop;
-use Kraken\_Unit\TestCase;
+use Kraken\Test\TUnit;
 
-class StreamSelectLoopTest extends TestCase
+class StreamSelectLoopTest extends TUnit
 {
     /**
      * @var resource

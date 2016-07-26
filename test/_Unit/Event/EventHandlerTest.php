@@ -4,9 +4,9 @@ namespace Kraken\_Unit\Event;
 
 use Kraken\Event\EventEmitterInterface;
 use Kraken\Event\EventHandler;
-use Kraken\_Unit\TestCase;
+use Kraken\Test\TUnit;
 
-class EventHandlerTest extends TestCase
+class EventHandlerTest extends TUnit
 {
     /**
      * @dataProvider handlerProvider

@@ -3,10 +3,10 @@
 namespace Kraken\_Unit\Support;
 
 use Kraken\_Unit\Support\_Mock\StringSupportMock;
-use Kraken\_Unit\TestCase;
 use Kraken\Support\StringSupport;
+use Kraken\Test\TUnit;
 
-class StringSupportTest extends TestCase
+class StringSupportTest extends TUnit
 {
     /**
      *

@@ -3,10 +3,10 @@
 namespace Kraken\_Unit\Support;
 
 use Kraken\_Unit\Support\_Mock\TimeSupportMock;
-use Kraken\_Unit\TestCase;
 use Kraken\Support\TimeSupport;
+use Kraken\Test\TUnit;
 
-class TimeSupportTest extends TestCase
+class TimeSupportTest extends TUnit
 {
     /**
      *
