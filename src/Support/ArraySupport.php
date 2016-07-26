@@ -5,6 +5,8 @@ namespace Kraken\Support;
 abstract class ArraySupport
 {
     /**
+     * Check if given array is empty.
+     *
      * @param array $array
      * @return bool
      */
@@ -14,6 +16,8 @@ abstract class ArraySupport
     }
 
     /**
+     * Check if given key exists in array with dot notation support.
+     *
      * @param array $array
      * @param string $key
      * @return bool
@@ -31,6 +35,8 @@ abstract class ArraySupport
     }
 
     /**
+     * Return the value stored under given key in the array with dot notation support.
+     *
      * @param string $key
      * @param array $array
      * @param mixed $default
@@ -62,6 +68,8 @@ abstract class ArraySupport
     }
 
     /**
+     * Set the value for given key in the array with dot notation support.
+     *
      * @param array &$array
      * @param string $key
      * @param mixed $value
@@ -96,6 +104,8 @@ abstract class ArraySupport
     }
 
     /**
+     * Remove the value stored under given key from the array with dot notation support.
+     *
      * @param array &$array
      * @param string $key
      * @return bool
@@ -208,6 +218,8 @@ abstract class ArraySupport
     }
 
     /**
+     * Normalize key to dot notation valid format.
+     *
      * @param string $key
      * @return string
      */

@@ -5,6 +5,8 @@ namespace Kraken\Support;
 abstract class StringSupport
 {
     /**
+     * Parametrize string using array of params.
+     *
      * @param string $str
      * @param string[] $params
      * @return string
@@ -22,6 +24,8 @@ abstract class StringSupport
     }
 
     /**
+     * Check if string matches pattern using simple regexp method.
+     *
      * @param string $pattern
      * @param string $string
      * @return bool
@@ -32,6 +36,8 @@ abstract class StringSupport
     }
 
     /**
+     * Filter and return entries that match any of specified patterns.
+     *
      * @param string|string[] $pattern
      * @param string[] $entries
      * @return string[]
@@ -47,6 +53,8 @@ abstract class StringSupport
     }
 
     /**
+     * Filter and return entries that match specified pattern.
+     *
      * @param string $pattern
      * @param string[] $entries
      * @return string[]
@@ -67,6 +75,8 @@ abstract class StringSupport
     }
 
     /**
+     * Filter and return entries that match any of specified patterns.
+     *
      * @param string[] $patterns
      * @param string[] $entries
      * @return string[]

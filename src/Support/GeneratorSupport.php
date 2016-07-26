@@ -5,6 +5,8 @@ namespace Kraken\Support;
 abstract class GeneratorSupport
 {
     /**
+     * Return uniqid prefixed with given string.
+     *
      * @param string $name
      * @return string
      */
