@@ -5,7 +5,7 @@ namespace Kraken\Util\Enum;
 interface EnumInterface
 {
     /**
-     * Checks if Enum class has defined const with given value
+     * Check if Enum class has defined const with given value.
      *
      * @param mixed $value
      * @return bool
@@ -13,9 +13,9 @@ interface EnumInterface
     public static function isSupported($value);
 
     /**
-     * Returns all const defined inside class
+     * Return all const defined inside class.
      *
-     * @return array
+     * @return mixed[]
      */
     public static function getSupported();
 }

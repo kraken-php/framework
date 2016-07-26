@@ -36,9 +36,7 @@ trait SimpleFactoryTrait
     }
 
     /**
-     * @param string $name
-     * @param mixed $value
-     * @return FactoryInterface
+     * @see SimpleFactoryInterface::bindParam
      */
     public function bindParam($name, $value)
     {
@@ -48,19 +46,17 @@ trait SimpleFactoryTrait
     }
 
     /**
-     * @param string $name
-     * @param mixed $value
-     * @return FactoryInterface
+     * @see SimpleFactoryInterface::unbindParam
      */
-    public function unbindParam($name, $value)
+    public function unbindParam($name)
     {
         unset($this->params[$name]);
+
+        return $this;
     }
 
     /**
-     * @param string $name
-     * @return mixed
-     * @throws IllegalFieldException
+     * @see SimpleFactoryInterface::getParam
      */
     public function getParam($name)
     {
@@ -73,17 +69,23 @@ trait SimpleFactoryTrait
     }
 
     /**
-     * @param string $param
-     * @return bool
+     * @see SimpleFactoryInterface::hasParam
      */
-    public function hasParam($param)
+    public function hasParam($name)
     {
-        return isset($this->params[$param]);
+        return array_key_exists($name, $this->params);
     }
 
     /**
-     * @param callable $factoryMethod
-     * @return FactoryInterface
+     * @see SimpleFactoryInterface::getParams
+     */
+    public function getParams()
+    {
+        return $this->params;
+    }
+
+    /**
+     * @see SimpleFactoryInterface::define
      */
     public function define(callable $factoryMethod)
     {
@@ -93,9 +95,28 @@ trait SimpleFactoryTrait
     }
 
     /**
-     * @param mixed[]|mixed $args
-     * @return mixed
-     * @throws IllegalCallException
+     * @see SimpleFactoryInterface::getDefinition
+     */
+    public function getDefinition()
+    {
+        if (!isset($this->definition))
+        {
+            throw new IllegalFieldException("SimpleFactory does not posses definition.");
+        }
+
+        return $this->definition;
+    }
+
+    /**
+     * @see SimpleFactoryInterface::hasDefinition
+     */
+    public function hasDefinition()
+    {
+        return isset($this->definition);
+    }
+
+    /**
+     * @see SimpleFactoryInterface::create
      */
     public function create($args = [])
     {
@@ -111,7 +132,7 @@ trait SimpleFactoryTrait
      * @param mixed $value
      * @return mixed
      */
-    protected function invoke($value)
+    private function invoke($value)
     {
         return is_callable($value) ? $value() : $value;
     }

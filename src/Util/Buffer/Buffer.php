@@ -7,7 +7,7 @@ class Buffer implements BufferInterface
     /**
      * @var string
      */
-    protected $data;
+    private $data;
     
     /**
      * @param string $data
@@ -27,6 +27,7 @@ class Buffer implements BufferInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function __toString()
     {
@@ -35,6 +36,7 @@ class Buffer implements BufferInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function length()
     {
@@ -43,6 +45,7 @@ class Buffer implements BufferInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function count()
     {
@@ -51,6 +54,7 @@ class Buffer implements BufferInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function isEmpty()
     {
@@ -59,6 +63,7 @@ class Buffer implements BufferInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function push($data)
     {
@@ -67,6 +72,7 @@ class Buffer implements BufferInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function unshift($data)
     {
@@ -75,6 +81,7 @@ class Buffer implements BufferInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function shift($length)
     {
@@ -100,6 +107,7 @@ class Buffer implements BufferInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function peek($length = 0, $offset = 0)
     {
@@ -131,6 +139,7 @@ class Buffer implements BufferInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function pop($length)
     {
@@ -149,6 +158,7 @@ class Buffer implements BufferInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function remove($length, $offset = 0)
     {
@@ -180,6 +190,7 @@ class Buffer implements BufferInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function drain()
     {
@@ -190,6 +201,7 @@ class Buffer implements BufferInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function insert($string, $position)
     {
@@ -198,6 +210,7 @@ class Buffer implements BufferInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function replace($search, $replace)
     {
@@ -208,6 +221,7 @@ class Buffer implements BufferInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function search($string, $reverse = false)
     {
@@ -221,6 +235,7 @@ class Buffer implements BufferInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function offsetExists($index)
     {
@@ -229,6 +244,7 @@ class Buffer implements BufferInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function offsetGet($index)
     {
@@ -237,6 +253,7 @@ class Buffer implements BufferInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function offsetSet($index, $data)
     {
@@ -245,6 +262,7 @@ class Buffer implements BufferInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function offsetUnset($index)
     {
@@ -256,10 +274,10 @@ class Buffer implements BufferInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getIterator()
     {
         return new BufferIterator($this);
     }
 }
-

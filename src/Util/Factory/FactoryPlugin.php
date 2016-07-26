@@ -6,16 +6,16 @@ use Kraken\Throwable\Exception\Runtime\ExecutionException;
 use Error;
 use Exception;
 
-class FactoryPlugin implements FactoryPluginInterface
+abstract class FactoryPlugin implements FactoryPluginInterface
 {
     /**
      * @var bool
      */
-    protected $registered;
+    private $registered;
 
     /**
-     * @param FactoryInterface $factory
-     * @throws ExecutionException
+     * @override
+     * @inheritDoc
      */
     public function registerPlugin(FactoryInterface $factory)
     {
@@ -26,30 +26,42 @@ class FactoryPlugin implements FactoryPluginInterface
         }
         catch (Error $ex)
         {
-            $this->exception($ex);
+            $this->throwException($ex);
         }
         catch (Exception $ex)
         {
-            $this->exception($ex);
+            $this->throwException($ex);
         }
+
+        return $this;
     }
 
     /**
-     * @param FactoryInterface $factory
+     * @override
+     * @inheritDoc
      */
     public function unregisterPlugin(FactoryInterface $factory)
     {
-        $this->unregister($factory);
-        $this->registered = false;
+        if ($this->registered)
+        {
+            $this->unregister($factory);
+            $this->registered = false;
+        }
+
+        return $this;
     }
 
     /**
+     * Define how plugin should be registered.
+     *
      * @param FactoryInterface $factory
      */
     protected function register(FactoryInterface $factory)
     {}
 
     /**
+     * Define how plugin should be unregistered.
+     *
      * @param FactoryInterface $factory
      */
     protected function unregister(FactoryInterface $factory)
@@ -59,7 +71,7 @@ class FactoryPlugin implements FactoryPluginInterface
      * @param Error|Exception $ex
      * @throws ExecutionException
      */
-    protected function exception($ex)
+    private function throwException($ex)
     {
         throw new ExecutionException("FactoryPlugin [" . get_class($this) . "] raised an error.", $ex);
     }

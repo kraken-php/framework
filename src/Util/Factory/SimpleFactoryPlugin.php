@@ -6,16 +6,16 @@ use Kraken\Throwable\Exception\Runtime\ExecutionException;
 use Error;
 use Exception;
 
-class SimpleFactoryPlugin implements SimpleFactoryPluginInterface
+abstract class SimpleFactoryPlugin implements SimpleFactoryPluginInterface
 {
     /**
      * @var bool
      */
-    protected $registered;
+    private $registered;
 
     /**
-     * @param SimpleFactoryInterface $factory
-     * @throws ExecutionException
+     * @override
+     * @inheritDoc
      */
     public function registerPlugin(SimpleFactoryInterface $factory)
     {
@@ -26,30 +26,42 @@ class SimpleFactoryPlugin implements SimpleFactoryPluginInterface
         }
         catch (Error $ex)
         {
-            $this->exception($ex);
+            $this->throwException($ex);
         }
         catch (Exception $ex)
         {
-            $this->exception($ex);
+            $this->throwException($ex);
         }
+
+        return $this;
     }
 
     /**
-     * @param SimpleFactoryInterface $factory
+     * @override
+     * @inheritDoc
      */
     public function unregisterPlugin(SimpleFactoryInterface $factory)
     {
-        $this->unregister($factory);
-        $this->registered = false;
+        if ($this->registered)
+        {
+            $this->unregister($factory);
+            $this->registered = false;
+        }
+
+        return $this;
     }
 
     /**
+     * Define how plugin should be registered.
+     *
      * @param SimpleFactoryInterface $factory
      */
     protected function register(SimpleFactoryInterface $factory)
     {}
 
     /**
+     * Define how plugin should be unregistered.
+     *
      * @param SimpleFactoryInterface $factory
      */
     protected function unregister(SimpleFactoryInterface $factory)
@@ -59,7 +71,7 @@ class SimpleFactoryPlugin implements SimpleFactoryPluginInterface
      * @param Error|Exception $ex
      * @throws ExecutionException
      */
-    protected function exception($ex)
+    private function throwException($ex)
     {
         throw new ExecutionException("SimpleFactoryPlugin [" . get_class($this) . "] raised an error.", $ex);
     }

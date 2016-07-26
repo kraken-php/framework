@@ -9,33 +9,35 @@ use IteratorAggregate;
 interface BufferInterface extends ArrayAccess, Countable, IteratorAggregate
 {
     /**
+     * Return string stored in Buffer.
+     *
      * @return string
      */
     public function __toString();
 
     /**
-     * Current length of the buffer.
+     * Return current length of the buffer.
      *
      * @return int
      */
     public function length();
 
     /**
-     * Determines if the buffer is empty.
+     * Determine if the buffer is empty.
      *
      * @return bool
      */
     public function isEmpty();
 
     /**
-     * Pushes the given string onto the end of the buffer.
+     * Push the given string onto the end of the buffer.
      *
      * @param string $data
      */
     public function push($data);
 
     /**
-     * Puts the given string at the beginning of the buffer.
+     * Put the given string at the beginning of the buffer.
      *
      * @param string $data
      */
@@ -50,7 +52,7 @@ interface BufferInterface extends ArrayAccess, Countable, IteratorAggregate
     public function shift($length);
 
     /**
-     * Returns the given number of characters (at most) from the buffer without removing them from the buffer.
+     * Return the given number of characters (at most) from the buffer without removing them from the buffer.
      *
      * @param int $length
      * @param int $offset
@@ -67,7 +69,7 @@ interface BufferInterface extends ArrayAccess, Countable, IteratorAggregate
     public function pop($length);
 
     /**
-     * Remove and returns the given number of characters (at most) from the buffer.
+     * Remove and return the given number of characters (at most) from the buffer.
      *
      * @param int $length
      * @param int $offset
@@ -76,7 +78,7 @@ interface BufferInterface extends ArrayAccess, Countable, IteratorAggregate
     public function remove($length, $offset = 0);
 
     /**
-     * Remove and returns all data in the buffer.
+     * Remove and return all data from the buffer.
      *
      * @return string
      */

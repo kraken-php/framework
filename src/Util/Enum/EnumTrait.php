@@ -5,8 +5,7 @@ namespace Kraken\Util\Enum;
 trait EnumTrait
 {
     /**
-     * @param mixed $value
-     * @return bool
+     * @see EnumInterface::isSupported
      */
     public static function isSupported($value)
     {
@@ -14,11 +13,10 @@ trait EnumTrait
     }
 
     /**
-     * @return array
+     * @see EnumInterface::getSupported
      */
     public static function getSupported()
     {
-        $reflection = new \ReflectionClass(__CLASS__);
-        return $reflection->getConstants();
+        return (new \ReflectionClass(__CLASS__))->getConstants();
     }
 }

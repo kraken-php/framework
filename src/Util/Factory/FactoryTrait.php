@@ -36,9 +36,7 @@ trait FactoryTrait
     }
 
     /**
-     * @param string $name
-     * @param mixed $value
-     * @return FactoryInterface
+     * @see FactoryInterface::bindParam
      */
     public function bindParam($name, $value)
     {
@@ -48,19 +46,17 @@ trait FactoryTrait
     }
 
     /**
-     * @param string $name
-     * @param mixed $value
-     * @return FactoryInterface
+     * @see FactoryInterface::unbindParam
      */
-    public function unbindParam($name, $value)
+    public function unbindParam($name)
     {
         unset($this->params[$name]);
+
+        return $this;
     }
 
     /**
-     * @param string $name
-     * @return mixed
-     * @throws IllegalFieldException
+     * @see FactoryInterface::getParam
      */
     public function getParam($name)
     {
@@ -73,16 +69,15 @@ trait FactoryTrait
     }
 
     /**
-     * @param string $param
-     * @return bool
+     * @see FactoryInterface::hasParam
      */
     public function hasParam($param)
     {
-        return isset($this->params[$param]);
+        return array_key_exists($param, $this->params);
     }
 
     /**
-     * @return mixed[]
+     * @see FactoryInterface::getParams
      */
     public function getParams()
     {
@@ -90,9 +85,7 @@ trait FactoryTrait
     }
 
     /**
-     * @param string $name
-     * @param callable $factoryMethod
-     * @return FactoryInterface
+     * @see FactoryInterface::define
      */
     public function define($name, callable $factoryMethod)
     {
@@ -102,8 +95,7 @@ trait FactoryTrait
     }
 
     /**
-     * @param string $name
-     * @return FactoryInterface
+     * @see FactoryInterface::remove
      */
     public function remove($name)
     {
@@ -113,10 +105,36 @@ trait FactoryTrait
     }
 
     /**
-     * @param string $name
-     * @param mixed[]|mixed $args
-     * @return mixed
-     * @throws IllegalCallException
+     * @see FactoryInterface::getDefinition
+     */
+    public function getDefinition($name)
+    {
+        if (!isset($this->definitions[$name]))
+        {
+            throw new IllegalFieldException("Factory does not posses definition [$name].");
+        }
+
+        return $this->definitions[$name];
+    }
+
+    /**
+     * @see FactoryInterface::hasDefinition
+     */
+    public function hasDefinition($name)
+    {
+        return array_key_exists($name, $this->definitions);
+    }
+
+    /**
+     * @see FactoryInterface::getDefinitions
+     */
+    public function getDefinitions()
+    {
+        return $this->definitions;
+    }
+
+    /**
+     * @see FactoryInterface::create
      */
     public function create($name, $args = [])
     {
@@ -129,29 +147,10 @@ trait FactoryTrait
     }
 
     /**
-     * @param callable[] $factoryMethods
-     */
-    public function addDefinitions($factoryMethods)
-    {
-        foreach ($factoryMethods as $name=>$factoryMethod)
-        {
-            $this->define($name, $factoryMethod);
-        }
-    }
-
-    /**
-     * @return callable[]
-     */
-    public function getDefinitions()
-    {
-        return $this->definitions;
-    }
-
-    /**
      * @param mixed $value
      * @return mixed
      */
-    protected function invoke($value)
+    private function invoke($value)
     {
         return is_callable($value) ? $value() : $value;
     }

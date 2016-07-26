@@ -5,7 +5,7 @@ namespace Kraken\Util\Parser;
 interface ParserInterface
 {
     /**
-     * Encodes object as string
+     * Encode the object to string.
      *
      * @param mixed $mixed
      * @return string
@@ -13,7 +13,7 @@ interface ParserInterface
     public function encode($mixed);
 
     /**
-     * Decodes object from string
+     * Decode the object from string.
      *
      * @param string $str
      * @return mixed

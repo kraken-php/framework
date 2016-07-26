@@ -2,10 +2,19 @@
 
 namespace Kraken\Util\Parser\Json;
 
+use Kraken\Util\Enum\EnumInterface;
+use Kraken\Util\Enum\EnumTrait;
 use Kraken\Util\Parser\ParserInterface;
 
-class JsonParser implements ParserInterface
+class JsonParser implements ParserInterface, EnumInterface
 {
+    use EnumTrait;
+
+    /**
+     * @var int
+     */
+    const DECODE_DEFAULT = 2;
+
     /**
      * @var int
      */
@@ -19,12 +28,12 @@ class JsonParser implements ParserInterface
     /**
      * @var int
      */
-    protected $flags;
+    private $flags;
 
     /**
      * @param int $flags
      */
-    public function __construct($flags = self::DECODE_ARRAY)
+    public function __construct($flags = self::DECODE_DEFAULT)
     {
         $this->flags = $flags;
     }
@@ -38,10 +47,8 @@ class JsonParser implements ParserInterface
     }
 
     /**
-     * Encodes object as string
-     *
-     * @param mixed $mixed
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function encode($mixed)
     {
@@ -49,10 +56,8 @@ class JsonParser implements ParserInterface
     }
 
     /**
-     * Decodes object from string
-     *
-     * @param string $str
-     * @return mixed
+     * @override
+     * @inheritDoc
      */
     public function decode($str)
     {
