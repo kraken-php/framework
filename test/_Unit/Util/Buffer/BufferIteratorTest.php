@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\_Unit\Pattern\Buffer;
+namespace Kraken\_Unit\Util\Buffer;
 
 use Kraken\_Unit\TestCase;
 use Kraken\Throwable\Exception\Runtime\OutOfBoundsException;

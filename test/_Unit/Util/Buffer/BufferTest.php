@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Unit\Test\Pattern\Buffer;
+namespace Kraken\_Unit\Util\Buffer;
 
 use Kraken\_Unit\TestCase;
 use Kraken\Util\Buffer\Buffer;
