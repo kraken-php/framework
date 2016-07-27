@@ -15,7 +15,7 @@ class EventTest extends TModule
         $emitter = new EventEmitter();
 
         $cnt = 0;
-        for ($i = 0; $i < 5e4; $i++)
+        for ($i = 0; $i < 1e4; $i++)
         {
             $emitter->on('event', function() use(&$cnt) {
                 $cnt++;
@@ -24,7 +24,7 @@ class EventTest extends TModule
 
         $emitter->emit('event');
 
-        $this->assertEquals(5e4, $cnt);
+        $this->assertEquals(1e4, $cnt);
     }
 
     /**
@@ -35,7 +35,7 @@ class EventTest extends TModule
         $emitter = new EventEmitter();
 
         $cnt = 0;
-        for ($i = 0; $i < 5e4; $i++)
+        for ($i = 0; $i < 1e4; $i++)
         {
             $emitter->on(sprintf("event[%s]", $i), function() use($i, &$cnt) {
                 $cnt = $i;
