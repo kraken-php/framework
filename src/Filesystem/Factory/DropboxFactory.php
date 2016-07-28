@@ -2,11 +2,11 @@
 
 namespace Kraken\Filesystem\Factory;
 
-use Dropbox\Client;
-use League\Flysystem\AdapterInterface;
-use League\Flysystem\Dropbox\DropboxAdapter;
 use Kraken\Filesystem\FilesystemAdapterSimpleFactory;
 use Kraken\Util\Factory\SimpleFactoryInterface;
+use Dropbox\Client;
+use League\Flysystem\Dropbox\DropboxAdapter;
+use League\Flysystem\AdapterInterface;
 
 class DropboxFactory extends FilesystemAdapterSimpleFactory implements SimpleFactoryInterface
 {

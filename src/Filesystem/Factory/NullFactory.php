@@ -2,10 +2,10 @@
 
 namespace Kraken\Filesystem\Factory;
 
-use League\Flysystem\AdapterInterface;
-use League\Flysystem\Adapter\NullAdapter;
 use Kraken\Filesystem\FilesystemAdapterSimpleFactory;
 use Kraken\Util\Factory\SimpleFactoryInterface;
+use League\Flysystem\Adapter\NullAdapter;
+use League\Flysystem\AdapterInterface;
 
 class NullFactory extends FilesystemAdapterSimpleFactory implements SimpleFactoryInterface
 {

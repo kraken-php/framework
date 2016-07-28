@@ -2,10 +2,10 @@
 
 namespace Kraken\Filesystem\Factory;
 
-use League\Flysystem\AdapterInterface;
-use League\Flysystem\Adapter\Ftpd;
 use Kraken\Filesystem\FilesystemAdapterSimpleFactory;
 use Kraken\Util\Factory\SimpleFactoryInterface;
+use League\Flysystem\Adapter\Ftpd;
+use League\Flysystem\AdapterInterface;
 
 class FtpdFactory extends FilesystemAdapterSimpleFactory implements SimpleFactoryInterface
 {

@@ -2,11 +2,11 @@
 
 namespace Kraken\Filesystem\Factory;
 
-use League\Flysystem\AdapterInterface;
-use League\Flysystem\Adapter\Local;
 use Kraken\Filesystem\Adapter\AdapterLocal;
 use Kraken\Filesystem\FilesystemAdapterSimpleFactory;
 use Kraken\Util\Factory\SimpleFactoryInterface;
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\AdapterInterface;
 
 class LocalFactory extends FilesystemAdapterSimpleFactory implements SimpleFactoryInterface
 {

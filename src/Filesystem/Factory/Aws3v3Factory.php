@@ -2,11 +2,11 @@
 
 namespace Kraken\Filesystem\Factory;
 
-use Aws\S3\S3Client;
-use League\Flysystem\AdapterInterface;
-use League\Flysystem\AwsS3v3\AwsS3Adapter;
 use Kraken\Filesystem\FilesystemAdapterSimpleFactory;
 use Kraken\Util\Factory\SimpleFactoryInterface;
+use Aws\S3\S3Client;
+use League\Flysystem\AwsS3v3\AwsS3Adapter;
+use League\Flysystem\AdapterInterface;
 
 class Aws3v3Factory extends FilesystemAdapterSimpleFactory implements SimpleFactoryInterface
 {

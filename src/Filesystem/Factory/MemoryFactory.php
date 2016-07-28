@@ -2,10 +2,10 @@
 
 namespace Kraken\Filesystem\Factory;
 
-use League\Flysystem\AdapterInterface;
-use League\Flysystem\Memory\MemoryAdapter;
 use Kraken\Filesystem\FilesystemAdapterSimpleFactory;
 use Kraken\Util\Factory\SimpleFactoryInterface;
+use League\Flysystem\Memory\MemoryAdapter;
+use League\Flysystem\AdapterInterface;
 
 class MemoryFactory extends FilesystemAdapterSimpleFactory implements SimpleFactoryInterface
 {

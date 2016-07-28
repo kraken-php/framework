@@ -2,9 +2,9 @@
 
 namespace Kraken\Filesystem;
 
-use League\Flysystem\AdapterInterface;
 use Kraken\Util\Factory\SimpleFactory;
 use Kraken\Util\Factory\SimpleFactoryInterface;
+use League\Flysystem\AdapterInterface;
 
 abstract class FilesystemAdapterSimpleFactory extends SimpleFactory implements SimpleFactoryInterface
 {

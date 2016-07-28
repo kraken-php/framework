@@ -2,8 +2,8 @@
 
 namespace Kraken\Filesystem\Adapter;
 
-use Kraken\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Filesystem\FilesystemAdapterInterface;
+use Kraken\Throwable\Exception\Logic\InstantiationException;
 use League\Flysystem\Adapter\Local;
 use Error;
 use Exception;

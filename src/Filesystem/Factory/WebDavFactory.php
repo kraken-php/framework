@@ -2,11 +2,11 @@
 
 namespace Kraken\Filesystem\Factory;
 
-use Sabre\DAV\Client;
-use League\Flysystem\AdapterInterface;
-use League\Flysystem\WebDAV\WebDAVAdapter;
 use Kraken\Filesystem\FilesystemAdapterSimpleFactory;
 use Kraken\Util\Factory\SimpleFactoryInterface;
+use League\Flysystem\WebDAV\WebDAVAdapter;
+use League\Flysystem\AdapterInterface;
+use Sabre\DAV\Client;
 
 class WebDavFactory extends FilesystemAdapterSimpleFactory implements SimpleFactoryInterface
 {
