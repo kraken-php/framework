@@ -38,21 +38,18 @@ class FilesystemAdapterFactory extends Factory implements FilesystemAdapterFacto
     }
 
     /**
+     * Register existing or lazy factory as factory method for adapter under specified key.
+     *
      * @param string $name
      * @param string|SimpleFactoryInterface $classOrFactory
      */
     protected function registerAdapter($name, $classOrFactory)
     {
         $this
-            ->define($name, function($config) use($classOrFactory) {
-                if (is_object($classOrFactory))
-                {
-                    return $classOrFactory->create([ $config ]);
-                }
-                else
-                {
-                    return (new $classOrFactory())->create([ $config ]);
-                }
+            ->define($name, function($config = []) use($classOrFactory) {
+                $factory = is_object($classOrFactory) ? $classOrFactory : new $classOrFactory();
+
+                return $factory->create([ $config ]);
             })
         ;
     }

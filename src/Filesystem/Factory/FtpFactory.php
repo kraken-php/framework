@@ -18,12 +18,30 @@ class FtpFactory extends FilesystemAdapterSimpleFactory implements SimpleFactory
     }
 
     /**
+     * @return string
+     */
+    protected function getClient()
+    {
+        return '';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getClass()
+    {
+        return Ftp::class;
+    }
+
+    /**
      * @param mixed[] $config
      * @return AdapterInterface
      */
     protected function onCreate($config = [])
     {
-        return new Ftp(
+        $class = $this->getClass();
+
+        return new $class(
             $config
         );
     }

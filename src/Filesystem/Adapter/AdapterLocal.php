@@ -30,15 +30,18 @@ class AdapterLocal extends Local implements FilesystemAdapterInterface
             ]
         ];
 
+        $ex = null;
+
         try
         {
             parent::__construct($rootDir, $writeFlags, $linkHandling, $permissions);
         }
         catch (Error $ex)
-        {
-            throw new InstantiationException("AdapterLocal could not be initalized.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new InstantiationException("AdapterLocal could not be initalized.", $ex);
         }

@@ -19,17 +19,36 @@ class DropboxFactory extends FilesystemAdapterSimpleFactory implements SimpleFac
     }
 
     /**
+     * @return string
+     */
+    protected function getClient()
+    {
+        return Client::class;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getClass()
+    {
+        return DropboxAdapter::class;
+    }
+
+    /**
      * @param mixed[] $config
      * @return AdapterInterface
      */
     protected function onCreate($config = [])
     {
-        $client = new Client(
+        $client = $this->getClient();
+        $class  = $this->getClass();
+
+        $client = new $client(
             $this->param($config, 'accessToken'),
             $this->param($config, 'appSecret')
         );
 
-        return new DropboxAdapter(
+        return new $class(
             $client,
             $this->param($config, 'prefix')
         );

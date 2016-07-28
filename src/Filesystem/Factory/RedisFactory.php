@@ -2,11 +2,11 @@
 
 namespace Kraken\Filesystem\Factory;
 
-use Danhunsaker\Flysystem\Redis\RedisAdapter;
-use Predis\Client;
-use League\Flysystem\AdapterInterface;
 use Kraken\Filesystem\FilesystemAdapterSimpleFactory;
 use Kraken\Util\Factory\SimpleFactoryInterface;
+use Danhunsaker\Flysystem\Redis\RedisAdapter;
+use League\Flysystem\AdapterInterface;
+use Predis\Client;
 
 class RedisFactory extends FilesystemAdapterSimpleFactory implements SimpleFactoryInterface
 {
@@ -19,15 +19,34 @@ class RedisFactory extends FilesystemAdapterSimpleFactory implements SimpleFacto
     }
 
     /**
+     * @return string
+     */
+    protected function getClient()
+    {
+        return Client::class;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getClass()
+    {
+        return RedisAdapter::class;
+    }
+
+    /**
      * @param mixed[] $config
      * @return AdapterInterface
      */
     protected function onCreate($config = [])
     {
-        $redis = new Client(
+        $client = $this->getClient();
+        $class  = $this->getClass();
+
+        $redis = new $client(
             $this->params($config)
         );
 
-        return new RedisAdapter($redis);
+        return new $class($redis);
     }
 }

@@ -2,19 +2,17 @@
 
 namespace Kraken\Filesystem;
 
-use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
-
 interface FilesystemManagerInterface extends FilesystemInterface
 {
     /**
-     * Mount collection of FilesystemInterfaces
+     * Mount collection of FilesystemInterfaces.
      *
      * @param FilesystemInterface[] $filesystems
      */
     public function mountFilesystems($filesystems);
 
     /**
-     * Check if there is a FilesystemInterface saved under $prefix key
+     * Check if there is a FilesystemInterface saved under $prefix key.
      *
      * @param string $prefix
      * @return bool
@@ -22,7 +20,7 @@ interface FilesystemManagerInterface extends FilesystemInterface
     public function existsFilesystem($prefix);
 
     /**
-     * Mount FilesystemInterface $filesystem under $prefix key
+     * Mount FilesystemInterface $filesystem under $prefix key.
      *
      * @param string $prefix
      * @param FilesystemInterface $filesystem
@@ -30,26 +28,17 @@ interface FilesystemManagerInterface extends FilesystemInterface
     public function mountFilesystem($prefix, FilesystemInterface $filesystem);
 
     /**
-     * Unmount FilesystemInterface saved under $prefix key
+     * Unmount FilesystemInterface saved under $prefix key.
      *
      * @param string $prefix
      */
     public function unmountFilesystem($prefix);
 
     /**
-     * Return FilesystemInterface saved under $prefix key or null if it does not exist
+     * Return FilesystemInterface saved under $prefix key or null if it does not exist.
      *
      * @param string $prefix
      * @return FilesystemInterface
      */
     public function getFilesystem($prefix);
-
-    /**
-     * Filter $path in search for $prefix, if its present explode $path into $prefix and $newPath
-     *
-     * @param string $path
-     * @return string[]
-     * @throws IoReadException
-     */
-    public function filterPrefix($path);
 }

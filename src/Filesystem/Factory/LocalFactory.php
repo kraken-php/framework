@@ -24,12 +24,30 @@ class LocalFactory extends FilesystemAdapterSimpleFactory implements SimpleFacto
     }
 
     /**
+     * @return string
+     */
+    protected function getClient()
+    {
+        return '';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getClass()
+    {
+        return AdapterLocal::class;
+    }
+
+    /**
      * @param mixed[] $config
      * @return AdapterInterface
      */
     protected function onCreate($config = [])
     {
-        return new AdapterLocal(
+        $class = $this->getClass();
+
+        return new $class(
             $this->param($config, 'path'),
             $this->param($config, 'writeFlags'),
             $this->param($config, 'linkHandling'),

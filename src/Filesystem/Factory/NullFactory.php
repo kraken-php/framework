@@ -18,11 +18,29 @@ class NullFactory extends FilesystemAdapterSimpleFactory implements SimpleFactor
     }
 
     /**
+     * @return string
+     */
+    protected function getClient()
+    {
+        return '';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getClass()
+    {
+        return NullAdapter::class;
+    }
+
+    /**
      * @param mixed[] $config
      * @return AdapterInterface
      */
     protected function onCreate($config = [])
     {
-        return new NullAdapter();
+        $class = $this->getClass();
+
+        return new $class();
     }
 }

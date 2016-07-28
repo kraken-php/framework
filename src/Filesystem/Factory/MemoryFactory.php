@@ -18,11 +18,29 @@ class MemoryFactory extends FilesystemAdapterSimpleFactory implements SimpleFact
     }
 
     /**
+     * @return string
+     */
+    protected function getClient()
+    {
+        return '';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getClass()
+    {
+        return MemoryAdapter::class;
+    }
+
+    /**
      * @param mixed[] $config
      * @return AdapterInterface
      */
     protected function onCreate($config = [])
     {
-        return new MemoryAdapter();
+        $class = $this->getClass();
+
+        return new $class();
     }
 }

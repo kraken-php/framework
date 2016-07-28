@@ -72,108 +72,106 @@ class Filesystem implements FilesystemInterface
     }
 
     /**
-     * Check whether a file or directory exist.
-     *
-     * @param string $path
-     * @return bool
-     * @throws IoReadException
+     * @override
+     * @inheritDoc
      */
     public function exists($path)
     {
+        $ex = null;
+
         try
         {
             return $this->fs->has($path);
         }
         catch (Error $ex)
-        {
-            throw new IoReadException("File $path does not exist.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new IoReadException("File $path does not exist.", $ex);
         }
     }
 
     /**
-     * Move (rename) a file or directory.
-     *
-     * @param string $source
-     * @param string $destination
-     * @throws IoWriteException
+     * @override
+     * @inheritDoc
      */
     public function move($source, $destination)
     {
+        $ex = null;
+        $status = false;
+
         try
         {
-            $this->fs->rename($source, $destination);
+            $status = $this->fs->rename($source, $destination);
         }
         catch (Error $ex)
-        {
-            throw new IoWriteException("File $source could not be moved to $destination.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if (!$status || $ex !== null)
         {
             throw new IoWriteException("File $source could not be moved to $destination.", $ex);
         }
     }
 
     /**
-     * Check if path is a file.
-     *
-     * @param string $path
-     * @return bool
-     * @throws IoReadException
+     * @override
+     * @inheritDoc
      */
     public function isFile($path)
     {
+        $ex = null;
+
         try
         {
             return $this->fs->getMetadata($path)['type'] === 'file';
         }
         catch (Error $ex)
-        {
-            throw new IoReadException("Path $path could not be determined to be file or not.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new IoReadException("Path $path could not be determined to be file or not.", $ex);
         }
     }
 
     /**
-     * Check if path is a file.
-     *
-     * @param string $path
-     * @return bool
-     * @throws IoReadException
+     * @override
+     * @inheritDoc
      */
     public function isDir($path)
     {
+        $ex = null;
+
         try
         {
             return $this->fs->getMetadata($path)['type'] === 'dir';
         }
         catch (Error $ex)
-        {
-            throw new IoReadException("Path $path could not be determined to be directory or not.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new IoReadException("Path $path could not be determined to be directory or not.", $ex);
         }
     }
 
     /**
-     * List contents of a directory.
-     *
-     * @param string $directory
-     * @param bool $recursive
-     * @param string $filterPattern
-     * @return array
-     * @throws IoReadException
+     * @override
+     * @inheritDoc
      */
-    public function contents($directory = '', $recursive = false, $filterPattern = '')
+    public function getContents($directory = '', $recursive = false, $filterPattern = '')
     {
+        $ex = null;
+
         try
         {
             $contents = $this->fs->listContents($directory, $recursive);
@@ -186,26 +184,24 @@ class Filesystem implements FilesystemInterface
             return array_values(array_filter($contents, $filter));
         }
         catch (Error $ex)
-        {
-            throw new IoReadException("Directory $directory items could not be listed.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new IoReadException("Directory $directory items could not be listed.", $ex);
         }
     }
 
     /**
-     * List files of a directory.
-     *
-     * @param string $directory
-     * @param bool $recursive
-     * @param string $filterPattern
-     * @return array
-     * @throws IoReadException
+     * @override
+     * @inheritDoc
      */
-    public function files($directory = '', $recursive = false, $filterPattern = '')
+    public function getFiles($directory = '', $recursive = false, $filterPattern = '')
     {
+        $ex = null;
+
         try
         {
             $contents = $this->fs->listContents($directory, $recursive);
@@ -218,26 +214,24 @@ class Filesystem implements FilesystemInterface
             return array_values(array_filter($contents, $filter));
         }
         catch (Error $ex)
-        {
-            throw new IoReadException("Directory $directory files could not be listed.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new IoReadException("Directory $directory files could not be listed.", $ex);
         }
     }
 
     /**
-     * List directories of a directory.
-     *
-     * @param string $directory
-     * @param bool $recursive
-     * @param string $filterPattern
-     * @return array
-     * @throws IoReadException
+     * @override
+     * @inheritDoc
      */
-    public function directories($directory = '', $recursive = false, $filterPattern = '')
+    public function getDirectories($directory = '', $recursive = false, $filterPattern = '')
     {
+        $ex = null;
+
         try
         {
             $contents = $this->fs->listContents($directory, $recursive);
@@ -250,207 +244,220 @@ class Filesystem implements FilesystemInterface
             return array_values(array_filter($contents, $filter));
         }
         catch (Error $ex)
-        {
-            throw new IoReadException("Directory $directory subdirectories could not be listed.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new IoReadException("Directory $directory subdirectories could not be listed.", $ex);
         }
     }
 
     /**
-     * Get visibility of a file or directory.
-     *
-     * @param string $path
-     * @return string
-     * @throws IoReadException
+     * @override
+     * @inheritDoc
      */
-    public function visibility($path)
+    public function getVisibility($path = '')
     {
+        $ex = null;
+
         try
         {
             return $this->fs->getVisibility($path);
         }
         catch (Error $ex)
-        {
-            throw new IoReadException("File $path visibility could not be determined.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new IoReadException("File $path visibility could not be determined.", $ex);
         }
     }
 
     /**
-     * Check if file or directory is public.
-     *
-     * @param string $path
-     * @return bool
-     * @throws IoReadException
+     * @override
+     * @inheritDoc
      */
     public function isPublic($path = '')
     {
-        return $this->visibility($path) === static::VISIBILITY_PUBLIC;
+        return $this->getVisibility($path) === static::VISIBILITY_PUBLIC;
     }
 
     /**
-     * Check if file or directory is private.
-     *
-     * @param string $path
-     * @return bool
-     * @throws IoReadException
+     * @override
+     * @inheritDoc
      */
     public function isPrivate($path = '')
     {
-        return $this->visibility($path) === static::VISIBILITY_PRIVATE;
+        return $this->getVisibility($path) === static::VISIBILITY_PRIVATE;
     }
 
     /**
-     * Sets visibility of file or directory to public.
-     *
-     * @param string $path
-     * @throws IoWriteException
+     * @override
+     * @inheritDoc
+     */
+    public function setVisibility($path, $visibility)
+    {
+        $ex = null;
+        $result = false;
+
+        try
+        {
+            $result = $this->fs->setVisibility($path, $visibility);
+        }
+        catch (Error $ex)
+        {}
+        catch (Exception $ex)
+        {}
+
+        if (!$result || $ex !== null)
+        {
+            throw new IoWriteException("File $path visibility could not be set to $visibility.", $ex);
+        }
+    }
+
+    /**
+     * @override
+     * @inheritDoc
      */
     public function setPublic($path = '')
     {
-        if (!$this->fs->setVisibility($path, static::VISIBILITY_PUBLIC))
-        {
-            throw new IoWriteException("File $path visibility could not be set to public.");
-        }
+        $this->setVisibility($path, static::VISIBILITY_PUBLIC);
     }
 
     /**
-     * Sets visibility of file or directory to private.
-     *
-     * @param string $path
-     * @throws IoWriteException
+     * @override
+     * @inheritDoc
      */
     public function setPrivate($path = '')
     {
-        if (!$this->fs->setVisibility($path, static::VISIBILITY_PRIVATE))
-        {
-            throw new IoWriteException("File $path visibility could not be set to private.");
-        }
+        $this->setVisibility($path, static::VISIBILITY_PRIVATE);
     }
 
     /**
-     * Create a new file.
-     *
-     * @param string $path
-     * @param string $contents
-     * @param string $visibility
-     * @throws IoWriteException
+     * @override
+     * @inheritDoc
      */
     public function create($path, $contents = '', $visibility = self::VISIBILITY_DEFAULT)
     {
+        $ex = null;
+
         try
         {
             $this->fs->write($path, $contents, $this->prepareConfig($visibility));
         }
         catch (Error $ex)
-        {
-            throw new IoWriteException("File $path could not be created.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new IoWriteException("File $path could not be created.", $ex);
         }
     }
 
     /**
-     * Create a file or update if exists.
-     *
-     * @param string $path
-     * @param string $contents
-     * @param string $visibility
-     * @throws IoWriteException
+     * @override
+     * @inheritDoc
      */
     public function write($path, $contents = '', $visibility = self::VISIBILITY_DEFAULT)
     {
+        $ex = null;
+
         try
         {
             $this->fs->put($path, $contents, $this->prepareConfig($visibility));
         }
         catch (Error $ex)
-        {
-            throw new IoWriteException("File $path could not be overwritten.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new IoWriteException("File $path could not be overwritten.", $ex);
         }
     }
 
     /**
-     * Appends contents to file.
-     *
-     * @param string $path
-     * @param string $contents
-     * @throws IoWriteException
+     * @override
+     * @inheritDoc
      */
     public function append($path, $contents)
     {
+        $ex = null;
+
         try
         {
             $this->fs->update($path, $this->fs->read($path) . $contents);
         }
         catch (Error $ex)
-        {
-            throw new IoWriteException("File $path could not be appeneded.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new IoWriteException("File $path could not be appeneded.", $ex);
         }
     }
 
     /**
-     * Prepends contents to file.
-     *
-     * @param string $path
-     * @param string $contents
-     * @throws IoWriteException
+     * @override
+     * @inheritDoc
      */
     public function prepend($path, $contents)
     {
+        $ex = null;
+
         try
         {
             $this->fs->update($path, $contents . $this->fs->read($path));
         }
         catch (Error $ex)
-        {
-            throw new IoWriteException("File $path could not be prepended.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new IoWriteException("File $path could not be prepended.", $ex);
         }
     }
 
     /**
-     * Read a file.
-     *
-     * @param string $path
-     * @return string
-     * @throws IoReadException
+     * @override
+     * @inheritDoc
      */
     public function read($path)
     {
-        if (($ret = $this->fs->read($path)) === false)
+        $ex = null;
+        $ret = false;
+
+        try
         {
-            throw new IoReadException("File $path could not be read.");
+            $ret = $this->fs->read($path);
+        }
+        catch (Error $ex)
+        {}
+        catch (Exception $ex)
+        {}
+
+        if ($ret === false || $ex !== null)
+        {
+            throw new IoReadException("File $path could not be read.", $ex);
         }
 
         return $ret;
     }
 
     /**
-     * Require a file.
-     *
-     * @param string $path
-     * @return mixed
-     * @throws IoReadException
+     * @override
+     * @inheritDoc
      */
     public function req($path)
     {
@@ -458,209 +465,205 @@ class Filesystem implements FilesystemInterface
     }
 
     /**
-     * Copy a file.
-     *
-     * @param string $source
-     * @param string $destination
-     * @throws IoWriteException
+     * @override
+     * @inheritDoc
      */
     public function copy($source, $destination)
     {
+        $ex = null;
+
         try
         {
             $this->fs->copy($source, $destination);
         }
         catch (Error $ex)
-        {
-            throw new IoWriteException("File $source could not have benn copied to $destination.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new IoWriteException("File $source could not have benn copied to $destination.", $ex);
         }
     }
 
     /**
-     * Remove a file.
-     *
-     * @param string $path
-     * @throws IoWriteException
+     * @override
+     * @inheritDoc
      */
     public function remove($path)
     {
+        $ex = null;
+
         try
         {
             $this->fs->delete($path);
         }
         catch (Error $ex)
-        {
-            throw new IoWriteException("File $path could not be removed.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new IoWriteException("File $path could not be removed.", $ex);
         }
     }
 
     /**
-     * Erase a file.
-     *
-     * @param string $path
-     * @throws IoWriteException
+     * @override
+     * @inheritDoc
      */
     public function erase($path)
     {
+        $ex = null;
+
         try
         {
             $this->fs->update($path, '');
         }
         catch (Error $ex)
-        {
-            throw new IoWriteException("File $path could not be erased.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new IoWriteException("File $path could not be erased.", $ex);
         }
     }
 
     /**
-     * Returns size of a file.
-     *
-     * @param $path
-     * @return int
-     * @throws IoReadException
+     * @override
+     * @inheritDoc
      */
-    public function size($path)
+    public function getSize($path)
     {
+        $ex = null;
+
         try
         {
             return $this->fs->getSize($path);
         }
         catch (Error $ex)
-        {
-            throw new IoReadException("File $path size could not be determined.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new IoReadException("File $path size could not be determined.", $ex);
         }
     }
 
     /**
-     * Get type of a file.
-     *
-     * @param string $path
-     * @return string
-     * @throws IoReadException
+     * @override
+     * @inheritDoc
      */
-    public function type($path)
+    public function getType($path)
     {
+        $ex = null;
+
         try
         {
             return $this->fs->getMetadata($path)['type'];
         }
         catch (Error $ex)
-        {
-            throw new IoReadException("File $path type could not be determined.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new IoReadException("File $path type could not be determined.", $ex);
         }
     }
 
     /**
-     * Get mimetype of a file.
-     *
-     * @param string $path
-     * @return string
-     * @throws IoReadException
+     * @override
+     * @inheritDoc
      */
-    public function mimetype($path)
+    public function getMimetype($path)
     {
+        $ex = null;
+
         try
         {
             return $this->fs->getMimetype($path);
         }
         catch (Error $ex)
-        {
-            throw new IoReadException("File $path mimetype could not be determined.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new IoReadException("File $path mimetype could not be determined.", $ex);
         }
     }
 
     /**
-     * Get timestamp of a file.
-     *
-     * @param string $path
-     * @return string
-     * @throws IoReadException
+     * @override
+     * @inheritDoc
      */
-    public function timestamp($path)
+    public function getTimestamp($path)
     {
+        $ex = null;
+
         try
         {
             return $this->fs->getTimestamp($path);
         }
         catch (Error $ex)
-        {
-            throw new IoReadException("File $path timestamp could not be determined.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new IoReadException("File $path timestamp could not be determined.", $ex);
         }
     }
 
     /**
-     * Get extension of a file.
-     *
-     * @param string $path
-     * @return string
-     * @throws IoReadException
+     * @override
+     * @inheritDoc
      */
-    public function extension($path)
+    public function getExtension($path)
     {
         return pathinfo($path, PATHINFO_EXTENSION);
     }
 
     /**
-     * Create a directory.
-     *
-     * @param string $dirname
-     * @param string $visibility
-     * @throws IoWriteException
+     * @override
+     * @inheritDoc
      */
     public function createDir($dirname, $visibility = self::VISIBILITY_DEFAULT)
     {
+        $ex = null;
+
         try
         {
             $this->fs->createDir($dirname, $this->prepareConfig($visibility));
         }
         catch (Error $ex)
-        {
-            throw new IoWriteException("Directory $dirname could not be created.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new IoWriteException("Directory $dirname could not be created.", $ex);
         }
     }
 
     /**
-     * Copy a directory.
-     *
-     * @param string $source
-     * @param string $destination
-     * @throws IoWriteException
+     * @override
+     * @inheritDoc
      */
     public function copyDir($source, $destination)
     {
-        $filesList = $this->contents($source);
+        $filesList = $this->getContents($source);
 
         foreach ($filesList as $file)
         {
@@ -680,35 +683,36 @@ class Filesystem implements FilesystemInterface
     }
 
     /**
-     * Remove a directory.
-     *
-     * @param string $dirname
-     * @throws IoWriteException
+     * @override
+     * @inheritDoc
      */
     public function removeDir($dirname)
     {
+        $ex = null;
+
         try
         {
             $this->fs->deleteDir($dirname);
         }
         catch (Error $ex)
-        {
-            throw new IoWriteException("Directory $dirname could not be removed.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new IoWriteException("Directory $dirname could not be removed.", $ex);
         }
     }
 
     /**
-     * Erase a directory.
-     *
-     * @param string $dirname
-     * @throws IoWriteException
+     * @override
+     * @inheritDoc
      */
     public function eraseDir($dirname = '')
     {
+        $ex = null;
+
         try
         {
             $listing = $this->fs->listContents($dirname, false);
@@ -726,16 +730,19 @@ class Filesystem implements FilesystemInterface
             }
         }
         catch (Error $ex)
-        {
-            throw new IoWriteException("Directory $dirname could not be erased.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new IoWriteException("Directory $dirname could not be erased.", $ex);
         }
     }
 
     /**
+     * Return array config with visibility setting.
+     *
      * @param $visibility
      * @return string[]
      */
@@ -752,11 +759,13 @@ class Filesystem implements FilesystemInterface
     }
 
     /**
+     * Try to match name using specified pattern.
+     *
      * @param string $pattern
      * @param string $name
      * @return bool
      */
-    protected function match($pattern, $name)
+    private function match($pattern, $name)
     {
         return ($pattern !== '') ? (bool) preg_match($pattern, $name) : true;
     }

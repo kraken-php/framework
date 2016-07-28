@@ -23,13 +23,31 @@ class Aws3v2Factory extends FilesystemAdapterSimpleFactory implements SimpleFact
     }
 
     /**
+     * @return string
+     */
+    protected function getClient()
+    {
+        return '';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getClass()
+    {
+        return AwsS3Adapter::class;
+    }
+
+    /**
      * @param mixed[] $config
      * @return AdapterInterface
      */
     protected function onCreate($config = [])
     {
-        return new AwsS3Adapter(
-            S3Client::factory($this->params($config)),
+        $class = $this->getClass();
+
+        return new $class(
+            class_exists(S3Client::class) ? S3Client::factory($this->params($config)) : null,
             $this->param($config, 'bucket'),
             $this->param($config, 'prefix'),
             $this->param($config, 'options')

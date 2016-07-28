@@ -2,10 +2,10 @@
 
 namespace Kraken\Filesystem\Factory;
 
-use League\Flysystem\AdapterInterface;
-use League\Flysystem\ZipArchive\ZipArchiveAdapter;
 use Kraken\Filesystem\FilesystemAdapterSimpleFactory;
 use Kraken\Util\Factory\SimpleFactoryInterface;
+use League\Flysystem\ZipArchive\ZipArchiveAdapter;
+use League\Flysystem\AdapterInterface;
 
 class ZipFactory extends FilesystemAdapterSimpleFactory implements SimpleFactoryInterface
 {
@@ -18,12 +18,29 @@ class ZipFactory extends FilesystemAdapterSimpleFactory implements SimpleFactory
     }
 
     /**
+     * @return string
+     */
+    protected function getClient()
+    {
+        return '';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getClass()
+    {
+        return ZipArchiveAdapter::class;
+    }
+
+    /**
      * @param mixed[] $config
      * @return AdapterInterface
      */
     protected function onCreate($config = [])
     {
-        return new ZipArchiveAdapter(
+        $class = $this->getClass();
+        return new $class(
             $this->param($config, 'path')
         );
     }

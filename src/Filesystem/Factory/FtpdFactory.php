@@ -18,12 +18,30 @@ class FtpdFactory extends FilesystemAdapterSimpleFactory implements SimpleFactor
     }
 
     /**
+     * @return string
+     */
+    protected function getClient()
+    {
+        return '';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getClass()
+    {
+        return Ftpd::class;
+    }
+
+    /**
      * @param mixed[] $config
      * @return AdapterInterface
      */
     protected function onCreate($config = [])
     {
-        return new Ftpd(
+        $class = $this->getClass();
+
+        return new $class(
             $config
         );
     }

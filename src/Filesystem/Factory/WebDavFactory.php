@@ -19,15 +19,34 @@ class WebDavFactory extends FilesystemAdapterSimpleFactory implements SimpleFact
     }
 
     /**
+     * @return string
+     */
+    protected function getClient()
+    {
+        return Client::class;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getClass()
+    {
+        return WebDAVAdapter::class;
+    }
+
+    /**
      * @param mixed[] $config
      * @return AdapterInterface
      */
     protected function onCreate($config = [])
     {
-        $client = new Client(
+        $client = $this->getClient();
+        $class  = $this->getClass();
+
+        $client = new $client(
             $this->params($config)
         );
 
-        return new WebDAVAdapter($client);
+        return new $class($client);
     }
 }

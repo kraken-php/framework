@@ -52,7 +52,7 @@ interface FilesystemInterface
      * @return array
      * @throws IoReadException
      */
-    public function contents($directory = '', $recursive = false, $filterPattern = '');
+    public function getContents($directory = '', $recursive = false, $filterPattern = '');
 
     /**
      * List files of a directory.
@@ -63,7 +63,7 @@ interface FilesystemInterface
      * @return array
      * @throws IoReadException
      */
-    public function files($directory = '', $recursive = false, $filterPattern = '');
+    public function getFiles($directory = '', $recursive = false, $filterPattern = '');
 
     /**
      * List directories of a directory.
@@ -74,7 +74,7 @@ interface FilesystemInterface
      * @return array
      * @throws IoReadException
      */
-    public function directories($directory = '', $recursive = false, $filterPattern = '');
+    public function getDirectories($directory = '', $recursive = false, $filterPattern = '');
 
     /**
      * Get visibility of a file or directory.
@@ -83,7 +83,7 @@ interface FilesystemInterface
      * @return string
      * @throws IoReadException
      */
-    public function visibility($path);
+    public function getVisibility($path);
 
     /**
      * Check if file or directory is public.
@@ -102,6 +102,15 @@ interface FilesystemInterface
      * @throws IoReadException
      */
     public function isPrivate($path = '');
+
+    /**
+     * Set visibility of a file or directory.
+     *
+     * @param string $path
+     * @param string $visibility
+     * @throws IoWriteException
+     */
+    public function setVisibility($path, $visibility);
 
     /**
      * Sets visibility of file or directory to public.
@@ -207,7 +216,7 @@ interface FilesystemInterface
      * @return int
      * @throws IoReadException
      */
-    public function size($path);
+    public function getSize($path);
 
     /**
      * Get type of a file.
@@ -216,7 +225,7 @@ interface FilesystemInterface
      * @return string
      * @throws IoReadException
      */
-    public function type($path);
+    public function getType($path);
 
     /**
      * Get mimetype of a file.
@@ -225,7 +234,7 @@ interface FilesystemInterface
      * @return string
      * @throws IoReadException
      */
-    public function mimetype($path);
+    public function getMimetype($path);
 
     /**
      * Get timestamp of a file.
@@ -234,7 +243,7 @@ interface FilesystemInterface
      * @return string
      * @throws IoReadException
      */
-    public function timestamp($path);
+    public function getTimestamp($path);
 
     /**
      * Get extension of a file.
@@ -243,7 +252,7 @@ interface FilesystemInterface
      * @return string
      * @throws IoReadException
      */
-    public function extension($path);
+    public function getExtension($path);
 
     /**
      * Create a directory.

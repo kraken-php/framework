@@ -32,7 +32,7 @@ class ConfigFactory
      */
     public function create()
     {
-        $files = $this->fs->files('', true, '#(' . $this->patternExt() . ')$#si');
+        $files = $this->fs->getFiles('', true, '#(' . $this->patternExt() . ')$#si');
         $config = [];
 
         foreach ($files as $file)
