@@ -4,6 +4,7 @@ namespace Kraken\Test;
 
 use Kraken\Loop\LoopInterface;
 use Kraken\Test\Stub\Callback;
+use ReflectionClass;
 
 class TUnit extends \PHPUnit_Framework_TestCase
 {
@@ -134,5 +135,40 @@ class TUnit extends \PHPUnit_Framework_TestCase
             }));
 
         return $loop;
+    }
+
+    /**
+     * Set a protected property on a given object via reflection.
+     *
+     * @param object $object
+     * @param string $property
+     * @param mixed $value
+     * @return object
+     */
+    public function setProtectedProperty($object, $property, $value)
+    {
+        $reflection = new ReflectionClass($object);
+        $reflection_property = $reflection->getProperty($property);
+        $reflection_property->setAccessible(true);
+        $reflection_property->setValue($object, $value);
+
+        return $object;
+    }
+
+    /**
+     * Call protected method on a given object via reflection.
+     *
+     * @param object $object
+     * @param string $method
+     * @param mixed[] $args
+     * @return mixed
+     */
+    public function callProtectedMethod($object, $method, $args = [])
+    {
+        $reflection = new ReflectionClass($object);
+        $reflection_method = $reflection->getMethod($method);
+        $reflection_method->setAccessible(true);
+
+        return $reflection_method->invokeArgs($object, $args);
     }
 }
