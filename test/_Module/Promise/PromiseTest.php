@@ -16,7 +16,7 @@ class PromiseTest extends TModule
 
         $deferreds = [];
 
-        for ($i = 0; $i < 20; $i++)
+        for ($i = 0; $i < 10; $i++)
         {
             $deferreds[] = $d = new Deferred();
             $p = $d->getPromise();
