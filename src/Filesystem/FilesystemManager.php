@@ -4,6 +4,8 @@ namespace Kraken\Filesystem;
 
 use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
 use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
+use Error;
+use Exception;
 
 class FilesystemManager implements FilesystemManagerInterface
 {
@@ -95,24 +97,6 @@ class FilesystemManager implements FilesystemManagerInterface
         }
 
         return $fs->exists($path);
-    }
-
-    /**
-     * @override
-     * @inheritDoc
-     */
-    public function move($source, $destination)
-    {
-        list($sourcePrefix, $sourcePath) = $this->filterPrefix($source);
-        list($destPrefix, $destPath) = $this->filterPrefix($destination);
-
-        if (($sourceFs = $this->getFilesystem($sourcePrefix)) === null || ($destFs = $this->getFilesystem($destPrefix)) === null)
-        {
-            throw new IoWriteException("No filesystem saved under prefix [$sourcePrefix].");
-        }
-
-        $destFs->write($destPath, $sourceFs->read($sourcePath));
-        $sourceFs->remove($sourcePath);
     }
 
     /**
@@ -295,7 +279,7 @@ class FilesystemManager implements FilesystemManagerInterface
      * @override
      * @inheritDoc
      */
-    public function create($path, $contents = '', $visibility = Filesystem::VISIBILITY_DEFAULT)
+    public function write($path, $contents)
     {
         list($prefix, $path) = $this->filterPrefix($path);
 
@@ -304,23 +288,7 @@ class FilesystemManager implements FilesystemManagerInterface
             throw new IoWriteException("No filesystem saved under prefix [$prefix].");
         }
 
-        $fs->create($path, $contents, $visibility);
-    }
-
-    /**
-     * @override
-     * @inheritDoc
-     */
-    public function write($path, $contents = '', $visibility = Filesystem::VISIBILITY_DEFAULT)
-    {
-        list($prefix, $path) = $this->filterPrefix($path);
-
-        if (($fs = $this->getFilesystem($prefix)) === null)
-        {
-            throw new IoWriteException("No filesystem saved under prefix [$prefix].");
-        }
-
-        $fs->write($path, $contents, $visibility);
+        $fs->write($path, $contents);
     }
 
     /**
@@ -391,55 +359,6 @@ class FilesystemManager implements FilesystemManagerInterface
      * @override
      * @inheritDoc
      */
-    public function copy($source, $destination)
-    {
-        list($sourcePrefix, $sourcePath) = $this->filterPrefix($source);
-        list($destPrefix, $destPath) = $this->filterPrefix($destination);
-
-        if (($sourceFs = $this->getFilesystem($sourcePrefix)) === null || ($destFs = $this->getFilesystem($destPrefix)) === null)
-        {
-            throw new IoWriteException("No filesystem saved under prefix [$sourcePrefix].");
-        }
-
-        $destFs->write($destPath, $sourceFs->read($sourcePath));
-    }
-
-    /**
-     * @override
-     * @inheritDoc
-     */
-    public function remove($path)
-    {
-        list($prefix, $path) = $this->filterPrefix($path);
-
-        if (($fs = $this->getFilesystem($prefix)) === null)
-        {
-            throw new IoWriteException("No filesystem saved under prefix [$prefix].");
-        }
-
-        $fs->remove($path);
-    }
-
-    /**
-     * @override
-     * @inheritDoc
-     */
-    public function erase($path)
-    {
-        list($prefix, $path) = $this->filterPrefix($path);
-
-        if (($fs = $this->getFilesystem($prefix)) === null)
-        {
-            throw new IoWriteException("No filesystem saved under prefix [$prefix].");
-        }
-
-        $fs->erase($path);
-    }
-
-    /**
-     * @override
-     * @inheritDoc
-     */
     public function getSize($path)
     {
         list($prefix, $path) = $this->filterPrefix($path);
@@ -504,16 +423,107 @@ class FilesystemManager implements FilesystemManagerInterface
      * @override
      * @inheritDoc
      */
-    public function getExtension($path)
+    public function move($source, $destination)
+    {
+        list($sourcePrefix, $sourcePath) = $this->filterPrefix($source);
+        list($destPrefix, $destPath) = $this->filterPrefix($destination);
+
+        if (($sourceFs = $this->getFilesystem($sourcePrefix)) === null || ($destFs = $this->getFilesystem($destPrefix)) === null)
+        {
+            throw new IoWriteException("No filesystem saved under prefix [$sourcePrefix].");
+        }
+
+        try
+        {
+            if ($sourceFs->isFile($sourcePath))
+            {
+                $this->copyFile($source, $destination);
+                $sourceFs->removeFile($sourcePath);
+            }
+            else
+            {
+                $this->copyDir($source, $destination);
+                $sourceFs->removeDir($sourcePath);
+            }
+
+            return;
+        }
+        catch (Error $ex)
+        {}
+        catch (Exception $ex)
+        {}
+
+        throw new IoWriteException("Move operation from [$source] to [$destination] could not be completed.", $ex);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function createFile($path, $contents = '', $visibility = Filesystem::VISIBILITY_DEFAULT)
     {
         list($prefix, $path) = $this->filterPrefix($path);
 
         if (($fs = $this->getFilesystem($prefix)) === null)
         {
-            throw new IoReadException("No filesystem saved under prefix [$prefix].");
+            throw new IoWriteException("No filesystem saved under prefix [$prefix].");
         }
 
-        return $fs->getExtension($path);
+        $fs->createFile($path, $contents, $visibility);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function copyFile($source, $destination)
+    {
+        list($sourcePrefix, $sourcePath) = $this->filterPrefix($source);
+        list($destPrefix, $destPath) = $this->filterPrefix($destination);
+
+        if (($sourceFs = $this->getFilesystem($sourcePrefix)) === null || ($destFs = $this->getFilesystem($destPrefix)) === null)
+        {
+            throw new IoWriteException("No filesystem saved under prefix [$sourcePrefix].");
+        }
+
+        if (!$sourceFs->exists($sourcePath) || !$sourceFs->isFile($sourcePath) || $destFs->exists($destPath))
+        {
+            throw new IoWriteException("Could not copy $source.");
+        }
+
+        $destFs->createFile($destPath, $sourceFs->read($sourcePath));
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function removeFile($path)
+    {
+        list($prefix, $path) = $this->filterPrefix($path);
+
+        if (($fs = $this->getFilesystem($prefix)) === null)
+        {
+            throw new IoWriteException("No filesystem saved under prefix [$prefix].");
+        }
+
+        $fs->removeFile($path);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function eraseFile($path)
+    {
+        list($prefix, $path) = $this->filterPrefix($path);
+
+        if (($fs = $this->getFilesystem($prefix)) === null)
+        {
+            throw new IoWriteException("No filesystem saved under prefix [$prefix].");
+        }
+
+        $fs->eraseFile($path);
     }
 
     /**
@@ -546,7 +556,12 @@ class FilesystemManager implements FilesystemManagerInterface
             throw new IoWriteException("No filesystem saved under prefix [$sourcePrefix].");
         }
 
-        $filesList = $sourceFs->contents($sourcePath, true);
+        if (!$sourceFs->exists($sourcePath) || !$sourceFs->isDir($sourcePath) || $destFs->exists($destPath))
+        {
+            throw new IoWriteException("Could not copy $source.");
+        }
+
+        $filesList = $sourceFs->getContents($sourcePath, true);
 
         foreach ($filesList as $file)
         {
@@ -560,7 +575,7 @@ class FilesystemManager implements FilesystemManagerInterface
             }
             else if ($file['type'] === Filesystem::TYPE_FILE)
             {
-                $destFs->write($destPath, $sourceFs->read($sourcePath));
+                $destFs->createFile($dest, $sourceFs->read($path));
             }
         }
     }

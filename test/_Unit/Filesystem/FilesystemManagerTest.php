@@ -409,25 +409,25 @@ class FilesystemManagerTest extends TUnit
     /**
      * @dataProvider observableFilesystemManagerProvider
      */
-    public function testApiCreate_PassesCallToProperFs_WhenFsExists(FilesystemManagerInterface $man, ObjectProphecy $p1, ObjectProphecy $p2)
+    public function testApiCreateFile_PassesCallToProperFs_WhenFsExists(FilesystemManagerInterface $man, ObjectProphecy $p1, ObjectProphecy $p2)
     {
         $contents = '';
         $visibility = 'public';
 
-        $this->expect($p1, 'create', [ 'path', $contents, $visibility ]);
-        $this->prevent($p2, 'create');
+        $this->expect($p1, 'createFile', [ 'path', $contents, $visibility ]);
+        $this->prevent($p2, 'createFile');
 
-        $man->create('fs1://path', $contents, $visibility);
+        $man->createFile('fs1://path', $contents, $visibility);
     }
 
     /**
      * @dataProvider observableFilesystemManagerProvider
      */
-    public function testApiCreate_ThrowsException_WhenFsDoesNotExist(FilesystemManagerInterface $man, ObjectProphecy $p1, ObjectProphecy $p2)
+    public function testApiCreateFile_ThrowsException_WhenFsDoesNotExist(FilesystemManagerInterface $man, ObjectProphecy $p1, ObjectProphecy $p2)
     {
         $this->setExpectedException(IoWriteException::class);
 
-        $man->create('not_fs://path');
+        $man->createFile('not_fs://path');
     }
 
     /**
@@ -436,12 +436,11 @@ class FilesystemManagerTest extends TUnit
     public function testApiWrite_PassesCallToProperFs_WhenFsExists(FilesystemManagerInterface $man, ObjectProphecy $p1, ObjectProphecy $p2)
     {
         $contents = '';
-        $visibility = 'public';
 
-        $this->expect($p1, 'write', [ 'path', $contents, $visibility ]);
+        $this->expect($p1, 'write', [ 'path', $contents ]);
         $this->prevent($p2, 'write');
 
-        $man->write('fs1://path', $contents, $visibility);
+        $man->write('fs1://path', $contents);
     }
 
     /**
@@ -451,7 +450,9 @@ class FilesystemManagerTest extends TUnit
     {
         $this->setExpectedException(IoWriteException::class);
 
-        $man->write('not_fs://path');
+        $contents = '';
+
+        $man->write('not_fs://path', $contents);
     }
 
     /**
@@ -553,43 +554,43 @@ class FilesystemManagerTest extends TUnit
     /**
      * @dataProvider observableFilesystemManagerProvider
      */
-    public function testApiRemove_PassesCallToProperFs_WhenFsExists(FilesystemManagerInterface $man, ObjectProphecy $p1, ObjectProphecy $p2)
+    public function testApiRemoveFile_PassesCallToProperFs_WhenFsExists(FilesystemManagerInterface $man, ObjectProphecy $p1, ObjectProphecy $p2)
     {
-        $this->expect($p1, 'remove', [ 'path' ]);
-        $this->prevent($p2, 'remove');
+        $this->expect($p1, 'removeFile', [ 'path' ]);
+        $this->prevent($p2, 'removeFile');
 
-        $man->remove('fs1://path');
+        $man->removeFile('fs1://path');
     }
 
     /**
      * @dataProvider observableFilesystemManagerProvider
      */
-    public function testApiRemove_ThrowsException_WhenFsDoesNotExist(FilesystemManagerInterface $man, ObjectProphecy $p1, ObjectProphecy $p2)
+    public function testApiRemoveFile_ThrowsException_WhenFsDoesNotExist(FilesystemManagerInterface $man, ObjectProphecy $p1, ObjectProphecy $p2)
     {
         $this->setExpectedException(IoWriteException::class);
 
-        $man->remove('not_fs://path');
+        $man->removeFile('not_fs://path');
     }
 
     /**
      * @dataProvider observableFilesystemManagerProvider
      */
-    public function testApiErase_PassesCallToProperFs_WhenFsExists(FilesystemManagerInterface $man, ObjectProphecy $p1, ObjectProphecy $p2)
+    public function testApiEraseFile_PassesCallToProperFs_WhenFsExists(FilesystemManagerInterface $man, ObjectProphecy $p1, ObjectProphecy $p2)
     {
-        $this->expect($p1, 'erase', [ 'path' ]);
-        $this->prevent($p2, 'erase');
+        $this->expect($p1, 'eraseFile', [ 'path' ]);
+        $this->prevent($p2, 'eraseFile');
 
-        $man->erase('fs1://path');
+        $man->eraseFile('fs1://path');
     }
 
     /**
      * @dataProvider observableFilesystemManagerProvider
      */
-    public function testApiErase_ThrowsException_WhenFsDoesNotExist(FilesystemManagerInterface $man, ObjectProphecy $p1, ObjectProphecy $p2)
+    public function testApiEraseFile_ThrowsException_WhenFsDoesNotExist(FilesystemManagerInterface $man, ObjectProphecy $p1, ObjectProphecy $p2)
     {
         $this->setExpectedException(IoWriteException::class);
 
-        $man->erase('not_fs://path');
+        $man->eraseFile('not_fs://path');
     }
 
     /**
@@ -682,29 +683,6 @@ class FilesystemManagerTest extends TUnit
         $this->setExpectedException(IoReadException::class);
 
         $man->getTimestamp('not_fs://path');
-    }
-
-    /**
-     * @dataProvider observableFilesystemManagerProvider
-     */
-    public function testApiGetExtension_PassesCallToProperFs_WhenFsExists(FilesystemManagerInterface $man, ObjectProphecy $p1, ObjectProphecy $p2)
-    {
-        $ext = 'ext';
-
-        $this->expect($p1, 'getExtension', [ 'path' ])->willReturn($ext);
-        $this->prevent($p2, 'getExtension');
-
-        $this->assertEquals($ext, $man->getExtension('fs1://path'));
-    }
-
-    /**
-     * @dataProvider observableFilesystemManagerProvider
-     */
-    public function testApiGetExtension_ThrowsException_WhenFsDoesNotExist(FilesystemManagerInterface $man, ObjectProphecy $p1, ObjectProphecy $p2)
-    {
-        $this->setExpectedException(IoReadException::class);
-
-        $man->getExtension('not_fs://path');
     }
 
     /**

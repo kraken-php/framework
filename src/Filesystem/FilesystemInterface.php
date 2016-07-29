@@ -17,15 +17,6 @@ interface FilesystemInterface
     public function exists($path);
 
     /**
-     * Move (rename) a file or directory.
-     *
-     * @param string $source
-     * @param string $destination
-     * @throws IoWriteException
-     */
-    public function move($source, $destination);
-
-    /**
      * Check if path is a file.
      *
      * @param string $path
@@ -129,24 +120,13 @@ interface FilesystemInterface
     public function setPrivate($path = '');
 
     /**
-     * Create a new file.
-     *
-     * @param string $path
-     * @param string $contents
-     * @param string $visibility
-     * @throws IoWriteException
-     */
-    public function create($path, $contents = '', $visibility = Filesystem::VISIBILITY_DEFAULT);
-
-    /**
      * Create a file or update if exists.
      *
      * @param string $path
      * @param string $contents
-     * @param string $visibility
      * @throws IoWriteException
      */
-    public function write($path, $contents = '', $visibility = Filesystem::VISIBILITY_DEFAULT);
+    public function write($path, $contents);
 
     /**
      * Appends contents to file.
@@ -185,31 +165,6 @@ interface FilesystemInterface
     public function req($path);
 
     /**
-     * Copy a file.
-     *
-     * @param string $source
-     * @param string $destination
-     * @throws IoWriteException
-     */
-    public function copy($source, $destination);
-
-    /**
-     * Remove a file.
-     *
-     * @param string $path
-     * @throws IoWriteException
-     */
-    public function remove($path);
-
-    /**
-     * Erase a file.
-     *
-     * @param string $path
-     * @throws IoWriteException
-     */
-    public function erase($path);
-
-    /**
      * Returns size of a file.
      *
      * @param $path
@@ -246,13 +201,48 @@ interface FilesystemInterface
     public function getTimestamp($path);
 
     /**
-     * Get extension of a file.
+     * Move (rename) a file or directory.
+     *
+     * @param string $source
+     * @param string $destination
+     * @throws IoWriteException
+     */
+    public function move($source, $destination);
+
+    /**
+     * Create a new file.
      *
      * @param string $path
-     * @return string
-     * @throws IoReadException
+     * @param string $contents
+     * @param string $visibility
+     * @throws IoWriteException
      */
-    public function getExtension($path);
+    public function createFile($path, $contents = '', $visibility = Filesystem::VISIBILITY_DEFAULT);
+
+    /**
+     * Copy a file.
+     *
+     * @param string $source
+     * @param string $destination
+     * @throws IoWriteException
+     */
+    public function copyFile($source, $destination);
+
+    /**
+     * Remove a file.
+     *
+     * @param string $path
+     * @throws IoWriteException
+     */
+    public function removeFile($path);
+
+    /**
+     * Erase a file.
+     *
+     * @param string $path
+     * @throws IoWriteException
+     */
+    public function eraseFile($path);
 
     /**
      * Create a directory.

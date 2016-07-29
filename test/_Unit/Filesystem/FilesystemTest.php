@@ -38,7 +38,7 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiExists_ReturnsTrue_WhenLeagueHasReturnsTrue()
+    public function testApiExists_ReturnsTrue_WhenModelHasReturnsTrue()
     {
         $this->expect('has', [ 'path' ])->willReturn(true);
         $this->assertTrue($this->fs->exists('path'));
@@ -47,7 +47,7 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiExists_ReturnsFalse_WhenLeagueHasReturnsFalse()
+    public function testApiExists_ReturnsFalse_WhenModelHasReturnsFalse()
     {
         $this->expect('has', [ 'path' ])->willReturn(false);
         $this->assertFalse($this->fs->exists('path'));
@@ -56,7 +56,7 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiExists_ThrowsException_WhenLeagueHasThrowsException()
+    public function testApiExists_ThrowsException_WhenModelHasThrowsException()
     {
         $this->setExpectedException(IoReadException::class);
 
@@ -67,7 +67,7 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiMove_ReturnsNull_WhenLeagueMoveReturnsTrue()
+    public function testApiMove_ReturnsNull_WhenModelMoveReturnsTrue()
     {
         $before = 'a';
         $after  = 'b';
@@ -79,7 +79,7 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiMove_ThrowsException_WhenLeagueMoveReturnsFalse()
+    public function testApiMove_ThrowsException_WhenModelMoveReturnsFalse()
     {
         $this->setExpectedException(IoWriteException::class);
 
@@ -93,7 +93,7 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiMove_ThrowsException_WhenLeagueMoveThrowsException()
+    public function testApiMove_ThrowsException_WhenModelMoveThrowsException()
     {
         $this->setExpectedException(IoWriteException::class);
 
@@ -107,7 +107,7 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiIsFile_ReturnsTrue_WhenLeagueReturnsMetadataForFile()
+    public function testApiIsFile_ReturnsTrue_WhenModelReturnsMetadataForFile()
     {
         $path = 'path';
 
@@ -118,7 +118,7 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiIsFile_ReturnsFalse_WhenLeagueDoesNotReturnMetadataForFile()
+    public function testApiIsFile_ReturnsFalse_WhenModelDoesNotReturnMetadataForFile()
     {
         $path = 'path';
 
@@ -129,7 +129,7 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiIsFile_ThrowsException_WhenLeagueThrowsException()
+    public function testApiIsFile_ThrowsException_WhenModelThrowsException()
     {
         $this->setExpectedException(IoReadException::class);
 
@@ -142,7 +142,7 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiIsDir_ReturnsTrue_WhenLeagueReturnsMetadataForDir()
+    public function testApiIsDir_ReturnsTrue_WhenModelReturnsMetadataForDir()
     {
         $path = 'path';
 
@@ -153,7 +153,7 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiIsDir_ReturnsFalse_WhenLeagueDoesNotReturnMetadataForDir()
+    public function testApiIsDir_ReturnsFalse_WhenModelDoesNotReturnMetadataForDir()
     {
         $path = 'path';
 
@@ -164,7 +164,7 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiIsDir_ThrowsException_WhenLeagueThrowsException()
+    public function testApiIsDir_ThrowsException_WhenModelThrowsException()
     {
         $this->setExpectedException(IoReadException::class);
 
@@ -177,7 +177,7 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiGetVisibility_ReturnsSameValue_AsLeagueGetVisibility()
+    public function testApiGetVisibility_ReturnsSameValue_AsModelGetVisibility()
     {
         $path = 'path';
         $str = 'XYZ';
@@ -189,7 +189,7 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiGetVisibility_ThrowsException_WhenLeagueThrowsException()
+    public function testApiGetVisibility_ThrowsException_WhenModelThrowsException()
     {
         $this->setExpectedException(IoReadException::class);
 
@@ -387,57 +387,20 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiCreate_CallsWriteOnLeague_WithConfig()
-    {
-        $path = 'path';
-        $contents = 'contents';
-        $visibility = 'visibility';
-
-        $this->expect('write', [ $path, $contents, $this->prepareConfig($visibility) ]);
-        $this->fs->create($path, $contents, $visibility);
-    }
-
-    /**
-     *
-     */
-    public function testApiCreate_ThrowsException_WhenLegueWriteThrowsException()
-    {
-        $path = 'path';
-        $contents = 'contents';
-        $visibility = 'visibility';
-        $expected = new Exception();
-        $ex = null;
-
-        $this->expect('write', [ $path, $contents, $this->prepareConfig($visibility) ])->willThrow($expected);
-
-        try
-        {
-            $this->fs->create($path, $contents, $visibility);
-        }
-        catch (Exception $ex)
-        {}
-
-        $this->assertInstanceOf(IoWriteException::class, $ex);
-        $this->assertSame($expected, $ex->getPrevious());
-    }
-
-    /**
-     *
-     */
-    public function testApiWrite_CallsPutOnLeague_WithConfig()
+    public function testApiCreateFile_CallsWriteOnModel_WithConfig()
     {
         $path = 'path';
         $contents = 'contents';
         $visibility = 'visibility';
 
         $this->expect('put', [ $path, $contents, $this->prepareConfig($visibility) ]);
-        $this->fs->write($path, $contents, $visibility);
+        $this->fs->createFile($path, $contents, $visibility);
     }
 
     /**
      *
      */
-    public function testApiWrite_ThrowsException_WhenLeguePutThrowsException()
+    public function testApiCreateFile_ThrowsException_WhenLegueWriteThrowsException()
     {
         $path = 'path';
         $contents = 'contents';
@@ -449,7 +412,7 @@ class FilesystemTest extends TUnit
 
         try
         {
-            $this->fs->write($path, $contents, $visibility);
+            $this->fs->createFile($path, $contents, $visibility);
         }
         catch (Exception $ex)
         {}
@@ -461,7 +424,42 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiAppend_CallsUpdateOnLeague_WithExistingContents()
+    public function testApiWrite_CallsPutOnModel_WithConfig()
+    {
+        $path = 'path';
+        $contents = 'contents';
+
+        $this->expect('update', [ $path, $contents ]);
+        $this->fs->write($path, $contents);
+    }
+
+    /**
+     *
+     */
+    public function testApiWrite_ThrowsException_WhenModelPutThrowsException()
+    {
+        $path = 'path';
+        $contents = 'contents';
+        $expected = new Exception();
+        $ex = null;
+
+        $this->expect('update', [ $path, $contents ])->willThrow($expected);
+
+        try
+        {
+            $this->fs->write($path, $contents);
+        }
+        catch (Exception $ex)
+        {}
+
+        $this->assertInstanceOf(IoWriteException::class, $ex);
+        $this->assertSame($expected, $ex->getPrevious());
+    }
+
+    /**
+     *
+     */
+    public function testApiAppend_CallsUpdateOnModel_WithExistingContents()
     {
         $path = 'path';
         $write = 'write';
@@ -526,7 +524,7 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiPrepend_CallsUpdateOnLeague_WithExistingContents()
+    public function testApiPrepend_CallsUpdateOnModel_WithExistingContents()
     {
         $path = 'path';
         $write = 'write';
@@ -624,7 +622,7 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiRead_ThrowsException_WhenLeagueReadThrowsException()
+    public function testApiRead_ThrowsException_WhenModelReadThrowsException()
     {
         $path = 'path';
         $ex = null;
@@ -661,7 +659,7 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiReq_ThrowsException_WhenLeagueReadThrowsException()
+    public function testApiReq_ThrowsException_WhenModelReadThrowsException()
     {
         $path = 'path';
         $ex = null;
@@ -682,19 +680,19 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiCopy_CallsCopyOnModel()
+    public function testApiCopyFile_CallsCopyOnModel()
     {
         $from = 'from';
         $to = 'to';
 
         $this->expect('copy', [ $from, $to ]);
-        $this->fs->copy($from, $to);
+        $this->fs->copyFile($from, $to);
     }
 
     /**
      *
      */
-    public function testApiCopy_ThrowsException_WhenModelThrowsException()
+    public function testApiCopyFile_ThrowsException_WhenModelThrowsException()
     {
         $from = 'from';
         $to = 'to';
@@ -705,7 +703,7 @@ class FilesystemTest extends TUnit
 
         try
         {
-            $this->fs->copy($from, $to);
+            $this->fs->copyFile($from, $to);
         }
         catch (Exception $ex)
         {}
@@ -717,18 +715,18 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiRemove_CallsDeleteOnModel()
+    public function testApiRemoveFile_CallsDeleteOnModel()
     {
         $path = 'path';
 
         $this->expect('delete', [ $path ]);
-        $this->fs->remove($path);
+        $this->fs->removeFile($path);
     }
 
     /**
      *
      */
-    public function testApiRemove_ThrowsException_WhenDeleteOnModelThrowsException()
+    public function testApiRemoveFile_ThrowsException_WhenDeleteOnModelThrowsException()
     {
         $path = 'path';
         $expected = new Exception();
@@ -738,7 +736,7 @@ class FilesystemTest extends TUnit
 
         try
         {
-            $this->fs->remove($path);
+            $this->fs->removeFile($path);
         }
         catch (Exception $ex)
         {}
@@ -750,18 +748,18 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiErase_CallsUpdateOnModel()
+    public function testApiEraseFile_CallsUpdateOnModel()
     {
         $path = 'path';
 
         $this->expect('update', [ $path, '' ]);
-        $this->fs->erase($path);
+        $this->fs->eraseFile($path);
     }
 
     /**
      *
      */
-    public function testApiErase_ThrowsException_WhenUpdateOnModelThrowsException()
+    public function testApiEraseFile_ThrowsException_WhenUpdateOnModelThrowsException()
     {
         $path = 'path';
         $expected = new Exception();
@@ -771,7 +769,7 @@ class FilesystemTest extends TUnit
 
         try
         {
-            $this->fs->erase($path);
+            $this->fs->eraseFile($path);
         }
         catch (Exception $ex)
         {}
@@ -913,74 +911,6 @@ class FilesystemTest extends TUnit
         {}
 
         $this->assertInstanceOf(IoReadException::class, $ex);
-        $this->assertSame($expected, $ex->getPrevious());
-    }
-
-    /**
-     *
-     */
-    public function testApiCreateDir_CallsCreateDirOnModel()
-    {
-        $path = 'path';
-        $visibility = 'visibility';
-
-        $this->expect('createDir', [ $path, $this->prepareConfig($visibility) ]);
-        $this->fs->createDir($path, $visibility);
-    }
-
-    /**
-     *
-     */
-    public function testApiCreateDir_ThrowsException_WhenCreateDirOnModelThrowsException()
-    {
-        $path = 'path';
-        $visibility = 'visibility';
-        $expected = new Exception();
-        $ex = null;
-
-        $this->expect('createDir', [ $path, $this->prepareConfig($visibility) ])->willThrow($expected);
-
-        try
-        {
-            $this->fs->createDir($path, $visibility);
-        }
-        catch (Exception $ex)
-        {}
-
-        $this->assertInstanceOf(IoWriteException::class, $ex);
-        $this->assertSame($expected, $ex->getPrevious());
-    }
-
-    /**
-     *
-     */
-    public function testApiRemoveDir_CallsDeleteDirOnModel()
-    {
-        $path = 'path';
-
-        $this->expect('deleteDir', [ $path ]);
-        $this->fs->removeDir($path);
-    }
-
-    /**
-     *
-     */
-    public function testApiRemoveDir_ThrowsException_WhenDeleteDirOnModelThrowsException()
-    {
-        $path = 'path';
-        $expected = new Exception();
-        $ex = null;
-
-        $this->expect('deleteDir', [ $path ])->willThrow($expected);
-
-        try
-        {
-            $this->fs->removeDir($path);
-        }
-        catch (Exception $ex)
-        {}
-
-        $this->assertInstanceOf(IoWriteException::class, $ex);
         $this->assertSame($expected, $ex->getPrevious());
     }
 
