@@ -3,67 +3,64 @@
 namespace Kraken\Config;
 
 use Kraken\Filesystem\FilesystemInterface;
+use Kraken\Util\Factory\SimpleFactory;
 use Kraken\Util\Parser\ParserInterface;
 
-class ConfigFactory
+class ConfigFactory extends SimpleFactory implements ConfigFactoryInterface
 {
-    /**
-     * @var FilesystemInterface
-     */
-    protected $fs;
-
-    /**
-     * @var ParserInterface[]
-     */
-    protected $parsers;
-
     /**
      * @param FilesystemInterface $fs
      * @param ParserInterface[] $parsers
      */
     public function __construct(FilesystemInterface $fs, $parsers = [])
     {
-        $this->fs = $fs;
-        $this->parsers = $parsers;
-    }
+        parent::__construct();
 
-    /**
-     * @return ConfigInterface
-     */
-    public function create()
-    {
-        $files = $this->fs->getFiles('', true, '#(' . $this->patternExt() . ')$#si');
-        $config = [];
+        $factory = $this;
+        $factory->bindParam('fs', $fs);
+        $factory->bindParam('parsers', $parsers);
 
-        foreach ($files as $file)
-        {
-            $ext = $file['extension'];
-            $contents = $this->fs->read($file['path']);
+        $factory->define(function(callable $overwriteHandler = null) {
+            $fs = $this->getParam('fs');
+            $parsers = $this->getParam('parsers');
 
-            if ($ext === 'php')
+            $files = $fs->getFiles('', true, '#(' . $this->getPatternForExt() . ')$#si');
+            $data = [];
+            $config = new Config($data, $overwriteHandler);
+
+            foreach ($files as $file)
             {
-                $data = require "data://text/plain;base64," . base64_encode($contents);
-            }
-            else
-            {
-                $data = $this->parsers[$ext]->decode($contents);
+                $ext = $file['extension'];
+                $contents = $fs->read($file['path']);
+                $data = [];
+
+                if ($ext === 'php')
+                {
+                    $data = require "data://text/plain;base64," . base64_encode($contents);
+                }
+                else if (isset($parsers[$ext]))
+                {
+                    $data = $parsers[$ext]->decode($contents);
+                }
+
+                $config->merge($data);
             }
 
-            $config = array_merge($config, $data);
-        }
-
-        return new Config($config);
+            return $config;
+        });
     }
 
     /**
      * @return string
      */
-    private function patternExt()
+    private function getPatternForExt()
     {
         $pattern = [
             '\.php'
         ];
-        foreach (array_keys($this->parsers) as $ext)
+        $parsers = $this->getParam('parsers');
+
+        foreach (array_keys($parsers) as $ext)
         {
             $pattern[] = '\.' . $ext;
         }

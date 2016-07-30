@@ -10,7 +10,7 @@ trait ConfigAwareTrait
     protected $config = null;
 
     /**
-     * @param ConfigInterface|null $config
+     * @see ConfigAwareInterface::setConfig
      */
     public function setConfig(ConfigInterface $config = null)
     {
@@ -18,17 +18,9 @@ trait ConfigAwareTrait
     }
 
     /**
-     * @return ConfigInterface
+     * @see ConfigAwareInterface::getConfig
      */
     public function getConfig()
-    {
-        return $this->config;
-    }
-
-    /**
-     * @return ConfigInterface
-     */
-    public function config()
     {
         return $this->config;
     }

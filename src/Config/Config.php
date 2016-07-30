@@ -22,12 +22,12 @@ class Config implements ConfigInterface
      */
     public function __construct($config = [], callable $handler = null)
     {
-        $this->setConfig($config);
+        $this->setConfiguration($config);
         $this->setOverwriteHandler($handler);
     }
 
     /**
-     * 
+     *
      */
     public function __destruct()
     {
@@ -36,26 +36,77 @@ class Config implements ConfigInterface
     }
 
     /**
-     * @param array $config
+     * @override
+     * @inheritDoc
      */
-    public function setConfig($config)
+    public static function getOverwriteHandlerMerger()
     {
-        $this->config = $config;
-    }
-
-    /**
-     * @param callable|null $handler
-     */
-    public function setOverwriteHandler(callable $handler = null)
-    {
-        $this->overwriteHandler = ($handler !== null) ? $handler : function($current, $new) {
-            return $this->getOverwriteHandlerMerger($current, $new);
+        return function($current, $new) {
+            return ArraySupport::merge([ $current, $new ]);
         };
     }
 
     /**
-     * @param array $config
-     * @return ConfigInterface
+     * @override
+     * @inheritDoc
+     */
+    public static function getOverwriteHandlerReplacer()
+    {
+        return function($current, $new) {
+            return ArraySupport::replace([$current, $new]);
+        };
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public static function getOverwriteHandlerIsolater()
+    {
+        return function($current, $new) {
+            return $new;
+        };
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function setConfiguration($config)
+    {
+        $this->config = ArraySupport::expand($config);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getConfiguration()
+    {
+        return $this->config;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function setOverwriteHandler(callable $handler = null)
+    {
+        $this->overwriteHandler = $handler !== null ? $handler : call_user_func([ $this, 'getOverwriteHandlerMerger' ]);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getOverwriteHandler()
+    {
+        return $this->overwriteHandler;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
      */
     public function merge($config)
     {
@@ -65,8 +116,8 @@ class Config implements ConfigInterface
     }
 
     /**
-     * @param string $key
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function exists($key)
     {
@@ -74,9 +125,8 @@ class Config implements ConfigInterface
     }
 
     /**
-     * @param string $key
-     * @param mixed $value
-     * @return array
+     * @override
+     * @inheritDoc
      */
     public function set($key, $value)
     {
@@ -84,23 +134,17 @@ class Config implements ConfigInterface
     }
 
     /**
-     * @param string $key
-     * @param mixed $default
-     * @return mixed
+     * @override
+     * @inheritDoc
      */
     public function get($key = '', $default = null)
     {
-        if ($key === '')
-        {
-            return $this->all();
-        }
-
-        return ArraySupport::get($this->config, $key, $default);
+        return $key === '' ? $this->getAll() : ArraySupport::get($this->config, $key, $default);
     }
 
     /**
-     * @param string $key
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function remove($key)
     {
@@ -108,41 +152,12 @@ class Config implements ConfigInterface
     }
 
     /**
-     * @return array
+     * @override
+     * @inheritDoc
      */
-    public function all()
+    public function getAll()
     {
         return $this->config;
-    }
-
-    /**
-     * @param array $current
-     * @param array $new
-     * @return callable
-     */
-    public function getOverwriteHandlerMerger($current, $new)
-    {
-        return ArraySupport::merge([ $current, $new ]);
-    }
-
-    /**
-     * @param array $current
-     * @param array $new
-     * @return callable
-     */
-    public function getOverwriteHandlerReplacer($current, $new)
-    {
-        return ArraySupport::replace([ $current, $new ]);
-    }
-
-    /**
-     * @param array $current
-     * @param array $new
-     * @return callable
-     */
-    public function getOverwriteHandlerIsolater($current, $new)
-    {
-        return $new;
     }
 
     /**

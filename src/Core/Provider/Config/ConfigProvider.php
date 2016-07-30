@@ -50,7 +50,7 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
             $this->getDefaultVariables($core, $context)
         );
 
-        $records = ArraySupport::flatten($config->all());
+        $records = ArraySupport::flatten($config->getAll());
         foreach ($records as $key=>$value)
         {
             $new = StringSupport::parametrize($value, $vars);
@@ -114,10 +114,10 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
     {
         switch ($option)
         {
-            case 'isolate':     return [ $config, 'getOverwriteHandlerIsolater' ];
-            case 'replace':     return [ $config, 'getOverwriteHandlerReplacer' ];
-            case 'merge':       return [ $config, 'getOverwriteHandlerMerger' ];
-            default:            return [ $config, 'getOverwriteHandlerMerger' ];
+            case 'isolate':     return Config::getOverwriteHandlerIsolater();
+            case 'replace':     return Config::getOverwriteHandlerReplacer();
+            case 'merge':       return Config::getOverwriteHandlerMerger();
+            default:            return Config::getOverwriteHandlerMerger();
         }
     }
 
@@ -149,7 +149,7 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
             );
         }
 
-        $config->merge($current->all());
+        $config->merge($current->getAll());
     }
 
     /**
