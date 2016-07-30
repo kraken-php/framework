@@ -48,7 +48,7 @@ class ArraySupportTest extends TUnit
         $support = $this->createArraySupportMock();
         $array = $this->getArray();
 
-        $this->assertTrue($support::exists($array, 'b.b.a'));
+        $this->assertTrue($support::exists($array, 'b.b'));
     }
 
     /**
@@ -104,6 +104,17 @@ class ArraySupportTest extends TUnit
         $array = $this->getArray();
 
         $this->assertEquals(null, $support::get($array, 'x.a.c'));
+    }
+
+    /**
+     *
+     */
+    public function testApiGet_ReturnsElement_ForDottedKeyIsSingleRealKey()
+    {
+        $support = $this->createArraySupportMock();
+        $array = $this->getArray();
+
+        $this->assertSame($array['e']['a'], $support::get($array, 'e.a'));
     }
 
     /**
@@ -168,6 +179,21 @@ class ArraySupportTest extends TUnit
 
         $this->assertSame($std, $support::get($array, 'b.a'));
         $this->assertSame($std, $array['b']['a']);
+    }
+
+    /**
+     *
+     */
+    public function testApiGet_ReturnsElement_ForExistingKey_WhenKeyIsDottedAndSingleRealKey()
+    {
+        $support = $this->createArraySupportMock();
+        $array = $this->getArray();
+        $new = 'other';
+
+        $this->assertSame($array['e']['a'], $support::get($array, 'e.a'));
+        $support::set($array, 'e.a', 'other');
+
+        $this->assertSame($new, $support::get($array, 'e.a'));
     }
 
     /**
@@ -443,8 +469,10 @@ class ArraySupportTest extends TUnit
             'd' => [
                 'a' => new StdClass
             ],
-            'e.a' => 0,
-            'e.b' => null
+            'e' => [
+                'a' => 0,
+                'b' => null
+            ]
         ];
     }
 
@@ -461,8 +489,8 @@ class ArraySupportTest extends TUnit
             'b.c'   => $array['b']['c'],
             'c'     => $array['c'],
             'd.a'   => $array['d']['a'],
-            'e.a'   => $array['e.a'],
-            'e.b'   => $array['e.b']
+            'e.a'   => $array['e']['a'],
+            'e.b'   => $array['e']['b']
         ];
     }
 

@@ -31,7 +31,20 @@ abstract class ArraySupport
             return false;
         }
 
-        return array_key_exists($key, static::flatten($array));
+        $keys = explode('.', $key);
+        $currentElement = $array;
+
+        foreach ($keys as $currentKey)
+        {
+            if (!is_array($currentElement) || !array_key_exists($currentKey, $currentElement))
+            {
+                return false;
+            }
+
+            $currentElement = $currentElement[(string) $currentKey];
+        }
+
+        return true;
     }
 
     /**
