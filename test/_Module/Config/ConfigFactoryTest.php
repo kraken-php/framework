@@ -16,6 +16,11 @@ class ConfigFactoryTest extends TModule
      */
     public function testCaseConstruct_DoesNotThrowsErrors()
     {
+        if (ini_get('allow_url_include') !== '1')
+        {
+            return;
+        }
+
         $factory = $this->createConfigFactory();
     }
 
@@ -24,6 +29,11 @@ class ConfigFactoryTest extends TModule
      */
     public function testCaseDestruct_DoesNotThrowsErrors()
     {
+        if (ini_get('allow_url_include') !== '1')
+        {
+            return;
+        }
+
         $factory = $this->createConfigFactory();
         unset($factory);
     }
@@ -33,6 +43,11 @@ class ConfigFactoryTest extends TModule
      */
     public function testCaseConfigFactory_CreatesConfig_UsingInternalAndInjectedParsers()
     {
+        if (ini_get('allow_url_include') !== '1')
+        {
+            return;
+        }
+
         $factory = $this->createConfigFactory();
         $config = $factory->create([
             Config::getOverwriteHandlerMerger()
@@ -67,6 +82,11 @@ class ConfigFactoryTest extends TModule
      */
     public function createConfigFactory()
     {
+        if (ini_get('allow_url_include') !== '1')
+        {
+            return;
+        }
+
         $path = __DIR__ . '/_Data';
         $factory = new FilesystemAdapterFactory();
 
