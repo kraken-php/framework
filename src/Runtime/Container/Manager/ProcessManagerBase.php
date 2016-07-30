@@ -17,7 +17,7 @@ use Kraken\Runtime\Container\ProcessManagerInterface;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeInterface;
-use Kraken\System\SystemInterface;
+use Kraken\Util\System\SystemInterface;
 use Error;
 use Exception;
 

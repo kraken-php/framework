@@ -15,9 +15,9 @@ use Kraken\Runtime\RuntimeInterface;
 use Kraken\Runtime\RuntimeManager;
 use Kraken\Runtime\RuntimeManagerFactoryInterface;
 use Kraken\Runtime\RuntimeManagerInterface;
-use Kraken\System\SystemUnix;
 use Kraken\Throwable\Exception\System\ChildUnresponsiveException;
 use Kraken\Throwable\Exception\System\ParentUnresponsiveException;
+use Kraken\Util\System\SystemUnix;
 
 class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderInterface
 {
