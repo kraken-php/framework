@@ -12,11 +12,19 @@ class ReactLoopTest extends TUnit
      */
     private $fp;
 
+    /**
+     *
+     */
     public function tearDown()
     {
         $this->destroyMemoryStream();
+
+        parent::tearDown();
     }
 
+    /**
+     *
+     */
     public function testApiGetActualLoop_ReturnsLoopPassedInConstructor()
     {
         $loop = $this->createLoopMock();
@@ -24,6 +32,9 @@ class ReactLoopTest extends TUnit
         $this->assertSame($loop, $react->getActualLoop());
     }
 
+    /**
+     *
+     */
     public function testApiAddReadStream_PassesProperParameters()
     {
         $stream = $this->createMemoryStream();
@@ -40,6 +51,9 @@ class ReactLoopTest extends TUnit
         $react->addReadStream($stream, $listener);
     }
 
+    /**
+     *
+     */
     public function testApiAddWriteStream_PassesProperParameters()
     {
         $stream = $this->createMemoryStream();
@@ -56,6 +70,9 @@ class ReactLoopTest extends TUnit
         $react->addWriteStream($stream, $listener);
     }
 
+    /**
+     *
+     */
     public function testApiRemoveReadStream_PassesProperParameters()
     {
         $stream = $this->createMemoryStream();
@@ -70,6 +87,9 @@ class ReactLoopTest extends TUnit
         $react->removeReadStream($stream);
     }
 
+    /**
+     *
+     */
     public function testApiRemoveWriteStream_PassesProperParameters()
     {
         $stream = $this->createMemoryStream();
@@ -84,6 +104,9 @@ class ReactLoopTest extends TUnit
         $react->removeWriteStream($stream);
     }
 
+    /**
+     *
+     */
     public function testApiRemoveStream_PassesProperParameters()
     {
         $stream = $this->createMemoryStream();
@@ -98,6 +121,9 @@ class ReactLoopTest extends TUnit
         $react->removeStream($stream);
     }
 
+    /**
+     *
+     */
     public function testApiAddTimer_PassesProperParameters()
     {
         $interval = 5e-1;
@@ -117,6 +143,9 @@ class ReactLoopTest extends TUnit
         $react->addTimer($interval, $callback);
     }
 
+    /**
+     *
+     */
     public function testApiAddTimer_ReturnsReactTimer()
     {
         $interval = 5e-1;
@@ -137,6 +166,9 @@ class ReactLoopTest extends TUnit
         );
     }
 
+    /**
+     *
+     */
     public function testApiAddPeriodicTimer_PassesProperParameters()
     {
         $interval = 5e-1;
@@ -156,6 +188,9 @@ class ReactLoopTest extends TUnit
         $react->addPeriodicTimer($interval, $callback);
     }
 
+    /**
+     *
+     */
     public function testApiAddPeriodicTimer_ReturnsReactTimer()
     {
         $interval = 5e-1;
@@ -176,6 +211,9 @@ class ReactLoopTest extends TUnit
         );
     }
 
+    /**
+     *
+     */
     public function testCancelTimer_CallsActualCancelTimer()
     {
         $mockedTimer = $this->getMock(
@@ -201,6 +239,9 @@ class ReactLoopTest extends TUnit
         $react->cancelTimer($timer);
     }
 
+    /**
+     *
+     */
     public function testApiIsTimerActive_CallsActualIsTimerActive()
     {
         $mockedTimer = $this->getMock(
@@ -226,6 +267,9 @@ class ReactLoopTest extends TUnit
         $react->isTimerActive($timer);
     }
 
+    /**
+     *
+     */
     public function testApiNextTick_PassesProperParamters()
     {
         $listener = $this->createCallableMock();
@@ -240,6 +284,9 @@ class ReactLoopTest extends TUnit
         $react->nextTick($listener);
     }
 
+    /**
+     *
+     */
     public function testApiFutureTick_PassesProperParamters()
     {
         $listener = $this->createCallableMock();
@@ -254,6 +301,9 @@ class ReactLoopTest extends TUnit
         $react->futureTick($listener);
     }
 
+    /**
+     *
+     */
     public function testApiTick_NeverTicksLoop()
     {
         $this->markTestSkipped(
@@ -270,6 +320,9 @@ class ReactLoopTest extends TUnit
         $react->tick();
     }
 
+    /**
+     *
+     */
     public function testApiRun_NeverRunsLoop()
     {
         $this->markTestSkipped(
@@ -286,6 +339,9 @@ class ReactLoopTest extends TUnit
         $react->run();
     }
 
+    /**
+     *
+     */
     public function testApiStop_NeverStopsLoop()
     {
         $this->markTestSkipped(

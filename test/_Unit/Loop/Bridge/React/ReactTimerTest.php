@@ -10,6 +10,9 @@ use Kraken\Test\TUnit;
 
 class ReactTimerTest extends TUnit
 {
+    /**
+     *
+     */
     public function testApiGetActualTimer_ReturnsTimerPassedInConstructor()
     {
         $timer = $this->createTimerMock();
@@ -18,6 +21,9 @@ class ReactTimerTest extends TUnit
         $this->assertSame($timer, $react->getActualTimer());
     }
 
+    /**
+     *
+     */
     public function testApiGetLoop_ReturnsReactLoop()
     {
         $react = $this->createApiMethodMock(
@@ -30,6 +36,9 @@ class ReactTimerTest extends TUnit
         $this->assertInstanceOf(ReactLoopInterface::class, $react->getLoop());
     }
 
+    /**
+     *
+     */
     public function testApiGetInterval_ReturnsProperInterval()
     {
         $interval = 1e-23;
@@ -43,6 +52,9 @@ class ReactTimerTest extends TUnit
         $this->assertEquals($interval, $react->getInterval());
     }
 
+    /**
+     *
+     */
     public function testApiGetCallback_ReturnsProperCallback()
     {
         $callback = $this->createCallableMock();
@@ -56,6 +68,9 @@ class ReactTimerTest extends TUnit
         $this->assertSame($callback, $react->getCallback());
     }
 
+    /**
+     *
+     */
     public function testApiSetData_PassesProperParameters()
     {
         $expectedData = $this->getMock('StdClass');
@@ -69,6 +84,9 @@ class ReactTimerTest extends TUnit
         $react->setData($expectedData);
     }
 
+    /**
+     *
+     */
     public function testApiGetData_ReturnsProperData()
     {
         $expectedData = $this->getMock('StdClass');
@@ -112,6 +130,9 @@ class ReactTimerTest extends TUnit
         $this->assertEquals($bool, $react->isActive());
     }
 
+    /**
+     *
+     */
     public function testApiCancel_CallsActualCancel()
     {
         $react = $this->createApiMethodMock(

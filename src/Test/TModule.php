@@ -2,7 +2,7 @@
 
 namespace Kraken\Test;
 
-use Kraken\Loop\Model\StreamSelectLoop;
+use Kraken\Loop\Model\SelectLoop;
 use Kraken\Loop\Loop;
 use Kraken\Loop\LoopExtendedInterface;
 use Kraken\Loop\LoopInterface;
@@ -42,7 +42,7 @@ class TModule extends TUnit
      */
     public function setUp()
     {
-        $this->loop = new Loop(new StreamSelectLoop);
+        $this->loop = new Loop(new SelectLoop);
         $this->loop->flush(true);
 
         $this->simulation = new Simulation($this->loop);
