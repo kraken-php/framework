@@ -5,6 +5,9 @@ namespace Kraken\_Module\Promise;
 use Kraken\Promise\Deferred;
 use Kraken\Test\TModule;
 
+/**
+ * @runTestsInSeparateProcesses
+ */
 class PromiseTest extends TModule
 {
     /**
@@ -21,7 +24,7 @@ class PromiseTest extends TModule
             $deferreds[] = $d = new Deferred();
             $p = $d->getPromise();
             $last = $p;
-            for ($j = 0; $j < 1000; $j++)
+            for ($j = 0; $j < 500; $j++)
             {
                 $last = $last->then(function($result) {
                     return $result;

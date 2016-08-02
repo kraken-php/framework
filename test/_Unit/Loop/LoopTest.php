@@ -3,7 +3,6 @@
 namespace Kraken\_Unit\Loop;
 
 use Kraken\_Unit\Loop\_Mock\LoopModelMock;
-use Kraken\_Unit\Loop\_Mock\TimerMock;
 use Kraken\Loop\Flow\FlowController;
 use Kraken\Loop\Loop;
 use Kraken\Loop\LoopExtendedInterface;

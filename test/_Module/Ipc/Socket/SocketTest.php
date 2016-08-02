@@ -9,6 +9,9 @@ use Kraken\Ipc\Socket\SocketListenerInterface;
 use Kraken\Test\Stub\SimulationInterface;
 use Kraken\Test\TModule;
 
+/**
+ * @runTestsInSeparateProcesses
+ */
 class SocketTest extends TModule
 {
     /**

@@ -15,6 +15,9 @@ use Kraken\Util\Factory\SimpleFactoryPluginInterface;
 use Exception;
 use StdClass;
 
+/**
+ * @runTestsInSeparateProcesses
+ */
 class FactoryTest extends TModule
 {
     /**

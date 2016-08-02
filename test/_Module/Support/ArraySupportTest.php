@@ -7,6 +7,9 @@ use Kraken\Support\ArraySupport;
 use Kraken\Test\TModule;
 use StdClass;
 
+/**
+ * @runTestsInSeparateProcesses
+ */
 class ArraySupportTest extends TModule
 {
     /**

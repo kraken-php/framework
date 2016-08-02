@@ -8,6 +8,9 @@ use Kraken\Test\Stub\SimulationInterface;
 use Kraken\Test\TModule;
 use ReflectionClass;
 
+/**
+ * @runTestsInSeparateProcesses
+ */
 class AsyncStreamTest extends TModule
 {
     public function tearDown()

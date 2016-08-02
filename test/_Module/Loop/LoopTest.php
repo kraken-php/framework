@@ -17,6 +17,16 @@ class LoopTest extends TModule
     private $fp;
 
     /**
+     *
+     */
+    public function tearDown()
+    {
+        $this->destroyStream();
+
+        parent::tearDown();
+    }
+
+    /**
      * @dataProvider loopsProvider
      * @param LoopExtendedInterface|LoopModelInterface|mixed $loop
      */
@@ -31,6 +41,9 @@ class LoopTest extends TModule
 
         $this->writeToStream($stream, "bar\n");
         $loop->tick();
+
+        unset($stream);
+        unset($loop);
     }
 
     /**
@@ -44,6 +57,9 @@ class LoopTest extends TModule
         $loop->addWriteStream($stream, $this->expectCallableExactly(2));
         $loop->tick();
         $loop->tick();
+
+        unset($stream);
+        unset($loop);
     }
 
     /**
@@ -59,6 +75,9 @@ class LoopTest extends TModule
 
         $this->writeToStream($stream, "bar\n");
         $loop->tick();
+
+        unset($stream);
+        unset($loop);
     }
 
     /**
@@ -78,6 +97,9 @@ class LoopTest extends TModule
 
         $this->writeToStream($stream, "bar\n");
         $loop->tick();
+
+        unset($stream);
+        unset($loop);
     }
 
     /**
@@ -89,6 +111,9 @@ class LoopTest extends TModule
         $stream = $this->createStream();
 
         $loop->removeWriteStream($stream);
+
+        unset($stream);
+        unset($loop);
     }
 
     /**
@@ -102,6 +127,9 @@ class LoopTest extends TModule
         $loop->addWriteStream($stream, $this->expectCallableNever());
         $loop->removeWriteStream($stream);
         $loop->tick();
+
+        unset($stream);
+        unset($loop);
     }
 
     /**
@@ -117,6 +145,9 @@ class LoopTest extends TModule
 
         $loop->removeWriteStream($stream);
         $loop->tick();
+
+        unset($stream);
+        unset($loop);
     }
 
     /**
@@ -128,6 +159,9 @@ class LoopTest extends TModule
         $stream = $this->createStream();
 
         $loop->removeWriteStream($stream);
+
+        unset($stream);
+        unset($loop);
     }
 
     /**
@@ -144,6 +178,9 @@ class LoopTest extends TModule
 
         $this->writeToStream($stream, "bar\n");
         $loop->tick();
+
+        unset($stream);
+        unset($loop);
     }
 
     /**
@@ -164,6 +201,9 @@ class LoopTest extends TModule
 
         $this->writeToStream($stream, "bar\n");
         $loop->tick();
+
+        unset($stream);
+        unset($loop);
     }
 
     /**
@@ -175,6 +215,8 @@ class LoopTest extends TModule
         $stream = $this->createStream();
 
         $loop->removeStream($stream);
+
+        unset($stream);
     }
 
     /**
@@ -194,6 +236,8 @@ class LoopTest extends TModule
         $loop->start();
 
         $this->assertEquals($expectedData, $receivedData);
+
+        unset($loop);
     }
 
     /**
@@ -212,13 +256,11 @@ class LoopTest extends TModule
             }
         });
 
-        $loop->addTimer(1e-2, function() use($loop) {
-            $loop->stop();
-        });
-
         $loop->start();
 
         $this->assertEquals(5, $cnt);
+
+        unset($loop);
     }
 
     /**
@@ -231,6 +273,9 @@ class LoopTest extends TModule
         $loop->cancelTimer($timer);
 
         $loop->tick();
+
+        unset($timer);
+        unset($loop);
     }
 
     /**
@@ -242,6 +287,9 @@ class LoopTest extends TModule
         $timer = $loop->addTimer(1e-3, $this->expectCallableNever());
 
         $this->assertTrue($loop->isTimerActive($timer));
+
+        unset($timer);
+        unset($loop);
     }
 
     /**
@@ -254,6 +302,9 @@ class LoopTest extends TModule
         $loop->cancelTimer($timer);
 
         $this->assertFalse($loop->isTimerActive($timer));
+
+        unset($timer);
+        unset($loop);
     }
 
     /**
@@ -268,6 +319,8 @@ class LoopTest extends TModule
         $loop->startTick($this->expectCallableOnce());
 
         $loop->start();
+
+        unset($loop);
     }
 
     /**
@@ -282,6 +335,8 @@ class LoopTest extends TModule
         $loop->stopTick($this->expectCallableOnce());
 
         $loop->start();
+
+        unset($loop);
     }
 
     /**
@@ -293,6 +348,8 @@ class LoopTest extends TModule
         $loop->beforeTick($this->expectCallableOnce());
 
         $loop->tick();
+
+        unset($loop);
     }
 
     /**
@@ -304,6 +361,8 @@ class LoopTest extends TModule
         $loop->afterTick($this->expectCallableOnce());
 
         $loop->tick();
+
+        unset($loop);
     }
 
     /**
@@ -316,6 +375,8 @@ class LoopTest extends TModule
         $loop->afterTick($this->expectCallableOnce());
 
         $loop->tick();
+
+        unset($loop);
     }
 
     /**
@@ -331,6 +392,8 @@ class LoopTest extends TModule
         });
 
         $loop->start();
+
+        unset($loop);
     }
 
     /**
@@ -340,6 +403,8 @@ class LoopTest extends TModule
     public function testApiGetFlowController_ReturnsFlowController($loop)
     {
         $this->assertInstanceOf(FlowController::class, $loop->getFlowController());
+
+        unset($loop);
     }
 
     /**
@@ -352,6 +417,9 @@ class LoopTest extends TModule
 
         $loop->setFlowController($controller);
         $this->assertSame($controller, $loop->getFlowController());
+
+        unset($controller);
+        unset($loop);
     }
 
     /**
@@ -369,6 +437,9 @@ class LoopTest extends TModule
 
         $loop->flush();
         $loop->tick();
+
+        unset($stream);
+        unset($loop);
     }
 
     /**
@@ -386,6 +457,9 @@ class LoopTest extends TModule
 
         $loop->flush(true);
         $loop->tick();
+
+        unset($stream);
+        unset($loop);
     }
 
     /**
@@ -474,16 +548,6 @@ class LoopTest extends TModule
     }
 
     /**
-     *
-     */
-    public function tearDown()
-    {
-        $this->destroyStream();
-
-        parent::tearDown();
-    }
-
-    /**
      * @param resource $stream
      * @param string $content
      */
@@ -509,35 +573,4 @@ class LoopTest extends TModule
     {
         unset($this->fp);
     }
-
-//    /**
-//     * @dataProvider loopsProvider
-//     * @param LoopExtendedInterface|LoopModelInterface|mixed $loop
-//     */
-//    public function testApiIsRunning_ReturnsTrue_WhileLoopIsRunning($loop)
-//    {
-//        $loop->startTick(function() use($loop) {
-//            $this->assertTrue($loop->isRunning());
-//            $loop->stop();
-//        });
-//        $loop->start();
-//    }
-//
-//    /**
-//     * @dataProvider loopsProvider
-//     * @param LoopExtendedInterface|LoopModelInterface|mixed $loop
-//     */
-//    public function testApiIsRunning_ReturnsFalse_WhileLoopIsNotRunning($loop)
-//    {
-//        $this->assertFalse($loop->isRunning());
-//    }
-//
-//    /**
-//     * @dataProvider loopsProvider
-//     * @param LoopExtendedInterface|LoopModelInterface|mixed $loop
-//     */
-//    public function testApiIsRunning_ReturnsFalse_WhileLoopIsNotRunning($loop)
-//    {
-//        $this->assertFalse($loop->isRunning());
-//    }
 }

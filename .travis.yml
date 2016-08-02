@@ -12,4 +12,4 @@ install:
   - composer install --no-interaction --prefer-source
 
 script:
-  - vendor/bin/phpunit --coverage-text
+  - vendor/bin/phpunit -d memory_limit=1024M --coverage-text

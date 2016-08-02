@@ -7,6 +7,9 @@ use Kraken\Util\Buffer\Buffer;
 use Kraken\Util\Buffer\BufferInterface;
 use Kraken\Util\Buffer\BufferIterator;
 
+/**
+ * @runTestsInSeparateProcesses
+ */
 class BufferTest extends TModule
 {
     /**

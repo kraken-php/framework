@@ -8,6 +8,9 @@ use Kraken\Filesystem\Filesystem;
 use Kraken\Filesystem\FilesystemAdapterFactory;
 use Kraken\Filesystem\FilesystemInterface;
 
+/**
+ * @runTestsInSeparateProcesses
+ */
 class FilesystemTest extends FilesystemTestAbstract
 {
     use FilesystemPartial;

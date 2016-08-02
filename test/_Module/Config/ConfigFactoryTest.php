@@ -9,6 +9,9 @@ use Kraken\Filesystem\FilesystemAdapterFactory;
 use Kraken\Test\TModule;
 use Kraken\Util\Parser\Json\JsonParser;
 
+/**
+ * @runTestsInSeparateProcesses
+ */
 class ConfigFactoryTest extends TModule
 {
     /**

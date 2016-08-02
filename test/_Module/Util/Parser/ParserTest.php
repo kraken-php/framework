@@ -7,6 +7,9 @@ use Kraken\Util\Parser\Json\JsonParser;
 use Kraken\Util\Parser\ParserInterface;
 use StdClass;
 
+/**
+ * @runTestsInSeparateProcesses
+ */
 class ParserTest extends TModule
 {
     /**

@@ -7,6 +7,9 @@ use Kraken\Stream\StreamReader;
 use Kraken\Stream\StreamWriter;
 use Kraken\Test\TModule;
 
+/**
+ * @runTestsInSeparateProcesses
+ */
 class StreamTest extends TModule
 {
     public function tearDown()

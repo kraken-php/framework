@@ -5,6 +5,9 @@ namespace Kraken\_Module\Event;
 use Kraken\Event\EventEmitter;
 use Kraken\Test\TModule;
 
+/**
+ * @runTestsInSeparateProcesses
+ */
 class EventTest extends TModule
 {
     /**
