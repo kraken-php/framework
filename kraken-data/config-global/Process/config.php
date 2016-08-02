@@ -86,7 +86,7 @@ return [
         'filePermission' => 0755
     ],
     'loop' => [
-        'model' => 'Kraken\Loop\Model\StreamSelectLoop'
+        'model' => 'Kraken\Loop\Model\SelectLoop'
     ],
     'runtime' => [
         'manager' => [

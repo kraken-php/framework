@@ -220,7 +220,7 @@ class RuntimeModel implements RuntimeModelInterface
     public function setLoop(LoopExtendedInterface $loop)
     {
         $this->loop = $loop;
-        $this->loopBackup = new Loop($this->reflect($this->loop->model()));
+        $this->loopBackup = new Loop($this->reflect($this->loop->getModel()));
     }
 
     /**

@@ -5,12 +5,12 @@ namespace Kraken\Loop;
 interface LoopGetterAwareInterface
 {
     /**
-     * @return LoopInterface
+     * Return the loop of which object is aware of or null if none was set.
+     *
+     * @return LoopInterface|null
      */
     public function getLoop();
 
-    /**
-     * @return LoopInterface
-     */
+    // TODO delete this
     public function loop();
 }

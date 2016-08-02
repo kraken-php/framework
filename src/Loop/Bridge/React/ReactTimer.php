@@ -29,6 +29,7 @@ class ReactTimer implements ReactTimerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getActualTimer()
     {
@@ -37,6 +38,7 @@ class ReactTimer implements ReactTimerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getLoop()
     {
@@ -45,6 +47,7 @@ class ReactTimer implements ReactTimerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getInterval()
     {
@@ -53,6 +56,7 @@ class ReactTimer implements ReactTimerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getCallback()
     {
@@ -61,6 +65,7 @@ class ReactTimer implements ReactTimerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function setData($data)
     {
@@ -69,6 +74,7 @@ class ReactTimer implements ReactTimerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getData()
     {
@@ -77,6 +83,7 @@ class ReactTimer implements ReactTimerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function isPeriodic()
     {
@@ -85,6 +92,7 @@ class ReactTimer implements ReactTimerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function isActive()
     {
@@ -93,6 +101,7 @@ class ReactTimer implements ReactTimerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function cancel()
     {

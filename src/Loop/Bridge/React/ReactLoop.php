@@ -29,6 +29,7 @@ class ReactLoop implements ReactLoopInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getActualLoop()
     {
@@ -37,6 +38,7 @@ class ReactLoop implements ReactLoopInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function addReadStream($stream, callable $listener)
     {
@@ -45,6 +47,7 @@ class ReactLoop implements ReactLoopInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function addWriteStream($stream, callable $listener)
     {
@@ -53,6 +56,7 @@ class ReactLoop implements ReactLoopInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function removeReadStream($stream)
     {
@@ -61,6 +65,7 @@ class ReactLoop implements ReactLoopInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function removeWriteStream($stream)
     {
@@ -69,6 +74,7 @@ class ReactLoop implements ReactLoopInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function removeStream($stream)
     {
@@ -77,6 +83,7 @@ class ReactLoop implements ReactLoopInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function addTimer($interval, callable $callback)
     {
@@ -85,6 +92,7 @@ class ReactLoop implements ReactLoopInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function addPeriodicTimer($interval, callable $callback)
     {
@@ -93,6 +101,7 @@ class ReactLoop implements ReactLoopInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function cancelTimer(\React\EventLoop\Timer\TimerInterface $timer)
     {
@@ -101,6 +110,7 @@ class ReactLoop implements ReactLoopInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function isTimerActive(\React\EventLoop\Timer\TimerInterface $timer)
     {
@@ -109,6 +119,7 @@ class ReactLoop implements ReactLoopInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function nextTick(callable $listener)
     {
@@ -117,6 +128,7 @@ class ReactLoop implements ReactLoopInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function futureTick(callable $listener)
     {
@@ -125,18 +137,21 @@ class ReactLoop implements ReactLoopInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function tick()
     {}
 
     /**
      * @override
+     * @inheritDoc
      */
     public function run()
     {}
 
     /**
      * @override
+     * @inheritDoc
      */
     public function stop()
     {}

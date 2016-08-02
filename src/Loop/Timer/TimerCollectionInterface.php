@@ -5,6 +5,11 @@ namespace Kraken\Loop\Timer;
 interface TimerCollectionInterface
 {
     /**
+     * @return TimerInterface[]
+     */
+    public function getTimers();
+
+    /**
      * @param string $name
      * @return bool
      */

@@ -2,24 +2,32 @@
 
 namespace Kraken\Loop\Tick;
 
-use SplQueue;
 use Kraken\Loop\LoopModelInterface;
+use SplQueue;
 
-class FiniteTickQueue
+class TickFiniteQueue
 {
-    private $eventLoop;
-    private $queue;
+    /**
+     * @var LoopModelInterface
+     */
+    protected $loop;
+
+    /**
+     * @var SplQueue
+     */
+    protected $queue;
+
     /**
      * @var callable
      */
     private $callback;
 
     /**
-     * @param LoopModelInterface $eventLoop The event loop passed as the first parameter to callbacks.
+     * @param LoopModelInterface $loop
      */
-    public function __construct(LoopModelInterface $eventLoop)
+    public function __construct(LoopModelInterface $loop)
     {
-        $this->eventLoop = $eventLoop;
+        $this->loop = $loop;
         $this->queue = new SplQueue();
     }
 
@@ -28,16 +36,16 @@ class FiniteTickQueue
      */
     public function __destruct()
     {
-        unset($this->eventLoop);
+        unset($this->loop);
         unset($this->queue);
     }
 
     /**
      * Add a callback to be invoked on a future tick of the event loop.
      *
-     * Callbacks are guaranteed to be executed in the order they are enqueued.
+     * Callbacks are guaranteed to be executed in the order they are enqueued, before any timer or stream events.
      *
-     * @param callable $listener The callback to invoke.
+     * @param callable $listener
      */
     public function add(callable $listener)
     {
@@ -46,22 +54,19 @@ class FiniteTickQueue
 
     /**
      * Flush the callback queue.
+     *
+     * Invokes as many callbacks as were on the queue when tick() was called.
      */
     public function tick()
     {
-        // Only invoke as many callbacks as were on the queue when tick() was called.
         $count = $this->queue->count();
 
-//        var_dump('tick=' . $count);
-
-        while ($count-- && $this->eventLoop->isRunning())
+        while ($count-- && $this->loop->isRunning())
         {
             $this->callback = $this->queue->dequeue();
-            $callback = $this->callback;
-            $callback($this->eventLoop);
+            $callback = $this->callback; // without this proxy PHPStorm marks line as fatal error.
+            $callback($this->loop);
         }
-
-//        var_dump('tick=' . $count);
     }
 
     /**

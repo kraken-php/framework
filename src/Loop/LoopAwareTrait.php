@@ -5,12 +5,12 @@ namespace Kraken\Loop;
 trait LoopAwareTrait
 {
     /**
-     * @var LoopInterface
+     * @var LoopInterface|null
      */
-    protected $loop;
+    protected $loop = null;
 
     /**
-     * @param LoopInterface|null $loop
+     * @see LoopAwareInterface::setLoop
      */
     public function setLoop(LoopInterface $loop)
     {
@@ -18,16 +18,14 @@ trait LoopAwareTrait
     }
 
     /**
-     * @return LoopInterface
+     * @see LoopAwareInterface::getLoop
      */
     public function getLoop()
     {
         return $this->loop;
     }
 
-    /**
-     * @return LoopInterface
-     */
+    // TODO remove this
     public function loop()
     {
         return $this->loop;

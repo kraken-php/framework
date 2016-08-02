@@ -8,6 +8,8 @@ use Kraken\Loop\Timer\TimerInterface;
 interface LoopModelInterface
 {
     /**
+     * Check if loop is currently running.
+     *
      * @return bool
      */
     public function isRunning();
@@ -15,49 +17,47 @@ interface LoopModelInterface
     /**
      * Register a listener to be notified when a stream is ready to read.
      *
-     * @param stream   $stream   The PHP stream resource to check.
-     * @param callable $listener Invoked when the stream is ready.
+     * @param resource $stream
+     * @param callable $listener
      */
     public function addReadStream($stream, callable $listener);
 
     /**
      * Register a listener to be notified when a stream is ready to write.
      *
-     * @param stream   $stream   The PHP stream resource to check.
-     * @param callable $listener Invoked when the stream is ready.
+     * @param resource $stream
+     * @param callable $listener
      */
     public function addWriteStream($stream, callable $listener);
 
     /**
      * Remove the read event listener for the given stream.
      *
-     * @param stream $stream The PHP stream resource.
+     * @param resource $stream
      */
     public function removeReadStream($stream);
 
     /**
      * Remove the write event listener for the given stream.
      *
-     * @param stream $stream The PHP stream resource.
+     * @param resource $stream
      */
     public function removeWriteStream($stream);
 
     /**
      * Remove all listeners for the given stream.
      *
-     * @param stream $stream The PHP stream resource.
+     * @param resource $stream
      */
     public function removeStream($stream);
 
     /**
      * Enqueue a callback to be invoked once after the given interval.
      *
-     * The execution order of timers scheduled to execute at the same time is
-     * not guaranteed.
+     * The execution order of timers scheduled to execute at the same time is not guaranteed.
      *
-     * @param numeric  $interval The number of seconds to wait before execution.
-     * @param callable $callback The callback to invoke.
-     *
+     * @param float $interval
+     * @param callable $callback
      * @return TimerInterface
      */
     public function addTimer($interval, callable $callback);
@@ -65,12 +65,10 @@ interface LoopModelInterface
     /**
      * Enqueue a callback to be invoked repeatedly after the given interval.
      *
-     * The execution order of timers scheduled to execute at the same time is
-     * not guaranteed.
+     * The execution order of timers scheduled to execute at the same time is not guaranteed.
      *
-     * @param numeric  $interval The number of seconds to wait before execution.
-     * @param callable $callback The callback to invoke.
-     *
+     * @param float $interval
+     * @param callable $callback
      * @return TimerInterface
      */
     public function addPeriodicTimer($interval, callable $callback);
@@ -78,16 +76,15 @@ interface LoopModelInterface
     /**
      * Cancel a pending timer.
      *
-     * @param TimerInterface $timer The timer to cancel.
+     * @param TimerInterface $timer
      */
     public function cancelTimer(TimerInterface $timer);
 
     /**
      * Check if a given timer is active.
      *
-     * @param TimerInterface $timer The timer to check.
-     *
-     * @return boolean True if the timer is still enqueued for execution.
+     * @param TimerInterface $timer
+     * @return bool
      */
     public function isTimerActive(TimerInterface $timer);
 
@@ -114,7 +111,7 @@ interface LoopModelInterface
      *
      * Callbacks are guaranteed to be executed in the order they are enqueued, before any timer or stream events.
      *
-     * @param callable $listener The callback to invoke.
+     * @param callable $listener
      */
     public function beforeTick(callable $listener);
 
@@ -123,7 +120,7 @@ interface LoopModelInterface
      *
      * Callbacks are guaranteed to be executed in the order they are enqueued.
      *
-     * @param callable $listener The callback to invoke.
+     * @param callable $listener
      */
     public function afterTick(callable $listener);
 
@@ -143,22 +140,30 @@ interface LoopModelInterface
     public function stop();
 
     /**
+     * Set FlowController used by model.
+     *
      * @param mixed $flowController
      */
     public function setFlowController($flowController);
 
     /**
+     * Return FlowController used by model.
+     *
      * @return FlowController
      */
     public function getFlowController();
 
     /**
+     * Flush loop.
+     *
      * @param bool $all
      * @return LoopModelInterface
      */
     public function flush($all = false);
 
     /**
+     * Export loop not fired handlers and/or streams to another loop model.
+     *
      * @param LoopModelInterface $loop
      * @param bool $all
      * @return LoopModelInterface
@@ -166,6 +171,8 @@ interface LoopModelInterface
     public function export(LoopModelInterface $loop, $all = false);
 
     /**
+     * Import handlers and/or streams from another loop model.
+     *
      * @param LoopModelInterface $loop
      * @param bool $all
      * @return LoopModelInterface
@@ -173,6 +180,8 @@ interface LoopModelInterface
     public function import(LoopModelInterface $loop, $all = false);
 
     /**
+     * Swap handlers and/or stream between loop models.
+     *
      * @param LoopModelInterface $loop
      * @param bool $all
      * @return LoopModelInterface

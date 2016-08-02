@@ -3,69 +3,112 @@
 namespace Kraken\Loop\Model;
 
 use Kraken\Loop\Flow\FlowController;
-use Kraken\Loop\Tick\ContinousTickQueue;
-use Kraken\Loop\Tick\FiniteTickQueue;
+use Kraken\Loop\Tick\TickContinousQueue;
+use Kraken\Loop\Tick\TickFiniteQueue;
 use Kraken\Loop\Timer\Timer;
+use Kraken\Loop\Timer\TimerBox;
 use Kraken\Loop\Timer\TimerInterface;
-use Kraken\Loop\Timer\Timers;
 use Kraken\Loop\LoopModelInterface;
 
-class StreamSelectLoop implements LoopModelInterface
+class SelectLoop implements LoopModelInterface
 {
     /**
      * @var int
      */
-    const MICROSECONDS_PER_SECOND = 1000000;
+    const MICROSECONDS_PER_SECOND = 1e6;
 
     /**
-     * @var ContinousTickQueue
+     * @var TickContinousQueue
      */
     protected $startTickQueue;
 
     /**
-     * @var ContinousTickQueue
+     * @var TickContinousQueue
      */
     protected $stopTickQueue;
 
     /**
-     * @var ContinousTickQueue
+     * @var TickContinousQueue
      */
     protected $nextTickQueue;
 
     /**
-     * @var FiniteTickQueue
+     * @var TickFiniteQueue
      */
     protected $futureTickQueue;
 
+    /**
+     * @var FlowController
+     */
     protected $flowController;
 
     /**
-     * @var
+     * @var TimerBox
      */
     protected $timers;
-    protected $readStreams = [];
-    protected $readListeners = [];
-    protected $writeStreams = [];
-    protected $writeListeners = [];
-    protected $running;
 
+    /**
+     * @var resource[]
+     */
+    protected $readStreams = [];
+
+    /**
+     * @var callable[]
+     */
+    protected $readListeners = [];
+
+    /**
+     * @var resource[]
+     */
+    protected $writeStreams = [];
+
+    /**
+     * @var callable[]
+     */
+    protected $writeListeners = [];
+
+    /**
+     *
+     */
     public function __construct()
     {
-        $this->startTickQueue = new ContinousTickQueue($this);
-        $this->stopTickQueue = new ContinousTickQueue($this);
-        $this->nextTickQueue = new ContinousTickQueue($this);
-        $this->futureTickQueue = new FiniteTickQueue($this);
-        $this->timers = new Timers();
+        $this->startTickQueue = new TickContinousQueue($this);
+        $this->stopTickQueue = new TickContinousQueue($this);
+        $this->nextTickQueue = new TickContinousQueue($this);
+        $this->futureTickQueue = new TickFiniteQueue($this);
         $this->flowController = new FlowController();
+        $this->timers = new TimerBox();
     }
 
+    /**
+     *
+     */
+    public function __destruct()
+    {
+        unset($this->startTickQueue);
+        unset($this->stopTickQueue);
+        unset($this->nextTickQueue);
+        unset($this->futureTickQueue);
+        unset($this->flowController);
+        unset($this->timers);
+        unset($this->readStreams);
+        unset($this->readListeners);
+        unset($this->writeStreams);
+        unset($this->writeListeners);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
     public function isRunning()
     {
         return isset($this->flowController->isRunning) ? $this->flowController->isRunning : false;
     }
 
     /**
-     * {@inheritdoc}
+     * @override
+     * @inheritDoc
      */
     public function addReadStream($stream, callable $listener)
     {
@@ -79,7 +122,8 @@ class StreamSelectLoop implements LoopModelInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @override
+     * @inheritDoc
      */
     public function addWriteStream($stream, callable $listener)
     {
@@ -93,7 +137,8 @@ class StreamSelectLoop implements LoopModelInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @override
+     * @inheritDoc
      */
     public function removeReadStream($stream)
     {
@@ -106,7 +151,8 @@ class StreamSelectLoop implements LoopModelInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @override
+     * @inheritDoc
      */
     public function removeWriteStream($stream)
     {
@@ -119,7 +165,8 @@ class StreamSelectLoop implements LoopModelInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @override
+     * @inheritDoc
      */
     public function removeStream($stream)
     {
@@ -128,7 +175,8 @@ class StreamSelectLoop implements LoopModelInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @override
+     * @inheritDoc
      */
     public function addTimer($interval, callable $callback)
     {
@@ -140,7 +188,8 @@ class StreamSelectLoop implements LoopModelInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @override
+     * @inheritDoc
      */
     public function addPeriodicTimer($interval, callable $callback)
     {
@@ -152,15 +201,17 @@ class StreamSelectLoop implements LoopModelInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @override
+     * @inheritDoc
      */
     public function cancelTimer(TimerInterface $timer)
     {
-        $this->timers->cancel($timer);
+        $this->timers->remove($timer);
     }
 
     /**
-     * {@inheritdoc}
+     * @override
+     * @inheritDoc
      */
     public function isTimerActive(TimerInterface $timer)
     {
@@ -168,7 +219,8 @@ class StreamSelectLoop implements LoopModelInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @override
+     * @inheritDoc
      */
     public function startTick(callable $listener)
     {
@@ -176,7 +228,8 @@ class StreamSelectLoop implements LoopModelInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @override
+     * @inheritDoc
      */
     public function stopTick(callable $listener)
     {
@@ -184,7 +237,8 @@ class StreamSelectLoop implements LoopModelInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @override
+     * @inheritDoc
      */
     public function beforeTick(callable $listener)
     {
@@ -192,7 +246,8 @@ class StreamSelectLoop implements LoopModelInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @override
+     * @inheritDoc
      */
     public function afterTick(callable $listener)
     {
@@ -200,7 +255,8 @@ class StreamSelectLoop implements LoopModelInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @override
+     * @inheritDoc
      */
     public function tick()
     {
@@ -215,7 +271,8 @@ class StreamSelectLoop implements LoopModelInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @override
+     * @inheritDoc
      */
     public function start()
     {
@@ -224,7 +281,7 @@ class StreamSelectLoop implements LoopModelInterface
             return;
         }
 
-        // TODO delete this
+        // TODO KRF-107
         $this->addPeriodicTimer(1, function() {
             usleep(1);
         });
@@ -267,7 +324,8 @@ class StreamSelectLoop implements LoopModelInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @override
+     * @inheritDoc
      */
     public function stop()
     {
@@ -281,7 +339,8 @@ class StreamSelectLoop implements LoopModelInterface
     }
 
     /**
-     * @param mixed $flowController
+     * @override
+     * @inheritDoc
      */
     public function setFlowController($flowController)
     {
@@ -289,7 +348,8 @@ class StreamSelectLoop implements LoopModelInterface
     }
 
     /**
-     * @return FlowController
+     * @override
+     * @inheritDoc
      */
     public function getFlowController()
     {
@@ -297,8 +357,8 @@ class StreamSelectLoop implements LoopModelInterface
     }
 
     /**
-     * @param bool $all
-     * @return LoopModelInterface
+     * @override
+     * @inheritDoc
      */
     public function flush($all = false)
     {
@@ -317,9 +377,8 @@ class StreamSelectLoop implements LoopModelInterface
     }
 
     /**
-     * @param LoopModelInterface $loop
-     * @param bool $all
-     * @return LoopModelInterface
+     * @override
+     * @inheritDoc
      */
     public function export(LoopModelInterface $loop, $all = false)
     {
@@ -336,9 +395,8 @@ class StreamSelectLoop implements LoopModelInterface
     }
 
     /**
-     * @param LoopModelInterface $loop
-     * @param bool $all
-     * @return LoopModelInterface
+     * @override
+     * @inheritDoc
      */
     public function import(LoopModelInterface $loop, $all = false)
     {
@@ -355,9 +413,8 @@ class StreamSelectLoop implements LoopModelInterface
     }
 
     /**
-     * @param LoopModelInterface $loop
-     * @param bool $all
-     * @return LoopModelInterface
+     * @override
+     * @inheritDoc
      */
     public function swap(LoopModelInterface $loop, $all = false)
     {
@@ -377,13 +434,18 @@ class StreamSelectLoop implements LoopModelInterface
 
     /**
      * Wait/check for stream activity, or until the next timer is due.
+     *
+     * @param float $timeout
      */
     private function waitForStreamActivity($timeout)
     {
         $read  = $this->readStreams;
         $write = $this->writeStreams;
 
-        $this->streamSelect($read, $write, $timeout);
+        if ($this->streamSelect($read, $write, $timeout) === false)
+        {
+            return;
+        }
 
         foreach ($read as $stream)
         {
@@ -409,12 +471,11 @@ class StreamSelectLoop implements LoopModelInterface
     }
 
     /**
-     * Emulate a stream_select() implementation that does not break when passed
-     * empty stream arrays.
+     * Emulate a stream_select() implementation that does not break when passed empty stream arrays.
      *
-     * @param array        &$read   An array of read streams to select upon.
-     * @param array        &$write  An array of write streams to select upon.
-     * @param integer|null $timeout Activity timeout in microseconds, or null to wait forever.
+     * @param array &$read
+     * @param array &$write
+     * @param integer|null $timeout
      *
      * @return integer The total number of streams that are ready for read/write.
      */
@@ -424,7 +485,7 @@ class StreamSelectLoop implements LoopModelInterface
         {
             $except = null;
 
-            return stream_select($read, $write, $except, $timeout === null ? null : 0, $timeout);
+            return @stream_select($read, $write, $except, $timeout === null ? null : 0, $timeout);
         }
 
         usleep($timeout);

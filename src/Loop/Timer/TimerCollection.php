@@ -10,11 +10,16 @@ class TimerCollection implements TimerCollectionInterface
     protected $timers;
 
     /**
-     *
+     * @param TimerInterface[] $timers
      */
-    public function __construct()
+    public function __construct($timers = [])
     {
         $this->timers = [];
+
+        foreach ($timers as $name=>$timer)
+        {
+            $this->addTimer($name, $timer);
+        }
     }
 
     /**
@@ -26,8 +31,17 @@ class TimerCollection implements TimerCollectionInterface
     }
 
     /**
-     * @param string $name
-     * @return bool
+     * @override
+     * @inheritDoc
+     */
+    public function getTimers()
+    {
+        return $this->timers;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
      */
     public function existsTimer($name)
     {
@@ -35,8 +49,8 @@ class TimerCollection implements TimerCollectionInterface
     }
 
     /**
-     * @param string $name
-     * @param TimerInterface $timer
+     * @override
+     * @inheritDoc
      */
     public function addTimer($name, TimerInterface $timer)
     {
@@ -44,8 +58,8 @@ class TimerCollection implements TimerCollectionInterface
     }
 
     /**
-     * @param string $name
-     * @return TimerInterface|null
+     * @override
+     * @inheritDoc
      */
     public function getTimer($name)
     {
@@ -53,7 +67,8 @@ class TimerCollection implements TimerCollectionInterface
     }
 
     /**
-     * @param string $name
+     * @override
+     * @inheritDoc
      */
     public function removeTimer($name)
     {

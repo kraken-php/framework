@@ -4,13 +4,11 @@ namespace Kraken\Loop;
 
 use Kraken\Loop\Timer\TimerInterface;
 
-/**
- * @event start
- * @event stop
- */
 interface LoopInterface
 {
     /**
+     * Check if loop is currently running.
+     *
      * @return bool
      */
     public function isRunning();
@@ -53,6 +51,10 @@ interface LoopInterface
     public function removeStream($stream);
 
     /**
+     * Enqueue a callback to be invoked once after the given interval.
+     *
+     * The execution order of timers scheduled to execute at the same time is not guaranteed.
+     *
      * @param float $interval
      * @param callable $callback
      * @return TimerInterface
@@ -60,6 +62,10 @@ interface LoopInterface
     public function addTimer($interval, callable $callback);
 
     /**
+     * Enqueue a callback to be invoked repeatedly after the given interval.
+     *
+     * The execution order of timers scheduled to execute at the same time is not guaranteed.
+     *
      * @param float $interval
      * @param callable $callback
      * @return TimerInterface
@@ -67,27 +73,52 @@ interface LoopInterface
     public function addPeriodicTimer($interval, callable $callback);
 
     /**
+     * Cancel a pending timer.
+     *
      * @param TimerInterface $timer
      */
     public function cancelTimer(TimerInterface $timer);
 
     /**
+     * Check if a given timer is active.
+     *
      * @param TimerInterface $timer
      * @return bool
      */
     public function isTimerActive(TimerInterface $timer);
 
     /**
+     * Schedule a callback to be invoked on the start tick of event loop.
+     *
+     * Callbacks are guarenteed to be executed in the order they are enqueued, before anything else.
+     *
      * @param callable $listener
      */
     public function startTick(callable $listener);
 
     /**
+     * Schedule a callback to be invoked on the stop tick of event loop.
+     *
+     * Callbacks are guarenteed to be executed in the order they are enqueued.
+     *
+     * @param callable $listener
+     */
+    public function stopTick(callable $listener);
+
+    /**
+     * Schedule a callback to be invoked on the next tick of the event loop.
+     *
+     * Callbacks are guaranteed to be executed in the order they are enqueued, before any timer or stream events.
+     *
      * @param callable $listener
      */
     public function beforeTick(callable $listener);
 
     /**
+     * Schedule a callback to be invoked on a future tick of the event loop.
+     *
+     * Callbacks are guaranteed to be executed in the order they are enqueued.
+     *
      * @param callable $listener
      */
     public function afterTick(callable $listener);

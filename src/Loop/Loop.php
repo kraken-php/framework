@@ -29,16 +29,17 @@ class Loop implements LoopExtendedInterface
     }
 
     /**
-     * @return LoopModelInterface
+     * @override
+     * @inheritDoc
      */
-    public function model()
+    public function getModel()
     {
         return $this->loop;
     }
 
     /**
-     * @param bool $all
-     * @return LoopExtendedInterface
+     * @override
+     * @inheritDoc
      */
     public function flush($all = false)
     {
@@ -48,43 +49,41 @@ class Loop implements LoopExtendedInterface
     }
 
     /**
-     * @param LoopExtendedInterface $loop
-     * @param bool $all
-     * @return LoopExtendedInterface
+     * @override
+     * @inheritDoc
      */
     public function export(LoopExtendedInterface $loop, $all = false)
     {
-        $this->loop->export($loop->model(), $all);
+        $this->loop->export($loop->getModel(), $all);
 
         return $this;
     }
 
     /**
-     * @param LoopExtendedInterface $loop
-     * @param bool $all
-     * @return LoopExtendedInterface
+     * @override
+     * @inheritDoc
      */
     public function import(LoopExtendedInterface $loop, $all = false)
     {
-        $this->loop->import($loop->model(), $all);
+        $this->loop->import($loop->getModel(), $all);
 
         return $this;
     }
 
     /**
-     * @param LoopExtendedInterface $loop
-     * @param bool $all
-     * @return LoopExtendedInterface
+     * @override
+     * @inheritDoc
      */
     public function swap(LoopExtendedInterface $loop, $all = false)
     {
-        $this->loop->swap($loop->model(), $all);
+        $this->loop->swap($loop->getModel(), $all);
 
         return $this;
     }
 
     /**
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function isRunning()
     {
@@ -92,10 +91,8 @@ class Loop implements LoopExtendedInterface
     }
 
     /**
-     * Register a listener to be notified when a stream is ready to read.
-     *
-     * @param stream   $stream   The PHP stream resource to check.
-     * @param callable $listener Invoked when the stream is ready.
+     * @override
+     * @inheritDoc
      */
     public function addReadStream($stream, callable $listener)
     {
@@ -103,10 +100,8 @@ class Loop implements LoopExtendedInterface
     }
 
     /**
-     * Register a listener to be notified when a stream is ready to write.
-     *
-     * @param stream   $stream   The PHP stream resource to check.
-     * @param callable $listener Invoked when the stream is ready.
+     * @override
+     * @inheritDoc
      */
     public function addWriteStream($stream, callable $listener)
     {
@@ -114,9 +109,8 @@ class Loop implements LoopExtendedInterface
     }
 
     /**
-     * Remove the read event listener for the given stream.
-     *
-     * @param stream $stream The PHP stream resource.
+     * @override
+     * @inheritDoc
      */
     public function removeReadStream($stream)
     {
@@ -124,9 +118,8 @@ class Loop implements LoopExtendedInterface
     }
 
     /**
-     * Remove the write event listener for the given stream.
-     *
-     * @param stream $stream The PHP stream resource.
+     * @override
+     * @inheritDoc
      */
     public function removeWriteStream($stream)
     {
@@ -134,9 +127,8 @@ class Loop implements LoopExtendedInterface
     }
 
     /**
-     * Remove all listeners for the given stream.
-     *
-     * @param stream $stream The PHP stream resource.
+     * @override
+     * @inheritDoc
      */
     public function removeStream($stream)
     {
@@ -144,9 +136,8 @@ class Loop implements LoopExtendedInterface
     }
 
     /**
-     * @param numeric $interval
-     * @param callable $callback
-     * @return TimerInterface
+     * @override
+     * @inheritDoc
      */
     public function addTimer($interval, callable $callback)
     {
@@ -154,9 +145,8 @@ class Loop implements LoopExtendedInterface
     }
 
     /**
-     * @param numeric $interval
-     * @param callable $callback
-     * @return TimerInterface
+     * @override
+     * @inheritDoc
      */
     public function addPeriodicTimer($interval, callable $callback)
     {
@@ -164,7 +154,8 @@ class Loop implements LoopExtendedInterface
     }
 
     /**
-     * @param TimerInterface $timer
+     * @override
+     * @inheritDoc
      */
     public function cancelTimer(TimerInterface $timer)
     {
@@ -172,8 +163,8 @@ class Loop implements LoopExtendedInterface
     }
 
     /**
-     * @param TimerInterface $timer
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function isTimerActive(TimerInterface $timer)
     {
@@ -181,7 +172,8 @@ class Loop implements LoopExtendedInterface
     }
 
     /**
-     * @param callable $listener
+     * @override
+     * @inheritDoc
      */
     public function startTick(callable $listener)
     {
@@ -189,7 +181,8 @@ class Loop implements LoopExtendedInterface
     }
 
     /**
-     * @param callable $listener
+     * @override
+     * @inheritDoc
      */
     public function stopTick(callable $listener)
     {
@@ -197,7 +190,8 @@ class Loop implements LoopExtendedInterface
     }
 
     /**
-     * @param callable $listener
+     * @override
+     * @inheritDoc
      */
     public function beforeTick(callable $listener)
     {
@@ -205,7 +199,8 @@ class Loop implements LoopExtendedInterface
     }
 
     /**
-     * @param callable $listener
+     * @override
+     * @inheritDoc
      */
     public function afterTick(callable $listener)
     {
@@ -213,7 +208,8 @@ class Loop implements LoopExtendedInterface
     }
 
     /**
-     *
+     * @override
+     * @inheritDoc
      */
     public function tick()
     {
@@ -221,7 +217,8 @@ class Loop implements LoopExtendedInterface
     }
 
     /**
-     *
+     * @override
+     * @inheritDoc
      */
     public function start()
     {
@@ -229,7 +226,8 @@ class Loop implements LoopExtendedInterface
     }
 
     /**
-     *
+     * @override
+     * @inheritDoc
      */
     public function stop()
     {
@@ -237,7 +235,8 @@ class Loop implements LoopExtendedInterface
     }
 
     /**
-     * @param mixed $flowController
+     * @override
+     * @inheritDoc
      */
     public function setFlowController($flowController)
     {
@@ -245,7 +244,8 @@ class Loop implements LoopExtendedInterface
     }
 
     /**
-     * @return FlowController
+     * @override
+     * @inheritDoc
      */
     public function getFlowController()
     {

@@ -26,6 +26,8 @@ class FlowController
     }
 
     /**
+     * Check if FlowController allows loop to run.
+     *
      * @return bool
      */
     public function isRunning()
@@ -34,7 +36,7 @@ class FlowController
     }
 
     /**
-     *
+     * Set FlowController to allow loop to run.
      */
     public function start()
     {
@@ -42,7 +44,7 @@ class FlowController
     }
 
     /**
-     *
+     * Set FlowController to not allow loop to run.
      */
     public function stop()
     {
