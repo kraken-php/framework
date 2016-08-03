@@ -5,31 +5,22 @@ namespace Kraken\Container;
 trait ContainerAwareTrait
 {
     /**
-     * @var ContainerInterface
+     * @var ContainerInterface|null
      */
-    protected $container;
+    protected $container = null;
 
     /**
-     * @param ContainerInterface $container
-     * @return mixed
+     * @see ContainerAwareInterface::setContainer
      */
-    public function setContainer(ContainerInterface $container)
+    public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
     }
 
     /**
-     * @return ContainerInterface
+     * @see ContainerAwareInterface::getContainer
      */
     public function getContainer()
-    {
-        return $this->container;
-    }
-
-    /**
-     * @return ContainerInterface
-     */
-    public function container()
     {
         return $this->container;
     }

@@ -5,18 +5,17 @@ namespace Kraken\Container;
 interface ContainerAwareInterface
 {
     /**
-     * @param ContainerInterface $container
+     * Set Container of which object is aware of.
+     *
+     * @param ContainerInterface|null $container
      * @return mixed
      */
-    public function setContainer(ContainerInterface $container);
+    public function setContainer(ContainerInterface $container = null);
 
     /**
-     * @return ContainerInterface
+     * Get Container of which object is aware of.
+     *
+     * @return ContainerInterface|null
      */
     public function getContainer();
-
-    /**
-     * @return ContainerInterface
-     */
-    public function container();
 }

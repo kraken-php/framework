@@ -2,27 +2,33 @@
 
 namespace Kraken\Container;
 
-use Kraken\Container\Method\FactoryMethod;
+use Kraken\Container\Model\ContainerModel;
 use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
 use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
-use League\Container\Container as LeagueContainer;
-use League\Container\ContainerInterface as LeagueContainerInterface;
+use League\Container\ReflectionContainer as ContainerReflection;
 use Error;
 use Exception;
+use ReflectionFunction;
+use ReflectionMethod;
 
 class Container implements ContainerInterface
 {
     /**
-     * @var LeagueContainerInterface
+     * @var ContainerModel
      */
     protected $container;
+
+    /**
+     * @var ContainerReflection
+     */
+    protected $reflector;
 
     /**
      *
      */
     public function __construct()
     {
-        $this->container = $this->createContainer();
+        $this->createContainer();
     }
 
     /**
@@ -31,233 +37,286 @@ class Container implements ContainerInterface
     public function __destruct()
     {
         unset($this->container);
+        unset($this->reflector);
     }
 
     /**
-     * @param string $alias
-     * @param mixed[] $definition
-     * @throws IoWriteException
+     * @override
+     * @inheritDoc
      */
-    public function bind($alias, $definition = [])
+    public function exists($aliasOrClass)
+    {
+        return $this->container->has($aliasOrClass);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function wire($aliasOrClass, $defaultParams)
     {
         $object = null;
+        $ex = null;
 
         try
         {
-            $object = $this->container->add($alias);
+            $object = $this->container->add($aliasOrClass);
         }
         catch (Error $ex)
-        {
-            throw new IoWriteException("Binding definition of [$alias] to Container failed.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($object === null || $ex !== null)
         {
-            throw new IoWriteException("Binding definition of [$alias] to Container failed.", $ex);
+            throw new IoWriteException("Binding definition of [$aliasOrClass] to Container failed.", $ex);
         }
 
-        if ($object === null)
-        {
-            throw new IoWriteException("Binding definition of [$alias] to Container failed.");
-        }
-
-        $object->withArguments($definition);
+        $object->withArguments($defaultParams);
     }
 
     /**
-     * @param string $alias
-     * @param object $object
-     * @throws IoWriteException
+     * @override
+     * @inheritDoc
      */
-    public function instance($alias, $object)
+    public function share($aliasOrClass, $defaultParams = [])
     {
+        $object = null;
+        $ex = null;
+
+        if (!is_array($defaultParams))
+        {
+            throw new IoWriteException("Binding singleton of [$aliasOrClass] to Container failed.", $ex);
+        }
+
         try
         {
-            $this->container->add($alias, $object, true);
+            $object = $this->container->add($aliasOrClass, null, true);
         }
         catch (Error $ex)
-        {
-            throw new IoWriteException("Binding instance of [$alias] to Container failed.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($object === null || $ex !== null)
         {
-            throw new IoWriteException("Binding instance of [$alias] to Container failed.", $ex);
+            throw new IoWriteException("Binding singleton of [$aliasOrClass] to Container failed.", $ex);
         }
+
+        $object->withArguments($defaultParams);
     }
 
     /**
-     * @param string $new
-     * @param string $existing
-     * @throws IoWriteException
+     * @override
+     * @inheritDoc
      */
-    public function alias($new, $existing)
+    public function bind($aliasOrClass, $mixed)
     {
+        $isObject = is_object($mixed);
+        $isValid  = class_exists($aliasOrClass) ? ($isObject && $mixed instanceof $aliasOrClass) || (is_callable($mixed)) : true;
+        $ex = null;
+
+        if (!$isValid)
+        {
+            throw new IoWriteException("Binding instance of [$aliasOrClass] to Container failed.");
+        }
+
         try
         {
-//            $this->container->add($new, new ServiceFactoryProxy(function() {
-//                return null;
-//            }, [ $existing ]), true);
+            $this->container->add($aliasOrClass, $mixed, $isObject);
+            return;
+        }
+        catch (Error $ex)
+        {}
+        catch (Exception $ex)
+        {}
 
+        throw new IoWriteException("Binding instance of [$aliasOrClass] to Container failed.", $ex);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function alias($aliasOrClass, $existingAliasOrClass)
+    {
+        if (!is_string($aliasOrClass) || !is_string($existingAliasOrClass))
+        {
+            throw new IoWriteException("Binding alias of [$aliasOrClass] as [$existingAliasOrClass] to Container failed.");
+        }
+
+        try
+        {
             // TODO Kraken-28
-            $this->container->add($new, $this->container->get($existing));
+            $this->container->add($aliasOrClass, $this->container->get($existingAliasOrClass));
+            return;
         }
         catch (Error $ex)
-        {
-            throw new IoWriteException("Binding alias of [$new] as [$existing] to Container failed.", $ex);
-        }
+        {}
         catch (Exception $ex)
-        {
-            throw new IoWriteException("Binding alias of [$new] as [$existing] to Container failed.", $ex);
-        }
+        {}
+
+        throw new IoWriteException("Binding alias of [$aliasOrClass] as [$existingAliasOrClass] to Container failed.", $ex);
     }
 
     /**
-     * @param string $alias
-     * @param mixed[] $definition
-     * @throws IoWriteException
+     * @override
+     * @inheritDoc
      */
-    public function singleton($alias, $definition = [])
+    public function instance($aliasOrClass, $object)
+    {
+        if (!is_object($object) || is_callable($object))
+        {
+            throw new IoWriteException(sprintf(
+                "Binding object of [%s] as [%s] to Container failed.",
+                is_callable($object) ? 'callable' : $object,
+                $aliasOrClass
+            ));
+        }
+
+        $this->bind($aliasOrClass, $object);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function param($aliasOrClass, $param)
+    {
+        if (is_object($param) || is_callable($param) || class_exists($aliasOrClass))
+        {
+            throw new IoWriteException("Binding param of [$aliasOrClass] to Container failed.");
+        }
+
+        try
+        {
+            $this->container->add($aliasOrClass, $param);
+            return;
+        }
+        catch (Error $ex)
+        {}
+        catch (Exception $ex)
+        {}
+
+        throw new IoWriteException("Binding param of [$aliasOrClass] to Container failed.", $ex);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function factory($aliasOrClass, callable $factoryMethod, $args = [])
     {
         $object = null;
+        $ex = null;
 
         try
         {
-            $object = $this->container->singleton($alias);
+            $object = $this->container->add($aliasOrClass, $factoryMethod);
         }
         catch (Error $ex)
-        {
-            throw new IoWriteException("Binding singleton of [$alias] to Container failed.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($object === null || $ex !== null)
         {
-            throw new IoWriteException("Binding singleton of [$alias] to Container failed.", $ex);
+            throw new IoWriteException("Binding factory of [$aliasOrClass] to Container failed.", $ex);
         }
 
-        if ($object === null)
-        {
-            throw new IoWriteException("Binding singleton of [$alias] to Container failed.");
-        }
-
-        $object->withArguments($definition);
+        $object->withArguments($args);
     }
 
     /**
-     * @param string $alias
-     * @param scalar $param
-     * @throws IoWriteException
+     * @override
+     * @inheritDoc
      */
-    public function param($alias, $param)
+    public function make($aliasOrClass, $args = [])
     {
         try
         {
-            $this->container->add($alias, $param);
+            return $this->container->get($aliasOrClass, $args);
         }
         catch (Error $ex)
-        {
-            throw new IoWriteException("Binding param of [$alias] to Container failed.");
-        }
+        {}
         catch (Exception $ex)
-        {
-            throw new IoWriteException("Binding param of [$alias] to Container failed.");
-        }
+        {}
+
+        throw new IoReadException("Resolving object of [$aliasOrClass] from Container failed.", $ex);
     }
 
     /**
-     * @param string $alias
-     * @param callable $factoryMethod
-     * @param mixed[] $parameters
-     * @throws IoWriteException
+     * @override
+     * @inheritDoc
      */
-    public function factory($alias, callable $factoryMethod, $parameters = [])
+    public function remove($aliasOrClass)
     {
-        try
-        {
-            $this->container->add($alias, new FactoryMethod($factoryMethod, $parameters), true);
-        }
-        catch (Error $ex)
-        {
-            throw new IoWriteException("Binding factory of [$alias] to Container failed.", $ex);
-        }
-        catch (Exception $ex)
-        {
-            throw new IoWriteException("Binding factory of [$alias] to Container failed.", $ex);
-        }
+        $this->container->remove($aliasOrClass);
     }
 
     /**
-     * @param string $alias
-     * @param mixed[] $parameters
-     * @return mixed
-     * @throws IoReadException
+     * @override
+     * @inheritDoc
      */
-    public function make($alias, $parameters = [])
+    public function call(callable $callable, $args = [])
     {
         try
         {
-            $object = $this->container->get($alias, $parameters);
-
-            if ($object instanceof FactoryMethod === true)
+            if (is_string($callable) && strpos($callable, '::') !== false)
             {
-                $parameters = (count($parameters) === 0) ? $object->getArgs() : $parameters;
-
-                return $this->container->call($object->getCallback(), $parameters);
+                $callable = explode('::', $callable);
             }
 
-            return $object;
+            if (is_array($callable))
+            {
+                $reflection = new ReflectionMethod($callable[0], $callable[1]);
+                $isArray = true;
+
+                if ($reflection->isStatic())
+                {
+                    $callable[0] = null;
+                }
+            }
+            else
+            {
+                $reflection = new ReflectionFunction($callable);
+                $isArray = false;
+            }
+
+            $params = $reflection->getParameters();
+            $tmp    = $args;
+            $args   = [];
+
+            foreach ($tmp as $key=>$arg)
+            {
+                $args[$params[$key]->name] = $arg;
+            }
+
+            if ($isArray)
+            {
+                return $reflection->invokeArgs($callable[0], $this->reflector->reflectArguments($reflection, $args));
+            }
+            else
+            {
+                return $reflection->invokeArgs($this->reflector->reflectArguments($reflection, $args));
+            }
         }
         catch (Error $ex)
-        {
-            throw new IoReadException("Resolving object of [$alias] from Container failed.", $ex);
-        }
+        {}
         catch (Exception $ex)
-        {
-            throw new IoReadException("Resolving object of [$alias] from Container failed.", $ex);
-        }
+        {}
+
+        throw new IoReadException("Calling function with Container failed.", $ex);
     }
 
     /**
-     * @param string $alias
-     * @return bool
-     */
-    public function has($alias)
-    {
-        return $this->container->isRegistered($alias);
-    }
-
-    /**
-     * @param string $alias
-     */
-    public function remove($alias)
-    {
-        unset($this->container[$alias]);
-    }
-
-    /**
-     * @param callable $callable
-     * @param mixed[] $parameters
-     * @return mixed
-     * @throws IoReadException
-     */
-    public function call(callable $callable, $parameters = [])
-    {
-        try
-        {
-            return $this->container->call($callable, $parameters);
-        }
-        catch (Error $ex)
-        {
-            throw new IoReadException("Calling function with Container failed.", $ex);
-        }
-        catch (Exception $ex)
-        {
-            throw new IoReadException("Calling function with Container failed.", $ex);
-        }
-    }
-
-    /**
-     * @return LeagueContainerInterface
+     * Prepare Container internals.
      */
     protected function createContainer()
     {
-        return new LeagueContainer();
+        $this->container = new ContainerModel();
+        $this->reflector = new ContainerReflection();
+
+        $this->container->delegate($this->reflector);
     }
 }
