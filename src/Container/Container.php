@@ -2,7 +2,9 @@
 
 namespace Kraken\Container;
 
+use Closure;
 use Kraken\Container\Model\ContainerModel;
+use Kraken\Container\Object\InvokableObject;
 use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
 use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
 use League\Container\ReflectionContainer as ContainerReflection;
@@ -113,7 +115,8 @@ class Container implements ContainerInterface
     public function bind($aliasOrClass, $mixed)
     {
         $isObject = is_object($mixed);
-        $isValid  = class_exists($aliasOrClass) ? ($isObject && $mixed instanceof $aliasOrClass) || (is_callable($mixed)) : true;
+        $isCallable = is_callable($mixed);
+        $isValid  = class_exists($aliasOrClass) ? ($isObject && $mixed instanceof $aliasOrClass) || ($isCallable) : true;
         $ex = null;
 
         if (!$isValid)
@@ -123,6 +126,11 @@ class Container implements ContainerInterface
 
         try
         {
+            if ($isObject && $isCallable && ! $mixed instanceof Closure)
+            {
+                $mixed = new InvokableObject($mixed);
+            }
+
             $this->container->add($aliasOrClass, $mixed, $isObject);
             return;
         }
@@ -165,16 +173,26 @@ class Container implements ContainerInterface
      */
     public function instance($aliasOrClass, $object)
     {
-        if (!is_object($object) || is_callable($object))
+        if (is_object($object) && ! $object instanceof Closure)
         {
-            throw new IoWriteException(sprintf(
-                "Binding object of [%s] as [%s] to Container failed.",
-                is_callable($object) ? 'callable' : $object,
-                $aliasOrClass
-            ));
+            $this->bind($aliasOrClass, $object);
+            return;
         }
 
-        $this->bind($aliasOrClass, $object);
+        $name = is_callable($object) ? 'callable' : (string) $object;
+
+        throw new IoWriteException("Binding object of [$name] as [$aliasOrClass] to Container failed.");
+
+//        if (!is_object($object) || is_callable($object))
+//        {
+//            throw new IoWriteException(sprintf(
+//                "Binding object of [%s] as [%s] to Container failed.",
+//                is_callable($object) ? 'callable' : $object,
+//                $aliasOrClass
+//            ));
+//        }
+//
+//        $this->bind($aliasOrClass, $object);
     }
 
     /**
@@ -235,7 +253,14 @@ class Container implements ContainerInterface
     {
         try
         {
-            return $this->container->get($aliasOrClass, $args);
+            $made = $this->container->get($aliasOrClass, $args);
+
+            if ($made instanceof InvokableObject)
+            {
+                $made = $made->getObject();
+            }
+
+            return $made;
         }
         catch (Error $ex)
         {}

@@ -28,7 +28,7 @@ interface ContainerWriterInterface
      * Bind param, object, class or factoryMethod as definition for $aliasOrClass.
      *
      * @param string $aliasOrClass
-     * @param object $mixed
+     * @param mixed $mixed
      * @throws IoWriteException
      */
     public function bind($aliasOrClass, $mixed);

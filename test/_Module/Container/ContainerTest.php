@@ -7,6 +7,7 @@ use Kraken\_Unit\Container\_Asset\Bax;
 use Kraken\_Unit\Container\_Asset\Baz;
 use Kraken\_Unit\Container\_Asset\BazInterface;
 use Kraken\_Unit\Container\_Asset\Foo;
+use Kraken\_Unit\Container\_Asset\Invokable;
 use Kraken\Container\Container;
 use Kraken\Test\TModule;
 use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
@@ -278,6 +279,20 @@ class ContainerTest extends TModule
     /**
      *
      */
+    public function testApiBind_BindsInvokableObjectAsObjectNotCallable()
+    {
+        $c = $this->createContainer();
+
+        $c->bind(Invokable::class, $invokable = new Invokable);
+
+        $this->assertInstanceOf(Invokable::class, $make = $c->make(Invokable::class));
+        $this->assertSame('undefined', $make->name);
+        $this->assertSame([], $make->args);
+    }
+
+    /**
+     *
+     */
     public function testApiAlias_CreatesAliasToOtherDefinition()
     {
         $c = $this->createContainer();
@@ -305,7 +320,7 @@ class ContainerTest extends TModule
      */
     public function testApiAlias_RespectsInstantiationRestrictionsOfOtherDefinition()
     {
-        $this->markTestSkipped('Currently alias() method does not support this behaviour, but it should, check: Kraken-28');
+        $this->markTestSkipped('Currently alias() method does not support this behaviour, but it should, check task KRF-28');
     }
 
     /**
@@ -363,7 +378,7 @@ class ContainerTest extends TModule
     /**
      *
      */
-    public function testApiBind_ThowsException_WhenTriedToBindClass()
+    public function testApiInstance_ThowsException_WhenTriedToBindClass()
     {
         $c = $this->createContainer();
 
@@ -374,7 +389,7 @@ class ContainerTest extends TModule
     /**
      *
      */
-    public function testApiBind_ThrowsException_WhenTriedToBindPrimitive()
+    public function testApiInstance_ThrowsException_WhenTriedToBindPrimitive()
     {
         $c = $this->createContainer();
         $alias = 'alias';
@@ -387,12 +402,26 @@ class ContainerTest extends TModule
     /**
      *
      */
-    public function testApiBind_ThrowsException_WhenTriedToBindFactoryMethod()
+    public function testApiInstance_ThrowsException_WhenTriedToBindFactoryMethod()
     {
         $c = $this->createContainer();
 
         $this->setExpectedException(IoWriteException::class);
         $c->instance(Baz::class, function() {});
+    }
+
+    /**
+     *
+     */
+    public function testApiInstance_BindsInvokableObjectAsObjectNotCallable()
+    {
+        $c = $this->createContainer();
+
+        $c->instance(Invokable::class, $invokable = new Invokable);
+
+        $this->assertInstanceOf(Invokable::class, $make = $c->make(Invokable::class));
+        $this->assertSame('undefined', $make->name);
+        $this->assertSame([], $make->args);
     }
 
     /**
@@ -583,6 +612,27 @@ class ContainerTest extends TModule
     /**
      *
      */
+    public function testApiFactory_BindsInvokableObjectAsCallable()
+    {
+        $this->markTestSkipped('Currently factory() method does not support this behaviour, but it should, check task KRF-269');
+
+        $c = $this->createContainer();
+        $alias = 'alias';
+
+        $name = 'name';
+        $args = [ 'arg1', 'arg2' ];
+
+        $c->factory($alias, $invokable = new Invokable);
+        $make = $c->make($alias, [ $name, $args ]);
+
+        $this->assertInstanceOf(Baz::class, $make);
+        $this->assertSame($name, $invokable->name);
+        $this->assertSame($args, $invokable->args);
+    }
+
+    /**
+     *
+     */
     public function testApiMake_GetsParam()
     {
         $c = $this->createContainer();
@@ -679,6 +729,16 @@ class ContainerTest extends TModule
 
         $this->assertSame($baz, $make->baz);
         $this->assertSame($baz, $make->bar->baz);
+    }
+
+    /**
+     *
+     */
+    public function testApiMake_TreatsInvokableAsObjectNotCallable()
+    {
+        $c = $this->createContainer();
+
+        $this->assertInstanceOf(Invokable::class, $c->make(Invokable::class));
     }
 
     /**
