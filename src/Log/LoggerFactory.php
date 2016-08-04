@@ -2,45 +2,94 @@
 
 namespace Kraken\Log;
 
-use Monolog\Formatter\FormatterInterface;
-use ReflectionClass;
+use Kraken\Log\Formatter\Formatter;
+use Kraken\Log\Formatter\FormatterInterface;
+use Kraken\Log\Handler\Handler;
 use Kraken\Log\Handler\HandlerInterface;
+use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
+use ReflectionClass;
 
 class LoggerFactory
 {
     /**
-     * @param string $name
+     * Create one of Monolog handlers by specifying it name or full class.
+     *
+     * @param string $classOrName
      * @param mixed[] $args
      * @return HandlerInterface
+     * @throws InvalidArgumentException
      */
-    public function createHandler($name, $args = [])
+    public function createHandler($classOrName, $args = [])
     {
-        $class = '\\Monolog\\Handler\\' . $name;
+        $classes = [
+            $classOrName,
+            '\\Monolog\\Handler\\' . $classOrName
+        ];
 
-        return (new ReflectionClass($class))->newInstanceArgs($args);
+        foreach ($classes as $class)
+        {
+            if (class_exists($class))
+            {
+                $object = (new ReflectionClass($class))->newInstanceArgs($args);
+
+                return new Handler($object);
+            }
+        }
+
+        throw new InvalidArgumentException("Monolog handler [$classOrName] does not exist.");
     }
 
     /**
-     * @param string $name
+     * Create one of Monolog formatters by specyfing it name of full class.
+     *
+     * @param string $classOrName
      * @param mixed[] $args
      * @return FormatterInterface
+     * @throws InvalidArgumentException
      */
-    public function createFormatter($name, $args = [])
+    public function createFormatter($classOrName, $args = [])
     {
-        $class = '\\Monolog\\Formatter\\' . $name;
+        $classes = [
+            $classOrName,
+            '\\Monolog\\Formatter\\' . $classOrName
+        ];
 
-        return (new ReflectionClass($class))->newInstanceArgs($args);
+        foreach ($classes as $class)
+        {
+            if (class_exists($class))
+            {
+                $object = (new ReflectionClass($class))->newInstanceArgs($args);
+
+                return new Formatter($object);
+            }
+        }
+
+        throw new InvalidArgumentException("Monolog formatter [$classOrName] does not exist.");
     }
 
     /**
-     * @param string $name
+     * Create one of Monolog processors by specyfing it name of full class.
+     *
+     * @param string $classOrName
      * @param mixed[] $args
      * @return callable
+     * @throws InvalidArgumentException
      */
-    public function createProcessor($name, $args = [])
+    public function createProcessor($classOrName, $args = [])
     {
-        $class = '\\Monolog\\Processor\\' . $name;
+        $classes = [
+            $classOrName,
+            '\\Monolog\\Processor\\' . $classOrName
+        ];
 
-        return (new ReflectionClass($class))->newInstanceArgs($args);
+        foreach ($classes as $class)
+        {
+            if (class_exists($class))
+            {
+                return (new ReflectionClass($class))->newInstanceArgs($args);
+            }
+        }
+
+        throw new InvalidArgumentException("Monolog processor [$classOrName] does not exist.");
     }
 }

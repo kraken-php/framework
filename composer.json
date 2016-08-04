@@ -17,7 +17,7 @@
         "symfony/http-foundation": "3.0.*",
         "league/flysystem": "1.0.*",
         "league/container": "2.2.*",
-        "monolog/monolog": "1.13.*",
+        "monolog/monolog": "1.21.*",
         "guzzlehttp/guzzle": "6.1.*",
         "cboden/ratchet": "0.3.*"
     },

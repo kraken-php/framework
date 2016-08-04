@@ -37,13 +37,13 @@ class LogProvider extends ServiceProvider implements ServiceProviderInterface
 
         $factory = new LoggerFactory();
         $logger  = new Logger(
-            'kraken',
+            'Kraken',
             [
-                $this->createHandler($core, $config, 'debug', Logger::DEBUG),
-                $this->createHandler($core, $config, 'info', Logger::INFO),
-                $this->createHandler($core, $config, 'notice', Logger::NOTICE),
+                $this->createHandler($core, $config, 'error',   Logger::EMERGENCY),
                 $this->createHandler($core, $config, 'warning', Logger::WARNING),
-                $this->createHandler($core, $config, 'error', Logger::EMERGENCY)
+                $this->createHandler($core, $config, 'notice',  Logger::NOTICE),
+                $this->createHandler($core, $config, 'info',    Logger::INFO),
+                $this->createHandler($core, $config, 'debug',   Logger::DEBUG),
             ]
         );
 

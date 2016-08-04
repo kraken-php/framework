@@ -1,8 +1,13 @@
 <?php
 
-namespace Kraken\Log\Handler;
+namespace Kraken\Log\Formatter;
 
 use Monolog\Formatter\FormatterInterface as MonologFormatterInterface;
 
-interface HandlerInterface extends MonologFormatterInterface
-{}
+interface FormatterInterface extends MonologFormatterInterface
+{
+    /**
+     * @return MonologFormatterInterface
+     */
+    public function getModel();
+}

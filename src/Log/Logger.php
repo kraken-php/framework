@@ -2,15 +2,18 @@
 
 namespace Kraken\Log;
 
+use Kraken\Log\Handler\HandlerInterface;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
-use Kraken\Log\Handler\HandlerInterface;
+use Kraken\Util\Enum\EnumTrait;
 use Monolog\Logger as Monolog;
 use Error;
 use Exception;
 
 class Logger implements LoggerInterface
 {
+    use EnumTrait;
+
     /**
      * @var int
      */
@@ -57,22 +60,16 @@ class Logger implements LoggerInterface
     protected $logger;
 
     /**
-     * @var string
-     */
-    protected $loggerClass;
-
-    /**
      * @param string $name
-     * @param HandlerInterface[] $loggersList
-     * @param callable[] $processorsList
+     * @param HandlerInterface[] $loggers
+     * @param callable[] $processors
      * @throws InstantiationException
      */
-    public function __construct($name, $loggersList = [], $processorsList = [])
+    public function __construct($name, $loggers = [], $processors = [])
     {
         try
         {
-            $this->logger = new LoggerWrapper($name, $loggersList, $processorsList);
-            $this->loggerClass = get_class($this->logger);
+            $this->logger = $this->createWrapper($name, $loggers, $processors);
         }
         catch (Error $ex)
         {
@@ -90,11 +87,11 @@ class Logger implements LoggerInterface
     public function __destruct()
     {
         unset($this->logger);
-        unset($this->loggerClass);
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function getName()
     {
@@ -102,9 +99,8 @@ class Logger implements LoggerInterface
     }
 
     /**
-     * Pushes a handler on to the stack.
-     *
-     * @param HandlerInterface $handler
+     * @override
+     * @inheritDoc
      */
     public function pushHandler(HandlerInterface $handler)
     {
@@ -112,9 +108,8 @@ class Logger implements LoggerInterface
     }
 
     /**
-     * Pops a handler from the stack
-     *
-     * @return HandlerInterface|null
+     * @override
+     * @inheritDoc
      */
     public function popHandler()
     {
@@ -123,17 +118,16 @@ class Logger implements LoggerInterface
             return $this->logger->popHandler();
         }
         catch (Error $ex)
-        {
-            return null;
-        }
+        {}
         catch (Exception $ex)
-        {
-            return null;
-        }
+        {}
+
+        return null;
     }
 
     /**
-     * @return HandlerInterface[]
+     * @override
+     * @inheritDoc
      */
     public function getHandlers()
     {
@@ -141,31 +135,27 @@ class Logger implements LoggerInterface
     }
 
     /**
-     * Adds a processor on to the stack.
-     *
-     * @param callable $callback
-     * @throws IoWriteException
+     * @override
+     * @inheritDoc
      */
     public function pushProcessor(callable $callback)
     {
         try
         {
             $this->logger->pushProcessor($callback);
+            return;
         }
         catch (Error $ex)
-        {
-            throw new IoWriteException("Processor could not be pushed.", $ex);
-        }
+        {}
         catch (Exception $ex)
-        {
-            throw new IoWriteException("Processor could not be pushed.", $ex);
-        }
+        {}
+
+        throw new IoWriteException("Processor could not be pushed.", $ex);
     }
 
     /**
-     * Removes the processor on top of the stack and returns it.
-     *
-     * @return callable|null
+     * @override
+     * @inheritDoc
      */
     public function popProcessor()
     {
@@ -174,17 +164,16 @@ class Logger implements LoggerInterface
             return $this->logger->popProcessor();
         }
         catch (Error $ex)
-        {
-            return null;
-        }
+        {}
         catch (Exception $ex)
-        {
-            return null;
-        }
+        {}
+
+        return null;
     }
 
     /**
-     * @return callable[]
+     * @override
+     * @inheritDoc
      */
     public function getProcessors()
     {
@@ -192,67 +181,37 @@ class Logger implements LoggerInterface
     }
 
     /**
-     * Adds a log record.
-     *
-     * @param  integer $level The logging level
-     * @param  string $message The log message
-     * @param  array $context The log context
-     * @return bool
-     * @throws IoWriteException
-     */
-    public function addRecord($level, $message, array $context = array())
-    {
-        try
-        {
-            return $this->logger->addRecord($level, $message, $context);
-        }
-        catch (Error $ex)
-        {
-            throw new IoWriteException("Record could not be added.", $ex);
-        }
-        catch (Exception $ex)
-        {
-            throw new IoWriteException("Record could not be added.", $ex);
-        }
-    }
-
-    /**
-     * Gets all supported logging levels.
-     *
-     * @return array Assoc array with human-readable level names => level codes.
+     * @override
+     * @inheritDoc
      */
     public function getLevels()
     {
-        return ${$this->loggerClass}::getLevels();
+        $logger = $this->logger;
+        return $logger::getLevels();
     }
 
     /**
-     * Gets the name of the logging level.
-     *
-     * @param  integer $level
-     * @return string|null
+     * @override
+     * @inheritDoc
      */
     public function getLevelName($level)
     {
         try
         {
-            return ${$this->loggerClass}::getLevelName($level);
+            $logger = $this->logger;
+            return $logger::getLevelName($level);
         }
         catch (Error $ex)
-        {
-            return null;
-        }
+        {}
         catch (Exception $ex)
-        {
-            return null;
-        }
+        {}
+
+        return null;
     }
 
     /**
-     * Checks whether the Logger has a handler that listens on the given level
-     *
-     * @param  integer $level
-     * @return Boolean
+     * @override
+     * @inheritDoc
      */
     public function isHandling($level)
     {
@@ -260,14 +219,14 @@ class Logger implements LoggerInterface
     }
 
     /**
-     * Adds a log record at an arbitrary level.
+     * Add a log record at an arbitrary level.
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @param  mixed $level The log level
-     * @param  string $message The log message
-     * @param  array $context The log context
-     * @return bool Whether the record has been processed
+     * @param int|string $level
+     * @param string $message
+     * @param string[] $context
+     * @return bool
      * @throws IoWriteException
      */
     public function log($level, $message, array $context = array())
@@ -277,205 +236,21 @@ class Logger implements LoggerInterface
             return $this->logger->log($level, $message, $context);
         }
         catch (Error $ex)
-        {
-            throw new IoWriteException("Record with undefined level could not be logged.", $ex);
-        }
+        {}
         catch (Exception $ex)
-        {
-            throw new IoWriteException("Record with undefined level could not be logged.", $ex);
-        }
+        {}
+
+        throw new IoWriteException("Record with undefined level could not be logged.", $ex);
     }
 
     /**
-     * Adds a log record at the DEBUG level.
+     * Add a log record at the EMERGENCY level.
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @param  string $message The log message
-     * @param  array $context The log context
-     * @return bool Whether the record has been processed
-     * @throws IoWriteException
-     */
-    public function debug($message, array $context = array())
-    {
-        try
-        {
-            return $this->logger->debug($message, $context);
-        }
-        catch (Error $ex)
-        {
-            throw new IoWriteException("Record with debug level could not be logged.", $ex);
-        }
-        catch (Exception $ex)
-        {
-            throw new IoWriteException("Record with debug level could not be logged.", $ex);
-        }
-    }
-
-    /**
-     * Adds a log record at the INFO level.
-     *
-     * This method allows for compatibility with common interfaces.
-     *
-     * @param  string $message The log message
-     * @param  array $context The log context
-     * @return bool Whether the record has been processed
-     * @throws IoWriteException
-     */
-    public function info($message, array $context = array())
-    {
-        try
-        {
-            return $this->logger->info($message, $context);
-        }
-        catch (Error $ex)
-        {
-            throw new IoWriteException("Record with info level could not be logged.", $ex);
-        }
-        catch (Exception $ex)
-        {
-            throw new IoWriteException("Record with info level could not be logged.", $ex);
-        }
-    }
-
-    /**
-     * Adds a log record at the NOTICE level.
-     *
-     * This method allows for compatibility with common interfaces.
-     *
-     * @param  string $message The log message
-     * @param  array $context The log context
-     * @return bool Whether the record has been processed
-     * @throws IoWriteException
-     */
-    public function notice($message, array $context = array())
-    {
-        try
-        {
-            return $this->logger->notice($message, $context);
-        }
-        catch (Error $ex)
-        {
-            throw new IoWriteException("Record with notice level could not be logged.", $ex);
-        }
-        catch (Exception $ex)
-        {
-            throw new IoWriteException("Record with notice level could not be logged.", $ex);
-        }
-    }
-
-    /**
-     * Adds a log record at the WARNING level.
-     *
-     * This method allows for compatibility with common interfaces.
-     *
-     * @param  string $message The log message
-     * @param  array $context The log context
-     * @return bool Whether the record has been processed
-     * @throws IoWriteException
-     */
-    public function warning($message, array $context = array())
-    {
-        try
-        {
-            return $this->logger->warning($message, $context);
-        }
-        catch (Error $ex)
-        {
-            throw new IoWriteException("Record with warning level could not be logged.", $ex);
-        }
-        catch (Exception $ex)
-        {
-            throw new IoWriteException("Record with warning level could not be logged.", $ex);
-        }
-    }
-
-    /**
-     * Adds a log record at the ERROR level.
-     *
-     * This method allows for compatibility with common interfaces.
-     *
-     * @param  string $message The log message
-     * @param  array $context The log context
-     * @return bool Whether the record has been processed
-     * @throws IoWriteException
-     */
-    public function error($message, array $context = array())
-    {
-        try
-        {
-            return $this->logger->error($message, $context);
-        }
-        catch (Error $ex)
-        {
-            throw new IoWriteException("Record with debug level could not be logged.", $ex);
-        }
-        catch (Exception $ex)
-        {
-            throw new IoWriteException("Record with debug level could not be logged.", $ex);
-        }
-    }
-
-    /**
-     * Adds a log record at the CRITICAL level.
-     *
-     * This method allows for compatibility with common interfaces.
-     *
-     * @param  string $message The log message
-     * @param  array $context The log context
-     * @return bool Whether the record has been processed
-     * @throws IoWriteException
-     */
-    public function critical($message, array $context = array())
-    {
-        try
-        {
-            return $this->logger->critical($message, $context);
-        }
-        catch (Error $ex)
-        {
-            throw new IoWriteException("Record with debug level could not be logged.", $ex);
-        }
-        catch (Exception $ex)
-        {
-            throw new IoWriteException("Record with debug level could not be logged.", $ex);
-        }
-    }
-
-    /**
-     * Adds a log record at the ALERT level.
-     *
-     * This method allows for compatibility with common interfaces.
-     *
-     * @param  string $message The log message
-     * @param  array $context The log context
-     * @return bool Whether the record has been processed
-     * @throws IoWriteException
-     */
-    public function alert($message, array $context = array())
-    {
-        try
-        {
-            return $this->logger->alert($message, $context);
-        }
-        catch (Error $ex)
-        {
-            throw new IoWriteException("Record with debug level could not be logged.", $ex);
-        }
-        catch (Exception $ex)
-        {
-            throw new IoWriteException("Record with debug level could not be logged.", $ex);
-        }
-    }
-
-    /**
-     * Adds a log record at the EMERGENCY level.
-     *
-     * This method allows for compatibility with common interfaces.
-     *
-     * @param  string $message The log message
-     * @param  array $context The log context
-     * @return bool Whether the record has been processed
+     * @param string $message
+     * @param string[] $context
+     * @return bool
      * @throws IoWriteException
      */
     public function emergency($message, array $context = array())
@@ -485,12 +260,189 @@ class Logger implements LoggerInterface
             return $this->logger->emergency($message, $context);
         }
         catch (Error $ex)
-        {
-            throw new IoWriteException("Record with debug level could not be logged.", $ex);
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        throw new IoWriteException("Record with debug level could not be logged.", $ex);
+    }
+
+    /**
+     * Add a log record at the ALERT level.
+     *
+     * This method allows for compatibility with common interfaces.
+     *
+     * @param string $message
+     * @param string[] $context
+     * @return bool
+     * @throws IoWriteException
+     */
+    public function alert($message, array $context = array())
+    {
+        try
         {
-            throw new IoWriteException("Record with debug level could not be logged.", $ex);
+            return $this->logger->alert($message, $context);
         }
+        catch (Error $ex)
+        {}
+        catch (Exception $ex)
+        {}
+
+        throw new IoWriteException("Record with debug level could not be logged.", $ex);
+    }
+
+    /**
+     * Add a log record at the CRITICAL level.
+     *
+     * This method allows for compatibility with common interfaces.
+     *
+     * @param string $message
+     * @param string[] $context
+     * @return bool
+     * @throws IoWriteException
+     */
+    public function critical($message, array $context = array())
+    {
+        try
+        {
+            return $this->logger->critical($message, $context);
+        }
+        catch (Error $ex)
+        {}
+        catch (Exception $ex)
+        {}
+
+        throw new IoWriteException("Record with debug level could not be logged.", $ex);
+    }
+
+    /**
+     * Add a log record at the ERROR level.
+     *
+     * This method allows for compatibility with common interfaces.
+     *
+     * @param string $message
+     * @param string[] $context
+     * @return bool
+     * @throws IoWriteException
+     */
+    public function error($message, array $context = array())
+    {
+        try
+        {
+            return $this->logger->error($message, $context);
+        }
+        catch (Error $ex)
+        {}
+        catch (Exception $ex)
+        {}
+
+        throw new IoWriteException("Record with debug level could not be logged.", $ex);
+    }
+
+    /**
+     * Add a log record at the WARNING level.
+     *
+     * This method allows for compatibility with common interfaces.
+     *
+     * @param string $message
+     * @param string[] $context
+     * @return bool
+     * @throws IoWriteException
+     */
+    public function warning($message, array $context = array())
+    {
+        try
+        {
+            return $this->logger->warning($message, $context);
+        }
+        catch (Error $ex)
+        {}
+        catch (Exception $ex)
+        {}
+
+        throw new IoWriteException("Record with warning level could not be logged.", $ex);
+    }
+
+    /**
+     * Add a log record at the INFO level.
+     *
+     * This method allows for compatibility with common interfaces.
+     *
+     * @param string $message
+     * @param string[] $context
+     * @return bool
+     * @throws IoWriteException
+     */
+    public function info($message, array $context = array())
+    {
+        try
+        {
+            return $this->logger->info($message, $context);
+        }
+        catch (Error $ex)
+        {}
+        catch (Exception $ex)
+        {}
+
+        throw new IoWriteException("Record with info level could not be logged.", $ex);
+    }
+
+    /**
+     * Add a log record at the NOTICE level.
+     *
+     * This method allows for compatibility with common interfaces.
+     *
+     * @param string $message
+     * @param string[] $context
+     * @return bool
+     * @throws IoWriteException
+     */
+    public function notice($message, array $context = array())
+    {
+        try
+        {
+            return $this->logger->notice($message, $context);
+        }
+        catch (Error $ex)
+        {}
+        catch (Exception $ex)
+        {}
+
+        throw new IoWriteException("Record with notice level could not be logged.", $ex);
+    }
+
+    /**
+     * Add a log record at the DEBUG level.
+     *
+     * This method allows for compatibility with common interfaces.
+     *
+     * @param string $message
+     * @param string[] $context
+     * @return bool
+     * @throws IoWriteException
+     */
+    public function debug($message, array $context = array())
+    {
+        try
+        {
+            return $this->logger->debug($message, $context);
+        }
+        catch (Error $ex)
+        {}
+        catch (Exception $ex)
+        {}
+
+        throw new IoWriteException("Record with debug level could not be logged.", $ex);
+    }
+
+    /**
+     * @param string $name
+     * @param HandlerInterface[] $loggers
+     * @param callable[] $processors
+     * @return LoggerWrapper
+     */
+    protected function createWrapper($name, $loggers, $processors)
+    {
+        return new LoggerWrapper($name, $loggers, $processors);
     }
 }
