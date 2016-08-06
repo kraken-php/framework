@@ -2,11 +2,11 @@
 
 namespace Kraken\_Unit\Channel\Request;
 
-use Exception;
 use Kraken\_Unit\Channel\_Mock\Request\RequestHelperObject;
 use Kraken\Channel\Request\Request;
 use Kraken\Support\TimeSupport;
 use Kraken\Test\TUnit;
+use Exception;
 
 class RequestHelperTraitTest extends TUnit
 {

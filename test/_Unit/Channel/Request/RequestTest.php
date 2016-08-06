@@ -2,10 +2,10 @@
 
 namespace Kraken\_Unit\Channel\Request;
 
-use Exception;
 use Kraken\Channel\Request\Request;
 use Kraken\Test\TUnit;
-use stdClass;
+use Exception;
+use StdClass;
 
 class RequestTest extends TUnit
 {
