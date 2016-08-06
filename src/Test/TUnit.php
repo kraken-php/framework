@@ -138,7 +138,23 @@ class TUnit extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Set a protected property on a given object via reflection.
+     * Get protected property from given object via reflection.
+     *
+     * @param object $object
+     * @param string $property
+     * @return mixed
+     */
+    public function getProtectedProperty($object, $property)
+    {
+        $reflection = new ReflectionClass($object);
+        $reflection_property = $reflection->getProperty($property);
+        $reflection_property->setAccessible(true);
+
+        return $reflection_property->getValue($object);
+    }
+
+    /**
+     * Set protected property on a given object via reflection.
      *
      * @param object $object
      * @param string $property
