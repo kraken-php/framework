@@ -3,14 +3,14 @@
 namespace Kraken\Channel\Extra;
 
 use Kraken\Channel\ChannelProtocolInterface;
+use Kraken\Channel\Channel;
+use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Promise\Promise;
+use Kraken\Promise\PromiseInterface;
+use Kraken\Support\TimeSupport;
 use Kraken\Throwable\LazyException;
 use Kraken\Throwable\Exception\Runtime\Execution\TimeoutException;
 use Kraken\Throwable\Exception\System\TaskIncompleteException;
-use Kraken\Promise\Promise;
-use Kraken\Promise\PromiseInterface;
-use Kraken\Channel\Channel;
-use Kraken\Channel\ChannelBaseInterface;
-use Kraken\Support\TimeSupport;
 use Error;
 use Exception;
 
@@ -77,6 +77,8 @@ class Request
     }
 
     /**
+     * Send the prepared request.
+     *
      * @return PromiseInterface
      */
     public function __invoke()
@@ -85,6 +87,8 @@ class Request
     }
 
     /**
+     * Send the prepared request.
+     *
      * @return PromiseInterface
      */
     public function call()
@@ -93,6 +97,8 @@ class Request
     }
 
     /**
+     * Send the request using passed Promise.
+     *
      * @param PromiseInterface $promise
      * @return PromiseInterface
      */
@@ -124,8 +130,26 @@ class Request
 
     /**
      * @param PromiseInterface $promise
+     * @param Error|Exception|LazyException $ex
      */
-    protected function retry(PromiseInterface $promise)
+    protected function retryOrReset(PromiseInterface $promise, $ex)
+    {
+        if ($ex instanceof TaskIncompleteException)
+        {
+            $this->counter = 1;
+            $this->channel->getLoop()->afterTick(function() use($promise) {
+                $this->send($promise);
+            });
+            return;
+        }
+
+        $this->retry($promise);
+    }
+
+    /**
+     * @param PromiseInterface $promise
+     */
+    private function retry(PromiseInterface $promise)
     {
         if ($this->counter >= $this->params['retriesLimit'])
         {
@@ -147,23 +171,5 @@ class Request
                 $this->send($promise);
             });
         }
-    }
-
-    /**
-     * @param PromiseInterface $promise
-     * @param Error|Exception|LazyException $ex
-     */
-    protected function retryOrReset(PromiseInterface $promise, $ex)
-    {
-        if ($ex instanceof TaskIncompleteException)
-        {
-            $this->counter = 1;
-            $this->channel->getLoop()->afterTick(function() use($promise) {
-                $this->send($promise);
-            });
-            return;
-        }
-
-        $this->retry($promise);
     }
 }

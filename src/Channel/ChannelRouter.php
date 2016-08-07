@@ -7,6 +7,11 @@ class ChannelRouter
     /**
      * @var int
      */
+    const MODE_DEFAULT = 1;
+
+    /**
+     * @var int
+     */
     const MODE_ROUTER = 1;
 
     /**

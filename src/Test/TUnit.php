@@ -27,6 +27,14 @@ class TUnit extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @return \PHPUnit_Framework_MockObject_Matcher_InvokedCount
+     */
+    public function twice()
+    {
+        return $this->exactly(2);
+    }
+
+    /**
      * Creates a callback that must be called $amount times or the test will fail.
      *
      * @param $amount

@@ -20,7 +20,7 @@ class ChannelFactory extends Factory implements ChannelFactoryInterface
         $factory = $this;
         $factory
             ->bindParam('name', $name)
-            ->bindParam('encoder', new ChannelEncoder(new JsonParser()))
+            ->bindParam('encoder', new ChannelEncoder(new JsonParser))
             ->bindParam('router', function() {
                 return new ChannelRouterComposite([
                     'input'  => new ChannelRouterBase(),
@@ -28,16 +28,18 @@ class ChannelFactory extends Factory implements ChannelFactoryInterface
                 ]);
             })
             ->bindParam('loop', $loop)
-            ->define('Kraken\Channel\ChannelBase', function($class, $config) use($factory, $modelFactory) {
+        ;
+        $factory
+            ->define(ChannelBase::class, function($model, $config = []) use($factory, $modelFactory) {
                 return new ChannelBase(
                     isset($config['name']) ? $config['name'] : $factory->getParam('name'),
-                    $modelFactory->create($class, [ $config ]),
+                    $modelFactory->create($model, [ $config ]),
                     $factory->getParam('router'),
                     $factory->getParam('encoder'),
                     isset($config['loop']) ? $config['loop'] : $factory->getParam('loop')
                 );
             })
-            ->define('Kraken\Channel\ChannelComposite', function($channels = [], $config = []) use($factory) {
+            ->define(ChannelComposite::class, function($channels = [], $config = []) use($factory) {
                 return new ChannelComposite(
                     isset($config['name']) ? $config['name'] : $factory->getParam('name'),
                     $channels,

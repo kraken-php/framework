@@ -3,6 +3,7 @@
 namespace Kraken\Channel;
 
 use Kraken\Channel\Extra\Response;
+use Kraken\Channel\Request\Request;
 use Kraken\Channel\Request\RequestHelperTrait;
 use Kraken\Channel\Response\ResponseHelperTrait;
 use Kraken\Event\EventEmitter;
@@ -340,7 +341,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
      * @param callable|null $failure
      * @param callable|null $cancel
      * @param float $timeout
-     * @return ChannelRequest|ChannelRequest[]|null|null[]|bool|bool[]
+     * @return Request|Request[]|null|null[]|bool|bool[]
      */
     public function push($name, $message, $flags = Channel::MODE_DEFAULT, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0)
     {
@@ -424,7 +425,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
      * @param callable|null $failure
      * @param callable|null $cancel
      * @param float $timeout
-     * @return ChannelRequest|ChannelRequest[]|null|null[]
+     * @return Request|Request[]|null|null[]
      */
     public function pushRequest($name, $message, $flags = Channel::MODE_DEFAULT, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0)
     {
@@ -646,7 +647,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
      * @param callable|null $failure
      * @param callable|null $cancel
      * @param float $timeout
-     * @return ChannelRequest|null
+     * @return Request|null
      */
     protected function handlePushRequest($name, $message, $flags = Channel::MODE_DEFAULT, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0)
     {

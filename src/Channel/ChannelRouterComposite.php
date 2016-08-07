@@ -41,7 +41,7 @@ class ChannelRouterComposite implements ChannelRouterCompositeInterface
     {
         if (!isset($this->bus[$name]))
         {
-            throw new ResourceUndefinedException(sprintf("Kraken\\Channel\\ChannelRouterComposite has no registered bus $name."));
+            throw new ResourceUndefinedException("Kraken\\Channel\\ChannelRouterComposite has no registered bus $name.");
         }
 
         return $this->bus[$name];
@@ -57,6 +57,15 @@ class ChannelRouterComposite implements ChannelRouterCompositeInterface
         $this->bus[$name] = $router;
 
         return $this;
+    }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function existsBus($name)
+    {
+        return isset($this->bus[$name]);
     }
 
     /**
@@ -107,6 +116,17 @@ class ChannelRouterComposite implements ChannelRouterCompositeInterface
     }
 
     /**
+     *
+     */
+    public function erase()
+    {
+        foreach ($this->bus as $name=>$router)
+        {
+            $router->erase();
+        }
+    }
+
+    /**
      * @param callable $matcher
      * @param callable $handler
      * @param bool $propagate
@@ -141,16 +161,5 @@ class ChannelRouterComposite implements ChannelRouterCompositeInterface
         }
 
         return $handlers;
-    }
-
-    /**
-     *
-     */
-    public function erase()
-    {
-        foreach ($this->bus as $name=>$router)
-        {
-            $router->erase();
-        }
     }
 }

@@ -22,6 +22,12 @@ interface ChannelRouterCompositeInterface extends ChannelRouterBaseInterface
 
     /**
      * @param string $name
+     * @return bool
+     */
+    public function existsBus($name);
+
+    /**
+     * @param string $name
      * @return ChannelCompositeInterface
      */
     public function removeBus($name);

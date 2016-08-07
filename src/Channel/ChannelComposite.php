@@ -2,6 +2,7 @@
 
 namespace Kraken\Channel;
 
+use Kraken\Channel\Request\Request;
 use Kraken\Event\BaseEventEmitter;
 use Kraken\Event\EventHandler;
 use Kraken\Loop\LoopInterface;
@@ -356,7 +357,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
      * @param callable|null $failure
      * @param callable|null $cancel
      * @param float $timeout
-     * @return ChannelRequest|ChannelRequest[]|null|null[]|bool|bool[]
+     * @return Request|Request[]|null|null[]|bool|bool[]
      */
     public function push($name, $message, $flags = Channel::MODE_DEFAULT, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0)
     {
@@ -440,7 +441,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
      * @param callable|null $failure
      * @param callable|null $cancel
      * @param float $timeout
-     * @return ChannelRequest|ChannelRequest[]|null|null[]
+     * @return Request|Request[]|null|null[]
      */
     public function pushRequest($name, $message, $flags = Channel::MODE_DEFAULT, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0)
     {

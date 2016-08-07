@@ -121,7 +121,7 @@ class ChannelRouterHandler
      */
     public function cancel()
     {
-        if ($this->pointer !== null && !$this->cancelled)
+        if (isset($this->pointer) && isset($this->router) && !$this->cancelled)
         {
             $this->router->removeHandler($this->pointer[0], $this->pointer[1]);
             $this->cancelled = true;

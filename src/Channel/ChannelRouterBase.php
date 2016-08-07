@@ -144,7 +144,7 @@ class ChannelRouterBase implements ChannelRouterBaseInterface
      */
     public function addAnchor(callable $handler, $propagate = false, $limit = 0)
     {
-        return $this->addAnchorHandler(
+        return $this->addDefaultHandler(
             new ChannelRouterHandler($this, function() {}, $handler, $propagate, $limit)
         );
     }
@@ -176,7 +176,7 @@ class ChannelRouterBase implements ChannelRouterBaseInterface
      * @param ChannelRouterHandler $handler
      * @return ChannelRouterHandler
      */
-    protected function addAnchorHandler(ChannelRouterHandler $handler)
+    protected function addDefaultHandler(ChannelRouterHandler $handler)
     {
         $this->anchors[$this->anchorsPointer] = $handler;
         $handler->setPointer('anchors', $this->anchorsPointer);

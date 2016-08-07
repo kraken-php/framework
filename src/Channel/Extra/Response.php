@@ -43,7 +43,7 @@ class Response
         $this->channel = $channel;
         $this->protocol = $protocol;
         $this->message = $message;
-        $this->params = [];
+        $this->params = $params;
     }
 
     /**
@@ -58,6 +58,8 @@ class Response
     }
 
     /**
+     * Send the prepared response.
+     *
      * @return PromiseInterface
      */
     public function __invoke()
@@ -66,6 +68,8 @@ class Response
     }
 
     /**
+     * Send the prepared response.
+     *
      * @return PromiseInterface
      */
     public function call()
@@ -74,6 +78,8 @@ class Response
     }
 
     /**
+     * Send the request using passed Promise.
+     *
      * @param PromiseInterface $promise
      * @return PromiseInterface
      */
@@ -84,7 +90,7 @@ class Response
         $message = $this->message;
         $channel = $this->channel;
 
-        if ($message instanceof Exception)
+        if ($message instanceof Error || $message instanceof Exception)
         {
             $answer = $channel->createProtocol($message->getMessage())
                 ->setPid($pid, true)

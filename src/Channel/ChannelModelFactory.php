@@ -21,17 +21,20 @@ class ChannelModelFactory extends Factory implements ChannelModelFactoryInterfac
         $factory
             ->bindParam('name', $name)
             ->bindParam('loop', $loop)
-            ->define('Kraken\Channel\Model\Null\NullModel', function($config) {
+        ;
+        $factory
+            ->define(NullModel::class, function($config = []) {
                 return new NullModel();
             })
-            ->define('Kraken\Channel\Model\Zmq\ZmqDealer', function($config) use($factory) {
+            ->define(ZmqDealer::class, function($config = []) use($factory) {
                 return new ZmqDealer(
                     isset($config['loop']) ? $config['loop'] : $factory->getParam('loop'),
                     array_merge(
                         [
-                            'id'    => isset($config['name']) ? $config['name'] : $factory->getParam('name'),
-                            'type'  => ZmqDealer::BINDER,
-                            'hosts' => isset($config['name']) ? $config['name'] : $factory->getParam('name')
+                            'id'        => isset($config['name']) ? $config['name'] : $factory->getParam('name'),
+                            'endpoint'  => '',
+                            'type'      => ZmqDealer::BINDER,
+                            'hosts'     => isset($config['name']) ? $config['name'] : $factory->getParam('name')
                         ],
                         $config
                     )

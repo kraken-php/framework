@@ -2,6 +2,7 @@
 
 namespace Kraken\Channel;
 
+use Kraken\Channel\Request\Request;
 use Kraken\Event\EventEmitterInterface;
 use Kraken\Event\EventHandler;
 use Kraken\Loop\LoopAwareInterface;
@@ -122,7 +123,7 @@ interface ChannelBaseInterface extends EventEmitterInterface, LoopAwareInterface
      * @param callable|null $failure
      * @param callable|null $cancel
      * @param float $timeout
-     * @return ChannelRequest|ChannelRequest[]|null|null[]|bool|bool[]
+     * @return Request|Request[]|null|null[]|bool|bool[]
      */
     public function push($name, $message, $flags = Channel::MODE_DEFAULT, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0);
 
@@ -162,7 +163,7 @@ interface ChannelBaseInterface extends EventEmitterInterface, LoopAwareInterface
      * @param callable|null $failure
      * @param callable|null $cancel
      * @param float $timeout
-     * @return ChannelRequest|ChannelRequest[]|null|null[]
+     * @return Request|Request[]|null|null[]
      */
     public function pushRequest($name, $message, $flags = Channel::MODE_DEFAULT, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0);
 

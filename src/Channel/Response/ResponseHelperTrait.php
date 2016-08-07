@@ -3,6 +3,7 @@
 namespace Kraken\Channel\Response;
 
 use Kraken\Support\TimeSupport;
+use Kraken\Throwable\Exception\System\TaskIncompleteException;
 
 trait ResponseHelperTrait
 {
@@ -66,7 +67,7 @@ trait ResponseHelperTrait
      */
     protected function resolveOrRejectResponse($pid, $exception)
     {
-        if ($exception !== 'Kraken\Throwable\Exception\System\TaskIncompleteException')
+        if ($exception !== TaskIncompleteException::class)
         {
             unset($this->reps[$pid]);
             $this->handledReps[$pid] = new Response($pid, '', TimeSupport::now() + $this->handledRepsTimeout);
