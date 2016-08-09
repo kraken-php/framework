@@ -2,17 +2,17 @@
 
 namespace Kraken\Core\Service;
 
-use Error;
 use Kraken\Core\CoreInterface;
-use Kraken\Throwable\Exception;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Throwable\Exception\Logic\Resource\ResourceDefinedException;
 use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
 use Kraken\Throwable\Exception\Runtime\OverflowException;
+use Error;
+use Exception;
 
-class ServiceRegister
+class ServiceRegister implements ServiceRegisterInterface
 {
     /**
      * @var CoreInterface
@@ -69,7 +69,8 @@ class ServiceRegister
     }
 
     /**
-     * @throws ExecutionException
+     * @override
+     * @inheritDoc
      */
     public function boot()
     {
@@ -81,27 +82,23 @@ class ServiceRegister
             $this->registerAliases();
 
             $this->booted = true;
+            return;
         }
         catch (Error $ex)
-        {
-            throw new ExecutionException("ServiceRegister could not be booted.", $ex);
-        }
+        {}
         catch (Exception $ex)
-        {
-            throw new ExecutionException("ServiceRegister could not be booted.", $ex);
-        }
+        {}
+
+        throw new ExecutionException("ServiceRegister could not be booted.", $ex);
     }
 
     /**
-     * @param ServiceProviderInterface|string $provider
-     * @param bool $force
-     * @throws ExecutionException
-     * @throws InvalidArgumentException
-     * @throws ResourceDefinedException
+     * @override
+     * @inheritDoc
      */
-    public function registerProvider($provider, $force = false)
+    public function registerProvider($provider)
     {
-        if ($force === false && $this->getProvider($provider) !== null)
+        if ($this->getProvider($provider) !== null)
         {
             throw new ResourceDefinedException("ServiceProvider " . $this->getProviderClass($provider) . " already registered.");
         }
@@ -111,6 +108,8 @@ class ServiceRegister
             throw new InvalidArgumentException("ServiceProvider $class is not valid provider.");
         }
 
+        $ex = null;
+
         try
         {
             if ($this->booted)
@@ -118,7 +117,12 @@ class ServiceRegister
                 $provider->registerProvider($this->core);
             }
         }
+        catch (Error $ex)
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
             throw new ExecutionException("ServiceProvider " . $this->getProviderClass($provider) . " failed during registration.", $ex);
         }
@@ -127,20 +131,19 @@ class ServiceRegister
     }
 
     /**
-     * @param ServiceProviderInterface|string $provider
-     * @throws InvalidArgumentException
-     * @throws ResourceUndefinedException
+     * @override
+     * @inheritDoc
      */
     public function unregisterProvider($provider)
     {
-        if (($registered = $this->getProvider($provider)) === null)
-        {
-            throw new ResourceUndefinedException("ServiceProvider " . $this->getProviderClass($provider) . " not registered.");
-        }
-
         if (is_string($provider) && ($class = $provider) && ($provider = $this->resolveProviderClass($provider)) === null)
         {
             throw new InvalidArgumentException("ServiceProvider $class is not valid provider.");
+        }
+
+        if (($provider = $this->getProvider($provider)) === null)
+        {
+            throw new ResourceUndefinedException("ServiceProvider " . $this->getProviderClass($provider) . " not registered.");
         }
 
         $provider->unregisterProvider($this->core);
@@ -149,8 +152,8 @@ class ServiceRegister
     }
 
     /**
-     * @param ServiceProviderInterface|string $provider
-     * @return ServiceProviderInterface|null
+     * @override
+     * @inheritDoc
      */
     public function getProvider($provider)
     {
@@ -168,21 +171,8 @@ class ServiceRegister
     }
 
     /**
-     * @param string $providerClass
-     * @return ServiceProviderInterface|null
-     */
-    public function resolveProviderClass($providerClass)
-    {
-        if (!class_exists($providerClass) || ($provider = new $providerClass($this)) instanceof ServiceProviderInterface === false)
-        {
-            return null;
-        }
-
-        return $provider;
-    }
-
-    /**
-     * @return string[]
+     * @override
+     * @inheritDoc
      */
     public function getProviders()
     {
@@ -196,7 +186,8 @@ class ServiceRegister
     }
 
     /**
-     * @return string[]
+     * @override
+     * @inheritDoc
      */
     public function getServices()
     {
@@ -210,34 +201,46 @@ class ServiceRegister
     }
 
     /**
-     * @throws IllegalCallException
+     * @override
+     * @inheritDoc
      */
     public function flushProviders()
     {
         if ($this->booted)
         {
-            throw new IllegalCallException("\$this->flushProviders() cannot be called after boot up.");
+            throw new IllegalCallException("Method ServiceRegister::flushProviders() cannot be called after boot up.");
         }
 
         $this->serviceProviders = [];
     }
 
     /**
-     * @param string $alias
-     * @param string $concrete
-     * @throws ExecutionException
+     * @override
+     * @inheritDoc
      */
-    public function registerAlias($alias, $concrete)
+    public function registerAlias($alias, $existing)
     {
-        $this->serviceAliases[$alias] = $concrete;
+        if ($this->getAlias($alias) !== null)
+        {
+            throw new ResourceDefinedException("ServiceProvider alias of $alias is already registered.");
+        }
+
+        $this->serviceAliases[$alias] = $existing;
 
         if ($this->booted)
         {
+            $ex = null;
+
             try
             {
-                $this->core->alias($alias, $concrete);
+                $this->core->alias($alias, $existing);
             }
+            catch (Error $ex)
+            {}
             catch (Exception $ex)
+            {}
+
+            if ($ex !== null)
             {
                 throw new ExecutionException("Alias [$alias] could not be registered.", $ex);
             }
@@ -245,16 +248,24 @@ class ServiceRegister
     }
 
     /**
-     * @param string $alias
+     * @override
+     * @inheritDoc
      */
     public function unregisterAlias($alias)
     {
+        if ($this->getAlias($alias) === null)
+        {
+            throw new ResourceUndefinedException("ServiceProvider alias for $alias is not registered.");
+        }
+
+        $this->core->remove($alias);
+
         unset($this->serviceAliases[$alias]);
     }
 
     /**
-     * @param string $alias
-     * @return null|string
+     * @override
+     * @inheritDoc
      */
     public function getAlias($alias)
     {
@@ -262,7 +273,8 @@ class ServiceRegister
     }
 
     /**
-     * @return string[]
+     * @override
+     * @inheritDoc
      */
     public function getAliases()
     {
@@ -270,7 +282,8 @@ class ServiceRegister
     }
 
     /**
-     * @throws IllegalCallException
+     * @override
+     * @inheritDoc
      */
     public function flushAliases()
     {
@@ -285,7 +298,7 @@ class ServiceRegister
     /**
      * @param ServiceProviderInterface $provider
      */
-    protected function markProviderRegistered(ServiceProviderInterface $provider)
+    private function markProviderRegistered(ServiceProviderInterface $provider)
     {
         $this->serviceProviders[] = $provider;
     }
@@ -293,7 +306,7 @@ class ServiceRegister
     /**
      * @param ServiceProviderInterface $provider
      */
-    protected function markProviderUnregistered(ServiceProviderInterface $provider)
+    private function markProviderUnregistered(ServiceProviderInterface $provider)
     {
         foreach ($this->serviceProviders as $index=>$currentProvider)
         {
@@ -320,6 +333,8 @@ class ServiceRegister
     {
         foreach ($this->serviceProviders as $provider)
         {
+            $ex = null;
+
             try
             {
                 if (!$provider->isRegistered())
@@ -328,10 +343,11 @@ class ServiceRegister
                 }
             }
             catch (Error $ex)
-            {
-                throw new ExecutionException("ServiceProvider " . $this->getProviderClass($provider) . " failed during registration.", $ex);
-            }
+            {}
             catch (Exception $ex)
+            {}
+
+            if ($ex !== null)
             {
                 throw new ExecutionException("ServiceProvider " . $this->getProviderClass($provider) . " failed during registration.", $ex);
             }
@@ -345,15 +361,18 @@ class ServiceRegister
     {
         foreach ($this->serviceAliases as $alias=>$concrete)
         {
+            $ex = null;
+
             try
             {
                 $this->core->alias($alias, $concrete);
             }
             catch (Error $ex)
-            {
-                throw new ExecutionException("Alias [$alias] could not have be registered.", $ex);
-            }
+            {}
             catch (Exception $ex)
+            {}
+
+            if ($ex !== null)
             {
                 throw new ExecutionException("Alias [$alias] could not have be registered.", $ex);
             }
@@ -367,19 +386,36 @@ class ServiceRegister
     {
         foreach ($this->serviceProviders as $provider)
         {
+            $ex = null;
+
             try
             {
                 $provider->bootProvider($this->core);
             }
             catch (Error $ex)
-            {
-                throw new ExecutionException("ServiceProvider " . $this->getProviderClass($provider) . " failed during boot.", $ex);
-            }
+            {}
             catch (Exception $ex)
+            {}
+
+            if ($ex !== null)
             {
                 throw new ExecutionException("ServiceProvider " . $this->getProviderClass($provider) . " failed during boot.", $ex);
             }
         }
+    }
+
+    /**
+     * @param string $providerClass
+     * @return ServiceProviderInterface|null
+     */
+    private function resolveProviderClass($providerClass)
+    {
+        if (!class_exists($providerClass) || ($provider = new $providerClass($this)) instanceof ServiceProviderInterface === false)
+        {
+            return null;
+        }
+
+        return $provider;
     }
 
     /**

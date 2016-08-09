@@ -45,6 +45,9 @@ class ServiceSorter
     }
 
     /**
+     * Analyze required and provided dependencies of providers and sort the list to ensure right order while resolving
+     * dependency tree.
+     *
      * @param ServiceProviderInterface[] $providers
      * @return ServiceProviderInterface[]
      * @throws OverflowException

@@ -2,10 +2,10 @@
 
 namespace Kraken\Core\Service;
 
-use Error;
-use Exception;
 use Kraken\Core\CoreInterface;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Error;
+use Exception;
 
 class ServiceProvider implements ServiceProviderInterface
 {
@@ -13,6 +13,11 @@ class ServiceProvider implements ServiceProviderInterface
      * @var bool
      */
     protected $registered = false;
+
+    /**
+     * @var bool
+     */
+    protected $booted = false;
 
     /**
      * @var string[]
@@ -25,7 +30,8 @@ class ServiceProvider implements ServiceProviderInterface
     protected $provides = [];
 
     /**
-     * @return string[]
+     * @override
+     * @inheritDoc
      */
     public function requires()
     {
@@ -33,7 +39,8 @@ class ServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * @return string[]
+     * @override
+     * @inheritDoc
      */
     public function provides()
     {
@@ -41,7 +48,8 @@ class ServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function isRegistered()
     {
@@ -49,8 +57,17 @@ class ServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * @param CoreInterface $core
-     * @throws ExecutionException
+     * @override
+     * @inheritDoc
+     */
+    public function isBooted()
+    {
+        return $this->booted;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
      */
     public function registerProvider(CoreInterface $core)
     {
@@ -58,19 +75,19 @@ class ServiceProvider implements ServiceProviderInterface
         {
             $this->register($core);
             $this->registered = true;
+            return;
         }
         catch (Error $ex)
-        {
-            $this->exception($ex);
-        }
+        {}
         catch (Exception $ex)
-        {
-            $this->exception($ex);
-        }
+        {}
+
+        $this->throwException($ex);
     }
 
     /**
-     * @param CoreInterface $core
+     * @override
+     * @inheritDoc
      */
     public function unregisterProvider(CoreInterface $core)
     {
@@ -79,26 +96,30 @@ class ServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * @param CoreInterface $core
-     * @throws ExecutionException
+     * @override
+     * @inheritDoc
      */
     public function bootProvider(CoreInterface $core)
     {
         try
         {
             $this->boot($core);
+            $this->booted = true;
+            return;
         }
         catch (Error $ex)
-        {
-            $this->exception($ex);
-        }
+        {}
         catch (Exception $ex)
-        {
-            $this->exception($ex);
-        }
+        {}
+
+        $this->throwException($ex);
     }
 
     /**
+     * Register provider dependencies.
+     *
+     * This method should contain code to fire when Provider is being registered.
+     *
      * @param CoreInterface $core
      * @throws Exception
      */
@@ -106,12 +127,22 @@ class ServiceProvider implements ServiceProviderInterface
     {}
 
     /**
+     * Unregister provider dependencies.
+     *
+     * This method should contain code to fire when Provider is being unregistered. All previously opened connectios,
+     * streams, files and other vulnerable resources opened in ::register() should be closed here.
+     *
      * @param CoreInterface $core
      */
     protected function unregister(CoreInterface $core)
     {}
 
     /**
+     * Boot provider dependencies.
+     *
+     * This method should container code to fire when Provider is being booted. In comparison to ::register() method
+     * this will be fired after all Providers have been already registered.
+     *
      * @param CoreInterface $core
      * @throws Exception
      */
@@ -122,7 +153,7 @@ class ServiceProvider implements ServiceProviderInterface
      * @param Error|Exception $ex
      * @throws ExecutionException
      */
-    protected function exception($ex)
+    private function throwException($ex)
     {
         throw new ExecutionException("ServiceProvider [" . get_class($this) . "] raised an error.", $ex);
     }
