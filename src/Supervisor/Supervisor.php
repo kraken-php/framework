@@ -30,7 +30,7 @@ class Supervisor implements SupervisorInterface
     /**
      * @param SolverFactoryInterface $factory
      * @param mixed[] $params
-     * @param SolverInterface[] $rules
+     * @param SolverInterface[]|string[] $rules
      */
     public function __construct(SolverFactoryInterface $factory, $params = [], $rules = [])
     {
@@ -60,10 +60,8 @@ class Supervisor implements SupervisorInterface
     }
 
     /**
-     * @param Error|Exception $ex
-     * @param mixed[] $params
-     * @return PromiseInterface
-     * @throws ExecutionException
+     * @override
+     * @inheritDoc
      */
     public function __invoke($ex, $params = [])
     {
@@ -71,17 +69,17 @@ class Supervisor implements SupervisorInterface
     }
 
     /**
-     * @param string $key
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function existsParam($key)
     {
-        return isset($this->params[$key]);
+        return array_key_exists($key, $this->params);
     }
 
     /**
-     * @param string $key
-     * @param mixed $value
+     * @override
+     * @inheritDoc
      */
     public function setParam($key, $value)
     {
@@ -89,8 +87,8 @@ class Supervisor implements SupervisorInterface
     }
 
     /**
-     * @param string $key
-     * @return mixed|null $value
+     * @override
+     * @inheritDoc
      */
     public function getParam($key)
     {
@@ -98,8 +96,17 @@ class Supervisor implements SupervisorInterface
     }
 
     /**
-     * @param string $exception
-     * @return bool
+     * @override
+     * @inheritDoc
+     */
+    public function removeParam($key)
+    {
+        unset($this->params[$key]);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
      */
     public function existsHandler($exception)
     {
@@ -107,17 +114,12 @@ class Supervisor implements SupervisorInterface
     }
 
     /**
-     * @param string $exception
-     * @param SolverInterface|string|string[] $handler
-     * @throws LogicException
+     * @override
+     * @inheritDoc
      */
     public function setHandler($exception, $handler)
     {
-        if (is_string($handler))
-        {
-            $handler = $this->resolveHandler($handler);
-        }
-        else if (is_array($handler))
+        if (is_array($handler))
         {
             $names = $handler;
             $handlers = [];
@@ -129,12 +131,12 @@ class Supervisor implements SupervisorInterface
             $handler = new SolverComposite($handlers);
         }
 
-        $this->rules[$exception] = $handler;
+        $this->rules[$exception] = $this->resolveHandler($handler);
     }
 
     /**
-     * @param string $exception
-     * @return SolverInterface|null
+     * @override
+     * @inheritDoc
      */
     public function getHandler($exception)
     {
@@ -142,7 +144,8 @@ class Supervisor implements SupervisorInterface
     }
 
     /**
-     * @param string $exception
+     * @override
+     * @inheritDoc
      */
     public function removeHandler($exception)
     {
@@ -150,10 +153,8 @@ class Supervisor implements SupervisorInterface
     }
 
     /**
-     * @param Error|Exception $ex
-     * @param mixed[] $params
-     * @param int $try
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function handle($ex, $params = [], &$try = 0)
     {
@@ -175,7 +176,7 @@ class Supervisor implements SupervisorInterface
         if ($chosen === null)
         {
             return Promise::doReject(
-                new ExecutionException("SolverInterface [$classBaseEx] is not registered.")
+                new ExecutionException("SolverInterface for [$classBaseEx] is not registered.")
             );
         }
 
@@ -187,23 +188,39 @@ class Supervisor implements SupervisorInterface
     }
 
     /**
-     * @param string $name
+     * Resolve handler.
+     *
+     * This method returns passed argument if it is instance of SolverInterface or newly created object of passed class
+     * if the $solverOrName argument was string.
+     *
+     * IllegalCallException is thrown if passed argument is string of invalid class.
+     *
+     * @param SolverInterface|string $solverOrName
      * @return SolverInterface
-     * @throws LogicException
+     * @throws IllegalCallException
      */
-    protected function resolveHandler($name)
+    protected function resolveHandler($solverOrName)
     {
+        if (!is_string($solverOrName))
+        {
+            return $solverOrName;
+        }
+
+        $ex = null;
+        $handler = null;
+
         try
         {
-            $handler = $this->factory->create($name);
+            $handler = $this->factory->create($solverOrName);
         }
         catch (Error $ex)
-        {
-            throw new IllegalCallException("Tried to invoke [$name] which is undefined.");
-        }
+        {}
         catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
         {
-            throw new IllegalCallException("Tried to invoke [$name] which is undefined.");
+            throw new IllegalCallException("Tried to invoke [$solverOrName] which is undefined.");
         }
 
         return $handler;

@@ -9,14 +9,20 @@ use Exception;
 interface SolverInterface
 {
     /**
-     * @param Error|Exception $ex
+     * Handle given Error, Exception or string message with set of params using solver's handler method.
+     *
+     * @see SolverInterface::handle
+     *
+     * @param Error|Exception|string $ex
      * @param mixed[] $params
      * @return PromiseInterface
      */
     public function __invoke($ex, $params = []);
 
     /**
-     * @param Error|Exception $ex
+     * Handle given Error, Exception or string message with set of params using solver's handler method.
+     *
+     * @param Error|Exception|string $ex
      * @param mixed[] $params
      * @return PromiseInterface
      */

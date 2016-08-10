@@ -3,7 +3,6 @@
 namespace Kraken\Supervisor;
 
 use Kraken\Promise\Promise;
-use Kraken\Promise\PromiseInterface;
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
 use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 use Error;
@@ -44,9 +43,8 @@ class SolverBase implements SolverInterface
     }
 
     /**
-     * @param Error|Exception $ex
-     * @param mixed[] $params
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function __invoke($ex, $params = [])
     {
@@ -54,9 +52,8 @@ class SolverBase implements SolverInterface
     }
 
     /**
-     * @param Error|Exception $ex
-     * @param mixed[] $params
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function handle($ex, $params = [])
     {
@@ -70,31 +67,30 @@ class SolverBase implements SolverInterface
             }
         }
 
-        return Promise::doResolve([ $ex, $params ])
-            ->spread(function($ex, $params) {
-                return $this->handler($ex, $params);
-            });
+        return Promise::doResolve($this->handler($ex, $params));
     }
 
     /**
-     * @param Error|Exception $ex
+     * Handler to be called when solver is requested.
+     *
+     * @param Error|Exception|string $ex
      * @param mixed[] $params
      * @return mixed
      * @throws RejectionException
      */
     protected function handler($ex, $params = [])
     {
-        throw new RejectionException('[' . get_class($this) . '] code undefined.');
+        throw new RejectionException('[' . __CLASS__ . '] code undefined.');
     }
 
     /**
-     *
+     * Pseudo-Constructor.
      */
     protected function construct()
     {}
 
     /**
-     *
+     * Pseudo-Destructor
      */
     protected function destruct()
     {}

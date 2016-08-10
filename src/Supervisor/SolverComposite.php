@@ -3,7 +3,6 @@
 namespace Kraken\Supervisor;
 
 use Kraken\Promise\Promise;
-use Kraken\Promise\PromiseInterface;
 use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 use Error;
 use Exception;
@@ -36,9 +35,8 @@ class SolverComposite implements SolverInterface
     }
 
     /**
-     * @param Error|Exception $ex
-     * @param mixed[] $params
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function __invoke($ex, $params = [])
     {
@@ -46,22 +44,18 @@ class SolverComposite implements SolverInterface
     }
 
     /**
-     * @param Error|Exception $ex
-     * @param mixed[] $params
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function handle($ex, $params = [])
     {
-        $promise = Promise::doResolve([ $ex, $params ]);
-
-        return $promise
-            ->spread(function($ex, $params) {
-                return $this->handler($ex, $params);
-            });
+        return Promise::doResolve($this->handler($ex, $params));
     }
 
     /**
-     * @param Error|Exception $ex
+     * Handler to be called when solver is requested.
+     *
+     * @param Error|Exception|string $ex
      * @param mixed[] $params
      * @return mixed
      * @throws RejectionException
@@ -75,7 +69,7 @@ class SolverComposite implements SolverInterface
             $current = $handler;
 
             $promise = $promise->then(
-                function ($value) use($ex, $params, $current) {
+                function() use($ex, $params, $current) {
                     return Promise::doResolve($current->handle($ex, $params));
                 }
             );
@@ -85,13 +79,13 @@ class SolverComposite implements SolverInterface
     }
 
     /**
-     *
+     * Pseudo-Constructor.
      */
     protected function onCreate()
     {}
 
     /**
-     *
+     * Pseudo-Destructor.
      */
     protected function onDestroy()
     {}

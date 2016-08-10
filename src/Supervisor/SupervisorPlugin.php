@@ -11,11 +11,11 @@ class SupervisorPlugin implements SupervisorPluginInterface
     /**
      * @var bool
      */
-    protected $registered;
+    protected $registered = false;
 
     /**
-     * @param SupervisorInterface $supervisor
-     * @throws ExecutionException
+     * @override
+     * @inheritDoc
      */
     public function registerPlugin(SupervisorInterface $supervisor)
     {
@@ -26,30 +26,42 @@ class SupervisorPlugin implements SupervisorPluginInterface
         }
         catch (Error $ex)
         {
-            $this->exception($ex);
+            $this->throwException($ex);
         }
         catch (Exception $ex)
         {
-            $this->exception($ex);
+            $this->throwException($ex);
         }
+
+        return $this;
     }
 
     /**
-     * @param SupervisorInterface $supervisor
+     * @override
+     * @inheritDoc
      */
     public function unregisterPlugin(SupervisorInterface $supervisor)
     {
-        $this->unregister($supervisor);
-        $this->registered = false;
+        if ($this->registered)
+        {
+            $this->unregister($supervisor);
+            $this->registered = false;
+        }
+
+        return $this;
     }
 
     /**
+     * Define how plugin should be registered.
+     *
      * @param SupervisorInterface $supervisor
      */
     protected function register(SupervisorInterface $supervisor)
     {}
 
     /**
+     * Define how plugin should be unregistered.
+     *
      * @param SupervisorInterface $supervisor
      */
     protected function unregister(SupervisorInterface $supervisor)
@@ -59,8 +71,8 @@ class SupervisorPlugin implements SupervisorPluginInterface
      * @param Error|Exception $ex
      * @throws ExecutionException
      */
-    protected function exception($ex)
+    private function throwException($ex)
     {
-        throw new ExecutionException("ServiceProvider [" . get_class($this) . "] raised an error.", $ex);
+        throw new ExecutionException("SupervisorPlugin [" . get_class($this) . "] raised an error.", $ex);
     }
 }

@@ -489,7 +489,7 @@ class RuntimeModel implements RuntimeModelInterface
      */
     public function fail($ex, $params = [])
     {
-        $manager = $this->supervisor();
+        $manager = $this->getSupervisor();
         $this->setLoopState(self::LOOP_STATE_FAILED);
         $this->loop()->afterTick(function() use($manager, $ex, $params) {
             try

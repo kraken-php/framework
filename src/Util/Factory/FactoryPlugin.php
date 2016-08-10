@@ -11,7 +11,7 @@ abstract class FactoryPlugin implements FactoryPluginInterface
     /**
      * @var bool
      */
-    private $registered;
+    protected $registered = false;
 
     /**
      * @override
