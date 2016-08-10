@@ -3,11 +3,8 @@
 namespace Kraken\Core;
 
 use Kraken\Container\Container;
-use Kraken\Core\Service\ServiceRegisterInterface;
 use Kraken\Core\Service\ServiceRegister;
-use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
-use Kraken\Throwable\Exception\Logic\IllegalCallException;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
 use Kraken\Runtime\Runtime;
@@ -37,12 +34,12 @@ class Core extends Container implements CoreInterface
     protected $bootConfig;
 
     /**
-     * @var ServiceRegisterInterface
+     * @var ServiceRegister
      */
     protected $serviceRegister;
 
     /**
-     * @param string $dataPath
+     * @param string|null $dataPath
      * @throws InstantiationException
      */
     public function __construct($dataPath = null)
@@ -79,8 +76,8 @@ class Core extends Container implements CoreInterface
     }
 
     /**
-     * @return CoreInterface
-     * @throws InstantiationException
+     * @override
+     * @inheritDoc
      */
     public function boot()
     {
@@ -91,18 +88,16 @@ class Core extends Container implements CoreInterface
             return $this;
         }
         catch (Error $ex)
-        {
-            throw new InstantiationException("Core module could not be booted.", $ex);
-        }
+        {}
         catch (Exception $ex)
-        {
-            throw new InstantiationException("Core module could not be booted.", $ex);
-        }
+        {}
+
+        throw new InstantiationException("Core module could not be booted.", $ex);
     }
 
     /**
-     * @param string[][] $config
-     * @return string[][]
+     * @override
+     * @inheritDoc
      */
     public function config($config = null)
     {
@@ -115,7 +110,8 @@ class Core extends Container implements CoreInterface
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function version()
     {
@@ -123,15 +119,17 @@ class Core extends Container implements CoreInterface
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function unit()
     {
         return static::RUNTIME_UNIT;
     }
 
-    /*
-     * @return string
+    /**
+     * @override
+     * @inheritDoc
      */
     public function basePath()
     {
@@ -139,7 +137,8 @@ class Core extends Container implements CoreInterface
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function dataPath()
     {
@@ -147,7 +146,8 @@ class Core extends Container implements CoreInterface
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function dataDir()
     {
@@ -155,62 +155,58 @@ class Core extends Container implements CoreInterface
     }
 
     /**
-     * @param ServiceProviderInterface[]|string[] $providers
-     * @param bool $force
-     * @throws ExecutionException
+     * @override
+     * @inheritDoc
      */
-    public function registerProviders($providers, $force = false)
+    public function registerProviders($providers)
     {
         foreach ($providers as $provider)
         {
-            $this->registerProvider($provider, $force);
+            $this->registerProvider($provider);
         }
     }
 
     /**
-     * @param ServiceProviderInterface|string $provider
-     * @param bool $force
-     * @throws ExecutionException
+     * @override
+     * @inheritDoc
      */
-    public function registerProvider($provider, $force = false)
+    public function registerProvider($provider)
     {
         try
         {
-            $this->serviceRegister->registerProvider($provider, $force);
+            $this->serviceRegister->registerProvider($provider);
+            return;
         }
         catch (Error $ex)
-        {
-            throw new ExecutionException("Provider could not be registered.", $ex);
-        }
+        {}
         catch (Exception $ex)
-        {
-            throw new ExecutionException("Provider could not be registered.", $ex);
-        }
+        {}
+
+        throw new ExecutionException("Provider could not be registered.", $ex);
     }
 
     /**
-     * @param ServiceProviderInterface|string $provider
-     * @throws ExecutionException
+     * @override
+     * @inheritDoc
      */
     public function unregisterProvider($provider)
     {
         try
         {
             $this->serviceRegister->unregisterProvider($provider);
+            return;
         }
         catch (Error $ex)
-        {
-            throw new ExecutionException("Provider could not be unregistered.", $ex);
-        }
+        {}
         catch (Exception $ex)
-        {
-            throw new ExecutionException("Provider could not be unregistered.", $ex);
-        }
+        {}
+
+        throw new ExecutionException("Provider could not be unregistered.", $ex);
     }
 
     /**
-     * @param ServiceProviderInterface|string $provider
-     * @return ServiceProviderInterface|null
+     * @override
+     * @inheritDoc
      */
     public function getProvider($provider)
     {
@@ -218,7 +214,8 @@ class Core extends Container implements CoreInterface
     }
 
     /**
-     * @return string[]
+     * @override
+     * @inheritDoc
      */
     public function getProviders()
     {
@@ -226,7 +223,8 @@ class Core extends Container implements CoreInterface
     }
 
     /**
-     * @return string[]
+     * @override
+     * @inheritDoc
      */
     public function getServices()
     {
@@ -234,7 +232,8 @@ class Core extends Container implements CoreInterface
     }
 
     /**
-     * @throws IllegalCallException
+     * @override
+     * @inheritDoc
      */
     public function flushProviders()
     {
@@ -242,7 +241,8 @@ class Core extends Container implements CoreInterface
     }
 
     /**
-     * @param string[] $interfaces
+     * @override
+     * @inheritDoc
      */
     public function registerAliases($interfaces)
     {
@@ -253,25 +253,46 @@ class Core extends Container implements CoreInterface
     }
 
     /**
-     * @param string $alias
-     * @param string $interface
+     * @override
+     * @inheritDoc
      */
     public function registerAlias($alias, $interface)
     {
-        $this->serviceRegister->registerAlias($alias, $interface);
+        try
+        {
+            $this->serviceRegister->registerAlias($alias, $interface);
+            return;
+        }
+        catch (Error $ex)
+        {}
+        catch (Exception $ex)
+        {}
+
+        throw new ExecutionException("Alias could not be registered.", $ex);
     }
 
     /**
-     * @param string $alias
+     * @override
+     * @inheritDoc
      */
     public function unregisterAlias($alias)
     {
-        $this->serviceRegister->unregisterAlias($alias);
+        try
+        {
+            $this->serviceRegister->unregisterAlias($alias);
+            return;
+        }
+        catch (Error $ex)
+        {}
+        catch (Exception $ex)
+        {}
+
+        throw new ExecutionException("Alias could not be unregistered.", $ex);
     }
 
     /**
-     * @param string $alias
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function getAlias($alias)
     {
@@ -279,7 +300,8 @@ class Core extends Container implements CoreInterface
     }
 
     /**
-     * @return string[]
+     * @override
+     * @inheritDoc
      */
     public function getAliases()
     {
@@ -287,7 +309,8 @@ class Core extends Container implements CoreInterface
     }
 
     /**
-     * @throws IllegalCallException
+     * @override
+     * @inheritDoc
      */
     public function flushAliases()
     {
@@ -295,6 +318,8 @@ class Core extends Container implements CoreInterface
     }
 
     /**
+     * Return list of default Providers.
+     *
      * @return string[]
      */
     protected function defaultProviders()
@@ -303,6 +328,8 @@ class Core extends Container implements CoreInterface
     }
 
     /**
+     * Return list of default Aliases.
+     *
      * @return string[]
      */
     protected function defaultAliases()
@@ -311,6 +338,8 @@ class Core extends Container implements CoreInterface
     }
 
     /**
+     * Register all default Providers.
+     *
      * @throws ExecutionException
      */
     protected function registerDefaultProviders()
@@ -319,6 +348,8 @@ class Core extends Container implements CoreInterface
     }
 
     /**
+     * Register all default Aliases.
+     *
      * @throws IoWriteException
      */
     protected function registerDefaultAliases()
@@ -327,6 +358,8 @@ class Core extends Container implements CoreInterface
     }
 
     /**
+     * Boot providers.
+     *
      * @throws ExecutionException
      */
     protected function bootProviders()

@@ -169,7 +169,7 @@ class RuntimeModel implements RuntimeModelInterface
     /**
      * @param CoreInterface $core
      */
-    public function setCore(CoreInterface $core)
+    public function setCore(CoreInterface $core = null)
     {
         $this->core = $core;
     }

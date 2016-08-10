@@ -4,6 +4,8 @@ namespace Kraken\Core;
 
 use Kraken\Config\ConfigInterface;
 use Kraken\Runtime\Runtime;
+use Kraken\Util\Invoker\Invoker;
+use Kraken\Util\Invoker\InvokerInterface;
 
 class Environment implements EnvironmentInterface
 {
@@ -11,6 +13,11 @@ class Environment implements EnvironmentInterface
      * @var int
      */
     const SIGTERM = 15;
+
+    /**
+     * @var InvokerInterface
+     */
+    protected $invoker;
 
     /**
      * @var CoreInputContextInterface
@@ -28,6 +35,7 @@ class Environment implements EnvironmentInterface
      */
     public function __construct(CoreInputContextInterface $context, ConfigInterface $config)
     {
+        $this->invoker = $this->createInvoker();
         $this->context = $context;
         $this->config = $config;
     }
@@ -37,43 +45,43 @@ class Environment implements EnvironmentInterface
      */
     public function __destruct()
     {
+        unset($this->invoker);
         unset($this->context);
         unset($this->config);
     }
 
     /**
-     * @param string $key
-     * @param string $value
-     * @return string|bool
+     * @override
+     * @inheritDoc
      */
-    public function setOption($key, $value)
+    public function setOption($key, $val)
     {
-        return ini_set($key, $value);
+        return $this->invoker->call('ini_set', [ $key, $val ]);
     }
 
     /**
-     * @param string $key
-     * @return string|bool
+     * @override
+     * @inheritDoc
      */
     public function getOption($key)
     {
-        return ini_get($key);
+        return $this->invoker->call('ini_get', [ $key ]);
     }
 
     /**
-     * @param string $key
-     * @return string|bool
+     * @override
+     * @inheritDoc
      */
     public function restoreOption($key)
     {
-        ini_restore($key);
+        $this->invoker->call('ini_restore', [ $key ]);
 
         return $this->getOption($key);
     }
 
     /**
-     * @param string $key
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function getEnv($key)
     {
@@ -81,9 +89,8 @@ class Environment implements EnvironmentInterface
     }
 
     /**
-     * @param string $key
-     * @param string $val
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function matchEnv($key, $val)
     {
@@ -91,38 +98,52 @@ class Environment implements EnvironmentInterface
     }
 
     /**
-     * @param callable $handler
+     * @override
+     * @inheritDoc
      */
     public function registerErrorHandler(callable $handler)
     {
-        set_error_handler($handler);
+        $this->invoker->call('set_error_handler', [ $handler ]);
     }
 
     /**
-     * @param callable $handler
+     * @override
+     * @inheritDoc
      */
     public function registerShutdownHandler(callable $handler)
     {
-        register_shutdown_function(function() use($handler) {
-            return $handler(
-                $this->context->type() === Runtime::UNIT_PROCESS
-            );
-        });
+        $this->invoker->call('register_shutdown_function', [
+            function() use($handler) {
+                return $handler(
+                    $this->context->type() === Runtime::UNIT_PROCESS
+                );
+            }
+        ]);
     }
 
     /**
-     * @param callable $handler
+     * @override
+     * @inheritDoc
      */
     public function registerExceptionHandler(callable $handler)
     {
-        set_exception_handler($handler);
+        $this->invoker->call('set_exception_handler', [ $handler ]);
     }
 
     /**
-     * @param callable $handler
+     * @override
+     * @inheritDoc
      */
     public function registerTerminationHandler(callable $handler)
     {
-        pcntl_signal(self::SIGTERM, $handler);
+        $this->invoker->call('pcntl_signal', [ self::SIGTERM, $handler ]);
+    }
+
+    /**
+     * @return InvokerInterface
+     */
+    protected function createInvoker()
+    {
+        return new Invoker();
     }
 }

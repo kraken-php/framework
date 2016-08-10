@@ -28,7 +28,7 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
      */
     public function type()
     {
-        return $this->core()->unit();
+        return $this->getCore()->unit();
     }
 
     /**

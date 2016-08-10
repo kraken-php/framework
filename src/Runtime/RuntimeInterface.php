@@ -4,6 +4,7 @@ namespace Kraken\Runtime;
 
 use Kraken\Core\CoreGetterAwareInterface;
 use Kraken\Core\CoreInputContextInterface;
+use Kraken\Core\CoreInterface;
 use Kraken\Event\EventEmitterInterface;
 use Kraken\Event\EventHandler;
 use Kraken\Loop\LoopGetterAwareInterface;
@@ -31,6 +32,11 @@ interface RuntimeInterface extends
     CoreGetterAwareInterface,
     LoopGetterAwareInterface
 {
+    /**
+     * @return CoreInterface
+     */
+    public function core();
+
     /**
      * @return RuntimeModelInterface
      */

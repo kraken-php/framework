@@ -5,12 +5,12 @@ namespace Kraken\Core;
 trait CoreAwareTrait
 {
     /**
-     * @var CoreInterface
+     * @var CoreInterface|null
      */
-    protected $core;
+    protected $core = null;
 
     /**
-     * @param CoreInterface|null $core
+     * @see CoreSetterAwareInterface::setCore
      */
     public function setCore(CoreInterface $core = null)
     {
@@ -18,17 +18,9 @@ trait CoreAwareTrait
     }
 
     /**
-     * @return CoreInterface
+     * @see CoreGetterAwareInterface::getCore
      */
     public function getCore()
-    {
-        return $this->core;
-    }
-
-    /**
-     * @return CoreInterface
-     */
-    public function core()
     {
         return $this->core;
     }
