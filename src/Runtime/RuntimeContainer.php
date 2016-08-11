@@ -55,7 +55,7 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
      */
     public function type()
     {
-        return $this->core()->unit();
+        return $this->getCore()->unit();
     }
 
     /**
@@ -83,7 +83,7 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @return CoreInterface
+     * @return CoreInterface|null
      */
     public function getCore()
     {
@@ -91,15 +91,15 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @param CoreInterface $core
+     * @param CoreInterface|null $core
      */
-    public function setCore(CoreInterface $core)
+    public function setCore(CoreInterface $core = null)
     {
         $this->model->setCore($core);
     }
 
     /**
-     * @return CoreInterface
+     * @return CoreInterface|null
      */
     public function core()
     {
@@ -111,7 +111,7 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
      */
     public function manager()
     {
-        return $this->model->runtimeManager();
+        return $this->model->getRuntimeManager();
     }
 
     /**

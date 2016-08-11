@@ -167,7 +167,7 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @param CoreInterface $core
+     * @param CoreInterface|null $core
      */
     public function setCore(CoreInterface $core = null)
     {
@@ -175,7 +175,7 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return CoreInterface
+     * @return CoreInterface|null
      */
     public function getCore()
     {
@@ -191,15 +191,15 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @param RuntimeManagerInterface $manager
+     * @param RuntimeManagerInterface|null $manager
      */
-    public function setRuntimeManager(RuntimeManagerInterface $manager)
+    public function setRuntimeManager(RuntimeManagerInterface $manager = null)
     {
         $this->manager = $manager;
     }
 
     /**
-     * @return RuntimeManagerInterface
+     * @return RuntimeManagerInterface|null
      */
     public function getRuntimeManager()
     {
@@ -207,24 +207,16 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return RuntimeManagerInterface
+     * @param LoopExtendedInterface|null $loop
      */
-    public function runtimeManager()
-    {
-        return $this->manager;
-    }
-
-    /**
-     * @param LoopExtendedInterface $loop
-     */
-    public function setLoop(LoopExtendedInterface $loop)
+    public function setLoop(LoopExtendedInterface $loop = null)
     {
         $this->loop = $loop;
-        $this->loopBackup = new Loop($this->reflect($this->loop->getModel()));
+        $this->loopBackup = $loop !== null ? new Loop($this->reflect($this->loop->getModel())) : $loop;
     }
 
     /**
-     * @return LoopExtendedInterface
+     * @return LoopExtendedInterface|null
      */
     public function getLoop()
     {
@@ -240,15 +232,15 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @param SupervisorInterface $supervisor
+     * @param SupervisorInterface|null $supervisor
      */
-    public function setSupervisor(SupervisorInterface $supervisor)
+    public function setSupervisor(SupervisorInterface $supervisor = null)
     {
         $this->supervisor = $supervisor;
     }
 
     /**
-     * @return SupervisorInterface
+     * @return SupervisorInterface|null
      */
     public function getSupervisor()
     {
@@ -264,15 +256,15 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @param EventEmitterInterface $emitter
+     * @param EventEmitterInterface|null $emitter
      */
-    public function setEventEmitter(EventEmitterInterface $emitter)
+    public function setEventEmitter(EventEmitterInterface $emitter = null)
     {
         $this->eventEmitter = $emitter;
     }
 
     /**
-     * @return EventEmitterInterface
+     * @return EventEmitterInterface|null
      */
     public function getEventEmitter()
     {
@@ -359,7 +351,13 @@ class RuntimeModel implements RuntimeModelInterface
     {
         $state = $this->getState();
 
-        if ($state !== Runtime::STATE_DESTROYED)
+        if ($state === Runtime::STATE_CREATED)
+        {
+            return Promise::doResolve(
+                'Runtime has been already created.'
+            );
+        }
+        else if ($state !== Runtime::STATE_DESTROYED)
         {
             return Promise::doReject(
                 new RejectionException("It is not possible to create runtime from state [$state].")
@@ -367,21 +365,23 @@ class RuntimeModel implements RuntimeModelInterface
         }
 
         $promise = new Promise();
-        $this->loop()->afterTick(function() use($promise) {
-            $this
-                ->start()
-                ->then(
-                    function() use($promise) {
-                        return $promise->resolve('Runtime has been created.');
-                    }
-                );
+        $this->getLoop()->afterTick(function() use($promise) {
+            $promise->resolve(
+                $this
+                    ->start()
+                    ->then(function() {
+                        return 'Runtime has been created.';
+                    })
+            );
         });
 
         $this->setState(Runtime::STATE_CREATED);
-        $emitter = $this->eventEmitter();
+
+        $emitter = $this->getEventEmitter();
         $emitter->emit('beforeCreate');
         $emitter->emit('create');
         $emitter->emit('afterCreate');
+
         $this->setLoopState(self::LOOP_STATE_STARTED);
         $this->startLoop();
 
@@ -393,6 +393,15 @@ class RuntimeModel implements RuntimeModelInterface
      */
     public function destroy()
     {
+        $state = $this->getState();
+
+        if ($state === Runtime::STATE_DESTROYED)
+        {
+            return Promise::doResolve(
+                'Runtime has been already destroyed.'
+            );
+        }
+
         $controller = $this;
         return $controller
             ->stop()
@@ -401,32 +410,31 @@ class RuntimeModel implements RuntimeModelInterface
                     return Promise::doResolve()
                         ->then(
                             function() {
-                                return $this->runtimeManager()->getRuntimes();
+                                return $this->getRuntimeManager()->getRuntimes();
                             }
                         )
                         ->then(
                             function($runtimes) {
-                                return $this->runtimeManager()->destroyProcesses($runtimes, Runtime::DESTROY_FORCE);
+                                return $this->getRuntimeManager()->destroyProcesses($runtimes, Runtime::DESTROY_FORCE);
                             }
                         );
                 }
             )
             ->then(
-                function() {
-                    return 'Runtime has been destroyed.';
-                }
-            )
-            ->then(
                 function() use($controller) {
-                    $controller->loop()->afterTick(function() use($controller) {
+                    $controller->getLoop()->afterTick(function() use($controller) {
                         $controller->setState(Runtime::STATE_DESTROYED);
-                        $emitter = $controller->eventEmitter();
+
+                        $emitter = $controller->getEventEmitter();
                         $emitter->emit('beforeDestroy');
                         $emitter->emit('destroy');
                         $emitter->emit('afterDestroy');
+
                         $controller->setLoopState(self::LOOP_STATE_STOPPED);
                         $controller->stopLoop();
                     });
+
+                    return 'Runtime has been destroyed.';
                 }
             );
     }
@@ -444,15 +452,19 @@ class RuntimeModel implements RuntimeModelInterface
                 new RejectionException("It is not possible to start runtime from state [$state].")
             );
         }
-
-        if ($state !== Runtime::STATE_STARTED)
+        else if ($state === Runtime::STATE_STARTED)
         {
-            $this->setState(Runtime::STATE_STARTED);
-            $emitter = $this->eventEmitter();
-            $emitter->emit('beforeStart');
-            $emitter->emit('start');
-            $emitter->emit('afterStart');
+            return Promise::doResolve(
+                'Runtime has been already started.'
+            );
         }
+
+        $this->setState(Runtime::STATE_STARTED);
+
+        $emitter = $this->getEventEmitter();
+        $emitter->emit('beforeStart');
+        $emitter->emit('start');
+        $emitter->emit('afterStart');
 
         return Promise::doResolve('Runtime has been started.');
     }
@@ -470,15 +482,19 @@ class RuntimeModel implements RuntimeModelInterface
                 new RejectionException("It is not possible to stop runtime from state [$state].")
             );
         }
-
-        if ($state !== Runtime::STATE_STOPPED)
+        else if ($state === Runtime::STATE_STOPPED)
         {
-            $this->setState(Runtime::STATE_STOPPED);
-            $emitter = $this->eventEmitter();
-            $emitter->emit('beforeStop');
-            $emitter->emit('stop');
-            $emitter->emit('afterStop');
+            return Promise::doResolve(
+                'Runtime has been already stopped.'
+            );
         }
+
+        $this->setState(Runtime::STATE_STOPPED);
+
+        $emitter = $this->getEventEmitter();
+        $emitter->emit('beforeStop');
+        $emitter->emit('stop');
+        $emitter->emit('afterStop');
 
         return Promise::doResolve('Runtime has been stopped.');
     }
@@ -489,12 +505,13 @@ class RuntimeModel implements RuntimeModelInterface
      */
     public function fail($ex, $params = [])
     {
-        $manager = $this->getSupervisor();
+        $super = $this->getSupervisor();
+
         $this->setLoopState(self::LOOP_STATE_FAILED);
-        $this->loop()->afterTick(function() use($manager, $ex, $params) {
+        $this->getLoop()->afterTick(function() use($super, $ex, $params) {
             try
             {
-                $manager
+                $super
                     ->handle($ex, $params)
                     ->done(
                         null,
@@ -505,12 +522,12 @@ class RuntimeModel implements RuntimeModelInterface
             }
             catch (Error $ex)
             {
-                $manager
+                $super
                     ->handle($ex);
             }
             catch (Exception $ex)
             {
-                $manager
+                $super
                     ->handle($ex);
             }
         });
@@ -536,41 +553,30 @@ class RuntimeModel implements RuntimeModelInterface
             return;
         }
 
-        try
+        switch ($state)
         {
-            switch ($state)
-            {
-                case self::LOOP_STATE_STOPPED:
-                    $this->stopLoop();
-                    break;
+            case self::LOOP_STATE_STOPPED:
+                $this->stopLoop();
+                break;
 
-                case self::LOOP_STATE_STARTED:
-                    $this->stopLoop();
-                    if ($this->loopState === self::LOOP_STATE_FAILED)
-                    {
-                        $this->loop()->import($this->loopBackup);
-                    }
-                    break;
+            case self::LOOP_STATE_STARTED:
+                $this->stopLoop();
+                if ($this->loopState === self::LOOP_STATE_FAILED)
+                {
+                    $this->getLoop()->import($this->loopBackup);
+                }
+                break;
 
-                case self::LOOP_STATE_FAILED:
-                    $this->stopLoop();
-                    if ($this->loopState === self::LOOP_STATE_STARTED)
-                    {
-                        $this->loop()->export($this->loopBackup)->flush();
-                    }
-                    break;
+            case self::LOOP_STATE_FAILED:
+                $this->stopLoop();
+                if ($this->loopState === self::LOOP_STATE_STARTED)
+                {
+                    $this->getLoop()->export($this->loopBackup)->flush();
+                }
+                break;
 
-                default:
-                    throw new LogicException('RuntimeModel::setState() tried switching to invalid state.');
-            }
-        }
-        catch (Error $ex)
-        {
-            throw $ex;
-        }
-        catch (Exception $ex)
-        {
-            throw $ex;
+            default:
+                throw new LogicException('Method RuntimeModel::setLoopState() tried switching to invalid state.');
         }
 
         $this->loopState = $this->loopNextState = $state;
@@ -604,7 +610,7 @@ class RuntimeModel implements RuntimeModelInterface
 
             try
             {
-                $this->loop()->start();
+                $this->getLoop()->start();
             }
             catch (Error $ex)
             {
@@ -622,7 +628,7 @@ class RuntimeModel implements RuntimeModelInterface
      */
     protected function stopLoop()
     {
-        $this->loop()->stop();
+        $this->getLoop()->stop();
     }
 
     /**

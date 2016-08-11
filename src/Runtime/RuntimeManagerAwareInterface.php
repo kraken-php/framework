@@ -5,17 +5,12 @@ namespace Kraken\Runtime;
 interface RuntimeManagerAwareInterface
 {
     /**
-     * @param RuntimeManagerInterface $manager
+     * @param RuntimeManagerInterface|null $manager
      */
-    public function setRuntimeManager(RuntimeManagerInterface $manager);
+    public function setRuntimeManager(RuntimeManagerInterface $manager = null);
 
     /**
-     * @return RuntimeManagerInterface
+     * @return RuntimeManagerInterface|null
      */
     public function getRuntimeManager();
-
-    /**
-     * @return RuntimeManagerInterface
-     */
-    public function runtimeManager();
 }
