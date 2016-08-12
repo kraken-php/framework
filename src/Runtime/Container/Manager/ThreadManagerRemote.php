@@ -67,7 +67,7 @@ class ThreadManagerRemote implements ThreadManagerInterface
      */
     public function createThread($alias, $name, $flags = Runtime::CREATE_DEFAULT)
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $this->receiver,
             new RuntimeCommand('thread:create', [ 'alias' => $alias, 'name' => $name, 'flags' => $flags ])
@@ -83,7 +83,7 @@ class ThreadManagerRemote implements ThreadManagerInterface
      */
     public function destroyThread($alias, $flags = Runtime::DESTROY_FORCE_SOFT)
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $this->receiver,
             new RuntimeCommand('thread:destroy', [ 'alias' => $alias, 'flags' => $flags ])
@@ -98,7 +98,7 @@ class ThreadManagerRemote implements ThreadManagerInterface
      */
     public function startThread($alias)
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $this->receiver,
             new RuntimeCommand('thread:start', [ 'alias' => $alias ])
@@ -113,7 +113,7 @@ class ThreadManagerRemote implements ThreadManagerInterface
      */
     public function stopThread($alias)
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $this->receiver,
             new RuntimeCommand('thread:stop', [ 'alias' => $alias ])
@@ -129,7 +129,7 @@ class ThreadManagerRemote implements ThreadManagerInterface
      */
     public function createThreads($definitions, $flags = Runtime::CREATE_DEFAULT)
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $this->receiver,
             new RuntimeCommand('threads:create', [ 'definitions' => $definitions, 'flags' => $flags ])
@@ -145,7 +145,7 @@ class ThreadManagerRemote implements ThreadManagerInterface
      */
     public function destroyThreads($aliases, $flags = Runtime::DESTROY_FORCE_SOFT)
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $this->receiver,
             new RuntimeCommand('threads:destroy', [ 'aliases' => $aliases, 'flags' => $flags ])
@@ -160,7 +160,7 @@ class ThreadManagerRemote implements ThreadManagerInterface
      */
     public function startThreads($aliases)
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $this->receiver,
             new RuntimeCommand('threads:start', [ 'aliases' => $aliases ])
@@ -175,7 +175,7 @@ class ThreadManagerRemote implements ThreadManagerInterface
      */
     public function stopThreads($aliases)
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $this->receiver,
             new RuntimeCommand('threads:stop', [ 'aliases' => $aliases ])
@@ -189,7 +189,7 @@ class ThreadManagerRemote implements ThreadManagerInterface
      */
     public function getThreads()
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $this->receiver,
             new RuntimeCommand('threads:get')
@@ -205,5 +205,16 @@ class ThreadManagerRemote implements ThreadManagerInterface
     public function flushThreads($flags = Runtime::DESTROY_KEEP)
     {
         return Promise::doReject(new RejectionException('Threads storage cannot be flushed.'));
+    }
+
+    /**
+     * @param ChannelBaseInterface $channel
+     * @param string $receiver
+     * @param string $command
+     * @return Request
+     */
+    protected function createRequest(ChannelBaseInterface $channel, $receiver, $command)
+    {
+        return new Request($channel, $receiver, $command);
     }
 }

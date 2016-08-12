@@ -2,8 +2,10 @@
 
 namespace Kraken\Runtime\Container;
 
-use Kraken\Util\Factory\Factory;
+use Kraken\Runtime\Container\Manager\ProcessManagerBase;
+use Kraken\Runtime\Container\Manager\ProcessManagerRemote;
 use Kraken\Runtime\Container\Manager\ProcessManagerNull;
+use Kraken\Util\Factory\Factory;
 use ReflectionClass;
 
 class ProcessManagerFactory extends Factory implements ProcessManagerFactoryInterface
@@ -17,8 +19,8 @@ class ProcessManagerFactory extends Factory implements ProcessManagerFactoryInte
 
         $factory = $this;
         $factory
-            ->define('Kraken\Runtime\Container\Manager\ProcessManagerBase', function($config) {
-                $reflection = (new ReflectionClass('Kraken\Runtime\Container\Manager\ProcessManagerBase'));
+            ->define(ProcessManagerBase::class, function($config = []) {
+                $reflection = (new ReflectionClass(ProcessManagerBase::class));
                 return $reflection->newInstanceArgs([
                     $config['runtime'],
                     $config['channel'],
@@ -27,15 +29,15 @@ class ProcessManagerFactory extends Factory implements ProcessManagerFactoryInte
                     $config['filesystem']
                 ]);
             })
-            ->define('Kraken\Runtime\Container\Manager\ProcessManagerRemote', function($config) {
-                $reflection = (new ReflectionClass('Kraken\Runtime\Container\Manager\ProcessManagerRemote'));
+            ->define(ProcessManagerRemote::class, function($config = []) {
+                $reflection = (new ReflectionClass(ProcessManagerRemote::class));
                 return $reflection->newInstanceArgs([
                     $config['runtime'],
                     $config['channel'],
                     $config['receiver']
                 ]);
             })
-            ->define('Kraken\Runtime\Container\Manager\ProcessManagerNull', function($config) {
+            ->define(ProcessManagerNull::class, function($config = []) {
                 return new ProcessManagerNull();
             })
         ;

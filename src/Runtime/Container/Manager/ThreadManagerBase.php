@@ -78,10 +78,12 @@ class ThreadManagerBase implements ThreadManagerInterface
                 $name = $this->threads[$alias]->name;
             }
 
+            $manager = $this;
+
             if ($flags === Runtime::CREATE_FORCE_SOFT)
             {
-                $manager = $this;
-                return $this->destroyThread($alias, Runtime::DESTROY_FORCE_SOFT)
+                return $this
+                    ->destroyThread($alias, Runtime::DESTROY_FORCE_SOFT)
                     ->then(
                         function() use($manager, $alias, $name) {
                             return $manager->createThread($alias, $name);
@@ -90,8 +92,8 @@ class ThreadManagerBase implements ThreadManagerInterface
             }
             else if ($flags === Runtime::CREATE_FORCE_HARD)
             {
-                $manager = $this;
-                return $this->destroyThread($alias, Runtime::DESTROY_FORCE_HARD)
+                return $this
+                    ->destroyThread($alias, Runtime::DESTROY_FORCE_HARD)
                     ->then(
                         function() use($manager, $alias, $name) {
                             return $manager->createThread($alias, $name);
@@ -100,8 +102,8 @@ class ThreadManagerBase implements ThreadManagerInterface
             }
             else if ($flags === Runtime::CREATE_FORCE)
             {
-                $manager = $this;
-                return $this->destroyThread($alias, Runtime::DESTROY_FORCE)
+                return $this
+                    ->destroyThread($alias, Runtime::DESTROY_FORCE)
                     ->then(
                         function() use($manager, $alias, $name) {
                             return $manager->createThread($alias, $name);
@@ -132,7 +134,7 @@ class ThreadManagerBase implements ThreadManagerInterface
 
         $this->allocateThread($alias, $wrapper);
 
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel, $alias, new RuntimeCommand('cmd:ping')
         );
 
@@ -175,7 +177,7 @@ class ThreadManagerBase implements ThreadManagerInterface
         }
         else if ($flags === Runtime::DESTROY_FORCE_SOFT)
         {
-            $req = new Request(
+            $req = $this->createRequest(
                 $this->channel,
                 $alias,
                 new RuntimeCommand('container:destroy')
@@ -193,7 +195,8 @@ class ThreadManagerBase implements ThreadManagerInterface
         else if ($flags === Runtime::DESTROY_FORCE)
         {
             $manager = $this;
-            return $manager->destroyThread($alias, Runtime::DESTROY_FORCE_SOFT)
+            return $manager
+                ->destroyThread($alias, Runtime::DESTROY_FORCE_SOFT)
                 ->then(
                     null,
                     function() use($manager, $alias) {
@@ -213,10 +216,6 @@ class ThreadManagerBase implements ThreadManagerInterface
             ->then(
                 function() use($manager, $alias) {
                     $manager->freeThread($alias);
-                }
-            )
-            ->then(
-                function() {
                     return "Thread has been destroyed!";
                 }
             );
@@ -228,7 +227,7 @@ class ThreadManagerBase implements ThreadManagerInterface
      */
     public function startThread($alias)
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $alias,
             new RuntimeCommand('container:start')
@@ -243,7 +242,7 @@ class ThreadManagerBase implements ThreadManagerInterface
      */
     public function stopThread($alias)
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $alias,
             new RuntimeCommand('container:stop')
@@ -312,7 +311,7 @@ class ThreadManagerBase implements ThreadManagerInterface
 
         foreach ($aliases as $alias)
         {
-            $promises[] = $this->startThreads($alias);
+            $promises[] = $this->startThread($alias);
         }
 
         return Promise::all($promises)
@@ -372,22 +371,25 @@ class ThreadManagerBase implements ThreadManagerInterface
     {
         $promises = [];
 
-        if ($flags !== Runtime::DESTROY_KEEP)
+        if ($flags === Runtime::DESTROY_KEEP)
         {
-            foreach ($this->threads as $alias=>$process)
-            {
-                $promises[] = $this->destroyThread($alias, $flags);
-            }
+            return Promise::doReject(
+                new RejectionException('Threads storage could not be flushed because of force level set to DESTROY_KEEP.')
+            );
+        }
+
+        foreach ($this->threads as $alias=>$process)
+        {
+            $promises[] = $this->destroyThread($alias, $flags);
         }
 
         return Promise::all($promises)
-            ->always(function() {
-                $this->threads = [];
-            })
-            ->then(function() {
-                return 'Threads storage has been flushed.';
-            })
-        ;
+            ->then(
+                function() {
+                    $this->threads = [];
+                    return 'Threads storage has been flushed.';
+                }
+            );
     }
 
     /**
@@ -411,5 +413,16 @@ class ThreadManagerBase implements ThreadManagerInterface
     {
         unset($this->threads[$alias]);
         return true;
+    }
+
+    /**
+     * @param ChannelBaseInterface $channel
+     * @param string $receiver
+     * @param string $command
+     * @return Request
+     */
+    protected function createRequest(ChannelBaseInterface $channel, $receiver, $command)
+    {
+        return new Request($channel, $receiver, $command);
     }
 }

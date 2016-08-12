@@ -79,8 +79,8 @@ class ProcessManagerBase implements ProcessManagerInterface
         $this->system = $system;
         $this->fs = $fs;
 
-        $this->scriptRoot = $runtime->core()->dataPath() . '/autorun';
-        $this->fsPath = $runtime->core()->dataDir() . '/tmp/process/' . $runtime->alias() . '/manager/processes.json';
+        $this->scriptRoot = $runtime->getCore()->dataPath() . '/autorun';
+        $this->fsPath = $runtime->getCore()->dataDir() . '/tmp/process/' . $runtime->alias() . '/manager/processes.json';
         $this->processes = [];
 
         try
@@ -137,16 +137,17 @@ class ProcessManagerBase implements ProcessManagerInterface
                 $name = $this->processes[$alias]['name'];
             }
 
+            $manager = $this;
+
             if ($flags === Runtime::CREATE_DEFAULT && $this->processes[$alias]['verified'] === false)
             {
-                $manager = $this;
-                $req = new Request(
+                $req = $this->createRequest(
                     $this->channel, $alias, new RuntimeCommand('cmd:ping')
                 );
 
                 return $req->call()
                     ->then(
-                        function($response) {
+                        function() {
                             return 'Process has been created.';
                         },
                         function() use($manager, $alias, $name) {
@@ -156,8 +157,8 @@ class ProcessManagerBase implements ProcessManagerInterface
             }
             else if ($flags === Runtime::CREATE_FORCE_SOFT)
             {
-                $manager = $this;
-                return $this->destroyProcess($alias, Runtime::DESTROY_FORCE_SOFT)
+                return $this
+                    ->destroyProcess($alias, Runtime::DESTROY_FORCE_SOFT)
                     ->then(
                         function() use($manager, $alias, $name) {
                             return $manager->createProcess($alias, $name);
@@ -166,8 +167,8 @@ class ProcessManagerBase implements ProcessManagerInterface
             }
             else if ($flags === Runtime::CREATE_FORCE_HARD)
             {
-                $manager = $this;
-                return $this->destroyProcess($alias, Runtime::DESTROY_FORCE_HARD)
+                return $this
+                    ->destroyProcess($alias, Runtime::DESTROY_FORCE_HARD)
                     ->then(
                         function() use($manager, $alias, $name) {
                             return $manager->createProcess($alias, $name);
@@ -176,7 +177,6 @@ class ProcessManagerBase implements ProcessManagerInterface
             }
             else if ($flags === Runtime::CREATE_FORCE)
             {
-                $manager = $this;
                 return $this->destroyProcess($alias, Runtime::DESTROY_FORCE)
                     ->then(
                         function() use($manager, $alias, $name) {
@@ -208,13 +208,13 @@ class ProcessManagerBase implements ProcessManagerInterface
             return Promise::doReject(new ResourceDefinedException('Process could not be created because of storage failure.'));
         }
 
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel, $alias, new RuntimeCommand('cmd:ping')
         );
 
         return $req->call()
             ->then(
-                function($response) {
+                function() {
                     return 'Process has been created.';
                 },
                 function($reason) use($alias) {
@@ -251,7 +251,7 @@ class ProcessManagerBase implements ProcessManagerInterface
         }
         else if ($flags === Runtime::DESTROY_FORCE_SOFT)
         {
-            $req = new Request(
+            $req = $this->createRequest(
                 $this->channel,
                 $alias,
                 new RuntimeCommand('container:destroy')
@@ -303,10 +303,6 @@ class ProcessManagerBase implements ProcessManagerInterface
             ->then(
                 function() use($manager, $alias) {
                     $manager->freeProcess($alias);
-                }
-            )
-            ->then(
-                function() {
                     return "Process has been destroyed!";
                 }
             );
@@ -318,7 +314,7 @@ class ProcessManagerBase implements ProcessManagerInterface
      */
     public function startProcess($alias)
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $alias,
             new RuntimeCommand('container:start')
@@ -333,7 +329,7 @@ class ProcessManagerBase implements ProcessManagerInterface
      */
     public function stopProcess($alias)
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $alias,
             new RuntimeCommand('container:stop')
@@ -462,23 +458,26 @@ class ProcessManagerBase implements ProcessManagerInterface
     {
         $promises = [];
 
-        if ($flags !== Runtime::DESTROY_KEEP)
+        if ($flags === Runtime::DESTROY_KEEP)
         {
-            foreach ($this->processes as $alias=>$process)
-            {
-                $promises[] = $this->destroyProcess($alias, $flags);
-            }
+            return Promise::doReject(
+                new RejectionException('Process storage could not be flushed because of force level set to DESTROY_KEEP.')
+            );
+        }
+
+        foreach ($this->processes as $alias=>$process)
+        {
+            $promises[] = $this->destroyProcess($alias, $flags);
         }
 
         return Promise::all($promises)
-            ->always(function() {
-                $this->processes = [];
-                $this->updateStorage();
-            })
-            ->then(function() {
-                return 'Processes storage has been flushed.';
-            })
-        ;
+            ->then(
+                function() {
+                    $this->processes = [];
+                    $this->updateStorage();
+                    return 'Processes storage has been flushed.';
+                }
+            );
     }
 
     /**
@@ -535,6 +534,17 @@ class ProcessManagerBase implements ProcessManagerInterface
         }
 
         return true;
+    }
+
+    /**
+     * @param ChannelBaseInterface $channel
+     * @param string $receiver
+     * @param string $command
+     * @return Request
+     */
+    protected function createRequest(ChannelBaseInterface $channel, $receiver, $command)
+    {
+        return new Request($channel, $receiver, $command);
     }
 
     /**

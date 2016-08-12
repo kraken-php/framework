@@ -38,7 +38,7 @@ class ProcessManagerRemote implements ProcessManagerInterface
     {
         $this->runtime = $runtime;
         $this->channel = $channel;
-        $this->receiver = ($receiver !== null) ? $receiver : $runtime->parent();
+        $this->receiver = $receiver !== null ? $receiver : $runtime->parent();
     }
 
     /**
@@ -68,7 +68,7 @@ class ProcessManagerRemote implements ProcessManagerInterface
      */
     public function createProcess($alias, $name, $flags = Runtime::CREATE_DEFAULT)
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $this->receiver,
             new RuntimeCommand('process:create', [ 'alias' => $alias, 'name' => $name, 'flags' => $flags ])
@@ -84,7 +84,7 @@ class ProcessManagerRemote implements ProcessManagerInterface
      */
     public function destroyProcess($alias, $flags = Runtime::DESTROY_FORCE_SOFT)
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $this->receiver,
             new RuntimeCommand('process:destroy', [ 'alias' => $alias, 'flags' => $flags ])
@@ -99,7 +99,7 @@ class ProcessManagerRemote implements ProcessManagerInterface
      */
     public function startProcess($alias)
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $this->receiver,
             new RuntimeCommand('process:start', [ 'alias' => $alias ])
@@ -114,7 +114,7 @@ class ProcessManagerRemote implements ProcessManagerInterface
      */
     public function stopProcess($alias)
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $this->receiver,
             new RuntimeCommand('process:stop', [ 'alias' => $alias ])
@@ -130,7 +130,7 @@ class ProcessManagerRemote implements ProcessManagerInterface
      */
     public function createProcesses($definitions, $flags = Runtime::CREATE_DEFAULT)
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $this->receiver,
             new RuntimeCommand('processes:create', [ 'definitions' => $definitions, 'flags' => $flags ])
@@ -146,7 +146,7 @@ class ProcessManagerRemote implements ProcessManagerInterface
      */
     public function destroyProcesses($aliases, $flags = Runtime::DESTROY_FORCE_SOFT)
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $this->receiver,
             new RuntimeCommand('processes:destroy', [ 'aliases' => $aliases, 'flags' => $flags ])
@@ -161,7 +161,7 @@ class ProcessManagerRemote implements ProcessManagerInterface
      */
     public function startProcesses($aliases)
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $this->receiver,
             new RuntimeCommand('processes:start', [ 'aliases' => $aliases ])
@@ -176,7 +176,7 @@ class ProcessManagerRemote implements ProcessManagerInterface
      */
     public function stopProcesses($aliases)
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $this->receiver,
             new RuntimeCommand('processes:stop', [ 'aliases' => $aliases ])
@@ -190,10 +190,10 @@ class ProcessManagerRemote implements ProcessManagerInterface
      */
     public function getProcesses()
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $this->receiver,
-            new RuntimeCommand('process:get')
+            new RuntimeCommand('processes:get')
         );
 
         return $req->call();
@@ -206,5 +206,16 @@ class ProcessManagerRemote implements ProcessManagerInterface
     public function flushProcesses($flags = Runtime::DESTROY_KEEP)
     {
         return Promise::doReject(new RejectionException('Processes storage cannot be flushed.'));
+    }
+
+    /**
+     * @param ChannelBaseInterface $channel
+     * @param string $receiver
+     * @param string $command
+     * @return Request
+     */
+    protected function createRequest(ChannelBaseInterface $channel, $receiver, $command)
+    {
+        return new Request($channel, $receiver, $command);
     }
 }

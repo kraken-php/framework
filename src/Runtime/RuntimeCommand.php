@@ -36,6 +36,22 @@ class RuntimeCommand
     /**
      * @return string
      */
+    public function getCommand()
+    {
+        return $this->command;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getParams()
+    {
+        return $this->params;
+    }
+
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return json_encode(array_merge([ $this->command ], $this->params));

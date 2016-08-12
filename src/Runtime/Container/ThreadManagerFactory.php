@@ -2,8 +2,10 @@
 
 namespace Kraken\Runtime\Container;
 
-use Kraken\Util\Factory\Factory;
+use Kraken\Runtime\Container\Manager\ThreadManagerBase;
+use Kraken\Runtime\Container\Manager\ThreadManagerRemote;
 use Kraken\Runtime\Container\Manager\ThreadManagerNull;
+use Kraken\Util\Factory\Factory;
 use ReflectionClass;
 
 class ThreadManagerFactory extends Factory implements ThreadManagerFactoryInterface
@@ -17,22 +19,22 @@ class ThreadManagerFactory extends Factory implements ThreadManagerFactoryInterf
 
         $factory = $this;
         $factory
-            ->define('Kraken\Runtime\Container\Manager\ThreadManagerBase', function($config) {
-                $reflection = (new ReflectionClass('Kraken\Runtime\Container\Manager\ThreadManagerBase'));
+            ->define(ThreadManagerBase::class, function($config = []) {
+                $reflection = (new ReflectionClass(ThreadManagerBase::class));
                 return $reflection->newInstanceArgs([
                     $config['runtime'],
                     $config['channel']
                 ]);
             })
-            ->define('Kraken\Runtime\Container\Manager\ThreadManagerRemote', function($config) {
-                $reflection = (new ReflectionClass('Kraken\Runtime\Container\Manager\ThreadManagerRemote'));
+            ->define(ThreadManagerRemote::class, function($config = []) {
+                $reflection = (new ReflectionClass(ThreadManagerRemote::class));
                 return $reflection->newInstanceArgs([
                     $config['runtime'],
                     $config['channel'],
                     $config['receiver']
                 ]);
             })
-            ->define('Kraken\Runtime\Container\Manager\ThreadManagerNull', function($config) {
+            ->define(ThreadManagerNull::class, function($config = []) {
                 return new ThreadManagerNull();
             })
         ;
