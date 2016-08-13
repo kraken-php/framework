@@ -5,15 +5,11 @@ namespace Kraken\Throwable;
 use Kraken\Throwable\Error\FatalError;
 use Kraken\Throwable\Error\NoticeError;
 use Kraken\Throwable\Error\WarningError;
-use Kraken\Util\Enum\EnumTrait;
-use Kraken\Util\Enum\EnumInterface;
 use Error;
 use Exception;
 
-abstract class ErrorEnvHandler implements EnumInterface
+abstract class ErrorEnvHandler
 {
-    use EnumTrait;
-
     /**
      * @var int
      */
