@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\_Unit\Runtime\_Case;
+namespace Kraken\_Unit\Console\_Case;
 
 use Kraken\Core\Core;
 use Kraken\Event\EventEmitter;
@@ -222,7 +222,7 @@ trait RuntimeCase
         $arg1 = 'arg1';
         $arg2 = 'arg2';
 
-        $callable = $this->createCallableMock();
+        $callable = $test->createCallableMock();
         $callable
             ->expects($test->once())
             ->method('__invoke')

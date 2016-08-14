@@ -1,12 +1,13 @@
 <?php
 
-namespace Kraken\_Unit\Runtime;
+namespace Kraken\_Unit\Console\Server;
 
 use Kraken\_Unit\Runtime\_Case\RuntimeCase;
+use Kraken\Console\Server\ConsoleServer;
 use Kraken\Runtime\RuntimeContainer;
 use Kraken\Test\TUnit;
 
-class RuntimeContainerTest extends TUnit
+class ServerTest extends TUnit
 {
     use RuntimeCase;
 
@@ -21,6 +22,6 @@ class RuntimeContainerTest extends TUnit
         $params[1] = isset($params[1]) ? $params[1] : 'alias';
         $params[2] = isset($params[2]) ? $params[2] : 'class';
 
-        return $this->getMock(RuntimeContainer::class, $methods, $params);
+        return $this->getMock(ConsoleServer::class, $methods, $params);
     }
 }

@@ -5,9 +5,12 @@ namespace Kraken\_Unit\Runtime\Container;
 use Kraken\_Unit\Runtime\_Case\RuntimeCase;
 use Kraken\Runtime\Container\ProcessContainer;
 use Kraken\Runtime\RuntimeContainer;
+use Kraken\Test\TUnit;
 
-class ProcessContainerTest extends RuntimeCase
+class ProcessContainerTest extends TUnit
 {
+    use RuntimeCase;
+
     /**
      * @param string[] $params
      * @param string[]|null $methods

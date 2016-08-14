@@ -87,12 +87,12 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
      */
     public function start()
     {
-        $this->loop()->afterTick(function() {
+        $this->getLoop()->afterTick(function() {
             $this->emit('start');
             $this->emit('command');
         });
 
-        $this->loop()->start();
+        $this->getLoop()->start();
     }
 
     /**
@@ -101,7 +101,7 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
     public function stop()
     {
         $this->emit('stop');
-        $this->loop()->stop();
+        $this->getLoop()->stop();
     }
 
     /**

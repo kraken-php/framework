@@ -23,25 +23,19 @@ class ConsoleServer extends ProcessContainer
      */
     protected function construct(CoreInterface $core)
     {
-        echo "Server is up!\n";
-
-        $this->onCreate(function() {
-            $this->onCreateHandler();
-        });
+        echo "Server is being constructed...\n";
 
         return $this;
     }
 
     /**
-     *
+     * @param CoreInterface $core
+     * @return RuntimeInterface
      */
-    protected function onCreateHandler()
+    protected function boot(CoreInterface $core)
     {
-//        $manager = $this->manager();
-//        $manager
-//            ->createThread('A', 'Common')
-//            ->then(function() {
-//                echo "It works!\n";
-//            });
+        echo "Server is up!\n";
+
+        return $this;
     }
 }
