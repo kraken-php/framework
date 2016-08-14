@@ -120,7 +120,7 @@ class ErrorHandlerTest extends TUnit
     public function undefinedProvider()
     {
         return [
-            [ E_UNKNOWN,           ErrorHandler::E_UNSUPPORTED ]
+            [ 'E_UNKNOWN',         ErrorHandler::E_UNSUPPORTED ]
         ];
     }
 }
