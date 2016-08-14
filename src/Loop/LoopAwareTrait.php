@@ -24,10 +24,4 @@ trait LoopAwareTrait
     {
         return $this->loop;
     }
-
-    // TODO remove this
-    public function loop()
-    {
-        return $this->loop;
-    }
 }

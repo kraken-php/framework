@@ -17,7 +17,4 @@ interface LoopExtendedAwareInterface
      * @return LoopExtendedInterface
      */
     public function getLoop();
-
-    // TODO delete this
-    public function loop();
 }

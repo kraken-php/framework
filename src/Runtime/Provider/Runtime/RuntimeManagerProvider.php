@@ -138,7 +138,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
                 return;
             }
 
-            $timer = $runtime->loop()->addTimer($keepalive, function() use($alias, $runtime, $timerCollection) {
+            $timer = $runtime->getLoop()->addTimer($keepalive, function() use($alias, $runtime, $timerCollection) {
                 $timerCollection->removeTimer($alias);
                 $runtime->fail(
                     new ChildUnresponsiveException("Child runtime [$alias] is unresponsive."),
@@ -164,7 +164,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
                 return;
             }
 
-            $timer = $runtime->loop()->addTimer($keepalive, function() use($alias, $runtime, $timerCollection) {
+            $timer = $runtime->getLoop()->addTimer($keepalive, function() use($alias, $runtime, $timerCollection) {
                 $timerCollection->removeTimer($alias);
                 $runtime->fail(
                     new ParentUnresponsiveException("Parent runtime [$alias] is unresponsive."),

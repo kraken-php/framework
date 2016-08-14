@@ -10,7 +10,4 @@ interface LoopGetterAwareInterface
      * @return LoopInterface|null
      */
     public function getLoop();
-
-    // TODO delete this
-    public function loop();
 }

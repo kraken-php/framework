@@ -224,14 +224,6 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return LoopExtendedInterface
-     */
-    public function loop()
-    {
-        return $this->loop;
-    }
-
-    /**
      * @param SupervisorInterface|null $supervisor
      */
     public function setSupervisor(SupervisorInterface $supervisor = null)

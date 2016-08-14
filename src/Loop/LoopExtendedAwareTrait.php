@@ -24,10 +24,4 @@ trait LoopExtendedAwareTrait
     {
         return $this->loop;
     }
-
-    // TODO delete this
-    public function loop()
-    {
-        return $this->loop;
-    }
 }

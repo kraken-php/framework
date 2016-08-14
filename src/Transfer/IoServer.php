@@ -118,15 +118,6 @@ class IoServer implements IoServerInterface
      * @override
      * @inheritDoc
      */
-    public function loop()
-    {
-        return $this->listener->loop();
-    }
-
-    /**
-     * @override
-     * @inheritDoc
-     */
     public function isPaused()
     {
         return $this->listener->isPaused();

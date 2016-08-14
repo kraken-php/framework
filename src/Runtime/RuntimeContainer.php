@@ -123,14 +123,6 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @return LoopInterface
-     */
-    public function loop()
-    {
-        return $this->getLoop();
-    }
-
-    /**
      * @return int
      */
     public function state()
