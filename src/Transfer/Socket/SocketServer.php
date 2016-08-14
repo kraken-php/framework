@@ -54,9 +54,9 @@ class SocketServer implements SocketServerInterface
         {
             $this->component->handleConnect($socket->conn);
 
-            $socket->on('data', [$this, 'handleData']);
-            $socket->on('error', [$this, 'handleError']);
-            $socket->on('close', [$this, 'handleDisconnect']);
+            $socket->on('data',  [ $this, 'handleData' ]);
+            $socket->on('error', [ $this, 'handleError' ]);
+            $socket->on('close', [ $this, 'handleDisconnect' ]);
         }
         catch (Error $ex)
         {

@@ -182,17 +182,18 @@ class TUnit extends \PHPUnit_Framework_TestCase
     /**
      * Call protected method on a given object via reflection.
      *
-     * @param object $object
+     * @param object|string $objectOrClass
      * @param string $method
      * @param mixed[] $args
      * @return mixed
      */
-    public function callProtectedMethod($object, $method, $args = [])
+    public function callProtectedMethod($objectOrClass, $method, $args = [])
     {
-        $reflection = new ReflectionClass($object);
-        $reflection_method = $reflection->getMethod($method);
-        $reflection_method->setAccessible(true);
+        $reflection = new ReflectionClass($objectOrClass);
+        $reflectionMethod = $reflection->getMethod($method);
+        $reflectionMethod->setAccessible(true);
+        $reflectionTarget = is_object($objectOrClass) ? $objectOrClass : null;
 
-        return $reflection_method->invokeArgs($object, $args);
+        return $reflectionMethod->invokeArgs($reflectionTarget, $args);
     }
 }

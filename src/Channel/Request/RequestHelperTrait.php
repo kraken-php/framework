@@ -2,9 +2,9 @@
 
 namespace Kraken\Channel\Request;
 
-use Kraken\Throwable\LazyException;
-use Kraken\Throwable\Exception\Runtime\Execution\TimeoutException;
 use Kraken\Support\TimeSupport;
+use Kraken\Throwable\Exception\Runtime\Execution\TimeoutException;
+use Kraken\Throwable\ThrowableProxy;
 use Error;
 use Exception;
 
@@ -73,7 +73,7 @@ trait RequestHelperTrait
 
     /**
      * @param string $pid
-     * @param Error|Exception|LazyException $ex
+     * @param Error|Exception|ThrowableProxy $ex
      */
     protected function rejectRequest($pid, $ex)
     {
@@ -84,7 +84,7 @@ trait RequestHelperTrait
 
     /**
      * @param string $pid
-     * @param Error|Exception|LazyException $ex
+     * @param Error|Exception|ThrowableProxy $ex
      */
     protected function cancelRequest($pid, $ex)
     {
@@ -116,7 +116,7 @@ trait RequestHelperTrait
 
         foreach ($expiredReqs as $request)
         {
-            $request->cancel(new LazyException(new TimeoutException("Request has expired.")));
+            $request->cancel(new ThrowableProxy(new TimeoutException("Request has expired.")));
         }
     }
 }

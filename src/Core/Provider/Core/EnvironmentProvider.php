@@ -47,9 +47,9 @@ class EnvironmentProvider extends ServiceProvider implements ServiceProviderInte
 
         $this->setProcessProperties($env);
 
-        $env->registerErrorHandler([ 'Kraken\Throwable\ErrorEnvHandler', 'handleError' ]);
-        $env->registerShutdownHandler([ 'Kraken\Throwable\ErrorEnvHandler', 'handleShutdown' ]);
-        $env->registerExceptionHandler([ 'Kraken\Throwable\ExceptionEnvHandler', 'handleException' ]);
+        $env->registerErrorHandler([ 'Kraken\Throwable\ErrorHandler', 'handleError' ]);
+        $env->registerShutdownHandler([ 'Kraken\Throwable\ErrorHandler', 'handleShutdown' ]);
+        $env->registerExceptionHandler([ 'Kraken\Throwable\ExceptionHandler', 'handleException' ]);
 
         $core->instance(
             'Kraken\Core\EnvironmentInterface',

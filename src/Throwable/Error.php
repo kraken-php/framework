@@ -2,13 +2,13 @@
 
 namespace Kraken\Throwable;
 
-abstract class Error extends \Error
+class Error extends \Error
 {
     /**
      * @param string $message
-     * @param \Error|\Exception $previous
+     * @param \Error|\Exception|null $previous
      */
-    public function __construct($message = 'Unknown exception', $previous = null)
+    public function __construct($message = 'Unknown error', $previous = null)
     {
         parent::__construct($message, 0, $previous);
     }
@@ -18,40 +18,46 @@ abstract class Error extends \Error
      */
     public function __toString()
     {
-        return self::toString($this);
+        return static::toString($this);
     }
 
     /**
+     * Return Error full trace in string format.
+     *
      * @param \Error|\Exception $ex
      * @return string
      */
     public static function toString($ex)
     {
         return implode("\n", [
-            "",
-            self::toExceptionString($ex),
-            "\t" . 'stack trace:',
-            self::toTraceString($ex)
+            "\t" . 'Throwable trace:',
+            static::toThrowableString($ex),
+            "\t" . 'Stack trace:',
+            static::toStackString($ex)
         ]);
     }
 
     /**
+     * Return Error full trace in array format.
+     *
      * @param \Error|\Exception $ex
      * @return mixed
      */
     public static function toTrace($ex)
     {
-        return ThrowableHelper::getThrowableStack($ex);
+        return Throwable::getThrowableStack($ex);
     }
 
     /**
+     * Return Error stack trace in array format.
+     *
      * @param \Error|\Exception $ex
      * @return string[]
      */
-    public static function toTraceStack($ex)
+    public static function toStackTrace($ex)
     {
         $list = [];
-        for ($stack = ThrowableHelper::getThrowableStack($ex); $stack !== null; $stack = $stack['prev'])
+        for ($stack = Throwable::getThrowableStack($ex); $stack !== null; $stack = $stack['prev'])
         {
             $list = array_merge($stack['trace'], $list);
         }
@@ -60,31 +66,38 @@ abstract class Error extends \Error
     }
 
     /**
+     * Return Error throwable trace in array format.
+     *
      * @param \Error|\Exception $ex
      * @return string[]
      */
-    public static function toExceptionStack($ex)
+    public static function toThrowableTrace($ex)
     {
         $list = [];
-        for ($stack = ThrowableHelper::getThrowableStack($ex); $stack !== null; $stack = $stack['prev'])
+        for ($stack = Throwable::getThrowableStack($ex); $stack !== null; $stack = $stack['prev'])
         {
-            $list[] = ThrowableHelper::parseThrowableMessage($stack);
+            $list[] = Throwable::parseThrowableMessage($stack);
         }
 
         return array_reverse($list);
     }
 
     /**
+     * Return Error stack trace in string format.
+     *
      * @param \Error|\Exception $ex
      * @return string
      */
-    public static function toTraceString($ex)
+    public static function toStackString($ex)
     {
         $stack = [];
         $i = 0;
-        foreach (self::toTraceStack($ex) as $element)
+        $trace = static::toStackTrace($ex);
+        $pad = strlen(count($trace)) > 2 ?: 2;
+
+        foreach ($trace as $element)
         {
-            $stack[] = "\t#" . $i . ' ' . $element;
+            $stack[] = "\t" . str_pad('' . $i, $pad, ' ', STR_PAD_LEFT) . '. ' . $element;
             ++$i;
         }
 
@@ -92,16 +105,21 @@ abstract class Error extends \Error
     }
 
     /**
+     * Return Error throwable trace in string format.
+     *
      * @param \Error|\Exception $ex
      * @return string
      */
-    public static function toExceptionString($ex)
+    public static function toThrowableString($ex)
     {
         $stack = [];
         $i = 0;
-        foreach (self::toExceptionStack($ex) as $element)
+        $trace = static::toThrowableTrace($ex);
+        $pad = strlen(count($trace)) > 2 ?: 2;
+
+        foreach ($trace as $element)
         {
-            $stack[] = "\t#" . $i . ' ' . $element;
+            $stack[] = "\t" . str_pad('' . $i, $pad, ' ', STR_PAD_LEFT) . '. ' . $element;
             ++$i;
         }
 

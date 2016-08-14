@@ -4,14 +4,14 @@ namespace Kraken\Promise;
 
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
-use Kraken\Throwable\LazyException;
+use Kraken\Throwable\ThrowableProxy;
 use Error;
 use Exception;
 
 class PromiseRejected implements PromiseInterface
 {
     /**
-     * @var Error|Exception|LazyException|string|null
+     * @var Error|Exception|ThrowableProxy|string|null
      */
     protected $reason;
 
@@ -230,7 +230,7 @@ class PromiseRejected implements PromiseInterface
      */
     protected function getReason()
     {
-        return ($this->reason instanceof LazyException) ? $this->reason->toException() : $this->reason;
+        return ($this->reason instanceof ThrowableProxy) ? $this->reason->toThrowable() : $this->reason;
     }
 
     /**

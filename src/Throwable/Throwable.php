@@ -2,41 +2,22 @@
 
 namespace Kraken\Throwable;
 
-abstract class ThrowableHelper
+abstract class Throwable
 {
     /**
+     * Parse Throwable message to proper format.
+     *
      * @param string[] $ex
      * @return string
      */
     public static function parseThrowableMessage($ex)
     {
-        $array = [
-            '[',
-            self::getThrowableBasename($ex['class']),
-            '] '
-        ];
-        $message = $ex['message'];
-
-        if (!self::isThrowableError($ex['class']))
-        {
-            $array = array_merge($array, [
-                '"',
-                $message,
-                '" in ',
-                $ex['file'],
-                ':',
-                $ex['line']
-            ]);
-        }
-        else
-        {
-            $array[] = $message;
-        }
-
-        return implode('', $array);
+        return '[' . static::getBasename($ex['class']) . '] ' . '"' . trim($ex['message'], '"') . '"';
     }
 
     /**
+     * Return throwable stack in recursive array format.
+     *
      * @param \Error|\Exception $ex
      * @param string[] &$data
      * @param int $offset
@@ -44,17 +25,19 @@ abstract class ThrowableHelper
      */
     public static function getThrowableStack($ex, &$data = [], $offset = 0)
     {
-        $data = self::getThrowableData($ex, $offset);
+        $data = static::getThrowableData($ex, $offset);
 
         if (($current = $ex->getPrevious()) !== null)
         {
-            self::getThrowableStack($current, $data['prev'], count(self::getTraceElements($ex)));
+            static::getThrowableStack($current, $data['prev'], count(static::getTraceElements($ex)));
         }
 
         return $data;
     }
 
     /**
+     * Return throwable data in array format.
+     *
      * @param \Error|\Exception $ex
      * @param int $offset
      * @return string[]
@@ -67,7 +50,7 @@ abstract class ThrowableHelper
             'file'      => $ex->getFile(),
             'line'      => $ex->getLine(),
             'code'      => $ex->getCode(),
-            'trace'     => self::getTraceElements($ex, $offset),
+            'trace'     => static::getTraceElements($ex, $offset),
             'prev'      => null
         ];
     }
@@ -80,13 +63,14 @@ abstract class ThrowableHelper
     protected static function getTraceElements($ex, $offset = 0)
     {
         $trace = $ex->getTrace();
+        $file  = str_replace('.php', '', basename($ex->getFile()));
         $elements = [
-            '[exception thrown] ' . self::getThrowableBasename(get_class($ex))
+            '[throwable] ' . get_class($ex) . '(...) in ' . $file .':' . $ex->getLine()
         ];
 
         foreach ($trace as $currentTrack)
         {
-            $elements[] = self::parseTraceElement($currentTrack);
+            $elements[] = static::parseTraceElement($currentTrack);
         }
         $elements[] = '[main]';
 
@@ -101,35 +85,22 @@ abstract class ThrowableHelper
      */
     protected static function parseTraceElement($element)
     {
-        if (!isset($element['class']))
-        {
-            $element['class'] = '';
-        }
-
-        if (!isset($element['file']))
-        {
-            $element['file'] = 'unknown';
-        }
-
-        if (!isset($element['line']))
-        {
-            $element['line'] = 0;
-        }
-
-        if (!isset($element['type']))
-        {
-            $element['type'] = '';
-        }
+        $element['class']    = isset($element['class'])    ? $element['class']    : 'Undefined';
+        $element['file']     = isset($element['file'])     ? $element['file']     : 'unknown';
+        $element['line']     = isset($element['line'])     ? $element['line']     : 0;
+        $element['type']     = isset($element['type'])     ? $element['type']     : '';
+        $element['function'] = isset($element['function']) ? $element['function'] : '::undefined';
+        $element['args']     = isset($element['args'])     ? $element['args']     : [];
 
         return implode('', [
-            '[method call] ',
+            '[call] ',
             $element['class'],
             $element['type'],
             $element['function'],
             '(',
-            self::parseArgs($element['args']),
+            static::parseArgs($element['args']),
             ') in ',
-            basename($element['file']),
+            str_replace('.php', '', basename($element['file'])),
             ':',
             $element['line']
         ]);
@@ -169,24 +140,11 @@ abstract class ThrowableHelper
      * @param string $class
      * @return string
      */
-    protected static function getThrowableBasename($class)
+    protected static function getBasename($class)
     {
         $tmp = explode('\\', $class);
         $className = end($tmp);
 
         return $className;
-    }
-
-    /**
-     * @param string $class
-     * @return bool
-     */
-    protected static function isThrowableError($class)
-    {
-        return in_array($class, [
-            'Kraken\Throwable\Interpreter\FatalException',
-            'Kraken\Throwable\Interpreter\WarningException',
-            'Kraken\Throwable\Interpreter\FatalException'
-        ], true);
     }
 }

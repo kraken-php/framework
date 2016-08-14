@@ -8,9 +8,9 @@ use Kraken\Channel\ChannelBaseInterface;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Support\TimeSupport;
-use Kraken\Throwable\LazyException;
 use Kraken\Throwable\Exception\Runtime\Execution\TimeoutException;
 use Kraken\Throwable\Exception\System\TaskIncompleteException;
+use Kraken\Throwable\ThrowableProxy;
 use Error;
 use Exception;
 
@@ -130,7 +130,7 @@ class Request
 
     /**
      * @param PromiseInterface $promise
-     * @param Error|Exception|LazyException $ex
+     * @param Error|Exception|ThrowableProxy $ex
      */
     protected function retryOrReset(PromiseInterface $promise, $ex)
     {
@@ -154,7 +154,7 @@ class Request
         if ($this->counter >= $this->params['retriesLimit'])
         {
             $promise->reject(
-                new LazyException(new TimeoutException('No response was received during specified timeout.'))
+                new ThrowableProxy(new TimeoutException('No response was received during specified timeout.'))
             );
         }
         else if ($this->params['retriesInterval'] > 0)

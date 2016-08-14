@@ -13,12 +13,12 @@ use Kraken\Loop\Timer\TimerInterface;
 use Kraken\Support\GeneratorSupport;
 use Kraken\Support\StringSupport;
 use Kraken\Support\TimeSupport;
-use Kraken\Throwable\LazyException;
 use Kraken\Throwable\Exception\System\TaskIncompleteException;
-use Kraken\Throwable\Exception;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
 use Kraken\Throwable\Exception\LogicException;
+use Kraken\Throwable\Exception;
+use Kraken\Throwable\ThrowableProxy;
 
 class ChannelBase extends EventEmitter implements ChannelBaseInterface
 {
@@ -753,11 +753,11 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
         }
         else if ($exception === 'Kraken\Throwable\Exception\System\TaskIncompleteException')
         {
-            $this->cancelRequest($pid, new LazyException([ $exception, $message ]));
+            $this->cancelRequest($pid, new ThrowableProxy([ $exception, $message ]));
         }
         else
         {
-            $this->rejectRequest($pid, new LazyException([ $exception, $message ]));
+            $this->rejectRequest($pid, new ThrowableProxy([ $exception, $message ]));
         }
 
         return true;

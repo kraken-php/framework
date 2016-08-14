@@ -2,7 +2,7 @@
 
 namespace Kraken\Channel\Request;
 
-use Kraken\Throwable\LazyException;
+use Kraken\Throwable\ThrowableProxy;
 use Error;
 use Exception;
 
@@ -112,7 +112,7 @@ class Request
     }
 
     /**
-     * @param Error|Exception|LazyException $ex
+     * @param Error|Exception|ThrowableProxy $ex
      * @return mixed
      */
     public function reject($ex)
@@ -122,7 +122,7 @@ class Request
     }
 
     /**
-     * @param Error|Exception|LazyException $ex
+     * @param Error|Exception|ThrowableProxy $ex
      * @return mixed
      */
     public function cancel($ex)
