@@ -25,12 +25,4 @@ trait ChannelBaseAwareTrait
     {
         return $this->channel;
     }
-
-    /**
-     * @return ChannelBaseInterface
-     */
-    public function channel()
-    {
-        return $this->channel;
-    }
 }

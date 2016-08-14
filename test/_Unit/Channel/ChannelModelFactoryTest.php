@@ -45,8 +45,6 @@ class ChannelModelFactoryTest extends TUnit
         foreach ($classes as $class)
         {
             $this->assertTrue($factory->hasDefinition($class));
-            //TODO Kraken-278
-            //$this->assertInstanceOf($class, $factory->create($class));
         }
     }
 

@@ -14,9 +14,4 @@ interface ChannelBaseAwareInterface
      * @return ChannelBaseInterface
      */
     public function getChannel();
-
-    /**
-     * @return ChannelBaseInterface
-     */
-    public function channel();
 }

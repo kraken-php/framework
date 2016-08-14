@@ -14,9 +14,4 @@ interface ChannelCompositeAwareInterface
      * @return ChannelCompositeInterface
      */
     public function getChannel();
-
-    /**
-     * @return ChannelCompositeInterface
-     */
-    public function channel();
 }

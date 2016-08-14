@@ -25,12 +25,4 @@ trait ChannelCompositeAwareTrait
     {
         return $this->channel;
     }
-
-    /**
-     * @return ChannelCompositeInterface
-     */
-    public function channel()
-    {
-        return $this->channel;
-    }
 }
