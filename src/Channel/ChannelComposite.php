@@ -5,13 +5,18 @@ namespace Kraken\Channel;
 use Kraken\Channel\Request\Request;
 use Kraken\Event\BaseEventEmitter;
 use Kraken\Event\EventHandler;
+use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
+use Kraken\Throwable\Exception\Logic\Resource\ResourceDefinedException;
 use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
 use Kraken\Support\GeneratorSupport;
 use Kraken\Support\TimeSupport;
+use League\Flysystem\Handler;
 
 class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInterface
 {
+    use LoopAwareTrait;
+
     /**
      * @var string
      */
@@ -20,7 +25,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     /**
      * @var ChannelBaseInterface[]|ChannelCompositeInterface[]
      */
-    protected $bus;
+    protected $buses;
 
     /**
      * @var ChannelRouterCompositeInterface
@@ -28,19 +33,14 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     protected $router;
 
     /**
-     * @var LoopInterface
-     */
-    protected $loop;
-
-    /**
-     * @var EventHandler[]
+     * @var EventHandler[][]
      */
     protected $events;
 
     /**
      * @var string
      */
-    protected $uniqid;
+    protected $seed;
 
     /**
      * @var int
@@ -49,21 +49,21 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
 
     /**
      * @param string $name
-     * @param ChannelBaseInterface[]|ChannelCompositeInterface[] $bus
+     * @param ChannelBaseInterface[]|ChannelCompositeInterface[] $buses
      * @param ChannelRouterCompositeInterface $router
      * @param LoopInterface $loop
      */
-    public function __construct($name, $bus = [], ChannelRouterCompositeInterface $router, LoopInterface $loop)
+    public function __construct($name, $buses = [], ChannelRouterCompositeInterface $router, LoopInterface $loop)
     {
         $this->name = $name;
-        $this->bus = [];
+        $this->buses = [];
         $this->router = $router;
         $this->loop = $loop;
         $this->events = [];
-        $this->uniqid = GeneratorSupport::genId($this->name);
-        $this->counter = 0;
+        $this->seed = GeneratorSupport::genId($this->name);
+        $this->counter = 1e9;
 
-        foreach ($bus as $name=>$channel)
+        foreach ($buses as $name=>$channel)
         {
             $this->setBus($name, $channel);
         }
@@ -74,48 +74,27 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
      */
     public function __destruct()
     {
-        foreach ($this->bus as $name=>$channel)
+        foreach ($this->buses as $name=>$channel)
         {
             $this->removeBus($name);
         }
 
         unset($this->name);
-        unset($this->bus);
+        unset($this->buses);
         unset($this->router);
         unset($this->loop);
         unset($this->events);
-        unset($this->uniqid);
+        unset($this->seed);
         unset($this->counter);
     }
 
-    /**
-     * @param LoopInterface $loop
+    /*
+     * @param string $name
+     * @return bool
      */
-    public function setLoop(LoopInterface $loop)
+    public function existsBus($name)
     {
-        $this->loop = $loop;
-    }
-
-    /**
-     * @return LoopInterface
-     */
-    public function getLoop()
-    {
-        return $this->loop;
-    }
-
-    /**
-     * @param LoopInterface|null $loop
-     * @return LoopInterface|null
-     */
-    public function loop(LoopInterface $loop = null)
-    {
-        if ($loop !== null)
-        {
-            $this->loop = $loop;
-        }
-
-        return $this->loop;
+        return isset($this->buses[$name]);
     }
 
     /**
@@ -125,27 +104,31 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
      */
     public function bus($name)
     {
-        if (!isset($this->bus[$name]))
+        if (!isset($this->buses[$name]))
         {
             throw new ResourceUndefinedException(sprintf("Channel [%s] has no registered bus [$name].", $this->name()));
         }
 
-        return $this->bus[$name];
+        return $this->buses[$name];
     }
 
     /**
      * @param string $name
      * @param ChannelBaseInterface|ChannelCompositeInterface $channel
      * @return ChannelCompositeInterface
+     * @throws ResourceDefinedException
      */
     public function setBus($name, $channel)
     {
-        $this->bus[$name] = $channel;
+        if (isset($this->buses[$name]))
+        {
+            throw new ResourceDefinedException(sprintf("Channel [%s] has already registered bus [$name].", $this->name()));
+        }
+
+        $this->buses[$name] = $channel;
         $this->events[$name] = $channel->copyEvents($this, [ 'connect', 'disconnect' ]);
-        // TODO handle start
-        // TODO handle stop
         $this->events[$name][] = $channel->on('input', function($sender, ChannelProtocolInterface $protocol) {
-            $this->handleInput($sender, $protocol);
+            $this->receive($sender, $protocol);
         });
 
         return $this;
@@ -157,14 +140,14 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
      */
     public function removeBus($name)
     {
-        if (isset($this->bus[$name]))
+        if (isset($this->buses[$name]))
         {
             foreach ($this->events[$name] as $handler)
             {
                 $handler->cancel();
             }
 
-            unset($this->bus[$name]);
+            unset($this->buses[$name]);
             unset($this->events[$name]);
         }
 
@@ -174,9 +157,9 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     /**
      * @return ChannelBaseInterface[]|ChannelCompositeInterface[]
      */
-    public function getAllBuses()
+    public function getBuses()
     {
-        return $this->bus;
+        return $this->buses;
     }
 
     /**
@@ -236,15 +219,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
             $message = (string) $message;
         }
 
-        $protocol = new ChannelProtocol(
-            '',
-            $this->genId(),
-            '',
-            '',
-            $message
-        );
-
-        return $protocol;
+        return new ChannelProtocol('', $this->genID(), '', '', $message);
     }
 
     /**
@@ -312,7 +287,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
      */
     public function start()
     {
-        foreach ($this->bus as $channel)
+        foreach ($this->buses as $channel)
         {
             $channel->start();
         }
@@ -323,7 +298,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
      */
     public function stop()
     {
-        foreach ($this->bus as $channel)
+        foreach ($this->buses as $channel)
         {
             $channel->stop();
         }
@@ -486,7 +461,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     {
         $status = null;
 
-        foreach ($this->bus as $channel)
+        foreach ($this->buses as $channel)
         {
             $status = $this->combine(
                 $status,
@@ -497,7 +472,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
             );
         }
 
-        return $status;
+        return $status === null ? false : $status;
     }
 
     /**
@@ -507,12 +482,12 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     {
         $conns = [];
 
-        foreach ($this->bus as $channel)
+        foreach ($this->buses as $channel)
         {
             $conns = array_merge($conns, $channel->getConnected());
         }
 
-        return array_unique($conns);
+        return array_values(array_unique($conns));
     }
 
     /**
@@ -523,29 +498,17 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     {
         $conns = [];
 
-        foreach ($this->bus as $channel)
+        foreach ($this->buses as $channel)
         {
             $conns = array_merge($conns, $channel->matchConnected($name));
         }
 
-        return array_unique($conns);
-    }
-
-    /**
-     * @param string $sender
-     * @param ChannelProtocolInterface $protocol
-     */
-    protected function handleInput($sender, ChannelProtocolInterface $protocol)
-    {
-        if ($this->input()->handle($sender, $protocol))
-        {
-            $this->emit('input', [ $sender, $protocol ]);
-        }
+        return array_values(array_unique($conns));
     }
 
     /**
      * @param string $name
-     * @param string|ChannelProtocolInterface $message
+     * @param ChannelProtocolInterface $message
      * @param int $flags
      * @return bool
      */
@@ -565,15 +528,15 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
 
     /**
      * @param string $name
-     * @param string|ChannelProtocolInterface $message
+     * @param ChannelProtocolInterface $message
      * @param int $flags
-     * @return bool[]
+     * @return bool
      */
     protected function handlePushAsync($name, $message, $flags = Channel::MODE_DEFAULT)
     {
         $statusArray = null;
 
-        foreach ($this->bus as $channel)
+        foreach ($this->buses as $channel)
         {
             $statusArray = $this->combine(
                 $statusArray,
@@ -599,7 +562,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
 
         $status = ($cnt === $len);
 
-        if ($cnt === $len)
+        if ($status)
         {
             $this->emit('output', [ $name, $message ]);
         }
@@ -630,13 +593,13 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
      * @param callable|null $failure
      * @param callable|null $cancel
      * @param float $timeout
-     * @return bool[]
+     * @return bool
      */
     protected function handlePushRequest($name, $message, $flags = Channel::MODE_DEFAULT, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0)
     {
         $statusArray = null;
 
-        foreach ($this->bus as $channel)
+        foreach ($this->buses as $channel)
         {
             $statusArray = $this->combine(
                 $statusArray,
@@ -662,7 +625,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
 
         $status = ($cnt === $len);
 
-        if ($cnt === $len)
+        if ($status)
         {
             $this->emit('output', [ $name, $message ]);
         }
@@ -673,34 +636,35 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     /**
      * @return string
      */
-    protected function genId()
+    protected function genID()
     {
-        return $this->uniqid . $this->nextCounter();
+        return $this->seed . $this->getNextSuffix();
     }
 
     /**
      * @return float
      */
-    protected function now()
+    protected function getTime()
     {
         return TimeSupport::now();
     }
 
     /**
-     * @return string
+     * @return int
      */
-    protected function nextCounter()
+    protected function getNextSuffix()
     {
-        if (++$this->counter > 2e9)
+        if ($this->counter > 2e9)
         {
-            $this->counter = 0;
+            $this->counter = 1e9;
+            $this->seed = GeneratorSupport::genId($this->name);
         }
 
-        return (string) $this->counter;
+        return (string) $this->counter++;
     }
 
     /**
-     * @param string|string[] $message
+     * @param ChannelProtocolInterface|null|string|string[] $message
      * @return ChannelProtocolInterface
      */
     protected function createMessageProtocol($message)
@@ -712,11 +676,11 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
 
         if ($message->getPid() === '')
         {
-            $message->setPid($this->genId());
+            $message->setPid($this->genID());
         }
         if ($message->getTimestamp() == 0)
         {
-            $message->setTimestamp($this->now());
+            $message->setTimestamp($this->getTime());
         }
 
         return $message;
@@ -728,7 +692,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
      * @param callable $combinator
      * @return mixed|mixed[]
      */
-    protected function combine($in, $out, callable $combinator)
+    private function combine($in, $out, callable $combinator)
     {
         if ($in === null)
         {

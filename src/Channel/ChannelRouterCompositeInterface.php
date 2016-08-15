@@ -35,5 +35,5 @@ interface ChannelRouterCompositeInterface extends ChannelRouterBaseInterface
     /**
      * @return ChannelRouterBaseInterface[]|ChannelRouterCompositeInterface[]
      */
-    public function getAllBuses();
+    public function getBuses();
 }

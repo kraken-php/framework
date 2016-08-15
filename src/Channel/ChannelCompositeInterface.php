@@ -29,5 +29,5 @@ interface ChannelCompositeInterface extends ChannelBaseInterface
     /**
      * @return ChannelBaseInterface[]|ChannelCompositeInterface[]
      */
-    public function getAllBuses();
+    public function getBuses();
 }

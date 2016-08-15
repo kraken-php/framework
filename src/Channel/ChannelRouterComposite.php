@@ -85,7 +85,7 @@ class ChannelRouterComposite implements ChannelRouterCompositeInterface
     /**
      * @return ChannelRouterBaseInterface[]|ChannelRouterCompositeInterface[]
      */
-    public function getAllBuses()
+    public function getBuses()
     {
         return $this->bus;
     }

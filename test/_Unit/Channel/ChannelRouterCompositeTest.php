@@ -112,14 +112,14 @@ class ChannelRouterCompositeTest extends TUnit
     /**
      *
      */
-    public function testApiGetAllBuses_ReturnsAllBuses()
+    public function testApiGetBuses_ReturnsAllBuses()
     {
         $bus1 = $this->createChannelRouterBase();
         $bus2 = $this->createChannelRouterBase();
         $buses = [ 'bus1' => $bus1, 'bus2' => $bus2 ];
         $router = $this->createChannelRouterComposite($buses);
 
-        $this->assertSame($buses, $router->getAllBuses());
+        $this->assertSame($buses, $router->getBuses());
     }
 
     /**

@@ -156,20 +156,6 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @param LoopInterface|null $loop
-     * @return LoopInterface
-     */
-    public function loop(LoopInterface $loop = null)
-    {
-        if ($loop !== null)
-        {
-            $this->loop = $loop;
-        }
-
-        return $this->loop;
-    }
-
-    /**
      * @return string
      */
     public function name()
@@ -789,8 +775,15 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
      */
     private function unregisterPeriodicTimers()
     {
-        $this->reqsHelperTimer->cancel();
-        $this->repsHelperTimer->cancel();
+        if ($this->reqsHelperTimer !== null)
+        {
+            $this->reqsHelperTimer->cancel();
+        }
+
+        if ($this->reqsHelperTimer !== null)
+        {
+            $this->repsHelperTimer->cancel();
+        }
     }
 
     /**
