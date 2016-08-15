@@ -8,6 +8,7 @@ use Kraken\Channel\Request\RequestHelperTrait;
 use Kraken\Channel\Response\ResponseHelperTrait;
 use Kraken\Event\EventEmitter;
 use Kraken\Event\EventHandler;
+use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
 use Kraken\Loop\Timer\TimerInterface;
 use Kraken\Support\GeneratorSupport;
@@ -22,6 +23,7 @@ use Kraken\Throwable\ThrowableProxy;
 
 class ChannelBase extends EventEmitter implements ChannelBaseInterface
 {
+    use LoopAwareTrait;
     use RequestHelperTrait;
     use ResponseHelperTrait;
 
@@ -46,11 +48,6 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     protected $encoder;
 
     /**
-     * @var LoopInterface
-     */
-    protected $loop;
-
-    /**
      * @var EventHandler[]
      */
     protected $handlers;
@@ -58,7 +55,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     /**
      * @var string
      */
-    protected $uniqid;
+    protected $seed;
 
     /**
      * @var int
@@ -103,8 +100,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
         $this->encoder = $encoder;
         $this->loop = $loop;
         $this->handlers = [];
-        $this->uniqid = GeneratorSupport::genId($this->name);
-        $this->counter = 0;
+        $this->seed = GeneratorSupport::genId($this->name);
+        $this->counter = 1e9;
         $this->reqsHelperTimer = null;
         $this->repsHelperTimer = null;
         $this->handledRepsTimeout = 10e3;
@@ -127,7 +124,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
         unset($this->encoder);
         unset($this->loop);
         unset($this->handlers);
-        unset($this->uniqid);
+        unset($this->seed);
         unset($this->counter);
         unset($this->reqsHelperTimer);
         unset($this->repsHelperTimer);
@@ -137,22 +134,6 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
         unset($this->handledRepsTimeout);
 
         parent::__destruct();
-    }
-
-    /**
-     * @param LoopInterface $loop
-     */
-    public function setLoop(LoopInterface $loop)
-    {
-        $this->loop = $loop;
-    }
-
-    /**
-     * @return LoopInterface
-     */
-    public function getLoop()
-    {
-        return $this->loop;
     }
 
     /**
@@ -212,15 +193,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
             $message = (string) $message;
         }
 
-        return new ChannelProtocol(
-            '',
-            $this->genId(),
-            '',
-            $this->name,
-            $message,
-            '',
-            $this->now()
-        );
+        return new ChannelProtocol('', $this->genID(), '', $this->name, $message, '', $this->getTime());
     }
 
     /**
@@ -492,64 +465,6 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @return string
-     */
-    protected function genId()
-    {
-        return $this->uniqid . $this->nextCounter();
-    }
-
-    /**
-     * @return float
-     */
-    protected function now()
-    {
-        return TimeSupport::now();
-    }
-
-    /**
-     * @return string
-     */
-    protected function nextCounter()
-    {
-        if (++$this->counter > 2e9)
-        {
-            $this->counter = 0;
-        }
-
-        return (string) $this->counter;
-    }
-
-    /**
-     * @param string|string[] $message
-     * @return ChannelProtocolInterface
-     */
-    protected function createMessageProtocol($message)
-    {
-        if (!($message instanceof ChannelProtocolInterface))
-        {
-            $message = $this->createProtocol($message);
-        }
-        else
-        {
-            if ($message->getPid() === '')
-            {
-                $message->setPid($this->genId());
-            }
-            if ($message->getOrigin() === '')
-            {
-                $message->setOrigin($this->name());
-            }
-            if ($message->getTimestamp() == 0)
-            {
-                $message->setTimestamp($this->now());
-            }
-        }
-
-        return $message;
-    }
-
-    /**
      * @param string $name
      * @param ChannelProtocolInterface $message
      * @param int $flags
@@ -703,7 +618,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
         {
             $pid = $protocol->getPid();
             $timestamp = $protocol->getTimestamp();
-            $now = $this->now();
+            $now = $this->getTime();
 
             if ($timestamp <= $now || $this->existsResponse($pid))
             {
@@ -737,7 +652,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
         {
             $this->resolveRequest($pid, $message);
         }
-        else if ($exception === 'Kraken\Throwable\Exception\System\TaskIncompleteException')
+        else if ($exception === TaskIncompleteException::class)
         {
             $this->cancelRequest($pid, new ThrowableProxy([ $exception, $message ]));
         }
@@ -747,6 +662,65 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
         }
 
         return true;
+    }
+
+    /**
+     * @return string
+     */
+    protected function genID()
+    {
+        return $this->seed . $this->getNextSuffix();
+    }
+
+    /**
+     * @return float
+     */
+    protected function getTime()
+    {
+        return TimeSupport::now();
+    }
+
+    /**
+     * @return string
+     */
+    protected function getNextSuffix()
+    {
+        if ($this->counter > 2e9)
+        {
+            $this->counter = 1e9;
+            $this->seed = GeneratorSupport::genId($this->name);
+        }
+
+        return (string) $this->counter++;
+    }
+
+    /**
+     * @param string|string[] $message
+     * @return ChannelProtocolInterface
+     */
+    protected function createMessageProtocol($message)
+    {
+        if (!($message instanceof ChannelProtocolInterface))
+        {
+            $message = $this->createProtocol($message);
+        }
+        else
+        {
+            if ($message->getPid() === '')
+            {
+                $message->setPid($this->genID());
+            }
+            if ($message->getOrigin() === '')
+            {
+                $message->setOrigin($this->name());
+            }
+            if ($message->getTimestamp() == 0)
+            {
+                $message->setTimestamp($this->getTime());
+            }
+        }
+
+        return $message;
     }
 
     /**
@@ -763,7 +737,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
 
             foreach ($unfinished as $response)
             {
-                $protocol = new ChannelProtocol('', $response->pid(), '', $response->alias(), '', '', $this->now());
+                $protocol = new ChannelProtocol('', $response->pid(), '', $response->alias(), '', '', $this->getTime());
                 $response = new Response($this, $protocol, new TaskIncompleteException("Task unfinished."));
                 $response->call();
             }
