@@ -191,14 +191,6 @@ class Simulation extends BaseEventEmitter implements SimulationInterface
             return;
         }
 
-//        $callable = $this->startCallback;
-//        $callable($sim);
-//
-//        if ($this->stopFlags === true)
-//        {
-//            return;
-//        }
-
         $onStart = $this->startCallback;
         $loop = $this->loop;
 

@@ -54,10 +54,9 @@ class NullModel extends BaseEventEmitter implements ChannelModelInterface
 
     /**
      * @param string[]|string $message
-     * @param int $flags
      * @return bool[]
      */
-    public function broadcast($message, $flags)
+    public function broadcast($message)
     {
         return [];
     }

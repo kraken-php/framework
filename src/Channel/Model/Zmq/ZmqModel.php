@@ -12,6 +12,7 @@ use Kraken\Ipc\Zmq\ZmqContext;
 use Kraken\Ipc\Zmq\ZmqSocket;
 use Kraken\Loop\LoopInterface;
 use Kraken\Loop\Timer\TimerInterface;
+use Kraken\Throwable\Exception\Runtime\ExecutionException;
 
 abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterface
 {
@@ -235,7 +236,7 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
         $connect = $this->connectCallback;
         if (!$this->socket->$connect($this->endpoint))
         {
-            $this->emit('error', [ self::ERROR_START, 'socket not connected.' ]);
+            $this->emit('error', [ new ExecutionException('socket not connected.') ]);
             return false;
         }
 
@@ -288,29 +289,28 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
     {
         $status = $this->sendMessage($id, self::COMMAND_MESSAGE, $message, $flags);
 
-        $this->emit('send', [ $id ]);
+        $this->emit('send', [ $id, (array) $message ]);
 
         return $status;
     }
 
     /**
      * @param string[]|string $message
-     * @param int $flags
      * @return bool[]
      */
-    public function broadcast($message, $flags = self::MODE_STANDARD)
+    public function broadcast($message)
     {
         $conns = $this->getConnected();
         $statuses = [];
 
         foreach ($conns as $conn)
         {
-            $statuses[] = $this->sendMessage($conn, self::COMMAND_MESSAGE, $message, $flags);
+            $statuses[] = $this->sendMessage($conn, self::COMMAND_MESSAGE, $message, self::MODE_STANDARD);
         }
 
         foreach ($conns as $conn)
         {
-            $this->emit('send', [ $conn ]);
+            $this->emit('send', [ $conn, (array) $message ]);
         }
 
         return $statuses;
@@ -346,6 +346,7 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
      */
     public function connect($id)
     {
+        // TODO KRF-59
         return false;
     }
 
@@ -355,6 +356,7 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
      */
     public function disconnect($id)
     {
+        // TODO KRF-60
         return false;
     }
 

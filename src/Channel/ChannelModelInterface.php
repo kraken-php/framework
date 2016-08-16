@@ -5,13 +5,13 @@ namespace Kraken\Channel;
 use Kraken\Event\EventEmitterInterface;
 
 /**
- * @event start
- * @event stop
- * @event connect string
- * @event disconnect string
- * @event recv string string[]
- * @event send string
- * @event error int string
+ * @event start()
+ * @event stop()
+ * @event connect(string)
+ * @event disconnect(string)
+ * @event recv(string, string[])
+ * @event send(string string[])
+ * @event error(Exception)
  */
 interface ChannelModelInterface extends EventEmitterInterface
 {
@@ -47,10 +47,9 @@ interface ChannelModelInterface extends EventEmitterInterface
 
     /**
      * @param string[]|string $message
-     * @param int $flags
      * @return bool[]
      */
-    public function broadcast($message, $flags);
+    public function broadcast($message);
 
     /**
      * @param string|null $alias
