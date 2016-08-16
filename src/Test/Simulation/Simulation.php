@@ -1,14 +1,15 @@
 <?php
 
-namespace Kraken\Test\Stub;
+namespace Kraken\Test\Simulation;
 
+use Kraken\Event\BaseEventEmitter;
 use Kraken\Loop\LoopExtendedInterface;
 use Kraken\Loop\LoopInterface;
 use Kraken\Promise\PromiseInterface;
 use Exception;
 use ReflectionClass;
 
-class Simulation implements SimulationInterface
+class Simulation extends BaseEventEmitter implements SimulationInterface
 {
     /**
      * @var LoopExtendedInterface
@@ -41,6 +42,11 @@ class Simulation implements SimulationInterface
     private $stopCallback;
 
     /**
+     * @var
+     */
+    private $stopFlags;
+
+    /**
      * @param LoopExtendedInterface $loop
      */
     public function __construct(LoopExtendedInterface $loop)
@@ -51,6 +57,7 @@ class Simulation implements SimulationInterface
         $this->failureMessage = null;
         $this->startCallback = function() {};
         $this->stopCallback = function() {};
+        $this->stopFlags = false;
     }
 
     /**
@@ -66,6 +73,7 @@ class Simulation implements SimulationInterface
         unset($this->failureMessage);
         unset($this->startCallback);
         unset($this->stopCallback);
+        unset($this->stopFlags);
     }
 
     /**
@@ -121,7 +129,7 @@ class Simulation implements SimulationInterface
      * @param string $name
      * @param mixed $data
      */
-    public function expectEvent($name, $data = [])
+    public function expect($name, $data = [])
     {
         $this->successEvents->enqueue(new Event($name, $data));
     }
@@ -129,7 +137,7 @@ class Simulation implements SimulationInterface
     /**
      * @return EventCollection
      */
-    public function getExpectedEvents()
+    public function getExpectations()
     {
         return $this->successEvents;
     }
@@ -178,10 +186,25 @@ class Simulation implements SimulationInterface
         $scenario = $this->scenario;
         $scenario($sim);
 
-        $callable = $this->startCallback;
-        $callable($sim);
+        if ($this->stopFlags === true)
+        {
+            return;
+        }
 
+//        $callable = $this->startCallback;
+//        $callable($sim);
+//
+//        if ($this->stopFlags === true)
+//        {
+//            return;
+//        }
+
+        $onStart = $this->startCallback;
         $loop = $this->loop;
+
+        $loop->startTick(function() use($sim, $onStart) {
+            $onStart($sim);
+        });
         $loop->addTimer(15, function() use($sim) {
             $sim->fail('Timeout for test has been reached.');
         });
@@ -202,9 +225,14 @@ class Simulation implements SimulationInterface
         if ($this->loop !== null && $this->loop->isRunning())
         {
             $this->loop->stop();
+        }
 
+        if ($this->stopFlags === false)
+        {
             $callable = $this->stopCallback;
             $callable($this);
         }
+
+        $this->stopFlags = true;
     }
 }

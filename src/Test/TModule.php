@@ -6,8 +6,8 @@ use Kraken\Loop\Model\SelectLoop;
 use Kraken\Loop\Loop;
 use Kraken\Loop\LoopExtendedInterface;
 use Kraken\Loop\LoopInterface;
-use Kraken\Test\Stub\Event;
-use Kraken\Test\Stub\Simulation;
+use Kraken\Test\Simulation\Event;
+use Kraken\Test\Simulation\Simulation;
 use Exception;
 
 class TModule extends TUnit
@@ -101,7 +101,7 @@ class TModule extends TUnit
         }
 
         $this->assertEvents(
-            $this->simulation->getExpectedEvents(),
+            $this->simulation->getExpectations(),
             $expectedEvents
         );
 

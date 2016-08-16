@@ -1,11 +1,12 @@
 <?php
 
-namespace Kraken\Test\Stub;
+namespace Kraken\Test\Simulation;
 
+use Kraken\Event\EventEmitterInterface;
 use Kraken\Loop\LoopInterface;
 use Kraken\Promise\PromiseInterface;
 
-interface SimulationInterface
+interface SimulationInterface extends EventEmitterInterface
 {
     /**
      * @return LoopInterface
@@ -27,7 +28,7 @@ interface SimulationInterface
      * @param string $name
      * @param mixed $data
      */
-    public function expectEvent($name, $data = []);
+    public function expect($name, $data = []);
 
     /**
      * @param callable $callable
