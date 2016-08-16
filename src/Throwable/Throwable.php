@@ -12,7 +12,22 @@ abstract class Throwable
      */
     public static function parseThrowableMessage($ex)
     {
-        return '[' . static::getBasename($ex['class']) . '] ' . '"' . trim($ex['message'], '"') . '"';
+        $message = $ex['message'];
+
+        if ($ex['isError'] && strpos($message, ' in ') !== false)
+        {
+            $message = preg_replace('#([a-zA-Z0-9-_]+?)/#siU', '', $message);
+            $message = preg_replace('#/#si', '', $message, 1);
+        }
+        else
+        {
+            $message = trim($message, '"');
+            $file = str_replace('.php', '', basename($ex['file']));
+            $line = $ex['line'];
+            $message = '"' . $message . '" in ' . $file . ':' . $line;
+        }
+
+        return '[' . static::getBasename($ex['class']) . '] ' . $message;
     }
 
     /**
@@ -51,6 +66,7 @@ abstract class Throwable
             'line'      => $ex->getLine(),
             'code'      => $ex->getCode(),
             'trace'     => static::getTraceElements($ex, $offset),
+            'isError'   => $ex instanceof \Error,
             'prev'      => null
         ];
     }

@@ -19,7 +19,7 @@ class ThrowableTest extends TUnit
         $stack = Throwable::getThrowableStack($ex);
         $base  = $this->callProtectedMethod(Throwable::class, 'getBasename', [ get_class($ex) ]);
 
-        $this->assertSame("[$base] \"$message\"", Throwable::parseThrowableMessage($stack));
+        $this->assertRegExp("#\[$base\] \"$message\" in ThrowableTest:([0-9]*?)#si", Throwable::parseThrowableMessage($stack));
     }
 
     /**
@@ -32,7 +32,7 @@ class ThrowableTest extends TUnit
         $stack = Throwable::getThrowableStack($ex);
         $base  = $this->callProtectedMethod(Throwable::class, 'getBasename', [ get_class($ex) ]);
 
-        $this->assertSame("[$base] \"$message\"", Throwable::parseThrowableMessage($stack));
+        $this->assertRegExp("#\[$base\] \"$message\" in ThrowableTest:([0-9]*?)#si", Throwable::parseThrowableMessage($stack));
     }
 
     /**

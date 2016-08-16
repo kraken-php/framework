@@ -51,7 +51,6 @@ abstract class ErrorHandler
      * @throws FatalError
      * @throws NoticeError
      * @throws WarningError
-     * @throws UndefinedError
      */
     public static function handleError($code, $message, $file, $line)
     {
@@ -66,7 +65,7 @@ abstract class ErrorHandler
             case static::E_NOTICE:  throw new NoticeError($message);
             case static::E_WARNING: throw new WarningError($message);
             case static::E_ERROR:   throw new FatalError($message);
-            default:                throw new UndefinedError($message);
+            default:                return;
         }
     }
 

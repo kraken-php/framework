@@ -20,8 +20,7 @@ class ErrorTest extends TModule
             Error::class            => \Error::class,
             FatalError::class       => Error::class,
             WarningError::class     => Error::class,
-            NoticeError::class      => Error::class,
-            UndefinedError::class   => Error::class,
+            NoticeError::class      => Error::class
         ];
 
         foreach ($structure as $class=>$extended)

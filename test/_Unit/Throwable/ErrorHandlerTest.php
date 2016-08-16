@@ -15,11 +15,12 @@ class ErrorHandlerTest extends TUnit
     /**
      * @dataProvider noticeProvider
      */
-    public function testStaticApiHandleError_ThrowsNoticeOnNoticeLevelErrors($code, $expected)
+    public function testStaticApiHandleError_ThrowsNotice_OnNoticeLevelErrors($code, $expected)
     {
         try
         {
             ErrorHandler::handleError($code, $message = 'message', $file = 'file', $line = 20);
+            $this->fail('Error or Exception was not thrown.');
         }
         catch (Error $ex)
         {
@@ -30,11 +31,12 @@ class ErrorHandlerTest extends TUnit
     /**
      * @dataProvider warningProvider
      */
-    public function testStaticApiHandleError_ThrowsWarningOnWarningLevelErrors($code, $expected)
+    public function testStaticApiHandleError_ThrowsWarning_OnWarningLevelErrors($code, $expected)
     {
         try
         {
             ErrorHandler::handleError($code, $message = 'message', $file = 'file', $line = 20);
+            $this->fail('Error or Exception was not thrown.');
         }
         catch (Error $ex)
         {
@@ -45,11 +47,12 @@ class ErrorHandlerTest extends TUnit
     /**
      * @dataProvider errorProvider
      */
-    public function testStaticApiHandleError_ThrowsFatalOnFatalLevelErrors($code, $expected)
+    public function testStaticApiHandleError_ThrowsFatal_OnFatalLevelErrors($code, $expected)
     {
         try
         {
             ErrorHandler::handleError($code, $message = 'message', $file = 'file', $line = 20);
+            $this->fail('Error or Exception was not thrown.');
         }
         catch (Error $ex)
         {
@@ -60,16 +63,9 @@ class ErrorHandlerTest extends TUnit
     /**
      * @dataProvider undefinedProvider
      */
-    public function testStaticApiHandleError_ThrowsUndefinedOnUndefinedLevelErrors($code, $expected)
+    public function testStaticApiHandleError_ReturnsImmediately_OnUndefinedLevelErrors($code, $expected)
     {
-        try
-        {
-            ErrorHandler::handleError($code, $message = 'message', $file = 'file', $line = 20);
-        }
-        catch (Error $ex)
-        {
-            $this->assertInstanceOf(UndefinedError::class, $ex);
-        }
+        ErrorHandler::handleError($code, $message = 'message', $file = 'file', $line = 20);
     }
 
     /**

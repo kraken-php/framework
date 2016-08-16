@@ -163,7 +163,7 @@ class ErrorTest extends TUnit
         $throwRegex = "\t" . '([0-9 ]*?)\. \[throwable\] ([a-zA-Z0-9\\\-_\. ]*?)\(\.\.\.\) in ([a-zA-Z0-9\\\-_\.," ]*?)(.+)([0-9]*?)';
         $callRegex  = "\t" . '([0-9 ]*?)\. \[call\] ([a-zA-Z0-9\\\-_\. ]*?)(->|::)([a-zA-Z0-9\\\-_\. ]*?)\(([a-zA-Z0-9\\\-_\.," ]*?)\) in ([a-zA-Z0-9\\\-_\.," ]*?)(.+)([0-9]*?)';
         $mainRegex  = "\t" . '([0-9 ]*?)\. \[main\]';
-        $stackRegex = "\t" . '([0-9 ]*?)\. \[([a-zA-Z0-9\\\-_\. ]*?)\] "(.*?)"';
+        $stackRegex = "\t" . '([0-9 ]*?)\. \[([a-zA-Z0-9\\\-_\. ]*?)\] "(.*?)" in ([a-zA-Z0-9\\\-_\.," ]*?)(.+)([0-9]*?)';
         $throwTitleRegex = "\t" . 'Throwable trace:';
         $stackTitleRegex = "\t" . 'Stack trace:';
         $regex = '(' . implode('|', [ $throwRegex, $callRegex, $mainRegex,  $stackRegex, $throwTitleRegex, $stackTitleRegex ]) . ')';
@@ -189,7 +189,7 @@ class ErrorTest extends TUnit
      */
     public function assertThrowableTrace($elements)
     {
-        $throwRegex = '\[([a-zA-Z0-9\\\-_\. ]*?)\] "(.*?)"';
+        $throwRegex = '\[([a-zA-Z0-9\\\-_\. ]*?)\] "(.*?)" in ([a-zA-Z0-9\\\-_\.," ]*?)(.+)([0-9]*?)';
         $regex = '#^(' . implode('|', [ $throwRegex ]) . ')$#si';
 
         foreach ($elements as $element)
@@ -203,7 +203,7 @@ class ErrorTest extends TUnit
      */
     public function assertThrowableString($string)
     {
-        $throwRegex = "\t" . '([0-9 ]*?)\. \[([a-zA-Z0-9\\\-_\. ]*?)\] "(.*?)"';
+        $throwRegex = "\t" . '([0-9 ]*?)\. \[([a-zA-Z0-9\\\-_\. ]*?)\] "(.*?)" in ([a-zA-Z0-9\\\-_\.," ]*?)(.+)([0-9]*?)';
         $regex = '(' . implode('|', [ $throwRegex ]) . ')';
 
         $this->assertRegExp('#^' . $regex . '$#msi', $string);

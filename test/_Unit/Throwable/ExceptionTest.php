@@ -189,7 +189,7 @@ class ExceptionTest extends TUnit
      */
     public function assertThrowableTrace($elements)
     {
-        $throwRegex = '\[([a-zA-Z0-9\\\-_\. ]*?)\] "(.*?)"';
+        $throwRegex = '\[([a-zA-Z0-9\\\-_\. ]*?)\] "(.*?)" in ([a-zA-Z0-9\\\-_\.," ]*?)(.+)([0-9]*?)';
         $regex = '#^(' . implode('|', [ $throwRegex ]) . ')$#si';
 
         foreach ($elements as $element)
@@ -203,7 +203,7 @@ class ExceptionTest extends TUnit
      */
     public function assertThrowableString($string)
     {
-        $throwRegex = "\t" . '([0-9 ]*?)\. \[([a-zA-Z0-9\\\-_\. ]*?)\] "(.*?)"';
+        $throwRegex = "\t" . '([0-9 ]*?)\. \[([a-zA-Z0-9\\\-_\. ]*?)\] "(.*?)" in ([a-zA-Z0-9\\\-_\.," ]*?)(.+)([0-9]*?)';
         $regex = '(' . implode('|', [ $throwRegex ]) . ')';
 
         $this->assertRegExp('#^' . $regex . '$#msi', $string);
