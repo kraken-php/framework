@@ -126,6 +126,48 @@ trait BaseEventEmitterTrait
     }
 
     /**
+     * @see EventEmitterInterface::delay
+     */
+    public function delay($event, $ticks, callable $listener)
+    {
+        $counter = 0;
+        return $this->on($event, function() use(&$counter, $event, $ticks, $listener) {
+            if (++$counter >= $ticks)
+            {
+                call_user_func_array($listener, func_get_args());
+            }
+        });
+    }
+
+    /**
+     * @see EventEmitterInterface::delayOnce
+     */
+    public function delayOnce($event, $ticks, callable $listener)
+    {
+        $counter = 0;
+        return $this->times($event, $ticks, function() use(&$counter, $event, $ticks, $listener) {
+            if (++$counter >= $ticks)
+            {
+                call_user_func_array($listener, func_get_args());
+            }
+        });
+    }
+
+    /**
+     * @see EventEmitterInterface::delayTimes
+     */
+    public function delayTimes($event, $ticks, $limit, callable $listener)
+    {
+        $counter = 0;
+        return $this->times($event, $ticks+$limit-1, function() use(&$counter, $event, $ticks, $listener) {
+            if (++$counter >= $ticks)
+            {
+                call_user_func_array($listener, func_get_args());
+            }
+        });
+    }
+
+    /**
      * @see EventEmitterInterface::removeListener
      */
     public function removeListener($event, callable $listener)

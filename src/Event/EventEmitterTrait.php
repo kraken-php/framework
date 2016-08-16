@@ -81,6 +81,36 @@ trait EventEmitterTrait
     }
 
     /**
+     * @see EventEmitterInterface::delay
+     */
+    public function delay($event, $ticks, callable $listener)
+    {
+        $handler = $this->emitter->delay($event, $ticks, $listener);
+
+        return new EventHandler($this, $handler->getEvent(), $handler->getHandler(), $handler->getListener());
+    }
+
+    /**
+     * @see EventEmitterInterface::delayOnce
+     */
+    public function delayOnce($event, $ticks, callable $listener)
+    {
+        $handler = $this->emitter->delayOnce($event, $ticks, $listener);
+
+        return new EventHandler($this, $handler->getEvent(), $handler->getHandler(), $handler->getListener());
+    }
+
+    /**
+     * @see EventEmitterInterface::delayTimes
+     */
+    public function delayTimes($event, $ticks, $limit, callable $listener)
+    {
+        $handler = $this->emitter->delayTimes($event, $ticks, $limit, $listener);
+
+        return new EventHandler($this, $handler->getEvent(), $handler->getHandler(), $handler->getListener());
+    }
+
+    /**
      * @see EventEmitterInterface::removeListener
      */
     public function removeListener($event, callable $listener)

@@ -111,6 +111,91 @@ class EventEmitterTest extends TUnit
     /**
      * @dataProvider emitterProvider
      */
+    public function testApiDelay_AttachesProperDelayHandler(EventEmitterInterface $emitter)
+    {
+        $handler = $emitter->delay('test', 2, $this->expectCallableOnce());
+
+        $this->assertSame($emitter, $handler->getEmitter());
+        $this->assertEquals('test', $handler->getEvent());
+
+        $emitter->emit('test');
+        $emitter->emit('test');
+    }
+
+    /**
+     * @dataProvider emitterProvider
+     */
+    public function testApiDelay_AttachesProperDelayHandler_UsingSeveralHandlers(EventEmitterInterface $emitter)
+    {
+        $emitter->delay('test', 3, $this->expectCallableExactly(2));
+        $emitter->delay('test', 2, $this->expectCallableExactly(3));
+
+        $emitter->emit('test');
+        $emitter->emit('test');
+        $emitter->emit('test');
+        $emitter->emit('test');
+    }
+
+    /**
+     * @dataProvider emitterProvider
+     */
+    public function testApiDelayOnce_AttachesProperOnceHandler(EventEmitterInterface $emitter)
+    {
+        $handler = $emitter->delayOnce('test', 2, $this->expectCallableOnce());
+
+        $this->assertSame($emitter, $handler->getEmitter());
+        $this->assertEquals('test', $handler->getEvent());
+
+        $emitter->emit('test');
+        $emitter->emit('test');
+    }
+
+    /**
+     * @dataProvider emitterProvider
+     */
+    public function testApiDelayOnce_AttachesProperOnceHandler_UsingSeveralHandlers(EventEmitterInterface $emitter)
+    {
+        $emitter->delayOnce('test', 2, $this->expectCallableOnce());
+        $emitter->delayOnce('test', 3, $this->expectCallableOnce());
+        $emitter->emit('test');
+        $emitter->emit('test');
+        $emitter->emit('test');
+    }
+
+    /**
+     * @dataProvider emitterProvider
+     */
+    public function testApiDelayTimes_AttachesProperOnceHandler(EventEmitterInterface $emitter)
+    {
+        $handler = $emitter->delayTimes('test', 2, 2, $this->expectCallableTwice());
+
+        $this->assertSame($emitter, $handler->getEmitter());
+        $this->assertEquals('test', $handler->getEvent());
+
+        $emitter->emit('test');
+        $emitter->emit('test');
+        $emitter->emit('test');
+        $emitter->emit('test');
+    }
+
+    /**
+     * @dataProvider emitterProvider
+     */
+    public function testApiDelayTimes_AttachesProperOnceHandler_UsingSeveralHandlers(EventEmitterInterface $emitter)
+    {
+        $emitter->delayTimes('test', 2, 2, $this->expectCallableTwice());
+        $emitter->delayTimes('test', 3, 1, $this->expectCallableOnce());
+
+        $emitter->emit('test');
+        $emitter->emit('test');
+        $emitter->emit('test');
+        $emitter->emit('test');
+        $emitter->emit('test');
+    }
+
+    /**
+     * @dataProvider emitterProvider
+     */
     public function testApiRemoveListener_RemovesListener_WhenListenerIsPresent(EventEmitterInterface $emitter)
     {
         $never = $this->expectCallableNever();
