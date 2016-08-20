@@ -44,11 +44,6 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
     /**
      * @var int
      */
-    const ERROR_START = 1;
-
-    /**
-     * @var int
-     */
     const MODE_STANDARD = Channel::MODE_STANDARD;
 
     /**
@@ -132,6 +127,11 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
     public $socket;
 
     /**
+     * @var Buffer
+     */
+    protected $buffer;
+
+    /**
      * @var ConnectionPool
      */
     protected $connectionPool;
@@ -180,10 +180,8 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
         $this->flags = $flags;
         $this->options = $options;
         $this->isConnected = false;
-        $this->pendingOperation = '';
         $this->hTimer = null;
         $this->rTimer = null;
-        $this->cnt = 0;
 
         $this->connectCallback = $this->getSocketConnectorType($this->type);
         $this->disconnectCallback = $this->getSocketDisconnectorType($this->type);
@@ -203,7 +201,6 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
 
         $this->removeEventHandler('messages', [ $this, 'onMessages' ]);
 
-        unset($this->loop);
         unset($this->context);
         unset($this->id);
         unset($this->endpoint);
@@ -212,7 +209,6 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
         unset($this->flags);
         unset($this->options);
         unset($this->isConnected);
-        unset($this->pendingOperation);
         unset($this->hTimer);
         unset($this->rTimer);
 
@@ -221,6 +217,7 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
         unset($this->socket);
         unset($this->buffer);
         unset($this->connectionPool);
+        unset($this->loop);
     }
 
     /**

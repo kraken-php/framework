@@ -2,6 +2,9 @@
 
 namespace Kraken\Channel\Model\Zmq\Connection;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ConnectionPool
 {
     /**
