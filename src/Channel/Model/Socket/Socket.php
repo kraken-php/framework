@@ -104,6 +104,11 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
     protected $onlineBuffer;
 
     /**
+     * @var string[]
+     */
+    protected $frameBuffer;
+
+    /**
      * @var TimerInterface
      */
     private $hTimer;
@@ -152,6 +157,7 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
         $this->socket = null;
         $this->offlineBuffer = $this->getBuffer();
         $this->onlineBuffer = $this->getBuffer();
+        $this->frameBuffer = [];
         $this->connectionPool = $this->getConnectionPool();
     }
 
@@ -175,6 +181,7 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
         unset($this->socket);
         unset($this->onfflinebuffer);
         unset($this->onlinebuffer);
+        unset($this->frameBuffer);
         unset($this->connectionPool);
         unset($this->loop);
     }
@@ -503,7 +510,30 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
      */
     public function onData(SocketInterface $client, $data)
     {
-        $messages = explode("\r\n", $data);
+        $messages = [];
+        $resID = $client->getResourceId();
+        $buffer = '';
+
+        if (isset($this->frameBuffer[$resID]))
+        {
+            $buffer = $this->frameBuffer[$resID];
+            unset($this->frameBuffer[$resID]);
+        }
+
+        $buffer = preg_replace_callback(
+            "#(.*?)\r\n#si",
+            function($matches) use(&$messages) {
+                $messages[] = $matches[1];
+                return '';
+            },
+            $buffer . $data
+        );
+
+        if ($buffer !== '')
+        {
+            $this->frameBuffer[$resID] = $buffer;
+            unset($buffer);
+        }
 
         foreach ($messages as $message)
         {

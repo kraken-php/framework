@@ -3,6 +3,7 @@
 namespace Kraken\Channel;
 
 use Kraken\Channel\Model\Null\NullModel;
+use Kraken\Channel\Model\Socket\Socket;
 use Kraken\Channel\Model\Zmq\ZmqDealer;
 use Kraken\Loop\LoopInterface;
 use Kraken\Util\Factory\Factory;
@@ -26,6 +27,20 @@ class ChannelModelFactory extends Factory implements ChannelModelFactoryInterfac
             ->define(NullModel::class, function($config = []) {
                 return new NullModel();
             })
+            ->define(Socket::class, function($config = []) use($factory) {
+                return new Socket(
+                    isset($config['loop']) ? $config['loop'] : $factory->getParam('loop'),
+                    array_merge(
+                        [
+                            'id'        => isset($config['name']) ? $config['name'] : $factory->getParam('name'),
+                            'endpoint'  => '',
+                            'type'      => Channel::BINDER,
+                            'hosts'     => isset($config['name']) ? $config['name'] : $factory->getParam('name')
+                        ],
+                        $config
+                    )
+                );
+            })
             ->define(ZmqDealer::class, function($config = []) use($factory) {
                 return new ZmqDealer(
                     isset($config['loop']) ? $config['loop'] : $factory->getParam('loop'),
@@ -33,7 +48,7 @@ class ChannelModelFactory extends Factory implements ChannelModelFactoryInterfac
                         [
                             'id'        => isset($config['name']) ? $config['name'] : $factory->getParam('name'),
                             'endpoint'  => '',
-                            'type'      => ZmqDealer::BINDER,
+                            'type'      => Channel::BINDER,
                             'hosts'     => isset($config['name']) ? $config['name'] : $factory->getParam('name')
                         ],
                         $config
