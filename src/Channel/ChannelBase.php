@@ -122,7 +122,6 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
         unset($this->model);
         unset($this->router);
         unset($this->encoder);
-        unset($this->loop);
         unset($this->handlers);
         unset($this->seed);
         unset($this->counter);
@@ -132,8 +131,9 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
         unset($this->reps);
         unset($this->handledReps);
         unset($this->handledRepsTimeout);
+        unset($this->loop);
 
-        parent::__destruct();
+//        parent::__destruct();
     }
 
     /**
@@ -604,7 +604,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
 
         if ($this->handleReceiveResponse($protocol) || $this->input()->handle($sender, $protocol))
         {
-            $this->emit('input', [ $sender, $protocol ]);
+            return;
         }
     }
 
@@ -728,10 +728,10 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
      */
     private function registerPeriodicTimers()
     {
-        $this->reqsHelperTimer = $this->loop->addPeriodicTimer(0.1, function() {
+        $this->reqsHelperTimer = $this->getLoop()->addPeriodicTimer(0.1, function() {
             $this->expireRequests();
         });
-        $this->repsHelperTimer = $this->loop->addPeriodicTimer(0.1, function() {
+        $this->repsHelperTimer = $this->getLoop()->addPeriodicTimer(0.1, function() {
             $this->expireResponses();
             $unfinished = $this->unfinishedResponses();
 
@@ -754,7 +754,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
             $this->reqsHelperTimer->cancel();
         }
 
-        if ($this->reqsHelperTimer !== null)
+        if ($this->repsHelperTimer !== null)
         {
             $this->repsHelperTimer->cancel();
         }

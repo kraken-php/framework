@@ -17,6 +17,16 @@ class Channel
     /**
      * @var int
      */
+    const BINDER = 1;
+
+    /**
+     * @var int
+     */
+    const CONNECTOR = 2;
+
+    /**
+     * @var int
+     */
     const MODE_DEFAULT = 0;
 
     /**

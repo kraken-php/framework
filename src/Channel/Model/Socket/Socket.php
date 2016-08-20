@@ -482,6 +482,22 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
     }
 
     /**
+     * @return Buffer
+     */
+    protected function getBuffer()
+    {
+        return new Buffer($this->options['bufferSize']);
+    }
+
+    /**
+     * @return ConnectionPool
+     */
+    protected function getConnectionPool()
+    {
+        return new ConnectionPool($this->options['heartbeatKeepalive'], $this->options['heartbeatInterval']);
+    }
+
+    /**
      * @param SocketInterface $client
      * @param string $data
      */
@@ -502,7 +518,7 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
      * @param SocketInterface $client
      * @param string $message
      */
-    protected function onMessage(SocketInterface $client, $message)
+    private function onMessage(SocketInterface $client, $message)
     {
         if ($this->type === Channel::BINDER)
         {
@@ -581,22 +597,6 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
         {
             $this->unicast($message[0], $message[1]);
         }
-    }
-
-    /**
-     * @return Buffer
-     */
-    protected function getBuffer()
-    {
-        return new Buffer($this->options['bufferSize']);
-    }
-
-    /**
-     * @return ConnectionPool
-     */
-    protected function getConnectionPool()
-    {
-        return new ConnectionPool($this->options['heartbeatKeepalive'], $this->options['heartbeatInterval']);
     }
 
     /**

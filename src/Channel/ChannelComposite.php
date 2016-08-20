@@ -11,7 +11,6 @@ use Kraken\Throwable\Exception\Logic\Resource\ResourceDefinedException;
 use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
 use Kraken\Support\GeneratorSupport;
 use Kraken\Support\TimeSupport;
-use League\Flysystem\Handler;
 
 class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInterface
 {
@@ -82,10 +81,10 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
         unset($this->name);
         unset($this->buses);
         unset($this->router);
-        unset($this->loop);
         unset($this->events);
         unset($this->seed);
         unset($this->counter);
+        unset($this->loop);
     }
 
     /*
@@ -127,9 +126,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
 
         $this->buses[$name] = $channel;
         $this->events[$name] = $channel->copyEvents($this, [ 'connect', 'disconnect' ]);
-        $this->events[$name][] = $channel->on('input', function($sender, ChannelProtocolInterface $protocol) {
-            $this->receive($sender, $protocol);
-        });
+        $this->events[$name][] = $channel->on('input', [ $this, 'handleReceive' ]);
 
         return $this;
     }
@@ -291,6 +288,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
         {
             $channel->start();
         }
+
+        $this->emit('start');
     }
 
     /**
@@ -302,6 +301,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
         {
             $channel->stop();
         }
+
+        $this->emit('stop');
     }
 
     /**
@@ -631,6 +632,16 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
         }
 
         return $status;
+    }
+
+    /**
+     * @internal
+     * @param string $sender
+     * @param ChannelProtocolInterface $protocol
+     */
+    public function handleReceive($sender, ChannelProtocolInterface $protocol)
+    {
+        $this->input()->handle($sender, $protocol);
     }
 
     /**
