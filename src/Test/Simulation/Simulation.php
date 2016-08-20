@@ -12,6 +12,16 @@ use ReflectionClass;
 class Simulation extends BaseEventEmitter implements SimulationInterface
 {
     /**
+     * @var int
+     */
+    const EVENTS_COMPARE_IN_ORDER = 1;
+
+    /**
+     * @var int
+     */
+    const EVENTS_COMPARE_RANDOMLY = 2;
+
+    /**
      * @var LoopExtendedInterface
      */
     private $loop;
@@ -24,7 +34,7 @@ class Simulation extends BaseEventEmitter implements SimulationInterface
     /**
      * @var
      */
-    private $successEvents;
+    private $events;
 
     /**
      * @var string|null
@@ -53,7 +63,7 @@ class Simulation extends BaseEventEmitter implements SimulationInterface
     {
         $this->loop = $loop;
         $this->scenario = function() {};
-        $this->successEvents = new EventCollection();
+        $this->events = [];
         $this->failureMessage = null;
         $this->startCallback = function() {};
         $this->stopCallback = function() {};
@@ -69,7 +79,7 @@ class Simulation extends BaseEventEmitter implements SimulationInterface
 
         unset($loop);
         unset($this->scenario);
-        unset($this->successEvents);
+        unset($this->events);
         unset($this->failureMessage);
         unset($this->startCallback);
         unset($this->stopCallback);
@@ -131,15 +141,15 @@ class Simulation extends BaseEventEmitter implements SimulationInterface
      */
     public function expect($name, $data = [])
     {
-        $this->successEvents->enqueue(new Event($name, $data));
+        $this->events[] = new Event($name, $data);
     }
 
     /**
-     * @return EventCollection
+     * @return Event[]
      */
     public function getExpectations()
     {
-        return $this->successEvents;
+        return $this->events;
     }
 
     /**
@@ -197,7 +207,7 @@ class Simulation extends BaseEventEmitter implements SimulationInterface
         $loop->startTick(function() use($sim, $onStart) {
             $onStart($sim);
         });
-        $loop->addTimer(15, function() use($sim) {
+        $loop->addTimer(5, function() use($sim) {
             $sim->fail('Timeout for test has been reached.');
         });
 

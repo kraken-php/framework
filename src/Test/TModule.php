@@ -15,12 +15,12 @@ class TModule extends TUnit
     /**
      * @var string
      */
-    const MSG_EVENT_NAME_ASSERTION_FAILED = 'Expected event name mismatch.';
+    const MSG_EVENT_NAME_ASSERTION_FAILED = 'Expected event name mismatch on %s event.';
 
     /**
      * @var string
      */
-    const MSG_EVENT_DATA_ASSERTION_FAILED = 'Expected event data mismatch.';
+    const MSG_EVENT_DATA_ASSERTION_FAILED = 'Expected event data mismatch on %s event.';
 
     /**
      * @var string
@@ -88,9 +88,10 @@ class TModule extends TUnit
 
     /**
      * @param $events
+     * @param int $flags
      * @return TModule
      */
-    public function expect($events)
+    public function expect($events, $flags = Simulation::EVENTS_COMPARE_IN_ORDER)
     {
         $expectedEvents = [];
 
@@ -102,7 +103,8 @@ class TModule extends TUnit
 
         $this->assertEvents(
             $this->simulation->getExpectations(),
-            $expectedEvents
+            $expectedEvents,
+            $flags
         );
 
         return $this;
@@ -111,10 +113,17 @@ class TModule extends TUnit
     /**
      * @param Event[] $actualEvents
      * @param Event[] $expectedEvents
+     * @param int $flags
      */
-    public function assertEvents($actualEvents = [], $expectedEvents = [])
+    public function assertEvents($actualEvents = [], $expectedEvents = [], $flags = Simulation::EVENTS_COMPARE_IN_ORDER)
     {
         $count = max(count($actualEvents), count($expectedEvents));
+
+        if ($flags === Simulation::EVENTS_COMPARE_RANDOMLY)
+        {
+            sort($actualEvents);
+            sort($expectedEvents);
+        }
 
         for ($i=0; $i<$count; $i++)
         {
@@ -134,8 +143,16 @@ class TModule extends TUnit
             $actualEvent = $actualEvents[$i];
             $expectedEvent = $expectedEvents[$i];
 
-            $this->assertEquals($expectedEvent->name(), $actualEvent->name(), self::MSG_EVENT_NAME_ASSERTION_FAILED);
-            $this->assertEquals($expectedEvent->data(), $actualEvent->data(), self::MSG_EVENT_DATA_ASSERTION_FAILED);
+            $this->assertSame(
+                $expectedEvent->name(),
+                $actualEvent->name(),
+                sprintf(self::MSG_EVENT_NAME_ASSERTION_FAILED, $i)
+            );
+            $this->assertSame(
+                $expectedEvent->data(),
+                $actualEvent->data(),
+                sprintf(self::MSG_EVENT_DATA_ASSERTION_FAILED, $i)
+            );
         }
     }
 }
