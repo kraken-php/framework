@@ -27,7 +27,8 @@
     "suggest": {
         "ext-libevent": ">=0.1.0",
         "ext-event": "~1.0",
-        "ext-libev": "*"
+        "ext-libev": "*",
+        "ext-zmq": "*"
     },
     "autoload": {
         "psr-4": {
