@@ -66,11 +66,11 @@ class EventHandler
     }
 
     /**
-     * @return callable
+     * @return callable|null
      */
     public function getHandler()
     {
-        return $this->handler;
+        return isset($this->handler) ? $this->handler : null;
     }
 
     /**
@@ -86,6 +86,9 @@ class EventHandler
      */
     public function cancel()
     {
-        $this->emitter->removeListener($this->getEvent(), $this->getHandler());
+        if (isset($this->emitter))
+        {
+            $this->emitter->removeListener($this->getEvent(), $this->getHandler());
+        }
     }
 }

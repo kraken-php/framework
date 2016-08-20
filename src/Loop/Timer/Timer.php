@@ -138,6 +138,9 @@ class Timer implements TimerInterface
      */
     public function cancel()
     {
-        $this->loop->cancelTimer($this);
+        if (isset($this->loop))
+        {
+            $this->loop->cancelTimer($this);
+        }
     }
 }

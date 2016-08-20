@@ -206,7 +206,10 @@ class SelectLoop implements LoopModelInterface
      */
     public function cancelTimer(TimerInterface $timer)
     {
-        $this->timers->remove($timer);
+        if (isset($this->timers))
+        {
+            $this->timers->remove($timer);
+        }
     }
 
     /**

@@ -115,7 +115,10 @@ trait EventEmitterTrait
      */
     public function removeListener($event, callable $listener)
     {
-        $this->emitter->removeListener($event, $listener);
+        if (isset($this->emitter))
+        {
+            $this->emitter->removeListener($event, $listener);
+        }
     }
 
     /**
@@ -123,7 +126,10 @@ trait EventEmitterTrait
      */
     public function removeListeners($event)
     {
-        $this->emitter->removeListeners($event);
+        if (isset($this->emitter))
+        {
+            $this->emitter->removeListeners($event);
+        }
     }
 
     /**
@@ -131,7 +137,10 @@ trait EventEmitterTrait
      */
     public function removeAllListeners()
     {
-        $this->emitter->removeAllListeners();
+        if (isset($this->emitter))
+        {
+            $this->emitter->removeAllListeners();
+        }
     }
 
     /**
