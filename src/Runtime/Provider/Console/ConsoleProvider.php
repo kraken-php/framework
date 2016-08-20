@@ -90,7 +90,7 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
         $router = $console->input();
         $router->addAnchor(
             new RuleHandler(function($params) use($master) {
-                $master->receive(
+                $master->pull(
                     $params['alias'],
                     $params['protocol']
                 );
