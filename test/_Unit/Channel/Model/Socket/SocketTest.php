@@ -1,17 +1,20 @@
 <?php
 
-namespace Kraken\_Unit\Channel\Model\Zmq;
+namespace Kraken\_Unit\Channel\Model\Socket;
 
+use Kraken\Channel\Channel;
+use Kraken\Channel\Model\Socket\Socket;
 use Kraken\Channel\ChannelModelInterface;
-use Kraken\Channel\Model\Zmq\ZmqDealer;
-use Kraken\Channel\Model\Zmq\ZmqModel;
+use Kraken\Ipc\Socket\SocketInterface;
+use Kraken\Ipc\Socket\SocketListener;
+use Kraken\Ipc\Socket\SocketListenerInterface;
 use Kraken\Loop\Loop;
 use Kraken\Test\TUnit;
 
-class ZmqDealerTest extends TUnit
+class SocketTest extends TUnit
 {
     /**
-     * @var ZmqDealer|\PHPUnit_Framework_MockObject_MockObject
+     * @var Socket|\PHPUnit_Framework_MockObject_MockObject
      */
     private $model;
 
@@ -22,8 +25,7 @@ class ZmqDealerTest extends TUnit
     {
         $model = $this->createBinder();
 
-        $this->assertInstanceOf(ZmqDealer::class, $model);
-        $this->assertInstanceOf(ZmqModel::class, $model);
+        $this->assertInstanceOf(Socket::class, $model);
         $this->assertInstanceOf(ChannelModelInterface::class, $model);
     }
 
@@ -39,23 +41,12 @@ class ZmqDealerTest extends TUnit
     /**
      *
      */
-    public function testProtectedApiGetSocketType_GetsSocketType()
-    {
-        $model = $this->createBinder();
-        $result = $this->callProtectedMethod($model, 'getSocketType');
-
-        $this->assertSame(\ZMQ::SOCKET_DEALER, $result);
-    }
-
-    /**
-     *
-     */
     public function testProtectedApiParseBinderMessage_ParsesBinderMessage()
     {
         $model = $this->createBinder();
-        $result = $this->callProtectedMethod($model, 'parseBinderMessage', [[ 'from', 'id', 'type', 'msg1', 'msg2' ]]);
+        $result = $this->callProtectedMethod($model, 'parseBinderMessage', [ "from|id|type|msg" ]);
 
-        $this->assertSame([ 'id', 'type', [ 'msg1', 'msg2' ] ], $result);
+        $this->assertSame([ 'id', 'type', 'msg' ], $result);
     }
 
     /**
@@ -64,9 +55,9 @@ class ZmqDealerTest extends TUnit
     public function testProtectedApiParseConnectorMessage_ParsesConnectorMessage()
     {
         $model  = $this->createConnector();
-        $result = $this->callProtectedMethod($model, 'parseConnectorMessage', [[ 'from', 'id', 'type', 'msg1', 'msg2' ]]);
+        $result = $this->callProtectedMethod($model, 'parseConnectorMessage', [ "from|id|type|msg" ]);
 
-        $this->assertSame([ 'id', 'type', [ 'msg1', 'msg2' ] ], $result);
+        $this->assertSame([ 'id', 'type', 'msg' ], $result);
     }
 
     /**
@@ -78,7 +69,7 @@ class ZmqDealerTest extends TUnit
         $this->setProtectedProperty($model, 'id', 'model');
         $result = $this->callProtectedMethod($model, 'prepareBinderMessage', [ 'id', 'type' ]);
 
-        $this->assertSame([ 'id', 'model', 'type' ], $result);
+        $this->assertSame('id|model|type', $result);
     }
 
     /**
@@ -90,37 +81,63 @@ class ZmqDealerTest extends TUnit
         $this->setProtectedProperty($model, 'id', 'model');
         $result = $this->callProtectedMethod($model, 'prepareConnectorMessage', [ 'id', 'type' ]);
 
-        $this->assertSame([ 'id', 'model', 'type' ], $result);
+        $this->assertSame('id|model|type', $result);
+    }
+
+    /**
+     *
+     */
+    public function testProtectedApiCreateBinder_CreatesBinder()
+    {
+        $model = $this->createConnector();
+        $result = $this->callProtectedMethod($model, 'createBinder');
+
+        $this->assertInstanceOf(SocketListenerInterface::class, $result);
+
+        $result->close();
+    }
+
+    /**
+     *
+     */
+    public function testProtectedApiCreateBinder_CreatesConnector()
+    {
+        $model = $this->createConnector();
+        $result = $this->callProtectedMethod($model, 'createBinder');
+
+        $this->assertInstanceOf(SocketListenerInterface::class, $result);
+
+        $result->close();
     }
 
     /**
      * @param mixed[] $params
      * @param string[]|null $methods
-     * @return ZmqDealer|\PHPUnit_Framework_MockObject_MockObject
+     * @return Socket|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createConnector($params = [], $methods = [])
     {
-        $params['type'] = ZmqModel::CONNECTOR;
+        $params['type'] = Channel::CONNECTOR;
         return $this->createModel($params, $methods);
     }
 
     /**
      * @param mixed[] $params
      * @param string[]|null $methods
-     * @return ZmqDealer|\PHPUnit_Framework_MockObject_MockObject
+     * @return Socket|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createBinder($params = [], $methods = [])
     {
-        $params['type'] = ZmqModel::BINDER;
+        $params['type'] = Channel::BINDER;
         return $this->createModel($params, $methods);
     }
 
     /**
      * @param mixed[] $params
-     * @param string[] $methods
-     * @return ZmqDealer|\PHPUnit_Framework_MockObject_MockObject
+     * @param string[]|null $methods
+     * @return Socket|\PHPUnit_Framework_MockObject_MockObject
      */
-    public function createModel($params = [], $methods = [])
+    public function createModel($params = [], $methods = null)
     {
         $params = array_merge(
             [
@@ -133,18 +150,8 @@ class ZmqDealerTest extends TUnit
             $params
         );
 
-        $methods = array_merge(
-            [
-                'removeEventHandler'
-            ],
-            $methods
-        );
-
         $loop  = $this->getMock(Loop::class, $methods, [], '', false);
-        $model = $this->getMock(ZmqDealer::class, $methods, [ $params, $loop ], '', false);
-        $model
-            ->expects($this->any())
-            ->method('removeEventHandler');
+        $model = $this->getMock(Socket::class, $methods, [ $loop, $params ]);
 
         $this->model = $model;
 
