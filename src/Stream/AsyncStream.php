@@ -40,6 +40,16 @@ class AsyncStream extends Stream implements AsyncStreamInterface
     {
         parent::__construct($resource, $autoClose);
 
+        if (function_exists('stream_set_read_buffer'))
+        {
+            stream_set_read_buffer($this->resource, 0);
+        }
+
+        if (function_exists('stream_set_write_buffer'))
+        {
+            stream_set_write_buffer($this->resource, 0);
+        }
+
         $this->loop = $loop;
         $this->listening = false;
         $this->paused = true;

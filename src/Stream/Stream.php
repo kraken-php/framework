@@ -35,11 +35,6 @@ class Stream extends StreamSeeker implements StreamInterface
         $this->readable = true;
         $this->writable = true;
         $this->bufferSize = 4096;
-
-        if (function_exists('stream_set_read_buffer'))
-        {
-            stream_set_read_buffer($this->resource, 0);
-        }
     }
 
     /**
