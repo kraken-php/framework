@@ -6,14 +6,14 @@ return [
         'plugins'  => [],
         'channels' => [
             'master' => [
-                'class'  => 'Kraken\Channel\Model\Zmq\ZmqDealer',
+                'class'  => 'Kraken\Channel\Model\Socket\Socket',
                 'config' => [
                     'type'      => 1,
                     'endpoint'  => 'tcp://%host.main%:2060'
                 ]
             ],
             'slave' => [
-                'class'  => 'Kraken\Channel\Model\Zmq\ZmqDealer',
+                'class'  => 'Kraken\Channel\Model\Socket\Socket',
                 'config' => [
                     'type'      => 2,
                     'endpoint'  => 'tcp://%host.main%:2061'
