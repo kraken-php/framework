@@ -50,7 +50,7 @@ class ZmqSocket extends BaseEventEmitter
     }
 
     /**
-     *
+     * Attach read listener.
      */
     public function attachReadListener()
     {
@@ -58,7 +58,7 @@ class ZmqSocket extends BaseEventEmitter
     }
 
     /**
-     *
+     * Handle ZMQ Event.
      */
     public function handleEvent()
     {
@@ -85,7 +85,7 @@ class ZmqSocket extends BaseEventEmitter
     }
 
     /**
-     *
+     * Handle ZMQ Read Event.
      */
     public function handleReadEvent()
     {
@@ -97,6 +97,8 @@ class ZmqSocket extends BaseEventEmitter
     }
 
     /**
+     * Return socket.
+     *
      * @return RawZMQSocket
      */
     public function getWrappedSocket()
@@ -105,6 +107,8 @@ class ZmqSocket extends BaseEventEmitter
     }
 
     /**
+     * Subscribe socket to channel.
+     *
      * @param mixed $channel
      */
     public function subscribe($channel)
@@ -113,6 +117,8 @@ class ZmqSocket extends BaseEventEmitter
     }
 
     /**
+     * Unsubscribe socket from channel.
+     *
      * @param mixed $channel
      */
     public function unsubscribe($channel)
@@ -121,7 +127,9 @@ class ZmqSocket extends BaseEventEmitter
     }
 
     /**
-     * @param $message
+     * Send message.
+     *
+     * @param string $message
      */
     public function send($message)
     {
@@ -129,7 +137,7 @@ class ZmqSocket extends BaseEventEmitter
     }
 
     /**
-     *
+     * Close connection and discard not sent data.
      */
     public function close()
     {
@@ -147,7 +155,7 @@ class ZmqSocket extends BaseEventEmitter
     }
 
     /**
-     *
+     * Deactivate socket, wait to complete sending all unfinished data, then close connection.
      */
     public function end()
     {

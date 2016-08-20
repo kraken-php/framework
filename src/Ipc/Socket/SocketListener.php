@@ -85,6 +85,7 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getLocalEndpoint()
     {
@@ -93,6 +94,7 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getResource()
     {
@@ -101,6 +103,7 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getResourceId()
     {
@@ -109,6 +112,7 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getMetadata()
     {
@@ -117,6 +121,7 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getStreamType()
     {
@@ -125,6 +130,7 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getWrapperType()
     {
@@ -133,6 +139,7 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function isOpen()
     {
@@ -141,6 +148,7 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function isPaused()
     {
@@ -149,6 +157,7 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function close()
     {
@@ -166,6 +175,7 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function pause()
     {
@@ -178,6 +188,7 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function resume()
     {

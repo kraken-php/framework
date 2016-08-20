@@ -60,6 +60,8 @@ class ZmqBuffer extends BaseEventEmitter
     }
 
     /**
+     * Send message.
+     *
      * @param string $message
      * @return bool
      */
@@ -82,7 +84,7 @@ class ZmqBuffer extends BaseEventEmitter
     }
 
     /**
-     *
+     * Close buffer.
      */
     public function end()
     {
@@ -95,7 +97,7 @@ class ZmqBuffer extends BaseEventEmitter
     }
 
     /**
-     *
+     * Handle ZMQ Write Event.
      */
     public function handleWriteEvent()
     {

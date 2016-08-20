@@ -50,6 +50,7 @@ class Socket extends AsyncStream implements SocketInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getLocalEndpoint()
     {
@@ -58,6 +59,7 @@ class Socket extends AsyncStream implements SocketInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getRemoteEndpoint()
     {
@@ -66,6 +68,7 @@ class Socket extends AsyncStream implements SocketInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getLocalAddress()
     {
@@ -76,6 +79,7 @@ class Socket extends AsyncStream implements SocketInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getRemoteAddress()
     {
@@ -125,6 +129,7 @@ class Socket extends AsyncStream implements SocketInterface
     /**
      * @internal
      * @override
+     * @inheritDoc
      */
     public function handleData()
     {
@@ -144,6 +149,7 @@ class Socket extends AsyncStream implements SocketInterface
     /**
      * @internal
      * @override
+     * @inheritDoc
      */
     public function handleClose()
     {
