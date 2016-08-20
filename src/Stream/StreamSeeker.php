@@ -186,9 +186,8 @@ class StreamSeeker extends BaseEventEmitter implements StreamSeekerInterface
         $this->readable = false;
         $this->writable = false;
 
-        $this->emit('close', [ $this ]);
-
         $this->handleClose();
+        $this->emit('close', [ $this ]);
     }
 
     /**

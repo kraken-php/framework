@@ -117,8 +117,7 @@ class StreamReader extends StreamSeeker implements StreamReaderInterface
         $this->readable = false;
         $this->writable = false;
 
-        $this->emit('close', [ $this ]);
-
         $this->handleClose();
+        $this->emit('close', [ $this ]);
     }
 }

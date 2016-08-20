@@ -4,7 +4,6 @@ namespace Kraken\Ipc\Socket;
 
 use Kraken\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Throwable\Exception\LogicException;
-use Kraken\Throwable\Exception\RuntimeException;
 use Kraken\Loop\LoopInterface;
 use Kraken\Stream\AsyncStream;
 use Error;
@@ -124,6 +123,7 @@ class Socket extends AsyncStream implements SocketInterface
     }
 
     /**
+     * @internal
      * @override
      */
     public function handleData()
@@ -142,6 +142,7 @@ class Socket extends AsyncStream implements SocketInterface
     }
 
     /**
+     * @internal
      * @override
      */
     public function handleClose()

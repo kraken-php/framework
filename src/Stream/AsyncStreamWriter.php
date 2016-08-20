@@ -156,9 +156,8 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
             $this->writeEnd();
         }
 
-        $this->emit('close', [ $this ]);
-
         $this->handleClose();
+        $this->emit('close', [ $this ]);
     }
 
     /**
