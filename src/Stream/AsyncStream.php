@@ -73,6 +73,7 @@ class AsyncStream extends Stream implements AsyncStreamInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function isPaused()
     {
@@ -81,6 +82,7 @@ class AsyncStream extends Stream implements AsyncStreamInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function setBufferSize($bufferSize)
     {
@@ -89,6 +91,7 @@ class AsyncStream extends Stream implements AsyncStreamInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getBufferSize()
     {
@@ -97,6 +100,7 @@ class AsyncStream extends Stream implements AsyncStreamInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function pause()
     {
@@ -111,6 +115,7 @@ class AsyncStream extends Stream implements AsyncStreamInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function resume()
     {
@@ -128,6 +133,7 @@ class AsyncStream extends Stream implements AsyncStreamInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function write($text)
     {
@@ -151,6 +157,7 @@ class AsyncStream extends Stream implements AsyncStreamInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function close()
     {
@@ -223,7 +230,9 @@ class AsyncStream extends Stream implements AsyncStreamInterface
     }
 
     /**
-     * @override
+     * Handle close.
+     *
+     * @internal
      */
     public function handleClose()
     {

@@ -5,9 +5,7 @@ namespace Kraken\Stream;
 use Kraken\Event\EventEmitterInterface;
 
 /**
- * @override
- *
- * @event drain(object)
+ * @event drain : callable(object)
  */
 interface StreamWriterInterface extends EventEmitterInterface, StreamSeekerInterface
 {

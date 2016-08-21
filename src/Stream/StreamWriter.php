@@ -43,6 +43,7 @@ class StreamWriter extends StreamSeeker implements StreamWriterInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function isWritable()
     {
@@ -51,6 +52,7 @@ class StreamWriter extends StreamSeeker implements StreamWriterInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function setBufferSize($bufferSize)
     {
@@ -59,6 +61,7 @@ class StreamWriter extends StreamSeeker implements StreamWriterInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getBufferSize()
     {
@@ -67,6 +70,7 @@ class StreamWriter extends StreamSeeker implements StreamWriterInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function write($text)
     {
@@ -93,6 +97,7 @@ class StreamWriter extends StreamSeeker implements StreamWriterInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function close()
     {

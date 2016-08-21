@@ -64,6 +64,7 @@ class StreamSeeker extends BaseEventEmitter implements StreamSeekerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getResource()
     {
@@ -72,6 +73,7 @@ class StreamSeeker extends BaseEventEmitter implements StreamSeekerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getResourceId()
     {
@@ -80,6 +82,7 @@ class StreamSeeker extends BaseEventEmitter implements StreamSeekerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getMetadata()
     {
@@ -88,6 +91,7 @@ class StreamSeeker extends BaseEventEmitter implements StreamSeekerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getStreamType()
     {
@@ -96,6 +100,7 @@ class StreamSeeker extends BaseEventEmitter implements StreamSeekerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getWrapperType()
     {
@@ -104,6 +109,7 @@ class StreamSeeker extends BaseEventEmitter implements StreamSeekerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function isOpen()
     {
@@ -112,6 +118,7 @@ class StreamSeeker extends BaseEventEmitter implements StreamSeekerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function isSeekable()
     {
@@ -120,6 +127,7 @@ class StreamSeeker extends BaseEventEmitter implements StreamSeekerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function tell()
     {
@@ -139,6 +147,7 @@ class StreamSeeker extends BaseEventEmitter implements StreamSeekerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function seek($offset, $whence = SEEK_SET)
     {
@@ -158,6 +167,7 @@ class StreamSeeker extends BaseEventEmitter implements StreamSeekerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function rewind()
     {
@@ -174,6 +184,7 @@ class StreamSeeker extends BaseEventEmitter implements StreamSeekerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function close()
     {

@@ -58,6 +58,7 @@ class AsyncStreamReader extends StreamReader implements AsyncStreamReaderInterfa
 
     /**
      * @override
+     * @inheritDoc
      */
     public function isPaused()
     {
@@ -66,6 +67,7 @@ class AsyncStreamReader extends StreamReader implements AsyncStreamReaderInterfa
 
     /**
      * @override
+     * @inheritDoc
      */
     public function setBufferSize($bufferSize)
     {
@@ -74,6 +76,7 @@ class AsyncStreamReader extends StreamReader implements AsyncStreamReaderInterfa
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getBufferSize()
     {
@@ -82,6 +85,7 @@ class AsyncStreamReader extends StreamReader implements AsyncStreamReaderInterfa
 
     /**
      * @override
+     * @inheritDoc
      */
     public function pause()
     {
@@ -94,6 +98,7 @@ class AsyncStreamReader extends StreamReader implements AsyncStreamReaderInterfa
 
     /**
      * @override
+     * @inheritDoc
      */
     public function resume()
     {
@@ -122,7 +127,9 @@ class AsyncStreamReader extends StreamReader implements AsyncStreamReaderInterfa
     }
 
     /**
-     * @override
+     * Handle close.
+     *
+     * @internal
      */
     public function handleClose()
     {

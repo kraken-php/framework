@@ -51,6 +51,7 @@ class Stream extends StreamSeeker implements StreamInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function isReadable()
     {
@@ -59,6 +60,7 @@ class Stream extends StreamSeeker implements StreamInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function isWritable()
     {
@@ -67,6 +69,7 @@ class Stream extends StreamSeeker implements StreamInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function setBufferSize($bufferSize)
     {
@@ -75,6 +78,7 @@ class Stream extends StreamSeeker implements StreamInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getBufferSize()
     {
@@ -83,6 +87,7 @@ class Stream extends StreamSeeker implements StreamInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function write($text)
     {
@@ -109,6 +114,7 @@ class Stream extends StreamSeeker implements StreamInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function read($length = null)
     {
@@ -142,6 +148,7 @@ class Stream extends StreamSeeker implements StreamInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function close()
     {

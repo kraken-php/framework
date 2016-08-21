@@ -68,6 +68,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
 
     /**
      * @override
+     * @inheritDoc
      */
     public function isPaused()
     {
@@ -76,6 +77,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
 
     /**
      * @override
+     * @inheritDoc
      */
     public function setBufferSize($bufferSize)
     {
@@ -84,6 +86,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getBufferSize()
     {
@@ -92,6 +95,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
 
     /**
      * @override
+     * @inheritDoc
      */
     public function pause()
     {
@@ -105,6 +109,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
 
     /**
      * @override
+     * @inheritDoc
      */
     public function resume()
     {
@@ -121,6 +126,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
 
     /**
      * @override
+     * @inheritDoc
      */
     public function write($text)
     {
@@ -144,6 +150,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
 
     /**
      * @override
+     * @inheritDoc
      */
     public function close()
     {
@@ -203,7 +210,9 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
     }
 
     /**
-     * @override
+     * Handle close.
+     *
+     * @internal
      */
     public function handleClose()
     {
