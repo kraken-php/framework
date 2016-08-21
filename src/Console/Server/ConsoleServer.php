@@ -9,8 +9,8 @@ use Kraken\Runtime\RuntimeInterface;
 class ConsoleServer extends ProcessContainer
 {
     /**
-     * @param CoreInterface $core
-     * @return array
+     * @override
+     * @inheritDoc
      */
     protected function config(CoreInterface $core)
     {
@@ -18,8 +18,8 @@ class ConsoleServer extends ProcessContainer
     }
 
     /**
-     * @param CoreInterface $core
-     * @return RuntimeInterface
+     * @override
+     * @inheritDoc
      */
     protected function construct(CoreInterface $core)
     {
@@ -29,8 +29,8 @@ class ConsoleServer extends ProcessContainer
     }
 
     /**
-     * @param CoreInterface $core
-     * @return RuntimeInterface
+     * @override
+     * @inheritDoc
      */
     protected function boot(CoreInterface $core)
     {

@@ -6,9 +6,7 @@ use Kraken\Console\Client\Provider\Console\ConsoleProvider;
 use Kraken\Core\CoreAwareTrait;
 use Kraken\Core\CoreInterface;
 use Kraken\Event\BaseEventEmitter;
-use Kraken\Event\EventHandler;
 use Kraken\Loop\LoopExtendedAwareTrait;
-use Kraken\Runtime\RuntimeInterface;
 
 class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
 {
@@ -24,7 +22,8 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function type()
     {
@@ -32,7 +31,8 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
     }
 
     /**
-     * @return string|null
+     * @override
+     * @inheritDoc
      */
     public function parent()
     {
@@ -40,7 +40,8 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function alias()
     {
@@ -48,7 +49,8 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function name()
     {
@@ -56,8 +58,8 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
     }
 
     /**
-     * @param callable $callback
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onStart(callable $callback)
     {
@@ -65,8 +67,8 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
     }
 
     /**
-     * @param callable $callback
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onStop(callable $callback)
     {
@@ -74,8 +76,8 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
     }
 
     /**
-     * @param callable $callback
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onCommand(callable $callback)
     {
@@ -83,7 +85,8 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
     }
 
     /**
-     * @return int
+     * @override
+     * @inheritDoc
      */
     public function start()
     {
@@ -96,7 +99,8 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
     }
 
     /**
-     *
+     * @override
+     * @inheritDoc
      */
     public function stop()
     {
@@ -105,8 +109,8 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
     }
 
     /**
-     * @param CoreInterface $core
-     * @return array
+     * @override
+     * @inheritDoc
      */
     public function config(CoreInterface $core)
     {
@@ -114,8 +118,8 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
     }
 
     /**
-     * @param CoreInterface $core
-     * @return RuntimeInterface
+     * @override
+     * @inheritDoc
      */
     public function boot(CoreInterface $core)
     {
@@ -123,8 +127,8 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
     }
 
     /**
-     * @param CoreInterface $core
-     * @return RuntimeInterface
+     * @override
+     * @inheritDoc
      */
     public function construct(CoreInterface $core)
     {
@@ -132,8 +136,8 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
     }
 
     /**
-     * @param CoreInterface $core
-     * @return array
+     * @override
+     * @inheritDoc
      */
     public function internalConfig(CoreInterface $core)
     {
@@ -141,8 +145,8 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
     }
 
     /**
-     * @param CoreInterface $core
-     * @return RuntimeInterface
+     * @override
+     * @inheritDoc
      */
     public function internalBoot(CoreInterface $core)
     {
@@ -152,8 +156,8 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
     }
 
     /**
-     * @param CoreInterface $core
-     * @return RuntimeInterface
+     * @override
+     * @inheritDoc
      */
     public function internalConstruct(CoreInterface $core)
     {
