@@ -87,9 +87,9 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
         unset($this->loop);
     }
 
-    /*
-     * @param string $name
-     * @return bool
+    /**
+     * @override
+     * @inheritDoc
      */
     public function existsBus($name)
     {
@@ -97,9 +97,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @param string $name
-     * @return ChannelBaseInterface|ChannelCompositeInterface
-     * @throws ResourceUndefinedException
+     * @override
+     * @inheritDoc
      */
     public function bus($name)
     {
@@ -112,10 +111,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @param string $name
-     * @param ChannelBaseInterface|ChannelCompositeInterface $channel
-     * @return ChannelCompositeInterface
-     * @throws ResourceDefinedException
+     * @override
+     * @inheritDoc
      */
     public function setBus($name, $channel)
     {
@@ -132,8 +129,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @param string $name
-     * @return ChannelCompositeInterface
+     * @override
+     * @inheritDoc
      */
     public function removeBus($name)
     {
@@ -152,7 +149,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @return ChannelBaseInterface[]|ChannelCompositeInterface[]
+     * @override
+     * @inheritDoc
      */
     public function getBuses()
     {
@@ -160,7 +158,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function name()
     {
@@ -168,7 +167,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @return ChannelModelInterface|null
+     * @override
+     * @inheritDoc
      */
     public function model()
     {
@@ -176,7 +176,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @return ChannelRouterCompositeInterface
+     * @override
+     * @inheritDoc
      */
     public function router()
     {
@@ -184,8 +185,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @return ChannelRouterBaseInterface|ChannelRouterCompositeInterface
-     * @throws ResourceUndefinedException
+     * @override
+     * @inheritDoc
      */
     public function input()
     {
@@ -193,8 +194,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @return ChannelRouterBaseInterface|ChannelRouterCompositeInterface
-     * @throws ResourceUndefinedException
+     * @override
+     * @inheritDoc
      */
     public function output()
     {
@@ -202,8 +203,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @param string|string[]|null $message
-     * @return ChannelProtocolInterface
+     * @override
+     * @inheritDoc
      */
     public function createProtocol($message = null)
     {
@@ -220,9 +221,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @handle start
-     * @param callable $handler
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onStart(callable $handler)
     {
@@ -230,9 +230,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @handle stop
-     * @param callable $handler
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onStop(callable $handler)
     {
@@ -240,9 +239,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @handle connect
-     * @param callable $handler
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onConnect(callable $handler)
     {
@@ -250,9 +248,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @handle disconnect
-     * @param callable $handler
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onDisconnect(callable $handler)
     {
@@ -260,9 +257,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @handle receive
-     * @param callable $handler
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onInput(callable $handler)
     {
@@ -270,9 +266,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @handle send
-     * @param callable $handler
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onOutput(callable $handler)
     {
@@ -280,7 +275,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     *
+     * @override
+     * @inheritDoc
      */
     public function start()
     {
@@ -293,7 +289,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     *
+     * @override
+     * @inheritDoc
      */
     public function stop()
     {
@@ -306,14 +303,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @param string|string[] $name
-     * @param string|string[]|ChannelProtocolInterface $message
-     * @param int $flags
-     * @param callable|null $success
-     * @param callable|null $failure
-     * @param callable|null $cancel
-     * @param float $timeout
-     * @return mixed|mixed[]
+     * @override
+     * @inheritDoc
      */
     public function send($name, $message, $flags = Channel::MODE_DEFAULT, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0)
     {
@@ -326,14 +317,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @param string|string[] $name
-     * @param string|string[]|ChannelProtocolInterface $message
-     * @param int $flags
-     * @param callable|null $success
-     * @param callable|null $failure
-     * @param callable|null $cancel
-     * @param float $timeout
-     * @return Request|Request[]|null|null[]|bool|bool[]
+     * @override
+     * @inheritDoc
      */
     public function push($name, $message, $flags = Channel::MODE_DEFAULT, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0)
     {
@@ -346,10 +331,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @param string|string[] $name
-     * @param string|string[]|ChannelProtocolInterface $message
-     * @param int $flags
-     * @return bool|bool[]
+     * @override
+     * @inheritDoc
      */
     public function sendAsync($name, $message, $flags = Channel::MODE_DEFAULT)
     {
@@ -366,10 +349,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @param string|string[] $name
-     * @param string|string[]|ChannelProtocolInterface $message
-     * @param int $flags
-     * @return bool|bool[]
+     * @override
+     * @inheritDoc
      */
     public function pushAsync($name, $message, $flags = Channel::MODE_DEFAULT)
     {
@@ -386,14 +367,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @param string|string[] $name
-     * @param string|string[]|ChannelProtocolInterface $message
-     * @param int $flags
-     * @param callable|null $success
-     * @param callable|null $failure
-     * @param callable|null $cancel
-     * @param float $timeout
-     * @return bool|bool[]
+     * @override
+     * @inheritDoc
      */
     public function sendRequest($name, $message, $flags = Channel::MODE_DEFAULT, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0)
     {
@@ -410,14 +385,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @param string|string[] $name
-     * @param string|string[]|ChannelProtocolInterface $message
-     * @param int $flags
-     * @param callable|null $success
-     * @param callable|null $failure
-     * @param callable|null $cancel
-     * @param float $timeout
-     * @return Request|Request[]|null|null[]
+     * @override
+     * @inheritDoc
      */
     public function pushRequest($name, $message, $flags = Channel::MODE_DEFAULT, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0)
     {
@@ -434,8 +403,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @param string $sender
-     * @param ChannelProtocolInterface $protocol
+     * @override
+     * @inheritDoc
      */
     public function receive($sender, ChannelProtocolInterface $protocol)
     {
@@ -446,8 +415,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @param string $sender
-     * @param ChannelProtocolInterface $protocol
+     * @override
+     * @inheritDoc
      */
     public function pull($sender, ChannelProtocolInterface $protocol)
     {
@@ -455,8 +424,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @param string|string[]|null $name
-     * @return bool|bool[]
+     * @override
+     * @inheritDoc
      */
     public function isConnected($name = null)
     {
@@ -477,7 +446,8 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @return string[]
+     * @override
+     * @inheritDoc
      */
     public function getConnected()
     {
@@ -492,16 +462,16 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @param string|string[] $name
-     * @return string[]
+     * @override
+     * @inheritDoc
      */
-    public function matchConnected($name)
+    public function filterConnected($pattern)
     {
         $conns = [];
 
         foreach ($this->buses as $channel)
         {
-            $conns = array_merge($conns, $channel->matchConnected($name));
+            $conns = array_merge($conns, $channel->filterConnected($pattern));
         }
 
         return array_values(array_unique($conns));

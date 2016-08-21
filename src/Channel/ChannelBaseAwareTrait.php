@@ -10,8 +10,7 @@ trait ChannelBaseAwareTrait
     protected $channel = null;
 
     /**
-     * @param ChannelBaseInterface|null $channel
-     * @return ChannelBaseInterface
+     * @see ChannelBaseAwareInterface::setChannel
      */
     public function setChannel(ChannelBaseInterface $channel = null)
     {
@@ -19,7 +18,7 @@ trait ChannelBaseAwareTrait
     }
 
     /**
-     * @return ChannelBaseInterface
+     * @see ChannelBaseAwareInterface::getChannel
      */
     public function getChannel()
     {

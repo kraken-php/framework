@@ -74,9 +74,8 @@ class ChannelProtocol implements ChannelProtocolInterface
     }
 
     /**
-     * @param string $type
-     * @param bool $reassign
-     * @return ChannelProtocolInterface
+     * @override
+     * @inheritDoc
      */
     public function setType($type, $reassign = false)
     {
@@ -89,9 +88,8 @@ class ChannelProtocol implements ChannelProtocolInterface
     }
 
     /**
-     * @param string $pid
-     * @param bool $reassign
-     * @return ChannelProtocolInterface
+     * @override
+     * @inheritDoc
      */
     public function setPid($pid, $reassign = false)
     {
@@ -104,9 +102,8 @@ class ChannelProtocol implements ChannelProtocolInterface
     }
 
     /**
-     * @param string $destination
-     * @param bool $reassign
-     * @return ChannelProtocolInterface
+     * @override
+     * @inheritDoc
      */
     public function setDestination($destination, $reassign = false)
     {
@@ -119,9 +116,8 @@ class ChannelProtocol implements ChannelProtocolInterface
     }
 
     /**
-     * @param string $origin
-     * @param bool $reassign
-     * @return ChannelProtocolInterface
+     * @override
+     * @inheritDoc
      */
     public function setOrigin($origin, $reassign = false)
     {
@@ -134,9 +130,8 @@ class ChannelProtocol implements ChannelProtocolInterface
     }
 
     /**
-     * @param string $message
-     * @param bool $reassign
-     * @return ChannelProtocolInterface
+     * @override
+     * @inheritDoc
      */
     public function setMessage($message, $reassign = false)
     {
@@ -149,9 +144,8 @@ class ChannelProtocol implements ChannelProtocolInterface
     }
 
     /**
-     * @param string $exception
-     * @param bool $reassign
-     * @return ChannelProtocolInterface
+     * @override
+     * @inheritDoc
      */
     public function setException($exception, $reassign = false)
     {
@@ -164,9 +158,8 @@ class ChannelProtocol implements ChannelProtocolInterface
     }
 
     /**
-     * @param int $timestamp
-     * @param bool $reassign
-     * @return ChannelProtocolInterface
+     * @override
+     * @inheritDoc
      */
     public function setTimestamp($timestamp, $reassign = false)
     {
@@ -179,7 +172,8 @@ class ChannelProtocol implements ChannelProtocolInterface
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function getType()
     {
@@ -187,7 +181,8 @@ class ChannelProtocol implements ChannelProtocolInterface
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function getPid()
     {
@@ -195,7 +190,8 @@ class ChannelProtocol implements ChannelProtocolInterface
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function getDestination()
     {
@@ -203,7 +199,8 @@ class ChannelProtocol implements ChannelProtocolInterface
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function getOrigin()
     {
@@ -211,7 +208,8 @@ class ChannelProtocol implements ChannelProtocolInterface
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function getMessage()
     {
@@ -219,7 +217,8 @@ class ChannelProtocol implements ChannelProtocolInterface
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function getException()
     {
@@ -227,7 +226,8 @@ class ChannelProtocol implements ChannelProtocolInterface
     }
 
     /**
-     * @return int
+     * @override
+     * @inheritDoc
      */
     public function getTimestamp()
     {
@@ -235,9 +235,8 @@ class ChannelProtocol implements ChannelProtocolInterface
     }
 
     /**
-     * @param mixed[] $args
-     * @param bool $reassign
-     * @return ChannelProtocolInterface
+     * @override
+     * @inheritDoc
      */
     public function setAll($args = [], $reassign = false)
     {
@@ -253,7 +252,8 @@ class ChannelProtocol implements ChannelProtocolInterface
     }
 
     /**
-     * @return mixed[]
+     * @override
+     * @inheritDoc
      */
     public function getAll()
     {

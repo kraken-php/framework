@@ -8,44 +8,26 @@ use Kraken\Event\BaseEventEmitter;
 class NullModel extends BaseEventEmitter implements ChannelModelInterface
 {
     /**
-     * @return bool
+     * @override
+     * @inheritDoc
      */
-    public function start()
+    public function start($blockEvent = false)
     {
         return true;
     }
 
     /**
-     * @return bool
+     * @override
+     * @inheritDoc
      */
-    public function stop()
+    public function stop($blockEvent = false)
     {
         return true;
     }
 
     /**
-     * @param string $id
-     * @return bool
-     */
-    public function connect($id)
-    {
-        return true;
-    }
-
-    /**
-     * @param string $id
-     * @return bool
-     */
-    public function disconnect($id)
-    {
-        return true;
-    }
-
-    /**
-     * @param string $alias
-     * @param string[]|string $message
-     * @param int $flags
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function unicast($alias, $message, $flags)
     {
@@ -53,8 +35,8 @@ class NullModel extends BaseEventEmitter implements ChannelModelInterface
     }
 
     /**
-     * @param string[]|string $message
-     * @return bool[]
+     * @override
+     * @inheritDoc
      */
     public function broadcast($message)
     {
@@ -62,8 +44,8 @@ class NullModel extends BaseEventEmitter implements ChannelModelInterface
     }
 
     /**
-     * @param string|null $alias
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function isConnected($alias = null)
     {
@@ -71,7 +53,8 @@ class NullModel extends BaseEventEmitter implements ChannelModelInterface
     }
 
     /**
-     * @return string[]
+     * @override
+     * @inheritDoc
      */
     public function getConnected()
     {

@@ -23,6 +23,8 @@ trait ResponseHelperTrait
     protected $handledRepsTimeout = 0;
 
     /**
+     * Create ResponseRecord.
+     *
      * @param string $pid
      * @param string $alias
      * @param float $timeout
@@ -35,6 +37,8 @@ trait ResponseHelperTrait
     }
 
     /**
+     * Check if ResponseRecord with given protocol ID exists.
+     *
      * @param $pid
      * @return bool
      */
@@ -44,6 +48,8 @@ trait ResponseHelperTrait
     }
 
     /**
+     * Add new ResponseRecord to storage.
+     *
      * @param string $pid
      * @param Response $response
      */
@@ -53,6 +59,8 @@ trait ResponseHelperTrait
     }
 
     /**
+     * Return ResponseRecord if it exists or null if it does not exist.
+     *
      * @param string $pid
      * @return Response
      */
@@ -62,6 +70,8 @@ trait ResponseHelperTrait
     }
 
     /**
+     * Mark ResponseRecord as handled if it exists that and has protocol ID equal to $pid.
+     *
      * @param string $pid
      * @param $exception
      */
@@ -75,6 +85,8 @@ trait ResponseHelperTrait
     }
 
     /**
+     * Return all unhandled ResponseRecords in array form.
+     *
      * @return Response[]
      */
     protected function unfinishedResponses()
@@ -95,7 +107,7 @@ trait ResponseHelperTrait
     }
 
     /**
-     *
+     * Expire unhandled ResponseRecords.
      */
     protected function expireResponses()
     {

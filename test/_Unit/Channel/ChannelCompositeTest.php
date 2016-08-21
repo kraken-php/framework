@@ -971,11 +971,11 @@ class ChannelCompositeTest extends TUnit
     /**
      *
      */
-    public function testApiMatchConnected_ReturnsEmptyArray_WhenNoBusSet()
+    public function testApiFilterConnected_ReturnsEmptyArray_WhenNoBusSet()
     {
         $name = 'name';
         $channel = $this->createChannel();
-        $this->assertSame([], $channel->matchConnected($name));
+        $this->assertSame([], $channel->filterConnected($name));
     }
 
     /**
@@ -984,23 +984,23 @@ class ChannelCompositeTest extends TUnit
     public function testApiMatchConnected_ReturnsUniqueArrayOfConnectedNames()
     {
         $name = 'name';
-        $bus1 = $this->createBus('name1', [ 'matchConnected' ]);
+        $bus1 = $this->createBus('name1', [ 'filterConnected' ]);
         $bus1
             ->expects($this->once())
-            ->method('matchConnected')
+            ->method('filterConnected')
             ->with($name)
             ->will($this->returnValue([ 'A', 'B' ]));
 
-        $bus2 = $this->createBus('name2', [ 'matchConnected' ]);
+        $bus2 = $this->createBus('name2', [ 'filterConnected' ]);
         $bus2
             ->expects($this->once())
-            ->method('matchConnected')
+            ->method('filterConnected')
             ->with($name)
             ->will($this->returnValue([ 'A', 'C' ]));
 
         $channel = $this->createChannel([ 'bus1' => $bus1, 'bus2' => $bus2 ]);
 
-        $this->assertSame([ 'A', 'B', 'C' ], $channel->matchConnected($name));
+        $this->assertSame([ 'A', 'B', 'C' ], $channel->filterConnected($name));
     }
 
     /**

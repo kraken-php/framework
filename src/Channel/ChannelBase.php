@@ -132,12 +132,11 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
         unset($this->handledReps);
         unset($this->handledRepsTimeout);
         unset($this->loop);
-
-//        parent::__destruct();
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function name()
     {
@@ -145,7 +144,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @return ChannelModelInterface|null
+     * @override
+     * @inheritDoc
      */
     public function model()
     {
@@ -153,7 +153,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @return ChannelRouterCompositeInterface
+     * @override
+     * @inheritDoc
      */
     public function router()
     {
@@ -161,8 +162,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @return ChannelRouterBaseInterface|ChannelRouterCompositeInterface
-     * @throws ResourceUndefinedException
+     * @override
+     * @inheritDoc
      */
     public function input()
     {
@@ -170,8 +171,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @return ChannelRouterBaseInterface|ChannelRouterCompositeInterface
-     * @throws ResourceUndefinedException
+     * @override
+     * @inheritDoc
      */
     public function output()
     {
@@ -179,8 +180,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @param string|string[]|null $message
-     * @return ChannelProtocolInterface
+     * @override
+     * @inheritDoc
      */
     public function createProtocol($message = null)
     {
@@ -197,9 +198,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @handle start
-     * @param callable $handler
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onStart(callable $handler)
     {
@@ -207,9 +207,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @handle stop
-     * @param callable $handler
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onStop(callable $handler)
     {
@@ -217,9 +216,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @handle connect
-     * @param callable $handler
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onConnect(callable $handler)
     {
@@ -227,9 +225,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @handle disconnect
-     * @param callable $handler
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onDisconnect(callable $handler)
     {
@@ -237,9 +234,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @handle receive
-     * @param callable $handler
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onInput(callable $handler)
     {
@@ -247,9 +243,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @handle send
-     * @param callable $handler
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onOutput(callable $handler)
     {
@@ -257,7 +252,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     *
+     * @override
+     * @inheritDoc
      */
     public function start()
     {
@@ -265,7 +261,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     *
+     * @override
+     * @inheritDoc
      */
     public function stop()
     {
@@ -273,14 +270,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @param string|string[] $name
-     * @param string|string[]|ChannelProtocolInterface $message
-     * @param int $flags
-     * @param callable|null $success
-     * @param callable|null $failure
-     * @param callable|null $cancel
-     * @param float $timeout
-     * @return mixed|mixed[]
+     * @override
+     * @inheritDoc
      */
     public function send($name, $message, $flags = Channel::MODE_DEFAULT, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0)
     {
@@ -293,14 +284,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @param string|string[] $name
-     * @param string|string[]|ChannelProtocolInterface $message
-     * @param int $flags
-     * @param callable|null $success
-     * @param callable|null $failure
-     * @param callable|null $cancel
-     * @param float $timeout
-     * @return Request|Request[]|null|null[]|bool|bool[]
+     * @override
+     * @inheritDoc
      */
     public function push($name, $message, $flags = Channel::MODE_DEFAULT, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0)
     {
@@ -313,10 +298,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @param string|string[] $name
-     * @param string|string[]|ChannelProtocolInterface $message
-     * @param int $flags
-     * @return bool|bool[]
+     * @override
+     * @inheritDoc
      */
     public function sendAsync($name, $message, $flags = Channel::MODE_DEFAULT)
     {
@@ -333,10 +316,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @param string|string[] $name
-     * @param string|string[]|ChannelProtocolInterface $message
-     * @param int $flags
-     * @return bool|bool[]
+     * @override
+     * @inheritDoc
      */
     public function pushAsync($name, $message, $flags = Channel::MODE_DEFAULT)
     {
@@ -353,14 +334,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @param string|string[] $name
-     * @param string|string[]|ChannelProtocolInterface $message
-     * @param int $flags
-     * @param callable|null $success
-     * @param callable|null $failure
-     * @param callable|null $cancel
-     * @param float $timeout
-     * @return bool|bool[]
+     * @override
+     * @inheritDoc
      */
     public function sendRequest($name, $message, $flags = Channel::MODE_DEFAULT, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0)
     {
@@ -377,14 +352,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @param string|string[] $name
-     * @param string|string[]|ChannelProtocolInterface $message
-     * @param int $flags
-     * @param callable|null $success
-     * @param callable|null $failure
-     * @param callable|null $cancel
-     * @param float $timeout
-     * @return Request|Request[]|null|null[]
+     * @override
+     * @inheritDoc
      */
     public function pushRequest($name, $message, $flags = Channel::MODE_DEFAULT, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0)
     {
@@ -401,8 +370,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @param string $sender
-     * @param ChannelProtocolInterface $protocol
+     * @override
+     * @inheritDoc
      */
     public function receive($sender, ChannelProtocolInterface $protocol)
     {
@@ -418,8 +387,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @param string $sender
-     * @param ChannelProtocolInterface $protocol
+     * @override
+     * @inheritDoc
      */
     public function pull($sender, ChannelProtocolInterface $protocol)
     {
@@ -427,8 +396,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @param string|string[]|null $name
-     * @return bool|bool[]
+     * @override
+     * @inheritDoc
      */
     public function isConnected($name = null)
     {
@@ -448,7 +417,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @return string[]
+     * @override
+     * @inheritDoc
      */
     public function getConnected()
     {
@@ -456,19 +426,17 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @param string|string[] $name
-     * @return string[]
+     * @override
+     * @inheritDoc
      */
-    public function matchConnected($name)
+    public function filterConnected($pattern)
     {
-        return StringSupport::find($name, $this->getConnected());
+        return StringSupport::find($pattern, $this->getConnected());
     }
 
     /**
-     * @param string $name
-     * @param ChannelProtocolInterface $message
-     * @param int $flags
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     protected function handleSendAsync($name, $message, $flags = Channel::MODE_DEFAULT)
     {
@@ -485,10 +453,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @param string $name
-     * @param ChannelProtocolInterface $message
-     * @param int $flags
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     protected function handlePushAsync($name, $message, $flags = Channel::MODE_DEFAULT)
     {
@@ -517,14 +483,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @param string|string[] $name
-     * @param ChannelProtocolInterface $message
-     * @param int $flags
-     * @param callable|null $success
-     * @param callable|null $failure
-     * @param callable|null $cancel
-     * @param float $timeout
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     protected function handleSendRequest($name, $message, $flags = Channel::MODE_DEFAULT, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0)
     {
@@ -541,14 +501,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @param string|string[] $name
-     * @param ChannelProtocolInterface $message
-     * @param int $flags
-     * @param callable|null $success
-     * @param callable|null $failure
-     * @param callable|null $cancel
-     * @param float $timeout
-     * @return Request|null
+     * @override
+     * @inheritDoc
      */
     protected function handlePushRequest($name, $message, $flags = Channel::MODE_DEFAULT, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0)
     {
@@ -587,9 +541,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
     }
 
     /**
-     * @internal
-     * @param string $sender
-     * @param string[] $multipartMessage
+     * @override
+     * @inheritDoc
      */
     public function handleReceive($sender, $multipartMessage)
     {

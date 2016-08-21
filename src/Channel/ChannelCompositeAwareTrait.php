@@ -10,8 +10,7 @@ trait ChannelCompositeAwareTrait
     protected $channel = null;
 
     /**
-     * @param ChannelCompositeInterface|null $channel
-     * @return ChannelCompositeInterface
+     * @see ChannelCompositeAwareInterface::setChannel
      */
     public function setChannel(ChannelCompositeInterface $channel = null)
     {
@@ -19,7 +18,7 @@ trait ChannelCompositeAwareTrait
     }
 
     /**
-     * @return ChannelCompositeInterface
+     * @see ChannelCompositeAwareInterface::getChannel
      */
     public function getChannel()
     {

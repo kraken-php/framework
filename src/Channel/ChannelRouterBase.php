@@ -56,14 +56,8 @@ class ChannelRouterBase implements ChannelRouterBaseInterface
     }
 
     /**
-     * @param string $name
-     * @param ChannelProtocolInterface $protocol
-     * @param int $flags
-     * @param callable|null $success
-     * @param callable|null $failure
-     * @param callable|null $cancel
-     * @param float $timeout
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function handle($name, ChannelProtocolInterface $protocol, $flags = 0, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0)
     {
@@ -102,7 +96,8 @@ class ChannelRouterBase implements ChannelRouterBaseInterface
     }
 
     /**
-     *
+     * @override
+     * @inheritDoc
      */
     public function erase()
     {
@@ -123,11 +118,8 @@ class ChannelRouterBase implements ChannelRouterBaseInterface
     }
 
     /**
-     * @param callable $matcher
-     * @param callable $handler
-     * @param bool $propagate
-     * @param int $limit
-     * @return ChannelRouterHandler|ChannelRouterHandler[]
+     * @override
+     * @inheritDoc
      */
     public function addRule(callable $matcher, callable $handler, $propagate = false, $limit = 0)
     {
@@ -137,10 +129,8 @@ class ChannelRouterBase implements ChannelRouterBaseInterface
     }
 
     /**
-     * @param callable $handler
-     * @param bool $propagate
-     * @param int $limit
-     * @return ChannelRouterHandler|ChannelRouterHandler[]
+     * @override
+     * @inheritDoc
      */
     public function addAnchor(callable $handler, $propagate = false, $limit = 0)
     {

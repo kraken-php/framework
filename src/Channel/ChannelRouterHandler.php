@@ -71,6 +71,8 @@ class ChannelRouterHandler
     }
 
     /**
+     * Return Router to which handler is attached to.
+     *
      * @return ChannelRouterBaseInterface
      */
     public function router()
@@ -79,6 +81,8 @@ class ChannelRouterHandler
     }
 
     /**
+     * Match given message protocol.
+     *
      * @param string $sender
      * @param ChannelProtocolInterface $protocol
      * @return bool
@@ -90,6 +94,8 @@ class ChannelRouterHandler
     }
 
     /**
+     * Handle given message protocol.
+     *
      * @param string $sender
      * @param ChannelProtocolInterface $protocol
      * @param int $flags
@@ -117,7 +123,7 @@ class ChannelRouterHandler
     }
 
     /**
-     *
+     * Remove this handler.
      */
     public function cancel()
     {

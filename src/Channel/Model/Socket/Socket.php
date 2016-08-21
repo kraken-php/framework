@@ -187,8 +187,8 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
     }
 
     /**
-     * @param bool $blockEvent
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function start($blockEvent = false)
     {
@@ -225,8 +225,8 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
     }
 
     /**
-     * @param bool $blockEvent
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function stop($blockEvent = false)
     {
@@ -254,10 +254,8 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
     }
 
     /**
-     * @param string $id
-     * @param string[]|string $message
-     * @param int $flags
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function unicast($id, $message, $flags = Channel::MODE_STANDARD)
     {
@@ -272,8 +270,8 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
     }
 
     /**
-     * @param string[]|string $message
-     * @return bool[]
+     * @override
+     * @inheritDoc
      */
     public function broadcast($message)
     {
@@ -294,8 +292,8 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
     }
 
     /**
-     * @param string|null $id
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function isConnected($id = null)
     {
@@ -310,7 +308,8 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
     }
 
     /**
-     * @return string[]
+     * @override
+     * @inheritDoc
      */
     public function getConnected()
     {
@@ -318,38 +317,22 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
     }
 
     /**
-     * @param string $id
-     * @return bool
-     */
-    public function connect($id)
-    {
-        // TODO KRF-59
-        return false;
-    }
-
-    /**
-     * @param string $id
-     * @return bool
-     */
-    public function disconnect($id)
-    {
-        // TODO KRF-60
-        return false;
-    }
-
-    /**
+     * Set connection statically to be marked as online until specific timestamp.
+     *
      * @param string $id
      * @param float $until
      */
-    public function setConnectionAlive($id, $until)
+    public function markConnectionOnline($id, $until)
     {
         $this->connectionPool->setConnectionProperty($id, 'timestampIn', $until);
     }
 
     /**
+     * Set connection statically to be marked always as online.
+     *
      * @param string $id
      */
-    public function setConnectionPersistent($id)
+    public function markConnectionPersistent($id)
     {
         $this->connectionPool->setConnectionProperty($id, 'timestampIn', 0);
     }
@@ -851,7 +834,9 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
     }
 
     /**
+     * Start heartbeat.
      *
+     * Heartbeat mechanisms is used to identify online and offline sockets.
      */
     private function startHeartbeat()
     {
@@ -876,7 +861,7 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
     }
 
     /**
-     *
+     * Stop hearbeat.
      */
     private function stopHeartbeat()
     {
@@ -888,7 +873,7 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
     }
 
     /**
-     *
+     * Clear connection pool.
      */
     private function clearConnectionPool()
     {
@@ -901,7 +886,10 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
     }
 
     /**
+     * Start time register.
      *
+     * Time register purpose is to cyclically increase timestamp representing last time of tick of event loop. This
+     * method allows model to not mark external sockets wrongly as offline because of its own heavy load.
      */
     private function startTimeRegister()
     {
@@ -918,7 +906,7 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
     }
 
     /**
-     *
+     * Stop time register.
      */
     private function stopTimeRegister()
     {

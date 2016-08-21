@@ -16,6 +16,8 @@ trait RequestHelperTrait
     protected $reqs = [];
 
     /**
+     * Create RequestRecord.
+     *
      * @param string $pid
      * @param callable|null $success
      * @param callable|null $failure
@@ -34,6 +36,8 @@ trait RequestHelperTrait
     }
 
     /**
+     * Check if RequestRecord with given protocol ID exists.
+     *
      * @param string $pid
      * @return bool
      */
@@ -43,6 +47,8 @@ trait RequestHelperTrait
     }
 
     /**
+     * Add new RequestRecord to storage.
+     *
      * @param string $pid
      * @param Request $request
      */
@@ -52,8 +58,10 @@ trait RequestHelperTrait
     }
 
     /**
+     * Return RequestRecord if it exists or null if it does not exist.
+     *
      * @param string $pid
-     * @return Request
+     * @return Request|null
      */
     protected function getRequest($pid)
     {
@@ -61,6 +69,8 @@ trait RequestHelperTrait
     }
 
     /**
+     * Resolve RequestRecord if it exists that has protocol ID equal to $pid.
+     *
      * @param string $pid
      * @param string $message
      */
@@ -72,6 +82,8 @@ trait RequestHelperTrait
     }
 
     /**
+     * Reject RequestRecord if it exists that has protocol ID equal to $pid.
+     *
      * @param string $pid
      * @param Error|Exception|ThrowableProxy $ex
      */
@@ -83,6 +95,8 @@ trait RequestHelperTrait
     }
 
     /**
+     * Cancel RequestRecord if it exists that has protocol ID equal to $pid.
+     *
      * @param string $pid
      * @param Error|Exception|ThrowableProxy $ex
      */
@@ -94,7 +108,7 @@ trait RequestHelperTrait
     }
 
     /**
-     *
+     * Cancel overdue Requests.
      */
     protected function expireRequests()
     {

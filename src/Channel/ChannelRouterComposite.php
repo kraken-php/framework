@@ -33,9 +33,17 @@ class ChannelRouterComposite implements ChannelRouterCompositeInterface
     }
 
     /**
-     * @param string $name
-     * @return ChannelRouterBaseInterface|ChannelRouterCompositeInterface
-     * @throws ResourceUndefinedException
+     * @override
+     * @inheritDoc
+     */
+    public function existsBus($name)
+    {
+        return isset($this->bus[$name]);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
      */
     public function bus($name)
     {
@@ -48,9 +56,8 @@ class ChannelRouterComposite implements ChannelRouterCompositeInterface
     }
 
     /**
-     * @param string $name
-     * @param ChannelRouterBaseInterface|ChannelRouterCompositeInterface $router
-     * @return ChannelCompositeInterface
+     * @override
+     * @inheritDoc
      */
     public function setBus($name, $router)
     {
@@ -60,17 +67,8 @@ class ChannelRouterComposite implements ChannelRouterCompositeInterface
     }
 
     /**
-     * @param string $name
-     * @return bool
-     */
-    public function existsBus($name)
-    {
-        return isset($this->bus[$name]);
-    }
-
-    /**
-     * @param string $name
-     * @return ChannelCompositeInterface
+     * @override
+     * @inheritDoc
      */
     public function removeBus($name)
     {
@@ -83,7 +81,8 @@ class ChannelRouterComposite implements ChannelRouterCompositeInterface
     }
 
     /**
-     * @return ChannelRouterBaseInterface[]|ChannelRouterCompositeInterface[]
+     * @override
+     * @inheritDoc
      */
     public function getBuses()
     {
@@ -91,14 +90,8 @@ class ChannelRouterComposite implements ChannelRouterCompositeInterface
     }
 
     /**
-     * @param string $name
-     * @param ChannelProtocolInterface $protocol
-     * @param int $flags
-     * @param callable|null $success
-     * @param callable|null $failure
-     * @param callable|null $cancel
-     * @param float $timeout
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function handle($name, ChannelProtocolInterface $protocol, $flags = 0, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0)
     {
@@ -116,7 +109,8 @@ class ChannelRouterComposite implements ChannelRouterCompositeInterface
     }
 
     /**
-     *
+     * @override
+     * @inheritDoc
      */
     public function erase()
     {
@@ -127,11 +121,8 @@ class ChannelRouterComposite implements ChannelRouterCompositeInterface
     }
 
     /**
-     * @param callable $matcher
-     * @param callable $handler
-     * @param bool $propagate
-     * @param int $limit
-     * @return ChannelRouterHandler|ChannelRouterHandler[]
+     * @override
+     * @inheritDoc
      */
     public function addRule(callable $matcher, callable $handler, $propagate = false, $limit = 0)
     {
@@ -146,10 +137,8 @@ class ChannelRouterComposite implements ChannelRouterCompositeInterface
     }
 
     /**
-     * @param callable $handler
-     * @param bool $propagate
-     * @param int $limit
-     * @return ChannelRouterHandler|ChannelRouterHandler[]
+     * @override
+     * @inheritDoc
      */
     public function addAnchor(callable $handler, $propagate = false, $limit = 0)
     {

@@ -50,6 +50,8 @@ class Response
     }
 
     /**
+     * Return protocol ID.
+     *
      * @return string
      */
     public function pid()
@@ -58,6 +60,8 @@ class Response
     }
 
     /**
+     * Return alias.
+     *
      * @return string
      */
     public function alias()
@@ -66,6 +70,8 @@ class Response
     }
 
     /**
+     * Return timeout.
+     *
      * @return float
      */
     public function timeout()
@@ -74,6 +80,8 @@ class Response
     }
 
     /**
+     * Increase timeout.
+     *
      * @return float
      */
     public function timeoutIncrease()

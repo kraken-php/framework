@@ -62,6 +62,8 @@ class Request
     }
 
     /**
+     * Return protocol ID.
+     *
      * @return string
      */
     public function pid()
@@ -70,6 +72,8 @@ class Request
     }
 
     /**
+     * Return success handler.
+     *
      * @return callable
      */
     public function onSuccess()
@@ -78,6 +82,8 @@ class Request
     }
 
     /**
+     * Return failure handler.
+     *
      * @return callable
      */
     public function onFailure()
@@ -86,6 +92,8 @@ class Request
     }
 
     /**
+     * Return cancellation handler.
+     *
      * @return callable
      */
     public function onCancel()
@@ -94,6 +102,8 @@ class Request
     }
 
     /**
+     * Return timeout.
+     *
      * @return float
      */
     public function timeout()
@@ -102,6 +112,8 @@ class Request
     }
 
     /**
+     * Resolve Request calling success handler.
+     *
      * @param mixed $value
      * @return mixed
      */
@@ -112,6 +124,8 @@ class Request
     }
 
     /**
+     * Reject Request calling failure handler.
+     *
      * @param Error|Exception|ThrowableProxy $ex
      * @return mixed
      */
@@ -122,6 +136,8 @@ class Request
     }
 
     /**
+     * Cancel Request calling cancellation handler.
+     *
      * @param Error|Exception|ThrowableProxy $ex
      * @return mixed
      */

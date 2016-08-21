@@ -221,9 +221,10 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
     }
 
     /**
-     * @return bool
+     * @override
+     * @inheritDoc
      */
-    public function start()
+    public function start($blockEvent = false)
     {
         if ($this->isConnected())
         {
@@ -248,15 +249,19 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
         $this->connectionPool->erase();
         $this->buffer->send();
 
-        $this->emit('start');
+        if (!$blockEvent)
+        {
+            $this->emit('start');
+        }
 
         return true;
     }
 
     /**
-     * @return bool
+     * @override
+     * @inheritDoc
      */
-    public function stop()
+    public function stop($blockEvent = false)
     {
         if (!$this->isConnected())
         {
@@ -271,16 +276,17 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
 
         $this->isConnected = false;
 
-        $this->emit('stop');
+        if (!$blockEvent)
+        {
+            $this->emit('stop');
+        }
 
         return true;
     }
 
     /**
-     * @param string $id
-     * @param string[]|string $message
-     * @param int $flags
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function unicast($id, $message, $flags = self::MODE_STANDARD)
     {
@@ -292,8 +298,8 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
     }
 
     /**
-     * @param string[]|string $message
-     * @return bool[]
+     * @override
+     * @inheritDoc
      */
     public function broadcast($message)
     {
@@ -314,8 +320,8 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
     }
 
     /**
-     * @param string|null $id
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function isConnected($id = null)
     {
@@ -330,7 +336,8 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
     }
 
     /**
-     * @return string[]
+     * @override
+     * @inheritDoc
      */
     public function getConnected()
     {
@@ -338,38 +345,22 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
     }
 
     /**
-     * @param string $id
-     * @return bool
-     */
-    public function connect($id)
-    {
-        // TODO KRF-59
-        return false;
-    }
-
-    /**
-     * @param string $id
-     * @return bool
-     */
-    public function disconnect($id)
-    {
-        // TODO KRF-60
-        return false;
-    }
-
-    /**
+     * Set connection statically to be marked as online until specific timestamp.
+     *
      * @param string $id
      * @param float $until
      */
-    public function setConnectionAlive($id, $until)
+    public function markConnectionOnline($id, $until)
     {
         $this->connectionPool->setConnectionProperty($id, 'timestampIn', $until);
     }
 
     /**
+     * Set connection statically to be marked always as online.
+     *
      * @param string $id
      */
-    public function setConnectionPersistent($id)
+    public function markConnectionPersistent($id)
     {
         $this->connectionPool->setConnectionProperty($id, 'timestampIn', 0);
     }
@@ -722,7 +713,10 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
     }
 
     /**
+     * Start time register.
      *
+     * Time register purpose is to cyclically increase timestamp representing last active tick of event loop. This method
+     * allows model to not mark external sockets wrongly as offline because of its own heavy load.
      */
     private function startTimeRegister()
     {
@@ -739,7 +733,9 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
     }
 
     /**
+     * Stop time register.
      *
+     * @see ZmqModel::startTimeRegister
      */
     private function stopTimeRegister()
     {

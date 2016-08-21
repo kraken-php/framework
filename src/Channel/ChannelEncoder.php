@@ -35,8 +35,8 @@ class ChannelEncoder implements ChannelEncoderInterface
     }
 
     /**
-     * @param ChannelProtocolInterface $protocol
-     * @return ChannelEncoderInterface
+     * @override
+     * @inheritDoc
      */
     public function with(ChannelProtocolInterface $protocol)
     {
@@ -46,7 +46,8 @@ class ChannelEncoder implements ChannelEncoderInterface
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function encode()
     {
@@ -54,8 +55,8 @@ class ChannelEncoder implements ChannelEncoderInterface
     }
 
     /**
-     * @param $str
-     * @return ChannelProtocolInterface
+     * @override
+     * @inheritDoc
      */
     public function decode($str)
     {

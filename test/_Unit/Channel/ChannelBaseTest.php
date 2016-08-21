@@ -922,7 +922,7 @@ class ChannelBaseText extends TUnit
     /**
      *
      */
-    public function testApiMatchConnected_ReturnsMatched()
+    public function testApiFilterConnected_ReturnsMatched()
     {
         $channel = $this->createChannel();
         $model   = $this->createModel();
@@ -945,7 +945,7 @@ class ChannelBaseText extends TUnit
             ->method('getConnected')
             ->will($this->returnValue($conns));
 
-        $this->assertSame($expected, $channel->matchConnected("*gr[ae]y"));
+        $this->assertSame($expected, $channel->filterConnected("*gr[ae]y"));
     }
 
     /**
