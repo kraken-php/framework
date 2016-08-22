@@ -495,14 +495,14 @@ class ChannelModelTest extends TModule
                 $master = $this->createModel($data['master'], $loop);
 
                 $master->on('start', function() use($sim, $master) {
-                    if (!$master->isConnected())
+                    if (!$master->isStarted())
                     {
                         $sim->fail('Master should be marked as connected.');
                     }
                     $master->stop();
                 });
                 $master->on('stop', function() use($sim, $master) {
-                    if ($master->isConnected())
+                    if (!$master->isStopped())
                     {
                         $sim->fail('Master should be marked as disconnected.');
                     }

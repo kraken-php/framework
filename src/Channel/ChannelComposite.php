@@ -427,7 +427,39 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
      * @override
      * @inheritDoc
      */
-    public function isConnected($name = null)
+    public function isStarted()
+    {
+        $statuses = [];
+
+        foreach ($this->buses as $bus=>$channel)
+        {
+            $statuses[$bus] = $channel->isStarted();
+        }
+
+        return $statuses;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function isStopped()
+    {
+        $statuses = [];
+
+        foreach ($this->buses as $bus=>$channel)
+        {
+            $statuses[$bus] = $channel->isStopped();
+        }
+
+        return $statuses;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function isConnected($name)
     {
         $status = null;
 

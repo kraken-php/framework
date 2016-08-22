@@ -399,7 +399,25 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
      * @override
      * @inheritDoc
      */
-    public function isConnected($name = null)
+    public function isStarted()
+    {
+        return $this->model->isStarted();
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function isStopped()
+    {
+        return $this->model->isStopped();
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function isConnected($name)
     {
         if (is_array($name))
         {

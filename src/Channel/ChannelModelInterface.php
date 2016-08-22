@@ -59,15 +59,29 @@ interface ChannelModelInterface extends EventEmitterInterface
     public function broadcast($message);
 
     /**
-     * Check if specific channel is connected.
+     * Check if channel is started.
      *
-     * @param string|null $id
      * @return bool
      */
-    public function isConnected($id = null);
+    public function isStarted();
 
     /**
-     * Return array of all connected channels' IDs.
+     * Check if channel is stopped.
+     *
+     * @return bool
+     */
+    public function isStopped();
+
+    /**
+     * Check if specific external channel is connected.
+     *
+     * @param string $id
+     * @return bool
+     */
+    public function isConnected($id);
+
+    /**
+     * Return array of all connected external channels' IDs.
      *
      * @return string[]
      */

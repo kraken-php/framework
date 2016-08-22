@@ -881,6 +881,68 @@ class ChannelCompositeTest extends TUnit
     /**
      *
      */
+    public function testApiIsStarted_ReturnsEmptyArray_WhenNoneBusIsSet()
+    {
+        $channel = $this->createChannel();
+        $this->assertSame([], $channel->isStarted());
+    }
+
+    /**
+     *
+     */
+    public function testApiIsStarted_ReturnsStatusesArray()
+    {
+        $bus1 = $this->createBus('name1', [ 'isStarted' ]);
+        $bus1
+            ->expects($this->once())
+            ->method('isStarted')
+            ->will($this->returnValue(false));
+
+        $bus2 = $this->createBus('name2', [ 'isStarted' ]);
+        $bus2
+            ->expects($this->once())
+            ->method('isStarted')
+            ->will($this->returnValue(true));
+
+        $channel = $this->createChannel([ 'bus1' => $bus1, 'bus2' => $bus2 ]);
+
+        $this->assertSame([ 'bus1' => false, 'bus2' => true ], $channel->isStarted());
+    }
+
+    /**
+     *
+     */
+    public function testApiIsStopped_ReturnsEmptyArray_WhenNoneBusIsSet()
+    {
+        $channel = $this->createChannel();
+        $this->assertSame([], $channel->isStopped());
+    }
+
+    /**
+     *
+     */
+    public function testApiIsStopped_ReturnsStatusesArray()
+    {
+        $bus1 = $this->createBus('name1', [ 'isStopped' ]);
+        $bus1
+            ->expects($this->once())
+            ->method('isStopped')
+            ->will($this->returnValue(false));
+
+        $bus2 = $this->createBus('name2', [ 'isStopped' ]);
+        $bus2
+            ->expects($this->once())
+            ->method('isStopped')
+            ->will($this->returnValue(true));
+
+        $channel = $this->createChannel([ 'bus1' => $bus1, 'bus2' => $bus2 ]);
+
+        $this->assertSame([ 'bus1' => false, 'bus2' => true ], $channel->isStopped());
+    }
+
+    /**
+     *
+     */
     public function testApiIsConnected_ReturnsFalse_WhenNoneBusIsSet()
     {
         $name = 'name';

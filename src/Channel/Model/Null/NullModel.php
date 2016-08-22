@@ -47,7 +47,25 @@ class NullModel extends BaseEventEmitter implements ChannelModelInterface
      * @override
      * @inheritDoc
      */
-    public function isConnected($alias = null)
+    public function isStarted()
+    {
+        return false;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function isStopped()
+    {
+        return true;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function isConnected($alias)
     {
         return false;
     }

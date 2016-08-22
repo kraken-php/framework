@@ -867,6 +867,40 @@ class ChannelBaseText extends TUnit
     /**
      *
      */
+    public function testApiIsStarted_CallsModelMethod()
+    {
+        $channel = $this->createChannel();
+        $model   = $this->createModel();
+
+        $status = true;
+        $model
+            ->expects($this->once())
+            ->method('isStarted')
+            ->will($this->returnValue($status));
+
+        $this->assertSame($status, $channel->isStarted());
+    }
+
+    /**
+     *
+     */
+    public function testApiIsStopped_CallsModelMethod()
+    {
+        $channel = $this->createChannel();
+        $model   = $this->createModel();
+
+        $status = true;
+        $model
+            ->expects($this->once())
+            ->method('isStopped')
+            ->will($this->returnValue($status));
+
+        $this->assertSame($status, $channel->isStopped());
+    }
+
+    /**
+     *
+     */
     public function testApiIsConnected_CallsModelMethodForEachPassedNameAndReturnsStatusArray()
     {
         $channel = $this->createChannel();

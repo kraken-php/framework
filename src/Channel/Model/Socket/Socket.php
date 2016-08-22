@@ -192,7 +192,7 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
      */
     public function start($blockEvent = false)
     {
-        if ($this->isConnected())
+        if ($this->isStarted())
         {
             return false;
         }
@@ -230,7 +230,7 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
      */
     public function stop($blockEvent = false)
     {
-        if (!$this->isConnected())
+        if (!$this->isStarted())
         {
             return false;
         }
@@ -295,16 +295,27 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
      * @override
      * @inheritDoc
      */
-    public function isConnected($id = null)
+    public function isStarted()
     {
-        if ($id === null)
-        {
-            return $this->isConnected;
-        }
-        else
-        {
-            return $this->connectionPool->validateConnection($id);
-        }
+        return $this->isConnected;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function isStopped()
+    {
+        return !$this->isConnected;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function isConnected($id)
+    {
+        return $this->connectionPool->validateConnection($id);
     }
 
     /**
@@ -751,7 +762,7 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
             return static::SEND_STATUS_DROPPED;
         }
 
-        $isConnected = $this->isConnected();
+        $isConnected = $this->isStarted();
 
         if (!$isConnected && $this->flags['enableBuffering'] === true && ($flags & Channel::MODE_BUFFER_OFFLINE) === Channel::MODE_BUFFER_OFFLINE)
         {

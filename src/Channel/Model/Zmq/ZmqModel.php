@@ -226,7 +226,7 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
      */
     public function start($blockEvent = false)
     {
-        if ($this->isConnected())
+        if ($this->isStarted())
         {
             return false;
         }
@@ -263,7 +263,7 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
      */
     public function stop($blockEvent = false)
     {
-        if (!$this->isConnected())
+        if (!$this->isStarted())
         {
             return false;
         }
@@ -323,16 +323,27 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
      * @override
      * @inheritDoc
      */
-    public function isConnected($id = null)
+    public function isStarted()
     {
-        if ($id === null)
-        {
-            return $this->isConnected;
-        }
-        else
-        {
-            return $this->connectionPool->validateConnection($id);
-        }
+        return $this->isConnected;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function isStopped()
+    {
+        return !$this->isConnected;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function isConnected($id)
+    {
+        return $this->connectionPool->validateConnection($id);
     }
 
     /**
@@ -685,7 +696,7 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
             return false;
         }
 
-        $isConnected = $this->isConnected();
+        $isConnected = $this->isStarted();
 
         if (!$isConnected)
         {

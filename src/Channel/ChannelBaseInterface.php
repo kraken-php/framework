@@ -285,15 +285,29 @@ interface ChannelBaseInterface extends EventEmitterInterface, LoopAwareInterface
     public function pull($sender, ChannelProtocolInterface $protocol);
 
     /**
-     * Check if specific channel is connected.
+     * Check if channel is started.
      *
-     * @param string|string[]|null $name
      * @return bool|bool[]
      */
-    public function isConnected($name = null);
+    public function isStarted();
 
     /**
-     * Return array of all connected channels' IDs.
+     * Check if channel is stopped.
+     *
+     * @return bool|bool[]
+     */
+    public function isStopped();
+
+    /**
+     * Check if specific external channel is connected.
+     *
+     * @param string|string[] $name
+     * @return bool|bool[]
+     */
+    public function isConnected($name);
+
+    /**
+     * Return array of all connected external channels' IDs.
      *
      * @return string[]
      */
