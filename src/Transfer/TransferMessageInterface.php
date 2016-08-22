@@ -2,7 +2,7 @@
 
 namespace Kraken\Transfer;
 
-interface IoMessageInterface
+interface TransferMessageInterface
 {
     /**
      * Return original message as string.

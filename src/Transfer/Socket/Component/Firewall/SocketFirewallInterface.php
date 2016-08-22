@@ -2,9 +2,9 @@
 
 namespace Kraken\Transfer\Socket\Component\Firewall;
 
-use Kraken\Transfer\IoServerComponentInterface;
+use Kraken\Transfer\TransferComponentInterface;
 
-interface SocketFirewallInterface extends IoServerComponentInterface
+interface SocketFirewallInterface extends TransferComponentInterface
 {
     /**
      * Add an address to the blacklist that will not be allowed to connect to your application.

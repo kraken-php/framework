@@ -3,9 +3,9 @@
 namespace Kraken\Transfer\Socket;
 
 use Kraken\Ipc\Socket\SocketInterface;
-use Kraken\Transfer\IoConnectionInterface;
+use Kraken\Transfer\TransferConnectionInterface;
 
-class SocketConnection implements IoConnectionInterface
+class SocketConnection implements TransferConnectionInterface
 {
     /**
      * @var SocketInterface

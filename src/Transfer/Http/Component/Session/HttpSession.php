@@ -3,19 +3,21 @@
 namespace Kraken\Transfer\Http\Component\Session;
 
 use Kraken\Throwable\Exception\RuntimeException;
-use Kraken\Transfer\IoConnectionInterface;
-use Kraken\Transfer\IoMessageInterface;
-use Kraken\Transfer\IoServerComponentInterface;
+use Kraken\Transfer\Null\NullServer;
+use Kraken\Transfer\TransferComponentAwareInterface;
+use Kraken\Transfer\TransferConnectionInterface;
+use Kraken\Transfer\TransferMessageInterface;
+use Kraken\Transfer\TransferComponentInterface;
 use Ratchet\Session\Serialize\HandlerInterface;
 use Ratchet\Session\Storage\VirtualSessionStorage;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\NullSessionHandler;
 use SessionHandlerInterface;
 
-class HttpSession implements HttpSessionInterface
+class HttpSession implements HttpSessionInterface, TransferComponentAwareInterface
 {
     /**
-     * @var IoServerComponentInterface
+     * @var TransferComponentInterface
      */
     protected $component;
 
@@ -35,13 +37,14 @@ class HttpSession implements HttpSessionInterface
     protected $serializer;
 
     /**
-     * @param IoServerComponentInterface $component
+     * @param TransferComponentAwareInterface $aware
+     * @param TransferComponentInterface $component
      * @param SessionHandlerInterface $handler
      * @param string[] $options
      * @param HandlerInterface $serializer
      * @throws RuntimeException
      */
-    public function __construct(IoServerComponentInterface $component, SessionHandlerInterface $handler, $options = [], HandlerInterface $serializer = null)
+    public function __construct(TransferComponentAwareInterface $aware, TransferComponentInterface $component, SessionHandlerInterface $handler, $options = [], HandlerInterface $serializer = null)
     {
         $this->component = $component;
         $this->handler = $handler;
@@ -65,6 +68,11 @@ class HttpSession implements HttpSessionInterface
         }
 
         $this->serializer = $serializer;
+
+        if ($aware !== null)
+        {
+            $aware->setComponent($this);
+        }
     }
 
     /**
@@ -82,7 +90,25 @@ class HttpSession implements HttpSessionInterface
      * @override
      * @inheritDoc
      */
-    public function handleConnect(IoConnectionInterface $conn)
+    public function setComponent(TransferComponentInterface $component = null)
+    {
+        $this->component = $component === null ? new NullServer() : $component;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getComponent()
+    {
+        return $this->component;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function handleConnect(TransferConnectionInterface $conn)
     {
         if (!isset($conn->WebSocket) || null === ($id = $conn->WebSocket->request->getCookie(ini_get('session.name'))))
         {
@@ -108,7 +134,7 @@ class HttpSession implements HttpSessionInterface
      * @override
      * @inheritDoc
      */
-    public function handleDisconnect(IoConnectionInterface $conn)
+    public function handleDisconnect(TransferConnectionInterface $conn)
     {
         return $this->component->handleDisconnect($conn);
     }
@@ -117,7 +143,7 @@ class HttpSession implements HttpSessionInterface
      * @override
      * @inheritDoc
      */
-    public function handleMessage(IoConnectionInterface $conn, IoMessageInterface $message)
+    public function handleMessage(TransferConnectionInterface $conn, TransferMessageInterface $message)
     {
         return $this->component->handleMessage($conn, $message);
     }
@@ -126,7 +152,7 @@ class HttpSession implements HttpSessionInterface
      * @override
      * @inheritDoc
      */
-    public function handleError(IoConnectionInterface $conn, $ex)
+    public function handleError(TransferConnectionInterface $conn, $ex)
     {
         return $this->component->handleError($conn, $ex);
     }
@@ -151,15 +177,33 @@ class HttpSession implements HttpSessionInterface
     protected function setOptions($options)
     {
         $all = [
-            'auto_start', 'cache_limiter', 'cookie_domain', 'cookie_httponly',
-            'cookie_lifetime', 'cookie_path', 'cookie_secure',
-            'entropy_file', 'entropy_length', 'gc_divisor',
-            'gc_maxlifetime', 'gc_probability', 'hash_bits_per_character',
-            'hash_function', 'name', 'referer_check',
-            'serialize_handler', 'use_cookies',
-            'use_only_cookies', 'use_trans_sid', 'upload_progress.enabled',
-            'upload_progress.cleanup', 'upload_progress.prefix', 'upload_progress.name',
-            'upload_progress.freq', 'upload_progress.min-freq', 'url_rewriter.tags'
+            'auto_start',
+            'cache_limiter',
+            'cookie_domain',
+            'cookie_httponly',
+            'cookie_lifetime',
+            'cookie_path',
+            'cookie_secure',
+            'entropy_file',
+            'entropy_length',
+            'gc_divisor',
+            'gc_maxlifetime',
+            'gc_probability',
+            'hash_bits_per_character',
+            'hash_function',
+            'name',
+            'referer_check',
+            'serialize_handler',
+            'use_cookies',
+            'use_only_cookies',
+            'use_trans_sid',
+            'upload_progress.enabled',
+            'upload_progress.cleanup',
+            'upload_progress.prefix',
+            'upload_progress.name',
+            'upload_progress.freq',
+            'upload_progress.min-freq',
+            'url_rewriter.tags'
         ];
 
         foreach ($all as $key)

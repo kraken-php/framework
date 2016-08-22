@@ -2,9 +2,9 @@
 
 namespace Kraken\Transfer\Http\Component\Router;
 
-use Kraken\Transfer\IoServerComponentInterface;
+use Kraken\Transfer\TransferComponentInterface;
 
-interface HttpRouterInterface extends IoServerComponentInterface
+interface HttpRouterInterface extends TransferComponentInterface
 {
     /**
      * Add an address to the blacklist that will not be allowed to connect to your application.
@@ -41,10 +41,10 @@ interface HttpRouterInterface extends IoServerComponentInterface
      * Add an endpoint/application to the server.
      *
      * @param string $path
-     * @param IoServerComponentInterface $component
+     * @param TransferComponentInterface $component
      * @return HttpRouterInterface
      */
-    public function addRoute($path, IoServerComponentInterface $component);
+    public function addRoute($path, TransferComponentInterface $component);
 
     /**
      * Remote endpoint/application from the server.

@@ -2,14 +2,16 @@
 
 namespace Kraken\Transfer\Socket\Component\Firewall;
 
-use Kraken\Transfer\IoConnectionInterface;
-use Kraken\Transfer\IoMessageInterface;
-use Kraken\Transfer\IoServerComponentInterface;
+use Kraken\Transfer\Null\NullServer;
+use Kraken\Transfer\TransferComponentAwareInterface;
+use Kraken\Transfer\TransferConnectionInterface;
+use Kraken\Transfer\TransferMessageInterface;
+use Kraken\Transfer\TransferComponentInterface;
 
-class SocketFirewall implements SocketFirewallInterface
+class SocketFirewall implements SocketFirewallInterface, TransferComponentAwareInterface
 {
     /**
-     * @var IoServerComponentInterface
+     * @var TransferComponentInterface
      */
     protected $component;
 
@@ -19,12 +21,19 @@ class SocketFirewall implements SocketFirewallInterface
     protected $blacklist;
 
     /**
-     * @param IoServerComponentInterface $component
+     * @param TransferComponentAwareInterface|null $aware
+     * @param TransferComponentInterface|null $component
      */
-    public function __construct(IoServerComponentInterface $component)
+    public function __construct(TransferComponentAwareInterface $aware = null, TransferComponentInterface $component = null)
     {
+        $this->aware = $aware;
         $this->component = $component;
         $this->blacklist = [];
+
+        if ($aware !== null)
+        {
+            $aware->setComponent($this);
+        }
     }
 
     /**
@@ -34,6 +43,24 @@ class SocketFirewall implements SocketFirewallInterface
     {
         unset($this->component);
         unset($this->blacklist);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function setComponent(TransferComponentInterface $component = null)
+    {
+        $this->component = $component === null ? new NullServer() : $component;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getComponent()
+    {
+        return $this->component;
     }
 
     /**
@@ -83,7 +110,7 @@ class SocketFirewall implements SocketFirewallInterface
      * @override
      * @inheritDoc
      */
-    public function filterConnect(IoConnectionInterface $conn)
+    public function filterConnect(TransferConnectionInterface $conn)
     {
         return !$this->isBlocked($conn->getHost());
     }
@@ -92,7 +119,7 @@ class SocketFirewall implements SocketFirewallInterface
      * @override
      * @inheritDoc
      */
-    public function handleConnect(IoConnectionInterface $conn)
+    public function handleConnect(TransferConnectionInterface $conn)
     {
         if ($this->isBlocked($conn->getHost()))
         {
@@ -106,7 +133,7 @@ class SocketFirewall implements SocketFirewallInterface
      * @override
      * @inheritDoc
      */
-    public function handleDisconnect(IoConnectionInterface $conn)
+    public function handleDisconnect(TransferConnectionInterface $conn)
     {
         if (!$this->isBlocked($conn->getHost()))
         {
@@ -118,7 +145,7 @@ class SocketFirewall implements SocketFirewallInterface
      * @override
      * @inheritDoc
      */
-    public function handleMessage(IoConnectionInterface $conn, IoMessageInterface $message)
+    public function handleMessage(TransferConnectionInterface $conn, TransferMessageInterface $message)
     {
         return $this->component->handleMessage($conn, $message);
     }
@@ -127,7 +154,7 @@ class SocketFirewall implements SocketFirewallInterface
      * @override
      * @inheritDoc
      */
-    public function handleError(IoConnectionInterface $conn, $ex)
+    public function handleError(TransferConnectionInterface $conn, $ex)
     {
         if (!$this->isBlocked($conn->getHost()))
         {

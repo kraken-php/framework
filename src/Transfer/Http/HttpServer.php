@@ -2,19 +2,21 @@
 
 namespace Kraken\Transfer\Http;
 
+use Kraken\Transfer\TransferComponentAwareInterface;
 use Kraken\Transfer\Http\Driver\HttpDriver;
 use Kraken\Transfer\Http\Driver\HttpDriverInterface;
-use Kraken\Transfer\IoMessageInterface;
-use Kraken\Transfer\IoServerComponentInterface;
-use Kraken\Transfer\IoConnectionInterface;
+use Kraken\Transfer\Null\NullServer;
+use Kraken\Transfer\TransferMessageInterface;
+use Kraken\Transfer\TransferComponentInterface;
+use Kraken\Transfer\TransferConnectionInterface;
 use Kraken\Util\Buffer\Buffer;
 use Error;
 use Exception;
 
-class HttpServer implements HttpServerInterface
+class HttpServer implements HttpServerInterface, TransferComponentAwareInterface
 {
     /**
-     * @var IoServerComponentInterface
+     * @var TransferComponentInterface
      */
     protected $httpServer;
 
@@ -24,12 +26,18 @@ class HttpServer implements HttpServerInterface
     protected $httpDriver;
 
     /**
-     * @param IoServerComponentInterface $component
+     * @param TransferComponentAwareInterface|null $aware
+     * @param TransferComponentInterface|null $component
      */
-    public function __construct(IoServerComponentInterface $component)
+    public function __construct(TransferComponentAwareInterface $aware = null, TransferComponentInterface $component = null)
     {
         $this->httpServer = $component;
         $this->httpDriver = new HttpDriver();
+
+        if ($aware !== null)
+        {
+            $aware->setComponent($this);
+        }
     }
 
     /**
@@ -43,6 +51,7 @@ class HttpServer implements HttpServerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getDriver()
     {
@@ -51,8 +60,27 @@ class HttpServer implements HttpServerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
-    public function handleConnect(IoConnectionInterface $conn)
+    public function setComponent(TransferComponentInterface $component = null)
+    {
+        $this->httpServer = $component === null ? new NullServer() : $component;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getComponent()
+    {
+        return $this->httpServer;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function handleConnect(TransferConnectionInterface $conn)
     {
         $conn->httpBuffer = new Buffer();
         $conn->httpHeadersReceived = false;
@@ -61,8 +89,9 @@ class HttpServer implements HttpServerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
-    public function handleDisconnect(IoConnectionInterface $conn)
+    public function handleDisconnect(TransferConnectionInterface $conn)
     {
         if ($conn->httpHeadersReceived)
         {
@@ -72,8 +101,9 @@ class HttpServer implements HttpServerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
-    public function handleMessage(IoConnectionInterface $conn, IoMessageInterface $message)
+    public function handleMessage(TransferConnectionInterface $conn, TransferMessageInterface $message)
     {
         if ($conn->httpHeadersReceived !== true)
         {
@@ -107,8 +137,9 @@ class HttpServer implements HttpServerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
-    public function handleError(IoConnectionInterface $conn, $ex)
+    public function handleError(TransferConnectionInterface $conn, $ex)
     {
         if ($conn->httpHeadersReceived)
         {
@@ -123,11 +154,11 @@ class HttpServer implements HttpServerInterface
     /**
      * Close a connection with an HTTP response.
      *
-     * @param IoConnectionInterface $conn
+     * @param TransferConnectionInterface $conn
      * @param int $code
      * @return null
      */
-    protected function close(IoConnectionInterface $conn, $code = 400)
+    protected function close(TransferConnectionInterface $conn, $code = 400)
     {
         $response = new HttpResponse($code);
 

@@ -10,6 +10,7 @@ class HttpParser implements HttpParserInterface
 {
     /**
      * @override
+     * @inheritDoc
      */
     public function parseRequest($message)
     {
@@ -34,6 +35,7 @@ class HttpParser implements HttpParserInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function parseResponse($message)
     {

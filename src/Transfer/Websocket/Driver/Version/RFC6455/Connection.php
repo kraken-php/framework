@@ -2,21 +2,21 @@
 
 namespace Kraken\Transfer\Websocket\Driver\Version\RFC6455;
 
-use Kraken\Transfer\IoConnectionInterface;
+use Kraken\Transfer\TransferConnectionInterface;
 use Ratchet\WebSocket\Version\DataInterface;
 use Ratchet\WebSocket\Version\RFC6455\Frame;
 
-class Connection implements IoConnectionInterface
+class Connection implements TransferConnectionInterface
 {
     /**
-     * @var IoConnectionInterface
+     * @var TransferConnectionInterface
      */
     protected $connection;
 
     /**
-     * @param IoConnectionInterface $connection
+     * @param TransferConnectionInterface $connection
      */
-    public function __construct(IoConnectionInterface $connection)
+    public function __construct(TransferConnectionInterface $connection)
     {
         $this->connection = $connection;
     }
@@ -67,7 +67,7 @@ class Connection implements IoConnectionInterface
     /**
      * Return decorated connection.
      *
-     * @return IoConnectionInterface
+     * @return TransferConnectionInterface
      */
     public function getConnection()
     {
@@ -76,6 +76,7 @@ class Connection implements IoConnectionInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getResourceId()
     {
@@ -84,6 +85,7 @@ class Connection implements IoConnectionInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getEndpoint()
     {
@@ -92,6 +94,7 @@ class Connection implements IoConnectionInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getAddress()
     {
@@ -100,6 +103,7 @@ class Connection implements IoConnectionInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getHost()
     {
@@ -108,6 +112,7 @@ class Connection implements IoConnectionInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getPort()
     {
@@ -116,6 +121,7 @@ class Connection implements IoConnectionInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function send($msg)
     {
@@ -134,6 +140,7 @@ class Connection implements IoConnectionInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function close($code = 1000)
     {

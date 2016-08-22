@@ -3,9 +3,9 @@
 namespace Kraken\Transfer\Websocket;
 
 use Kraken\Transfer\Websocket\Driver\WsDriverInterface;
-use Kraken\Transfer\IoServerComponentInterface;
+use Kraken\Transfer\TransferComponentInterface;
 
-interface WsServerInterface extends IoServerComponentInterface
+interface WsServerInterface extends TransferComponentInterface
 {
     /**
      * Return current driver

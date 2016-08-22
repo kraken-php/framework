@@ -4,10 +4,10 @@ namespace Kraken\Transfer;
 
 use Kraken\Loop\LoopResourceInterface;
 
-interface IoServerInterface extends LoopResourceInterface
+interface TransferServerInterface extends LoopResourceInterface
 {
     /**
-     * Close the underlying SocketServerListner.
+     * Close the underlying SocketListner.
      */
     public function close();
 }

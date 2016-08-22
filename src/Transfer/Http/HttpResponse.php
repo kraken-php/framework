@@ -2,13 +2,14 @@
 
 namespace Kraken\Transfer\Http;
 
-use Kraken\Transfer\IoMessageInterface;
+use Kraken\Transfer\TransferMessageInterface;
 use GuzzleHttp\Psr7\Response;
 
-class HttpResponse extends Response implements HttpResponseInterface, IoMessageInterface
+class HttpResponse extends Response implements HttpResponseInterface, TransferMessageInterface
 {
     /**
      * @override
+     * @inheritDoc
      */
     public function __toString()
     {
@@ -17,6 +18,7 @@ class HttpResponse extends Response implements HttpResponseInterface, IoMessageI
 
     /**
      * @override
+     * @inheritDoc
      */
     public function encode()
     {
@@ -32,6 +34,7 @@ class HttpResponse extends Response implements HttpResponseInterface, IoMessageI
 
     /**
      * @override
+     * @inheritDoc
      */
     public function read()
     {
@@ -39,6 +42,8 @@ class HttpResponse extends Response implements HttpResponseInterface, IoMessageI
     }
 
     /**
+     * Encode headers.
+     *
      * @param string[][] $headers
      * @return string
      */
@@ -58,6 +63,8 @@ class HttpResponse extends Response implements HttpResponseInterface, IoMessageI
     }
 
     /**
+     * Encode single header.
+     *
      * @param string $header
      * @return string
      */

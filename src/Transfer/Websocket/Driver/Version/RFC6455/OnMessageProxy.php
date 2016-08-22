@@ -2,7 +2,7 @@
 
 namespace Kraken\Transfer\Websocket\Driver\Version\RFC6455;
 
-use Kraken\Transfer\IoMessage;
+use Kraken\Transfer\TransferMessage;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageInterface;
 
@@ -28,10 +28,11 @@ class OnMessageProxy implements MessageInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     function onMessage(ConnectionInterface $from, $msg)
     {
         $callable = $this->target;
-        $callable($from, new IoMessage($msg));
+        $callable($from, new TransferMessage($msg));
     }
 }

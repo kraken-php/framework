@@ -3,12 +3,12 @@
 namespace Kraken\Transfer\Http;
 
 use Kraken\Transfer\Http\Driver\HttpDriverInterface;
-use Kraken\Transfer\IoServerComponentInterface;
+use Kraken\Transfer\TransferComponentInterface;
 
-interface HttpServerInterface extends IoServerComponentInterface
+interface HttpServerInterface extends TransferComponentInterface
 {
     /**
-     * Return current driver
+     * Return current driver.
      *
      * @return HttpDriverInterface
      */

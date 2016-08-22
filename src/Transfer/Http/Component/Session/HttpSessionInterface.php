@@ -2,7 +2,7 @@
 
 namespace Kraken\Transfer\Http\Component\Session;
 
-use Kraken\Transfer\IoServerComponentInterface;
+use Kraken\Transfer\TransferComponentInterface;
 
-interface HttpSessionInterface extends IoServerComponentInterface
+interface HttpSessionInterface extends TransferComponentInterface
 {}

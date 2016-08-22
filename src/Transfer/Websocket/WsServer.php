@@ -2,13 +2,15 @@
 
 namespace Kraken\Transfer\Websocket;
 
+use Kraken\Transfer\TransferComponentAwareInterface;
 use Kraken\Transfer\Http\HttpRequestInterface;
 use Kraken\Transfer\Http\HttpResponse;
+use Kraken\Transfer\Null\NullServer;
 use Kraken\Transfer\Websocket\Driver\WsDriver;
 use Kraken\Transfer\Websocket\Driver\WsDriverInterface;
-use Kraken\Transfer\IoConnectionInterface;
-use Kraken\Transfer\IoMessageInterface;
-use Kraken\Transfer\IoServerComponentInterface;
+use Kraken\Transfer\TransferConnectionInterface;
+use Kraken\Transfer\TransferMessageInterface;
+use Kraken\Transfer\TransferComponentInterface;
 use Error;
 use Exception;
 use SplObjectStorage;
@@ -18,10 +20,10 @@ use StdClass;
  * @link http://ca.php.net/manual/en/ref.http.php
  * @link http://dev.w3.org/html5/websockets/
  */
-class WsServer implements WsServerInterface
+class WsServer implements WsServerInterface, TransferComponentAwareInterface
 {
     /**
-     * @var IoServerComponentInterface
+     * @var TransferComponentInterface
      */
     protected $wsServer;
 
@@ -31,19 +33,24 @@ class WsServer implements WsServerInterface
     protected $wsDriver;
 
     /**
-     * @var
+     * @var SplObjectStorage
      */
-    protected $connectionCollection;
+    protected $connCollection;
 
     /**
-     * @param IoServerComponentInterface $component
+     * @param TransferComponentAwareInterface|null $aware
+     * @param TransferComponentInterface|null $component
      */
-    public function __construct(IoServerComponentInterface $component)
+    public function __construct(TransferComponentAwareInterface $aware = null, TransferComponentInterface $component = null)
     {
-        $this->wsServer = $component;
+        $this->wsServer = $component === null ? new NullServer() : $component;
         $this->wsDriver = new WsDriver();
+        $this->connCollection = new SplObjectStorage();
 
-        $this->connectionCollection = new SplObjectStorage();
+        if ($aware !== null)
+        {
+            $aware->setComponent($this);
+        }
     }
 
     /**
@@ -53,14 +60,32 @@ class WsServer implements WsServerInterface
     {
         unset($this->wsServer);
         unset($this->wsDriver);
-
-        unset($this->connectionCollection);
+        unset($this->connCollection);
     }
 
     /**
      * @override
+     * @inheritDoc
      */
-    public function handleConnect(IoConnectionInterface $conn)
+    public function setComponent(TransferComponentInterface $component = null)
+    {
+        $this->wsServer = $component === null ? new NullServer() : $component;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getComponent()
+    {
+        return $this->wsServer;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function handleConnect(TransferConnectionInterface $conn)
     {
         $conn->WebSocket = new StdClass();
         $conn->WebSocket->request     = $conn->httpRequest;
@@ -72,13 +97,14 @@ class WsServer implements WsServerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
-    public function handleDisconnect(IoConnectionInterface $conn)
+    public function handleDisconnect(TransferConnectionInterface $conn)
     {
-        if ($this->connectionCollection->contains($conn))
+        if ($this->connCollection->contains($conn))
         {
-            $decor = $this->connectionCollection[$conn];
-            $this->connectionCollection->detach($conn);
+            $decor = $this->connCollection[$conn];
+            $this->connCollection->detach($conn);
 
             $this->wsServer->handleDisconnect($decor);
         }
@@ -86,8 +112,9 @@ class WsServer implements WsServerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
-    public function handleMessage(IoConnectionInterface $conn, IoMessageInterface $message)
+    public function handleMessage(TransferConnectionInterface $conn, TransferMessageInterface $message)
     {
         if ($message instanceof HttpRequestInterface)
         {
@@ -101,7 +128,7 @@ class WsServer implements WsServerInterface
 
         if ($conn->WebSocket->established === true)
         {
-            $conn->WebSocket->version->wsMessage($this->connectionCollection[$conn], $message);
+            $conn->WebSocket->version->wsMessage($this->connCollection[$conn], $message);
             return;
         }
 
@@ -110,12 +137,13 @@ class WsServer implements WsServerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
-    public function handleError(IoConnectionInterface $conn, $ex)
+    public function handleError(TransferConnectionInterface $conn, $ex)
     {
-        if ($conn->WebSocket->established && $this->connectionCollection->contains($conn))
+        if ($conn->WebSocket->established && $this->connCollection->contains($conn))
         {
-            $this->wsServer->handleError($this->connectionCollection[$conn], $ex);
+            $this->wsServer->handleError($this->connCollection[$conn], $ex);
         }
         else
         {
@@ -124,9 +152,10 @@ class WsServer implements WsServerInterface
     }
 
     /**
-     * @param IoConnectionInterface $conn
+     * @override
+     * @inheritDoc
      */
-    protected function attemptUpgrade(IoConnectionInterface $conn)
+    protected function attemptUpgrade(TransferConnectionInterface $conn)
     {
         $request = $conn->WebSocket->request;
 
@@ -166,7 +195,7 @@ class WsServer implements WsServerInterface
 
         $upgraded = $conn->WebSocket->version->wsUpgrade($conn, $this->wsServer);
 
-        $this->connectionCollection->attach($conn, $upgraded);
+        $this->connCollection->attach($conn, $upgraded);
 
         $upgraded->WebSocket->established = true;
 
@@ -175,6 +204,7 @@ class WsServer implements WsServerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getDriver()
     {
@@ -220,11 +250,11 @@ class WsServer implements WsServerInterface
     /**
      * Close a connection with an HTTP response.
      *
-     * @param IoConnectionInterface $conn
+     * @param TransferConnectionInterface $conn
      * @param int $code
      * @return null
      */
-    protected function close(IoConnectionInterface $conn, $code = 400)
+    protected function close(TransferConnectionInterface $conn, $code = 400)
     {
         $response = new HttpResponse($code, [
             'Sec-WebSocket-Version' => $this->wsDriver->getVersionHeader()

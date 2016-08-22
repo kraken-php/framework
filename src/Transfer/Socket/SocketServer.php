@@ -3,31 +3,34 @@ namespace Kraken\Transfer\Socket;
 
 use Kraken\Ipc\Socket\SocketInterface;
 use Kraken\Ipc\Socket\SocketListenerInterface;
-use Kraken\Transfer\IoMessage;
-use Kraken\Transfer\IoServerComponentInterface;
+use Kraken\Transfer\Null\NullServer;
+use Kraken\Transfer\TransferComponentAwareInterface;
+use Kraken\Transfer\TransferMessage;
+use Kraken\Transfer\TransferComponentInterface;
 use Error;
 use Exception;
 
-class SocketServer implements SocketServerInterface
+class SocketServer implements SocketServerInterface, TransferComponentAwareInterface
 {
-    /**
-     * @var IoServerComponentInterface
-     */
-    protected $component;
-
     /**
      * @var SocketListenerInterface
      */
     protected $socket;
 
     /**
-     * @param IoServerComponentInterface $component
+     * @var TransferComponentInterface
+     */
+    protected $component;
+
+    /**
+     * @param TransferComponentInterface $component
      * @param SocketListenerInterface $socket
      */
-    public function __construct(IoServerComponentInterface $component, SocketListenerInterface $socket)
+    public function __construct(SocketListenerInterface $socket, TransferComponentInterface $component = null)
     {
-        $this->component = $component;
+
         $this->socket = $socket;
+        $this->component = $component === null ? new NullServer() : $component;
 
         $socket->on('connect', [ $this, 'handleConnect' ]);
     }
@@ -38,6 +41,25 @@ class SocketServer implements SocketServerInterface
     public function __destruct()
     {
         unset($this->socket);
+        unset($this->component);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function setComponent(TransferComponentInterface $component = null)
+    {
+        $this->component = $component === null ? new NullServer() : $component;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getComponent()
+    {
+        return $this->component;
     }
 
     /**
@@ -78,7 +100,7 @@ class SocketServer implements SocketServerInterface
     {
         try
         {
-            $this->component->handleMEssage($socket->conn, new IoMessage($data));
+            $this->component->handleMessage($socket->conn, new TransferMessage($data));
         }
         catch (Error $ex)
         {

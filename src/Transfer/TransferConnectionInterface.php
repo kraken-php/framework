@@ -4,7 +4,7 @@ namespace Kraken\Transfer;
 
 use Ratchet\ConnectionInterface as RatchetConnectionInterface;
 
-interface IoConnectionInterface extends RatchetConnectionInterface
+interface TransferConnectionInterface extends RatchetConnectionInterface
 {
     /**
      * Get the resource id of connection.

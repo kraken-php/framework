@@ -2,10 +2,13 @@
 
 namespace Kraken\Transfer\Http\Component\Router;
 
+use Kraken\Transfer\Http\HttpRequestInterface;
 use Kraken\Transfer\Http\HttpResponse;
-use Kraken\Transfer\IoConnectionInterface;
-use Kraken\Transfer\IoMessageInterface;
-use Kraken\Transfer\IoServerComponentInterface;
+use Kraken\Transfer\Null\NullServer;
+use Kraken\Transfer\TransferComponentAwareInterface;
+use Kraken\Transfer\TransferConnectionInterface;
+use Kraken\Transfer\TransferMessageInterface;
+use Kraken\Transfer\TransferComponentInterface;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
@@ -39,10 +42,11 @@ class HttpRouter implements HttpRouterInterface
     protected $allowedOrigins;
 
     /**
+     * @param TransferComponentAwareInterface $aware
      * @param RouteCollection|null $routes
      * @param RequestContext|null $context
      */
-    public function __construct(RouteCollection $routes = null, RequestContext $context = null)
+    public function __construct(TransferComponentAwareInterface $aware = null, RouteCollection $routes = null, RequestContext $context = null)
     {
         $this->routes = ($routes !== null) ? $routes : new RouteCollection();
         $this->context = ($context !== null) ? $context : new RequestContext();
@@ -51,6 +55,11 @@ class HttpRouter implements HttpRouterInterface
             $this->context
         );
         $this->allowedOrigins = [];
+
+        if ($aware !== null)
+        {
+            $aware->setComponent($this);
+        }
     }
 
     /**
@@ -111,7 +120,7 @@ class HttpRouter implements HttpRouterInterface
      * @override
      * @inheritDoc
      */
-    public function addRoute($path, IoServerComponentInterface $component)
+    public function addRoute($path, TransferComponentInterface $component)
     {
         $this->routes->add(
             $path,
@@ -142,14 +151,14 @@ class HttpRouter implements HttpRouterInterface
      * @override
      * @inheritDoc
      */
-    public function handleConnect(IoConnectionInterface $conn)
+    public function handleConnect(TransferConnectionInterface $conn)
     {}
 
     /**
      * @override
      * @inheritDoc
      */
-    public function handleDisconnect(IoConnectionInterface $conn)
+    public function handleDisconnect(TransferConnectionInterface $conn)
     {
         if (isset($conn->controller))
         {
@@ -161,7 +170,7 @@ class HttpRouter implements HttpRouterInterface
      * @override
      * @inheritDoc
      */
-    public function handleMessage(IoConnectionInterface $conn, IoMessageInterface $message)
+    public function handleMessage(TransferConnectionInterface $conn, TransferMessageInterface $message)
     {
         if (!$message instanceof HttpRequestInterface)
         {
@@ -222,7 +231,7 @@ class HttpRouter implements HttpRouterInterface
      * @override
      * @inheritDoc
      */
-    public function handleError(IoConnectionInterface $conn, $ex)
+    public function handleError(TransferConnectionInterface $conn, $ex)
     {
         if (isset($conn->controller))
         {
@@ -242,11 +251,11 @@ class HttpRouter implements HttpRouterInterface
     /**
      * Close a connection with an HTTP response.
      *
-     * @param IoConnectionInterface $conn
+     * @param TransferConnectionInterface $conn
      * @param int $code
      * @return null
      */
-    protected function close(IoConnectionInterface $conn, $code = 400)
+    protected function close(TransferConnectionInterface $conn, $code = 400)
     {
         $response = new HttpResponse($code);
 

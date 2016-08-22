@@ -10,6 +10,7 @@ class Version extends VersionRFC6455 implements VersionInterface
 {
     /**
      * @override
+     * @inheritDoc
      */
     public function isRequestSupported(HttpRequestInterface $request)
     {
@@ -20,6 +21,7 @@ class Version extends VersionRFC6455 implements VersionInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getVersionNumber()
     {

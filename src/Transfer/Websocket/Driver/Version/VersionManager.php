@@ -36,6 +36,7 @@ class VersionManager implements VersionManagerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getVersion(HttpRequestInterface $request)
     {
@@ -52,6 +53,7 @@ class VersionManager implements VersionManagerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function isVersionEnabled(HttpRequestInterface $request)
     {
@@ -60,6 +62,7 @@ class VersionManager implements VersionManagerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function enableVersion(VersionInterface $version)
     {
@@ -72,6 +75,7 @@ class VersionManager implements VersionManagerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function disableVersion(VersionInterface $version)
     {
@@ -84,6 +88,7 @@ class VersionManager implements VersionManagerInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getVersionHeader()
     {

@@ -13,7 +13,7 @@ use Kraken\Transfer\Socket\SocketServerInterface;
 use Error;
 use Exception;
 
-class IoServer implements IoServerInterface
+class TransferServer implements TransferServerInterface
 {
     /**
      * @var SocketServerInterface
@@ -38,11 +38,10 @@ class IoServer implements IoServerInterface
     {
         try
         {
-            $server = new SocketServer(
-                new HttpServer(
-                    $router = new HttpRouter()
-                ),
-                $listener
+            $router = new HttpRouter(
+                $http = new HttpServer(
+                    $server = new SocketServer($listener)
+                )
             );
 
             $this->server = $server;
@@ -73,7 +72,7 @@ class IoServer implements IoServerInterface
      * @override
      * @inheritDoc
      */
-    public function addRoute($path, IoServerComponentInterface $component)
+    public function addRoute($path, TransferComponentInterface $component)
     {
         return $this->router->addRoute($path, $component);
     }

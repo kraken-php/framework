@@ -38,6 +38,7 @@ class HttpDriver implements HttpDriverInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function readRequest(BufferInterface $buffer, $message)
     {
@@ -46,6 +47,7 @@ class HttpDriver implements HttpDriverInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function readResponse(BufferInterface $buffer, $message)
     {

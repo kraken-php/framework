@@ -5,9 +5,9 @@ namespace Kraken\Transfer\Websocket\Driver\Version\RFC6455;
 use Kraken\Transfer\Http\HttpRequestInterface;
 use Kraken\Transfer\Http\HttpResponse;
 use Kraken\Transfer\Http\HttpResponseInterface;
-use Kraken\Transfer\IoMessageInterface;
-use Kraken\Transfer\IoServerComponentInterface;
-use Kraken\Transfer\IoConnectionInterface;
+use Kraken\Transfer\TransferMessageInterface;
+use Kraken\Transfer\TransferComponentInterface;
+use Kraken\Transfer\TransferConnectionInterface;
 use Kraken\Transfer\Websocket\Driver\Version\VersionInterface;
 use Ratchet\WebSocket\Encoding\ValidatorInterface;
 use Ratchet\WebSocket\Version\RFC6455;
@@ -61,11 +61,11 @@ class Version extends RFC6455 implements VersionInterface
     }
 
     /**
-     * @param IoConnectionInterface $conn
-     * @param IoServerComponentInterface $coalescedCallback
+     * @param TransferConnectionInterface $conn
+     * @param TransferComponentInterface $coalescedCallback
      * @return Connection
      */
-    public function wsUpgrade(IoConnectionInterface $conn, IoServerComponentInterface $component)
+    public function wsUpgrade(TransferConnectionInterface $conn, TransferComponentInterface $component)
     {
         $upgraded = new Connection($conn);
 
@@ -80,10 +80,10 @@ class Version extends RFC6455 implements VersionInterface
     }
 
     /**
-     * @param IoConnectionInterface $conn
+     * @param TransferConnectionInterface $conn
      * @param string $message
      */
-    public function wsMessage(IoConnectionInterface $conn, IoMessageInterface $message)
+    public function wsMessage(TransferConnectionInterface $conn, TransferMessageInterface $message)
     {
         $this->onMessage($conn, $message->read());
     }

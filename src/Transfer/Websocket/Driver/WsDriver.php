@@ -48,6 +48,7 @@ class WsDriver implements WsDriverInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function setEncodingChecks($opt)
     {
@@ -56,9 +57,9 @@ class WsDriver implements WsDriverInterface
         return $this;
     }
 
-
     /**
      * @override
+     * @inheritDoc
      */
     public function getVersion(HttpRequestInterface $request)
     {
@@ -67,6 +68,7 @@ class WsDriver implements WsDriverInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function isVersionEnabled(HttpRequestInterface $request)
     {
@@ -75,6 +77,7 @@ class WsDriver implements WsDriverInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function enableVersion(VersionInterface $version)
     {
@@ -83,6 +86,7 @@ class WsDriver implements WsDriverInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function disableVersion(VersionInterface $version)
     {
@@ -91,6 +95,7 @@ class WsDriver implements WsDriverInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function getVersionHeader()
     {

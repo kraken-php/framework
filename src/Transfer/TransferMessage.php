@@ -2,7 +2,7 @@
 
 namespace Kraken\Transfer;
 
-class IoMessage implements IoMessageInterface
+class TransferMessage implements TransferMessageInterface
 {
     /**
      * @var string
