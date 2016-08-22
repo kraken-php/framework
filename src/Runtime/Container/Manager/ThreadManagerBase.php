@@ -55,8 +55,8 @@ class ThreadManagerBase implements ThreadManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function existsThread($alias)
     {
@@ -64,10 +64,8 @@ class ThreadManagerBase implements ThreadManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @param string|null $name
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function createThread($alias, $name, $flags = Runtime::CREATE_DEFAULT)
     {
@@ -155,9 +153,8 @@ class ThreadManagerBase implements ThreadManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function destroyThread($alias, $flags = Runtime::DESTROY_FORCE_SOFT)
     {
@@ -222,8 +219,8 @@ class ThreadManagerBase implements ThreadManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function startThread($alias)
     {
@@ -237,8 +234,8 @@ class ThreadManagerBase implements ThreadManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function stopThread($alias)
     {
@@ -252,9 +249,8 @@ class ThreadManagerBase implements ThreadManagerInterface
     }
 
     /**
-     * @param string[][] $definitions
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function createThreads($definitions, $flags = Runtime::CREATE_DEFAULT)
     {
@@ -277,9 +273,8 @@ class ThreadManagerBase implements ThreadManagerInterface
     }
 
     /**
-     * @param string[] $aliases
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function destroyThreads($aliases, $flags = Runtime::DESTROY_FORCE_SOFT)
     {
@@ -302,8 +297,8 @@ class ThreadManagerBase implements ThreadManagerInterface
     }
 
     /**
-     * @param $aliases
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function startThreads($aliases)
     {
@@ -326,8 +321,8 @@ class ThreadManagerBase implements ThreadManagerInterface
     }
 
     /**
-     * @param $aliases
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function stopThreads($aliases)
     {
@@ -350,7 +345,8 @@ class ThreadManagerBase implements ThreadManagerInterface
     }
 
     /**
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function getThreads()
     {
@@ -364,8 +360,8 @@ class ThreadManagerBase implements ThreadManagerInterface
     }
 
     /**
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function flushThreads($flags = Runtime::DESTROY_KEEP)
     {
@@ -393,6 +389,8 @@ class ThreadManagerBase implements ThreadManagerInterface
     }
 
     /**
+     * Allocate thread data.
+     *
      * @internal
      * @param string $alias
      * @param mixed $object
@@ -405,6 +403,8 @@ class ThreadManagerBase implements ThreadManagerInterface
     }
 
     /**
+     * Free thread data.
+     *
      * @internal
      * @param string $alias
      * @return bool
@@ -416,6 +416,8 @@ class ThreadManagerBase implements ThreadManagerInterface
     }
 
     /**
+     * Create Request.
+     *
      * @param ChannelBaseInterface $channel
      * @param string $receiver
      * @param string $command

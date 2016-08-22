@@ -40,8 +40,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function existsRuntime($alias)
     {
@@ -49,9 +49,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function destroyRuntime($alias, $flags = Runtime::DESTROY_FORCE_SOFT)
     {
@@ -68,8 +67,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function startRuntime($alias)
     {
@@ -86,8 +85,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function stopRuntime($alias)
     {
@@ -104,9 +103,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param string[] $aliases
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function destroyRuntimes($aliases, $flags = Runtime::DESTROY_FORCE_SOFT)
     {
@@ -121,8 +119,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param string[] $aliases
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function startRuntimes($aliases)
     {
@@ -137,8 +135,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param string[] $aliases
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function stopRuntimes($aliases)
     {
@@ -153,7 +151,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function getRuntimes()
     {
@@ -170,8 +169,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function flushRuntimes($flags = Runtime::DESTROY_KEEP)
     {
@@ -182,8 +181,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function existsProcess($alias)
     {
@@ -191,10 +190,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @param string|null $name
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function createProcess($alias, $name, $flags = Runtime::CREATE_DEFAULT)
     {
@@ -202,9 +199,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function destroyProcess($alias, $flags = Runtime::DESTROY_FORCE_SOFT)
     {
@@ -212,8 +208,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function startProcess($alias)
     {
@@ -221,8 +217,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function stopProcess($alias)
     {
@@ -230,9 +226,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param string[][] $definitions
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function createProcesses($definitions, $flags = Runtime::CREATE_DEFAULT)
     {
@@ -240,9 +235,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param string[] $aliases
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function destroyProcesses($aliases, $flags = Runtime::DESTROY_FORCE_SOFT)
     {
@@ -250,8 +244,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param $aliases
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function startProcesses($aliases)
     {
@@ -259,8 +253,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param $aliases
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function stopProcesses($aliases)
     {
@@ -268,7 +262,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function getProcesses()
     {
@@ -276,8 +271,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function flushProcesses($flags = Runtime::DESTROY_KEEP)
     {
@@ -285,8 +280,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function existsThread($alias)
     {
@@ -294,10 +289,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @param string|null $name
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function createThread($alias, $name, $flags = Runtime::CREATE_DEFAULT)
     {
@@ -305,9 +298,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function destroyThread($alias, $flags = Runtime::DESTROY_FORCE_SOFT)
     {
@@ -315,8 +307,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function startThread($alias)
     {
@@ -324,8 +316,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function stopThread($alias)
     {
@@ -333,9 +325,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param string[][] $definitions
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function createThreads($definitions, $flags = Runtime::CREATE_DEFAULT)
     {
@@ -343,9 +334,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param string[] $aliases
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function destroyThreads($aliases, $flags = Runtime::DESTROY_FORCE_SOFT)
     {
@@ -353,8 +343,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param $aliases
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function startThreads($aliases)
     {
@@ -362,17 +352,17 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param $aliases
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function stopThreads($aliases)
     {
         return $this->threadManager->stopThreads($aliases);
     }
 
-
     /**
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function getThreads()
     {
@@ -380,8 +370,8 @@ class RuntimeManager implements RuntimeManagerInterface
     }
 
     /**
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function flushThreads($flags = Runtime::DESTROY_KEEP)
     {

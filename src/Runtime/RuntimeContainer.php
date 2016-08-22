@@ -43,7 +43,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @return RuntimeModelInterface
+     * @override
+     * @inheritDoc
      */
     public function model()
     {
@@ -51,7 +52,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function type()
     {
@@ -59,7 +61,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @return string|null
+     * @override
+     * @inheritDoc
      */
     public function parent()
     {
@@ -67,7 +70,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function alias()
     {
@@ -75,7 +79,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function name()
     {
@@ -83,7 +88,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @return CoreInterface|null
+     * @override
+     * @inheritDoc
      */
     public function getCore()
     {
@@ -91,7 +97,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @param CoreInterface|null $core
+     * @override
+     * @inheritDoc
      */
     public function setCore(CoreInterface $core = null)
     {
@@ -99,7 +106,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @return CoreInterface|null
+     * @override
+     * @inheritDoc
      */
     public function core()
     {
@@ -107,7 +115,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @return RuntimeManagerInterface
+     * @override
+     * @inheritDoc
      */
     public function manager()
     {
@@ -115,7 +124,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @return LoopInterface
+     * @override
+     * @inheritDoc
      */
     public function getLoop()
     {
@@ -123,7 +133,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @return int
+     * @override
+     * @inheritDoc
      */
     public function state()
     {
@@ -131,8 +142,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @param callable $callback
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onBeforeCreate(callable $callback)
     {
@@ -140,8 +151,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @param callable $callback
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onCreate(callable $callback)
     {
@@ -149,8 +160,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @param callable $callback
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onAfterCreate(callable $callback)
     {
@@ -158,8 +169,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @param callable $callback
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onBeforeDestroy(callable $callback)
     {
@@ -167,8 +178,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @param callable $callback
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onDestroy(callable $callback)
     {
@@ -176,8 +187,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @param callable $callback
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onAfterDestroy(callable $callback)
     {
@@ -185,8 +196,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @param callable $callback
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onBeforeStart(callable $callback)
     {
@@ -194,8 +205,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @param callable $callback
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onStart(callable $callback)
     {
@@ -203,8 +214,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @param callable $callback
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onAfterStart(callable $callback)
     {
@@ -212,8 +223,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @param callable $callback
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onBeforeStop(callable $callback)
     {
@@ -221,8 +232,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @param callable $callback
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onStop(callable $callback)
     {
@@ -230,8 +241,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @param callable $callback
-     * @return EventHandler
+     * @override
+     * @inheritDoc
      */
     public function onAfterStop(callable $callback)
     {
@@ -239,7 +250,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function isCreated()
     {
@@ -247,7 +259,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function isDestroyed()
     {
@@ -255,7 +268,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function isStarted()
     {
@@ -263,7 +277,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function isStopped()
     {
@@ -271,7 +286,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function create()
     {
@@ -279,7 +295,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function destroy()
     {
@@ -287,7 +304,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function start()
     {
@@ -295,7 +313,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function stop()
     {
@@ -303,9 +322,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * @param Error|Exception $ex
-     * @param mixed[] $params
-     * @throws Exception
+     * @override
+     * @inheritDoc
      */
     public function fail($ex, $params = [])
     {
@@ -313,7 +331,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     *
+     * @override
+     * @inheritDoc
      */
     public function succeed()
     {
@@ -321,6 +340,7 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
+     * @internal
      * @param CoreInterface $core
      * @return array
      */
@@ -330,6 +350,7 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
+     * @internal
      * @param CoreInterface $core
      * @return RuntimeInterface
      */
@@ -342,6 +363,7 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
+     * @internal
      * @param CoreInterface $core
      * @return RuntimeInterface
      */
@@ -351,6 +373,8 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
+     * This method will be called before container boot. It should contain additional configurations.
+     *
      * @param CoreInterface $core
      * @return array
      */
@@ -360,6 +384,10 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
+     * This method will be called on container boot. It should contain tweaks to services and providers.
+     *
+     * This method
+     *
      * @param CoreInterface $core
      * @return RuntimeInterface
      */
@@ -369,6 +397,9 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
+     * This method will be called on container construction. It should contain configuration and logic to be fired after
+     * booting up.
+     *
      * @param CoreInterface $core
      * @return RuntimeInterface
      */

@@ -52,8 +52,8 @@ class ProcessManagerRemote implements ProcessManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function existsProcess($alias)
     {
@@ -61,10 +61,8 @@ class ProcessManagerRemote implements ProcessManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @param string|null $name
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function createProcess($alias, $name, $flags = Runtime::CREATE_DEFAULT)
     {
@@ -78,9 +76,8 @@ class ProcessManagerRemote implements ProcessManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function destroyProcess($alias, $flags = Runtime::DESTROY_FORCE_SOFT)
     {
@@ -94,8 +91,8 @@ class ProcessManagerRemote implements ProcessManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function startProcess($alias)
     {
@@ -109,8 +106,8 @@ class ProcessManagerRemote implements ProcessManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function stopProcess($alias)
     {
@@ -124,9 +121,8 @@ class ProcessManagerRemote implements ProcessManagerInterface
     }
 
     /**
-     * @param string[][] $definitions
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function createProcesses($definitions, $flags = Runtime::CREATE_DEFAULT)
     {
@@ -140,9 +136,8 @@ class ProcessManagerRemote implements ProcessManagerInterface
     }
 
     /**
-     * @param string[] $aliases
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function destroyProcesses($aliases, $flags = Runtime::DESTROY_FORCE_SOFT)
     {
@@ -156,8 +151,8 @@ class ProcessManagerRemote implements ProcessManagerInterface
     }
 
     /**
-     * @param $aliases
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function startProcesses($aliases)
     {
@@ -171,8 +166,8 @@ class ProcessManagerRemote implements ProcessManagerInterface
     }
 
     /**
-     * @param $aliases
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function stopProcesses($aliases)
     {
@@ -186,7 +181,8 @@ class ProcessManagerRemote implements ProcessManagerInterface
     }
 
     /**
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function getProcesses()
     {
@@ -200,8 +196,8 @@ class ProcessManagerRemote implements ProcessManagerInterface
     }
 
     /**
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function flushProcesses($flags = Runtime::DESTROY_KEEP)
     {
@@ -209,6 +205,8 @@ class ProcessManagerRemote implements ProcessManagerInterface
     }
 
     /**
+     * Create Request.
+     *
      * @param ChannelBaseInterface $channel
      * @param string $receiver
      * @param string $command

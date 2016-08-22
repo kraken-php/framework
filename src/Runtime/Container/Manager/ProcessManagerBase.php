@@ -123,10 +123,8 @@ class ProcessManagerBase implements ProcessManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @param string|null $name
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function createProcess($alias, $name, $flags = Runtime::CREATE_DEFAULT)
     {
@@ -229,9 +227,8 @@ class ProcessManagerBase implements ProcessManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function destroyProcess($alias, $flags = Runtime::DESTROY_FORCE_SOFT)
     {
@@ -309,8 +306,8 @@ class ProcessManagerBase implements ProcessManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function startProcess($alias)
     {
@@ -324,8 +321,8 @@ class ProcessManagerBase implements ProcessManagerInterface
     }
 
     /**
-     * @param string $alias
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function stopProcess($alias)
     {
@@ -339,9 +336,8 @@ class ProcessManagerBase implements ProcessManagerInterface
     }
 
     /**
-     * @param string[][] $definitions
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function createProcesses($definitions, $flags = Runtime::CREATE_DEFAULT)
     {
@@ -364,9 +360,8 @@ class ProcessManagerBase implements ProcessManagerInterface
     }
 
     /**
-     * @param string[] $aliases
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function destroyProcesses($aliases, $flags = Runtime::DESTROY_FORCE_SOFT)
     {
@@ -389,8 +384,8 @@ class ProcessManagerBase implements ProcessManagerInterface
     }
 
     /**
-     * @param $aliases
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function startProcesses($aliases)
     {
@@ -413,8 +408,8 @@ class ProcessManagerBase implements ProcessManagerInterface
     }
 
     /**
-     * @param $aliases
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function stopProcesses($aliases)
     {
@@ -437,7 +432,8 @@ class ProcessManagerBase implements ProcessManagerInterface
     }
 
     /**
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function getProcesses()
     {
@@ -451,8 +447,8 @@ class ProcessManagerBase implements ProcessManagerInterface
     }
 
     /**
-     * @param int $flags
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function flushProcesses($flags = Runtime::DESTROY_KEEP)
     {
@@ -481,6 +477,8 @@ class ProcessManagerBase implements ProcessManagerInterface
     }
 
     /**
+     * Allocate process.
+     *
      * @internal
      * @param string $alias
      * @param string $name
@@ -513,6 +511,8 @@ class ProcessManagerBase implements ProcessManagerInterface
     }
 
     /**
+     * Free process.
+     *
      * @internal
      * @param string $alias
      * @return bool
@@ -537,6 +537,8 @@ class ProcessManagerBase implements ProcessManagerInterface
     }
 
     /**
+     * Create Request.
+     *
      * @param ChannelBaseInterface $channel
      * @param string $receiver
      * @param string $command
@@ -548,6 +550,8 @@ class ProcessManagerBase implements ProcessManagerInterface
     }
 
     /**
+     * Run external PHP script.
+     *
      * @param string $command
      * @param string[] $params
      * @return string
@@ -558,6 +562,8 @@ class ProcessManagerBase implements ProcessManagerInterface
     }
 
     /**
+     * Copy temporary process allocation data to persistent storage.
+     *
      * @param string[] $with
      * @throws IoReadException
      */
@@ -575,6 +581,8 @@ class ProcessManagerBase implements ProcessManagerInterface
     }
 
     /**
+     * Copy data from persistent storage to temporary one.
+     *
      * @return string[][]
      * @throws IoReadException
      */

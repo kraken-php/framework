@@ -10,7 +10,7 @@ trait RuntimeManagerAwareTrait
     protected $runtimeManager = null;
 
     /**
-     * @param RuntimeManagerInterface|null $manager
+     * @see RuntimeManagerAwareInterface::setRuntimeManager
      */
     public function setRuntimeManager(RuntimeManagerInterface $manager = null)
     {
@@ -18,7 +18,7 @@ trait RuntimeManagerAwareTrait
     }
 
     /**
-     * @return RuntimeManagerInterface|null
+     * @see RuntimeManagerAwareInterface::getRuntimeManager
      */
     public function getRuntimeManager()
     {

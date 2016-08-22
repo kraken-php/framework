@@ -135,7 +135,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function type()
     {
@@ -143,7 +144,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return string|null
+     * @override
+     * @inheritDoc
      */
     public function parent()
     {
@@ -151,7 +153,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function alias()
     {
@@ -159,7 +162,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return string
+     * @override
+     * @inheritDoc
      */
     public function name()
     {
@@ -167,7 +171,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @param CoreInterface|null $core
+     * @override
+     * @inheritDoc
      */
     public function setCore(CoreInterface $core = null)
     {
@@ -175,7 +180,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return CoreInterface|null
+     * @override
+     * @inheritDoc
      */
     public function getCore()
     {
@@ -183,7 +189,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return CoreInterface
+     * @override
+     * @inheritDoc
      */
     public function core()
     {
@@ -191,7 +198,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @param RuntimeManagerInterface|null $manager
+     * @override
+     * @inheritDoc
      */
     public function setRuntimeManager(RuntimeManagerInterface $manager = null)
     {
@@ -199,7 +207,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return RuntimeManagerInterface|null
+     * @override
+     * @inheritDoc
      */
     public function getRuntimeManager()
     {
@@ -207,7 +216,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @param LoopExtendedInterface|null $loop
+     * @override
+     * @inheritDoc
      */
     public function setLoop(LoopExtendedInterface $loop = null)
     {
@@ -216,7 +226,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return LoopExtendedInterface|null
+     * @override
+     * @inheritDoc
      */
     public function getLoop()
     {
@@ -224,7 +235,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @param SupervisorInterface|null $supervisor
+     * @override
+     * @inheritDoc
      */
     public function setSupervisor(SupervisorInterface $supervisor = null)
     {
@@ -232,7 +244,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return SupervisorInterface|null
+     * @override
+     * @inheritDoc
      */
     public function getSupervisor()
     {
@@ -240,7 +253,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return SupervisorInterface
+     * @override
+     * @inheritDoc
      */
     public function supervisor()
     {
@@ -248,7 +262,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @param EventEmitterInterface|null $emitter
+     * @override
+     * @inheritDoc
      */
     public function setEventEmitter(EventEmitterInterface $emitter = null)
     {
@@ -256,7 +271,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return EventEmitterInterface|null
+     * @override
+     * @inheritDoc
      */
     public function getEventEmitter()
     {
@@ -264,7 +280,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return EventEmitterInterface
+     * @override
+     * @inheritDoc
      */
     public function eventEmitter()
     {
@@ -272,7 +289,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @param int $state
+     * @override
+     * @inheritDoc
      */
     public function setState($state)
     {
@@ -280,7 +298,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return int
+     * @override
+     * @inheritDoc
      */
     public function getState()
     {
@@ -288,7 +307,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return int
+     * @override
+     * @inheritDoc
      */
     public function state()
     {
@@ -296,8 +316,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @param int $state
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function isState($state)
     {
@@ -305,7 +325,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function isCreated()
     {
@@ -313,7 +334,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function isDestroyed()
     {
@@ -321,7 +343,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function isStarted()
     {
@@ -329,7 +352,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function isStopped()
     {
@@ -337,7 +361,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function create()
     {
@@ -381,7 +406,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function destroy()
     {
@@ -432,7 +458,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function start()
     {
@@ -462,7 +489,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function stop()
     {
@@ -492,8 +520,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     * @param Error|Exception $ex
-     * @param mixed[] $params
+     * @override
+     * @inheritDoc
      */
     public function fail($ex, $params = [])
     {
@@ -526,7 +554,8 @@ class RuntimeModel implements RuntimeModelInterface
     }
 
     /**
-     *
+     * @override
+     * @inheritDoc
      */
     public function succeed()
     {
