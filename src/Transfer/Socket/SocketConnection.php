@@ -83,7 +83,7 @@ class SocketConnection implements TransferConnectionInterface
      */
     public function send($data)
     {
-        $this->conn->write($data);
+        $this->conn->write((string)$data);
     }
 
     /**

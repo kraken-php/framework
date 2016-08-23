@@ -91,28 +91,6 @@ class SocketServer implements SocketServerInterface, TransferComponentAwareInter
     }
 
     /**
-     * Handler triggered when a new data is received from existing connection.
-     *
-     * @param SocketInterface $socket
-     * @param mixed $data
-     */
-    public function handleData($socket, $data)
-    {
-        try
-        {
-            $this->component->handleMessage($socket->conn, new TransferMessage($data));
-        }
-        catch (Error $ex)
-        {
-            $this->handleError($socket, $ex);
-        }
-        catch (Exception $ex)
-        {
-            $this->handleError($socket, $ex);
-        }
-    }
-
-    /**
      * Handler triggered when an existing connection is being closed.
      *
      * @param SocketInterface $socket
@@ -133,6 +111,28 @@ class SocketServer implements SocketServerInterface, TransferComponentAwareInter
         }
 
         unset($socket->conn);
+    }
+
+    /**
+     * Handler triggered when a new data is received from existing connection.
+     *
+     * @param SocketInterface $socket
+     * @param mixed $data
+     */
+    public function handleData($socket, $data)
+    {
+        try
+        {
+            $this->component->handleMessage($socket->conn, new TransferMessage($data));
+        }
+        catch (Error $ex)
+        {
+            $this->handleError($socket, $ex);
+        }
+        catch (Exception $ex)
+        {
+            $this->handleError($socket, $ex);
+        }
     }
 
     /**
@@ -158,6 +158,8 @@ class SocketServer implements SocketServerInterface, TransferComponentAwareInter
     }
 
     /**
+     * Close socket.
+     *
      * @param SocketInterface $socket
      */
     protected function close(SocketInterface $socket)
