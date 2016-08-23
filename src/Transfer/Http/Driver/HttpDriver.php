@@ -51,6 +51,6 @@ class HttpDriver implements HttpDriverInterface
      */
     public function readResponse(BufferInterface $buffer, $message)
     {
-        return $this->reader->readRequest($buffer, $message);
+        return $this->reader->readResponse($buffer, $message);
     }
 }

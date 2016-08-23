@@ -2,6 +2,7 @@
 
 namespace Kraken\Transfer\Http\Driver\Parser;
 
+use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Transfer\Http\HttpRequest;
 use Kraken\Transfer\Http\HttpResponse;
 use GuzzleHttp\Psr7;
@@ -16,9 +17,12 @@ class HttpParser implements HttpParserInterface
     {
         $data = Psr7\_parse_message($message);
         $matches = [];
-        if (!preg_match('/^[a-zA-Z]+\s+([a-zA-Z]+:\/\/|\/).*/', $data['start-line'], $matches)) {
-            throw new \InvalidArgumentException('Invalid request string');
+
+        if (!preg_match('/^[a-zA-Z]+\s+([a-zA-Z]+:\/\/|\/).*/', $data['start-line'], $matches))
+        {
+            throw new InvalidArgumentException('Invalid request string');
         }
+
         $parts = explode(' ', $data['start-line'], 3);
         $version = isset($parts[2]) ? explode('/', $parts[2])[1] : '1.1';
 
@@ -40,8 +44,10 @@ class HttpParser implements HttpParserInterface
     public function parseResponse($message)
     {
         $data = Psr7\_parse_message($message);
-        if (!preg_match('/^HTTP\/.* [0-9]{3} .*/', $data['start-line'])) {
-            throw new \InvalidArgumentException('Invalid response string');
+
+        if (!preg_match('/^HTTP\/.* [0-9]{3} .*/', $data['start-line']))
+        {
+            throw new InvalidArgumentException('Invalid response string');
         }
         $parts = explode(' ', $data['start-line'], 3);
 

@@ -53,10 +53,17 @@ class HttpResponse extends Response implements HttpResponseInterface, TransferMe
 
         foreach ($headers as $name=>$values)
         {
+            $temp = [];
+            $data .= $name . ": ";
+            $values = (array) $values;
+
             foreach ($values as $value)
             {
-                $data .= sprintf("%s: %s\r\n", $name, $this->encodeHeader($value));
+                $temp[] = $this->encodeHeader($value);
             }
+
+            $data .= implode(", ", $temp);
+            $data .= "\r\n";
         }
 
         return $data;

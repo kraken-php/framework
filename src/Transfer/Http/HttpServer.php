@@ -162,7 +162,7 @@ class HttpServer implements HttpServerInterface, TransferComponentAwareInterface
     {
         $response = new HttpResponse($code);
 
-        $conn->send((string)$response);
+        $conn->send($response);
         $conn->close();
     }
 }

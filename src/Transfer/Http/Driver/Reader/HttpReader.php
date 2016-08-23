@@ -36,12 +36,7 @@ class HttpReader implements HttpReaderInterface
     /**
      * @var int
      */
-    protected $maxStartLineLength;
-
-    /**
-     * @var int
-     */
-    protected $maxSize;
+    protected $maxFrameSize;
 
     /**
      * @param mixed[] $options
@@ -50,13 +45,9 @@ class HttpReader implements HttpReaderInterface
     {
         $this->parser = new HttpParser();
 
-        $this->maxSize = isset($options['max_header_size'])
-            ? (int) $options['max_header_size']
+        $this->maxFrameSize = isset($options['maxFrameSize'])
+            ? (int) $options['maxFrameSize']
             : self::DEFAULT_MAX_SIZE;
-
-        $this->maxStartLineLength = isset($options['max_start_line_length'])
-            ? (int) $options['max_start_line_length']
-            : self::DEFAULT_START_LINE_LENGTH;
     }
 
     /**
@@ -65,8 +56,7 @@ class HttpReader implements HttpReaderInterface
     public function __destruct()
     {
         unset($this->parser);
-        unset($this->maxStartLineLength);
-        unset($this->maxSize);
+        unset($this->maxFrameSize);
     }
 
     /**
@@ -79,10 +69,10 @@ class HttpReader implements HttpReaderInterface
 
         if (($position = $buffer->search(self::HTTP_EOM)) === false)
         {
-            if ($buffer->length() > $this->maxStartLineLength)
+            if ($buffer->length() > $this->maxFrameSize)
             {
                 throw new IoReadException(
-                    sprintf('Message start line exceeded maximum size of %d bytes.', $this->maxStartLineLength)
+                    sprintf('Message start line exceeded maximum size of %d bytes.', $this->maxFrameSize)
                 );
             }
 
@@ -91,18 +81,14 @@ class HttpReader implements HttpReaderInterface
 
         try
         {
-            $request = $this->parser->parseRequest($buffer->drain());
+            return $this->parser->parseRequest($buffer->drain());
         }
         catch (Error $ex)
-        {
-            throw new InvalidFormatException('Could not parse start line.');
-        }
+        {}
         catch (Exception $ex)
-        {
-            throw new InvalidFormatException('Could not parse start line.');
-        }
+        {}
 
-        return $request;
+        throw new InvalidFormatException('Could not parse start line.', $ex);
     }
 
     /**
@@ -115,10 +101,10 @@ class HttpReader implements HttpReaderInterface
 
         if (($position = $buffer->search(self::HTTP_EOM)) === false)
         {
-            if ($buffer->length() > $this->maxStartLineLength)
+            if ($buffer->length() > $this->maxFrameSize)
             {
                 throw new IoReadException(
-                    sprintf('Message start line exceeded maximum size of %d bytes.', $this->maxStartLineLength)
+                    sprintf('Message start line exceeded maximum size of %d bytes.', $this->maxFrameSize)
                 );
             }
 
@@ -127,17 +113,13 @@ class HttpReader implements HttpReaderInterface
 
         try
         {
-            $response = $this->parser->parseResponse($buffer->drain());
+            return $this->parser->parseResponse($buffer->drain());
         }
         catch (Error $ex)
-        {
-            throw new InvalidFormatException('Could not parse start line.');
-        }
+        {}
         catch (Exception $ex)
-        {
-            throw new InvalidFormatException('Could not parse start line.');
-        }
+        {}
 
-        return $response;
+        throw new InvalidFormatException('Could not parse start line.');
     }
 }
