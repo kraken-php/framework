@@ -128,7 +128,7 @@ class TransferServer implements TransferServerInterface
      */
     public function pause()
     {
-        return $this->listener->pause();
+        $this->listener->pause();
     }
 
     /**
@@ -137,6 +137,6 @@ class TransferServer implements TransferServerInterface
      */
     public function resume()
     {
-        return $this->listener->resume();
+        $this->listener->resume();
     }
 }

@@ -168,9 +168,8 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
 
         $this->open = false;
 
-        $this->emit('close', [ $this ]);
-
         $this->handleClose();
+        $this->emit('close', [ $this ]);
     }
 
     /**
@@ -182,7 +181,11 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
         if (!$this->paused)
         {
             $this->paused = true;
-            $this->loop->removeReadStream($this->socket);
+
+            if (isset($this->loop))
+            {
+                $this->loop->removeReadStream($this->socket);
+            }
         }
     }
 
@@ -195,7 +198,11 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
         if ($this->paused)
         {
             $this->paused = false;
-            $this->loop->addReadStream($this->socket, [ $this, 'handleConnect' ]);
+
+            if (isset($this->loop))
+            {
+                $this->loop->addReadStream($this->socket, [ $this, 'handleConnect' ]);
+            }
         }
     }
 
