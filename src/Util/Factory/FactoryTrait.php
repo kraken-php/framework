@@ -60,7 +60,7 @@ trait FactoryTrait
      */
     public function getParam($name)
     {
-        if (!isset($this->params[$name]))
+        if (!array_key_exists($name, $this->params))
         {
             throw new IllegalFieldException("Factory does not posses param [$name].");
         }
