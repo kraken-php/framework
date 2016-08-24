@@ -6,6 +6,7 @@ use Kraken\Ipc\Socket\SocketListener;
 use Kraken\Loop\Loop;
 use Kraken\Transfer\Http\Component\Router\HttpRouter;
 use Kraken\Transfer\ServerComponentInterface;
+use Kraken\Transfer\Socket\Component\Firewall\SocketFirewall;
 use Kraken\Transfer\TransferServer;
 use Kraken\Transfer\TransferServerInterface;
 use Kraken\Test\TUnit;
@@ -100,6 +101,76 @@ class TransferServerTest extends TUnit
             ->method('close');
 
         $server->close();
+    }
+
+    /**
+     *
+     */
+    public function testApiBlockAddress_CallsMethodOnRouter()
+    {
+        $ip = '50.50.50.50';
+
+        $server = $this->createTransferServer();
+        $router = $this->createFirewall([ 'blockAddress' ]);
+        $router
+            ->expects($this->once())
+            ->method('blockAddress')
+            ->with($ip);
+
+        $this->assertSame($server, $server->blockAddress($ip));
+    }
+
+    /**
+     *
+     */
+    public function testApiUnblockAddress_CallsMethodOnRouter()
+    {
+        $ip = '50.50.50.50';
+
+        $server = $this->createTransferServer();
+        $router = $this->createFirewall([ 'unblockAddress' ]);
+        $router
+            ->expects($this->once())
+            ->method('unblockAddress')
+            ->with($ip);
+
+        $this->assertSame($server, $server->unblockAddress($ip));
+    }
+
+    /**
+     *
+     */
+    public function testApiIsAddressBlocked_CallsMethodOnRouter()
+    {
+        $ip = '50.50.50.50';
+        $result = 'result';
+
+        $server = $this->createTransferServer();
+        $router = $this->createFirewall([ 'isAddressBlocked' ]);
+        $router
+            ->expects($this->once())
+            ->method('isAddressBlocked')
+            ->with($ip)
+            ->will($this->returnValue($result));
+
+        $this->assertSame($result, $server->isAddressBlocked($ip));
+    }
+
+    /**
+     *
+     */
+    public function testApiGetBlockedAddresses_CallsMethodOnRouter()
+    {
+        $ips = [ '50.25.25.25', '50.50.50.50' ];
+
+        $server = $this->createTransferServer();
+        $router = $this->createFirewall([ 'getBlockedAddresses' ]);
+        $router
+            ->expects($this->once())
+            ->method('getBlockedAddresses')
+            ->will($this->returnValue($ips));
+
+        $this->assertSame($ips, $server->getBlockedAddresses());
     }
 
     /**
@@ -205,6 +276,19 @@ class TransferServerTest extends TUnit
         $this->setProtectedProperty($this->server, 'router', $router);
 
         return $router;
+    }
+
+    /**
+     * @param string[]|null $methods
+     * @return HttpRouter|\PHPUnit_Framework_MockObject_MockObject
+     */
+    public function createFirewall($methods = null)
+    {
+        $firewall = $this->getMock(SocketFirewall::class, $methods, [], '', false);
+
+        $this->setProtectedProperty($this->server, 'firewall', $firewall);
+
+        return $firewall;
     }
 
     /**

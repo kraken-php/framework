@@ -56,11 +56,16 @@ class TransferServerTest extends TModule
 
                 $transfer->addRoute('/route', $component);
 
+                $sim->delayOnce('pass', 2, function() use($sim) {
+                    $sim->done();
+                });
+
                 $component->on('connect', function(TransferConnectionInterface $conn) use($sim) {
                     $sim->expect('connect');
                 });
                 $component->on('disconnect', function(TransferConnectionInterface $conn) use($sim) {
                     $sim->expect('disconnect');
+                    $sim->emit('pass');
                 });
                 $component->on('message', function(TransferConnectionInterface $conn, HttpRequestInterface $message) use($sim) {
 
@@ -76,7 +81,7 @@ class TransferServerTest extends TModule
                     $sim->assertSame('Hello World', (string) $message->getBody());
 
                     $sim->expect('message', [ $message->read() ]);
-                    $sim->done();
+                    $sim->emit('pass');
                 });
 
                 $sim->onStart(function() use($sim, $client) {
@@ -92,9 +97,9 @@ class TransferServerTest extends TModule
                         ],
                         'Hello World'
                     ));
+                    $client->stop();
                 });
                 $sim->onStop(function() use($client, $server) {
-                    $client->stop();
                     $server->stop();
                 });
 

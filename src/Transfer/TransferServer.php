@@ -8,6 +8,7 @@ use Kraken\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Transfer\Http\Component\Router\HttpRouter;
 use Kraken\Transfer\Http\Component\Router\HttpRouterInterface;
 use Kraken\Transfer\Http\HttpServer;
+use Kraken\Transfer\Socket\Component\Firewall\SocketFirewall;
 use Kraken\Transfer\Socket\SocketServer;
 use Kraken\Transfer\Socket\SocketServerInterface;
 use Error;
@@ -16,19 +17,24 @@ use Exception;
 class TransferServer implements TransferServerInterface
 {
     /**
+     * @var SocketListenerInterface
+     */
+    protected $listener;
+
+    /**
      * @var SocketServerInterface
      */
     protected $server;
 
     /**
+     * @var SocketFirewall
+     */
+    protected $firewall;
+
+    /**
      * @var HttpRouterInterface
      */
     protected $router;
-
-    /**
-     * @var SocketListenerInterface
-     */
-    protected $listener;
 
     /**
      * @param SocketListenerInterface $listener
@@ -40,13 +46,16 @@ class TransferServer implements TransferServerInterface
         {
             $router = new HttpRouter(
                 $http = new HttpServer(
-                    $server = new SocketServer($listener)
+                    $firewall = new SocketFirewall(
+                        $server = new SocketServer($listener)
+                    )
                 )
             );
 
-            $this->server = $server;
-            $this->router = $router;
             $this->listener = $listener;
+            $this->server = $server;
+            $this->firewall = $firewall;
+            $this->router = $router;
         }
         catch (Error $ex)
         {
@@ -63,8 +72,9 @@ class TransferServer implements TransferServerInterface
      */
     public function __destruct()
     {
-        unset($this->server);
         unset($this->router);
+        unset($this->firewall);
+        unset($this->server);
         unset($this->listener);
     }
 
@@ -84,6 +94,46 @@ class TransferServer implements TransferServerInterface
     public function removeRoute($path)
     {
         return $this->router->removeRoute($path);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function blockAddress($address)
+    {
+        $this->firewall->blockAddress($address);
+
+        return $this;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function unblockAddress($address)
+    {
+        $this->firewall->unblockAddress($address);
+
+        return $this;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function isAddressBlocked($address)
+    {
+        return $this->firewall->isAddressBlocked($address);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getBlockedAddresses()
+    {
+        return $this->firewall->getBlockedAddresses();
     }
 
     /**

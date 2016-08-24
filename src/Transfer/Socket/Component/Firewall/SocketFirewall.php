@@ -26,7 +26,6 @@ class SocketFirewall implements SocketFirewallInterface, ServerComponentAwareInt
      */
     public function __construct(ServerComponentAwareInterface $aware = null, ServerComponentInterface $component = null)
     {
-        $this->aware = $aware;
         $this->component = $component;
         $this->blacklist = [];
 
