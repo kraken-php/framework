@@ -7,12 +7,19 @@ use Kraken\Loop\LoopResourceInterface;
 use Kraken\Stream\StreamBaseInterface;
 
 /**
- * @event connect(object, SocketInterface)
+ * @event connect : callable(object, SocketInterface)
  */
 interface SocketListenerInterface extends EventEmitterInterface, LoopResourceInterface, StreamBaseInterface
 {
     /**
-     * Get server endpoint.
+     * Stop listener and underlying resource object. It is an alias for close() method.
+     *
+     * @see StreamBaseInterface::close
+     */
+    public function stop();
+
+    /**
+     * Get listener endpoint.
      *
      * This method returns server endpoint with this pattern [$protocol://$address:$port].
      *

@@ -7,6 +7,13 @@ use Kraken\Stream\AsyncStreamInterface;
 interface SocketInterface extends AsyncStreamInterface
 {
     /**
+     * Stop listener and underlying resource object. It is an alias for close() method.
+     *
+     * @see StreamBaseInterface::close
+     */
+    public function stop();
+
+    /**
      * Get socket local endpoint.
      *
      * This method returns socket local endpoint with this pattern [$protocol://$address:$port].

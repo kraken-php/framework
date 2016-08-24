@@ -3,40 +3,86 @@
 namespace Kraken\_Unit\Ipc\Socket;
 
 use Kraken\Ipc\Socket\Socket;
+use Kraken\Ipc\Socket\SocketInterface;
 use Kraken\Loop\LoopInterface;
-use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
+use Kraken\Test\TUnit;
 
 class SocketTest extends TUnit
 {
+    /**
+     *
+     */
     public function tearDown()
     {
         $path = str_replace('unix://', '', $this->tempSocketAddress());
+
         if (file_exists($path))
         {
             unlink($path);
         }
+
+        parent::tearDown();
     }
 
-    public function testConstructor()
+    /**
+     *
+     */
+    public function testApiConstructor_CreatesInstance()
     {
         $server = stream_socket_server($this->tempSocketAddress());
         $socket = $this->createSocketMock();
+
+        $this->assertInstanceOf(Socket::class, $socket);
+        $this->assertInstanceOf(SocketInterface::class, $socket);
     }
 
-    public function testConstructor_ThrowsException_WhenNoServerExists()
+    /**
+     *
+     */
+    public function testApiConstructor_ThrowsException_WhenNoServerExists()
     {
         $this->setExpectedException(InstantiationException::class);
+        $this->createSocketMock();
+    }
+
+    /**
+     *
+     */
+    public function testApiConstructor_ThrowsException_OnInvalidResource()
+    {
+        $this->setExpectedException(InstantiationException::class);
+        $this->createSocketMock('invalid');
+    }
+
+    /**
+     *
+     */
+    public function testDestructor_DoesNotThrowException()
+    {
+        $server = stream_socket_server($this->tempSocketAddress());
         $socket = $this->createSocketMock();
+
+        unset($socket);
     }
 
-    public function testConstructor_ThrowsException_OnInvalidResource()
+    /**
+     *
+     */
+    public function testApiStop_StopsSocket()
     {
-        $this->setExpectedException(InstantiationException::class);
-        $socket = $this->createSocketMock('invalid');
+        $server = stream_socket_server($this->tempSocketAddress());
+        $socket = $this->createSocketMock();
+
+        $this->assertTrue($socket->isOpen());
+        $socket->stop();
+        $this->assertFalse($socket->isOpen());
     }
 
-    public function testApiGetLocalEndpoint_ReturnsValidEndpoint()
+    /**
+     *
+     */
+    public function testApiGetLocalEndpoint_ReturnsEndpoint()
     {
         $server = stream_socket_server($this->tempSocketRemoteAddress());
         $socket = $this->createSocketMock($this->tempSocketRemoteAddress());
@@ -44,7 +90,10 @@ class SocketTest extends TUnit
         $this->assertRegExp('#^tcp://(([0-9]*?)\.){3}([0-9]*?):([0-9]*?)$#si', $socket->getLocalEndpoint());
     }
 
-    public function testApiGetRemoteEndpoint_ReturnsValidEndpoint()
+    /**
+     *
+     */
+    public function testApiGetRemoteEndpoint_ReturnsEndpoint()
     {
         $remote = $this->tempSocketRemoteAddress();
         $server = stream_socket_server($remote);
@@ -53,7 +102,10 @@ class SocketTest extends TUnit
         $this->assertEquals($remote, $socket->getRemoteEndpoint());
     }
 
-    public function testApiGetLocalAddress_ReturnsValidAddress()
+    /**
+     *
+     */
+    public function testApiGetLocalAddress_ReturnsAddress()
     {
         $server = stream_socket_server($this->tempSocketRemoteAddress());
         $socket = $this->createSocketMock($this->tempSocketRemoteAddress());
@@ -63,7 +115,10 @@ class SocketTest extends TUnit
         $this->assertRegExp($pattern, $socket->getLocalAddress());
     }
 
-    public function testApiGetRemoteAddress_ReturnsValidAddress()
+    /**
+     *
+     */
+    public function testApiGetRemoteAddress_ReturnsAddress()
     {
         $remote = $this->tempSocketRemoteAddress();
         $server = stream_socket_server($remote);
@@ -110,6 +165,6 @@ class SocketTest extends TUnit
      */
     private function tempSocketRemoteAddress()
     {
-        return 'tcp://127.0.0.1:2080';
+        return 'tcp://127.0.0.1:10080';
     }
 }

@@ -6,7 +6,6 @@ use Kraken\Event\BaseEventEmitter;
 use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Throwable\Exception\LogicException;
-use Kraken\Throwable\Exception\RuntimeException;
 use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
 use Error;
@@ -87,6 +86,15 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
      * @override
      * @inheritDoc
      */
+    public function stop()
+    {
+        $this->close();
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
     public function getLocalEndpoint()
     {
         return $this->parseEndpoint();
@@ -125,7 +133,9 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
      */
     public function getStreamType()
     {
-        return $this->getMetadata()['stream_type'];
+        $data = $this->getMetadata();
+
+        return isset($data['stream_type']) ? $data['stream_type'] : 'undefined';
     }
 
     /**
@@ -134,7 +144,9 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
      */
     public function getWrapperType()
     {
-        return $this->getMetadata()['wrapper_type'];
+        $data = $this->getMetadata();
+
+        return isset($data['wrapper_type']) ? $data['wrapper_type'] : 'undefined';
     }
 
     /**

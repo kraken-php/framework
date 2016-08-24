@@ -52,6 +52,15 @@ class Socket extends AsyncStream implements SocketInterface
      * @override
      * @inheritDoc
      */
+    public function stop()
+    {
+        $this->close();
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
     public function getLocalEndpoint()
     {
         return $this->parseEndpoint(false);
