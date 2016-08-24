@@ -15,7 +15,7 @@ use StdClass;
 
 /**
  * @link http://tools.ietf.org/html/rfc6455
- * @todo Unicode: return mb_convert_encoding(pack("N",$u), mb_internal_encoding(), 'UCS-4BE');
+ * @TODO KRF-345
  */
 class Version extends RFC6455 implements VersionInterface
 {
@@ -90,11 +90,21 @@ class Version extends RFC6455 implements VersionInterface
 
     /**
      * @override
+     * @inheritDoc
      */
     public function isRequestSupported(HttpRequestInterface $request)
     {
         $version = (int)(string)$request->getHeaderLine('Sec-WebSocket-Version');
 
         return $this->getVersionNumber() === $version;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getVersionNumber()
+    {
+        return 13;
     }
 }

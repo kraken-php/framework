@@ -85,6 +85,15 @@ class WsServer implements WsServerInterface, TransferComponentAwareInterface
      * @override
      * @inheritDoc
      */
+    public function getDriver()
+    {
+        return $this->wsDriver;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
     public function handleConnect(TransferConnectionInterface $conn)
     {
         $conn->WebSocket = new StdClass();
@@ -159,7 +168,7 @@ class WsServer implements WsServerInterface, TransferComponentAwareInterface
     {
         $request = $conn->WebSocket->request;
 
-        if (!$this->wsDriver->isVersionEnabled($request))
+        if (!$this->wsDriver->checkVersion($request))
         {
             return $this->close($conn);
         }
@@ -200,15 +209,6 @@ class WsServer implements WsServerInterface, TransferComponentAwareInterface
         $upgraded->WebSocket->established = true;
 
         $this->wsServer->handleConnect($upgraded);
-    }
-
-    /**
-     * @override
-     * @inheritDoc
-     */
-    public function getDriver()
-    {
-        return $this->wsDriver;
     }
 
 //    /**
@@ -260,7 +260,7 @@ class WsServer implements WsServerInterface, TransferComponentAwareInterface
             'Sec-WebSocket-Version' => $this->wsDriver->getVersionHeader()
         ]);
 
-        $conn->send((string) $response);
+        $conn->send($response);
         $conn->close();
 
         unset($conn->WebSocket);

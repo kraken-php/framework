@@ -20,7 +20,7 @@ interface VersionManagerInterface
      * @param HttpRequestInterface $request
      * @return bool
      */
-    public function isVersionEnabled(HttpRequestInterface $request);
+    public function checkVersion(HttpRequestInterface $request);
 
     /**
      * Enable support for a specific version of the WebSocket protocol.

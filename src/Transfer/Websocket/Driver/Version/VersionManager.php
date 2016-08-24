@@ -55,7 +55,7 @@ class VersionManager implements VersionManagerInterface
      * @override
      * @inheritDoc
      */
-    public function isVersionEnabled(HttpRequestInterface $request)
+    public function checkVersion(HttpRequestInterface $request)
     {
         return $this->getVersion($request) !== null;
     }

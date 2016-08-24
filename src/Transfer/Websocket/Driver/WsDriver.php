@@ -33,7 +33,7 @@ class WsDriver implements WsDriverInterface
 
         $this->versioner
             ->enableVersion(new RFC6455\Version($this->validator))
-            ->enableVersion(new HyBi10\Version($this->validator))
+            ->enableVersion(new  HyBi10\Version($this->validator))
         ;
     }
 
@@ -70,9 +70,9 @@ class WsDriver implements WsDriverInterface
      * @override
      * @inheritDoc
      */
-    public function isVersionEnabled(HttpRequestInterface $request)
+    public function checkVersion(HttpRequestInterface $request)
     {
-        return $this->versioner->isVersionEnabled($request);
+        return $this->versioner->checkVersion($request);
     }
 
     /**
