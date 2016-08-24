@@ -112,5 +112,6 @@ class StreamWriter extends StreamSeeker implements StreamWriterInterface
 
         $this->emit('close', [ $this ]);
         $this->handleClose();
+        $this->emit('done', [ $this ]);
     }
 }

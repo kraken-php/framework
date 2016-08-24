@@ -182,6 +182,7 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
 
         $this->emit('close', [ $this ]);
         $this->handleClose();
+        $this->emit('done', [ $this ]);
     }
 
     /**

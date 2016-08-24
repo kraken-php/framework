@@ -5,6 +5,7 @@ namespace Kraken\Stream;
 /**
  * @event error : callable(object, Error|Exception)
  * @event close : callable(object)
+ * @event done  : callable(object)
  */
 interface StreamBaseInterface
 {
