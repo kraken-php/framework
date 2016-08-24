@@ -5,7 +5,7 @@ namespace Kraken\_Unit\Transfer;
 use Kraken\Ipc\Socket\SocketListener;
 use Kraken\Loop\Loop;
 use Kraken\Transfer\Http\Component\Router\HttpRouter;
-use Kraken\Transfer\TransferComponentInterface;
+use Kraken\Transfer\ServerComponentInterface;
 use Kraken\Transfer\TransferServer;
 use Kraken\Transfer\TransferServerInterface;
 use Kraken\Test\TUnit;
@@ -43,7 +43,7 @@ class TransferServerTest extends TUnit
     public function testApiAddRoute_CallsMethodOnRouter()
     {
         $path = 'path';
-        $component = $this->getMock(TransferComponentInterface::class, [], [], '', false);
+        $component = $this->getMock(ServerComponentInterface::class, [], [], '', false);
 
         $server = $this->createTransferServer();
         $router = $this->createRouter([ 'addRoute' ]);
@@ -72,6 +72,20 @@ class TransferServerTest extends TUnit
             ->will($this->returnValue($router));
 
         $this->assertSame($router, $server->removeRoute($path));
+    }
+
+    /**
+     *
+     */
+    public function testApiStop_CallsMethodOnListener()
+    {
+        $server = $this->createTransferServer();
+        $router = $this->createListener([ 'close' ]);
+        $router
+            ->expects($this->once())
+            ->method('close');
+
+        $server->stop();
     }
 
     /**

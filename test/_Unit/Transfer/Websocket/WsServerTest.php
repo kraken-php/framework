@@ -11,8 +11,8 @@ use Kraken\Transfer\Websocket\WsServer;
 use Kraken\Transfer\Websocket\WsServerInterface;
 use Kraken\Transfer\TransferConnectionInterface;
 use Kraken\Transfer\TransferMessage;
-use Kraken\Transfer\TransferComponentAwareInterface;
-use Kraken\Transfer\TransferComponentInterface;
+use Kraken\Transfer\ServerComponentAwareInterface;
+use Kraken\Transfer\ServerComponentInterface;
 use Kraken\Test\TUnit;
 use Exception;
 use StdClass;
@@ -35,8 +35,8 @@ class WsServerTest extends TUnit
 
         $this->assertInstanceOf(WsServer::class, $server);
         $this->assertInstanceOf(WsServerInterface::class, $server);
-        $this->assertInstanceOf(TransferComponentAwareInterface::class, $server);
-        $this->assertInstanceOf(TransferComponentInterface::class, $server);
+        $this->assertInstanceOf(ServerComponentAwareInterface::class, $server);
+        $this->assertInstanceOf(ServerComponentInterface::class, $server);
     }
 
     /**
@@ -370,24 +370,24 @@ class WsServerTest extends TUnit
     }
 
     /**
-     * @return TransferComponentAwareInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return ServerComponentAwareInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createAware()
     {
-        return $this->getMock(TransferComponentAwareInterface::class, [], [], '', false);
+        return $this->getMock(ServerComponentAwareInterface::class, [], [], '', false);
     }
 
     /**
-     * @return TransferComponentInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return ServerComponentInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createComponent()
     {
-        return $this->getMock(TransferComponentInterface::class, [], [], '', false);
+        return $this->getMock(ServerComponentInterface::class, [], [], '', false);
     }
 
     /**
-     * @param TransferComponentAwareInterface $aware
-     * @param TransferComponentInterface $component
+     * @param ServerComponentAwareInterface $aware
+     * @param ServerComponentInterface $component
      * @param string[]|null $methods
      * @return WsServer|\PHPUnit_Framework_MockObject_MockObject
      */

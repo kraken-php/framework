@@ -25,11 +25,20 @@ class HttpRequest extends Request implements HttpRequestInterface, TransferMessa
         return sprintf(
             "%s %s HTTP/%s\r\n%s\r\n%s",
             $this->getMethod(),
-            $this->getRequestTarget(),
+            $this->getTarget(),
             $this->getProtocolVersion(),
             $this->encodeHeaders($this->getHeaders()),
             (string) $this->getBody()
         );
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getTarget()
+    {
+        return $this->getRequestTarget();
     }
 
     /**

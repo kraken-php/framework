@@ -25,6 +25,13 @@ interface SimulationInterface extends EventEmitterInterface
     public function fail($message);
 
     /**
+     * @param mixed $expected
+     * @param mixed $actual
+     * @param string $message
+     */
+    public function assertSame($expected, $actual, $message = 'Assertion failed');
+
+    /**
      * @param string $name
      * @param mixed $data
      */

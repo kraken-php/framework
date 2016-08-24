@@ -19,4 +19,11 @@ interface HttpRequestInterface extends RequestInterface
      * @return string
      */
     public function encode();
+
+    /**
+     * Return request target.
+     *
+     * @return string
+     */
+    public function getTarget();
 }

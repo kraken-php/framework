@@ -2,22 +2,22 @@
 
 namespace Kraken\Transfer\Http\Component\Session;
 
-use Kraken\Throwable\Exception\RuntimeException;
 use Kraken\Transfer\Null\NullServer;
-use Kraken\Transfer\TransferComponentAwareInterface;
+use Kraken\Transfer\ServerComponentAwareInterface;
 use Kraken\Transfer\TransferConnectionInterface;
 use Kraken\Transfer\TransferMessageInterface;
-use Kraken\Transfer\TransferComponentInterface;
+use Kraken\Transfer\ServerComponentInterface;
+use Kraken\Throwable\Exception\RuntimeException;
 use Ratchet\Session\Serialize\HandlerInterface;
 use Ratchet\Session\Storage\VirtualSessionStorage;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\NullSessionHandler;
 use SessionHandlerInterface;
 
-class HttpSession implements HttpSessionInterface, TransferComponentAwareInterface
+class HttpSession implements HttpSessionInterface, ServerComponentAwareInterface
 {
     /**
-     * @var TransferComponentInterface
+     * @var ServerComponentInterface
      */
     protected $component;
 
@@ -37,14 +37,14 @@ class HttpSession implements HttpSessionInterface, TransferComponentAwareInterfa
     protected $serializer;
 
     /**
-     * @param TransferComponentAwareInterface $aware
-     * @param TransferComponentInterface $component
+     * @param ServerComponentAwareInterface $aware
+     * @param ServerComponentInterface $component
      * @param SessionHandlerInterface $handler
      * @param string[] $options
      * @param HandlerInterface $serializer
      * @throws RuntimeException
      */
-    public function __construct(TransferComponentAwareInterface $aware, TransferComponentInterface $component, SessionHandlerInterface $handler, $options = [], HandlerInterface $serializer = null)
+    public function __construct(ServerComponentAwareInterface $aware, ServerComponentInterface $component, SessionHandlerInterface $handler, $options = [], HandlerInterface $serializer = null)
     {
         $this->component = $component;
         $this->handler = $handler;
@@ -90,7 +90,7 @@ class HttpSession implements HttpSessionInterface, TransferComponentAwareInterfa
      * @override
      * @inheritDoc
      */
-    public function setComponent(TransferComponentInterface $component = null)
+    public function setComponent(ServerComponentInterface $component = null)
     {
         $this->component = $component === null ? new NullServer() : $component;
     }

@@ -6,11 +6,11 @@ use Kraken\Ipc\Socket\SocketInterface;
 use Kraken\Ipc\Socket\SocketListener;
 use Kraken\Ipc\Socket\SocketListenerInterface;
 use Kraken\Transfer\Null\NullServer;
-use Kraken\Transfer\Socket\SocketConnection;
 use Kraken\Transfer\Socket\SocketServer;
 use Kraken\Transfer\Socket\SocketServerInterface;
-use Kraken\Transfer\TransferComponentAwareInterface;
-use Kraken\Transfer\TransferComponentInterface;
+use Kraken\Transfer\ServerComponentAwareInterface;
+use Kraken\Transfer\ServerComponentInterface;
+use Kraken\Transfer\TransferConnection;
 use Kraken\Transfer\TransferMessage;
 use Kraken\Test\TUnit;
 use Exception;
@@ -28,7 +28,7 @@ class SocketServerTest extends TUnit
 
         $this->assertInstanceOf(SocketServer::class, $server);
         $this->assertInstanceOf(SocketServerInterface::class, $server);
-        $this->assertInstanceOf(TransferComponentAwareInterface::class, $server);
+        $this->assertInstanceOf(ServerComponentAwareInterface::class, $server);
     }
 
     /**
@@ -91,7 +91,7 @@ class SocketServerTest extends TUnit
         $component
             ->expects($this->once())
             ->method('handleConnect')
-            ->with($this->isInstanceOf(SocketConnection::class));
+            ->with($this->isInstanceOf(TransferConnection::class));
 
         $socket = $socket = $this->getMock(SocketInterface::class, [], [], '', false);
 
@@ -138,7 +138,7 @@ class SocketServerTest extends TUnit
         $component
             ->expects($this->once())
             ->method('handleConnect')
-            ->with($this->isInstanceOf(SocketConnection::class))
+            ->with($this->isInstanceOf(TransferConnection::class))
             ->will($this->throwException(new Exception));
 
         $socket = $this->getMock(SocketInterface::class, [], [], '', false);
@@ -162,10 +162,10 @@ class SocketServerTest extends TUnit
         $component
             ->expects($this->once())
             ->method('handleDisconnect')
-            ->with($this->isInstanceOf(SocketConnection::class));
+            ->with($this->isInstanceOf(TransferConnection::class));
 
         $socket = $this->getMock(SocketInterface::class, [], [], '', false);
-        $socket->conn = new SocketConnection($socket);
+        $socket->conn = new TransferConnection($socket);
 
         $server = $this->createSocketServer($listener, $component);
 
@@ -182,11 +182,11 @@ class SocketServerTest extends TUnit
         $component
             ->expects($this->once())
             ->method('handleDisconnect')
-            ->with($this->isInstanceOf(SocketConnection::class))
+            ->with($this->isInstanceOf(TransferConnection::class))
             ->will($this->throwException($ex = new Exception));
 
         $socket = $this->getMock(SocketInterface::class, [], [], '', false);
-        $socket->conn = new SocketConnection($socket);
+        $socket->conn = new TransferConnection($socket);
 
         $server = $this->createSocketServer($listener, $component, [ 'handleError' ]);
         $server
@@ -208,12 +208,12 @@ class SocketServerTest extends TUnit
             ->expects($this->once())
             ->method('handleMessage')
             ->with(
-                $this->isInstanceOf(SocketConnection::class),
+                $this->isInstanceOf(TransferConnection::class),
                 $this->isInstanceOf(TransferMessage::class)
             );
 
         $socket = $this->getMock(SocketInterface::class, [], [], '', false);
-        $socket->conn = new SocketConnection($socket);
+        $socket->conn = new TransferConnection($socket);
 
         $server = $this->createSocketServer($listener, $component);
 
@@ -233,13 +233,13 @@ class SocketServerTest extends TUnit
             ->expects($this->once())
             ->method('handleMessage')
             ->with(
-                $this->isInstanceOf(SocketConnection::class),
+                $this->isInstanceOf(TransferConnection::class),
                 $this->isInstanceOf(TransferMessage::class)
             )
             ->will($this->throwException($ex = new Exception));
 
         $socket = $this->getMock(SocketInterface::class, [], [], '', false);
-        $socket->conn = new SocketConnection($socket);
+        $socket->conn = new TransferConnection($socket);
 
         $server = $this->createSocketServer($listener, $component, [ 'handleError' ]);
         $server
@@ -261,12 +261,12 @@ class SocketServerTest extends TUnit
             ->expects($this->once())
             ->method('handleError')
             ->with(
-                $this->isInstanceOf(SocketConnection::class),
+                $this->isInstanceOf(TransferConnection::class),
                 $this->isInstanceOf(Exception::class)
             );
 
         $socket = $this->getMock(SocketInterface::class, [], [], '', false);
-        $socket->conn = new SocketConnection($socket);
+        $socket->conn = new TransferConnection($socket);
 
         $server = $this->createSocketServer($listener, $component);
 
@@ -287,13 +287,13 @@ class SocketServerTest extends TUnit
             ->expects($this->once())
             ->method('handleError')
             ->with(
-                $this->isInstanceOf(SocketConnection::class),
+                $this->isInstanceOf(TransferConnection::class),
                 $ex2
             )
             ->will($this->throwException($ex1));
 
         $socket = $this->getMock(SocketInterface::class, [], [], '', false);
-        $socket->conn = new SocketConnection($socket);
+        $socket->conn = new TransferConnection($socket);
 
         $server = $this->createSocketServer($listener, $component, [ 'close' ]);
         $server
@@ -322,11 +322,11 @@ class SocketServerTest extends TUnit
     }
 
     /**
-     * @return TransferComponentInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return ServerComponentInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createComponent()
     {
-        return $this->getMock(TransferComponentInterface::class, [], [], '', false);
+        return $this->getMock(ServerComponentInterface::class, [], [], '', false);
     }
 
     /**
@@ -339,7 +339,7 @@ class SocketServerTest extends TUnit
 
     /**
      * @param SocketListenerInterface $listener
-     * @param TransferComponentInterface $component
+     * @param ServerComponentInterface $component
      * @param string[]|null $methods
      * @return SocketServer|\PHPUnit_Framework_MockObject_MockObject
      */

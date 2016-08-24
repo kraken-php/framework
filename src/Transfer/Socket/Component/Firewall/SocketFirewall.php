@@ -3,15 +3,15 @@
 namespace Kraken\Transfer\Socket\Component\Firewall;
 
 use Kraken\Transfer\Null\NullServer;
-use Kraken\Transfer\TransferComponentAwareInterface;
+use Kraken\Transfer\ServerComponentAwareInterface;
 use Kraken\Transfer\TransferConnectionInterface;
 use Kraken\Transfer\TransferMessageInterface;
-use Kraken\Transfer\TransferComponentInterface;
+use Kraken\Transfer\ServerComponentInterface;
 
-class SocketFirewall implements SocketFirewallInterface, TransferComponentAwareInterface
+class SocketFirewall implements SocketFirewallInterface, ServerComponentAwareInterface
 {
     /**
-     * @var TransferComponentInterface
+     * @var ServerComponentInterface
      */
     protected $component;
 
@@ -21,10 +21,10 @@ class SocketFirewall implements SocketFirewallInterface, TransferComponentAwareI
     protected $blacklist;
 
     /**
-     * @param TransferComponentAwareInterface|null $aware
-     * @param TransferComponentInterface|null $component
+     * @param ServerComponentAwareInterface|null $aware
+     * @param ServerComponentInterface|null $component
      */
-    public function __construct(TransferComponentAwareInterface $aware = null, TransferComponentInterface $component = null)
+    public function __construct(ServerComponentAwareInterface $aware = null, ServerComponentInterface $component = null)
     {
         $this->aware = $aware;
         $this->component = $component;
@@ -49,7 +49,7 @@ class SocketFirewall implements SocketFirewallInterface, TransferComponentAwareI
      * @override
      * @inheritDoc
      */
-    public function setComponent(TransferComponentInterface $component = null)
+    public function setComponent(ServerComponentInterface $component = null)
     {
         $this->component = $component === null ? new NullServer() : $component;
     }

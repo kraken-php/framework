@@ -3,11 +3,11 @@
 namespace Kraken\_Unit\Transfer\Socket;
 
 use Kraken\Ipc\Socket\SocketInterface;
-use Kraken\Transfer\Socket\SocketConnection;
+use Kraken\Transfer\TransferConnection;
 use Kraken\Transfer\TransferConnectionInterface;
 use Kraken\Test\TUnit;
 
-class SocketConnectionTest extends TUnit
+class TransferConnectionTest extends TUnit
 {
     /**
      *
@@ -15,9 +15,9 @@ class SocketConnectionTest extends TUnit
     public function testApiConstructor_CreatesInstance()
     {
         $socket = $this->createSocket();
-        $conn = $this->createSocketConnection($socket);
+        $conn = $this->createTransferConnection($socket);
 
-        $this->assertInstanceOf(SocketConnection::class, $conn);
+        $this->assertInstanceOf(TransferConnection::class, $conn);
         $this->assertInstanceOf(TransferConnectionInterface::class, $conn);
     }
 
@@ -27,7 +27,7 @@ class SocketConnectionTest extends TUnit
     public function testApiDestructor_DoesNotThrowException()
     {
         $socket = $this->createSocket();
-        $conn = $this->createSocketConnection($socket);
+        $conn = $this->createTransferConnection($socket);
         unset($conn);
     }
 
@@ -43,7 +43,7 @@ class SocketConnectionTest extends TUnit
             ->method('getResourceId')
             ->will($this->returnValue($resource));
 
-        $conn = $this->createSocketConnection($socket);
+        $conn = $this->createTransferConnection($socket);
 
         $this->assertSame($resource, $conn->getResourceId());
     }
@@ -60,7 +60,7 @@ class SocketConnectionTest extends TUnit
             ->method('getRemoteEndpoint')
             ->will($this->returnValue($endpoint));
 
-        $conn = $this->createSocketConnection($socket);
+        $conn = $this->createTransferConnection($socket);
 
         $this->assertSame($endpoint, $conn->getEndpoint());
     }
@@ -77,7 +77,7 @@ class SocketConnectionTest extends TUnit
             ->method('getRemoteAddress')
             ->will($this->returnValue($address));
 
-        $conn = $this->createSocketConnection($socket);
+        $conn = $this->createTransferConnection($socket);
 
         $this->assertSame($address, $conn->getAddress());
     }
@@ -94,7 +94,7 @@ class SocketConnectionTest extends TUnit
             ->method('getRemoteAddress')
             ->will($this->returnValue($address));
 
-        $conn = $this->createSocketConnection($socket);
+        $conn = $this->createTransferConnection($socket);
 
         $this->assertSame('host', $conn->getHost());
     }
@@ -111,7 +111,7 @@ class SocketConnectionTest extends TUnit
             ->method('getRemoteAddress')
             ->will($this->returnValue($address));
 
-        $conn = $this->createSocketConnection($socket);
+        $conn = $this->createTransferConnection($socket);
 
         $this->assertSame('port', $conn->getPort());
     }
@@ -128,7 +128,7 @@ class SocketConnectionTest extends TUnit
             ->method('write')
             ->with($data);
 
-        $conn = $this->createSocketConnection($socket);
+        $conn = $this->createTransferConnection($socket);
         $conn->send($data);
     }
 
@@ -142,7 +142,7 @@ class SocketConnectionTest extends TUnit
             ->expects($this->once())
             ->method('close');
 
-        $conn = $this->createSocketConnection($socket);
+        $conn = $this->createTransferConnection($socket);
         $conn->close();
     }
 
@@ -156,10 +156,10 @@ class SocketConnectionTest extends TUnit
 
     /**
      * @param SocketInterface $socket
-     * @return SocketConnection
+     * @return TransferConnection
      */
-    public function createSocketConnection(SocketInterface $socket)
+    public function createTransferConnection(SocketInterface $socket)
     {
-        return new SocketConnection($socket);
+        return new TransferConnection($socket);
     }
 }

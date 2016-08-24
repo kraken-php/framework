@@ -2,7 +2,7 @@
 
 namespace Kraken\Transfer\Websocket;
 
-use Kraken\Transfer\TransferComponentAwareInterface;
+use Kraken\Transfer\ServerComponentAwareInterface;
 use Kraken\Transfer\Http\HttpRequestInterface;
 use Kraken\Transfer\Http\HttpResponse;
 use Kraken\Transfer\Null\NullServer;
@@ -10,7 +10,7 @@ use Kraken\Transfer\Websocket\Driver\WsDriver;
 use Kraken\Transfer\Websocket\Driver\WsDriverInterface;
 use Kraken\Transfer\TransferConnectionInterface;
 use Kraken\Transfer\TransferMessageInterface;
-use Kraken\Transfer\TransferComponentInterface;
+use Kraken\Transfer\ServerComponentInterface;
 use Error;
 use Exception;
 use SplObjectStorage;
@@ -20,10 +20,10 @@ use StdClass;
  * @link http://ca.php.net/manual/en/ref.http.php
  * @link http://dev.w3.org/html5/websockets/
  */
-class WsServer implements WsServerInterface, TransferComponentAwareInterface
+class WsServer implements WsServerInterface, ServerComponentAwareInterface
 {
     /**
-     * @var TransferComponentInterface
+     * @var ServerComponentInterface
      */
     protected $wsServer;
 
@@ -38,10 +38,10 @@ class WsServer implements WsServerInterface, TransferComponentAwareInterface
     protected $connCollection;
 
     /**
-     * @param TransferComponentAwareInterface|null $aware
-     * @param TransferComponentInterface|null $component
+     * @param ServerComponentAwareInterface|null $aware
+     * @param ServerComponentInterface|null $component
      */
-    public function __construct(TransferComponentAwareInterface $aware = null, TransferComponentInterface $component = null)
+    public function __construct(ServerComponentAwareInterface $aware = null, ServerComponentInterface $component = null)
     {
         $this->wsServer = $component === null ? new NullServer() : $component;
         $this->wsDriver = new WsDriver();
@@ -67,7 +67,7 @@ class WsServer implements WsServerInterface, TransferComponentAwareInterface
      * @override
      * @inheritDoc
      */
-    public function setComponent(TransferComponentInterface $component = null)
+    public function setComponent(ServerComponentInterface $component = null)
     {
         $this->wsServer = $component === null ? new NullServer() : $component;
     }

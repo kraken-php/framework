@@ -6,7 +6,7 @@ use Kraken\Transfer\Http\HttpRequestInterface;
 use Error;
 use Exception;
 
-interface TransferComponentInterface
+interface ServerComponentInterface
 {
     /**
      * When a new connection is opened it will be passed to this method.

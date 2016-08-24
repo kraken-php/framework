@@ -1,11 +1,10 @@
 <?php
 
-namespace Kraken\Transfer\Socket;
+namespace Kraken\Transfer;
 
 use Kraken\Ipc\Socket\SocketInterface;
-use Kraken\Transfer\TransferConnectionInterface;
 
-class SocketConnection implements TransferConnectionInterface
+class TransferConnection implements TransferConnectionInterface
 {
     /**
      * @var SocketInterface

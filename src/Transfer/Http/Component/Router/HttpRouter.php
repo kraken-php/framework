@@ -4,11 +4,10 @@ namespace Kraken\Transfer\Http\Component\Router;
 
 use Kraken\Transfer\Http\HttpRequestInterface;
 use Kraken\Transfer\Http\HttpResponse;
-use Kraken\Transfer\Null\NullServer;
-use Kraken\Transfer\TransferComponentAwareInterface;
+use Kraken\Transfer\ServerComponentAwareInterface;
 use Kraken\Transfer\TransferConnectionInterface;
 use Kraken\Transfer\TransferMessageInterface;
-use Kraken\Transfer\TransferComponentInterface;
+use Kraken\Transfer\ServerComponentInterface;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
@@ -42,11 +41,11 @@ class HttpRouter implements HttpRouterInterface
     protected $allowedOrigins;
 
     /**
-     * @param TransferComponentAwareInterface $aware
+     * @param ServerComponentAwareInterface $aware
      * @param RouteCollection|null $routes
      * @param RequestContext|null $context
      */
-    public function __construct(TransferComponentAwareInterface $aware = null, RouteCollection $routes = null, RequestContext $context = null)
+    public function __construct(ServerComponentAwareInterface $aware = null, RouteCollection $routes = null, RequestContext $context = null)
     {
         $this->routes = ($routes !== null) ? $routes : new RouteCollection();
         $this->context = ($context !== null) ? $context : new RequestContext();
@@ -120,14 +119,14 @@ class HttpRouter implements HttpRouterInterface
      * @override
      * @inheritDoc
      */
-    public function addRoute($path, TransferComponentInterface $component)
+    public function addRoute($path, ServerComponentInterface $component)
     {
         $this->routes->add(
             $path,
             new Route(
                 $path,
                 [ '_controller' => $component ],
-                [ 'Origin' => '127.0.0.1' ],
+                [ 'Origin' => 'localhost' ],
                 [],
                 'localhost'
             )
@@ -259,7 +258,7 @@ class HttpRouter implements HttpRouterInterface
     {
         $response = new HttpResponse($code);
 
-        $conn->send((string)$response);
+        $conn->send($response);
         $conn->close();
     }
 }

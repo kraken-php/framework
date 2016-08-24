@@ -2,21 +2,21 @@
 
 namespace Kraken\Transfer\Http;
 
-use Kraken\Transfer\TransferComponentAwareInterface;
+use Kraken\Transfer\ServerComponentAwareInterface;
 use Kraken\Transfer\Http\Driver\HttpDriver;
 use Kraken\Transfer\Http\Driver\HttpDriverInterface;
 use Kraken\Transfer\Null\NullServer;
 use Kraken\Transfer\TransferMessageInterface;
-use Kraken\Transfer\TransferComponentInterface;
+use Kraken\Transfer\ServerComponentInterface;
 use Kraken\Transfer\TransferConnectionInterface;
 use Kraken\Util\Buffer\Buffer;
 use Error;
 use Exception;
 
-class HttpServer implements HttpServerInterface, TransferComponentAwareInterface
+class HttpServer implements HttpServerInterface, ServerComponentAwareInterface
 {
     /**
-     * @var TransferComponentInterface
+     * @var ServerComponentInterface
      */
     protected $httpServer;
 
@@ -26,10 +26,10 @@ class HttpServer implements HttpServerInterface, TransferComponentAwareInterface
     protected $httpDriver;
 
     /**
-     * @param TransferComponentAwareInterface|null $aware
-     * @param TransferComponentInterface|null $component
+     * @param ServerComponentAwareInterface|null $aware
+     * @param ServerComponentInterface|null $component
      */
-    public function __construct(TransferComponentAwareInterface $aware = null, TransferComponentInterface $component = null)
+    public function __construct(ServerComponentAwareInterface $aware = null, ServerComponentInterface $component = null)
     {
         $this->httpServer = $component;
         $this->httpDriver = new HttpDriver();
@@ -62,7 +62,7 @@ class HttpServer implements HttpServerInterface, TransferComponentAwareInterface
      * @override
      * @inheritDoc
      */
-    public function setComponent(TransferComponentInterface $component = null)
+    public function setComponent(ServerComponentInterface $component = null)
     {
         $this->httpServer = $component === null ? new NullServer() : $component;
     }

@@ -72,7 +72,7 @@ class TransferServer implements TransferServerInterface
      * @override
      * @inheritDoc
      */
-    public function addRoute($path, TransferComponentInterface $component)
+    public function addRoute($path, ServerComponentInterface $component)
     {
         return $this->router->addRoute($path, $component);
     }
@@ -84,6 +84,15 @@ class TransferServer implements TransferServerInterface
     public function removeRoute($path)
     {
         return $this->router->removeRoute($path);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function stop()
+    {
+        $this->listener->close();
     }
 
     /**

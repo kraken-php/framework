@@ -136,6 +136,22 @@ class Simulation extends BaseEventEmitter implements SimulationInterface
     }
 
     /**
+     * @param mixed $expected
+     * @param mixed $actual
+     * @param string $message
+     */
+    public function assertSame($expected, $actual, $message = "Assertion failed, expected \"%s\" got \"%s\"")
+    {
+        if ($expected !== $actual)
+        {
+            $stringExpected = (is_object($expected) || is_array($expected)) ? json_encode($expected) : (string) $expected;
+            $stringActual   = (is_object($actual)   || is_array($actual))   ? json_encode($actual)   : (string) $actual;
+
+            $this->fail(sprintf($message, $stringExpected, $stringActual));
+        }
+    }
+
+    /**
      * @param string $name
      * @param mixed $data
      */

@@ -9,5 +9,10 @@ interface TransferServerInterface extends LoopResourceInterface
     /**
      * Close the underlying SocketListner.
      */
+    public function stop();
+
+    /**
+     * Close the underlying SocketListner.
+     */
     public function close();
 }

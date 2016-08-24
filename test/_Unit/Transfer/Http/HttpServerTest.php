@@ -9,8 +9,8 @@ use Kraken\Transfer\Http\HttpResponseInterface;
 use Kraken\Transfer\Http\HttpServer;
 use Kraken\Transfer\Http\HttpServerInterface;
 use Kraken\Transfer\Null\NullServer;
-use Kraken\Transfer\TransferComponentAwareInterface;
-use Kraken\Transfer\TransferComponentInterface;
+use Kraken\Transfer\ServerComponentAwareInterface;
+use Kraken\Transfer\ServerComponentInterface;
 use Kraken\Transfer\TransferConnectionInterface;
 use Kraken\Transfer\TransferMessage;
 use Kraken\Transfer\TransferMessageInterface;
@@ -36,8 +36,8 @@ class HttpServerTest extends TUnit
 
         $this->assertInstanceOf(HttpServer::class, $server);
         $this->assertInstanceOf(HttpServerInterface::class, $server);
-        $this->assertInstanceOf(TransferComponentAwareInterface::class, $server);
-        $this->assertInstanceOf(TransferComponentInterface::class, $server);
+        $this->assertInstanceOf(ServerComponentAwareInterface::class, $server);
+        $this->assertInstanceOf(ServerComponentInterface::class, $server);
     }
 
     /**
@@ -330,24 +330,24 @@ class HttpServerTest extends TUnit
     }
 
     /**
-     * @return TransferComponentAwareInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return ServerComponentAwareInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createAware()
     {
-        return $this->getMock(TransferComponentAwareInterface::class, [], [], '', false);
+        return $this->getMock(ServerComponentAwareInterface::class, [], [], '', false);
     }
 
     /**
-     * @return TransferComponentInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return ServerComponentInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createComponent()
     {
-        return $this->getMock(TransferComponentInterface::class, [], [], '', false);
+        return $this->getMock(ServerComponentInterface::class, [], [], '', false);
     }
 
     /**
-     * @param TransferComponentAwareInterface $aware
-     * @param TransferComponentInterface $component
+     * @param ServerComponentAwareInterface $aware
+     * @param ServerComponentInterface $component
      * @param string[]|null $methods
      * @return HttpServer|\PHPUnit_Framework_MockObject_MockObject
      */

@@ -4,13 +4,14 @@ namespace Kraken\Transfer\Socket;
 use Kraken\Ipc\Socket\SocketInterface;
 use Kraken\Ipc\Socket\SocketListenerInterface;
 use Kraken\Transfer\Null\NullServer;
-use Kraken\Transfer\TransferComponentAwareInterface;
+use Kraken\Transfer\ServerComponentAwareInterface;
+use Kraken\Transfer\TransferConnection;
 use Kraken\Transfer\TransferMessage;
-use Kraken\Transfer\TransferComponentInterface;
+use Kraken\Transfer\ServerComponentInterface;
 use Error;
 use Exception;
 
-class SocketServer implements SocketServerInterface, TransferComponentAwareInterface
+class SocketServer implements SocketServerInterface, ServerComponentAwareInterface
 {
     /**
      * @var SocketListenerInterface
@@ -18,15 +19,15 @@ class SocketServer implements SocketServerInterface, TransferComponentAwareInter
     protected $socket;
 
     /**
-     * @var TransferComponentInterface
+     * @var ServerComponentInterface
      */
     protected $component;
 
     /**
-     * @param TransferComponentInterface $component
+     * @param ServerComponentInterface $component
      * @param SocketListenerInterface $socket
      */
-    public function __construct(SocketListenerInterface $socket, TransferComponentInterface $component = null)
+    public function __construct(SocketListenerInterface $socket, ServerComponentInterface $component = null)
     {
 
         $this->socket = $socket;
@@ -48,7 +49,16 @@ class SocketServer implements SocketServerInterface, TransferComponentAwareInter
      * @override
      * @inheritDoc
      */
-    public function setComponent(TransferComponentInterface $component = null)
+    public function stop()
+    {
+        $this->socket->close();
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function setComponent(ServerComponentInterface $component = null)
     {
         $this->component = $component === null ? new NullServer() : $component;
     }
@@ -70,7 +80,7 @@ class SocketServer implements SocketServerInterface, TransferComponentAwareInter
      */
     public function handleConnect($server, $socket)
     {
-        $socket->conn = new SocketConnection($socket);
+        $socket->conn = new TransferConnection($socket);
 
         try
         {

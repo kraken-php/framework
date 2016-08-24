@@ -2,19 +2,19 @@
 
 namespace Kraken\Transfer;
 
-interface TransferComponentAwareInterface
+interface ServerComponentAwareInterface
 {
     /**
      * Set component to which data is being transferred to.
      *
-     * @param TransferComponentInterface|null $component
+     * @param ServerComponentInterface|null $component
      */
-    public function setComponent(TransferComponentInterface $component = null);
+    public function setComponent(ServerComponentInterface $component = null);
 
     /**
      * Get component to which data is being transferred to.
      *
-     * @return TransferComponentInterface|null
+     * @return ServerComponentInterface|null
      */
     public function getComponent();
 }
