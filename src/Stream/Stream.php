@@ -161,7 +161,7 @@ class Stream extends StreamSeeker implements StreamInterface
         $this->readable = false;
         $this->writable = false;
 
-        $this->handleClose();
         $this->emit('close', [ $this ]);
+        $this->handleClose();
     }
 }

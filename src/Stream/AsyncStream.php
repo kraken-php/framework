@@ -175,9 +175,8 @@ class AsyncStream extends Stream implements AsyncStreamInterface
             $this->writeEnd();
         }
 
-        $this->handleClose();
-
         $this->emit('close', [ $this ]);
+        $this->handleClose();
     }
 
     /**

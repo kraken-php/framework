@@ -22,6 +22,11 @@ class Socket extends AsyncStream implements SocketInterface
     const TYPE_TCP = 'tcp_socket/ssl';
 
     /**
+     * @var bool[]
+     */
+    private $cachedEndpoint = [];
+
+    /**
      * @param string|resource $endpointOrResource
      * @param LoopInterface $loop
      * @param mixed[] $config
@@ -83,7 +88,7 @@ class Socket extends AsyncStream implements SocketInterface
     {
         $endpoint = explode('://', $this->getLocalEndpoint(), 2);
 
-        return $endpoint[1];
+        return isset($endpoint[1]) ? $endpoint[1] : $endpoint[0];
     }
 
     /**
@@ -94,7 +99,7 @@ class Socket extends AsyncStream implements SocketInterface
     {
         $endpoint = explode('://', $this->getRemoteEndpoint(), 2);
 
-        return $endpoint[1];
+        return isset($endpoint[1]) ? $endpoint[1] : $endpoint[0];
     }
 
     /**
@@ -179,6 +184,18 @@ class Socket extends AsyncStream implements SocketInterface
      */
     private function parseEndpoint($wantPeer = false)
     {
+        $wantIndex = (int)$wantPeer;
+
+        if (isset($this->cachedEndpoint[$wantIndex]))
+        {
+            return $this->cachedEndpoint[$wantIndex];
+        }
+
+        if (get_resource_type($this->resource) === 'Unknown')
+        {
+            return '';
+        }
+
         $name = stream_socket_get_name($this->resource, $wantPeer);
         $type = $this->getStreamType();
 
@@ -206,6 +223,8 @@ class Socket extends AsyncStream implements SocketInterface
             default:
                 $endpoint = '';
         }
+
+        $this->cachedEndpoint[$wantIndex] = $endpoint;
 
         return $endpoint;
     }

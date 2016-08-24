@@ -180,8 +180,8 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
 
         $this->open = false;
 
-        $this->handleClose();
         $this->emit('close', [ $this ]);
+        $this->handleClose();
     }
 
     /**
