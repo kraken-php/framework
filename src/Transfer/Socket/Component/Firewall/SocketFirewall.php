@@ -67,9 +67,9 @@ class SocketFirewall implements SocketFirewallInterface, ServerComponentAwareInt
      * @override
      * @inheritDoc
      */
-    public function blockAddress($ip)
+    public function blockAddress($address)
     {
-        $this->blacklist[$ip] = true;
+        $this->blacklist[$address] = true;
 
         return $this;
     }
@@ -78,11 +78,11 @@ class SocketFirewall implements SocketFirewallInterface, ServerComponentAwareInt
      * @override
      * @inheritDoc
      */
-    public function unblockAddress($ip)
+    public function unblockAddress($address)
     {
-        if (isset($this->blacklist[$ip]))
+        if (isset($this->blacklist[$address]))
         {
-            unset($this->blacklist[$ip]);
+            unset($this->blacklist[$address]);
         }
 
         return $this;
@@ -92,9 +92,9 @@ class SocketFirewall implements SocketFirewallInterface, ServerComponentAwareInt
      * @override
      * @inheritDoc
      */
-    public function isBlocked($ip)
+    public function isAddressBlocked($address)
     {
-        return isset($this->blacklist[$ip]);
+        return isset($this->blacklist[$address]);
     }
 
     /**
@@ -110,18 +110,9 @@ class SocketFirewall implements SocketFirewallInterface, ServerComponentAwareInt
      * @override
      * @inheritDoc
      */
-    public function filterConnect(TransferConnectionInterface $conn)
-    {
-        return !$this->isBlocked($conn->getHost());
-    }
-
-    /**
-     * @override
-     * @inheritDoc
-     */
     public function handleConnect(TransferConnectionInterface $conn)
     {
-        if ($this->isBlocked($conn->getHost()))
+        if ($this->isAddressBlocked($conn->getHost()))
         {
             return $conn->close();
         }
@@ -135,7 +126,7 @@ class SocketFirewall implements SocketFirewallInterface, ServerComponentAwareInt
      */
     public function handleDisconnect(TransferConnectionInterface $conn)
     {
-        if (!$this->isBlocked($conn->getHost()))
+        if (!$this->isAddressBlocked($conn->getHost()))
         {
             $this->component->handleDisconnect($conn);
         }
@@ -156,7 +147,7 @@ class SocketFirewall implements SocketFirewallInterface, ServerComponentAwareInt
      */
     public function handleError(TransferConnectionInterface $conn, $ex)
     {
-        if (!$this->isBlocked($conn->getHost()))
+        if (!$this->isAddressBlocked($conn->getHost()))
         {
             $this->component->handleError($conn, $ex);
         }

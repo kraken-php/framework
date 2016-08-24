@@ -9,26 +9,26 @@ interface SocketFirewallInterface extends ServerComponentInterface
     /**
      * Add an address to the blacklist that will not be allowed to connect to your application.
      *
-     * @param string $ip
+     * @param string $address
      * @return SocketFirewallInterface
      */
-    public function blockAddress($ip);
+    public function blockAddress($address);
 
     /**
      * Unblock an address so they can access your application again.
      *
-     * @param string $ip
+     * @param string $address
      * @return SocketFirewallInterface
      */
-    public function unblockAddress($ip);
+    public function unblockAddress($address);
 
     /**
-     * Check if given $ip is blocked or not.
+     * Check if given $address is blocked or not.
      *
-     * @param string $ip
+     * @param string $address
      * @return bool
      */
-    public function isBlocked($ip);
+    public function isAddressBlocked($address);
 
     /**
      * Get an array of all the addresses blocked.

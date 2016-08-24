@@ -101,7 +101,7 @@ class HttpRouter implements HttpRouterInterface
      * @override
      * @inheritDoc
      */
-    public function isBlocked($address)
+    public function isAddressBlocked($address)
     {
         return isset($this->allowedOrigins[$address]);
     }
@@ -181,7 +181,7 @@ class HttpRouter implements HttpRouterInterface
         {
             $origin = parse_url($header, PHP_URL_HOST) ?: $header;
 
-            if ($origin !== '' && $this->isBlocked($origin))
+            if ($origin !== '' && $this->isAddressBlocked($origin))
             {
                 return $this->close($conn, 403);
             }
