@@ -20,6 +20,6 @@ class RuntimesStopCommand extends Command implements CommandInterface
             throw new RejectionException('Invalid params.');
         }
 
-        return $this->runtime->manager()->stopRuntime($params['aliases']);
+        return $this->runtime->manager()->stopRuntimes($params['aliases']);
     }
 }

@@ -19,9 +19,9 @@ class Command extends \Kraken\Command\Command implements CommandInterface
      */
     public function __construct($context = [])
     {
-        if (!isset($context['runtime']))
+        if (!isset($context['runtime']) || !$context['runtime'] instanceof RuntimeInterface)
         {
-            throw new InstantiationException('One of the parameters has not been passed to Command.');
+            throw new InstantiationException('Command did not get expected RuntimeInterface.');
         }
 
         $this->runtime = $context['runtime'];
@@ -34,8 +34,8 @@ class Command extends \Kraken\Command\Command implements CommandInterface
      */
     public function __destruct()
     {
-        parent::__destruct();
-
         unset($this->runtime);
+
+        parent::__destruct();
     }
 }

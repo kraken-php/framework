@@ -2,6 +2,7 @@
 
 namespace Kraken\Runtime\Command\Arch;
 
+use Kraken\Channel\ChannelBaseInterface;
 use Kraken\Channel\Extra\Request;
 use Kraken\Runtime\Command\Command;
 use Kraken\Command\CommandInterface;
@@ -21,7 +22,7 @@ class ArchStopCommand extends Command implements CommandInterface
      */
     protected function construct()
     {
-        $this->channel = $this->runtime->core()->make('Kraken\Runtime\Channel\ChannelInterface');
+        $this->channel = $this->runtime->getCore()->make('Kraken\Runtime\Channel\ChannelInterface');
     }
 
     /**
@@ -54,7 +55,7 @@ class ArchStopCommand extends Command implements CommandInterface
 
                     foreach ($children as $childAlias)
                     {
-                        $req = new Request(
+                        $req = $this->createRequest(
                             $channel,
                             $childAlias,
                             new RuntimeCommand('arch:stop')
@@ -74,6 +75,19 @@ class ArchStopCommand extends Command implements CommandInterface
                     throw new RejectionException('Part of architecture could not be stopped.');
                 }
             )
-            ;
+        ;
+    }
+
+    /**
+     * Create Request.
+     *
+     * @param ChannelBaseInterface $channel
+     * @param string $receiver
+     * @param string $command
+     * @return Request
+     */
+    protected function createRequest(ChannelBaseInterface $channel, $receiver, $command)
+    {
+        return new Request($channel, $receiver, $command);
     }
 }

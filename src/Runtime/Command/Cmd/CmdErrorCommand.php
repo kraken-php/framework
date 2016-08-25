@@ -14,14 +14,14 @@ class CmdErrorCommand extends Command implements CommandInterface
     /**
      * @var SupervisorInterface
      */
-    protected $manager;
+    protected $supervisor;
 
     /**
      *
      */
     protected function construct()
     {
-        $this->manager = $this->runtime->core()->make('Kraken\Runtime\Supervisor\SupervisorRemoteInterface');
+        $this->supervisor = $this->runtime->getCore()->make('Kraken\Runtime\Supervisor\SupervisorRemoteInterface');
     }
 
     /**
@@ -29,7 +29,7 @@ class CmdErrorCommand extends Command implements CommandInterface
      */
     protected function destruct()
     {
-        unset($this->manager);
+        unset($this->supervisor);
     }
 
     /**
@@ -44,22 +44,11 @@ class CmdErrorCommand extends Command implements CommandInterface
             throw new RejectionException('Invalid params.');
         }
 
-        $class = $params['exception'];
+        $class   = $params['exception'];
         $message = $params['message'];
-        $origin = $params['origin'];
+        $origin  = $params['origin'];
 
-        try
-        {
-            throw new $class($message);
-        }
-        catch (Error $ex)
-        {
-            $this->handleException($origin, $ex);
-        }
-        catch (Exception $ex)
-        {
-            $this->handleException($origin, $ex);
-        }
+        $this->handleException($origin, new $class($message));
     }
 
     /**
@@ -70,15 +59,15 @@ class CmdErrorCommand extends Command implements CommandInterface
     {
         try
         {
-            $this->manager->handle($ex, [ 'origin' => $origin ]);
+            $this->supervisor->handle($ex, [ 'origin' => $origin ]);
         }
         catch (Error $ex)
         {
-            $this->manager->handle($ex, [ 'origin' => $origin ]);
+            $this->supervisor->handle($ex, [ 'origin' => $origin ]);
         }
         catch (Exception $ex)
         {
-            $this->manager->handle($ex, [ 'origin' => $origin ]);
+            $this->supervisor->handle($ex, [ 'origin' => $origin ]);
         }
     }
 }

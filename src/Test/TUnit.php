@@ -146,6 +146,19 @@ class TUnit extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Check if protected property exists.
+     *
+     * @param object $object
+     * @param string $property
+     * @return bool
+     */
+    public function existsProtectedProperty($object, $property)
+    {
+        $reflection = new ReflectionClass($object);
+        return $reflection->hasProperty($property);
+    }
+
+    /**
      * Get protected property from given object via reflection.
      *
      * @param object $object
