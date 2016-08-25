@@ -27,7 +27,12 @@ class TransferServer implements TransferServerInterface
     protected $server;
 
     /**
-     * @var SocketFirewall
+     * @var HttpServer
+     */
+    protected $http;
+
+    /**
+     * @var SocketFirewall|null
      */
     protected $firewall;
 
@@ -46,15 +51,18 @@ class TransferServer implements TransferServerInterface
         {
             $router = new HttpRouter(
                 $http = new HttpServer(
-                    $firewall = new SocketFirewall(
+//                    $firewall = new SocketFirewall(
                         $server = new SocketServer($listener)
-                    )
+//                    )
                 )
             );
 
+            $router->allowOrigin($listener->getLocalAddress());
+
             $this->listener = $listener;
             $this->server = $server;
-            $this->firewall = $firewall;
+            $this->http = $http;
+            $this->firewall = null;
             $this->router = $router;
         }
         catch (Error $ex)
@@ -74,6 +82,7 @@ class TransferServer implements TransferServerInterface
     {
         unset($this->router);
         unset($this->firewall);
+        unset($this->http);
         unset($this->server);
         unset($this->listener);
     }
@@ -102,6 +111,11 @@ class TransferServer implements TransferServerInterface
      */
     public function blockAddress($address)
     {
+        if ($this->firewall === null)
+        {
+            $this->createFirewall();
+        }
+
         $this->firewall->blockAddress($address);
 
         return $this;
@@ -113,6 +127,11 @@ class TransferServer implements TransferServerInterface
      */
     public function unblockAddress($address)
     {
+        if ($this->firewall === null)
+        {
+            $this->createFirewall();
+        }
+
         $this->firewall->unblockAddress($address);
 
         return $this;
@@ -124,6 +143,11 @@ class TransferServer implements TransferServerInterface
      */
     public function isAddressBlocked($address)
     {
+        if ($this->firewall === null)
+        {
+            return false;
+        }
+
         return $this->firewall->isAddressBlocked($address);
     }
 
@@ -133,6 +157,11 @@ class TransferServer implements TransferServerInterface
      */
     public function getBlockedAddresses()
     {
+        if ($this->firewall === null)
+        {
+            return [];
+        }
+
         return $this->firewall->getBlockedAddresses();
     }
 
@@ -197,5 +226,13 @@ class TransferServer implements TransferServerInterface
     public function resume()
     {
         $this->listener->resume();
+    }
+
+    /**
+     * Create and attach firewall to transfer server Firewall.
+     */
+    protected function createFirewall()
+    {
+        $this->firewall = new SocketFirewall($this->server, $this->http);
     }
 }

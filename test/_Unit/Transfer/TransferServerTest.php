@@ -106,13 +106,13 @@ class TransferServerTest extends TUnit
     /**
      *
      */
-    public function testApiBlockAddress_CallsMethodOnRouter()
+    public function testApiBlockAddress_CallsMethodOnFirewall()
     {
         $ip = '50.50.50.50';
 
-        $server = $this->createTransferServer();
-        $router = $this->createFirewall([ 'blockAddress' ]);
-        $router
+        $server   = $this->createTransferServer();
+        $firewall = $this->createFirewall([ 'blockAddress' ]);
+        $firewall
             ->expects($this->once())
             ->method('blockAddress')
             ->with($ip);
@@ -123,13 +123,13 @@ class TransferServerTest extends TUnit
     /**
      *
      */
-    public function testApiUnblockAddress_CallsMethodOnRouter()
+    public function testApiUnblockAddress_CallsMethodOnFirewall()
     {
         $ip = '50.50.50.50';
 
-        $server = $this->createTransferServer();
-        $router = $this->createFirewall([ 'unblockAddress' ]);
-        $router
+        $server   = $this->createTransferServer();
+        $firewall = $this->createFirewall([ 'unblockAddress' ]);
+        $firewall
             ->expects($this->once())
             ->method('unblockAddress')
             ->with($ip);
@@ -140,14 +140,26 @@ class TransferServerTest extends TUnit
     /**
      *
      */
-    public function testApiIsAddressBlocked_CallsMethodOnRouter()
+    public function testApiIsAddressBlocked_ReturnsFalse_WhenFirewallDoesNotExist()
+    {
+        $ip = '50.50.50.50';
+
+        $server = $this->createTransferServer();
+
+        $this->assertSame(false, $server->isAddressBlocked($ip));
+    }
+
+    /**
+     *
+     */
+    public function testApiIsAddressBlocked_CallsMethodOnFirewall_WhenFirewallDoesExist()
     {
         $ip = '50.50.50.50';
         $result = 'result';
 
-        $server = $this->createTransferServer();
-        $router = $this->createFirewall([ 'isAddressBlocked' ]);
-        $router
+        $server   = $this->createTransferServer();
+        $firewall = $this->createFirewall([ 'isAddressBlocked' ]);
+        $firewall
             ->expects($this->once())
             ->method('isAddressBlocked')
             ->with($ip)
@@ -159,13 +171,22 @@ class TransferServerTest extends TUnit
     /**
      *
      */
-    public function testApiGetBlockedAddresses_CallsMethodOnRouter()
+    public function testApiGetBlockedAddresses_ReturnsEmptyArray_WhenFirewallDoesNotExist()
+    {
+        $server = $this->createTransferServer();
+        $this->assertSame([], $server->getBlockedAddresses());
+    }
+
+    /**
+     *
+     */
+    public function testApiGetBlockedAddresses_CallsMethodOnFirewall_WhenFirewallDoesExist()
     {
         $ips = [ '50.25.25.25', '50.50.50.50' ];
 
-        $server = $this->createTransferServer();
-        $router = $this->createFirewall([ 'getBlockedAddresses' ]);
-        $router
+        $server   = $this->createTransferServer();
+        $firewall = $this->createFirewall([ 'getBlockedAddresses' ]);
+        $firewall
             ->expects($this->once())
             ->method('getBlockedAddresses')
             ->will($this->returnValue($ips));
@@ -250,6 +271,18 @@ class TransferServerTest extends TUnit
             ->method('resume');
 
         $server->resume();
+    }
+
+    /**
+     *
+     */
+    public function testApiCreateFirewall_CreatesFirewall()
+    {
+        $server = $this->createTransferServer();
+
+        $this->assertSame(null, $this->getProtectedProperty($server, 'firewall'));
+        $this->callProtectedMethod($server, 'createFirewall');
+        $this->assertInstanceOf(SocketFirewall::class, $this->getProtectedProperty($server, 'firewall'));
     }
 
     /**
