@@ -4,14 +4,14 @@ namespace Kraken\Transfer\Http\Component\Session;
 
 use Kraken\Transfer\Null\NullServer;
 use Kraken\Transfer\ServerComponentAwareInterface;
+use Kraken\Transfer\ServerComponentInterface;
 use Kraken\Transfer\TransferConnectionInterface;
 use Kraken\Transfer\TransferMessageInterface;
-use Kraken\Transfer\ServerComponentInterface;
 use Kraken\Throwable\Exception\RuntimeException;
 use Ratchet\Session\Serialize\HandlerInterface;
 use Ratchet\Session\Storage\VirtualSessionStorage;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\NullSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Session;
 use SessionHandlerInterface;
 
 class HttpSession implements HttpSessionInterface, ServerComponentAwareInterface
@@ -37,17 +37,22 @@ class HttpSession implements HttpSessionInterface, ServerComponentAwareInterface
     protected $serializer;
 
     /**
-     * @param ServerComponentAwareInterface $aware
-     * @param ServerComponentInterface $component
-     * @param SessionHandlerInterface $handler
+     * @param ServerComponentAwareInterface|null $aware
+     * @param ServerComponentInterface|null $component
+     * @param SessionHandlerInterface|null $handler
      * @param string[] $options
-     * @param HandlerInterface $serializer
+     * @param HandlerInterface|null $serializer
      * @throws RuntimeException
      */
-    public function __construct(ServerComponentAwareInterface $aware, ServerComponentInterface $component, SessionHandlerInterface $handler, $options = [], HandlerInterface $serializer = null)
-    {
+    public function __construct(
+        ServerComponentAwareInterface $aware = null,
+        ServerComponentInterface $component = null,
+        SessionHandlerInterface $handler = null,
+        $options = [],
+        HandlerInterface $serializer = null
+    ){
         $this->component = $component;
-        $this->handler = $handler;
+        $this->handler = $handler !== null ? $handler : new NullSessionHandler;
         $this->nullHandler = new NullSessionHandler();
 
         ini_set('session.auto_start', 0);
@@ -58,7 +63,8 @@ class HttpSession implements HttpSessionInterface, ServerComponentAwareInterface
 
         if ($serializer === null)
         {
-            $serialClass = __NAMESPACE__ . "\\Serialize\\{$this->toClassCase(ini_get('session.serialize_handler'))}Handler";
+            $serialClass = "\\Ratchet\\Session\\Serialize\\{$this->toClassCase(ini_get('session.serialize_handler'))}Handler";
+
             if (!class_exists($serialClass))
             {
                 throw new RuntimeException('Unable to parse session serialize handler.');
@@ -110,7 +116,7 @@ class HttpSession implements HttpSessionInterface, ServerComponentAwareInterface
      */
     public function handleConnect(TransferConnectionInterface $conn)
     {
-        if (!isset($conn->WebSocket) || null === ($id = $conn->WebSocket->request->getCookie(ini_get('session.name'))))
+        if (!isset($conn->WebSocket) || ($id = $conn->WebSocket->request->getCookie(ini_get('session.name'))) === null)
         {
             $saveHandler = $this->nullHandler;
             $id = '';
@@ -156,17 +162,6 @@ class HttpSession implements HttpSessionInterface, ServerComponentAwareInterface
     {
         return $this->component->handleError($conn, $ex);
     }
-
-//    /**
-//     * {@inheritdoc}
-//     */
-//    public function getSubProtocols() {
-//        if ($this->_app instanceof WsServerInterface) {
-//            return $this->_app->getSubProtocols();
-//        } else {
-//            return array();
-//        }
-//    }
 
     /**
      * Set all the php session. ini options.
