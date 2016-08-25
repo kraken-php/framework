@@ -76,7 +76,7 @@ class HttpRouter implements HttpRouterInterface
      * @override
      * @inheritDoc
      */
-    public function blockAddress($address)
+    public function allowOrigin($address)
     {
         $this->allowedOrigins[$address] = true;
 
@@ -87,7 +87,7 @@ class HttpRouter implements HttpRouterInterface
      * @override
      * @inheritDoc
      */
-    public function unblockAddress($address)
+    public function disallowOrigin($address)
     {
         if (isset($this->allowedOrigins[$address]))
         {
@@ -101,7 +101,7 @@ class HttpRouter implements HttpRouterInterface
      * @override
      * @inheritDoc
      */
-    public function isAddressBlocked($address)
+    public function isOriginAllowed($address)
     {
         return isset($this->allowedOrigins[$address]);
     }
@@ -110,9 +110,18 @@ class HttpRouter implements HttpRouterInterface
      * @override
      * @inheritDoc
      */
-    public function getBlockedAddresses()
+    public function getAllowedOrigins()
     {
         return array_keys($this->allowedOrigins);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function existsRoute($path)
+    {
+        return $this->routes->get($path) !== null;
     }
 
     /**
@@ -173,15 +182,19 @@ class HttpRouter implements HttpRouterInterface
     {
         if (!$message instanceof HttpRequestInterface)
         {
-            $conn->controller->handleMessage($conn, $message);
-            return;
+            if (!isset($conn->controller))
+            {
+                return $this->close($conn, 500);
+            }
+
+            return $conn->controller->handleMessage($conn, $message);
         }
 
         if (($header = $message->getHeaderLine('Origin')) !== '')
         {
             $origin = parse_url($header, PHP_URL_HOST) ?: $header;
 
-            if ($origin !== '' && $this->isAddressBlocked($origin))
+            if ($origin !== '' && !$this->isOriginAllowed($origin))
             {
                 return $this->close($conn, 403);
             }
@@ -196,10 +209,6 @@ class HttpRouter implements HttpRouterInterface
         {
             $route = $this->matcher->match($message->getUri()->getPath());
         }
-        catch (Error $ex)
-        {
-            return $this->close($conn, 500);
-        }
         catch (MethodNotAllowedException $nae)
         {
             return $this->close($conn, 403);
@@ -208,6 +217,14 @@ class HttpRouter implements HttpRouterInterface
         {
             return $this->close($conn, 404);
         }
+        catch (Error $ex)
+        {
+            return $this->close($conn, 500);
+        }
+        catch (Exception $ex)
+        {
+            return $this->close($conn, 500);
+        }
 
         $conn->controller = $route['_controller'];
 
@@ -215,15 +232,14 @@ class HttpRouter implements HttpRouterInterface
         {
             $conn->controller->handleConnect($conn);
             $conn->controller->handleMessage($conn, $message);
+            return;
         }
         catch (Error $ex)
-        {
-            $conn->controller->handleError($conn, $ex);
-        }
+        {}
         catch (Exception $ex)
-        {
-            $conn->controller->handleError($conn, $ex);
-        }
+        {}
+
+        $conn->controller->handleError($conn, $ex);
     }
 
     /**

@@ -91,6 +91,15 @@ class TransferServer implements TransferServerInterface
      * @override
      * @inheritDoc
      */
+    public function existsRoute($path)
+    {
+        return $this->router->existsRoute($path);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
     public function addRoute($path, ServerComponentInterface $component)
     {
         return $this->router->addRoute($path, $component);

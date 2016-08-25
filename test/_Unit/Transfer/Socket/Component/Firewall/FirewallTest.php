@@ -2,7 +2,6 @@
 
 namespace Kraken\_Unit\Transfer\Socket\Component\Firewall;
 
-use Exception;
 use Kraken\Ipc\Socket\SocketListener;
 use Kraken\Transfer\Null\NullServer;
 use Kraken\Transfer\ServerComponentAwareInterface;
@@ -10,9 +9,10 @@ use Kraken\Transfer\ServerComponentInterface;
 use Kraken\Transfer\Socket\Component\Firewall\SocketFirewall;
 use Kraken\Transfer\Socket\Component\Firewall\SocketFirewallInterface;
 use Kraken\Transfer\Socket\SocketServer;
-use Kraken\Test\TUnit;
 use Kraken\Transfer\TransferConnection;
 use Kraken\Transfer\TransferMessage;
+use Kraken\Test\TUnit;
+use Exception;
 
 class FirewallTest extends TUnit
 {

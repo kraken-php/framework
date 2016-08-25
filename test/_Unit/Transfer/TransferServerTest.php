@@ -41,6 +41,25 @@ class TransferServerTest extends TUnit
     /**
      *
      */
+    public function testApiExistsRoute_CallsMethodOnRouter()
+    {
+        $path = 'path';
+        $result = true;
+
+        $server = $this->createTransferServer();
+        $router = $this->createRouter([ 'existsRoute' ]);
+        $router
+            ->expects($this->once())
+            ->method('existsRoute')
+            ->with($path)
+            ->will($this->returnValue($result));
+
+        $this->assertSame($result, $server->existsRoute($path));
+    }
+
+    /**
+     *
+     */
     public function testApiAddRoute_CallsMethodOnRouter()
     {
         $path = 'path';

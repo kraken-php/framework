@@ -17,6 +17,14 @@ interface TransferServerInterface extends LoopResourceInterface
     public function close();
 
     /**
+     * Check if there exists any endpoint/application to the server on given route.
+     *
+     * @param string $path
+     * @return bool
+     */
+    public function existsRoute($path);
+
+    /**
      * Add an endpoint/application to the server.
      *
      * @param string $path
