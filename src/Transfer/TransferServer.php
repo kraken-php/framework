@@ -51,9 +51,7 @@ class TransferServer implements TransferServerInterface
         {
             $router = new HttpRouter(
                 $http = new HttpServer(
-//                    $firewall = new SocketFirewall(
-                        $server = new SocketServer($listener)
-//                    )
+                    $server = new SocketServer($listener)
                 )
             );
 

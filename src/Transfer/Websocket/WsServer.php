@@ -188,14 +188,7 @@ class WsServer implements WsServerInterface, ServerComponentAwareInterface
             return;
         }
 
-//        $agreedSubProtocols = $this->getSubProtocolString($request->getHeader('Sec-WebSocket-Protocol'));
-//
-//        if ($agreedSubProtocols !== '')
-//        {
-//            $response->setHeader('Sec-WebSocket-Protocol', $agreedSubProtocols);
-//        }
-
-        $conn->send((string) $response);
+        $conn->send($response);
 
         if ($response->getStatusCode() !== 101)
         {
@@ -210,42 +203,6 @@ class WsServer implements WsServerInterface, ServerComponentAwareInterface
 
         $this->wsServer->handleConnect($upgraded);
     }
-
-//    /**
-//     * @param string
-//     * @return boolean
-//     */
-//    protected function isSubProtocolSupported($name)
-//    {
-//        if (!$this->isSpGenerated)
-//        {
-//            if ($this->component instanceof WsServerInterface)
-//            {
-//                $this->acceptedSubProtocols = array_flip($this->component->getSubProtocols());
-//            }
-//
-//            $this->isSpGenerated = true;
-//        }
-//
-//        return array_key_exists($name, $this->acceptedSubProtocols);
-//    }
-//
-//    /**
-//     * @param string[] $protocols
-//     * @return string
-//     */
-//    protected function getSubProtocolString($protocols = [])
-//    {
-//        foreach ($protocols as $protocol)
-//        {
-//            if ($this->isSubProtocolSupported($protocol))
-//            {
-//                return $protocol;
-//            }
-//        }
-//
-//        return '';
-//    }
 
     /**
      * Close a connection with an HTTP response.
