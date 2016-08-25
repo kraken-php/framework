@@ -130,6 +130,58 @@ class SocketTest extends TUnit
     }
 
     /**
+     *
+     */
+    public function testApiGetLocalHost_ReturnsHost()
+    {
+        $server = stream_socket_server($this->tempSocketRemoteAddress());
+        $socket = $this->createSocketMock($this->tempSocketRemoteAddress());
+
+        $pattern = '#^(([0-9]*?)\.){3}([0-9]*?)$#si';
+
+        $this->assertRegExp($pattern, $socket->getLocalHost());
+    }
+
+    /**
+     *
+     */
+    public function testApiGetRemoteHost_ReturnsHost()
+    {
+        $server = stream_socket_server($this->tempSocketRemoteAddress());
+        $socket = $this->createSocketMock($this->tempSocketRemoteAddress());
+
+        $pattern = '#^(([0-9]*?)\.){3}([0-9]*?)$#si';
+
+        $this->assertRegExp($pattern, $socket->getRemoteHost());
+    }
+
+    /**
+     *
+     */
+    public function testApiGetLocalPort_ReturnsPort()
+    {
+        $server = stream_socket_server($this->tempSocketRemoteAddress());
+        $socket = $this->createSocketMock($this->tempSocketRemoteAddress());
+
+        $pattern = '#^([0-9]*?)$#si';
+
+        $this->assertRegExp($pattern, $socket->getLocalPort());
+    }
+
+    /**
+     *
+     */
+    public function testApiGetRemotePort_ReturnsPort()
+    {
+        $server = stream_socket_server($this->tempSocketRemoteAddress());
+        $socket = $this->createSocketMock($this->tempSocketRemoteAddress());
+
+        $pattern = '#^([0-9]*?)$#si';
+
+        $this->assertRegExp($pattern, $socket->getRemotePort());
+    }
+
+    /**
      * @param resource|null $resource
      * @param LoopInterface $loop
      * @return Socket

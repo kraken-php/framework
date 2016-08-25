@@ -26,4 +26,25 @@ interface SocketListenerInterface extends EventEmitterInterface, LoopResourceInt
      * @return string
      */
     public function getLocalEndpoint();
+
+    /**
+     * Get socket local address.
+     *
+     * @return string
+     */
+    public function getLocalAddress();
+
+    /**
+     * Get socket local host.
+     *
+     * @return string
+     */
+    public function getLocalHost();
+
+    /**
+     * Get socket local port.
+     *
+     * @return string
+     */
+    public function getLocalPort();
 }

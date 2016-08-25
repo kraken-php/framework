@@ -95,12 +95,57 @@ class Socket extends AsyncStream implements SocketInterface
      * @override
      * @inheritDoc
      */
+    public function getLocalHost()
+    {
+        $address = explode(':', $this->getLocalAddress(), 2);
+
+        return $address[0];
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getLocalPort()
+    {
+        $address = explode(':', $this->getLocalAddress(), 2);
+
+        return isset($address[1]) ? $address[1] : '';
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
     public function getRemoteAddress()
     {
         $endpoint = explode('://', $this->getRemoteEndpoint(), 2);
 
         return isset($endpoint[1]) ? $endpoint[1] : $endpoint[0];
     }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getRemoteHost()
+    {
+        $address = explode(':', $this->getRemoteAddress(), 2);
+
+        return $address[0];
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getRemotePort()
+    {
+        $address = explode(':', $this->getRemoteAddress(), 2);
+
+        return isset($address[1]) ? $address[1] : '';
+    }
+
 
     /**
      * Create the client resource.

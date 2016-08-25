@@ -44,4 +44,32 @@ interface SocketInterface extends AsyncStreamInterface
      * @return string
      */
     public function getRemoteAddress();
+
+    /**
+     * Get socket local host.
+     *
+     * @return string
+     */
+    public function getLocalHost();
+
+    /**
+     * Get socket remote host.
+     *
+     * @return string
+     */
+    public function getRemoteHost();
+
+    /**
+     * Get socket local port.
+     *
+     * @return string
+     */
+    public function getLocalPort();
+
+    /**
+     * Get socket remote port.
+     *
+     * @return string
+     */
+    public function getRemotePort();
 }

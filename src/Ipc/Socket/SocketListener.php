@@ -104,6 +104,39 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
      * @override
      * @inheritDoc
      */
+    public function getLocalAddress()
+    {
+        $endpoint = explode('://', $this->getLocalEndpoint(), 2);
+
+        return isset($endpoint[1]) ? $endpoint[1] : $endpoint[0];
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getLocalHost()
+    {
+        $address = explode(':', $this->getLocalAddress(), 2);
+
+        return $address[0];
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getLocalPort()
+    {
+        $address = explode(':', $this->getLocalAddress(), 2);
+
+        return isset($address[1]) ? $address[1] : '';
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
     public function getResource()
     {
         return $this->socket;

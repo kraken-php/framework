@@ -61,6 +61,42 @@ class SocketListenerTest extends TUnit
     /**
      *
      */
+    public function testApiGetLocalAddress_ReturnsAddress()
+    {
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+
+        $pattern = '#^(([0-9]*?)\.){3}([0-9]*?):([0-9]*?)$#si';
+
+        $this->assertRegExp($pattern, $socket->getLocalAddress());
+    }
+
+    /**
+     *
+     */
+    public function testApiGetLocalHost_ReturnsHost()
+    {
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+
+        $pattern = '#^(([0-9]*?)\.){3}([0-9]*?)$#si';
+
+        $this->assertRegExp($pattern, $socket->getLocalHost());
+    }
+
+    /**
+     *
+     */
+    public function testApiGetLocalPort_ReturnsPort()
+    {
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+
+        $pattern = '#^([0-9]*?)$#si';
+
+        $this->assertRegExp($pattern, $socket->getLocalPort());
+    }
+
+    /**
+     *
+     */
     public function testApiGetResource_ReturnsResource()
     {
         $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
