@@ -137,7 +137,7 @@ class Request
         if ($ex instanceof TaskIncompleteException)
         {
             $this->counter = 1;
-            $this->channel->getLoop()->afterTick(function() use($promise) {
+            $this->channel->getLoop()->onTick(function() use($promise) {
                 $this->send($promise);
             });
             return;
@@ -167,7 +167,7 @@ class Request
         else
         {
             $this->counter++;
-            $this->channel->getLoop()->afterTick(function() use($promise) {
+            $this->channel->getLoop()->onTick(function() use($promise) {
                 $this->send($promise);
             });
         }

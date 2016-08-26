@@ -95,7 +95,7 @@ interface LoopModelInterface
      *
      * @param callable $listener
      */
-    public function startTick(callable $listener);
+    public function onStart(callable $listener);
 
     /**
      * Schedule a callback to be invoked on the stop tick of event loop.
@@ -104,7 +104,7 @@ interface LoopModelInterface
      *
      * @param callable $listener
      */
-    public function stopTick(callable $listener);
+    public function onStop(callable $listener);
 
     /**
      * Schedule a callback to be invoked on the next tick of the event loop.
@@ -113,7 +113,7 @@ interface LoopModelInterface
      *
      * @param callable $listener
      */
-    public function beforeTick(callable $listener);
+    public function onBeforeTick(callable $listener);
 
     /**
      * Schedule a callback to be invoked on a future tick of the event loop.
@@ -122,7 +122,7 @@ interface LoopModelInterface
      *
      * @param callable $listener
      */
-    public function afterTick(callable $listener);
+    public function onAfterTick(callable $listener);
 
     /**
      * Perform a single iteration of the event loop.

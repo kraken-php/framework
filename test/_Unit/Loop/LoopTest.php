@@ -403,49 +403,61 @@ class LoopTest extends TUnit
     /**
      *
      */
-    public function testApiStartTick_CallsMethodOnModel()
+    public function testApiOnStart_CallsMethodOnModel()
     {
         $loop = $this->loop;
         $listener = function() {};
 
-        $this->expect('startTick', [ $listener ]);
-        $loop->startTick($listener);
+        $this->expect('onStart', [ $listener ]);
+        $loop->onStart($listener);
     }
 
     /**
      *
      */
-    public function testApiStopTick_CallsMethodOnModel()
+    public function testApiOnStop_CallsMethodOnModel()
     {
         $loop = $this->loop;
         $listener = function() {};
 
-        $this->expect('stopTick', [ $listener ]);
-        $loop->stopTick($listener);
+        $this->expect('onStop', [ $listener ]);
+        $loop->onStop($listener);
     }
 
     /**
      *
      */
-    public function testApiBeforeTick_CallsMethodOnModel()
+    public function testApiOnTick_CallsMethodOnModel()
     {
         $loop = $this->loop;
         $listener = function() {};
 
-        $this->expect('beforeTick', [ $listener ]);
-        $loop->beforeTick($listener);
+        $this->expect('onAfterTick', [ $listener ]);
+        $loop->onTick($listener);
     }
 
     /**
      *
      */
-    public function testApiAfterTick_CallsMethodOnModel()
+    public function testApiOnBeforeTick_CallsMethodOnModel()
     {
         $loop = $this->loop;
         $listener = function() {};
 
-        $this->expect('afterTick', [ $listener ]);
-        $loop->afterTick($listener);
+        $this->expect('onBeforeTick', [ $listener ]);
+        $loop->onBeforeTick($listener);
+    }
+
+    /**
+     *
+     */
+    public function testApiOnAfterTick_CallsMethodOnModel()
+    {
+        $loop = $this->loop;
+        $listener = function() {};
+
+        $this->expect('onAfterTick', [ $listener ]);
+        $loop->onAfterTick($listener);
     }
 
     /**

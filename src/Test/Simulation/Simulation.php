@@ -220,7 +220,7 @@ class Simulation extends BaseEventEmitter implements SimulationInterface
         $onStart = $this->startCallback;
         $loop = $this->loop;
 
-        $loop->startTick(function() use($sim, $onStart) {
+        $loop->onStart(function() use($sim, $onStart) {
             $onStart($sim);
         });
         $loop->addTimer(5, function() use($sim) {

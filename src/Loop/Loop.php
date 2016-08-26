@@ -175,36 +175,45 @@ class Loop implements LoopExtendedInterface
      * @override
      * @inheritDoc
      */
-    public function startTick(callable $listener)
+    public function onStart(callable $listener)
     {
-        $this->loop->startTick($listener);
+        $this->loop->onStart($listener);
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function stopTick(callable $listener)
+    public function onStop(callable $listener)
     {
-        $this->loop->stopTick($listener);
+        $this->loop->onStop($listener);
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function beforeTick(callable $listener)
+    public function onTick(callable $listener)
     {
-        $this->loop->beforeTick($listener);
+        $this->loop->onAfterTick($listener);
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function afterTick(callable $listener)
+    public function onBeforeTick(callable $listener)
     {
-        $this->loop->afterTick($listener);
+        $this->loop->onBeforeTick($listener);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function onAfterTick(callable $listener)
+    {
+        $this->loop->onAfterTick($listener);
     }
 
     /**

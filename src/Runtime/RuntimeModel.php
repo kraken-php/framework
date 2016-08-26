@@ -382,7 +382,7 @@ class RuntimeModel implements RuntimeModelInterface
         }
 
         $promise = new Promise();
-        $this->getLoop()->afterTick(function() use($promise) {
+        $this->getLoop()->onTick(function() use($promise) {
             $promise->resolve(
                 $this
                     ->start()
@@ -440,7 +440,7 @@ class RuntimeModel implements RuntimeModelInterface
             )
             ->then(
                 function() use($controller) {
-                    $controller->getLoop()->afterTick(function() use($controller) {
+                    $controller->getLoop()->onTick(function() use($controller) {
                         $controller->setState(Runtime::STATE_DESTROYED);
 
                         $emitter = $controller->getEventEmitter();
@@ -528,7 +528,7 @@ class RuntimeModel implements RuntimeModelInterface
         $super = $this->getSupervisor();
 
         $this->setLoopState(self::LOOP_STATE_FAILED);
-        $this->getLoop()->afterTick(function() use($super, $ex, $params) {
+        $this->getLoop()->onTick(function() use($super, $ex, $params) {
             try
             {
                 $super

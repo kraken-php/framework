@@ -123,7 +123,7 @@ class ReactLoop implements ReactLoopInterface
      */
     public function nextTick(callable $listener)
     {
-        $this->loop->beforeTick($listener);
+        $this->loop->onBeforeTick($listener);
     }
 
     /**
@@ -132,7 +132,7 @@ class ReactLoop implements ReactLoopInterface
      */
     public function futureTick(callable $listener)
     {
-        $this->loop->afterTick($listener);
+        $this->loop->onAfterTick($listener);
     }
 
     /**

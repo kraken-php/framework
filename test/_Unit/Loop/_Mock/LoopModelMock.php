@@ -142,7 +142,7 @@ class LoopModelMock implements LoopModelInterface
     /**
      * @param callable $listener
      */
-    public function startTick(callable $listener)
+    public function onStart(callable $listener)
     {
         $this->applyCall(__METHOD__, [ $listener ]);
     }
@@ -150,7 +150,7 @@ class LoopModelMock implements LoopModelInterface
     /**
      * @param callable $listener
      */
-    public function stopTick(callable $listener)
+    public function onStop(callable $listener)
     {
         $this->applyCall(__METHOD__, [ $listener ]);
     }
@@ -158,7 +158,7 @@ class LoopModelMock implements LoopModelInterface
     /**
      * @param callable $listener
      */
-    public function beforeTick(callable $listener)
+    public function onBeforeTick(callable $listener)
     {
         $this->applyCall(__METHOD__, [ $listener ]);
     }
@@ -166,7 +166,7 @@ class LoopModelMock implements LoopModelInterface
     /**
      * @param callable $listener
      */
-    public function afterTick(callable $listener)
+    public function onAfterTick(callable $listener)
     {
         $this->applyCall(__METHOD__, [ $listener ]);
     }

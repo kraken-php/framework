@@ -555,7 +555,7 @@ class RuntimeModelTest extends TUnit
         $loop = $this->getMock(Loop::class, [], [], '', false);
         $loop
             ->expects($this->once())
-            ->method('afterTick')
+            ->method('onTick')
             ->will($this->returnCallback(function($callable) {
                 $callable();
             }));
@@ -622,7 +622,7 @@ class RuntimeModelTest extends TUnit
         $loop = $this->getMock(Loop::class, [], [], '', false);
         $loop
             ->expects($this->once())
-            ->method('afterTick')
+            ->method('onTick')
             ->will($this->returnCallback(function($callable) {
                 $callable();
             }));
@@ -722,7 +722,7 @@ class RuntimeModelTest extends TUnit
             $loop = $this->getMock(Loop::class, [], [], '', false);
             $loop
                 ->expects($this->once())
-                ->method('afterTick')
+                ->method('onTick')
                 ->will($this->returnCallback(function($callable) {
                     $callable();
                 }));
@@ -1056,7 +1056,7 @@ class RuntimeModelTest extends TUnit
         $loop = $this->getMock(Loop::class, [], [], '', false);
         $loop
             ->expects($this->once())
-            ->method('afterTick')
+            ->method('onTick')
             ->will($this->returnCallback(function($callable) {
                 $callable();
             }));
@@ -1096,7 +1096,7 @@ class RuntimeModelTest extends TUnit
         $loop = $this->getMock(Loop::class, [], [], '', false);
         $loop
             ->expects($this->once())
-            ->method('afterTick')
+            ->method('onTick')
             ->will($this->returnCallback(function($callable) {
                 $callable();
             }));

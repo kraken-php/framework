@@ -275,7 +275,7 @@ class ReactLoopTest extends TUnit
         $listener = $this->createCallableMock();
 
         $react = $this->createApiMethodMock(
-            'beforeTick',
+            'onBeforeTick',
             function($passedListener) use($listener) {
                 $this->assertSame($listener, $passedListener);
             }
@@ -292,7 +292,7 @@ class ReactLoopTest extends TUnit
         $listener = $this->createCallableMock();
 
         $react = $this->createApiMethodMock(
-            'afterTick',
+            'onAfterTick',
             function($passedListener) use($listener) {
                 $this->assertSame($listener, $passedListener);
             }

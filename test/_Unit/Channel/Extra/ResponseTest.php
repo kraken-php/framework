@@ -151,7 +151,7 @@ class ResponseTest extends TUnit
             }));
         $loop
             ->expects($this->any())
-            ->method('afterTick')
+            ->method('onTick')
             ->with($this->isType('callable'))
             ->will($this->returnCallback(function($callable) {
                 $callable();

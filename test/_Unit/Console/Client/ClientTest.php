@@ -102,7 +102,7 @@ class ClientTest extends TUnit
             ->method('start');
         $loop
             ->expects($this->once())
-            ->method('afterTick')
+            ->method('onTick')
             ->will($this->returnCallback(function($callable) {
                 $callable();
             }));

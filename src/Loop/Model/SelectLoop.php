@@ -225,7 +225,7 @@ class SelectLoop implements LoopModelInterface
      * @override
      * @inheritDoc
      */
-    public function startTick(callable $listener)
+    public function onStart(callable $listener)
     {
         $this->startTickQueue->add($listener);
     }
@@ -234,7 +234,7 @@ class SelectLoop implements LoopModelInterface
      * @override
      * @inheritDoc
      */
-    public function stopTick(callable $listener)
+    public function onStop(callable $listener)
     {
         $this->stopTickQueue->add($listener);
     }
@@ -243,7 +243,7 @@ class SelectLoop implements LoopModelInterface
      * @override
      * @inheritDoc
      */
-    public function beforeTick(callable $listener)
+    public function onBeforeTick(callable $listener)
     {
         $this->nextTickQueue->add($listener);
     }
@@ -252,7 +252,7 @@ class SelectLoop implements LoopModelInterface
      * @override
      * @inheritDoc
      */
-    public function afterTick(callable $listener)
+    public function onAfterTick(callable $listener)
     {
         $this->futureTickQueue->add($listener);
     }

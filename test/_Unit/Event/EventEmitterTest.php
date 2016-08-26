@@ -478,7 +478,7 @@ class EventEmitterTest extends TUnit
         $loop = parent::createLoopMock();
         $loop
             ->expects($this->any())
-            ->method('afterTick')
+            ->method('onTick')
             ->will($this->returnCallback(function($listener, $args = []) {
                 call_user_func_array($listener, $args);
             }));

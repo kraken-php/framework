@@ -16,7 +16,7 @@ trait AsyncEventEmitterTrait
     {
         return function() use($listener) {
             $args = func_get_args();
-            $this->getLoop()->afterTick(function() use($listener, $args) {
+            $this->getLoop()->onTick(function() use($listener, $args) {
                 call_user_func_array($listener, $args);
             });
         };
@@ -31,7 +31,7 @@ trait AsyncEventEmitterTrait
             unset($this->emitterEventHandlers[$event][$pointer]);
 
             $args = func_get_args();
-            $this->getLoop()->afterTick(function() use($listener, $args) {
+            $this->getLoop()->onTick(function() use($listener, $args) {
                 call_user_func_array($listener, $args);
             });
         };
@@ -51,7 +51,7 @@ trait AsyncEventEmitterTrait
             }
 
             $args = func_get_args();
-            $this->getLoop()->afterTick(function() use($listener, $args) {
+            $this->getLoop()->onTick(function() use($listener, $args) {
                 call_user_func_array($listener, $args);
             });
         };

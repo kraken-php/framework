@@ -311,12 +311,12 @@ class LoopTest extends TModule
      * @dataProvider loopsProvider
      * @param LoopExtendedInterface|LoopModelInterface|mixed $loop
      */
-    public function testApiStartTick_AddsActiveHandler_OnStart($loop)
+    public function testApiOnStart_AddsActiveHandler_OnStart($loop)
     {
-        $loop->afterTick(function() use($loop) {
+        $loop->onAfterTick(function() use($loop) {
             $loop->stop();
         });
-        $loop->startTick($this->expectCallableOnce());
+        $loop->onStart($this->expectCallableOnce());
 
         $loop->start();
 
@@ -327,12 +327,12 @@ class LoopTest extends TModule
      * @dataProvider loopsProvider
      * @param LoopExtendedInterface|LoopModelInterface|mixed $loop
      */
-    public function testApiStopTick_AddsActiveHandler_OnStop($loop)
+    public function testApiOnStop_AddsActiveHandler_OnStop($loop)
     {
-        $loop->afterTick(function() use($loop) {
+        $loop->onAfterTick(function() use($loop) {
             $loop->stop();
         });
-        $loop->stopTick($this->expectCallableOnce());
+        $loop->onStop($this->expectCallableOnce());
 
         $loop->start();
 
@@ -343,9 +343,9 @@ class LoopTest extends TModule
      * @dataProvider loopsProvider
      * @param LoopExtendedInterface|LoopModelInterface|mixed $loop
      */
-    public function testApiBeforeTick_AddsActiveHandler_BeforeTick($loop)
+    public function testApiOnBeforeTick_AddsActiveHandler_BeforeTick($loop)
     {
-        $loop->beforeTick($this->expectCallableOnce());
+        $loop->onBeforeTick($this->expectCallableOnce());
 
         $loop->tick();
 
@@ -356,9 +356,9 @@ class LoopTest extends TModule
      * @dataProvider loopsProvider
      * @param LoopExtendedInterface|LoopModelInterface|mixed $loop
      */
-    public function testApiAfterTick_AddsActiveHandler_AfterTick($loop)
+    public function testApiOnAfterTick_AddsActiveHandler_AfterTick($loop)
     {
-        $loop->afterTick($this->expectCallableOnce());
+        $loop->onAfterTick($this->expectCallableOnce());
 
         $loop->tick();
 
@@ -371,8 +371,8 @@ class LoopTest extends TModule
      */
     public function testApiTick_TicksLoop($loop)
     {
-        $loop->beforeTick($this->expectCallableOnce());
-        $loop->afterTick($this->expectCallableOnce());
+        $loop->onBeforeTick($this->expectCallableOnce());
+        $loop->onAfterTick($this->expectCallableOnce());
 
         $loop->tick();
 
@@ -385,7 +385,7 @@ class LoopTest extends TModule
      */
     public function testApiStartAndApiStop_StartsAndStopsLoop($loop)
     {
-        $loop->afterTick(function() use($loop) {
+        $loop->onAfterTick(function() use($loop) {
             $this->assertTrue($loop->isRunning());
             $loop->stop();
             $this->assertFalse($loop->isRunning());
@@ -430,8 +430,8 @@ class LoopTest extends TModule
     {
         $stream = $this->createStream();
 
-        $loop->afterTick($this->expectCallableNever());
-        $loop->beforeTick($this->expectCallableNever());
+        $loop->onAfterTick($this->expectCallableNever());
+        $loop->onBeforeTick($this->expectCallableNever());
         $loop->addWriteStream($stream, $this->expectCallableOnce());
         $loop->addReadStream($stream, $this->expectCallableOnce());
 
@@ -450,8 +450,8 @@ class LoopTest extends TModule
     {
         $stream = $this->createStream();
 
-        $loop->afterTick($this->expectCallableNever());
-        $loop->beforeTick($this->expectCallableNever());
+        $loop->onAfterTick($this->expectCallableNever());
+        $loop->onBeforeTick($this->expectCallableNever());
         $loop->addWriteStream($stream, $this->expectCallableNever());
         $loop->addReadStream($stream, $this->expectCallableNever());
 
