@@ -8,8 +8,8 @@ use Kraken\Command\CommandInterface;
 class ContainerStopCommand extends Command implements CommandInterface
 {
     /**
-     * @param mixed[] $params
-     * @return mixed
+     * @override
+     * @inheritDoc
      */
     protected function command($params = [])
     {

@@ -18,7 +18,8 @@ class ArchStartCommand extends Command implements CommandInterface
     protected $channel;
 
     /**
-     *
+     * @override
+     * @inheritDoc
      */
     protected function construct()
     {
@@ -26,7 +27,8 @@ class ArchStartCommand extends Command implements CommandInterface
     }
 
     /**
-     *
+     * @override
+     * @inheritDoc
      */
     protected function destruct()
     {
@@ -34,8 +36,8 @@ class ArchStartCommand extends Command implements CommandInterface
     }
 
     /**
-     * @param mixed[] $params
-     * @return mixed
+     * @override
+     * @inheritDoc
      */
     protected function command($params = [])
     {

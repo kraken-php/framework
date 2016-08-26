@@ -17,7 +17,8 @@ class CmdErrorCommand extends Command implements CommandInterface
     protected $supervisor;
 
     /**
-     *
+     * @override
+     * @inheritDoc
      */
     protected function construct()
     {
@@ -25,7 +26,8 @@ class CmdErrorCommand extends Command implements CommandInterface
     }
 
     /**
-     *
+     * @override
+     * @inheritDoc
      */
     protected function destruct()
     {
@@ -33,9 +35,8 @@ class CmdErrorCommand extends Command implements CommandInterface
     }
 
     /**
-     * @param mixed[] $params
-     * @return mixed
-     * @throws RejectionException
+     * @override
+     * @inheritDoc
      */
     protected function command($params = [])
     {

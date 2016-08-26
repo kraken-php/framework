@@ -9,9 +9,8 @@ use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 class ThreadsDestroyCommand extends Command implements CommandInterface
 {
     /**
-     * @param mixed[] $params
-     * @return mixed
-     * @throws RejectionException
+     * @override
+     * @inheritDoc
      */
     protected function command($params = [])
     {
