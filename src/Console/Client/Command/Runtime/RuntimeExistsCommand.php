@@ -11,7 +11,8 @@ use Kraken\Console\Client\Command\Command;
 class RuntimeExistsCommand extends Command
 {
     /**
-     *
+     * @override
+     * @inheritDoc
      */
     protected function config()
     {
@@ -34,9 +35,8 @@ class RuntimeExistsCommand extends Command
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return mixed[]
+     * @override
+     * @inheritDoc
      */
     protected function command(InputInterface $input, OutputInterface $output)
     {
@@ -64,7 +64,7 @@ class RuntimeExistsCommand extends Command
         }
         else
         {
-            echo $this->failureMessage("Runtime does not exist.");
+            echo $this->failureMessage(new Exception(), "Runtime does not exist.");
         }
     }
 }

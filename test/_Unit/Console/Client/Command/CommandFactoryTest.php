@@ -1,23 +1,18 @@
 <?php
 
-namespace Kraken\Console\Client\Command;
+namespace Kraken\_Unit\Runtime\Command;
 
-use Kraken\Util\Factory\Factory;
+use Kraken\Console\Client\Command\CommandFactory;
+use Kraken\Test\TUnit;
 
-class CommandFactory extends Factory implements CommandFactoryInterface
+class CommandFactoryTest extends TUnit
 {
     /**
-     * @param string[] $params
+     *
      */
-    public function __construct($params = [])
+    public function testCaseFactory_PossesAllDefinitions()
     {
-        parent::__construct();
-
-        foreach ($params as $paramName=>$paramValue)
-        {
-            $this->bindParam($paramName, $paramValue);
-        }
-
+        $factory  = new CommandFactory();
         $commands = [
             'ArchStartCommand'          => 'Kraken\Console\Client\Command\Arch\ArchStartCommand',
             'ArchStopCommand'           => 'Kraken\Console\Client\Command\Arch\ArchStopCommand',
@@ -49,25 +44,8 @@ class CommandFactory extends Factory implements CommandFactoryInterface
 
         foreach ($commands as $alias=>$class)
         {
-            $this->registerCommand($alias, $class);
+            $this->assertTrue($factory->hasDefinition($alias));
+            $this->assertTrue($factory->hasDefinition($class));
         }
-    }
-
-    /**
-     * Register command under class and alias.
-     *
-     * @param string $alias
-     * @param string $class
-     */
-    protected function registerCommand($alias, $class)
-    {
-        $this
-            ->define($alias, function($handler) use($class) {
-                return new $class($handler);
-            })
-            ->define($class, function($handler) use($class) {
-                return new $class($handler);
-            })
-        ;
     }
 }

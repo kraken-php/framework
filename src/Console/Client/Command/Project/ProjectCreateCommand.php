@@ -11,7 +11,8 @@ use Kraken\Console\Client\Command\Command;
 class ProjectCreateCommand extends Command
 {
     /**
-     *
+     * @override
+     * @inheritDoc
      */
     protected function config()
     {
@@ -30,9 +31,8 @@ class ProjectCreateCommand extends Command
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return mixed[]
+     * @override
+     * @inheritDoc
      */
     protected function command(InputInterface $input, OutputInterface $output)
     {

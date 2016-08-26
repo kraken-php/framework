@@ -11,7 +11,8 @@ use Kraken\Console\Client\Command\Command;
 class ProcessExistsCommand extends Command
 {
     /**
-     *
+     * @override
+     * @inheritDoc
      */
     protected function config()
     {
@@ -34,9 +35,8 @@ class ProcessExistsCommand extends Command
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return mixed[]
+     * @override
+     * @inheritDoc
      */
     protected function command(InputInterface $input, OutputInterface $output)
     {
@@ -52,7 +52,8 @@ class ProcessExistsCommand extends Command
     }
 
     /**
-     * @param mixed $value
+     * @override
+     * @inheritDoc
      */
     protected function onSuccess($value)
     {
@@ -64,7 +65,7 @@ class ProcessExistsCommand extends Command
         }
         else
         {
-            echo $this->failureMessage("Process does not exist.");
+            echo $this->failureMessage(new Exception, "Process does not exist.");
         }
     }
 }

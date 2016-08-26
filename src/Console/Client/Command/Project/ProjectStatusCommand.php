@@ -10,8 +10,8 @@ use Kraken\Console\Client\Command\Command;
 class ProjectStatusCommand extends Command
 {
     /**
-     * @param mixed $value
-     * @return mixed
+     * @override
+     * @inheritDoc
      */
     protected function onMessage($value)
     {
@@ -19,7 +19,8 @@ class ProjectStatusCommand extends Command
     }
 
     /**
-     *
+     * @override
+     * @inheritDoc
      */
     protected function config()
     {
@@ -30,9 +31,8 @@ class ProjectStatusCommand extends Command
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return mixed[]
+     * @override
+     * @inheritDoc
      */
     protected function command(InputInterface $input, OutputInterface $output)
     {

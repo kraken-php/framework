@@ -11,8 +11,8 @@ use Kraken\Console\Client\Command\Command;
 class ArchStatusCommand extends Command
 {
     /**
-     * @param mixed $value
-     * @return mixed
+     * @override
+     * @inheritDoc
      */
     protected function onMessage($value)
     {
@@ -20,7 +20,8 @@ class ArchStatusCommand extends Command
     }
 
     /**
-     *
+     * @override
+     * @inheritDoc
      */
     protected function config()
     {
@@ -37,9 +38,8 @@ class ArchStatusCommand extends Command
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return mixed[]
+     * @override
+     * @inheritDoc
      */
     protected function command(InputInterface $input, OutputInterface $output)
     {

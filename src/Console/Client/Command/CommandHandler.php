@@ -2,8 +2,8 @@
 
 namespace Kraken\Console\Client\Command;
 
-use Kraken\Channel\ChannelBaseInterface;
 use Kraken\Channel\Extra\Request;
+use Kraken\Channel\ChannelBaseInterface;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Runtime\RuntimeCommand;
 
@@ -25,7 +25,7 @@ class CommandHandler implements CommandHandlerInterface
      */
     public function __construct(ChannelBaseInterface $channel, $receiver)
     {
-        $this->channel = $channel;
+        $this->channel  = $channel;
         $this->receiver = $receiver;
     }
 
@@ -39,10 +39,8 @@ class CommandHandler implements CommandHandlerInterface
     }
 
     /**
-     * @param string|null $commandParent
-     * @param string $commandName
-     * @param string[] $commandParams
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function handle($commandParent, $commandName, $commandParams = [])
     {
@@ -52,8 +50,7 @@ class CommandHandler implements CommandHandlerInterface
 
         if ($commandParent !== null)
         {
-            $protocol
-                ->setDestination($commandParent);
+            $protocol->setDestination($commandParent);
         }
 
         $req = new Request(

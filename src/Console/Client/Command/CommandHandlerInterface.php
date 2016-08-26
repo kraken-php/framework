@@ -7,6 +7,8 @@ use Kraken\Promise\PromiseInterface;
 interface CommandHandlerInterface
 {
     /**
+     * Handle command.
+     *
      * @param string|null $commandParent
      * @param string $commandName
      * @param string[] $commandParams

@@ -10,7 +10,8 @@ use Kraken\Console\Client\Command\Command;
 class ThreadStopCommand extends Command
 {
     /**
-     *
+     * @override
+     * @inheritDoc
      */
     protected function config()
     {
@@ -33,9 +34,8 @@ class ThreadStopCommand extends Command
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return mixed[]
+     * @override
+     * @inheritDoc
      */
     protected function command(InputInterface $input, OutputInterface $output)
     {
