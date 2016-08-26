@@ -36,7 +36,9 @@ class ProjectCreateCommand extends Command
      */
     protected function command(InputInterface $input, OutputInterface $output)
     {
-        $flags  = $input->getOption('flags');
+        $flags = $input->getOption('flags');
+
+        $flags = $this->validateCreateFlags($flags);
 
         $cmd  = 'project:create';
         $opts = [

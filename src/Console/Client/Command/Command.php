@@ -2,6 +2,8 @@
 
 namespace Kraken\Console\Client\Command;
 
+use Kraken\Runtime\Runtime;
+use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -44,6 +46,87 @@ abstract class Command extends SymfonyCommand
      * @return mixed[]
      */
     abstract protected function command(InputInterface $input, OutputInterface $output);
+
+    /**
+     * @param int|string $flags
+     * @return int
+     */
+    protected function validateCreateFlags($flags)
+    {
+        if (
+            $flags === Runtime::CREATE_DEFAULT
+            || $flags === Runtime::CREATE_FORCE_SOFT
+            || $flags === Runtime::CREATE_FORCE_HARD
+            || $flags === Runtime::CREATE_FORCE
+        ){
+            return $flags;
+        }
+
+        if ($flags === 'CREATE_DEFAULT')
+        {
+            return Runtime::CREATE_DEFAULT;
+        }
+
+        if ($flags === 'CREATE_FORCE_SOFT')
+        {
+            return Runtime::CREATE_FORCE_SOFT;
+        }
+
+        if ($flags === 'CREATE_FORCE_HARD')
+        {
+            return Runtime::CREATE_FORCE_HARD;
+        }
+
+        if ($flags === 'CREATE_FORCE')
+        {
+            return Runtime::CREATE_FORCE;
+        }
+
+        throw new InvalidArgumentException('Given flag option is invalid.');
+    }
+
+    /**
+     * @param int|string $flags
+     * @return int
+     */
+    protected function validateDestroyFlags($flags)
+    {
+        if (
+            $flags === Runtime::DESTROY_KEEP
+            || $flags === Runtime::DESTROY_FORCE_SOFT
+            || $flags === Runtime::DESTROY_FORCE_HARD
+            || $flags === Runtime::DESTROY_FORCE
+        ){
+            return $flags;
+        }
+
+        if ($flags === 'DESTROY_KEEP')
+        {
+            return Runtime::DESTROY_KEEP;
+        }
+
+        if ($flags === 'DESTROY_DEFAULT')
+        {
+            return Runtime::DESTROY_KEEP;
+        }
+
+        if ($flags === 'DESTROY_FORCE_SOFT')
+        {
+            return Runtime::DESTROY_FORCE_SOFT;
+        }
+
+        if ($flags === 'DESTROY_FORCE_HARD')
+        {
+            return Runtime::DESTROY_FORCE_HARD;
+        }
+
+        if ($flags === 'DESTROY_FORCE')
+        {
+            return Runtime::DESTROY_FORCE;
+        }
+
+        throw new InvalidArgumentException('Given flag option is invalid.');
+    }
 
     /**
      *

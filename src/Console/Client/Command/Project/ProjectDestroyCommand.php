@@ -38,6 +38,8 @@ class ProjectDestroyCommand extends Command
     {
         $flags  = $input->getOption('flags');
 
+        $flags  = $this->validateDestroyFlags($flags);
+
         $cmd  = 'project:destroy';
         $opts = [
             'flags' => $flags

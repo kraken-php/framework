@@ -53,6 +53,8 @@ class RuntimeDestroyCommand extends Command
         $alias  = $input->getArgument('alias');
         $flags  = $input->getOption('flags');
 
+        $flags  = $this->validateDestroyFlags($flags);
+
         $cmd  = 'runtime:destroy';
         $opts = [
             'alias' => $alias,

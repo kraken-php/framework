@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\_Unit\Runtime\Command;
+namespace Kraken\_Unit\Console\Client\Command;
 
 use Kraken\Console\Client\Command\CommandFactory;
 use Kraken\Test\TUnit;

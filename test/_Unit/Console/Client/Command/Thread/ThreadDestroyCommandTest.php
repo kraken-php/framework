@@ -37,7 +37,12 @@ class ThreadDestroyCommandTest extends TCommand
      */
     public function testApiCommand_ReturnsCommandData()
     {
-        $command  = $this->createCommand();
+        $command  = $this->createCommand([ 'validateDestroyFlags' ]);
+        $command
+            ->expects($this->once())
+            ->method('validateDestroyFlags')
+            ->will($this->returnArgument(0));
+
         $input    = $this->createInputMock();
         $output   = $this->createOutputMock();
 

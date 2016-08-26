@@ -60,6 +60,8 @@ class ThreadCreateCommand extends Command
         $name   = $input->getArgument('name');
         $flags  = $input->getOption('flags');
 
+        $flags  = $this->validateCreateFlags($flags);
+
         $cmd  = 'thread:create';
         $opts = [
             'alias' => $alias,

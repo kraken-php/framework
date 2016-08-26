@@ -60,6 +60,8 @@ class ProcessCreateCommand extends Command
         $name   = $input->getArgument('name');
         $flags  = $input->getOption('flags');
 
+        $flags  = $this->validateCreateFlags($flags);
+
         $cmd  = 'process:create';
         $opts = [
             'alias' => $alias,

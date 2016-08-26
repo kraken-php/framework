@@ -35,7 +35,12 @@ class ProjectCreateCommandTest extends TCommand
      */
     public function testApiCommand_ReturnsCommandData()
     {
-        $command  = $this->createCommand();
+        $command  = $this->createCommand([ 'validateCreateFlags']);
+        $command
+            ->expects($this->once())
+            ->method('validateCreateFlags')
+            ->will($this->returnArgument(0));
+
         $input    = $this->createInputMock();
         $output   = $this->createOutputMock();
 
