@@ -26,7 +26,7 @@ class ProjectDestroyCommand extends Command
             null,
             InputOption::VALUE_OPTIONAL,
             'Force level.',
-            Runtime::DESTROY_FORCE
+            Runtime::DESTROY_FORCE_SOFT
         );
     }
 

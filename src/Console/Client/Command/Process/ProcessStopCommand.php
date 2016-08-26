@@ -42,7 +42,7 @@ class ProcessStopCommand extends Command
         $parent = $input->getArgument('parent');
         $alias  = $input->getArgument('alias');
 
-        $cmd  = 'process:create';
+        $cmd  = 'process:stop';
         $opts = [
             'alias' => $alias
         ];

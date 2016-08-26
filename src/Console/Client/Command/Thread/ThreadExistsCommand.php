@@ -43,7 +43,7 @@ class ThreadExistsCommand extends Command
         $parent = $input->getArgument('parent');
         $alias  = $input->getArgument('alias');
 
-        $cmd  = 'process:exists';
+        $cmd  = 'thread:exists';
         $opts = [
             'alias' => $alias
         ];
@@ -64,7 +64,7 @@ class ThreadExistsCommand extends Command
         }
         else
         {
-            echo $this->failureMessage("Thread does not exist.");
+            echo $this->failureMessage(new Exception(), "Thread does not exist.");
         }
     }
 }
