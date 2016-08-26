@@ -20,8 +20,9 @@ class ProjectCreateCommand extends Command implements CommandInterface
      */
     protected function construct()
     {
-        $config = $this->runtime->core()->make('Kraken\Config\ConfigInterface');
-        $this->config = new Config($config->get('core.project'));
+        $config = $this->runtime->getCore()->make('Kraken\Config\ConfigInterface');
+
+        $this->config = $this->createConfig($config);
     }
 
     /**
@@ -44,7 +45,8 @@ class ProjectCreateCommand extends Command implements CommandInterface
             throw new RejectionException('Invalid params.');
         }
 
-        return $this->runtime->manager()
+        return $this->runtime
+            ->manager()
             ->createProcess(
                 $this->config->get('main.alias'),
                 $this->config->get('main.name'),
@@ -56,5 +58,16 @@ class ProjectCreateCommand extends Command implements CommandInterface
                 }
             )
         ;
+    }
+
+    /**
+     * Create Config.
+     *
+     * @param ConfigInterface|null $config
+     * @return Config
+     */
+    protected function createConfig(ConfigInterface $config = null)
+    {
+        return new Config($config === null ? [] : $config->get('core.project'));
     }
 }

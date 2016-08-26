@@ -1,10 +1,12 @@
 <?php
 
-namespace Kraken\_Unit\Runtime\Command\_T;
+namespace Kraken\_Unit\Console\Server\_T;
 
 use Kraken\Channel\ChannelBase;
 use Kraken\Channel\ChannelBaseInterface;
 use Kraken\Command\CommandInterface;
+use Kraken\Config\Config;
+use Kraken\Config\ConfigInterface;
 use Kraken\Core\Core;
 use Kraken\Core\CoreInterface;
 use Kraken\Runtime\Command\Command;
@@ -61,9 +63,8 @@ class TCommand extends TUnit
     public function testApiConstructor_CreatesInstance()
     {
         $command = $this->createCommand();
-        $class   = Command::class;
 
-        $this->assertTrue($command instanceof $class);
+        $this->assertInstanceOf(Command::class, $command);
         $this->assertInstanceOf(CommandInterface::class, $command);
     }
 
@@ -84,7 +85,7 @@ class TCommand extends TUnit
     public function testApiConstructor_ThrowsException_WhenNoRuntimeIsPassed()
     {
         $this->setExpectedException(InstantiationException::class);
-        $command = $this->createCommand([ 'runtime' => null ]);
+        $this->createCommand([ 'runtime' => null ]);
     }
 
     /**
@@ -114,6 +115,23 @@ class TCommand extends TUnit
         $command = $this->createCommand();
 
         $this->callProtectedMethod($command, 'destruct');
+    }
+
+    /**
+     * @param string[]|null $data
+     * @param string[]|null $methods
+     * @return ConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    public function createConfig($data = [], $methods = null)
+    {
+        $config = $this->getMock(Config::class, $methods, [ $data ]);
+
+        if ($this->cmd !== null && $this->existsProtectedProperty($this->cmd, 'config'))
+        {
+            $this->setProtectedProperty($this->cmd, 'config', $config);
+        }
+
+        return $config;
     }
 
     /**

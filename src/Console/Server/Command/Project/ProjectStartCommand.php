@@ -20,8 +20,9 @@ class ProjectStartCommand extends Command implements CommandInterface
      */
     protected function construct()
     {
-        $config = $this->runtime->core()->make('Kraken\Config\ConfigInterface');
-        $this->config = new Config($config->get('core.project'));
+        $config = $this->runtime->getCore()->make('Kraken\Config\ConfigInterface');
+
+        $this->config = $this->createConfig($config);
     }
 
     /**
@@ -39,7 +40,8 @@ class ProjectStartCommand extends Command implements CommandInterface
      */
     protected function command($params = [])
     {
-        return $this->runtime->manager()
+        return $this->runtime
+            ->manager()
             ->startProcess(
                 $this->config->get('main.alias')
             )
@@ -49,5 +51,16 @@ class ProjectStartCommand extends Command implements CommandInterface
                 }
             )
         ;
+    }
+
+    /**
+     * Create Config.
+     *
+     * @param ConfigInterface|null $config
+     * @return Config
+     */
+    protected function createConfig(ConfigInterface $config = null)
+    {
+        return new Config($config === null ? [] : $config->get('core.project'));
     }
 }

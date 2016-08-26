@@ -28,10 +28,13 @@ class ProjectStatusCommand extends Command implements CommandInterface
      */
     protected function construct()
     {
-        $config = $this->runtime->core()->make('Kraken\Config\ConfigInterface');
+        $core = $this->runtime->getCore();
 
-        $this->channel = $this->runtime->core()->make('Kraken\Runtime\Channel\ChannelInterface');
-        $this->config = new Config($config->get('core.project'));
+        $config  = $core->make('Kraken\Config\ConfigInterface');
+        $channel = $core->make('Kraken\Runtime\Channel\ChannelInterface');
+
+        $this->config  = $this->createConfig($config);
+        $this->channel = $channel;
     }
 
     /**
@@ -50,12 +53,36 @@ class ProjectStatusCommand extends Command implements CommandInterface
      */
     protected function command($params = [])
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $this->config->get('main.alias'),
             new RuntimeCommand('arch:status')
         );
 
         return $req->call();
+    }
+
+    /**
+     * Create Request.
+     *
+     * @param ChannelBaseInterface $channel
+     * @param string $receiver
+     * @param string $command
+     * @return Request
+     */
+    protected function createRequest(ChannelBaseInterface $channel, $receiver, $command)
+    {
+        return new Request($channel, $receiver, $command);
+    }
+
+    /**
+     * Create Config.
+     *
+     * @param ConfigInterface|null $config
+     * @return Config
+     */
+    protected function createConfig(ConfigInterface $config = null)
+    {
+        return new Config($config === null ? [] : $config->get('core.project'));
     }
 }
