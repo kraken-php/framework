@@ -11,6 +11,7 @@ use Kraken\Util\Parser\Json\JsonParser;
 
 /**
  * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
  */
 class ConfigFactoryTest extends TModule
 {

@@ -11,6 +11,7 @@ use Kraken\Test\TModule;
 
 /**
  * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
  */
 class SocketTest extends TModule
 {

@@ -9,6 +9,7 @@ use StdClass;
 
 /**
  * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
  */
 class ArraySupportTest extends TModule
 {

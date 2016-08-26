@@ -10,6 +10,7 @@ use Kraken\Filesystem\FilesystemInterface;
 
 /**
  * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
  */
 class FilesystemTest extends FilesystemTestAbstract
 {

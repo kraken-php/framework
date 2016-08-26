@@ -11,6 +11,7 @@ use Kraken\Filesystem\FilesystemManager;
 
 /**
  * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
  */
 class FilesystemManagerTest extends FilesystemTestAbstract
 {

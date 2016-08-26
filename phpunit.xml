@@ -6,6 +6,7 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
+         preserveGlobalState="false"
          stopOnError="false"
          stopOnFailure="false"
          stopOnIncomplete="false"

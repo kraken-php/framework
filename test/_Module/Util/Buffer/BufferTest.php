@@ -9,6 +9,7 @@ use Kraken\Util\Buffer\BufferIterator;
 
 /**
  * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
  */
 class BufferTest extends TModule
 {

@@ -7,6 +7,7 @@ use Kraken\Test\TModule;
 
 /**
  * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
  */
 class EventTest extends TModule
 {

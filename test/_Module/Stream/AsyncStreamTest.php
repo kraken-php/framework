@@ -10,6 +10,7 @@ use ReflectionClass;
 
 /**
  * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
  */
 class AsyncStreamTest extends TModule
 {

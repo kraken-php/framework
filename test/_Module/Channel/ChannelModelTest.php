@@ -13,6 +13,7 @@ use ReflectionClass;
 
 /**
  * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
  */
 class ChannelModelTest extends TModule
 {

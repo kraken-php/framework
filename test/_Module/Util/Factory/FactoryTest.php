@@ -17,6 +17,7 @@ use StdClass;
 
 /**
  * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
  */
 class FactoryTest extends TModule
 {

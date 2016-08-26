@@ -9,6 +9,7 @@ use Kraken\Test\TModule;
 
 /**
  * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
  */
 class StreamTest extends TModule
 {
