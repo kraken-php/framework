@@ -21,7 +21,7 @@ class SolverComposite implements SolverInterface
     {
         $this->handlers = $handlers;
 
-        $this->onCreate();
+        $this->construct();
     }
 
     /**
@@ -29,7 +29,7 @@ class SolverComposite implements SolverInterface
      */
     public function __destruct()
     {
-        $this->onDestroy();
+        $this->destruct();
 
         unset($this->handlers);
     }
@@ -81,12 +81,12 @@ class SolverComposite implements SolverInterface
     /**
      * Pseudo-Constructor.
      */
-    protected function onCreate()
+    protected function construct()
     {}
 
     /**
      * Pseudo-Destructor.
      */
-    protected function onDestroy()
+    protected function destruct()
     {}
 }

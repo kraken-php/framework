@@ -27,10 +27,10 @@ class SolverCompositeTest extends TUnit
      */
     public function testApiConstructor_CallsConstructMethod()
     {
-        $solver = $this->createSolver([], [ 'onCreate' ]);
+        $solver = $this->createSolver([], [ 'construct' ]);
         $solver
             ->expects($this->once())
-            ->method('onCreate');
+            ->method('construct');
 
         $solver->__construct();
     }
@@ -49,10 +49,10 @@ class SolverCompositeTest extends TUnit
      */
     public function testApiDestructor_CallsDestructMethod()
     {
-        $solver = $this->createSolver([], [ 'onDestroy' ]);
+        $solver = $this->createSolver([], [ 'destruct' ]);
         $solver
             ->expects($this->once())
-            ->method('onDestroy');
+            ->method('destruct');
 
         $solver->__destruct();
     }
