@@ -45,6 +45,6 @@ class ProjectDestroyCommand extends Command
             'flags' => $flags
         ];
 
-        return [ null, $cmd, $opts ];
+        return $this->informServer(null, $cmd, $opts);
     }
 }

@@ -39,7 +39,7 @@ class ProjectStatusCommand extends Command
         $cmd  = 'project:status';
         $opts = [];
 
-        return [ null, $cmd, $opts ];
+        return $this->informServer(null, $cmd, $opts);
     }
 
     /**

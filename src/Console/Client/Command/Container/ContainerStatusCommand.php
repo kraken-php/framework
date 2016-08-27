@@ -38,6 +38,6 @@ class ContainerStatusCommand extends Command
         $cmd  = 'container:status';
         $opts = [];
 
-        return [ $alias, $cmd, $opts ];
+        return $this->informServer($alias, $cmd, $opts);
     }
 }

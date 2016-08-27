@@ -44,7 +44,8 @@ class CommandFactory extends Factory implements CommandFactoryInterface
             'ContainerDestroyCommand'   => 'Kraken\Console\Client\Command\Container\ContainerDestroyCommand',
             'ContainerStartCommand'     => 'Kraken\Console\Client\Command\Container\ContainerStartCommand',
             'ContainerStopCommand'      => 'Kraken\Console\Client\Command\Container\ContainerStopCommand',
-            'ContainerStatusCommand'    => 'Kraken\Console\Client\Command\Container\ContainerStatusCommand'
+            'ContainerStatusCommand'    => 'Kraken\Console\Client\Command\Container\ContainerStatusCommand',
+            'ServerPingCommand'         => 'Kraken\Console\Client\Command\Server\ServerPingCommand'
         ];
 
         foreach ($commands as $alias=>$class)
@@ -62,11 +63,11 @@ class CommandFactory extends Factory implements CommandFactoryInterface
     protected function registerCommand($alias, $class)
     {
         $this
-            ->define($alias, function($handler) use($class) {
-                return new $class($handler);
+            ->define($alias, function($channel, $receiver) use($class) {
+                return new $class($channel, $receiver);
             })
-            ->define($class, function($handler) use($class) {
-                return new $class($handler);
+            ->define($class, function($channel, $receiver) use($class) {
+                return new $class($channel, $receiver);
             })
         ;
     }

@@ -38,6 +38,6 @@ class ContainerStopCommand extends Command
         $cmd  = 'container:stop';
         $opts = [];
 
-        return [ $alias, $cmd, $opts ];
+        return $this->informServer($alias, $cmd, $opts);
     }
 }

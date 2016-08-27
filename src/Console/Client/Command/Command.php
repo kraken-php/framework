@@ -2,7 +2,11 @@
 
 namespace Kraken\Console\Client\Command;
 
+use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\Extra\Request;
+use Kraken\Promise\Promise;
 use Kraken\Runtime\Runtime;
+use Kraken\Runtime\RuntimeCommand;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -10,21 +14,36 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Error;
 use Exception;
 
-abstract class Command extends SymfonyCommand
+abstract class Command extends SymfonyCommand implements CommandInterface
 {
     /**
-     * @var CommandHandlerInterface
+     * @var ChannelBaseInterface
      */
-    protected $manager;
+    protected $channel;
 
     /**
-     * @param CommandHandlerInterface $manager
+     * @var string
      */
-    public function __construct(CommandHandlerInterface $manager)
+    protected $receiver;
+
+    /**
+     * @var bool
+     */
+    protected $async;
+
+    /**
+     * @param ChannelBaseInterface $channel
+     * @param string $receiver
+     */
+    public function __construct(ChannelBaseInterface $channel, $receiver)
     {
         parent::__construct(null);
 
-        $this->manager = $manager;
+        $this->channel  = $channel;
+        $this->receiver = $receiver;
+        $this->async    = true;
+
+        $this->construct();
     }
 
     /**
@@ -32,15 +51,42 @@ abstract class Command extends SymfonyCommand
      */
     public function __destruct()
     {
-        unset($this->manager);
+        $this->destruct();
+
+        unset($this->receiver);
+        unset($this->channel);
+        unset($this->async);
     }
 
     /**
-     *
+     * @override
+     * @inheritDoc
+     */
+    public function isAsync()
+    {
+        return $this->async;
+    }
+
+    /**
+     * This method will be invoked during command construction.
+     */
+    protected function construct()
+    {}
+
+    /**
+     * This method will be invoked during command destruction.
+     */
+    protected function destruct()
+    {}
+
+    /**
+     * This method should contain command configuration.
      */
     abstract protected function config();
 
     /**
+     * This method should contain command logic.
+     *
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return mixed[]
@@ -50,6 +96,7 @@ abstract class Command extends SymfonyCommand
     /**
      * @param int|string $flags
      * @return int
+     * @throws InvalidArgumentException
      */
     protected function validateCreateFlags($flags)
     {
@@ -88,6 +135,7 @@ abstract class Command extends SymfonyCommand
     /**
      * @param int|string $flags
      * @return int
+     * @throws InvalidArgumentException
      */
     protected function validateDestroyFlags($flags)
     {
@@ -133,30 +181,41 @@ abstract class Command extends SymfonyCommand
      */
     protected function onStart()
     {
-        echo "Executing command: " . $this->getName() ." ... ";
+        echo "Executing : " . $this->getName() ." ... ";
     }
 
     /**
      * @param $value
+     * @return mixed
      */
     protected function onSuccess($value)
     {
         if (is_array($value))
         {
-            $this->successData($this->onMessage($value));
+            return $this->successData($this->onMessage($value));
         }
         else
         {
-            $this->successMessage($this->onMessage($value));
+            return $this->successMessage($this->onMessage($value));
         }
     }
 
     /**
      * @param Error|Exception $ex
+     * @return mixed
      */
     protected function onFailure($ex)
     {
-        $this->failureMessage(get_class($ex), $ex->getMessage());
+        return $this->failureMessage(get_class($ex), $ex->getMessage());
+    }
+
+    /**
+     * @param Error|Exception $ex
+     * @return mixed
+     */
+    protected function onCancel($ex)
+    {
+        return $this->cancelMessage(get_class($ex), $ex->getMessage());
     }
 
     /**
@@ -164,7 +223,7 @@ abstract class Command extends SymfonyCommand
      */
     protected function onStop()
     {
-        return;
+        exit(0);
     }
 
     /**
@@ -173,18 +232,11 @@ abstract class Command extends SymfonyCommand
      */
     protected function onMessage($value)
     {
-        if (is_array($value))
-        {
-            return [ $value ];
-        }
-        else
-        {
-            return $value;
-        }
+        return is_array($value) ? [ $value ] : $value;
     }
 
     /**
-     * @internal
+     *
      */
     protected function configure()
     {
@@ -192,34 +244,61 @@ abstract class Command extends SymfonyCommand
     }
 
     /**
-     * @internal
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      * @return int|null|void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->onStart();
-        $promise = call_user_func_array([ $this->manager, 'handle' ], $this->command($input, $output));
+
+        $promise = Promise::doResolve($this->command($input, $output));
         $promise
             ->then(
                 function($value) {
-                    $this->onSuccess($value);
+                    return $this->onSuccess($value);
                 },
                 function($ex) {
-                    $this->onFailure($ex);
+                    return $this->onFailure($ex);
+                },
+                function($ex) {
+                    return $this->onCancel($ex);
                 }
             )
             ->always(
                 function() {
                     $this->onStop();
                 }
-            )
-            ->always(
-                function() {
-                    exit;
-                }
             );
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    protected function informServer($commandParent, $commandName, $commandParams = [])
+    {
+        $protocol = $this->channel->createProtocol(
+            new RuntimeCommand($commandName, $commandParams)
+        );
+
+        if ($commandParent !== null)
+        {
+            $protocol->setDestination($commandParent);
+        }
+
+        $req = new Request(
+            $this->channel,
+            $this->receiver,
+            $protocol,
+            [
+                'timeout'         =>  2,
+                'retriesLimit'    => 10,
+                'retriesInterval' =>  1
+            ]
+        );
+
+        return $req->call();
     }
 
     /**
@@ -297,7 +376,7 @@ abstract class Command extends SymfonyCommand
      */
     protected function successMessage($message)
     {
-        echo "Success\n" . $message . PHP_EOL;
+        echo "success!\n\033[42m\033[1;37mResponse  : " . $message . "\033[0m\n";
     }
 
     /**
@@ -307,6 +386,16 @@ abstract class Command extends SymfonyCommand
      */
     protected function failureMessage($exception, $message)
     {
-        echo "Failure\n" . $exception . " => " . $message . PHP_EOL;
+        echo "failure!\n\033[41m\033[1;37mResponse   : " . $message . "\nReason      : " . $exception . "\033[0m\n";
+    }
+
+    /**
+     * @param $exception
+     * @param $message
+     * @return string
+     */
+    protected function cancelMessage($exception, $message)
+    {
+        echo "cancel!\n\033[41m\033[1;37mResponse   : " . $message . "\nReason      : " . $exception . "\033[0m\n";
     }
 }

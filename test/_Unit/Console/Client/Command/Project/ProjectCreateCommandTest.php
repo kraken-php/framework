@@ -5,7 +5,6 @@ namespace Kraken\_Unit\Console\Client\Command\Project;
 use Kraken\_Unit\Console\Client\_T\TCommand;
 use Kraken\Console\Client\Command\Project\ProjectCreateCommand;
 use Kraken\Runtime\Runtime;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 class ProjectCreateCommandTest extends TCommand
@@ -35,24 +34,25 @@ class ProjectCreateCommandTest extends TCommand
      */
     public function testApiCommand_ReturnsCommandData()
     {
-        $command  = $this->createCommand([ 'validateCreateFlags']);
+        $command  = $this->createCommand([ 'informServer', 'validateCreateFlags' ]);
         $command
             ->expects($this->once())
             ->method('validateCreateFlags')
             ->will($this->returnArgument(0));
+        $command
+            ->expects($this->once())
+            ->method('informServer')
+            ->with(
+                null,
+                'project:create',
+                [
+                    'flags' => 'flags'
+                ]
+            );
 
-        $input    = $this->createInputMock();
-        $output   = $this->createOutputMock();
+        $input  = $this->createInputMock();
+        $output = $this->createOutputMock();
 
-        $result   = $this->callProtectedMethod($command, 'command', [ $input, $output ]);
-        $expected = [
-            null,
-            'project:create',
-            [
-                'flags' => 'flags'
-            ]
-        ];
-
-        $this->assertSame($expected, $result);
+        $this->callProtectedMethod($command, 'command', [ $input, $output ]);
     }
 }

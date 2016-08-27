@@ -38,26 +38,27 @@ class ThreadCreateCommandTest extends TCommand
      */
     public function testApiCommand_ReturnsCommandData()
     {
-        $command  = $this->createCommand([ 'validateCreateFlags']);
+        $command  = $this->createCommand([ 'informServer', 'validateCreateFlags' ]);
         $command
             ->expects($this->once())
             ->method('validateCreateFlags')
             ->will($this->returnArgument(0));
+        $command
+            ->expects($this->once())
+            ->method('informServer')
+            ->with(
+                'parent',
+                'thread:create',
+                [
+                    'alias' => 'alias',
+                    'name'  => 'name',
+                    'flags' => 'flags'
+                ]
+            );
 
-        $input    = $this->createInputMock();
-        $output   = $this->createOutputMock();
+        $input  = $this->createInputMock();
+        $output = $this->createOutputMock();
 
-        $result   = $this->callProtectedMethod($command, 'command', [ $input, $output ]);
-        $expected = [
-            'parent',
-            'thread:create',
-            [
-                'alias' => 'alias',
-                'name'  => 'name',
-                'flags' => 'flags'
-            ]
-        ];
-
-        $this->assertSame($expected, $result);
+        $this->callProtectedMethod($command, 'command', [ $input, $output ]);
     }
 }

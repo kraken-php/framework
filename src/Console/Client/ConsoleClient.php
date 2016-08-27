@@ -2,6 +2,7 @@
 
 namespace Kraken\Console\Client;
 
+use Kraken\Console\Client\Provider\Console\ConsoleBootProvider;
 use Kraken\Console\Client\Provider\Console\ConsoleProvider;
 use Kraken\Core\CoreAwareTrait;
 use Kraken\Core\CoreInterface;
@@ -151,6 +152,7 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
     public function internalBoot(CoreInterface $core)
     {
         $core->registerProvider(new ConsoleProvider($this));
+        $core->registerProvider(new ConsoleBootProvider());
 
         return $this->boot($core);
     }

@@ -27,9 +27,7 @@ class ConsoleClientCore extends Core implements CoreInterface
             'Kraken\Core\Provider\Log\LogProvider',
             'Kraken\Core\Provider\Loop\LoopProvider',
             'Kraken\Console\Client\Provider\Channel\ChannelProvider',
-            'Kraken\Console\Client\Provider\Command\CommandProvider',
-            'Kraken\Console\Client\Provider\Console\SymfonyProvider',
-            'Kraken\Console\Client\Provider\Console\CommandProvider'
+            'Kraken\Console\Client\Provider\Command\CommandProvider'
         ];
     }
 

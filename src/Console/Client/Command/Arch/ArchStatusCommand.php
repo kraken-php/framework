@@ -48,7 +48,7 @@ class ArchStatusCommand extends Command
         $cmd  = 'arch:status';
         $opts = [];
 
-        return [ $alias, $cmd, $opts ];
+        return $this->informServer($alias, $cmd, $opts);
     }
 
     /**

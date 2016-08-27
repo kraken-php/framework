@@ -2,9 +2,9 @@
 
 namespace Kraken\_Unit\Console\Client\_T;
 
+use Kraken\Channel\ChannelBaseInterface;
 use Kraken\Command\CommandInterface;
 use Kraken\Console\Client\Command\Command;
-use Kraken\Console\Client\Command\CommandHandler;
 use Kraken\Test\TUnit;
 use Exception;
 use Symfony\Component\Console\Input\InputArgument;
@@ -47,10 +47,28 @@ class TCommand extends TUnit
     /**
      *
      */
+    public function testApiConstruct_DoesNotThrowException()
+    {
+        $command = $this->createCommand();
+        $this->callProtectedMethod($command, 'construct');
+    }
+
+    /**
+     *
+     */
     public function testApiDestructor_DoesNotThrowException()
     {
         $command = $this->createCommand();
         unset($command);
+    }
+
+    /**
+     *
+     */
+    public function testApiDestruct_DoesNotThrowException()
+    {
+        $command = $this->createCommand();
+        $this->callProtectedMethod($command, 'destruct');
     }
 
     /**
@@ -174,9 +192,10 @@ class TCommand extends TUnit
             throw new Exception('Class not set');
         }
 
-        $handler = $this->getMock(CommandHandler::class, [], [], '', false);
+        $channel  = $this->getMock(ChannelBaseInterface::class, [], [], '', false);
+        $receiver = 'default';
 
-        $this->cmd = $this->getMock($this->class, $methods, [ $handler ]);
+        $this->cmd = $this->getMock($this->class, $methods, [ $channel, $receiver ]);
 
         return $this->cmd;
     }

@@ -38,6 +38,6 @@ class ArchStopCommand extends Command
         $cmd  = 'arch:stop';
         $opts = [];
 
-        return [ $alias, $cmd, $opts ];
+        return $this->informServer($alias, $cmd, $opts);
     }
 }

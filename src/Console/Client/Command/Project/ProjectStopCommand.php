@@ -29,6 +29,6 @@ class ProjectStopCommand extends Command
         $cmd  = 'project:stop';
         $opts = [];
 
-        return [ null, $cmd, $opts ];
+        return $this->informServer(null, $cmd, $opts);
     }
 }

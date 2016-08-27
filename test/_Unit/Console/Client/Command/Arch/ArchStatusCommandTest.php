@@ -4,9 +4,7 @@ namespace Kraken\_Unit\Console\Client\Command\Arch;
 
 use Kraken\_Unit\Console\Client\_T\TCommand;
 use Kraken\Console\Client\Command\Arch\ArchStatusCommand;
-use Kraken\Runtime\Runtime;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 class ArchStatusCommandTest extends TCommand
 {
@@ -35,17 +33,19 @@ class ArchStatusCommandTest extends TCommand
      */
     public function testApiCommand_ReturnsCommandData()
     {
-        $command  = $this->createCommand();
+        $command  = $this->createCommand([ 'informServer' ]);
+        $command
+            ->expects($this->once())
+            ->method('informServer')
+            ->with(
+                'alias',
+                'arch:status',
+                []
+            );
+
         $input    = $this->createInputMock();
         $output   = $this->createOutputMock();
 
-        $result   = $this->callProtectedMethod($command, 'command', [ $input, $output ]);
-        $expected = [
-            'alias',
-            'arch:status',
-            []
-        ];
-
-        $this->assertSame($expected, $result);
+        $this->callProtectedMethod($command, 'command', [ $input, $output ]);
     }
 }

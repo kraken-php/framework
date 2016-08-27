@@ -1,13 +1,22 @@
 <?php
 
-namespace Kraken\Console\Client\Command\Project;
+namespace Kraken\Console\Client\Command\Server;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Kraken\Console\Client\Command\Command;
 
-class ProjectStartCommand extends Command
+class ServerPingCommand extends Command
 {
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
+    protected function onMessage($value)
+    {
+        return "ip=$value";
+    }
+
     /**
      * @override
      * @inheritDoc
@@ -15,8 +24,8 @@ class ProjectStartCommand extends Command
     protected function config()
     {
         $this
-            ->setName('project:start')
-            ->setDescription('Starts project using core.project configuration.')
+            ->setName('server:ping')
+            ->setDescription('Pings client-server connection.')
         ;
     }
 
@@ -26,7 +35,7 @@ class ProjectStartCommand extends Command
      */
     protected function command(InputInterface $input, OutputInterface $output)
     {
-        $cmd  = 'project:start';
+        $cmd  = 'server:ping';
         $opts = [];
 
         return $this->informServer(null, $cmd, $opts);

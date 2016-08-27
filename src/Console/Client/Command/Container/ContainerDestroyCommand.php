@@ -38,6 +38,6 @@ class ContainerDestroyCommand extends Command
         $cmd  = 'container:destroy';
         $opts = [];
 
-        return [ $alias, $cmd, $opts ];
+        return $this->informServer($alias, $cmd, $opts);
     }
 }

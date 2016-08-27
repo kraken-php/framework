@@ -1,17 +1,26 @@
 <?php
 
-namespace Kraken\_Unit\Console\Client\Command\Thread;
+namespace Kraken\_Unit\Console\Client\Command\Ping;
 
 use Kraken\_Unit\Console\Client\_T\TCommand;
-use Kraken\Console\Client\Command\Thread\ThreadStopCommand;
-use Symfony\Component\Console\Input\InputArgument;
+use Kraken\Console\Client\Command\Server\ServerPingCommand;
 
-class ThreadStopCommandTest extends TCommand
+class ServerPingCommandTest extends TCommand
 {
     /**
      * @var string
      */
-    protected $class = ThreadStopCommand::class;
+    protected $class = ServerPingCommand::class;
+
+    /**
+     *
+     */
+    public function testApiOnMessage_FiltersMessage()
+    {
+        $command = $this->createCommand();
+
+        $this->assertSame('ip=127.0.0.1', $this->callProtectedMethod($command, 'onMessage', [ '127.0.0.1' ]));
+    }
 
     /**
      *
@@ -21,12 +30,9 @@ class ThreadStopCommandTest extends TCommand
         $command = $this->createCommand();
 
         $args = [];
-        $args[] = [ 'parent', InputArgument::REQUIRED ];
-        $args[] = [ 'alias',  InputArgument::REQUIRED ];
-
         $opts = [];
 
-        $this->assertCommand($command, 'thread:stop', '#^(.*?)$#si', $args, $opts);
+        $this->assertCommand($command, 'server:ping', '#^(.*?)$#si', $args, $opts);
     }
 
     /**
@@ -39,11 +45,9 @@ class ThreadStopCommandTest extends TCommand
             ->expects($this->once())
             ->method('informServer')
             ->with(
-                'parent',
-                'thread:stop',
-                [
-                    'alias' => 'alias'
-                ]
+                null,
+                'server:ping',
+                []
             );
 
         $input  = $this->createInputMock();

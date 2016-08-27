@@ -37,25 +37,26 @@ class RuntimeDestroyCommandTest extends TCommand
      */
     public function testApiCommand_ReturnsCommandData()
     {
-        $command  = $this->createCommand([ 'validateDestroyFlags' ]);
+        $command  = $this->createCommand([ 'informServer', 'validateDestroyFlags' ]);
         $command
             ->expects($this->once())
             ->method('validateDestroyFlags')
             ->will($this->returnArgument(0));
+        $command
+            ->expects($this->once())
+            ->method('informServer')
+            ->with(
+                'parent',
+                'runtime:destroy',
+                [
+                    'alias' => 'alias',
+                    'flags' => 'flags'
+                ]
+            );
 
-        $input    = $this->createInputMock();
-        $output   = $this->createOutputMock();
+        $input  = $this->createInputMock();
+        $output = $this->createOutputMock();
 
-        $result   = $this->callProtectedMethod($command, 'command', [ $input, $output ]);
-        $expected = [
-            'parent',
-            'runtime:destroy',
-            [
-                'alias' => 'alias',
-                'flags' => 'flags'
-            ]
-        ];
-
-        $this->assertSame($expected, $result);
+        $this->callProtectedMethod($command, 'command', [ $input, $output ]);
     }
 }

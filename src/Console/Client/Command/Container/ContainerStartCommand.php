@@ -38,6 +38,6 @@ class ContainerStartCommand extends Command
         $cmd  = 'container:start';
         $opts = [];
 
-        return [ $alias, $cmd, $opts ];
+        return $this->informServer($alias, $cmd, $opts);
     }
 }

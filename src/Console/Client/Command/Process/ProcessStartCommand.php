@@ -47,6 +47,6 @@ class ProcessStartCommand extends Command
             'alias' => $alias
         ];
 
-        return [ $parent, $cmd, $opts ];
+        return $this->informServer($parent, $cmd, $opts);
     }
 }

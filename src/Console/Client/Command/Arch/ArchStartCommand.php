@@ -38,6 +38,6 @@ class ArchStartCommand extends Command
         $cmd  = 'arch:start';
         $opts = [];
 
-        return [ $alias, $cmd, $opts ];
+        return $this->informServer($alias, $cmd, $opts);
     }
 }

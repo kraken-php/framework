@@ -4,9 +4,7 @@ namespace Kraken\_Unit\Console\Client\Command\Process;
 
 use Kraken\_Unit\Console\Client\_T\TCommand;
 use Kraken\Console\Client\Command\Process\ProcessStopCommand;
-use Kraken\Runtime\Runtime;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 class ProcessStopCommandTest extends TCommand
 {
@@ -36,19 +34,21 @@ class ProcessStopCommandTest extends TCommand
      */
     public function testApiCommand_ReturnsCommandData()
     {
-        $command  = $this->createCommand();
-        $input    = $this->createInputMock();
-        $output   = $this->createOutputMock();
+        $command  = $this->createCommand([ 'informServer' ]);
+        $command
+            ->expects($this->once())
+            ->method('informServer')
+            ->with(
+                'parent',
+                'process:stop',
+                [
+                    'alias' => 'alias'
+                ]
+            );
 
-        $result   = $this->callProtectedMethod($command, 'command', [ $input, $output ]);
-        $expected = [
-            'parent',
-            'process:stop',
-            [
-                'alias' => 'alias'
-            ]
-        ];
+        $input  = $this->createInputMock();
+        $output = $this->createOutputMock();
 
-        $this->assertSame($expected, $result);
+        $this->callProtectedMethod($command, 'command', [ $input, $output ]);
     }
 }

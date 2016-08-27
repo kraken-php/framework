@@ -69,6 +69,6 @@ class ThreadCreateCommand extends Command
             'flags' => $flags
         ];
 
-        return [ $parent, $cmd, $opts ];
+        return $this->informServer($parent, $cmd, $opts);
     }
 }

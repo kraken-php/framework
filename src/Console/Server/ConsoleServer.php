@@ -21,9 +21,9 @@ class ConsoleServer extends ProcessContainer
      * @override
      * @inheritDoc
      */
-    protected function construct(CoreInterface $core)
+    protected function boot(CoreInterface $core)
     {
-        echo "Server is being constructed...\n";
+        echo "Server is booting...\n";
 
         return $this;
     }
@@ -32,7 +32,7 @@ class ConsoleServer extends ProcessContainer
      * @override
      * @inheritDoc
      */
-    protected function boot(CoreInterface $core)
+    protected function construct(CoreInterface $core)
     {
         echo "Server is up!\n";
 

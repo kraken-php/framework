@@ -4,9 +4,7 @@ namespace Kraken\_Unit\Console\Client\Command\Runtime;
 
 use Kraken\_Unit\Console\Client\_T\TCommand;
 use Kraken\Console\Client\Command\Runtime\RuntimeExistsCommand;
-use Kraken\Runtime\Runtime;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 class RuntimeExistsCommandTest extends TCommand
 {
@@ -36,19 +34,21 @@ class RuntimeExistsCommandTest extends TCommand
      */
     public function testApiCommand_ReturnsCommandData()
     {
-        $command  = $this->createCommand();
-        $input    = $this->createInputMock();
-        $output   = $this->createOutputMock();
+        $command  = $this->createCommand([ 'informServer' ]);
+        $command
+            ->expects($this->once())
+            ->method('informServer')
+            ->with(
+                'parent',
+                'runtime:exists',
+                [
+                    'alias' => 'alias'
+                ]
+            );
 
-        $result   = $this->callProtectedMethod($command, 'command', [ $input, $output ]);
-        $expected = [
-            'parent',
-            'runtime:exists',
-            [
-                'alias' => 'alias'
-            ]
-        ];
+        $input  = $this->createInputMock();
+        $output = $this->createOutputMock();
 
-        $this->assertSame($expected, $result);
+        $this->callProtectedMethod($command, 'command', [ $input, $output ]);
     }
 }

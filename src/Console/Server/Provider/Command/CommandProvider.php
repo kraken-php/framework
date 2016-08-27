@@ -46,6 +46,7 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
             'project:start'     => 'Kraken\Console\Server\Command\Project\ProjectStartCommand',
             'project:stop'      => 'Kraken\Console\Server\Command\Project\ProjectStopCommand',
             'project:status'    => 'Kraken\Console\Server\Command\Project\ProjectStatusCommand',
+            'server:ping'       => 'Kraken\Console\Server\Command\Server\ServerPingCommand'
         ];
 
         foreach ($cmds as $key=>$class)
