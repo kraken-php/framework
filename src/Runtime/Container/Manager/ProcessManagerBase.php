@@ -89,11 +89,11 @@ class ProcessManagerBase implements ProcessManagerInterface
         }
         catch (Error $ex)
         {
-            throw new InstantiationException('ProcessManagerBase could not be initialized.');
+            throw new InstantiationException('ProcessManagerBase could not be initialized.', $ex);
         }
         catch (Exception $ex)
         {
-            throw new InstantiationException('ProcessManagerBase could not be initialized.');
+            throw new InstantiationException('ProcessManagerBase could not be initialized.', $ex);
         }
     }
 

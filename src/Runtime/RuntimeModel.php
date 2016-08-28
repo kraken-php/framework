@@ -3,14 +3,13 @@
 namespace Kraken\Runtime;
 
 use Kraken\Event\EventEmitterInterface;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
-use Kraken\Promise\Promise;
-use Kraken\Promise\PromiseInterface;
 use Kraken\Core\CoreInterface;
+use Kraken\Promise\Promise;
 use Kraken\Supervisor\SupervisorInterface;
-use Kraken\Throwable\Exception\LogicException;
 use Kraken\Loop\Loop;
 use Kraken\Loop\LoopExtendedInterface;
+use Kraken\Throwable\Exception\LogicException;
+use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
 use Error;
 use Exception;
 use ReflectionClass;
@@ -382,7 +381,13 @@ class RuntimeModel implements RuntimeModelInterface
         }
 
         $promise = new Promise();
-        $this->getLoop()->onTick(function() use($promise) {
+        $emitter = $this->getEventEmitter();
+        $emitter->emit('beforeCreate');
+
+        $this->getLoop()->onTick(function() use($promise, $emitter) {
+            $emitter->emit('create');
+            $emitter->emit('afterCreate');
+
             $promise->resolve(
                 $this
                     ->start()
@@ -393,12 +398,6 @@ class RuntimeModel implements RuntimeModelInterface
         });
 
         $this->setState(Runtime::STATE_CREATED);
-
-        $emitter = $this->getEventEmitter();
-        $emitter->emit('beforeCreate');
-        $emitter->emit('create');
-        $emitter->emit('afterCreate');
-
         $this->setLoopState(self::LOOP_STATE_STARTED);
         $this->startLoop();
 
@@ -433,26 +432,37 @@ class RuntimeModel implements RuntimeModelInterface
                         )
                         ->then(
                             function($runtimes) {
-                                return $this->getRuntimeManager()->destroyProcesses($runtimes, Runtime::DESTROY_FORCE);
+                                return $this->getRuntimeManager()->destroyRuntimes($runtimes, Runtime::DESTROY_FORCE);
                             }
                         );
                 }
             )
             ->then(
                 function() use($controller) {
-                    $controller->getLoop()->onTick(function() use($controller) {
-                        $controller->setState(Runtime::STATE_DESTROYED);
+                    $promise = new Promise();
 
+                    $controller->getLoop()->onTick(function() use($controller, $promise) {
                         $emitter = $controller->getEventEmitter();
                         $emitter->emit('beforeDestroy');
+
+                        $controller->setState(Runtime::STATE_DESTROYED);
+
                         $emitter->emit('destroy');
-                        $emitter->emit('afterDestroy');
 
                         $controller->setLoopState(self::LOOP_STATE_STOPPED);
                         $controller->stopLoop();
+
+                        $emitter->emit('afterDestroy');
+
+                        $promise->resolve();
                     });
 
-                    return 'Runtime has been destroyed.';
+                    return $promise
+                        ->then(
+                            function() {
+                                return 'Runtime has been destroyed.';
+                            }
+                        );
                 }
             );
     }
@@ -526,9 +536,10 @@ class RuntimeModel implements RuntimeModelInterface
     public function fail($ex, $params = [])
     {
         $super = $this->getSupervisor();
+        $loop  = $this->getLoop();
 
         $this->setLoopState(self::LOOP_STATE_FAILED);
-        $this->getLoop()->onTick(function() use($super, $ex, $params) {
+        $loop->onTick(function() use($super, $ex, $params) {
             try
             {
                 $super
@@ -592,7 +603,8 @@ class RuntimeModel implements RuntimeModelInterface
                 $this->stopLoop();
                 if ($this->loopState === self::LOOP_STATE_STARTED)
                 {
-                    $this->getLoop()->export($this->loopBackup)->flush();
+                    $this->getLoop()->export($this->loopBackup);
+                    $this->getLoop()->flush();
                 }
                 break;
 

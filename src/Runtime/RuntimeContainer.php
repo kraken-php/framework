@@ -4,13 +4,9 @@ namespace Kraken\Runtime;
 
 use Kraken\Core\CoreInterface;
 use Kraken\Event\EventEmitter;
-use Kraken\Event\EventHandler;
-use Kraken\Loop\LoopInterface;
-use Kraken\Promise\PromiseInterface;
 use Kraken\Runtime\Provider\Runtime\RuntimeAutowireProvider;
 use Kraken\Runtime\Provider\Runtime\RuntimeProvider;
 use Error;
-use Exception;
 
 abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
 {
@@ -373,7 +369,7 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * This method will be called before container boot. It should contain additional configurations.
+     * This method will be called before container boot. It should contain and return additional configurations.
      *
      * @param CoreInterface $core
      * @return array
@@ -397,8 +393,7 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     }
 
     /**
-     * This method will be called on container construction. It should contain configuration and logic to be fired after
-     * booting up.
+     * This method will be called on container construction. It should contain logic to be fired after booting up.
      *
      * @param CoreInterface $core
      * @return RuntimeInterface

@@ -64,7 +64,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
         ];
 
         $factoryProcess = new ProcessManagerFactory();
-        $factoryThread = new ThreadManagerFactory();
+        $factoryThread  = new ThreadManagerFactory();
 
         if ($core->unit() === Runtime::UNIT_THREAD)
         {

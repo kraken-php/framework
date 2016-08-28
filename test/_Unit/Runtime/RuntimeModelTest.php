@@ -744,7 +744,7 @@ class RuntimeModelTest extends TUnit
                 ->will($this->returnValue($runtimes));
             $manager
                 ->expects($this->once())
-                ->method('destroyProcesses')
+                ->method('destroyRuntimes')
                 ->with($runtimes, Runtime::DESTROY_FORCE)
                 ->will($this->returnValue(true));
 

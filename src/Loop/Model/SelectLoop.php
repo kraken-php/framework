@@ -389,7 +389,7 @@ class SelectLoop implements LoopModelInterface
         $loop->stop();
 
         $list = $all === true ? $this : $this->getTransferableProperties();
-        foreach ($this as $key=>$val)
+        foreach ($list as $key=>$val)
         {
             $loop->$key = $this->$key;
         }
@@ -407,7 +407,7 @@ class SelectLoop implements LoopModelInterface
         $loop->stop();
 
         $list = $all === true ? $this : $this->getTransferableProperties();
-        foreach ($this as $key=>$val)
+        foreach ($list as $key=>$val)
         {
             $this->$key = $loop->$key;
         }
@@ -425,7 +425,7 @@ class SelectLoop implements LoopModelInterface
         $loop->stop();
 
         $list = $all === true ? $this : $this->getTransferableProperties();
-        foreach ($this as $key=>$val)
+        foreach ($list as $key=>$val)
         {
             $tmp = $loop->$key;
             $loop->$key = $this->$key;
@@ -505,7 +505,8 @@ class SelectLoop implements LoopModelInterface
     {
         return [
             'nextTickQueue'     => null,
-            'futureTickQueue'   => null
+            'futureTickQueue'   => null,
+            'flowController'    => null
         ];
     }
 }
