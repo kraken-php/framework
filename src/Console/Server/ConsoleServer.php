@@ -4,7 +4,6 @@ namespace Kraken\Console\Server;
 
 use Kraken\Core\CoreInterface;
 use Kraken\Runtime\Container\ProcessContainer;
-use Kraken\Runtime\RuntimeInterface;
 
 class ConsoleServer extends ProcessContainer
 {
