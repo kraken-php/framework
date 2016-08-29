@@ -761,11 +761,11 @@ class RuntimeModelTest extends TUnit
                 ->method('stop')
                 ->will($this->returnValue(new PromiseFulfilled()));
             $runtime
-                ->expects($this->twice())
+                ->expects($this->atLeastOnce())
                 ->method('getRuntimeManager')
                 ->will($this->returnValue($manager));
             $runtime
-                ->expects($this->once())
+                ->expects($this->atLeastOnce())
                 ->method('getEventEmitter')
                 ->will($this->returnValue($emitter));
             $runtime

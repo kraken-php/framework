@@ -72,11 +72,18 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
         $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
         $channel = $core->make('Kraken\Runtime\Channel\ChannelInterface');
         $console = $core->make('Kraken\Runtime\Channel\ConsoleInterface');
+        $loop    = $core->make('Kraken\Loop\LoopInterface');
 
         $this->applyConsoleRouting($channel, $console);
 
-        $runtime->on('create', [ $console, 'start' ]);
-        $runtime->on('destroy', [ $console, 'stop' ]);
+        $runtime->on('create',  function() use($console) {
+            $console->start();
+        });
+        $runtime->on('destroy', function() use($loop, $console) {
+            $loop->onTick(function() use($console) {
+                $console->stop();
+            });
+        });
     }
 
     /**
@@ -90,7 +97,7 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
         $router = $console->input();
         $router->addAnchor(
             new RuleHandler(function($params) use($master) {
-                $master->pull(
+                $master->receive(
                     $params['alias'],
                     $params['protocol']
                 );

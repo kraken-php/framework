@@ -441,17 +441,16 @@ class RuntimeModel implements RuntimeModelInterface
                 function() use($controller) {
                     $promise = new Promise();
 
+                    $emitter = $controller->getEventEmitter();
+                    $emitter->emit('beforeDestroy');
+                    $emitter->emit('destroy');
+
                     $controller->getLoop()->onTick(function() use($controller, $promise) {
-                        $emitter = $controller->getEventEmitter();
-                        $emitter->emit('beforeDestroy');
-
                         $controller->setState(Runtime::STATE_DESTROYED);
-
-                        $emitter->emit('destroy');
-
                         $controller->setLoopState(self::LOOP_STATE_STOPPED);
                         $controller->stopLoop();
 
+                        $emitter = $controller->getEventEmitter();
                         $emitter->emit('afterDestroy');
 
                         $promise->resolve();

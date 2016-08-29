@@ -210,7 +210,8 @@ class ProcessManagerBase implements ProcessManagerInterface
             $this->channel, $alias, new RuntimeCommand('cmd:ping')
         );
 
-        return $req->call()
+        return $req
+            ->call()
             ->then(
                 function() {
                     return 'Process has been created.';
@@ -254,7 +255,8 @@ class ProcessManagerBase implements ProcessManagerInterface
                 new RuntimeCommand('container:destroy')
             );
 
-            return $req->call()
+            return $req
+                ->call()
                 ->then(
                     function($value) use($manager, $alias) {
                         usleep(1e3);
@@ -266,7 +268,8 @@ class ProcessManagerBase implements ProcessManagerInterface
         else if ($flags === Runtime::DESTROY_FORCE)
         {
             $manager = $this;
-            return $manager->destroyProcess($alias, Runtime::DESTROY_FORCE_SOFT)
+            return $manager
+                ->destroyProcess($alias, Runtime::DESTROY_FORCE_SOFT)
                 ->then(
                     null,
                     function() use($manager, $alias) {
@@ -577,7 +580,7 @@ class ProcessManagerBase implements ProcessManagerInterface
         }
 
         $data = array_merge($data, $with);
-        $this->fs->write($this->fsPath, json_encode($data));
+        $this->fs->create($this->fsPath, json_encode($data));
     }
 
     /**

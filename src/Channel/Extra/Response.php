@@ -92,14 +92,16 @@ class Response
 
         if ($message instanceof Error || $message instanceof Exception)
         {
-            $answer = $channel->createProtocol($message->getMessage())
+            $answer = $channel
+                ->createProtocol($message->getMessage())
                 ->setPid($pid, true)
                 ->setException(get_class($message), true)
             ;
         }
         else
         {
-            $answer = $channel->createProtocol($message)
+            $answer = $channel
+                ->createProtocol($message)
                 ->setPid($pid, true)
             ;
         }

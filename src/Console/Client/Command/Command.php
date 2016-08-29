@@ -376,7 +376,7 @@ abstract class Command extends SymfonyCommand implements CommandInterface
      */
     protected function successMessage($message)
     {
-        echo "success!\n\033[42m\033[1;37mResponse  : " . $message . "\033[0m\n";
+        echo "success!\nResponse  : \033[42m\033[1;37m" . $message . "\033[0m\n";
     }
 
     /**
@@ -386,7 +386,7 @@ abstract class Command extends SymfonyCommand implements CommandInterface
      */
     protected function failureMessage($exception, $message)
     {
-        echo "failure!\n\033[41m\033[1;37mResponse   : " . $message . "\nReason      : " . $exception . "\033[0m\n";
+        echo "failure!\nResponse  : \033[41m\033[1;37m" . $message . "\033[0m\nReason    : \033[41m\033[1;37m" . $exception . "\033[0m\n";
     }
 
     /**
@@ -396,6 +396,6 @@ abstract class Command extends SymfonyCommand implements CommandInterface
      */
     protected function cancelMessage($exception, $message)
     {
-        echo "cancel!\n\033[41m\033[1;37mResponse   : " . $message . "\nReason      : " . $exception . "\033[0m\n";
+        echo "cancel!\nResponse   : \033[41m\033[1;37m" . $message . "\033[0m\nReason    : \033[41m\033[1;37m" . $exception . "\033[0m\n";
     }
 }

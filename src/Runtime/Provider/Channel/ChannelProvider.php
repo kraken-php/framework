@@ -29,7 +29,8 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         'Kraken\Command\CommandManagerInterface',
         'Kraken\Config\ConfigInterface',
         'Kraken\Channel\ChannelFactoryInterface',
-        'Kraken\Runtime\RuntimeInterface'
+        'Kraken\Runtime\RuntimeInterface',
+        'Kraken\Runtime\RuntimeInterface',
     ];
 
     /**
@@ -103,6 +104,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
         $channel = $core->make('Kraken\Runtime\Channel\ChannelInterface');
         $console = $core->make('Kraken\Runtime\Channel\ConsoleInterface');
+        $loop    = $core->make('Kraken\Loop\LoopInterface');
 
         if ($runtime->parent() === null)
         {
@@ -113,8 +115,14 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
             $this->applySimpleRouting($runtime, $channel);
         }
 
-        $runtime->on('create', [ $channel, 'start' ]);
-        $runtime->on('destroy', [ $channel, 'stop' ]);
+        $runtime->on('create',  function() use($channel) {
+            $channel->start();
+        });
+        $runtime->on('destroy', function() use($loop, $channel) {
+            $loop->onTick(function() use($channel) {
+                $channel->stop();
+            });
+        });
     }
 
     /**

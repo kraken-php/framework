@@ -72,15 +72,6 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
             ->setBus('slave', $slave)
         ;
 
-//        $composite->on('connect', function($alias) {
-//            echo "Connected [$alias]\n";
-//        });
-//        $composite->on('disconnect', function($alias) {
-//            echo "Disconnected [$alias]\n";
-//        });
-
-        $this->applyConsoleRouting($runtime, $composite);
-
         $core->instance(
             'Kraken\Runtime\Channel\ChannelInterface',
             $composite
@@ -106,9 +97,18 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
     {
         $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
         $channel = $core->make('Kraken\Runtime\Channel\ChannelInterface');
+        $loop    = $core->make('Kraken\Loop\LoopInterface');
 
-        $runtime->on('create', [ $channel, 'start' ]);
-        $runtime->on('destroy', [ $channel, 'stop' ]);
+        $this->applyConsoleRouting($runtime, $channel);
+
+        $runtime->on('create',  function() use($channel) {
+            $channel->start();
+        });
+        $runtime->on('destroy', function() use($loop, $channel) {
+            $loop->onTick(function() use($channel) {
+                $channel->stop();
+            });
+        });
     }
 
     /**
@@ -157,12 +157,6 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         );
 
         $router = $slave->input();
-//        $router->addRule(
-//            new RuleMatchDestination($slave->name()),
-//            new RuleHandler(function($params) use($composite) {
-//                $this->executeProtocol($composite, $params['protocol']);
-//            })
-//        );
         $router->addAnchor(
             new RuleHandler(function($params) use($runtime, $slave, $master) {
                 $master->push(Runtime::RESERVED_CONSOLE_CLIENT, $params['protocol'], $params['flags']);

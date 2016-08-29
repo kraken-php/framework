@@ -46,10 +46,10 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
 
         $this->applyConsoleController($channel);
 
-        $console->onStart(function() use($channel) {
+        $console->on('start', function() use($channel) {
             $channel->start();
         });
-        $console->onStop(function() use($channel) {
+        $console->on('stop',  function() use($channel) {
             $channel->stop();
         });
 
