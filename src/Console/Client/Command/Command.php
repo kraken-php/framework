@@ -308,19 +308,17 @@ abstract class Command extends SymfonyCommand implements CommandInterface
     {
         print("Success\n");
 
-        $data = [];
         $header = [];
+        $data = [];
         $lengths = [];
-        $mbLengths = [];
         foreach ($input[0] as $key=>$value)
         {
-            $header[] = $key;
-            $lengths[$key] = strlen($key);
-            $mbLengths[$key] = mb_strlen($key);
+            $header[$key] = $key;
+            $lengths[$key] = 0;
         }
-        $data[] = $header;
+        array_unshift($input, $header);
 
-        foreach ($input as $row)
+        foreach ($input as &$row)
         {
             foreach ($row as $key=>$value)
             {
@@ -330,44 +328,49 @@ abstract class Command extends SymfonyCommand implements CommandInterface
                     $row[$key] = $value;
                 }
 
-                $len = strlen($value);
                 $mbLen = mb_strlen($value);
 
-                if ($len > $lengths[$key])
+                if ($mbLen > $lengths[$key])
                 {
-                    $lengths[$key] = $len;
+                    $lengths[$key] = $mbLen;
                 }
+            }
+        }
+        unset($row);
 
-                if ($mbLen > $mbLengths[$key])
+        foreach ($input as &$row)
+        {
+            foreach ($row as $key=>$value)
+            {
+                $mbLen = mb_strlen($value);
+
+                if ($mbLen < $lengths[$key])
                 {
-                    $mbLengths[$key] = $mbLen;
+                    $value .= str_repeat(' ', $lengths[$key]-$mbLen);
+                    $row[$key] = $value;
                 }
             }
 
             $data[] = $row;
         }
+        unset($row);
 
-        $mask = '|';
-        foreach ($lengths as $length)
+        $output = "";
+
+        foreach ($data as &$row)
         {
-            $mask .= ' %-' . $length . '.' . $length . 's |';
-        }
-        $mask .= PHP_EOL;
+            $output .= "|";
 
-        $mbMask = '|';
-        foreach ($mbLengths as $mbLength)
-        {
-            $mbMask .= ' %-' . $mbLength . '.' . $mbLength . 's |';
-        }
-        $mbMask .= PHP_EOL;
+            foreach ($row as $key=>$value)
+            {
+                $output .= " " . $value . " |";
+            }
 
-        call_user_func_array('printf', array_merge([ $mbMask ], $header));
-        call_user_func_array('printf', array_merge([ $mbMask ], $data[1]));
-
-        for ($i=2; $i<count($data); $i++)
-        {
-            call_user_func_array('printf', array_merge([ $mask ], $data[$i]));
+            $output .= "\n";
         }
+        unset($row);
+
+        print($output);
     }
 
     /**
