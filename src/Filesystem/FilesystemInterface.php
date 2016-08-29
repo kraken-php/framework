@@ -120,7 +120,16 @@ interface FilesystemInterface
     public function setPrivate($path = '');
 
     /**
-     * Create a file or update if exists.
+     * Create a new file or overwrite existing one.
+     *
+     * @param string $path
+     * @param string $contents
+     * @throws IoWriteException
+     */
+    public function create($path, $contents);
+
+    /**
+     * Overwrite existing file.
      *
      * @param string $path
      * @param string $contents

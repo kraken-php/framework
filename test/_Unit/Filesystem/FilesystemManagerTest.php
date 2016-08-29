@@ -409,6 +409,30 @@ class FilesystemManagerTest extends TUnit
     /**
      * @dataProvider observableFilesystemManagerProvider
      */
+    public function testApiCreate_PassesCallToProperFs_WhenFsExists(FilesystemManagerInterface $man, ObjectProphecy $p1, ObjectProphecy $p2)
+    {
+        $contents = '';
+
+        $this->expect($p1, 'create', [ 'path', $contents ]);
+        $this->prevent($p2, 'create');
+
+        $man->create('fs1://path', $contents);
+    }
+
+    /**
+     * @dataProvider observableFilesystemManagerProvider
+     */
+    public function testApiCreate_ThrowsException_WhenFsDoesNotExist(FilesystemManagerInterface $man, ObjectProphecy $p1, ObjectProphecy $p2)
+    {
+        $contents = '';
+        $this->setExpectedException(IoWriteException::class);
+
+        $man->create('not_fs://path', $contents);
+    }
+
+    /**
+     * @dataProvider observableFilesystemManagerProvider
+     */
     public function testApiCreateFile_PassesCallToProperFs_WhenFsExists(FilesystemManagerInterface $man, ObjectProphecy $p1, ObjectProphecy $p2)
     {
         $contents = '';

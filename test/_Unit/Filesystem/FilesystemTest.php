@@ -424,6 +424,41 @@ class FilesystemTest extends TUnit
     /**
      *
      */
+    public function testApiCreate_CallsWriteOnModel_WithConfig()
+    {
+        $path = 'path';
+        $contents = 'contents';
+
+        $this->expect('put', [ $path, $contents ]);
+        $this->fs->create($path, $contents);
+    }
+
+    /**
+     *
+     */
+    public function testApiCreate_ThrowsException_WhenLegueWriteThrowsException()
+    {
+        $path = 'path';
+        $contents = 'contents';
+        $expected = new Exception();
+        $ex = null;
+
+        $this->expect('put', [ $path, $contents ])->willThrow($expected);
+
+        try
+        {
+            $this->fs->create($path, $contents);
+        }
+        catch (Exception $ex)
+        {}
+
+        $this->assertInstanceOf(IoWriteException::class, $ex);
+        $this->assertSame($expected, $ex->getPrevious());
+    }
+
+    /**
+     *
+     */
     public function testApiWrite_CallsPutOnModel_WithConfig()
     {
         $path = 'path';

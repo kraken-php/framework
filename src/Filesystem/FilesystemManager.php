@@ -279,6 +279,22 @@ class FilesystemManager implements FilesystemManagerInterface
      * @override
      * @inheritDoc
      */
+    public function create($path, $contents)
+    {
+        list($prefix, $path) = $this->filterPrefix($path);
+
+        if (($fs = $this->getFilesystem($prefix)) === null)
+        {
+            throw new IoWriteException("No filesystem saved under prefix [$prefix].");
+        }
+
+        $fs->create($path, $contents);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
     public function write($path, $contents)
     {
         list($prefix, $path) = $this->filterPrefix($path);

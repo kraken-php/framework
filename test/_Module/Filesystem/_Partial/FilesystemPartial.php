@@ -7,6 +7,7 @@ use Kraken\_Module\Filesystem\_Partial\Filesystem\FsApiCopyDirPartial;
 use Kraken\_Module\Filesystem\_Partial\Filesystem\FsApiCopyFilePartial;
 use Kraken\_Module\Filesystem\_Partial\Filesystem\FsApiCreateDirPartial;
 use Kraken\_Module\Filesystem\_Partial\Filesystem\FsApiCreateFilePartial;
+use Kraken\_Module\Filesystem\_Partial\Filesystem\FsApiCreatePartial;
 use Kraken\_Module\Filesystem\_Partial\Filesystem\FsApiEraseDirPartial;
 use Kraken\_Module\Filesystem\_Partial\Filesystem\FsApiEraseFilePartial;
 use Kraken\_Module\Filesystem\_Partial\Filesystem\FsApiExistsPartial;
@@ -48,6 +49,7 @@ trait FilesystemPartial
     use FsApiSetVisibilityPartial;
     use FsApiSetPublicPartial;
     use FsApiSetPrivatePartial;
+    use FsApiCreatePartial;
     use FsApiWritePartial;
     use FsApiAppendPartial;
     use FsApiPrependPartial;

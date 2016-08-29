@@ -312,6 +312,25 @@ class Filesystem implements FilesystemInterface
      * @override
      * @inheritDoc
      */
+    public function create($path, $contents)
+    {
+        try
+        {
+            $this->fs->put($path, $contents);
+            return;
+        }
+        catch (Error $ex)
+        {}
+        catch (Exception $ex)
+        {}
+
+        throw new IoWriteException("File $path could not be created.", $ex);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
     public function write($path, $contents)
     {
         try
