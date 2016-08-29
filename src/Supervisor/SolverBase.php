@@ -13,12 +13,12 @@ class SolverBase implements SolverInterface
     /**
      * @var mixed[]
      */
-    protected $context;
+    protected $context = [];
 
     /**
      * @var string[]
      */
-    protected $requires;
+    protected $requires = [];
 
     /**
      * @param mixed[] $context
@@ -26,7 +26,6 @@ class SolverBase implements SolverInterface
     public function __construct($context = [])
     {
         $this->context = $context;
-        $this->requires = [];
 
         $this->construct();
     }

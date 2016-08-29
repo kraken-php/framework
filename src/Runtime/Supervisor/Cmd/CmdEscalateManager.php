@@ -27,7 +27,7 @@ class CmdEscalateManager extends SolverBase implements SolverInterface
      */
     protected function construct()
     {
-        $this->channel = $this->runtime->core()->make('Kraken\Runtime\Channel\ChannelInterface');
+        $this->channel = $this->runtime->getCore()->make('Kraken\Runtime\Channel\ChannelInterface');
         $this->parent  = $this->runtime->parent();
     }
 
@@ -47,12 +47,25 @@ class CmdEscalateManager extends SolverBase implements SolverInterface
      */
     protected function handler($ex, $params = [])
     {
-        $req = new Request(
+        $req = $this->createRequest(
             $this->channel,
             $this->parent,
             new RuntimeCommand('cmd:error', [ 'exception' => get_class($ex), 'message' => $ex->getMessage() ])
         );
 
         return $req->call();
+    }
+
+    /**
+     * Create Request.
+     *
+     * @param ChannelBaseInterface $channel
+     * @param string $receiver
+     * @param string $command
+     * @return Request
+     */
+    protected function createRequest(ChannelBaseInterface $channel, $receiver, $command)
+    {
+        return new Request($channel, $receiver, $command);
     }
 }

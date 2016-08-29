@@ -26,7 +26,7 @@ class CmdLog extends SolverBase implements SolverInterface
             $this->context['level'] = Logger::EMERGENCY;
         }
 
-        $this->logger = $this->runtime->core()->make('Kraken\Log\LoggerInterface');
+        $this->logger = $this->runtime->getCore()->make('Kraken\Log\LoggerInterface');
     }
 
     /**
@@ -45,7 +45,8 @@ class CmdLog extends SolverBase implements SolverInterface
     protected function handler($ex, $params = [])
     {
         $this->logger->log(
-            $this->context['level'], \Kraken\Throwable\Exception::toString($ex)
+            $this->context['level'],
+            \Kraken\Throwable\Exception::toString($ex)
         );
     }
 }
