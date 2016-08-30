@@ -5,7 +5,7 @@
  * Declare paths
  */
 $basePath = __DIR__;
-$dataPath = $basePath . '/kraken';
+$dataPath = $basePath . '/data';
 
 /**
  * Include autoloader & dependencies
