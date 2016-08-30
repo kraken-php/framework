@@ -4,7 +4,7 @@ namespace Kraken\_Module\Filesystem\_Partial\Filesystem;
 
 use Kraken\Filesystem\FilesystemInterface;
 use Kraken\Test\TModule;
-use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
+use Kraken\Throwable\Exception\Runtime\ReadException;
 
 trait FsApiGetTypePartial
 {
@@ -84,7 +84,7 @@ trait FsApiGetTypePartial
         $fs = $this->createFilesystem();
         $p = $this->getPrefixed('NULL');
 
-        $test->setExpectedException(IoReadException::class);
+        $test->setExpectedException(ReadException::class);
         $fs->getType($p);
     }
 }

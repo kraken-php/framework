@@ -10,8 +10,8 @@ use Kraken\Container\Container;
 use Kraken\Container\Model\ContainerModel;
 use Kraken\Container\Model\ContainerReflection;
 use Kraken\Test\TUnit;
-use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
-use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
+use Kraken\Throwable\Exception\Runtime\ReadException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
 use Prophecy\Argument;
 
 class ContainerTest extends TUnit
@@ -48,7 +48,7 @@ class ContainerTest extends TUnit
      */
     public function testApiWire_ThrowsException_WhenModelThrowsException()
     {
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
 
         $container = $this->createContainer();
 
@@ -61,7 +61,7 @@ class ContainerTest extends TUnit
      */
     public function testApiShare_ThrowsException_WhenModelThrowsException()
     {
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
 
         $container = $this->createContainer();
 
@@ -74,7 +74,7 @@ class ContainerTest extends TUnit
      */
     public function testApiBind_ThrowsException_WhenModelThrowsException()
     {
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
 
         $container = $this->createContainer();
         $baz = new Baz;
@@ -88,7 +88,7 @@ class ContainerTest extends TUnit
      */
     public function testApiAlias_ThrowsException_WhenModelThrowsException()
     {
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
 
         $container = $this->createContainer();
 
@@ -101,7 +101,7 @@ class ContainerTest extends TUnit
      */
     public function testApiParam_ThrowsException_WhenModelThrowsException()
     {
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
 
         $container = $this->createContainer();
         $alias = 'alias';
@@ -116,7 +116,7 @@ class ContainerTest extends TUnit
      */
     public function testApiFactory_ThrowsException_WhenModelThrowsException()
     {
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
 
         $container = $this->createContainer();
         $alias = 'alias';
@@ -131,7 +131,7 @@ class ContainerTest extends TUnit
      */
     public function testApiMake_ThrowsException_WhenModelThrowsException()
     {
-        $this->setExpectedException(IoReadException::class);
+        $this->setExpectedException(ReadException::class);
 
         $container = $this->createContainer();
         $alias = 'alias';
@@ -146,7 +146,7 @@ class ContainerTest extends TUnit
      */
     public function testApiCall_ThrowsException_WhenModelThrowsException()
     {
-        $this->setExpectedException(IoReadException::class);
+        $this->setExpectedException(ReadException::class);
 
         $container = $this->createContainer();
         $callback = function() {};

@@ -3,10 +3,8 @@
 namespace Kraken\Supervisor;
 
 use Kraken\Promise\Promise;
-use Kraken\Promise\PromiseInterface;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
-use Kraken\Throwable\Exception\LogicException;
 use Error;
 use Exception;
 

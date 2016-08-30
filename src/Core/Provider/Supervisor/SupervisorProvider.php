@@ -9,7 +9,7 @@ use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Runtime\Supervisor\SolverFactory;
 use Kraken\Supervisor\SolverFactoryInterface;
 use Kraken\Supervisor\Supervisor;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
+use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Util\Factory\FactoryPluginInterface;
 

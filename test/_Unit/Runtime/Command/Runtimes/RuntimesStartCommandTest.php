@@ -4,7 +4,7 @@ namespace Kraken\_Unit\Runtime\Command\Runtimes;
 
 use Kraken\_Unit\Runtime\Command\_T\TCommand;
 use Kraken\Runtime\Command\Runtimes\RuntimesStartCommand;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 use StdClass;
 
 class RuntimesStartCommandTest extends TCommand

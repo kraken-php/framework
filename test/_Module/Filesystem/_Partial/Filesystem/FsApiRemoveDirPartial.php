@@ -4,7 +4,7 @@ namespace Kraken\_Module\Filesystem\_Partial\Filesystem;
 
 use Kraken\Filesystem\FilesystemInterface;
 use Kraken\Test\TModule;
-use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
 
 trait FsApiRemoveDirPartial
 {
@@ -58,7 +58,7 @@ trait FsApiRemoveDirPartial
         $fs = $this->createFilesystem();
         $pc = $this->getPrefixed('FILE_C');
 
-        $test->setExpectedException(IoWriteException::class);
+        $test->setExpectedException(WriteException::class);
         $test->assertTrue($fs->exists($pc));
         $fs->removeDir($pc);
     }
@@ -90,7 +90,7 @@ trait FsApiRemoveDirPartial
         $fs = $this->createFilesystem();
         $null = $this->getPrefixed('NULL');
 
-        $test->setExpectedException(IoWriteException::class);
+        $test->setExpectedException(WriteException::class);
         $test->assertFalse($fs->exists($null));
         $fs->removeDir($null);
     }

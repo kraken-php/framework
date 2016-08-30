@@ -2,7 +2,7 @@
 
 namespace Kraken\Container;
 
-use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
+use Kraken\Throwable\Exception\Runtime\ReadException;
 
 interface ContainerReaderInterface
 {
@@ -20,7 +20,7 @@ interface ContainerReaderInterface
      * @param string $aliasOrClass
      * @param mixed[] $args
      * @return mixed
-     * @throws IoReadException
+     * @throws ReadException
      */
     public function make($aliasOrClass, $args = []);
 
@@ -30,7 +30,7 @@ interface ContainerReaderInterface
      * @param callable $callable
      * @param mixed[] $args
      * @return mixed
-     * @throws IoReadException
+     * @throws ReadException
      */
     public function call(callable $callable, $args = []);
 }

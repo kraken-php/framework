@@ -2,10 +2,10 @@
 
 namespace Kraken\Promise;
 
+use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
+use Kraken\Throwable\Exception\Runtime\CancellationException;
 use Error;
 use Exception;
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
-use Kraken\Throwable\Exception\Runtime\Execution\CancellationException;
 
 class PromiseCancelled implements PromiseInterface
 {

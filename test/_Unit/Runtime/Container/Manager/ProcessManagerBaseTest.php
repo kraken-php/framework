@@ -17,8 +17,8 @@ use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\RuntimeInterface;
 use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceDefinedException;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 use Kraken\Util\System\SystemInterface;
 use StdClass;
 
@@ -105,7 +105,7 @@ class ProcessManagerBaseTest extends TUnit
         $callable
             ->expects($this->once())
             ->method('__invoke')
-            ->with($this->isInstanceOf(ResourceDefinedException::class));
+            ->with($this->isInstanceOf(ResourceOccupiedException::class));
 
         $manager
             ->createProcess($alias, $name)
@@ -150,7 +150,7 @@ class ProcessManagerBaseTest extends TUnit
         $callable
             ->expects($this->once())
             ->method('__invoke')
-            ->with($this->isInstanceOf(ResourceDefinedException::class));
+            ->with($this->isInstanceOf(ResourceOccupiedException::class));
 
         $manager
             ->destroyProcess($alias, $flags)

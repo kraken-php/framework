@@ -4,8 +4,8 @@ namespace Kraken\_Unit\Promise\_Partial;
 
 use Kraken\Promise\Promise;
 use Kraken\Promise\DeferredInterface;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
-use Kraken\_Unit\TestCase;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Kraken\Test\TUnit;
 use Exception;
 use StdClass;
 
@@ -17,8 +17,8 @@ trait ApiResolvePartial
     abstract public function createDeferred();
 
     /**
-     * @see TestCase::getTest
-     * @return TestCase
+     * @see TUnit::getTest
+     * @return TUnit
      */
     abstract public function getTest();
 

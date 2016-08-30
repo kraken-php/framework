@@ -2,21 +2,20 @@
 
 namespace Kraken\_Module\Throwable;
 
-use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceDefinedException;
+use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
+use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
 use Kraken\Throwable\Exception\Logic\IllegalFieldException;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Throwable\Exception\Logic\InvalidFormatException;
 use Kraken\Throwable\Exception\Logic\ResourceException;
-use Kraken\Throwable\Exception\Runtime\Execution\CancellationException;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
-use Kraken\Throwable\Exception\Runtime\Execution\TimeoutException;
-use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
-use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
+use Kraken\Throwable\Exception\Runtime\CancellationException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Kraken\Throwable\Exception\Runtime\TimeoutException;
+use Kraken\Throwable\Exception\Runtime\ReadException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
-use Kraken\Throwable\Exception\Runtime\IoException;
 use Kraken\Throwable\Exception\Runtime\OutOfBoundsException;
 use Kraken\Throwable\Exception\Runtime\OverflowException;
 use Kraken\Throwable\Exception\Runtime\UnderflowException;
@@ -37,21 +36,20 @@ class ExceptionTest extends TModule
     public function testCaseExceptionStructure_IsValid()
     {
         $structure = [
-            ResourceUndefinedException::class   => ResourceException::class,
-            ResourceDefinedException::class     => ResourceException::class,
+            ResourceUndefinedException::class   => LogicException::class,
+            ResourceOccupiedException::class    => LogicException::class,
             IllegalCallException::class         => LogicException::class,
             IllegalFieldException::class        => LogicException::class,
             InstantiationException::class       => LogicException::class,
             InvalidArgumentException::class     => LogicException::class,
             InvalidFormatException::class       => LogicException::class,
             ResourceException::class            => LogicException::class,
-            CancellationException::class        => ExecutionException::class,
-            RejectionException::class           => ExecutionException::class,
-            TimeoutException::class             => ExecutionException::class,
-            IoReadException::class              => IoException::class,
-            IoWriteException::class             => IoException::class,
+            CancellationException::class        => RuntimeException::class,
+            RejectionException::class           => RuntimeException::class,
+            TimeoutException::class             => RuntimeException::class,
+            ReadException::class                => RuntimeException::class,
+            WriteException::class               => RuntimeException::class,
             ExecutionException::class           => RuntimeException::class,
-            IoException::class                  => RuntimeException::class,
             OutOfBoundsException::class         => RuntimeException::class,
             OverflowException::class            => RuntimeException::class,
             UnderflowException::class           => RuntimeException::class,
@@ -68,6 +66,4 @@ class ExceptionTest extends TModule
             $this->assertInstanceOf($extended, new $class);
         }
     }
-
-
 }

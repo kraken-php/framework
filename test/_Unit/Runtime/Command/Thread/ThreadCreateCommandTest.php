@@ -4,7 +4,7 @@ namespace Kraken\_Unit\Runtime\Command\Thread;
 
 use Kraken\_Unit\Runtime\Command\_T\TCommand;
 use Kraken\Runtime\Command\Thread\ThreadCreateCommand;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 use StdClass;
 
 class ThreadCreateCommandTest extends TCommand

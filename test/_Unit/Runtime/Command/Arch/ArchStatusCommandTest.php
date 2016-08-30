@@ -8,7 +8,7 @@ use Kraken\Channel\ChannelProtocol;
 use Kraken\Channel\Extra\Request;
 use Kraken\Promise\PromiseFulfilled;
 use Kraken\Runtime\Command\Arch\ArchStatusCommand;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 use Exception;
 
 class ArchStatusCommandTest extends TCommand

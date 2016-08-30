@@ -5,7 +5,7 @@ namespace Kraken\_Unit\Promise\_Partial;
 use Kraken\Promise\DeferredInterface;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
-use Kraken\_Unit\TestCase;
+use Kraken\Test\TUnit;
 
 trait PromisePendingPartial
 {
@@ -21,8 +21,8 @@ trait PromisePendingPartial
     abstract public function createPromiseMock($methods = []);
 
     /**
-     * @see TestCase::getTest
-     * @return TestCase
+     * @see TUnit::getTest
+     * @return TUnit
      */
     abstract public function getTest();
 

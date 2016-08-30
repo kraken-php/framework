@@ -3,8 +3,8 @@
 namespace Kraken\Stream;
 
 use Kraken\Event\EventEmitterInterface;
-use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
-use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
+use Kraken\Throwable\Exception\Runtime\ReadException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
 
 /**
  * @event seek : callable(object, int)
@@ -22,7 +22,7 @@ interface StreamSeekerInterface extends EventEmitterInterface, StreamBaseInterfa
      * Get the position of the file pointer.
      *
      * @return int
-     * @throws IoReadException
+     * @throws ReadException
      */
     public function tell();
 
@@ -34,14 +34,14 @@ interface StreamSeekerInterface extends EventEmitterInterface, StreamBaseInterfa
      *
      * @param int $offset
      * @param int $whence
-     * @throws IoWriteException
+     * @throws WriteException
      */
     public function seek($offset, $whence = SEEK_SET);
 
     /**
      * Move the file pointer to the beginning of the stream.
      *
-     * @throws IoWriteException
+     * @throws WriteException
      */
     public function rewind();
 }

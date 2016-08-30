@@ -7,7 +7,7 @@ use Kraken\Channel\ChannelRouterBase;
 use Kraken\Channel\ChannelRouterBaseInterface;
 use Kraken\Channel\ChannelRouterComposite;
 use Kraken\Test\TUnit;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
+use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 
 class ChannelRouterCompositeTest extends TUnit
 {

@@ -6,8 +6,8 @@ use Kraken\Promise\DeferredInterface;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseCancelled;
 use Kraken\Promise\PromiseInterface;
-use Kraken\Throwable\Exception\Runtime\Execution\CancellationException;
-use Kraken\_Unit\TestCase;
+use Kraken\Throwable\Exception\Runtime\CancellationException;
+use Kraken\Test\TUnit;
 use Exception;
 
 trait PromiseCancelledPartial
@@ -24,8 +24,8 @@ trait PromiseCancelledPartial
     abstract public function createPromiseMock($methods = []);
 
     /**
-     * @see TestCase::getTest
-     * @return TestCase
+     * @see TUnit::getTest
+     * @return TUnit
      */
     abstract public function getTest();
 

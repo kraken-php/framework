@@ -17,9 +17,9 @@ use Kraken\Channel\Request\Request;
 use Kraken\Event\EventHandler;
 use Kraken\Loop\Loop;
 use Kraken\Loop\LoopInterface;
+use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
+use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Test\TUnit;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceDefinedException;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
 
 class ChannelCompositeTest extends TUnit
 {
@@ -99,7 +99,7 @@ class ChannelCompositeTest extends TUnit
         $bus = $this->createBus();
         $channel = $this->createChannel([ 'bus' => $bus ]);
 
-        $this->setExpectedException(ResourceDefinedException::class);
+        $this->setExpectedException(ResourceOccupiedException::class);
         $channel->setBus('bus', $this->createBus());
     }
 

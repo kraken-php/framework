@@ -44,7 +44,7 @@ interface NetworkConnectionInterface extends RatchetConnectionInterface
     /**
      * Send data to the connection.
      *
-     * @param  string $data
+     * @param string $data
      */
     public function send($data);
 

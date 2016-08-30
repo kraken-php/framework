@@ -6,7 +6,7 @@ use Kraken\Supervisor\SolverBase;
 use Kraken\Supervisor\SolverInterface;
 use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 use Exception;
 
 class SolverBaseTest extends TUnit

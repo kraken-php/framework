@@ -4,7 +4,7 @@ namespace Kraken\Log;
 
 use Kraken\Log\Handler\HandlerInterface;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
-use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
 use Kraken\Util\Enum\EnumTrait;
 use Monolog\Logger as Monolog;
 use Error;
@@ -150,7 +150,7 @@ class Logger implements LoggerInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("Processor could not be pushed.", $ex);
+        throw new WriteException("Processor could not be pushed.", $ex);
     }
 
     /**
@@ -227,7 +227,7 @@ class Logger implements LoggerInterface
      * @param string $message
      * @param string[] $context
      * @return bool
-     * @throws IoWriteException
+     * @throws WriteException
      */
     public function log($level, $message, array $context = array())
     {
@@ -240,7 +240,7 @@ class Logger implements LoggerInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("Record with undefined level could not be logged.", $ex);
+        throw new WriteException("Record with undefined level could not be logged.", $ex);
     }
 
     /**
@@ -251,7 +251,7 @@ class Logger implements LoggerInterface
      * @param string $message
      * @param string[] $context
      * @return bool
-     * @throws IoWriteException
+     * @throws WriteException
      */
     public function emergency($message, array $context = array())
     {
@@ -264,7 +264,7 @@ class Logger implements LoggerInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("Record with debug level could not be logged.", $ex);
+        throw new WriteException("Record with debug level could not be logged.", $ex);
     }
 
     /**
@@ -275,7 +275,7 @@ class Logger implements LoggerInterface
      * @param string $message
      * @param string[] $context
      * @return bool
-     * @throws IoWriteException
+     * @throws WriteException
      */
     public function alert($message, array $context = array())
     {
@@ -288,7 +288,7 @@ class Logger implements LoggerInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("Record with debug level could not be logged.", $ex);
+        throw new WriteException("Record with debug level could not be logged.", $ex);
     }
 
     /**
@@ -299,7 +299,7 @@ class Logger implements LoggerInterface
      * @param string $message
      * @param string[] $context
      * @return bool
-     * @throws IoWriteException
+     * @throws WriteException
      */
     public function critical($message, array $context = array())
     {
@@ -312,7 +312,7 @@ class Logger implements LoggerInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("Record with debug level could not be logged.", $ex);
+        throw new WriteException("Record with debug level could not be logged.", $ex);
     }
 
     /**
@@ -323,7 +323,7 @@ class Logger implements LoggerInterface
      * @param string $message
      * @param string[] $context
      * @return bool
-     * @throws IoWriteException
+     * @throws WriteException
      */
     public function error($message, array $context = array())
     {
@@ -336,7 +336,7 @@ class Logger implements LoggerInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("Record with debug level could not be logged.", $ex);
+        throw new WriteException("Record with debug level could not be logged.", $ex);
     }
 
     /**
@@ -347,7 +347,7 @@ class Logger implements LoggerInterface
      * @param string $message
      * @param string[] $context
      * @return bool
-     * @throws IoWriteException
+     * @throws WriteException
      */
     public function warning($message, array $context = array())
     {
@@ -360,7 +360,7 @@ class Logger implements LoggerInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("Record with warning level could not be logged.", $ex);
+        throw new WriteException("Record with warning level could not be logged.", $ex);
     }
 
     /**
@@ -371,7 +371,7 @@ class Logger implements LoggerInterface
      * @param string $message
      * @param string[] $context
      * @return bool
-     * @throws IoWriteException
+     * @throws WriteException
      */
     public function info($message, array $context = array())
     {
@@ -384,7 +384,7 @@ class Logger implements LoggerInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("Record with info level could not be logged.", $ex);
+        throw new WriteException("Record with info level could not be logged.", $ex);
     }
 
     /**
@@ -395,7 +395,7 @@ class Logger implements LoggerInterface
      * @param string $message
      * @param string[] $context
      * @return bool
-     * @throws IoWriteException
+     * @throws WriteException
      */
     public function notice($message, array $context = array())
     {
@@ -408,7 +408,7 @@ class Logger implements LoggerInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("Record with notice level could not be logged.", $ex);
+        throw new WriteException("Record with notice level could not be logged.", $ex);
     }
 
     /**
@@ -419,7 +419,7 @@ class Logger implements LoggerInterface
      * @param string $message
      * @param string[] $context
      * @return bool
-     * @throws IoWriteException
+     * @throws WriteException
      */
     public function debug($message, array $context = array())
     {
@@ -432,7 +432,7 @@ class Logger implements LoggerInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("Record with debug level could not be logged.", $ex);
+        throw new WriteException("Record with debug level could not be logged.", $ex);
     }
 
     /**

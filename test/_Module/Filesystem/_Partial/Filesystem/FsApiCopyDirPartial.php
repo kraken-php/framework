@@ -4,7 +4,7 @@ namespace Kraken\_Module\Filesystem\_Partial\Filesystem;
 
 use Kraken\Filesystem\FilesystemInterface;
 use Kraken\Test\TModule;
-use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
 
 trait FsApiCopyDirPartial
 {
@@ -60,7 +60,7 @@ trait FsApiCopyDirPartial
         $pa = $this->getPrefixed('FILE_A');
         $pnull = $this->getPrefixed('NULL');
 
-        $test->setExpectedException(IoWriteException::class);
+        $test->setExpectedException(WriteException::class);
         $test->assertTrue($fs->exists($pa));
         $test->assertFalse($fs->exists($pnull));
 
@@ -98,7 +98,7 @@ trait FsApiCopyDirPartial
         $da = $this->getPrefixed('DIR_A');
         $fa = $this->getPrefixed('FILE_A');
 
-        $test->setExpectedException(IoWriteException::class);
+        $test->setExpectedException(WriteException::class);
         $test->assertTrue($fs->exists($da));
         $test->assertTrue($fs->exists($fa));
 
@@ -117,7 +117,7 @@ trait FsApiCopyDirPartial
         $da = $this->getPrefixed('DIR_A');
         $db = $this->getPrefixed('DIR_B');
 
-        $test->setExpectedException(IoWriteException::class);
+        $test->setExpectedException(WriteException::class);
         $test->assertTrue($fs->exists($da));
         $test->assertTrue($fs->exists($db));
 
@@ -135,7 +135,7 @@ trait FsApiCopyDirPartial
         $dnull = $this->getPrefixed('DIR_NULL');
         $null = $this->getPrefixed('NULL');
 
-        $test->setExpectedException(IoWriteException::class);
+        $test->setExpectedException(WriteException::class);
         $test->assertFalse($fs->exists($dnull));
         $test->assertFalse($fs->exists($null));
 

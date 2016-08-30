@@ -3,16 +3,16 @@
 namespace Kraken\Runtime\Container\Manager;
 
 use Kraken\Core\EnvironmentInterface;
-use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
+use Kraken\Throwable\Exception\Runtime\ReadException;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 use Kraken\Filesystem\FilesystemInterface;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Channel\ChannelBaseInterface;
 use Kraken\Channel\Extra\Request;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceDefinedException;
+use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
 use Kraken\Runtime\Container\ProcessManagerInterface;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\Runtime;
@@ -184,7 +184,7 @@ class ProcessManagerBase implements ProcessManagerInterface
             }
             else
             {
-                return Promise::doReject(new ResourceDefinedException('Process with such alias already exists.'));
+                return Promise::doReject(new ResourceOccupiedException('Process with such alias already exists.'));
             }
         }
         else if ($name === null)
@@ -198,12 +198,12 @@ class ProcessManagerBase implements ProcessManagerInterface
 
         if (!$this->system->existsPid($pid))
         {
-            return Promise::doReject(new ResourceDefinedException('Process could not be created.'));
+            return Promise::doReject(new ResourceOccupiedException('Process could not be created.'));
         }
 
         if (!$this->allocateProcess($alias, $name, $pid))
         {
-            return Promise::doReject(new ResourceDefinedException('Process could not be created because of storage failure.'));
+            return Promise::doReject(new ResourceOccupiedException('Process could not be created because of storage failure.'));
         }
 
         $req = $this->createRequest(
@@ -244,7 +244,7 @@ class ProcessManagerBase implements ProcessManagerInterface
         if ($flags === Runtime::DESTROY_KEEP)
         {
             return Promise::doReject(
-                new ResourceDefinedException("Process [$alias] could not be destroyed with force level=DESTROY_KEEP.")
+                new ResourceOccupiedException("Process [$alias] could not be destroyed with force level=DESTROY_KEEP.")
             );
         }
         else if ($flags === Runtime::DESTROY_FORCE_SOFT)
@@ -295,7 +295,7 @@ class ProcessManagerBase implements ProcessManagerInterface
         else if (!$this->system->kill($pid))
         {
             return Promise::doReject(
-                new ResourceDefinedException("Process with pid [$pid] could not be killed forcefully.")
+                new ResourceOccupiedException("Process with pid [$pid] could not be killed forcefully.")
             );
         }
 
@@ -568,7 +568,7 @@ class ProcessManagerBase implements ProcessManagerInterface
      * Copy temporary process allocation data to persistent storage.
      *
      * @param string[] $with
-     * @throws IoReadException
+     * @throws ReadException
      */
     private function updateStorage($with = [])
     {
@@ -587,7 +587,7 @@ class ProcessManagerBase implements ProcessManagerInterface
      * Copy data from persistent storage to temporary one.
      *
      * @return string[][]
-     * @throws IoReadException
+     * @throws ReadException
      */
     private function selectFromStorage()
     {

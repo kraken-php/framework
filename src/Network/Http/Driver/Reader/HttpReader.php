@@ -2,7 +2,7 @@
 
 namespace Kraken\Network\Http\Driver\Reader;
 
-use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
+use Kraken\Throwable\Exception\Runtime\ReadException;
 use Kraken\Throwable\Exception\Logic\InvalidFormatException;
 use Kraken\Network\Http\Driver\Parser\HttpParser;
 use Kraken\Network\Http\Driver\Parser\HttpParserInterface;
@@ -71,7 +71,7 @@ class HttpReader implements HttpReaderInterface
         {
             if ($buffer->length() > $this->maxFrameSize)
             {
-                throw new IoReadException(
+                throw new ReadException(
                     sprintf('Message start line exceeded maximum size of %d bytes.', $this->maxFrameSize)
                 );
             }
@@ -103,7 +103,7 @@ class HttpReader implements HttpReaderInterface
         {
             if ($buffer->length() > $this->maxFrameSize)
             {
-                throw new IoReadException(
+                throw new ReadException(
                     sprintf('Message start line exceeded maximum size of %d bytes.', $this->maxFrameSize)
                 );
             }

@@ -3,7 +3,7 @@
 namespace Kraken\Ipc\Socket;
 
 use Kraken\Event\BaseEventEmitter;
-use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
+use Kraken\Throwable\Exception\Runtime\ReadException;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Throwable\Exception\LogicException;
 use Kraken\Loop\LoopAwareTrait;
@@ -326,7 +326,7 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
 
         if ($newSocket === false)
         {
-            $this->emit('error', [ $this, new IoReadException('Socket could not accept new connection.') ]);
+            $this->emit('error', [ $this, new ReadException('Socket could not accept new connection.') ]);
             return;
         }
 

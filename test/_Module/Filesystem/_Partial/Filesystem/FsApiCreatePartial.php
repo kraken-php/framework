@@ -5,7 +5,7 @@ namespace Kraken\_Module\Filesystem\_Partial\Filesystem;
 use Kraken\Filesystem\Filesystem;
 use Kraken\Filesystem\FilesystemInterface;
 use Kraken\Test\TModule;
-use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
 
 trait FsApiCreatePartial
 {
@@ -79,7 +79,7 @@ trait FsApiCreatePartial
         $dest = $this->getPrefixed('DIR_A');
         $after  = 'FILE_A_NEW_TEXT';
 
-        $test->setExpectedException(IoWriteException::class);
+        $test->setExpectedException(WriteException::class);
         $test->assertTrue($fs->exists($dest));
         $fs->create($dest, $after);
     }

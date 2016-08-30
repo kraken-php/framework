@@ -5,7 +5,7 @@ namespace Kraken\_Module\Filesystem\_Partial\Filesystem;
 use Kraken\Filesystem\Filesystem;
 use Kraken\Filesystem\FilesystemInterface;
 use Kraken\Test\TModule;
-use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
 
 trait FsApiSetVisibilityPartial
 {
@@ -110,7 +110,7 @@ trait FsApiSetVisibilityPartial
         $test = $this->getTest();
         $fs = $this->createFilesystem();
 
-        $test->setExpectedException(IoWriteException::class);
+        $test->setExpectedException(WriteException::class);
 
         $fs->setVisibility($this->getPrefixed('FILE_D'), 'other');
     }
@@ -175,7 +175,7 @@ trait FsApiSetVisibilityPartial
         $test = $this->getTest();
         $fs = $this->createFilesystem();
 
-        $test->setExpectedException(IoWriteException::class);
+        $test->setExpectedException(WriteException::class);
 
         $fs->setVisibility($this->getPrefixed('FILE_D'), 'other');
     }
@@ -188,7 +188,7 @@ trait FsApiSetVisibilityPartial
         $test = $this->getTest();
         $fs = $this->createFilesystem();
 
-        $test->setExpectedException(IoWriteException::class);
+        $test->setExpectedException(WriteException::class);
 
         $fs->setVisibility($this->getPrefixed('FILE_NULL'), Filesystem::VISIBILITY_PUBLIC);
     }

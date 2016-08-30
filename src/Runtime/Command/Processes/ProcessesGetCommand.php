@@ -4,7 +4,7 @@ namespace Kraken\Runtime\Command\Processes;
 
 use Kraken\Runtime\Command\Command;
 use Kraken\Command\CommandInterface;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 
 class ProcessesGetCommand extends Command implements CommandInterface
 {

@@ -2,8 +2,8 @@
 
 namespace Kraken\Filesystem;
 
-use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
-use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
+use Kraken\Throwable\Exception\Runtime\ReadException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
 use League\Flysystem\AdapterInterface as LeagueAdapterInterface;
 use League\Flysystem\Filesystem as LeagueFilesystem;
@@ -86,7 +86,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoReadException("File $path does not exist.", $ex);
+        throw new ReadException("File $path does not exist.", $ex);
     }
 
     /**
@@ -104,7 +104,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoReadException("Path $path could not be determined to be file or not.", $ex);
+        throw new ReadException("Path $path could not be determined to be file or not.", $ex);
     }
 
     /**
@@ -122,7 +122,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoReadException("Path $path could not be determined to be directory or not.", $ex);
+        throw new ReadException("Path $path could not be determined to be directory or not.", $ex);
     }
 
     /**
@@ -139,7 +139,7 @@ class Filesystem implements FilesystemInterface
             {
                 if (!$this->exists($directory))
                 {
-                    throw new IoReadException("Directory $directory does not exist.");
+                    throw new ReadException("Directory $directory does not exist.");
                 }
 
                 return [];
@@ -157,7 +157,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoReadException("Directory $directory items could not be listed.", $ex);
+        throw new ReadException("Directory $directory items could not be listed.", $ex);
     }
 
     /**
@@ -174,7 +174,7 @@ class Filesystem implements FilesystemInterface
             {
                 if (!$this->exists($directory))
                 {
-                    throw new IoReadException("Directory $directory does not exist.");
+                    throw new ReadException("Directory $directory does not exist.");
                 }
 
                 return [];
@@ -192,7 +192,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoReadException("Directory $directory files could not be listed.", $ex);
+        throw new ReadException("Directory $directory files could not be listed.", $ex);
     }
 
     /**
@@ -209,7 +209,7 @@ class Filesystem implements FilesystemInterface
             {
                 if (!$this->exists($directory))
                 {
-                    throw new IoReadException("Directory $directory does not exist.");
+                    throw new ReadException("Directory $directory does not exist.");
                 }
 
                 return [];
@@ -227,7 +227,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoReadException("Directory $directory subdirectories could not be listed.", $ex);
+        throw new ReadException("Directory $directory subdirectories could not be listed.", $ex);
     }
 
     /**
@@ -245,7 +245,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoReadException("File $path visibility could not be determined.", $ex);
+        throw new ReadException("File $path visibility could not be determined.", $ex);
     }
 
     /**
@@ -286,7 +286,7 @@ class Filesystem implements FilesystemInterface
 
         if (!$result || $ex !== null)
         {
-            throw new IoWriteException("File $path visibility could not be set to $visibility.", $ex);
+            throw new WriteException("File $path visibility could not be set to $visibility.", $ex);
         }
     }
 
@@ -324,7 +324,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("File $path could not be created.", $ex);
+        throw new WriteException("File $path could not be created.", $ex);
     }
 
     /**
@@ -343,7 +343,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("File $path could not be overwritten.", $ex);
+        throw new WriteException("File $path could not be overwritten.", $ex);
     }
 
     /**
@@ -362,7 +362,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("File $path could not be appeneded.", $ex);
+        throw new WriteException("File $path could not be appeneded.", $ex);
     }
 
     /**
@@ -381,7 +381,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("File $path could not be prepended.", $ex);
+        throw new WriteException("File $path could not be prepended.", $ex);
     }
 
     /**
@@ -404,7 +404,7 @@ class Filesystem implements FilesystemInterface
 
         if ($ret === false || $ex !== null)
         {
-            throw new IoReadException("File $path could not be read.", $ex);
+            throw new ReadException("File $path could not be read.", $ex);
         }
 
         return $ret;
@@ -435,7 +435,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoReadException("File $path size could not be determined.", $ex);
+        throw new ReadException("File $path size could not be determined.", $ex);
     }
 
     /**
@@ -453,7 +453,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoReadException("File $path type could not be determined.", $ex);
+        throw new ReadException("File $path type could not be determined.", $ex);
     }
 
     /**
@@ -471,7 +471,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoReadException("File $path mimetype could not be determined.", $ex);
+        throw new ReadException("File $path mimetype could not be determined.", $ex);
     }
 
     /**
@@ -489,7 +489,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoReadException("File $path timestamp could not be determined.", $ex);
+        throw new ReadException("File $path timestamp could not be determined.", $ex);
     }
 
     /**
@@ -512,7 +512,7 @@ class Filesystem implements FilesystemInterface
 
         if (!$status || $ex !== null)
         {
-            throw new IoWriteException("File $source could not be moved to $destination.", $ex);
+            throw new WriteException("File $source could not be moved to $destination.", $ex);
         }
     }
 
@@ -532,7 +532,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("File $path could not be created.", $ex);
+        throw new WriteException("File $path could not be created.", $ex);
     }
 
     /**
@@ -551,7 +551,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("File $source could not have been copied to $destination.", $ex);
+        throw new WriteException("File $source could not have been copied to $destination.", $ex);
     }
 
     /**
@@ -570,7 +570,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("File $path could not be removed.", $ex);
+        throw new WriteException("File $path could not be removed.", $ex);
     }
 
     /**
@@ -589,7 +589,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("File $path could not be erased.", $ex);
+        throw new WriteException("File $path could not be erased.", $ex);
     }
 
     /**
@@ -613,7 +613,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("Directory $dirname could not be created.", $ex);
+        throw new WriteException("Directory $dirname could not be created.", $ex);
     }
 
     /**
@@ -624,12 +624,12 @@ class Filesystem implements FilesystemInterface
     {
         if ($this->exists($source) && !$this->isDir($source))
         {
-            throw new IoWriteException("Directory $source could not be copied to $destination.");
+            throw new WriteException("Directory $source could not be copied to $destination.");
         }
 
         if ($this->exists($destination))
         {
-            throw new IoWriteException("Directory $source could not be copied to $destination.");
+            throw new WriteException("Directory $source could not be copied to $destination.");
         }
 
         $this->ensuredCopyDir($source, $destination);
@@ -647,7 +647,7 @@ class Filesystem implements FilesystemInterface
             return;
         }
 
-        throw new IoWriteException("Directory $dirname could not be removed.");
+        throw new WriteException("Directory $dirname could not be removed.");
     }
 
     /**
@@ -662,7 +662,7 @@ class Filesystem implements FilesystemInterface
             return;
         }
 
-        throw new IoWriteException("Directory $dirname could not be erased.");
+        throw new WriteException("Directory $dirname could not be erased.");
     }
 
     /**
@@ -688,7 +688,7 @@ class Filesystem implements FilesystemInterface
      *
      * @param string $source
      * @param string $destination
-     * @throws IoWriteException
+     * @throws WriteException
      */
     private function ensuredCopyDir($source, $destination)
     {
@@ -719,14 +719,14 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("Directory $source could not be copied to $destination.");
+        throw new WriteException("Directory $source could not be copied to $destination.");
     }
 
     /**
      * Remove a directory.
      *
      * @param string $dirname
-     * @throws IoWriteException
+     * @throws WriteException
      */
     private function ensuredRemoveDir($dirname)
     {
@@ -740,14 +740,14 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("Directory $dirname could not be removed.", $ex);
+        throw new WriteException("Directory $dirname could not be removed.", $ex);
     }
 
     /**
      * Erase a directory.
      *
      * @param string $dirname
-     * @throws IoWriteException
+     * @throws WriteException
      */
     private function ensuredEraseDir($dirname)
     {
@@ -774,7 +774,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("Directory $dirname could not be erased.", $ex);
+        throw new WriteException("Directory $dirname could not be erased.", $ex);
     }
 
     /**

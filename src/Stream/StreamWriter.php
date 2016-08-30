@@ -2,7 +2,7 @@
 
 namespace Kraken\Stream;
 
-use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 
 class StreamWriter extends StreamSeeker implements StreamWriterInterface
@@ -77,7 +77,7 @@ class StreamWriter extends StreamSeeker implements StreamWriterInterface
         if (!$this->writable)
         {
             return $this->throwAndEmitException(
-                new IoWriteException('Stream is no longer writable.')
+                new WriteException('Stream is no longer writable.')
             );
         }
 
@@ -86,7 +86,7 @@ class StreamWriter extends StreamSeeker implements StreamWriterInterface
         if ($sent === false)
         {
             return $this->throwAndEmitException(
-                new IoWriteException('Error occurred while writing to the stream resource.')
+                new WriteException('Error occurred while writing to the stream resource.')
             );
         }
 

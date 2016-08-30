@@ -7,7 +7,7 @@ use Kraken\Runtime\Runtime;
 use Kraken\Runtime\Supervisor\Runtime\RuntimeRecreate;
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
 use Exception;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 use StdClass;
 
 class RuntimeRecreateTest extends TSolver

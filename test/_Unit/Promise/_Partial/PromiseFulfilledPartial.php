@@ -7,8 +7,8 @@ use Kraken\Promise\DeferredInterface;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseFulfilled;
 use Kraken\Promise\PromiseInterface;
-use Kraken\_Unit\TestCase;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Test\TUnit;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 use stdClass;
 
 trait PromiseFulfilledPartial
@@ -25,8 +25,8 @@ trait PromiseFulfilledPartial
     abstract public function createPromiseMock($methods = []);
 
     /**
-     * @see TestCase::getTest
-     * @return TestCase
+     * @see TUnit::getTest
+     * @return TUnit
      */
     abstract public function getTest();
 

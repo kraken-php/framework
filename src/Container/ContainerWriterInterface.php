@@ -2,7 +2,7 @@
 
 namespace Kraken\Container;
 
-use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
 
 interface ContainerWriterInterface
 {
@@ -11,7 +11,7 @@ interface ContainerWriterInterface
      *
      * @param string $aliasOrClass
      * @param mixed[] $defaultParams
-     * @throws IoWriteException
+     * @throws WriteException
      */
     public function wire($aliasOrClass, $defaultParams);
 
@@ -20,7 +20,7 @@ interface ContainerWriterInterface
      *
      * @param string $aliasOrClass
      * @param mixed[] $defaultParams
-     * @throws IoWriteException
+     * @throws WriteException
      */
     public function share($aliasOrClass, $defaultParams = []);
 
@@ -29,7 +29,7 @@ interface ContainerWriterInterface
      *
      * @param string $aliasOrClass
      * @param mixed $mixed
-     * @throws IoWriteException
+     * @throws WriteException
      */
     public function bind($aliasOrClass, $mixed);
 
@@ -38,7 +38,7 @@ interface ContainerWriterInterface
      *
      * @param string $aliasOrClass
      * @param string $existingAliasOrClass
-     * @throws IoWriteException
+     * @throws WriteException
      */
     public function alias($aliasOrClass, $existingAliasOrClass);
 
@@ -47,7 +47,7 @@ interface ContainerWriterInterface
      *
      * @param string $aliasOrClass
      * @param object $object
-     * @throws IoWriteException
+     * @throws WriteException
      */
     public function instance($aliasOrClass, $object);
 
@@ -56,7 +56,7 @@ interface ContainerWriterInterface
      *
      * @param string $aliasOrClass
      * @param string|float|int|null $param
-     * @throws IoWriteException
+     * @throws WriteException
      */
     public function param($aliasOrClass, $param);
 
@@ -66,7 +66,7 @@ interface ContainerWriterInterface
      * @param string $aliasOrClass
      * @param callable $factoryMethod
      * @param mixed[] $args
-     * @throws IoWriteException
+     * @throws WriteException
      */
     public function factory($aliasOrClass, callable $factoryMethod, $args = []);
 

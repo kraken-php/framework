@@ -5,8 +5,8 @@ namespace Kraken\Core\Service;
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceDefinedException;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
+use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
+use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 
 interface ServiceRegisterInterface
 {
@@ -36,12 +36,12 @@ interface ServiceRegisterInterface
      *
      * ExecutionException is thrown if register handler of ServiceProvider has thrown any exception or error.
      * InvalidArgumentException is thrown if invalid Provider object or class was passed.
-     * ResourceDefinedException is thrown if Provider of given class was already registered.
+     * ResourceOccupiedException is thrown if Provider of given class was already registered.
      *
      * @param ServiceProviderInterface|string $provider
      * @throws ExecutionException
      * @throws InvalidArgumentException
-     * @throws ResourceDefinedException
+     * @throws ResourceOccupiedException
      */
     public function registerProvider($provider);
 
@@ -101,12 +101,12 @@ interface ServiceRegisterInterface
      * Register service alias.
      *
      * ExecutionException is thrown if Container::alias() method underneath throws any errors or exceptions.
-     * ResourceDefinedException is thrown if alias is already registered.
+     * ResourceOccupiedException is thrown if alias is already registered.
      *
      * @param string $alias
      * @param string $existing
      * @throws ExecutionException
-     * @throws ResourceDefinedException
+     * @throws ResourceOccupiedException
      */
     public function registerAlias($alias, $existing);
 

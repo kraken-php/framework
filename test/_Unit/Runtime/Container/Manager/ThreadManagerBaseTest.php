@@ -14,8 +14,8 @@ use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\RuntimeInterface;
 use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceDefinedException;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 use StdClass;
 
 class ThreadManagerBaseTest extends TUnit
@@ -215,7 +215,7 @@ class ThreadManagerBaseTest extends TUnit
         $callable
             ->expects($this->once())
             ->method('__invoke')
-            ->with($this->isInstanceOf(ResourceDefinedException::class));
+            ->with($this->isInstanceOf(ResourceOccupiedException::class));
 
         $manager
             ->createThread($alias, $name)
@@ -260,7 +260,7 @@ class ThreadManagerBaseTest extends TUnit
         $callable
             ->expects($this->once())
             ->method('__invoke')
-            ->with($this->isInstanceOf(ResourceDefinedException::class));
+            ->with($this->isInstanceOf(ResourceOccupiedException::class));
 
         $manager
             ->destroyThread($alias, $flags)

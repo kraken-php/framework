@@ -4,7 +4,7 @@ namespace Kraken\_Unit\Runtime\Command\Process;
 
 use Kraken\_Unit\Runtime\Command\_T\TCommand;
 use Kraken\Runtime\Command\Process\ProcessStartCommand;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 use StdClass;
 
 class ProcessStartCommandTest extends TCommand

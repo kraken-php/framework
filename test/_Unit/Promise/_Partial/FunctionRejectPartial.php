@@ -6,13 +6,13 @@ use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseFulfilled;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Promise\PromiseRejected;
-use Kraken\_Unit\TestCase;
+use Kraken\Test\TUnit;
 
 trait FunctionRejectPartial
 {
     /**
-     * @see TestCase::getTest
-     * @return TestCase
+     * @see TUnit::getTest
+     * @return TUnit
      */
     abstract public function getTest();
     

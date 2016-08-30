@@ -5,14 +5,14 @@ namespace Kraken\_Unit\Promise\_Partial;
 use Kraken\Promise\Deferred;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
-use Kraken\_Unit\TestCase;
+use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\Runtime\UnderflowException;
 
 trait FunctionSomePartial
 {
     /**
-     * @see TestCase::getTest
-     * @return TestCase
+     * @see TUnit::getTest
+     * @return TUnit
      */
     abstract public function getTest();
 

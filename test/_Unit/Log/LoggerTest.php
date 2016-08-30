@@ -9,7 +9,7 @@ use Kraken\Log\Handler\HandlerInterface;
 use Kraken\Log\Logger;
 use Kraken\Log\LoggerWrapper;
 use Kraken\Test\TUnit;
-use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
 use Monolog\Handler\NullHandler;
 use Prophecy\Argument;
 use Prophecy\Prophecy\MethodProphecy;
@@ -129,7 +129,7 @@ class LoggerTest extends TUnit
         $callable = function() {};
         $ex = new Exception();
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $this->expect('pushProcessor', [ $callable ])->willThrow($ex);
         $logger->pushProcessor($callable);
     }
@@ -197,7 +197,7 @@ class LoggerTest extends TUnit
         $context = [ 'a' => 'A' ];
         $ex = new Exception();
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $this->expect('log', [ $level, $message, $context ])->willThrow($ex);
         $logger->log($level, $message, $context);
     }
@@ -226,7 +226,7 @@ class LoggerTest extends TUnit
         $context = [ 'a' => 'A' ];
         $ex = new Exception();
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $this->expect('emergency', [ $message, $context ])->willThrow($ex);
         $logger->emergency($message, $context);
     }
@@ -255,7 +255,7 @@ class LoggerTest extends TUnit
         $context = [ 'a' => 'A' ];
         $ex = new Exception();
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $this->expect('alert', [ $message, $context ])->willThrow($ex);
         $logger->alert($message, $context);
     }
@@ -284,7 +284,7 @@ class LoggerTest extends TUnit
         $context = [ 'a' => 'A' ];
         $ex = new Exception();
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $this->expect('critical', [ $message, $context ])->willThrow($ex);
         $logger->critical($message, $context);
     }
@@ -313,7 +313,7 @@ class LoggerTest extends TUnit
         $context = [ 'a' => 'A' ];
         $ex = new Exception();
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $this->expect('error', [ $message, $context ])->willThrow($ex);
         $logger->error($message, $context);
     }
@@ -342,7 +342,7 @@ class LoggerTest extends TUnit
         $context = [ 'a' => 'A' ];
         $ex = new Exception();
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $this->expect('warning', [ $message, $context ])->willThrow($ex);
         $logger->warning($message, $context);
     }
@@ -371,7 +371,7 @@ class LoggerTest extends TUnit
         $context = [ 'a' => 'A' ];
         $ex = new Exception();
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $this->expect('info', [ $message, $context ])->willThrow($ex);
         $logger->info($message, $context);
     }
@@ -400,7 +400,7 @@ class LoggerTest extends TUnit
         $context = [ 'a' => 'A' ];
         $ex = new Exception();
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $this->expect('notice', [ $message, $context ])->willThrow($ex);
         $logger->notice($message, $context);
     }
@@ -429,7 +429,7 @@ class LoggerTest extends TUnit
         $context = [ 'a' => 'A' ];
         $ex = new Exception();
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $this->expect('debug', [ $message, $context ])->willThrow($ex);
         $logger->debug($message, $context);
     }

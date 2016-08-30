@@ -9,10 +9,10 @@ use Kraken\_Unit\Container\_Asset\BazInterface;
 use Kraken\_Unit\Container\_Asset\Foo;
 use Kraken\_Unit\Container\_Asset\Invokable;
 use Kraken\Container\Container;
+use Kraken\Throwable\Exception\Runtime\ReadException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
 use Kraken\Test\TModule;
-use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
-use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
-use stdClass;
+use StdClass;
 
 class ContainerTest extends TModule
 {
@@ -147,7 +147,7 @@ class ContainerTest extends TModule
     {
         $c = $this->createContainer();
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $c->wire(BazInterface::class, []);
     }
 
@@ -272,7 +272,7 @@ class ContainerTest extends TModule
         $c = $this->createContainer();
         $alias = 'alias';
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $c->bind(Bar::class, $alias);
     }
 
@@ -311,7 +311,7 @@ class ContainerTest extends TModule
         $alias = 'alias';
         $other = 'other';
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $c->alias($alias, $other);
     }
 
@@ -382,7 +382,7 @@ class ContainerTest extends TModule
     {
         $c = $this->createContainer();
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $c->instance(BazInterface::class, Baz::class);
     }
 
@@ -395,7 +395,7 @@ class ContainerTest extends TModule
         $alias = 'alias';
         $param = 'param';
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $c->instance($alias, $param);
     }
 
@@ -406,7 +406,7 @@ class ContainerTest extends TModule
     {
         $c = $this->createContainer();
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $c->instance(Baz::class, function() {});
     }
 
@@ -465,7 +465,7 @@ class ContainerTest extends TModule
         $c = $this->createContainer();
         $foo = new Foo(new Baz);
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $c->share(Foo::class, $foo);
     }
 
@@ -478,7 +478,7 @@ class ContainerTest extends TModule
         $alias = 'alias';
         $param = 'param';
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $c->share($alias, $param);
     }
 
@@ -489,7 +489,7 @@ class ContainerTest extends TModule
     {
         $c = $this->createContainer();
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $c->share(Baz::class, function() {
             return new Baz;
         });
@@ -502,7 +502,7 @@ class ContainerTest extends TModule
     {
         $c = $this->createContainer();
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $c->share(BazInterface::class);
     }
 
@@ -527,7 +527,7 @@ class ContainerTest extends TModule
         $c = $this->createContainer();
         $alias = 'alias';
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $c->param($alias, new Baz);
     }
 
@@ -539,7 +539,7 @@ class ContainerTest extends TModule
         $c = $this->createContainer();
         $alias = 'alias';
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $c->param($alias, function() {});
     }
 
@@ -551,7 +551,7 @@ class ContainerTest extends TModule
         $c = $this->createContainer();
         $param = 'param';
 
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
         $c->param(Baz::class, $param);
     }
 
@@ -882,7 +882,7 @@ class ContainerTest extends TModule
     {
         $c = $this->createContainer();
 
-        $this->setExpectedException(IoReadException::class);
+        $this->setExpectedException(ReadException::class);
         $c->call(function(BazInterface $baz) {});
     }
 
@@ -893,7 +893,7 @@ class ContainerTest extends TModule
     {
         $c = $this->createContainer();
 
-        $this->setExpectedException(IoReadException::class);
+        $this->setExpectedException(ReadException::class);
         $c->call(function($baz) {});
     }
 
@@ -904,7 +904,7 @@ class ContainerTest extends TModule
     {
         $c = $this->createContainer();
 
-        $this->setExpectedException(IoReadException::class);
+        $this->setExpectedException(ReadException::class);
         $c->call(function(BazInterface $baz) {}, [ new Foo(new Baz) ]);
     }
 

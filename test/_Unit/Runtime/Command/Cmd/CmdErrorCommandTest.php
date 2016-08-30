@@ -4,7 +4,7 @@ namespace Kraken\_Unit\Runtime\Command\Cmd;
 
 use Kraken\_Unit\Runtime\Command\_T\TCommand;
 use Kraken\Runtime\Command\Cmd\CmdErrorCommand;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 use Exception;
 
 class CmdErrorCommandTest extends TCommand

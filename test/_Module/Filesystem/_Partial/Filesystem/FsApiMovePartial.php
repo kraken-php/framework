@@ -4,7 +4,7 @@ namespace Kraken\_Module\Filesystem\_Partial\Filesystem;
 
 use Kraken\Filesystem\FilesystemInterface;
 use Kraken\Test\TModule;
-use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
 
 trait FsApiMovePartial
 {
@@ -75,7 +75,7 @@ trait FsApiMovePartial
         $from = $this->getPrefixed('FILE_A');
         $to   = $this->getPrefixed('FILE_B');
 
-        $test->setExpectedException(IoWriteException::class);
+        $test->setExpectedException(WriteException::class);
         $test->assertTrue($fs->exists($to));
         $fs->move($from, $to);
     }
@@ -90,7 +90,7 @@ trait FsApiMovePartial
         $from = $this->getPrefixed('FILE_A');
         $to   = $this->getPrefixed('DIR_B');
 
-        $test->setExpectedException(IoWriteException::class);
+        $test->setExpectedException(WriteException::class);
         $test->assertTrue($fs->exists($to));
         $fs->move($from, $to);
     }
@@ -123,7 +123,7 @@ trait FsApiMovePartial
         $from = $this->getPrefixed('DIR_A');
         $to   = $this->getPrefixed('FILE_B');
 
-        $test->setExpectedException(IoWriteException::class);
+        $test->setExpectedException(WriteException::class);
         $test->assertTrue($fs->exists($to));
         $fs->move($from, $to);
     }
@@ -138,7 +138,7 @@ trait FsApiMovePartial
         $from = $this->getPrefixed('DIR_A');
         $to   = $this->getPrefixed('DIR_B');
 
-        $test->setExpectedException(IoWriteException::class);
+        $test->setExpectedException(WriteException::class);
         $test->assertTrue($fs->exists($to));
         $fs->move($from, $to);
     }
@@ -153,7 +153,7 @@ trait FsApiMovePartial
         $from = $this->getPrefixed('NULL');
         $to   = $this->getPrefixed('NULL');
 
-        $test->setExpectedException(IoWriteException::class);
+        $test->setExpectedException(WriteException::class);
         $fs->move($from, $to);
     }
 }

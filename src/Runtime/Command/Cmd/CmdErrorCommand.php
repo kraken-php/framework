@@ -5,7 +5,7 @@ namespace Kraken\Runtime\Command\Cmd;
 use Kraken\Runtime\Command\Command;
 use Kraken\Command\CommandInterface;
 use Kraken\Supervisor\SupervisorInterface;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 use Error;
 use Exception;
 

@@ -6,13 +6,13 @@ use Kraken\Promise\Deferred;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Throwable\Exception\Runtime\UnderflowException;
-use Kraken\_Unit\TestCase;
+use Kraken\Test\TUnit;
 
 trait FunctionAnyPartial
 {
     /**
-     * @see TestCase::getTest
-     * @return TestCase
+     * @see TUnit::getTest
+     * @return TUnit
      */
     abstract public function getTest();
 

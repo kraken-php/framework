@@ -7,12 +7,13 @@ use Kraken\Supervisor\SolverComposite;
 use Kraken\Supervisor\SolverFactory;
 use Kraken\Supervisor\SolverInterface;
 use Kraken\Supervisor\Supervisor;
-use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
-use Exception;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
-use Kraken\Throwable\Exception\Runtime\IoException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
+use Kraken\Throwable\Exception\RuntimeException;
+use Kraken\Test\TUnit;
+use Exception;
 
 class SupervisorTest extends TUnit
 {
@@ -303,8 +304,8 @@ class SupervisorTest extends TUnit
             ->expects($this->never())
             ->method('handle');
 
-        $super->setHandler(IoException::class, $unexpected);
-        $super->setHandler(ExecutionException::class, $expected);
+        $super->setHandler(WriteException::class, $unexpected);
+        $super->setHandler(RuntimeException::class, $expected);
         $super->setHandler(Exception::class, $unexpected);
 
         $callable = $this->createCallableMock();
@@ -333,7 +334,7 @@ class SupervisorTest extends TUnit
             ->expects($this->never())
             ->method('handle');
 
-        $super->setHandler(IoException::class, $unexpected);
+        $super->setHandler(WriteException::class, $unexpected);
 
         $callable = $this->createCallableMock();
         $callable

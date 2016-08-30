@@ -4,7 +4,7 @@ namespace Kraken\_Module\Filesystem\_Partial\Filesystem;
 
 use Kraken\Filesystem\FilesystemInterface;
 use Kraken\Test\TModule;
-use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
+use Kraken\Throwable\Exception\Runtime\ReadException;
 
 trait FsApiIsFilePartial
 {
@@ -77,7 +77,7 @@ trait FsApiIsFilePartial
     public function testApiIsFile_ThrowsException_WhenItDoesNotExist()
     {
         $test = $this->getTest();
-        $test->setExpectedException(IoReadException::class);
+        $test->setExpectedException(ReadException::class);
 
         $fs = $this->createFilesystem();
 

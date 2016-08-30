@@ -5,7 +5,7 @@ namespace Kraken\_Module\Filesystem\_Partial\Filesystem;
 use Kraken\Filesystem\Filesystem;
 use Kraken\Filesystem\FilesystemInterface;
 use Kraken\Test\TModule;
-use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
 
 trait FsApiSetPublicPartial
 {
@@ -110,7 +110,7 @@ trait FsApiSetPublicPartial
         $test = $this->getTest();
         $fs = $this->createFilesystem();
 
-        $test->setExpectedException(IoWriteException::class);
+        $test->setExpectedException(WriteException::class);
 
         $fs->setPublic($this->getPrefixed('FILE_NULL'));
     }

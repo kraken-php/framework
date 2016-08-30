@@ -16,7 +16,7 @@ use Kraken\Support\StringSupport;
 use Kraken\Support\TimeSupport;
 use Kraken\Throwable\Exception\System\TaskIncompleteException;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
+use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Throwable\Exception\LogicException;
 use Kraken\Throwable\Exception;
 use Kraken\Throwable\ThrowableProxy;

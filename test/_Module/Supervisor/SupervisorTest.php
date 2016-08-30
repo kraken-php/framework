@@ -8,11 +8,13 @@ use Kraken\Supervisor\SolverFactory;
 use Kraken\Supervisor\SolverFactoryInterface;
 use Kraken\Supervisor\SolverInterface;
 use Kraken\Supervisor\Supervisor;
-use Kraken\Test\TModule;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
-use Kraken\Throwable\Exception\Runtime\IoException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
+use Kraken\Throwable\Exception\RuntimeException;
+use Kraken\Test\TModule;
 use Exception;
+
 
 class SupervisorTest extends TModule
 {
@@ -41,8 +43,8 @@ class SupervisorTest extends TModule
             $factory,
             [],
             [
-                IoException::class          => 'Unexpected',
-                ExecutionException::class   => 'Expected',
+                WriteException::class       => 'Unexpected',
+                RuntimeException::class     => 'Expected',
                 Exception::class            => 'Unexpected'
             ]
         );
@@ -77,7 +79,7 @@ class SupervisorTest extends TModule
             $factory,
             [],
             [
-                IoException::class  => 'Unexpected'
+                WriteException::class => 'Unexpected'
             ]
         );
 

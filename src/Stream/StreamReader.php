@@ -2,7 +2,7 @@
 
 namespace Kraken\Stream;
 
-use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
+use Kraken\Throwable\Exception\Runtime\ReadException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 
 class StreamReader extends StreamSeeker implements StreamReaderInterface
@@ -77,7 +77,7 @@ class StreamReader extends StreamSeeker implements StreamReaderInterface
         if (!$this->readable)
         {
             return $this->throwAndEmitException(
-                new IoReadException('Stream is no longer readable.')
+                new ReadException('Stream is no longer readable.')
             );
         }
 
@@ -91,7 +91,7 @@ class StreamReader extends StreamSeeker implements StreamReaderInterface
         if ($ret === false)
         {
             return $this->throwAndEmitException(
-                new IoReadException('Cannot read stream.')
+                new ReadException('Cannot read stream.')
             );
         }
         else if ($ret !== '')

@@ -6,7 +6,7 @@ use Kraken\Channel\Request\Request;
 use Kraken\Event\EventEmitterInterface;
 use Kraken\Event\EventHandler;
 use Kraken\Loop\LoopAwareInterface;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
+use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 
 /**
  * @event start : callable()

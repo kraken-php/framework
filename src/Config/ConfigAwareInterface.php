@@ -14,7 +14,7 @@ interface ConfigAwareInterface
     /**
      * Get Config of which object is aware of.
      *
-     * @return ConfigInterface
+     * @return ConfigInterface|null
      */
     public function getConfig();
 }

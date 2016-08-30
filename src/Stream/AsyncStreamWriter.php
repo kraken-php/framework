@@ -2,7 +2,7 @@
 
 namespace Kraken\Stream;
 
-use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
@@ -133,7 +133,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
         if (!$this->writable)
         {
             return $this->throwAndEmitException(
-                new IoWriteException('Stream is no longer writable.')
+                new WriteException('Stream is no longer writable.')
             );
         }
 
@@ -185,7 +185,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
 
         if ($sent === false)
         {
-            $this->emit('error', [ $this, new IoWriteException('Error occurred while writing to the stream resource.') ]);
+            $this->emit('error', [ $this, new WriteException('Error occurred while writing to the stream resource.') ]);
             return;
         }
 

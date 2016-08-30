@@ -10,7 +10,7 @@ use Kraken\Runtime\Container\ThreadManagerInterface;
 use Kraken\Runtime\RuntimeManager;
 use Kraken\Runtime\RuntimeManagerInterface;
 use Kraken\Test\TUnit;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
+use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 
 class RuntimeManagerTest extends TUnit
 {

@@ -10,7 +10,7 @@ use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Supervisor\SolverInterface;
 use Kraken\Supervisor\SupervisorInterface;
 use Kraken\Supervisor\SupervisorPluginInterface;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
+use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 
 class SupervisorProvider extends ServiceProvider implements ServiceProviderInterface

@@ -6,7 +6,7 @@ use Kraken\Runtime\Command\Command;
 use Kraken\Command\CommandInterface;
 use Kraken\Config\Config;
 use Kraken\Config\ConfigInterface;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 
 class ProjectStartCommand extends Command implements CommandInterface
 {

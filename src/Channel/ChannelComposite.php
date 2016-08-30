@@ -2,13 +2,12 @@
 
 namespace Kraken\Channel;
 
-use Kraken\Channel\Request\Request;
 use Kraken\Event\BaseEventEmitter;
 use Kraken\Event\EventHandler;
 use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceDefinedException;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
+use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
+use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Support\GeneratorSupport;
 use Kraken\Support\TimeSupport;
 
@@ -118,7 +117,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     {
         if (isset($this->buses[$name]))
         {
-            throw new ResourceDefinedException(sprintf("Channel [%s] has already registered bus [$name].", $this->name()));
+            throw new ResourceOccupiedException(sprintf("Channel [%s] has already registered bus [$name].", $this->name()));
         }
 
         $this->buses[$name] = $channel;

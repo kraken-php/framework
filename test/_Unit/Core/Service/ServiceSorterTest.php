@@ -11,7 +11,7 @@ use Kraken\_Unit\Core\_Provider\FProvider;
 use Kraken\_Unit\Core\_Provider\GProvider;
 use Kraken\Core\Service\ServiceSorter;
 use Kraken\Test\TUnit;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
+use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Throwable\Exception\Runtime\OverflowException;
 
 class ServiceSorterTest extends TUnit

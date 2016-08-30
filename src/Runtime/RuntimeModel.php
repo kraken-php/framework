@@ -9,7 +9,7 @@ use Kraken\Supervisor\SupervisorInterface;
 use Kraken\Loop\Loop;
 use Kraken\Loop\LoopExtendedInterface;
 use Kraken\Throwable\Exception\LogicException;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 use Error;
 use Exception;
 use ReflectionClass;

@@ -4,7 +4,7 @@ namespace Kraken\_Unit\Runtime\Command\Processes;
 
 use Kraken\_Unit\Runtime\Command\_T\TCommand;
 use Kraken\Runtime\Command\Processes\ProcessesGetCommand;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 use StdClass;
 
 class ProcessesGetCommandTest extends TCommand

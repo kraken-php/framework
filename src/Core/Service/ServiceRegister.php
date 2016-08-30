@@ -6,8 +6,8 @@ use Kraken\Core\CoreInterface;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceDefinedException;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
+use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
+use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Throwable\Exception\Runtime\OverflowException;
 use Error;
 use Exception;
@@ -100,7 +100,7 @@ class ServiceRegister implements ServiceRegisterInterface
     {
         if ($this->getProvider($provider) !== null)
         {
-            throw new ResourceDefinedException("ServiceProvider " . $this->getProviderClass($provider) . " already registered.");
+            throw new ResourceOccupiedException("ServiceProvider " . $this->getProviderClass($provider) . " already registered.");
         }
 
         if (is_string($provider) && ($class = $provider) && ($provider = $this->resolveProviderClass($provider)) === null)
@@ -222,7 +222,7 @@ class ServiceRegister implements ServiceRegisterInterface
     {
         if ($this->getAlias($alias) !== null)
         {
-            throw new ResourceDefinedException("ServiceProvider alias of $alias is already registered.");
+            throw new ResourceOccupiedException("ServiceProvider alias of $alias is already registered.");
         }
 
         $this->serviceAliases[$alias] = $existing;

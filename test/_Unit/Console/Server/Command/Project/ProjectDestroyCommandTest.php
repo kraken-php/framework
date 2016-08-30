@@ -6,7 +6,7 @@ use Kraken\_Unit\Console\Server\_T\TCommand;
 use Kraken\Config\ConfigInterface;
 use Kraken\Console\Server\Command\Project\ProjectDestroyCommand;
 use Kraken\Promise\PromiseFulfilled;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 
 class ProjectDestroyCommandTest extends TCommand
 {

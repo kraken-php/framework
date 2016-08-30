@@ -11,7 +11,7 @@ use Kraken\Runtime\Container\ProcessManagerInterface;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\RuntimeInterface;
 use Kraken\Test\TUnit;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 
 class ProcessManagerRemoteTest extends TUnit
 {

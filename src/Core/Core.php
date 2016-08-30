@@ -6,7 +6,7 @@ use Kraken\Container\Container;
 use Kraken\Core\Service\ServiceRegister;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
-use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
 use Kraken\Runtime\Runtime;
 use Error;
 use Exception;
@@ -350,7 +350,7 @@ class Core extends Container implements CoreInterface
     /**
      * Register all default Aliases.
      *
-     * @throws IoWriteException
+     * @throws WriteException
      */
     protected function registerDefaultAliases()
     {

@@ -12,7 +12,7 @@ use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseFulfilled;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Test\TUnit;
-use Kraken\Throwable\Exception\Runtime\Execution\TimeoutException;
+use Kraken\Throwable\Exception\Runtime\TimeoutException;
 use Kraken\Throwable\Exception\System\TaskIncompleteException;
 use Closure;
 use Exception;

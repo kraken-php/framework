@@ -13,8 +13,8 @@ use Kraken\Runtime\RuntimeInterface;
 use Kraken\Runtime\Container\Thread\ThreadWrapper;
 use Kraken\Runtime\Container\ThreadManagerInterface;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceDefinedException;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 
 class ThreadManagerBase implements ThreadManagerInterface
 {
@@ -110,7 +110,7 @@ class ThreadManagerBase implements ThreadManagerInterface
             }
             else
             {
-                return Promise::doReject(new ResourceDefinedException('Thread with such alias already exists.'));
+                return Promise::doReject(new ResourceOccupiedException('Thread with such alias already exists.'));
             }
         }
         else if ($name === null)
@@ -169,7 +169,7 @@ class ThreadManagerBase implements ThreadManagerInterface
         if ($flags === Runtime::DESTROY_KEEP)
         {
             return Promise::doReject(
-                new ResourceDefinedException("Thread with alias [$alias] could not be destroyed with force leve=DESTROY_KEEP.")
+                new ResourceOccupiedException("Thread with alias [$alias] could not be destroyed with force leve=DESTROY_KEEP.")
             );
         }
         else if ($flags === Runtime::DESTROY_FORCE_SOFT)
@@ -205,7 +205,7 @@ class ThreadManagerBase implements ThreadManagerInterface
         if (!$thread->kill())
         {
             return Promise::doReject(
-                new ResourceDefinedException("Thread [$alias] could not be killed forcefully.")
+                new ResourceOccupiedException("Thread [$alias] could not be killed forcefully.")
             );
         }
 

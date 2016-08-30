@@ -3,8 +3,8 @@
 namespace Kraken\Stream;
 
 use Kraken\Event\BaseEventEmitter;
-use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
-use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
+use Kraken\Throwable\Exception\Runtime\ReadException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Error;
 use Exception;
@@ -133,13 +133,13 @@ class StreamSeeker extends BaseEventEmitter implements StreamSeekerInterface
     {
         if (!$this->isSeekable())
         {
-            throw new IoReadException('Cannt tell offset of this kind of stream.');
+            throw new ReadException('Cannt tell offset of this kind of stream.');
         }
 
         $ret = ftell($this->resource);
         if ($ret === false)
         {
-            throw new IoReadException('Cannot tell offset of stream.');
+            throw new ReadException('Cannot tell offset of stream.');
         }
 
         return $ret;
@@ -153,13 +153,13 @@ class StreamSeeker extends BaseEventEmitter implements StreamSeekerInterface
     {
         if (!$this->isSeekable())
         {
-            throw new IoWriteException('Cannt seek on this kind of stream.');
+            throw new WriteException('Cannt seek on this kind of stream.');
         }
 
         $pointer = fseek($this->resource, $offset, $whence);
         if ($pointer === false)
         {
-            throw new IoWriteException('Cannot seek on stream.');
+            throw new WriteException('Cannot seek on stream.');
         }
 
         $this->emit('seek', [ $this, $pointer ]);
@@ -173,12 +173,12 @@ class StreamSeeker extends BaseEventEmitter implements StreamSeekerInterface
     {
         if (!$this->isSeekable())
         {
-            throw new IoWriteException('Cannt rewind this kind of stream.');
+            throw new WriteException('Cannt rewind this kind of stream.');
         }
 
         if (false === rewind($this->resource))
         {
-            throw new IoWriteException('Cannot rewind stream.');
+            throw new WriteException('Cannot rewind stream.');
         }
     }
 

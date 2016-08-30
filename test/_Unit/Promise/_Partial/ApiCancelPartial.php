@@ -5,8 +5,8 @@ namespace Kraken\_Unit\Promise\_Partial;
 use Kraken\Promise\Deferred;
 use Kraken\Promise\DeferredInterface;
 use Kraken\Promise\Promise;
-use Kraken\Throwable\Exception\Runtime\Execution\CancellationException;
-use Kraken\_Unit\TestCase;
+use Kraken\Throwable\Exception\Runtime\CancellationException;
+use Kraken\Test\TUnit;
 use Exception;
 use StdClass;
 
@@ -18,8 +18,8 @@ trait ApiCancelPartial
     abstract public function createDeferred();
 
     /**
-     * @see TestCase::getTest
-     * @return TestCase
+     * @see TUnit::getTest
+     * @return TUnit
      */
     abstract public function getTest();
 

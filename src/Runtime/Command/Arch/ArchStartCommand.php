@@ -6,7 +6,7 @@ use Kraken\Channel\ChannelBaseInterface;
 use Kraken\Channel\Extra\Request;
 use Kraken\Runtime\Command\Command;
 use Kraken\Command\CommandInterface;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 use Kraken\Promise\Promise;
 use Kraken\Runtime\RuntimeCommand;
 

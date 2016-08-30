@@ -14,8 +14,8 @@ use Kraken\Core\Service\ServiceRegister;
 use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceDefinedException;
-use Kraken\Throwable\Exception\Logic\Resource\ResourceUndefinedException;
+use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
+use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
 
 class ServiceRegisterTest extends TUnit
@@ -102,7 +102,7 @@ class ServiceRegisterTest extends TUnit
         $provider = $this->getMock(AProvider::class);
 
         $register->registerProvider($provider);
-        $this->setExpectedException(ResourceDefinedException::class);
+        $this->setExpectedException(ResourceOccupiedException::class);
         $register->registerProvider($provider);
     }
 
@@ -365,7 +365,7 @@ class ServiceRegisterTest extends TUnit
         $existing = 'existing';
 
         $register->registerAlias($alias, $existing);
-        $this->setExpectedException(ResourceDefinedException::class);
+        $this->setExpectedException(ResourceOccupiedException::class);
         $register->registerAlias($alias, $existing);
     }
 

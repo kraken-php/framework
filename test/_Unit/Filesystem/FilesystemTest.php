@@ -5,8 +5,8 @@ namespace Kraken\_Unit\Filesystem;
 use Kraken\_Unit\Filesystem\_Mock\FilesystemMock;
 use Kraken\Filesystem\FilesystemInterface;
 use Kraken\Test\TUnit;
-use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
-use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
+use Kraken\Throwable\Exception\Runtime\ReadException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
 use League\Flysystem\Filesystem;
 use Prophecy\Prophecy\ObjectProphecy;
 use Prophecy\Prophecy\MethodProphecy;
@@ -58,7 +58,7 @@ class FilesystemTest extends TUnit
      */
     public function testApiExists_ThrowsException_WhenModelHasThrowsException()
     {
-        $this->setExpectedException(IoReadException::class);
+        $this->setExpectedException(ReadException::class);
 
         $this->expect('has', [ 'path' ])->willThrow(new Exception());
         $this->fs->exists('path');
@@ -81,7 +81,7 @@ class FilesystemTest extends TUnit
      */
     public function testApiMove_ThrowsException_WhenModelMoveReturnsFalse()
     {
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
 
         $before = 'a';
         $after  = 'b';
@@ -95,7 +95,7 @@ class FilesystemTest extends TUnit
      */
     public function testApiMove_ThrowsException_WhenModelMoveThrowsException()
     {
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
 
         $before = 'a';
         $after  = 'b';
@@ -131,7 +131,7 @@ class FilesystemTest extends TUnit
      */
     public function testApiIsFile_ThrowsException_WhenModelThrowsException()
     {
-        $this->setExpectedException(IoReadException::class);
+        $this->setExpectedException(ReadException::class);
 
         $path = 'path';
 
@@ -166,7 +166,7 @@ class FilesystemTest extends TUnit
      */
     public function testApiIsDir_ThrowsException_WhenModelThrowsException()
     {
-        $this->setExpectedException(IoReadException::class);
+        $this->setExpectedException(ReadException::class);
 
         $path = 'path';
 
@@ -191,7 +191,7 @@ class FilesystemTest extends TUnit
      */
     public function testApiGetVisibility_ThrowsException_WhenModelThrowsException()
     {
-        $this->setExpectedException(IoReadException::class);
+        $this->setExpectedException(ReadException::class);
 
         $path = 'path';
 
@@ -226,7 +226,7 @@ class FilesystemTest extends TUnit
      */
     public function testApiIsPublic_RethrowsException()
     {
-        $this->setExpectedException(IoReadException::class);
+        $this->setExpectedException(ReadException::class);
 
         $path = 'path';
 
@@ -261,7 +261,7 @@ class FilesystemTest extends TUnit
      */
     public function testApiIsPrivate_RethrowsException()
     {
-        $this->setExpectedException(IoReadException::class);
+        $this->setExpectedException(ReadException::class);
 
         $path = 'path';
 
@@ -286,7 +286,7 @@ class FilesystemTest extends TUnit
      */
     public function testApiSetVisibility_ThrowsException_WhenSettingIsNotPossible()
     {
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
 
         $path = 'path';
         $visibility = 'visibility';
@@ -300,7 +300,7 @@ class FilesystemTest extends TUnit
      */
     public function testApiSetVisibility_ThrowsException_WhenModelThrows()
     {
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
 
         $path = 'path';
         $visibility = 'visibility';
@@ -326,7 +326,7 @@ class FilesystemTest extends TUnit
      */
     public function testApiSetPublic_ThrowsException_WhenSettingIsNotPossible()
     {
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
 
         $path = 'path';
 
@@ -339,7 +339,7 @@ class FilesystemTest extends TUnit
      */
     public function testApiSetPublic_ThrowsException_WhenModelThrows()
     {
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
 
         $path = 'path';
 
@@ -363,7 +363,7 @@ class FilesystemTest extends TUnit
      */
     public function testApiSetPrivate_ThrowsException_WhenSettingIsNotPossible()
     {
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
 
         $path = 'path';
 
@@ -376,7 +376,7 @@ class FilesystemTest extends TUnit
      */
     public function testApiSetPrivate_ThrowsException_WhenModelThrows()
     {
-        $this->setExpectedException(IoWriteException::class);
+        $this->setExpectedException(WriteException::class);
 
         $path = 'path';
 
@@ -417,7 +417,7 @@ class FilesystemTest extends TUnit
         catch (Exception $ex)
         {}
 
-        $this->assertInstanceOf(IoWriteException::class, $ex);
+        $this->assertInstanceOf(WriteException::class, $ex);
         $this->assertSame($expected, $ex->getPrevious());
     }
 
@@ -452,7 +452,7 @@ class FilesystemTest extends TUnit
         catch (Exception $ex)
         {}
 
-        $this->assertInstanceOf(IoWriteException::class, $ex);
+        $this->assertInstanceOf(WriteException::class, $ex);
         $this->assertSame($expected, $ex->getPrevious());
     }
 
@@ -487,7 +487,7 @@ class FilesystemTest extends TUnit
         catch (Exception $ex)
         {}
 
-        $this->assertInstanceOf(IoWriteException::class, $ex);
+        $this->assertInstanceOf(WriteException::class, $ex);
         $this->assertSame($expected, $ex->getPrevious());
     }
 
@@ -527,7 +527,7 @@ class FilesystemTest extends TUnit
         catch (Exception $ex)
         {}
 
-        $this->assertInstanceOf(IoWriteException::class, $ex);
+        $this->assertInstanceOf(WriteException::class, $ex);
         $this->assertSame($expected, $ex->getPrevious());
     }
 
@@ -552,7 +552,7 @@ class FilesystemTest extends TUnit
         catch (Exception $ex)
         {}
 
-        $this->assertInstanceOf(IoWriteException::class, $ex);
+        $this->assertInstanceOf(WriteException::class, $ex);
         $this->assertSame($expected, $ex->getPrevious());
     }
 
@@ -592,7 +592,7 @@ class FilesystemTest extends TUnit
         catch (Exception $ex)
         {}
 
-        $this->assertInstanceOf(IoWriteException::class, $ex);
+        $this->assertInstanceOf(WriteException::class, $ex);
         $this->assertSame($expected, $ex->getPrevious());
     }
 
@@ -617,7 +617,7 @@ class FilesystemTest extends TUnit
         catch (Exception $ex)
         {}
 
-        $this->assertInstanceOf(IoWriteException::class, $ex);
+        $this->assertInstanceOf(WriteException::class, $ex);
         $this->assertSame($expected, $ex->getPrevious());
     }
 
@@ -650,7 +650,7 @@ class FilesystemTest extends TUnit
         catch (Exception $ex)
         {}
 
-        $this->assertInstanceOf(IoReadException::class, $ex);
+        $this->assertInstanceOf(ReadException::class, $ex);
         $this->assertSame(null, $ex->getPrevious());
     }
 
@@ -671,7 +671,7 @@ class FilesystemTest extends TUnit
         catch (Exception $ex)
         {}
 
-        $this->assertInstanceOf(IoReadException::class, $ex);
+        $this->assertInstanceOf(ReadException::class, $ex);
         $this->assertSame($expected, $ex->getPrevious());
     }
 
@@ -708,7 +708,7 @@ class FilesystemTest extends TUnit
         catch (Exception $ex)
         {}
 
-        $this->assertInstanceOf(IoReadException::class, $ex);
+        $this->assertInstanceOf(ReadException::class, $ex);
         $this->assertSame($expected, $ex->getPrevious());
     }
 
@@ -743,7 +743,7 @@ class FilesystemTest extends TUnit
         catch (Exception $ex)
         {}
 
-        $this->assertInstanceOf(IoWriteException::class, $ex);
+        $this->assertInstanceOf(WriteException::class, $ex);
         $this->assertSame($expected, $ex->getPrevious());
     }
 
@@ -776,7 +776,7 @@ class FilesystemTest extends TUnit
         catch (Exception $ex)
         {}
 
-        $this->assertInstanceOf(IoWriteException::class, $ex);
+        $this->assertInstanceOf(WriteException::class, $ex);
         $this->assertSame($expected, $ex->getPrevious());
     }
 
@@ -809,7 +809,7 @@ class FilesystemTest extends TUnit
         catch (Exception $ex)
         {}
 
-        $this->assertInstanceOf(IoWriteException::class, $ex);
+        $this->assertInstanceOf(WriteException::class, $ex);
         $this->assertSame($expected, $ex->getPrevious());
     }
 
@@ -843,7 +843,7 @@ class FilesystemTest extends TUnit
         catch (Exception $ex)
         {}
 
-        $this->assertInstanceOf(IoReadException::class, $ex);
+        $this->assertInstanceOf(ReadException::class, $ex);
         $this->assertSame($expected, $ex->getPrevious());
     }
 
@@ -877,7 +877,7 @@ class FilesystemTest extends TUnit
         catch (Exception $ex)
         {}
 
-        $this->assertInstanceOf(IoReadException::class, $ex);
+        $this->assertInstanceOf(ReadException::class, $ex);
         $this->assertSame($expected, $ex->getPrevious());
     }
 
@@ -911,7 +911,7 @@ class FilesystemTest extends TUnit
         catch (Exception $ex)
         {}
 
-        $this->assertInstanceOf(IoReadException::class, $ex);
+        $this->assertInstanceOf(ReadException::class, $ex);
         $this->assertSame($expected, $ex->getPrevious());
     }
 
@@ -945,7 +945,7 @@ class FilesystemTest extends TUnit
         catch (Exception $ex)
         {}
 
-        $this->assertInstanceOf(IoReadException::class, $ex);
+        $this->assertInstanceOf(ReadException::class, $ex);
         $this->assertSame($expected, $ex->getPrevious());
     }
 

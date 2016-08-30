@@ -3,7 +3,7 @@
 namespace Kraken\Supervisor;
 
 use Kraken\Promise\Promise;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 use Error;
 use Exception;
 

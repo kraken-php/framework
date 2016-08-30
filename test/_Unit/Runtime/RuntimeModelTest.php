@@ -19,7 +19,7 @@ use Kraken\Runtime\RuntimeModelInterface;
 use Kraken\Supervisor\Supervisor;
 use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\LogicException;
-use Kraken\Throwable\Exception\Runtime\Execution\RejectionException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 
 class RuntimeModelTest extends TUnit
 {

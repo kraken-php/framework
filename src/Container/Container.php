@@ -2,12 +2,12 @@
 
 namespace Kraken\Container;
 
-use Closure;
 use Kraken\Container\Model\ContainerModel;
 use Kraken\Container\Object\InvokableObject;
-use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
-use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
+use Kraken\Throwable\Exception\Runtime\ReadException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
 use League\Container\ReflectionContainer as ContainerReflection;
+use Closure;
 use Error;
 use Exception;
 use ReflectionFunction;
@@ -71,7 +71,7 @@ class Container implements ContainerInterface
 
         if ($object === null || $ex !== null)
         {
-            throw new IoWriteException("Binding definition of [$aliasOrClass] to Container failed.", $ex);
+            throw new WriteException("Binding definition of [$aliasOrClass] to Container failed.", $ex);
         }
 
         $object->withArguments($defaultParams);
@@ -88,7 +88,7 @@ class Container implements ContainerInterface
 
         if (!is_array($defaultParams))
         {
-            throw new IoWriteException("Binding singleton of [$aliasOrClass] to Container failed.", $ex);
+            throw new WriteException("Binding singleton of [$aliasOrClass] to Container failed.", $ex);
         }
 
         try
@@ -102,7 +102,7 @@ class Container implements ContainerInterface
 
         if ($object === null || $ex !== null)
         {
-            throw new IoWriteException("Binding singleton of [$aliasOrClass] to Container failed.", $ex);
+            throw new WriteException("Binding singleton of [$aliasOrClass] to Container failed.", $ex);
         }
 
         $object->withArguments($defaultParams);
@@ -121,7 +121,7 @@ class Container implements ContainerInterface
 
         if (!$isValid)
         {
-            throw new IoWriteException("Binding instance of [$aliasOrClass] to Container failed.");
+            throw new WriteException("Binding instance of [$aliasOrClass] to Container failed.");
         }
 
         try
@@ -139,7 +139,7 @@ class Container implements ContainerInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("Binding instance of [$aliasOrClass] to Container failed.", $ex);
+        throw new WriteException("Binding instance of [$aliasOrClass] to Container failed.", $ex);
     }
 
     /**
@@ -150,7 +150,7 @@ class Container implements ContainerInterface
     {
         if (!is_string($aliasOrClass) || !is_string($existingAliasOrClass))
         {
-            throw new IoWriteException("Binding alias of [$aliasOrClass] as [$existingAliasOrClass] to Container failed.");
+            throw new WriteException("Binding alias of [$aliasOrClass] as [$existingAliasOrClass] to Container failed.");
         }
 
         try
@@ -164,7 +164,7 @@ class Container implements ContainerInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("Binding alias of [$aliasOrClass] as [$existingAliasOrClass] to Container failed.", $ex);
+        throw new WriteException("Binding alias of [$aliasOrClass] as [$existingAliasOrClass] to Container failed.", $ex);
     }
 
     /**
@@ -181,11 +181,11 @@ class Container implements ContainerInterface
 
         $name = is_callable($object) ? 'callable' : (string) $object;
 
-        throw new IoWriteException("Binding object of [$name] as [$aliasOrClass] to Container failed.");
+        throw new WriteException("Binding object of [$name] as [$aliasOrClass] to Container failed.");
 
 //        if (!is_object($object) || is_callable($object))
 //        {
-//            throw new IoWriteException(sprintf(
+//            throw new WriteException(sprintf(
 //                "Binding object of [%s] as [%s] to Container failed.",
 //                is_callable($object) ? 'callable' : $object,
 //                $aliasOrClass
@@ -203,7 +203,7 @@ class Container implements ContainerInterface
     {
         if (is_object($param) || is_callable($param) || class_exists($aliasOrClass))
         {
-            throw new IoWriteException("Binding param of [$aliasOrClass] to Container failed.");
+            throw new WriteException("Binding param of [$aliasOrClass] to Container failed.");
         }
 
         try
@@ -216,7 +216,7 @@ class Container implements ContainerInterface
         catch (Exception $ex)
         {}
 
-        throw new IoWriteException("Binding param of [$aliasOrClass] to Container failed.", $ex);
+        throw new WriteException("Binding param of [$aliasOrClass] to Container failed.", $ex);
     }
 
     /**
@@ -239,7 +239,7 @@ class Container implements ContainerInterface
 
         if ($object === null || $ex !== null)
         {
-            throw new IoWriteException("Binding factory of [$aliasOrClass] to Container failed.", $ex);
+            throw new WriteException("Binding factory of [$aliasOrClass] to Container failed.", $ex);
         }
 
         $object->withArguments($args);
@@ -267,7 +267,7 @@ class Container implements ContainerInterface
         catch (Exception $ex)
         {}
 
-        throw new IoReadException("Resolving object of [$aliasOrClass] from Container failed.", $ex);
+        throw new ReadException("Resolving object of [$aliasOrClass] from Container failed.", $ex);
     }
 
     /**
@@ -331,7 +331,7 @@ class Container implements ContainerInterface
         catch (Exception $ex)
         {}
 
-        throw new IoReadException("Calling function with Container failed.", $ex);
+        throw new ReadException("Calling function with Container failed.", $ex);
     }
 
     /**

@@ -4,7 +4,7 @@ namespace Kraken\_Module\Filesystem\_Partial\Filesystem;
 
 use Kraken\Filesystem\FilesystemInterface;
 use Kraken\Test\TModule;
-use Kraken\Throwable\Exception\Runtime\Io\IoReadException;
+use Kraken\Throwable\Exception\Runtime\ReadException;
 
 trait FsApiGetDirectoriesPartial
 {
@@ -117,7 +117,7 @@ trait FsApiGetDirectoriesPartial
         $test = $this->getTest();
         $fs = $this->createFilesystem();
 
-        $test->setExpectedException(IoReadException::class);
+        $test->setExpectedException(ReadException::class);
         $fs->getDirectories($this->getPrefixed('DIR_NULL'));
     }
 

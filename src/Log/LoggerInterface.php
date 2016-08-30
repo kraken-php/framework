@@ -3,7 +3,7 @@
 namespace Kraken\Log;
 
 use Kraken\Log\Handler\HandlerInterface;
-use Kraken\Throwable\Exception\Runtime\Io\IoWriteException;
+use Kraken\Throwable\Exception\Runtime\WriteException;
 use Kraken\Util\Enum\EnumInterface;
 use Psr\Log\LoggerInterface as PsrLoggerInterface;
 
@@ -41,7 +41,7 @@ interface LoggerInterface extends EnumInterface, PsrLoggerInterface
      * Add processor on to the stack.
      *
      * @param callable $callback
-     * @throws IoWriteException
+     * @throws WriteException
      */
     public function pushProcessor(callable $callback);
 
