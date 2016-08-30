@@ -42,12 +42,12 @@ interface LoopExtendedInterface extends LoopInterface
     public function getFlowController();
 
     /**
-     * Flush loop.
+     * Erase loop.
      *
      * @param bool $all
      * @return LoopExtendedInterface
      */
-    public function flush($all = false);
+    public function erase($all = false);
 
     /**
      * Export loop not fired handlers and/or streams to another loop model.

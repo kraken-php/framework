@@ -594,7 +594,7 @@ class RuntimeModel implements RuntimeModelInterface
                 if ($this->loopState === self::LOOP_STATE_STARTED)
                 {
                     $this->getLoop()->export($this->loopBackup);
-                    $this->getLoop()->flush();
+                    $this->getLoop()->erase();
                 }
                 break;
 

@@ -215,7 +215,7 @@ class LoopModelMock implements LoopModelInterface
      * @param bool $all
      * @return LoopModelInterface
      */
-    public function flush($all = false)
+    public function erase($all = false)
     {
         $this->applyCall(__METHOD__, [ $all ]);
     }

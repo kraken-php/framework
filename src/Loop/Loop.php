@@ -41,9 +41,9 @@ class Loop implements LoopExtendedInterface
      * @override
      * @inheritDoc
      */
-    public function flush($all = false)
+    public function erase($all = false)
     {
-        $this->loop->flush($all);
+        $this->loop->erase($all);
 
         return $this;
     }

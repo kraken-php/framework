@@ -1222,7 +1222,7 @@ class RuntimeModelTest extends TUnit
             ->will($this->returnSelf());
         $loop
             ->expects($this->once())
-            ->method('flush');
+            ->method('erase');
 
         $runtime = $this->createModel([], [ 'stopLoop' ]);
         $runtime

@@ -159,7 +159,7 @@ interface LoopModelInterface
      * @param bool $all
      * @return LoopModelInterface
      */
-    public function flush($all = false);
+    public function erase($all = false);
 
     /**
      * Export loop not fired handlers and/or streams to another loop model.

@@ -134,35 +134,35 @@ class LoopTest extends TUnit
     /**
      *
      */
-    public function testApiFlush_CallsMethodOnModel()
+    public function testApiErase_CallsMethodOnModel()
     {
         $loop = $this->loop;
         $all = true;
 
-        $this->expect('flush', [ $all ]);
-        $loop->flush($all);
+        $this->expect('erase', [ $all ]);
+        $loop->erase($all);
     }
 
     /**
      *
      */
-    public function testApiFlush_CallsMethodOnModel_WithDefaultParams()
+    public function testApiErase_CallsMethodOnModel_WithDefaultParams()
     {
         $loop = $this->loop;
 
-        $this->expect('flush', [ false ]);
-        $loop->flush();
+        $this->expect('erase', [ false ]);
+        $loop->erase();
     }
 
     /**
      *
      */
-    public function testApiFlush_ReturnsCaller()
+    public function testApiErase_ReturnsCaller()
     {
         $loop = $this->loop;
 
-        $this->expect('flush');
-        $this->assertSame($loop, $loop->flush());
+        $this->expect('erase');
+        $this->assertSame($loop, $loop->erase());
     }
 
     /**

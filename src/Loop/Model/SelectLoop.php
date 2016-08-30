@@ -363,7 +363,7 @@ class SelectLoop implements LoopModelInterface
      * @override
      * @inheritDoc
      */
-    public function flush($all = false)
+    public function erase($all = false)
     {
         $this->stop();
         $loop = new static();

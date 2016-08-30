@@ -148,8 +148,8 @@ class ZmqSocket extends BaseEventEmitter
 
         $this->emit('end', [ $this ]);
         $this->loop->removeStream($this->fd);
-        $this->buffer->removeAllListeners();
-        $this->removeAllListeners();
+        $this->buffer->flushListeners();
+        $this->flushListeners();
         unset($this->socket);
         $this->closed = true;
     }

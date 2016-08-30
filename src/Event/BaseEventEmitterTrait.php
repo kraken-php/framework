@@ -191,9 +191,9 @@ trait BaseEventEmitterTrait
     }
 
     /**
-     * @see EventEmitterInterface::removeAllListeners
+     * @see EventEmitterInterface::flushListeners
      */
-    public function removeAllListeners()
+    public function flushListeners()
     {
         unset($this->emitterPointer);
         unset($this->emitterEventHandlers);

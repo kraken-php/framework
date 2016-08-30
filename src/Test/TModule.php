@@ -43,7 +43,7 @@ class TModule extends TUnit
     public function setUp()
     {
         $this->loop = new Loop(new SelectLoop);
-        $this->loop->flush(true);
+        $this->loop->erase(true);
 
         $this->simulation = new Simulation($this->loop);
     }

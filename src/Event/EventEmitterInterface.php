@@ -104,7 +104,7 @@ interface EventEmitterInterface
     /**
      * Remove all listeners.
      */
-    public function removeAllListeners();
+    public function flushListeners();
 
     /**
      * Find listener for event.

@@ -133,13 +133,13 @@ trait EventEmitterTrait
     }
 
     /**
-     * @see EventEmitterInterface::removeAllListeners
+     * @see EventEmitterInterface::flushListeners
      */
-    public function removeAllListeners()
+    public function flushListeners()
     {
         if (isset($this->emitter))
         {
-            $this->emitter->removeAllListeners();
+            $this->emitter->flushListeners();
         }
     }
 

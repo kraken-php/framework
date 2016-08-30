@@ -435,7 +435,7 @@ class LoopTest extends TModule
         $loop->addWriteStream($stream, $this->expectCallableOnce());
         $loop->addReadStream($stream, $this->expectCallableOnce());
 
-        $loop->flush();
+        $loop->erase();
         $loop->tick();
 
         unset($stream);
@@ -455,7 +455,7 @@ class LoopTest extends TModule
         $loop->addWriteStream($stream, $this->expectCallableNever());
         $loop->addReadStream($stream, $this->expectCallableNever());
 
-        $loop->flush(true);
+        $loop->erase(true);
         $loop->tick();
 
         unset($stream);

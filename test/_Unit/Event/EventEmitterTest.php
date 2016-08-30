@@ -278,13 +278,13 @@ class EventEmitterTest extends TUnit
     /**
      * @dataProvider emitterProvider
      */
-    public function testApiRemoveAllListeners_RemovesAllListeners(EventEmitterInterface $emitter)
+    public function testApiFlushListeners_FlushesListeners(EventEmitterInterface $emitter)
     {
         $emitter->on('A', $this->expectCallableNever());
         $emitter->on('B', $this->expectCallableNever());
         $emitter->on('C', $this->expectCallableNever());
 
-        $emitter->removeAllListeners();
+        $emitter->flushListeners();
 
         $emitter->emit('A');
         $emitter->emit('B');
