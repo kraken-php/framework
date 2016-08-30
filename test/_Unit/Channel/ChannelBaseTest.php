@@ -1225,7 +1225,7 @@ class ChannelBaseText extends TUnit
         $router  = $this->getMock(ChannelRouterCompositeInterface::class, [], [], '', false);
         $router
             ->expects($this->any())
-            ->method('bus')
+            ->method('getBus')
             ->will($this->returnValue(null));
 
         $encoder = $this->getMock(ChannelEncoderInterface::class, [], [], '', false);

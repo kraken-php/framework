@@ -570,11 +570,11 @@ class ProcessManagerBaseTest extends TUnit
         $core = $this->getMock(CoreInterface::class, [], [], '', false);
         $core
             ->expects($this->any())
-            ->method('dataPath')
+            ->method('getDataPath')
             ->will($this->returnValue(''));
         $core
             ->expects($this->any())
-            ->method('dataDir')
+            ->method('getDataDir')
             ->will($this->returnValue(''));
 
         $runtime = $this->getMock(RuntimeInterface::class, [], [], '', false);
