@@ -23,7 +23,7 @@ interface ChannelCompositeInterface extends ChannelBaseInterface
      * @return ChannelBaseInterface|ChannelCompositeInterface
      * @throws ResourceUndefinedException
      */
-    public function bus($name);
+    public function getBus($name);
 
     /**
      * Add or replace existing bus in channel domain.

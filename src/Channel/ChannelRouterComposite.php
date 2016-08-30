@@ -45,7 +45,7 @@ class ChannelRouterComposite implements ChannelRouterCompositeInterface
      * @override
      * @inheritDoc
      */
-    public function bus($name)
+    public function getBus($name)
     {
         if (!isset($this->bus[$name]))
         {

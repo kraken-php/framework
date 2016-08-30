@@ -6,8 +6,8 @@ use Kraken\Channel\ChannelProtocol;
 use Kraken\Channel\ChannelRouterBase;
 use Kraken\Channel\ChannelRouterBaseInterface;
 use Kraken\Channel\ChannelRouterComposite;
-use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
+use Kraken\Test\TUnit;
 
 class ChannelRouterCompositeTest extends TUnit
 {
@@ -31,23 +31,23 @@ class ChannelRouterCompositeTest extends TUnit
     /**
      *
      */
-    public function testApiBus_ReturnsBus_WhenBusDoesExist()
+    public function testApiGetBus_ReturnsBus_WhenBusDoesExist()
     {
         $base   = $this->createChannelRouterBase();
         $router = $this->createChannelRouterComposite([ 'bus' => $base ]);
 
-        $this->assertSame($base, $router->bus('bus'));
+        $this->assertSame($base, $router->getBus('bus'));
     }
 
     /**
      *
      */
-    public function testApiBus_ThrowsException_WhenBusDoesNotExist()
+    public function testApiGetBus_ThrowsException_WhenBusDoesNotExist()
     {
         $router = $this->createChannelRouterComposite();
 
         $this->setExpectedException(ResourceUndefinedException::class);
-        $router->bus('bus');
+        $router->getBus('bus');
     }
 
     /**

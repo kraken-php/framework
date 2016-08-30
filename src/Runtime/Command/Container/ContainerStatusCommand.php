@@ -16,10 +16,10 @@ class ContainerStatusCommand extends Command implements CommandInterface
         $runtime = $this->runtime;
 
         return [
-            'parent' => $runtime->parent(),
-            'alias'  => $runtime->alias(),
-            'name'   => $runtime->name(),
-            'state'  => $runtime->state()
+            'parent' => $runtime->getParent(),
+            'alias'  => $runtime->getAlias(),
+            'name'   => $runtime->getName(),
+            'state'  => $runtime->getState()
         ];
     }
 }

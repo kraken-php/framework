@@ -26,16 +26,16 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
      * @override
      * @inheritDoc
      */
-    public function type()
+    public function getType()
     {
-        return $this->getCore()->unit();
+        return $this->getCore()->getType();
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function parent()
+    public function getParent()
     {
         return null;
     }
@@ -44,7 +44,7 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
      * @override
      * @inheritDoc
      */
-    public function alias()
+    public function getAlias()
     {
         return 'ConsoleClient';
     }
@@ -53,7 +53,7 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
      * @override
      * @inheritDoc
      */
-    public function name()
+    public function getName()
     {
         return 'ConsoleClient';
     }

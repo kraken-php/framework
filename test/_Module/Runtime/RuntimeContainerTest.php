@@ -29,7 +29,7 @@ class RuntimeContainerTest extends TModule
     {
         $core    = $this->createCore();
         $loop    = $this->createLoop();
-        $model   = $container->model();
+        $model   = $container->getModel();
 
         $model->setCore($core);
         $model->setLoop($loop);
@@ -160,7 +160,7 @@ class RuntimeContainerTest extends TModule
     {
         $core    = $this->createCore();
         $loop    = $this->createLoop();
-        $model   = $container->model();
+        $model   = $container->getModel();
 
         $model->setCore($core);
         $model->setLoop($loop);
@@ -208,7 +208,7 @@ class RuntimeContainerTest extends TModule
     {
         $core    = $this->createCore();
         $loop    = $this->createLoop();
-        $model   = $container->model();
+        $model   = $container->getModel();
 
         $model->setCore($core);
         $model->setLoop($loop);
@@ -256,7 +256,7 @@ class RuntimeContainerTest extends TModule
     {
         $core    = $this->createCore();
         $loop    = $this->createLoop();
-        $model   = $container->model();
+        $model   = $container->getModel();
 
         $model->setCore($core);
         $model->setLoop($loop);

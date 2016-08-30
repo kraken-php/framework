@@ -3,7 +3,7 @@
 namespace Kraken\Channel\Request;
 
 use Kraken\Support\TimeSupport;
-use Kraken\Throwable\Exception\Runtime\Execution\TimeoutException;
+use Kraken\Throwable\Exception\Runtime\TimeoutException;
 use Kraken\Throwable\ThrowableProxy;
 use Error;
 use Exception;
@@ -117,7 +117,7 @@ trait RequestHelperTrait
 
         foreach ($this->reqs as $pid=>$request)
         {
-            if ($now >= $request->timeout())
+            if ($now >= $request->getTimeout())
             {
                 $expiredReqs[] = $request;
             }
@@ -125,7 +125,7 @@ trait RequestHelperTrait
 
         foreach ($expiredReqs as $request)
         {
-            unset($this->reqs[$request->pid()]);
+            unset($this->reqs[$request->getPid()]);
         }
 
         foreach ($expiredReqs as $request)

@@ -2,11 +2,10 @@
 
 namespace Kraken\Runtime\Container\Manager;
 
-use Kraken\Throwable\Exception\Runtime\RejectionException;
 use Kraken\Promise\Promise;
-use Kraken\Promise\PromiseInterface;
-use Kraken\Runtime\Runtime;
 use Kraken\Runtime\Container\ThreadManagerInterface;
+use Kraken\Runtime\Runtime;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 
 class ThreadManagerNull implements ThreadManagerInterface
 {

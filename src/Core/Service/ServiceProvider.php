@@ -33,7 +33,7 @@ class ServiceProvider implements ServiceProviderInterface
      * @override
      * @inheritDoc
      */
-    public function requires()
+    public function getRequires()
     {
         return $this->requires;
     }
@@ -42,7 +42,7 @@ class ServiceProvider implements ServiceProviderInterface
      * @override
      * @inheritDoc
      */
-    public function provides()
+    public function getProvides()
     {
         return $this->provides;
     }

@@ -39,7 +39,7 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
         $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
 
         $console = $factory->create('Kraken\Channel\ChannelBase', [
-            $runtime->parent() === null
+            $runtime->getParent() === null
                 ? $config->get('channel.channels.console.class')
                 : 'Kraken\Channel\Model\Null\NullModel',
             array_merge(
@@ -92,9 +92,9 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
      */
     private function applyConsoleRouting(ChannelCompositeInterface $channel, ChannelBaseInterface $console)
     {
-        $master = $channel->bus('master');
+        $master = $channel->getBus('master');
 
-        $router = $console->input();
+        $router = $console->getInput();
         $router->addAnchor(
             new RuleHandler(function($params) use($master) {
                 $master->receive(
@@ -104,7 +104,7 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
             })
         );
 
-        $router = $console->output();
+        $router = $console->getOutput();
         $router->addAnchor(
             new RuleHandler(function($params) use($channel) {
                 $channel->push(

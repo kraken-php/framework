@@ -31,7 +31,7 @@ class ResponseTest extends TUnit
     {
         $rep = $this->createResponse('pid', 'alias');
 
-        $this->assertSame('pid', $rep->pid());
+        $this->assertSame('pid', $rep->getPid());
     }
 
     /**
@@ -41,7 +41,7 @@ class ResponseTest extends TUnit
     {
         $rep = $this->createResponse('pid', 'alias');
 
-        $this->assertSame('alias', $rep->alias());
+        $this->assertSame('alias', $rep->getAlias());
     }
 
     /**
@@ -52,7 +52,7 @@ class ResponseTest extends TUnit
         $timeout = 5.0;
         $rep = $this->createResponse('pid', 'alias', $timeout);
 
-        $this->assertSame($timeout, $rep->timeout());
+        $this->assertSame($timeout, $rep->getTimeout());
     }
 
     /**
@@ -63,7 +63,7 @@ class ResponseTest extends TUnit
         $timeoutIncrease = 5.0;
         $rep = $this->createResponse('pid', 'alias', 0.0, $timeoutIncrease);
 
-        $this->assertSame($timeoutIncrease, $rep->timeoutIncrease());
+        $this->assertSame($timeoutIncrease, $rep->getTimeoutIncrease());
     }
 
     /**

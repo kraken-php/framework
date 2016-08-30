@@ -99,11 +99,11 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
      * @override
      * @inheritDoc
      */
-    public function bus($name)
+    public function getBus($name)
     {
         if (!isset($this->buses[$name]))
         {
-            throw new ResourceUndefinedException(sprintf("Channel [%s] has no registered bus [$name].", $this->name()));
+            throw new ResourceUndefinedException(sprintf("Channel [%s] has no registered bus [$name].", $this->getName()));
         }
 
         return $this->buses[$name];
@@ -117,7 +117,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     {
         if (isset($this->buses[$name]))
         {
-            throw new ResourceOccupiedException(sprintf("Channel [%s] has already registered bus [$name].", $this->name()));
+            throw new ResourceOccupiedException(sprintf("Channel [%s] has already registered bus [$name].", $this->getName()));
         }
 
         $this->buses[$name] = $channel;
@@ -160,7 +160,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
      * @override
      * @inheritDoc
      */
-    public function name()
+    public function getName()
     {
         return $this->name;
     }
@@ -169,7 +169,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
      * @override
      * @inheritDoc
      */
-    public function model()
+    public function getModel()
     {
         return null;
     }
@@ -178,7 +178,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
      * @override
      * @inheritDoc
      */
-    public function router()
+    public function getRouter()
     {
         return $this->router;
     }
@@ -187,18 +187,18 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
      * @override
      * @inheritDoc
      */
-    public function input()
+    public function getInput()
     {
-        return $this->router->bus('input');
+        return $this->router->getBus('input');
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function output()
+    public function getOutput()
     {
-        return $this->router->bus('output');
+        return $this->router->getBus('output');
     }
 
     /**
@@ -407,7 +407,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
      */
     public function receive($sender, ChannelProtocolInterface $protocol)
     {
-        if ($this->input()->handle($sender, $protocol))
+        if ($this->getInput()->handle($sender, $protocol))
         {
             $this->emit('input', [ $sender, $protocol ]);
         }
@@ -525,7 +525,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
             $message->setDestination($name);
         }
 
-        return $this->output()->handle($name, $message, $flags);
+        return $this->getOutput()->handle($name, $message, $flags);
     }
 
     /**
@@ -584,7 +584,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
      */
     protected function handleSendRequest($name, $message, $flags = Channel::MODE_DEFAULT, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0)
     {
-        return $this->output()->handle($name, $message, $flags, $success, $failure, $cancel, $timeout);
+        return $this->getOutput()->handle($name, $message, $flags, $success, $failure, $cancel, $timeout);
     }
 
     /**
@@ -642,7 +642,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
      */
     public function handleReceive($sender, ChannelProtocolInterface $protocol)
     {
-        $this->input()->handle($sender, $protocol);
+        $this->getInput()->handle($sender, $protocol);
     }
 
     /**

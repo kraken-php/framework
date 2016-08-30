@@ -3,7 +3,6 @@
 namespace Kraken\Channel;
 
 use Kraken\Channel\Extra\Response;
-use Kraken\Channel\Request\Request;
 use Kraken\Channel\Request\RequestHelperTrait;
 use Kraken\Channel\Response\ResponseHelperTrait;
 use Kraken\Event\EventEmitter;
@@ -16,7 +15,6 @@ use Kraken\Support\StringSupport;
 use Kraken\Support\TimeSupport;
 use Kraken\Throwable\Exception\System\TaskIncompleteException;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
-use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Throwable\Exception\LogicException;
 use Kraken\Throwable\Exception;
 use Kraken\Throwable\ThrowableProxy;
@@ -86,8 +84,8 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
 
         try
         {
-            $router->bus('input');
-            $router->bus('output');
+            $router->getBus('input');
+            $router->getBus('output');
         }
         catch (Exception $ex)
         {
@@ -138,7 +136,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
      * @override
      * @inheritDoc
      */
-    public function name()
+    public function getName()
     {
         return $this->name;
     }
@@ -147,7 +145,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
      * @override
      * @inheritDoc
      */
-    public function model()
+    public function getModel()
     {
         return $this->model;
     }
@@ -156,7 +154,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
      * @override
      * @inheritDoc
      */
-    public function router()
+    public function getRouter()
     {
         return $this->router;
     }
@@ -165,18 +163,18 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
      * @override
      * @inheritDoc
      */
-    public function input()
+    public function getInput()
     {
-        return $this->router->bus('input');
+        return $this->router->getBus('input');
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function output()
+    public function getOutput()
     {
-        return $this->router->bus('output');
+        return $this->router->getBus('output');
     }
 
     /**
@@ -380,7 +378,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
             return;
         }
 
-        if ($this->handleReceiveResponse($protocol) || $this->input()->handle($sender, $protocol))
+        if ($this->handleReceiveResponse($protocol) || $this->getInput()->handle($sender, $protocol))
         {
             $this->emit('input', [ $sender, $protocol ]);
         }
@@ -467,7 +465,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
             $message->setDestination($name);
         }
 
-        return $this->output()->handle($name, $message, $flags);
+        return $this->getOutput()->handle($name, $message, $flags);
     }
 
     /**
@@ -515,7 +513,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
             $message->setDestination($name);
         }
 
-        return $this->output()->handle($name, $message, $flags, $success, $failure, $cancel, $timeout);
+        return $this->getOutput()->handle($name, $message, $flags, $success, $failure, $cancel, $timeout);
     }
 
     /**
@@ -573,7 +571,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
             return;
         }
 
-        if ($this->handleReceiveResponse($protocol) || $this->input()->handle($sender, $protocol))
+        if ($this->handleReceiveResponse($protocol) || $this->getInput()->handle($sender, $protocol))
         {
             return;
         }
@@ -585,7 +583,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
      */
     protected function handleReceiveRequest(ChannelProtocolInterface $protocol)
     {
-        if ($protocol->getType() === Channel::TYPE_REQ && $protocol->getDestination() === $this->name())
+        if ($protocol->getType() === Channel::TYPE_REQ && $protocol->getDestination() === $this->name)
         {
             $pid = $protocol->getPid();
             $timestamp = $protocol->getTimestamp();
@@ -683,7 +681,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
             }
             if ($message->getOrigin() === '')
             {
-                $message->setOrigin($this->name());
+                $message->setOrigin($this->name);
             }
             if ($message->getTimestamp() == 0)
             {
@@ -708,7 +706,7 @@ class ChannelBase extends EventEmitter implements ChannelBaseInterface
 
             foreach ($unfinished as $response)
             {
-                $protocol = new ChannelProtocol('', $response->pid(), '', $response->alias(), '', '', $this->getTime());
+                $protocol = new ChannelProtocol('', $response->getPid(), '', $response->getAlias(), '', '', $this->getTime());
                 $response = new Response($this, $protocol, new TaskIncompleteException("Task unfinished."));
                 $response->call();
             }

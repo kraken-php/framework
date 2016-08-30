@@ -28,7 +28,7 @@ class RuntimeAutowireProvider extends ServiceProvider implements ServiceProvider
         $error   = $core->make('Kraken\Runtime\Supervisor\SupervisorBaseInterface');
         $manager = $core->make('Kraken\Runtime\RuntimeManagerInterface');
 
-        $model = $runtime->model();
+        $model = $runtime->getModel();
         $model->setLoop($loop);
         $model->setSupervisor($error);
         $model->setRuntimeManager($manager);

@@ -7,7 +7,7 @@ use Kraken\Throwable\Exception\Runtime\ExecutionException;
 interface SupervisorPluginInterface
 {
     /**
-     * Register plugin to Supevisor.
+     * Register plugin to Supervisor.
      *
      * @param SupervisorInterface $supervisor
      * @return SupervisorPluginInterface
@@ -16,7 +16,7 @@ interface SupervisorPluginInterface
     public function registerPlugin(SupervisorInterface $supervisor);
 
     /**
-     * Unregister plugin from Supevisor.
+     * Unregister plugin from Supervisor.
      *
      * @param SupervisorInterface $supervisor
      * @return SupervisorPluginInterface

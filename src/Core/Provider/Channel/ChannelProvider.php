@@ -2,7 +2,6 @@
 
 namespace Kraken\Core\Provider\Channel;
 
-use Exception;
 use Kraken\Channel\ChannelFactory;
 use Kraken\Channel\ChannelModelFactory;
 use Kraken\Core\CoreInterface;
@@ -11,6 +10,7 @@ use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Util\Factory\FactoryPluginInterface;
+use Exception;
 
 class ChannelProvider extends ServiceProvider implements ServiceProviderInterface
 {
@@ -41,8 +41,8 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         $loop = $core->make('Kraken\Loop\LoopInterface');
         $context = $core->make('Kraken\Core\CoreInputContextInterface');
 
-        $modelFactory = new ChannelModelFactory($context->alias(), $loop);
-        $factory = new ChannelFactory($context->alias(), $modelFactory, $loop);
+        $modelFactory = new ChannelModelFactory($context->getAlias(), $loop);
+        $factory = new ChannelFactory($context->getAlias(), $modelFactory, $loop);
 
         $core->instance(
             'Kraken\Channel\ChannelModelFactoryInterface',

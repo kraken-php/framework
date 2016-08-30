@@ -2,7 +2,6 @@
 
 namespace Kraken\Core\Provider\Supervisor;
 
-use Exception;
 use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
@@ -12,6 +11,7 @@ use Kraken\Supervisor\Supervisor;
 use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Util\Factory\FactoryPluginInterface;
+use Exception;
 
 class SupervisorProvider extends ServiceProvider implements ServiceProviderInterface
 {

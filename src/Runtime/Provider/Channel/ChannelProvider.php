@@ -57,13 +57,13 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         $factory = $core->make('Kraken\Channel\ChannelFactoryInterface');
 
         $master = $factory->create('Kraken\Channel\ChannelBase', [
-            $runtime->parent() !== null
+            $runtime->getParent() !== null
                 ? $config->get('channel.channels.master.class')
                 : 'Kraken\Channel\Model\Null\NullModel',
             array_merge(
                 $config->get('channel.channels.master.config'),
                 [
-                    'hosts' => $runtime->parent() !== null ? $runtime->parent() : $runtime->alias()
+                    'hosts' => $runtime->getParent() !== null ? $runtime->getParent() : $runtime->getAlias()
                 ]
             )
         ]);
@@ -106,7 +106,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         $console = $core->make('Kraken\Runtime\Channel\ConsoleInterface');
         $loop    = $core->make('Kraken\Loop\LoopInterface');
 
-        if ($runtime->parent() === null)
+        if ($runtime->getParent() === null)
         {
             $this->applyRootRouting($runtime, $channel, $console);
         }
@@ -131,33 +131,33 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
      */
     private function applySimpleRouting(RuntimeInterface $runtime, ChannelCompositeInterface $composite)
     {
-        $master = $composite->bus('master');
-        $slave  = $composite->bus('slave');
+        $master = $composite->getBus('master');
+        $slave  = $composite->getBus('slave');
 
-        $router = $composite->input();
+        $router = $composite->getInput();
         $router->addAnchor(
             new RuleHandler(function($params) {
                 return true;
             })
         );
 
-        $router = $composite->output();
+        $router = $composite->getOutput();
         $router->addAnchor(
             function($receiver, ChannelProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($runtime, $slave, $master) {
-                if ($runtime->manager()->existsRuntime($receiver) || $slave->isConnected($receiver))
+                if ($runtime->getManager()->existsRuntime($receiver) || $slave->isConnected($receiver))
                 {
                     $slave->push($receiver, $protocol, $flags, $success, $failure, $cancel, $timeout);
                 }
                 else
                 {
-                    $master->push($runtime->parent(), $protocol, $flags, $success, $failure, $cancel, $timeout);
+                    $master->push($runtime->getParent(), $protocol, $flags, $success, $failure, $cancel, $timeout);
                 }
             }
         );
 
-        $router = $master->input();
+        $router = $master->getInput();
         $router->addRule(
-            new RuleMatchDestination($master->name()),
+            new RuleMatchDestination($master->getName()),
             new RuleHandler(function($params) use($composite) {
                 $this->executeProtocol($composite, $params['protocol']);
             })
@@ -168,27 +168,27 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
             })
         );
 
-        $router = $slave->input();
+        $router = $slave->getInput();
         $router->addRule(
-            new RuleMatchDestination($slave->name()),
+            new RuleMatchDestination($slave->getName()),
             new RuleHandler(function($params) use($composite) {
                 $this->executeProtocol($composite, $params['protocol']);
             })
         );
         $router->addAnchor(
             new RuleHandler(function($params) use($runtime, $slave, $master) {
-                $master->push($runtime->parent(), $params['protocol'], $params['flags']);
+                $master->push($runtime->getParent(), $params['protocol'], $params['flags']);
             })
         );
 
-        $router = $master->output();
+        $router = $master->getOutput();
         $router->addAnchor(
             function($sender, ChannelProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($master) {
                 $master->push($sender, $protocol, $flags, $success, $failure, $cancel, $timeout);
             }
         );
 
-        $router = $slave->output();
+        $router = $slave->getOutput();
         $router->addAnchor(
             function($sender, ChannelProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($slave) {
                 $slave->push($sender, $protocol, $flags, $success, $failure, $cancel, $timeout);
@@ -203,24 +203,24 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
      */
     private function applyRootRouting(RuntimeInterface $runtime, ChannelCompositeInterface $composite, ChannelBaseInterface $console)
     {
-        $master = $composite->bus('master');
-        $slave  = $composite->bus('slave');
+        $master = $composite->getBus('master');
+        $slave  = $composite->getBus('slave');
 
-        $router = $composite->input();
+        $router = $composite->getInput();
         $router->addAnchor(
             new RuleHandler(function($params) {
                 return true;
             })
         );
 
-        $router = $composite->output();
+        $router = $composite->getOutput();
         $router->addAnchor(
             function($receiver, ChannelProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($runtime, $slave, $console) {
                 if ($receiver === Runtime::RESERVED_CONSOLE_CLIENT || $protocol->getDestination() === Runtime::RESERVED_CONSOLE_CLIENT)
                 {
                     $console->push(Runtime::RESERVED_CONSOLE_CLIENT, $protocol, $flags, $success, $failure, $cancel, $timeout);
                 }
-                else if ($runtime->manager()->existsRuntime($receiver) || $slave->isConnected($receiver))
+                else if ($runtime->getManager()->existsRuntime($receiver) || $slave->isConnected($receiver))
                 {
                     $slave->push($receiver, $protocol, $flags, $success, $failure, $cancel, $timeout);
                 }
@@ -231,9 +231,9 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
             }
         );
 
-        $router = $master->input();
+        $router = $master->getInput();
         $router->addRule(
-            new RuleMatchDestination($master->name()),
+            new RuleMatchDestination($master->getName()),
             new RuleHandler(function($params) use($composite) {
                 $this->executeProtocol($composite, $params['protocol']);
             })
@@ -244,9 +244,9 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
             })
         );
 
-        $router = $slave->input();
+        $router = $slave->getInput();
         $router->addRule(
-            new RuleMatchDestination($slave->name()),
+            new RuleMatchDestination($slave->getName()),
             new RuleHandler(function($params) use($composite) {
                 $this->executeProtocol($composite, $params['protocol']);
             })
@@ -266,14 +266,14 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
             })
         );
 
-        $router = $master->output();
+        $router = $master->getOutput();
         $router->addAnchor(
             function($sender, ChannelProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($master) {
                 $master->push($sender, $protocol, $flags, $success, $failure, $cancel, $timeout);
             }
         );
 
-        $router = $slave->output();
+        $router = $slave->getOutput();
         $router->addAnchor(
             function($sender, ChannelProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($slave) {
                 $slave->push($sender, $protocol, $flags, $success, $failure, $cancel, $timeout);

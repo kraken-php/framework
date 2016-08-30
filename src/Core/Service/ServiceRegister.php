@@ -194,7 +194,7 @@ class ServiceRegister implements ServiceRegisterInterface
         $services = [];
         foreach ($this->serviceProviders as $provider)
         {
-            $services = array_merge($services, $provider->provides());
+            $services = array_merge($services, $provider->getProvides());
         }
 
         return $services;

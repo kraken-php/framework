@@ -2,15 +2,14 @@
 
 namespace Kraken\Runtime\Container\Manager;
 
-use Kraken\Throwable\Exception\Runtime\RejectionException;
 use Kraken\Promise\Promise;
-use Kraken\Promise\PromiseInterface;
 use Kraken\Channel\ChannelBaseInterface;
 use Kraken\Channel\Extra\Request;
 use Kraken\Runtime\Container\ProcessManagerInterface;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeInterface;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 
 class ProcessManagerRemote implements ProcessManagerInterface
 {
@@ -38,7 +37,7 @@ class ProcessManagerRemote implements ProcessManagerInterface
     {
         $this->runtime = $runtime;
         $this->channel = $channel;
-        $this->receiver = $receiver !== null ? $receiver : $runtime->parent();
+        $this->receiver = $receiver !== null ? $receiver : $runtime->getParent();
     }
 
     /**

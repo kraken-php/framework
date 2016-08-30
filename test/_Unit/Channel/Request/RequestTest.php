@@ -32,7 +32,7 @@ class RequestTest extends TUnit
     public function testApiPid_ReturnsPid()
     {
         $req = $this->createRequest('pid');
-        $this->assertSame('pid', $req->pid());
+        $this->assertSame('pid', $req->getPid());
     }
 
     /**
@@ -72,7 +72,7 @@ class RequestTest extends TUnit
     {
         $timeout = 1.0;
         $req = $this->createRequest('pid', null, null, null, $timeout);
-        $this->assertSame($timeout, $req->timeout());
+        $this->assertSame($timeout, $req->getTimeout());
     }
 
     /**

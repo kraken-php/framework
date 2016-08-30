@@ -11,9 +11,9 @@ use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceRegister;
 use Kraken\Runtime\Runtime;
-use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Kraken\Test\TUnit;
 use Error;
 use Exception;
 
@@ -84,32 +84,32 @@ class CoreTest extends TUnit
     /**
      *
      */
-    public function testApiVersion_ReturnsVersion()
+    public function testApiGetVersion_ReturnsVersion()
     {
         $core = $this->createCore();
 
-        $this->assertSame(Core::VERSION, $core->version());
+        $this->assertSame(Core::VERSION, $core->getVersion());
     }
 
     /**
      *
      */
-    public function testApiUnit_ReturnsRuntimeUnit()
+    public function testApiGetType_ReturnsRuntimeUnit()
     {
         $core = $this->createCore();
 
-        $this->assertSame(Core::RUNTIME_UNIT, $core->unit());
+        $this->assertSame(Core::RUNTIME_UNIT, $core->getType());
     }
 
     /**
      *
      */
-    public function testApiBasePath_ReturnsBasePath()
+    public function testApiGetBasePath_ReturnsBasePath()
     {
         $core = $this->createCore();
 
         $this->setProtectedProperty($core, 'dataPath', $path = 'basePath/dataPath');
-        $result = $core->basePath();
+        $result = $core->getBasePath();
 
         $this->assertSame('basePath', $result);
     }
@@ -117,12 +117,12 @@ class CoreTest extends TUnit
     /**
      *
      */
-    public function testApiDataPath_ReturnsDataPath()
+    public function testApiGetDataPath_ReturnsDataPath()
     {
         $core = $this->createCore();
 
         $this->setProtectedProperty($core, 'dataPath', $path = 'dataPath');
-        $result = $core->dataPath();
+        $result = $core->getDataPath();
 
         $this->assertSame($path, $result);
     }
@@ -130,12 +130,12 @@ class CoreTest extends TUnit
     /**
      *
      */
-    public function testApiDataDir_ReturnsDataDir()
+    public function testApiGetDataDir_ReturnsDataDir()
     {
         $core = $this->createCore();
 
         $this->setProtectedProperty($core, 'dataPath', $path = 'basePath/dataPath');
-        $result = $core->dataDir();
+        $result = $core->getDataDir();
 
         $this->assertSame('/dataPath', $result);
     }
@@ -468,11 +468,11 @@ class CoreTest extends TUnit
     /**
      *
      */
-    public function testApiDefaultProviders_ReturnsEmptyArray()
+    public function testApiGetDefaultProviders_ReturnsEmptyArray()
     {
         $core = $this->createCore();
 
-        $default = $this->callProtectedMethod($core, 'defaultProviders');
+        $default = $this->callProtectedMethod($core, 'getDefaultProviders');
         $expected = [];
 
         $this->assertSame($expected, $default);
@@ -481,11 +481,11 @@ class CoreTest extends TUnit
     /**
      *
      */
-    public function testApiDefaultAliases_ReturnsEmptyArray()
+    public function testApiGetDefaultAliases_ReturnsEmptyArray()
     {
         $core = $this->createCore();
 
-        $default = $this->callProtectedMethod($core, 'defaultAliases');
+        $default = $this->callProtectedMethod($core, 'getDefaultAliases');
         $expected = [];
 
         $this->assertSame($expected, $default);
@@ -497,10 +497,10 @@ class CoreTest extends TUnit
     public function testApiRegisterDefaultProviders_RegistersDefaultProviders()
     {
         $providers = [ 'something' ];
-        $core = $this->createCore([], [ 'registerProviders', 'defaultProviders' ]);
+        $core = $this->createCore([], [ 'registerProviders', 'getDefaultProviders' ]);
         $core
             ->expects($this->once())
-            ->method('defaultProviders')
+            ->method('getDefaultProviders')
             ->will($this->returnValue($providers));
         $core
             ->expects($this->once())
@@ -516,10 +516,10 @@ class CoreTest extends TUnit
     public function testApiRegisterDefaultProviders_RegistersDefaultAliases()
     {
         $aliases = [ 'some'=>'target' ];
-        $core = $this->createCore([], [ 'registerAliases', 'defaultAliases' ]);
+        $core = $this->createCore([], [ 'registerAliases', 'getDefaultAliases' ]);
         $core
             ->expects($this->once())
-            ->method('defaultAliases')
+            ->method('getDefaultAliases')
             ->will($this->returnValue($aliases));
         $core
             ->expects($this->once())

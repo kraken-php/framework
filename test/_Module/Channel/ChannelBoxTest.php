@@ -587,7 +587,7 @@ class ChannelBoxTest extends TModule
 
         $channel = new ChannelComposite($name, $buses, $router, $loop);
 
-        $router = $channel->input();
+        $router = $channel->getInput();
         $router->addAnchor(
             new RuleHandler(function($params) use($channel) {
                 $channel->pull(
@@ -597,7 +597,7 @@ class ChannelBoxTest extends TModule
             })
         );
 
-        $router = $channel->output();
+        $router = $channel->getOutput();
         $router->addAnchor(
             new RuleHandler(function($params) use($channel) {
                 $channel->push(
@@ -632,7 +632,7 @@ class ChannelBoxTest extends TModule
 
         $channel = new ChannelBase($name, $model, $router, $encoder, $loop);
 
-        $router = $channel->input();
+        $router = $channel->getInput();
         $router->addAnchor(
             new RuleHandler(function($params) use($channel) {
                 $channel->pull(
@@ -642,7 +642,7 @@ class ChannelBoxTest extends TModule
             })
         );
 
-        $router = $channel->output();
+        $router = $channel->getOutput();
         $router->addAnchor(
             new RuleHandler(function($params) use($channel) {
                 $channel->push(

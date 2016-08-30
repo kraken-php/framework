@@ -31,11 +31,11 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
         $manager = $core->make('Kraken\Command\CommandManagerInterface');
 
         $manager->import(
-            $this->defaultCommands($config, $factory, $runtime)
+            $this->getDefaultCommands($config, $factory, $runtime)
         );
 
         $manager->import(
-            $this->appCommands($config, $factory, $runtime)
+            $this->getAppCommands($config, $factory, $runtime)
         );
     }
 
@@ -45,7 +45,7 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
      * @param RuntimeInterface $runtime
      * @return CommandInterface[]
      */
-    protected function defaultCommands(ConfigInterface $config, CommandFactoryInterface $factory, RuntimeInterface $runtime)
+    protected function getDefaultCommands(ConfigInterface $config, CommandFactoryInterface $factory, RuntimeInterface $runtime)
     {
         return [
             'arch:start'            => $factory->create('ArchStartCommand',         [[ 'runtime' => $runtime ]]),
@@ -95,7 +95,7 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
      * @param RuntimeInterface $runtime
      * @return CommandInterface[]
      */
-    protected function appCommands(ConfigInterface $config, CommandFactoryInterface $factory, RuntimeInterface $runtime)
+    protected function getAppCommands(ConfigInterface $config, CommandFactoryInterface $factory, RuntimeInterface $runtime)
     {
         $cmds = (array) $config->get('command.commands');
         $commands = [];

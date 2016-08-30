@@ -54,7 +54,7 @@ class Response
      *
      * @return string
      */
-    public function pid()
+    public function getPid()
     {
         return $this->pid;
     }
@@ -64,7 +64,7 @@ class Response
      *
      * @return string
      */
-    public function alias()
+    public function getAlias()
     {
         return $this->alias;
     }
@@ -74,7 +74,7 @@ class Response
      *
      * @return float
      */
-    public function timeout()
+    public function getTimeout()
     {
         return $this->timeout;
     }
@@ -84,7 +84,7 @@ class Response
      *
      * @return float
      */
-    public function timeoutIncrease()
+    public function getTimeoutIncrease()
     {
         return $this->timeoutIncrease;
     }

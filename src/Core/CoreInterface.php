@@ -33,7 +33,7 @@ interface CoreInterface extends ContainerInterface
      *
      * @return string
      */
-    public function version();
+    public function getVersion();
 
     /**
      * Return Runtime type of container.
@@ -42,28 +42,28 @@ interface CoreInterface extends ContainerInterface
      *
      * @return string
      */
-    public function unit();
+    public function getType();
 
     /**
      * Return directory path to project root.
      *
      * @return string
      */
-    public function basePath();
+    public function getBasePath();
 
     /**
      * Return directory path to framework data folder.
      *
      * @return string
      */
-    public function dataPath();
+    public function getDataPath();
 
     /**
      * Return directory name of framework data folder.
      *
      * @return string
      */
-    public function dataDir();
+    public function getDataDir();
 
     /**
      * Register collection of ServiceProviders.

@@ -50,7 +50,7 @@ class ChannelBaseText extends TUnit
     public function testApiName_ReturnsName()
     {
         $channel = $this->createChannel();
-        $this->assertSame('name', $channel->name());
+        $this->assertSame('name', $channel->getName());
     }
 
     /**
@@ -60,7 +60,7 @@ class ChannelBaseText extends TUnit
     {
         $channel = $this->createChannel();
         $model   = $this->createModel();
-        $this->assertSame($model, $channel->model());
+        $this->assertSame($model, $channel->getModel());
     }
 
     /**
@@ -70,7 +70,7 @@ class ChannelBaseText extends TUnit
     {
         $channel = $this->createChannel();
         $router  = $this->createRouter();
-        $this->assertSame($router, $channel->router());
+        $this->assertSame($router, $channel->getRouter());
     }
 
     /**
@@ -81,14 +81,14 @@ class ChannelBaseText extends TUnit
         $channel = $this->createChannel();
 
         $input  = $this->getMock(ChannelRouterBase::class, [], [], '', false);
-        $router = $this->createRouter([ 'bus' ]);
+        $router = $this->createRouter([ 'getBus' ]);
         $router
             ->expects($this->once())
-            ->method('bus')
+            ->method('getBus')
             ->with('input')
             ->will($this->returnValue($input));
 
-        $this->assertSame($input, $channel->input());
+        $this->assertSame($input, $channel->getInput());
     }
 
     /**
@@ -99,14 +99,14 @@ class ChannelBaseText extends TUnit
         $channel = $this->createChannel();
 
         $output = $this->getMock(ChannelRouterBase::class, [], [], '', false);
-        $router = $this->createRouter([ 'bus' ]);
+        $router = $this->createRouter([ 'getBus' ]);
         $router
             ->expects($this->once())
-            ->method('bus')
+            ->method('getBus')
             ->with('output')
             ->will($this->returnValue($output));
 
-        $this->assertSame($output, $channel->output());
+        $this->assertSame($output, $channel->getOutput());
     }
 
     /**
@@ -787,7 +787,7 @@ class ChannelBaseText extends TUnit
             ->with($name, $protocol)
             ->will($this->returnValue(true));
 
-        $channel = $this->createChannel([ 'emit', 'handleReceiveRequest', 'handleReceiveResponse', 'input' ]);
+        $channel = $this->createChannel([ 'emit', 'handleReceiveRequest', 'handleReceiveResponse', 'getInput' ]);
         $channel
             ->expects($this->once())
             ->method('emit')
@@ -804,7 +804,7 @@ class ChannelBaseText extends TUnit
             ->will($this->returnValue(false));
         $channel
             ->expects($this->once())
-            ->method('input')
+            ->method('getInput')
             ->will($this->returnValue($mock));
 
         $channel->receive($name, $protocol);
@@ -825,7 +825,7 @@ class ChannelBaseText extends TUnit
             ->with($name, $protocol)
             ->will($this->returnValue(false));
 
-        $channel = $this->createChannel([ 'emit', 'handleReceiveRequest', 'handleReceiveResponse', 'input' ]);
+        $channel = $this->createChannel([ 'emit', 'handleReceiveRequest', 'handleReceiveResponse', 'getInput' ]);
         $channel
             ->expects($this->never())
             ->method('emit');
@@ -841,7 +841,7 @@ class ChannelBaseText extends TUnit
             ->will($this->returnValue(false));
         $channel
             ->expects($this->once())
-            ->method('input')
+            ->method('getInput')
             ->will($this->returnValue($mock));
 
         $channel->receive($name, $protocol);
@@ -999,10 +999,10 @@ class ChannelBaseText extends TUnit
             ->with($name, $message, $flags)
             ->will($this->returnValue($status));
 
-        $channel = $this->createChannel([ 'output' ]);
+        $channel = $this->createChannel([ 'getOutput' ]);
         $channel
             ->expects($this->once())
-            ->method('output')
+            ->method('getOutput')
             ->will($this->returnValue($mock));
 
         $this->assertSame($status, $this->callProtectedMethod($channel, 'handleSendAsync', [ $name, $message, $flags ]));
@@ -1031,10 +1031,10 @@ class ChannelBaseText extends TUnit
             ->with($name, $message, $flags)
             ->will($this->returnValue($status));
 
-        $channel = $this->createChannel([ 'output' ]);
+        $channel = $this->createChannel([ 'getOutput' ]);
         $channel
             ->expects($this->once())
-            ->method('output')
+            ->method('getOutput')
             ->will($this->returnValue($mock));
 
         $result = $this->callProtectedMethod($channel, 'handleSendRequest', [ $name, $message, $flags, $success, $failure, $abort, $timeout ]);

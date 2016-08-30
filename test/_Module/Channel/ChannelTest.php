@@ -606,7 +606,7 @@ class ChannelTest extends TModule
 
         $channel = new ChannelBase($name, $model, $router, $encoder, $loop);
 
-        $router = $channel->input();
+        $router = $channel->getInput();
         $router->addAnchor(
             new RuleHandler(function($params) use($channel) {
                 $channel->pull(
@@ -616,7 +616,7 @@ class ChannelTest extends TModule
             })
         );
 
-        $router = $channel->output();
+        $router = $channel->getOutput();
         $router->addAnchor(
             new RuleHandler(function($params) use($channel) {
                 $channel->push(

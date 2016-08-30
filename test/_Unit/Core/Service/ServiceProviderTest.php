@@ -4,8 +4,8 @@ namespace Kraken\_Unit\Core\Service;
 
 use Kraken\Core\Core;
 use Kraken\Core\Service\ServiceProvider;
-use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Kraken\Test\TUnit;
 use Exception;
 
 class ServiceProviderTest extends TUnit
@@ -13,25 +13,25 @@ class ServiceProviderTest extends TUnit
     /**
      *
      */
-    public function testApiRequires_ReturnsListOfRequiredDefinitions()
+    public function testApiGetRequires_ReturnsListOfRequiredDefinitions()
     {
         $provider = $this->createProvider();
         $requires = [ 'A', 'B' ];
 
         $this->setProtectedProperty($provider, 'requires', $requires);
-        $this->assertSame($requires, $provider->requires());
+        $this->assertSame($requires, $provider->getRequires());
     }
 
     /**
      *
      */
-    public function testApiProvides_ReturnsListOfProvidedDefinitions()
+    public function testApiGetProvides_ReturnsListOfProvidedDefinitions()
     {
         $provider = $this->createProvider();
         $provides = [ 'A', 'B' ];
 
         $this->setProtectedProperty($provider, 'provides', $provides);
-        $this->assertSame($provides, $provider->provides());
+        $this->assertSame($provides, $provider->getProvides());
     }
 
     /**

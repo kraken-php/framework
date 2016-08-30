@@ -11,26 +11,26 @@ interface CoreInputContextInterface
      *
      * @return string
      */
-    public function type();
+    public function getType();
 
     /**
      * Return parent alias or null if current RuntimeContainer is root.
      *
      * @return string|null
      */
-    public function parent();
+    public function getParent();
 
     /**
      * Return alias of current container.
      *
      * @return string
      */
-    public function alias();
+    public function getAlias();
 
     /**
      * Return name or class of current container.
      *
      * @return string
      */
-    public function name();
+    public function getName();
 }

@@ -12,14 +12,14 @@ interface ServiceProviderInterface
      *
      * @return string[]
      */
-    public function requires();
+    public function getRequires();
 
     /**
      * Return list of Provider's provided dependencies.
      *
      * @return string[]
      */
-    public function provides();
+    public function getProvides();
 
     /**
      * Return bool value representing whether Provider was already registered.

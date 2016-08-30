@@ -75,7 +75,7 @@ class ChannelRouterHandler
      *
      * @return ChannelRouterBaseInterface
      */
-    public function router()
+    public function getRouter()
     {
         return $this->router;
     }

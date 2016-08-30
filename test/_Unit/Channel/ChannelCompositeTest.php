@@ -77,7 +77,7 @@ class ChannelCompositeTest extends TUnit
         $channel = $this->createChannel();
 
         $this->setExpectedException(ResourceUndefinedException::class);
-        $channel->bus('bus');
+        $channel->getBus('bus');
     }
 
     /**
@@ -88,7 +88,7 @@ class ChannelCompositeTest extends TUnit
         $bus = $this->createBus();
         $channel = $this->createChannel([ 'bus' => $bus ]);
 
-        $this->assertSame($bus, $channel->bus('bus'));
+        $this->assertSame($bus, $channel->getBus('bus'));
     }
 
     /**
@@ -171,7 +171,7 @@ class ChannelCompositeTest extends TUnit
     public function testApiName_ReturnsName()
     {
         $channel = $this->createChannel();
-        $this->assertSame('name', $channel->name());
+        $this->assertSame('name', $channel->getName());
     }
 
     /**
@@ -180,7 +180,7 @@ class ChannelCompositeTest extends TUnit
     public function testApiModel_ReturnsNull()
     {
         $channel = $this->createChannel();
-        $this->assertSame(null, $channel->model());
+        $this->assertSame(null, $channel->getModel());
     }
 
     /**
@@ -190,7 +190,7 @@ class ChannelCompositeTest extends TUnit
     {
         $channel = $this->createChannel();
         $router  = $this->createRouter();
-        $this->assertSame($router, $channel->router());
+        $this->assertSame($router, $channel->getRouter());
     }
 
     /**
@@ -201,14 +201,14 @@ class ChannelCompositeTest extends TUnit
         $channel = $this->createChannel();
 
         $input  = $this->createBus();
-        $router = $this->createRouter([ 'bus' ]);
+        $router = $this->createRouter([ 'getBus' ]);
         $router
             ->expects($this->once())
-            ->method('bus')
+            ->method('getBus')
             ->with('input')
             ->will($this->returnValue($input));
 
-        $this->assertSame($input, $channel->input());
+        $this->assertSame($input, $channel->getInput());
     }
 
     /**
@@ -219,14 +219,14 @@ class ChannelCompositeTest extends TUnit
         $channel = $this->createChannel();
 
         $output = $this->createBus();
-        $router = $this->createRouter([ 'bus' ]);
+        $router = $this->createRouter([ 'getBus' ]);
         $router
             ->expects($this->once())
-            ->method('bus')
+            ->method('getBus')
             ->with('output')
             ->will($this->returnValue($output));
 
-        $this->assertSame($output, $channel->output());
+        $this->assertSame($output, $channel->getOutput());
     }
 
     /**
@@ -848,10 +848,10 @@ class ChannelCompositeTest extends TUnit
             ->with($name, $protocol)
             ->will($this->returnValue(true));
 
-        $channel = $this->createChannel([], [ 'input', 'emit' ]);
+        $channel = $this->createChannel([], [ 'getInput', 'emit' ]);
         $channel
             ->expects($this->once())
-            ->method('input')
+            ->method('getInput')
             ->will($this->returnValue($mock));
         $channel
             ->expects($this->once())
@@ -1082,10 +1082,10 @@ class ChannelCompositeTest extends TUnit
             ->with($name, $message, $flags)
             ->will($this->returnValue($status));
 
-        $channel = $this->createChannel([], [ 'output' ]);
+        $channel = $this->createChannel([], [ 'getOutput' ]);
         $channel
             ->expects($this->once())
-            ->method('output')
+            ->method('getOutput')
             ->will($this->returnValue($mock));
 
         $this->assertSame($status, $this->callProtectedMethod($channel, 'handleSendAsync', [ $name, $message, $flags ]));
@@ -1181,10 +1181,10 @@ class ChannelCompositeTest extends TUnit
             ->with($name, $message, $flags)
             ->will($this->returnValue($status));
 
-        $channel = $this->createChannel([], [ 'output' ]);
+        $channel = $this->createChannel([], [ 'getOutput' ]);
         $channel
             ->expects($this->once())
-            ->method('output')
+            ->method('getOutput')
             ->will($this->returnValue($mock));
 
         $result = $this->callProtectedMethod($channel, 'handleSendRequest', [ $name, $message, $flags, $success, $failure, $abort, $timeout ]);

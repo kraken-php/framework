@@ -5,7 +5,6 @@ namespace Kraken\Runtime\Container\Manager;
 use Kraken\Channel\Extra\Request;
 use Kraken\Channel\ChannelBaseInterface;
 use Kraken\Promise\Promise;
-use Kraken\Promise\PromiseInterface;
 use Kraken\Runtime\Container\Thread\ThreadController;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeCommand;
@@ -123,8 +122,8 @@ class ThreadManagerBase implements ThreadManagerInterface
         $controller = new ThreadController();
         $wrapper = new ThreadWrapper(
             $controller,
-            $this->runtime->core()->dataPath(),
-            $this->runtime->alias(),
+            $this->runtime->getCore()->getDataPath(),
+            $this->runtime->getAlias(),
             $alias,
             $name
         );

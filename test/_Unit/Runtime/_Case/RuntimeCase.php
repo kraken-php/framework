@@ -48,26 +48,26 @@ trait RuntimeCase
     /**
      *
      */
-    public function testApiModel_ReturnsModel()
+    public function testApiGetModel_ReturnsModel()
     {
         $test = $this->getTest();
         $runtime = $this->createRuntime();
 
-        $test->assertInstanceOf(RuntimeModel::class, $runtime->model());
+        $test->assertInstanceOf(RuntimeModel::class, $runtime->getModel());
     }
 
     /**
      *
      */
-    public function testApiType_ReturnsType()
+    public function testApiGetType_ReturnsType()
     {
         $test = $this->getTest();
 
         $result = 'RuntimeType';
-        $mock = $test->getMock(Core::class, [ 'unit' ], [], '', false);
+        $mock = $test->getMock(Core::class, [ 'getType' ], [], '', false);
         $mock
             ->expects($test->once())
-            ->method('unit')
+            ->method('getType')
             ->will($test->returnValue($result));
 
         $runtime = $this->createRuntime([], [ 'getCore' ]);
@@ -76,40 +76,40 @@ trait RuntimeCase
             ->method('getCore')
             ->will($test->returnValue($mock));
 
-        $test->assertSame($result, $runtime->type());
+        $test->assertSame($result, $runtime->getType());
     }
 
     /**
      *
      */
-    public function testApiParent_ReturnsParent()
+    public function testApiGetParent_ReturnsParent()
     {
         $test = $this->getTest();
         $runtime = $this->createRuntime([ $parent = 'someParent' ]);
 
-        $test->assertSame($parent, $runtime->parent());
+        $test->assertSame($parent, $runtime->getParent());
     }
 
     /**
      *
      */
-    public function testApiAlias_ReturnsAlias()
+    public function testApiGetAlias_ReturnsAlias()
     {
         $test = $this->getTest();
         $runtime = $this->createRuntime([ 'parent', $alias = 'someAlias' ]);
 
-        $test->assertSame($alias, $runtime->alias());
+        $test->assertSame($alias, $runtime->getAlias());
     }
 
     /**
      *
      */
-    public function testApiName_ReturnsName()
+    public function testApiGetName_ReturnsName()
     {
         $test = $this->getTest();
         $runtime = $this->createRuntime([ 'parent', 'alias', $name = 'someName' ]);
 
-        $test->assertSame($name, $runtime->name());
+        $test->assertSame($name, $runtime->getName());
     }
 
     /**
@@ -169,7 +169,7 @@ trait RuntimeCase
         $runtime = $this->createRuntime();
         $test->setProtectedProperty($runtime, 'model', $model);
 
-        $test->assertSame($manager, $runtime->manager());
+        $test->assertSame($manager, $runtime->getManager());
     }
 
     /**
@@ -195,7 +195,7 @@ trait RuntimeCase
     /**
      *
      */
-    public function testApiState_CallsModelMethod()
+    public function testApiGetState_CallsModelMethod()
     {
         $test = $this->getTest();
 
@@ -209,7 +209,7 @@ trait RuntimeCase
         $runtime = $this->createRuntime();
         $test->setProtectedProperty($runtime, 'model', $model);
 
-        $test->assertSame($state, $runtime->state());
+        $test->assertSame($state, $runtime->getState());
     }
 
     /**
@@ -222,7 +222,7 @@ trait RuntimeCase
         $arg1 = 'arg1';
         $arg2 = 'arg2';
 
-        $callable = $this->createCallableMock();
+        $callable = $test->createCallableMock();
         $callable
             ->expects($test->once())
             ->method('__invoke')

@@ -25,11 +25,11 @@ class RequestHelperTraitTest extends TUnit
 
         $req = $this->callProtectedMethod($obj, 'createRequest', [ $pid, $success, $failure, $abort, $timeout ]);
 
-        $this->assertSame($pid, $req->pid());
+        $this->assertSame($pid, $req->getPid());
         $this->assertSame($success, $req->onSuccess());
         $this->assertSame($failure, $req->onFailure());
         $this->assertSame($abort, $req->onCancel());
-        $this->assertSame($timeout, $req->timeout());
+        $this->assertSame($timeout, $req->getTimeout());
     }
 
     /**
@@ -46,8 +46,8 @@ class RequestHelperTraitTest extends TUnit
 
         $timeout = $timeout * 1000 + TimeSupport::now();;
 
-        $this->assertGreaterThan($timeout - 1000, $req->timeout());
-        $this->assertLessThanOrEqual($timeout, $req->timeout());
+        $this->assertGreaterThan($timeout - 1000, $req->getTimeout());
+        $this->assertLessThanOrEqual($timeout, $req->getTimeout());
     }
 
     /**

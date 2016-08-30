@@ -39,14 +39,14 @@ interface RuntimeInterface extends
      *
      * @return RuntimeModelInterface
      */
-    public function model();
+    public function getModel();
 
     /**
      * Return runtime manager set to this container instance.
      *
      * @return RuntimeManagerInterface
      */
-    public function manager();
+    public function getManager();
 
     /**
      * Return current state of the container.
@@ -59,7 +59,7 @@ interface RuntimeInterface extends
      *
      * @return int
      */
-    public function state();
+    public function getState();
 
     /**
      * Attach beforeCreate event handler.

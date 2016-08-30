@@ -39,7 +39,7 @@ class ChannelRouterHandlerTest extends TUnit
     {
         $handler = $this->createRouterHandler(function() {}, function() {});
 
-        $this->assertSame($this->router, $handler->router());
+        $this->assertSame($this->router, $handler->getRouter());
     }
 
     /**

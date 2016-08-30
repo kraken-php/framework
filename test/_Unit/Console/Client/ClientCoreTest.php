@@ -21,10 +21,10 @@ class ClientCoreTest extends TUnit
     /**
      *
      */
-    public function testApiDefaultProviders_ReturnsDefaultProviders()
+    public function testApiGetDefaultProviders_ReturnsDefaultProviders()
     {
         $core = $this->createCore();
-        $providers = $this->callProtectedMethod($core, 'defaultProviders');
+        $providers = $this->callProtectedMethod($core, 'getDefaultProviders');
 
         $this->assertSame($this->getDefaultProviders(), $providers);
 
@@ -37,10 +37,10 @@ class ClientCoreTest extends TUnit
     /**
      *
      */
-    public function testApiDefaultAliases_ReturnsDefaultAliases()
+    public function testApiGetDefaultAliases_ReturnsDefaultAliases()
     {
         $core = $this->createCore();
-        $aliases = $this->callProtectedMethod($core, 'defaultAliases');
+        $aliases = $this->callProtectedMethod($core, 'getDefaultAliases');
 
         $this->assertSame($this->getDefaultAliases(), $aliases);
 

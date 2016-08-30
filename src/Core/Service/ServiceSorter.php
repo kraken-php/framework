@@ -58,11 +58,11 @@ class ServiceSorter
         foreach ($providers as $provider)
         {
             $providerName = get_class($provider);
-            $this->reqs[$providerName] = $provider->requires();
-            $this->pvds[$providerName] = $provider->provides();
+            $this->reqs[$providerName] = $provider->getRequires();
+            $this->pvds[$providerName] = $provider->getProvides();
             $this->instances[$providerName] = $provider;
 
-            foreach ($provider->provides() as $resource)
+            foreach ($provider->getProvides() as $resource)
             {
                 $this->obtainableIn[$resource] = $providerName;
             }
@@ -92,8 +92,8 @@ class ServiceSorter
     private function orderProvider(ServiceProviderInterface $provider)
     {
         $localOrder = [];
-        $requires = $provider->requires();
-        $provides = $provider->provides();
+        $requires = $provider->getRequires();
+        $provides = $provider->getProvides();
 
         if (!empty($provides))
         {

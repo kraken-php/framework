@@ -16,7 +16,7 @@ class ProcessCore extends Core implements CoreInterface
     /**
      * @return string[]
      */
-    protected function defaultProviders()
+    protected function getDefaultProviders()
     {
         return [
             'Kraken\Core\Provider\Channel\ChannelProvider',
@@ -41,7 +41,7 @@ class ProcessCore extends Core implements CoreInterface
     /**
      * @return string[]
      */
-    protected function defaultAliases()
+    protected function getDefaultAliases()
     {
         return [
             'Channel'           => 'Kraken\Runtime\Channel\ChannelInterface',

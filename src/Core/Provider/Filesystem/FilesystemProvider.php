@@ -36,7 +36,7 @@ class FilesystemProvider extends ServiceProvider implements ServiceProviderInter
         $factory = new FilesystemAdapterFactory();
         $fsCloud = new FilesystemManager();
         $fsDisk  = new Filesystem(
-            $factory->create('Local', [ [ 'path' => $core->basePath() ] ])
+            $factory->create('Local', [ [ 'path' => $core->getBasePath() ] ])
         );
 
         $disks = $config->get('filesystem.cloud');

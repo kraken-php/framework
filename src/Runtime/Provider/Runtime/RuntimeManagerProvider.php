@@ -60,13 +60,13 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
             'env'        => $env,
             'system'     => $system,
             'filesystem' => $fs,
-            'receiver'   => $runtime->parent()
+            'receiver'   => $runtime->getParent()
         ];
 
         $factoryProcess = new ProcessManagerFactory();
         $factoryThread  = new ThreadManagerFactory();
 
-        if ($core->unit() === Runtime::UNIT_THREAD)
+        if ($core->getType() === Runtime::UNIT_THREAD)
         {
             $factoryProcess->remove('Kraken\Runtime\Container\Manager\ProcessManagerBase');
         }
@@ -130,7 +130,8 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
     {
         $timerCollection = new TimerCollection();
 
-        $channel = $composite->bus('slave');
+        $channel = $composite->getBus('slave');
+
         $keepalive = $config->get('core.tolerance.child.keepalive');
         $channel->on('disconnect', function($alias) use($runtime, $keepalive, $timerCollection) {
             if ($keepalive <= 0)
@@ -156,7 +157,8 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
             }
         });
 
-        $channel = $composite->bus('master');
+        $channel = $composite->getBus('master');
+
         $keepalive = $config->get('core.tolerance.parent.keepalive');
         $channel->on('disconnect', function($alias) use($runtime, $keepalive, $timerCollection) {
             if ($keepalive <= 0)

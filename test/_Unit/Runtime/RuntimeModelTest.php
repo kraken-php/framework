@@ -2,14 +2,11 @@
 
 namespace Kraken\_Unit\Runtime;
 
-use Exception;
 use Kraken\Core\Core;
-use Kraken\Core\CoreInterface;
 use Kraken\Event\EventEmitter;
 use Kraken\Loop\Loop;
 use Kraken\Loop\LoopInterface;
 use Kraken\Loop\Model\SelectLoop;
-use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseFulfilled;
 use Kraken\Promise\PromiseRejected;
 use Kraken\Runtime\Runtime;
@@ -17,9 +14,10 @@ use Kraken\Runtime\RuntimeManager;
 use Kraken\Runtime\RuntimeModel;
 use Kraken\Runtime\RuntimeModelInterface;
 use Kraken\Supervisor\Supervisor;
-use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\LogicException;
 use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Kraken\Test\TUnit;
+use Exception;
 
 class RuntimeModelTest extends TUnit
 {
@@ -46,41 +44,41 @@ class RuntimeModelTest extends TUnit
     /**
      *
      */
-    public function testApiType_ReturnsType()
+    public function testApiGetType_ReturnsType()
     {
         $runtime = $this->createModel();
 
-        $this->assertSame(Runtime::UNIT_UNDEFINED, $runtime->type());
+        $this->assertSame(Runtime::UNIT_UNDEFINED, $runtime->getType());
     }
 
     /**
      *
      */
-    public function testApiParent_ReturnsParent()
+    public function testApiGetParent_ReturnsParent()
     {
         $runtime = $this->createModel([ $parent = 'someParent' ]);
 
-        $this->assertSame($parent, $runtime->parent());
+        $this->assertSame($parent, $runtime->getParent());
     }
 
     /**
      *
      */
-    public function testApiAlias_ReturnsAlias()
+    public function testApiGetAlias_ReturnsAlias()
     {
         $runtime = $this->createModel([ 'parent', $alias = 'someAlias' ]);
 
-        $this->assertSame($alias, $runtime->alias());
+        $this->assertSame($alias, $runtime->getAlias());
     }
 
     /**
      *
      */
-    public function testApiName_ReturnsName()
+    public function testApiGetName_ReturnsName()
     {
         $runtime = $this->createModel([ 'parent', 'alias', $name = 'someName' ]);
 
-        $this->assertSame($name, $runtime->name());
+        $this->assertSame($name, $runtime->getName());
     }
 
     /**

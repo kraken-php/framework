@@ -28,7 +28,7 @@ class CmdEscalateManager extends SolverBase implements SolverInterface
     protected function construct()
     {
         $this->channel = $this->runtime->getCore()->make('Kraken\Runtime\Channel\ChannelInterface');
-        $this->parent  = $this->runtime->parent();
+        $this->parent  = $this->runtime->getParent();
     }
 
     /**

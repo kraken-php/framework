@@ -10,8 +10,8 @@ use Kraken\Runtime\Container\Manager\ProcessManagerRemote;
 use Kraken\Runtime\Container\ProcessManagerInterface;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\RuntimeInterface;
-use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Kraken\Test\TUnit;
 
 class ProcessManagerRemoteTest extends TUnit
 {
@@ -260,7 +260,7 @@ class ProcessManagerRemoteTest extends TUnit
         $runtime = $this->getMock(RuntimeInterface::class, [], [], '', false);
         $runtime
             ->expects($this->any())
-            ->method('parent')
+            ->method('getParent')
             ->will($this->returnValue('parent'));
 
         $channel = $this->getMock(ChannelBaseInterface::class, [], [], '', false);

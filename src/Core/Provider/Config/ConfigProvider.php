@@ -37,8 +37,8 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
     {
         $context = $core->make('Kraken\Core\CoreInputContextInterface');
 
-        $global = $core->dataPath() . '/config-global/' . $this->getDir($core->unit());
-        $local  = $core->dataPath() . '/config/' . $context->name();
+        $global = $core->getDataPath() . '/config-global/' . $this->getDir($core->getType());
+        $local  = $core->getDataPath() . '/config/' . $context->getName();
 
         $config = new Config();
         $this->addConfigByPath($config, $global);
@@ -106,11 +106,10 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * @param ConfigInterface $config
      * @param string $option
      * @return callable
      */
-    private function getOverwriteHandler(ConfigInterface $config, $option)
+    private function getOverwriteHandler($option)
     {
         switch ($option)
         {
@@ -145,7 +144,7 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
         if ($current->exists('config.mode'))
         {
             $config->setOverwriteHandler(
-                $this->getOverwriteHandler($config, $current->get('config.mode'))
+                $this->getOverwriteHandler($current->get('config.mode'))
             );
         }
 
@@ -160,12 +159,12 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
     private function getDefaultVariables(CoreInterface $core, CoreInputContextInterface $context)
     {
         return [
-            'runtime'   => $context->type(),
-            'parent'    => $context->parent(),
-            'alias'     => $context->alias(),
-            'name'      => $context->name(),
-            'basepath'  => $core->basePath(),
-            'datapath'  => $core->dataPath(),
+            'runtime'   => $context->getType(),
+            'parent'    => $context->getParent(),
+            'alias'     => $context->getAlias(),
+            'name'      => $context->getName(),
+            'basepath'  => $core->getBasePath(),
+            'datapath'  => $core->getDataPath(),
             'host.main' => '127.0.0.1'
         ];
     }

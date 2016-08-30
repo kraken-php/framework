@@ -24,10 +24,10 @@ class ResponseHelperTraitTest extends TUnit
 
         $rep = $this->callProtectedMethod($obj, 'createResponse', [ $pid, $alias, $timeout, $timeoutIncrease ]);
 
-        $this->assertSame($pid, $rep->pid());
-        $this->assertSame($alias, $rep->alias());
-        $this->assertSame($timeout, $rep->timeout());
-        $this->assertSame($timeoutIncrease, $rep->timeoutIncrease());
+        $this->assertSame($pid, $rep->getPid());
+        $this->assertSame($alias, $rep->getAlias());
+        $this->assertSame($timeout, $rep->getTimeout());
+        $this->assertSame($timeoutIncrease, $rep->getTimeoutIncrease());
     }
 
     /**

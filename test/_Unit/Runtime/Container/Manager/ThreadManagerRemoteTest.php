@@ -260,7 +260,7 @@ class ThreadManagerRemoteTest extends TUnit
         $runtime = $this->getMock(RuntimeInterface::class, [], [], '', false);
         $runtime
             ->expects($this->any())
-            ->method('parent')
+            ->method('getParent')
             ->will($this->returnValue('parent'));
 
         $channel = $this->getMock(ChannelBaseInterface::class, [], [], '', false);

@@ -23,7 +23,7 @@ interface ChannelRouterCompositeInterface extends ChannelRouterBaseInterface
      * @return ChannelRouterBaseInterface|ChannelRouterCompositeInterface
      * @throws ResourceUndefinedException
      */
-    public function bus($name);
+    public function getBus($name);
 
     /**
      * Add or replace existing bus in router domain.

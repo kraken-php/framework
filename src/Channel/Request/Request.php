@@ -66,7 +66,7 @@ class Request
      *
      * @return string
      */
-    public function pid()
+    public function getPid()
     {
         return $this->pid;
     }
@@ -106,7 +106,7 @@ class Request
      *
      * @return float
      */
-    public function timeout()
+    public function getTimeout()
     {
         return $this->timeout;
     }

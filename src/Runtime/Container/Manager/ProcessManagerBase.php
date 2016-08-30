@@ -9,7 +9,6 @@ use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Throwable\Exception\Runtime\RejectionException;
 use Kraken\Filesystem\FilesystemInterface;
 use Kraken\Promise\Promise;
-use Kraken\Promise\PromiseInterface;
 use Kraken\Channel\ChannelBaseInterface;
 use Kraken\Channel\Extra\Request;
 use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
@@ -79,8 +78,8 @@ class ProcessManagerBase implements ProcessManagerInterface
         $this->system = $system;
         $this->fs = $fs;
 
-        $this->scriptRoot = $runtime->getCore()->dataPath() . '/autorun';
-        $this->fsPath = $runtime->getCore()->dataDir() . '/tmp/process/' . $runtime->alias() . '/manager/processes.json';
+        $this->scriptRoot = $runtime->getCore()->getDataPath() . '/autorun';
+        $this->fsPath = $runtime->getCore()->getDataDir() . '/tmp/process/' . $runtime->getAlias() . '/manager/processes.json';
         $this->processes = [];
 
         try
@@ -194,7 +193,7 @@ class ProcessManagerBase implements ProcessManagerInterface
             );
         }
 
-        $pid = $this->system->run($this->phpCommand('kraken.process', [ $this->runtime->alias(), $alias, $name ]));
+        $pid = $this->system->run($this->phpCommand('kraken.process', [ $this->runtime->getAlias(), $alias, $name ]));
 
         if (!$this->system->existsPid($pid))
         {

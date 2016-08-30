@@ -137,7 +137,7 @@ class RuntimeModel implements RuntimeModelInterface
      * @override
      * @inheritDoc
      */
-    public function type()
+    public function getType()
     {
         return Runtime::UNIT_UNDEFINED;
     }
@@ -146,7 +146,7 @@ class RuntimeModel implements RuntimeModelInterface
      * @override
      * @inheritDoc
      */
-    public function parent()
+    public function getParent()
     {
         return $this->parent;
     }
@@ -155,7 +155,7 @@ class RuntimeModel implements RuntimeModelInterface
      * @override
      * @inheritDoc
      */
-    public function alias()
+    public function getAlias()
     {
         return $this->alias;
     }
@@ -164,7 +164,7 @@ class RuntimeModel implements RuntimeModelInterface
      * @override
      * @inheritDoc
      */
-    public function name()
+    public function getName()
     {
         return $this->name;
     }

@@ -113,7 +113,7 @@ class Core extends Container implements CoreInterface
      * @override
      * @inheritDoc
      */
-    public function version()
+    public function getVersion()
     {
         return static::VERSION;
     }
@@ -122,7 +122,7 @@ class Core extends Container implements CoreInterface
      * @override
      * @inheritDoc
      */
-    public function unit()
+    public function getType()
     {
         return static::RUNTIME_UNIT;
     }
@@ -131,7 +131,7 @@ class Core extends Container implements CoreInterface
      * @override
      * @inheritDoc
      */
-    public function basePath()
+    public function getBasePath()
     {
         return dirname($this->dataPath);
     }
@@ -140,7 +140,7 @@ class Core extends Container implements CoreInterface
      * @override
      * @inheritDoc
      */
-    public function dataPath()
+    public function getDataPath()
     {
         return $this->dataPath;
     }
@@ -149,9 +149,9 @@ class Core extends Container implements CoreInterface
      * @override
      * @inheritDoc
      */
-    public function dataDir()
+    public function getDataDir()
     {
-        return str_replace($this->basePath(), '', $this->dataPath());
+        return str_replace($this->getBasePath(), '', $this->getDataPath());
     }
 
     /**
@@ -322,7 +322,7 @@ class Core extends Container implements CoreInterface
      *
      * @return string[]
      */
-    protected function defaultProviders()
+    protected function getDefaultProviders()
     {
         return [];
     }
@@ -332,7 +332,7 @@ class Core extends Container implements CoreInterface
      *
      * @return string[]
      */
-    protected function defaultAliases()
+    protected function getDefaultAliases()
     {
         return [];
     }
@@ -344,7 +344,7 @@ class Core extends Container implements CoreInterface
      */
     protected function registerDefaultProviders()
     {
-        $this->registerProviders($this->defaultProviders());
+        $this->registerProviders($this->getDefaultProviders());
     }
 
     /**
@@ -354,7 +354,7 @@ class Core extends Container implements CoreInterface
      */
     protected function registerDefaultAliases()
     {
-        $this->registerAliases($this->defaultAliases());
+        $this->registerAliases($this->getDefaultAliases());
     }
 
     /**

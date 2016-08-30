@@ -30,7 +30,7 @@ class ServerContainerTest extends TModule
     {
         $core    = $this->createCore();
         $loop    = $this->createLoop();
-        $model   = $container->model();
+        $model   = $container->getModel();
 
         $model->setCore($core);
         $model->setLoop($loop);
@@ -161,7 +161,7 @@ class ServerContainerTest extends TModule
     {
         $core    = $this->createCore();
         $loop    = $this->createLoop();
-        $model   = $container->model();
+        $model   = $container->getModel();
 
         $model->setCore($core);
         $model->setLoop($loop);
@@ -209,7 +209,7 @@ class ServerContainerTest extends TModule
     {
         $core    = $this->createCore();
         $loop    = $this->createLoop();
-        $model   = $container->model();
+        $model   = $container->getModel();
 
         $model->setCore($core);
         $model->setLoop($loop);
@@ -257,7 +257,7 @@ class ServerContainerTest extends TModule
     {
         $core    = $this->createCore();
         $loop    = $this->createLoop();
-        $model   = $container->model();
+        $model   = $container->getModel();
 
         $model->setCore($core);
         $model->setLoop($loop);

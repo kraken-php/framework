@@ -42,7 +42,7 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
      * @override
      * @inheritDoc
      */
-    public function model()
+    public function getModel()
     {
         return $this->model;
     }
@@ -51,36 +51,36 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
      * @override
      * @inheritDoc
      */
-    public function type()
+    public function getType()
     {
-        return $this->getCore()->unit();
+        return $this->getCore()->getType();
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function parent()
+    public function getParent()
     {
-        return $this->model->parent();
+        return $this->model->getParent();
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function alias()
+    public function getAlias()
     {
-        return $this->model->alias();
+        return $this->model->getAlias();
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function name()
+    public function getName()
     {
-        return $this->model->name();
+        return $this->model->getName();
     }
 
     /**
@@ -114,7 +114,7 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
      * @override
      * @inheritDoc
      */
-    public function manager()
+    public function getManager()
     {
         return $this->model->getRuntimeManager();
     }
@@ -132,7 +132,7 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
      * @override
      * @inheritDoc
      */
-    public function state()
+    public function getState()
     {
         return $this->model->getState();
     }

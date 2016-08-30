@@ -101,10 +101,10 @@ class ProcessBoot
             array_merge($this->controllerParams)
         );
 
-        if (file_exists($datapath . '/bootstrap/' . $controller->name() . '/bootstrap.php'))
+        if (file_exists($datapath . '/bootstrap/' . $controller->getName() . '/bootstrap.php'))
         {
             $core = require(
-                $datapath . '/bootstrap/' . $controller->name() . '/bootstrap.php'
+                $datapath . '/bootstrap/' . $controller->getName() . '/bootstrap.php'
             );
         }
         else

@@ -2,21 +2,22 @@
 
 namespace Kraken\_Unit\Core\Service;
 
-use Exception;
+
 use Kraken\_Unit\Core\_Provider\AProvider;
 use Kraken\_Unit\Core\_Provider\BProvider;
 use Kraken\_Unit\Core\_Provider\CProvider;
 use Kraken\_Unit\Core\_Provider\DProvider;
 use Kraken\_Unit\Core\_Provider\EProvider;
 use Kraken\_Unit\Core\_Provider\NonProvider;
-use Kraken\Core\Core;
 use Kraken\Core\Service\ServiceRegister;
-use Kraken\Test\TUnit;
+use Kraken\Core\Core;
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
 use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Kraken\Test\TUnit;
+use Exception;
 
 class ServiceRegisterTest extends TUnit
 {
@@ -279,7 +280,7 @@ class ServiceRegisterTest extends TUnit
         {
             $provider = new $class;
             $register->registerProvider($provider);
-            $services = array_merge($services, $provider->provides());
+            $services = array_merge($services, $provider->getProvides());
         }
 
         $this->assertSame($services, $register->getServices());

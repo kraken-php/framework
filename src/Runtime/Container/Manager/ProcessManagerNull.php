@@ -4,7 +4,6 @@ namespace Kraken\Runtime\Container\Manager;
 
 use Kraken\Throwable\Exception\Runtime\RejectionException;
 use Kraken\Promise\Promise;
-use Kraken\Promise\PromiseInterface;
 use Kraken\Runtime\Container\ProcessManagerInterface;
 use Kraken\Runtime\Runtime;
 

@@ -14,15 +14,15 @@ class ClientTest extends TUnit
     /**
      *
      */
-    public function testApiType_ReturnsType()
+    public function testApiGetType_ReturnsType()
     {
         $test = $this->getTest();
 
         $result = 'RuntimeType';
-        $mock = $test->getMock(Core::class, [ 'unit' ], [], '', false);
+        $mock = $test->getMock(Core::class, [ 'getType' ], [], '', false);
         $mock
             ->expects($test->once())
-            ->method('unit')
+            ->method('getType')
             ->will($test->returnValue($result));
 
         $runtime = $this->createRuntime([ 'getCore' ]);
@@ -31,40 +31,40 @@ class ClientTest extends TUnit
             ->method('getCore')
             ->will($test->returnValue($mock));
 
-        $test->assertSame($result, $runtime->type());
+        $test->assertSame($result, $runtime->getType());
     }
 
     /**
      *
      */
-    public function testApiParent_ReturnsNull()
+    public function testApiGetParent_ReturnsNull()
     {
         $test = $this->getTest();
         $runtime = $this->createRuntime();
 
-        $test->assertSame(null, $runtime->parent());
+        $test->assertSame(null, $runtime->getParent());
     }
 
     /**
      *
      */
-    public function testApiAlias_ReturnsAlias()
+    public function testApiGetAlias_ReturnsAlias()
     {
         $test = $this->getTest();
         $runtime = $this->createRuntime();
 
-        $test->assertSame('ConsoleClient', $runtime->alias());
+        $test->assertSame('ConsoleClient', $runtime->getAlias());
     }
 
     /**
      *
      */
-    public function testApiName_ReturnsName()
+    public function testApiGetName_ReturnsName()
     {
         $test = $this->getTest();
         $runtime = $this->createRuntime();
 
-        $test->assertSame('ConsoleClient', $runtime->name());
+        $test->assertSame('ConsoleClient', $runtime->getName());
     }
 
     /**

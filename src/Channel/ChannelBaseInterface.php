@@ -23,21 +23,21 @@ interface ChannelBaseInterface extends EventEmitterInterface, LoopAwareInterface
      *
      * @return string
      */
-    public function name();
+    public function getName();
 
     /**
      * Return model which is being used by Channel.
      *
      * @return ChannelModelInterface|null
      */
-    public function model();
+    public function getModel();
 
     /**
      * Return router which is being used by Channel.
      *
      * @return ChannelRouterCompositeInterface
      */
-    public function router();
+    public function getRouter();
 
     /**
      * Return router used for input messages.
@@ -47,7 +47,7 @@ interface ChannelBaseInterface extends EventEmitterInterface, LoopAwareInterface
      * @return ChannelRouterBaseInterface|ChannelRouterCompositeInterface
      * @throws ResourceUndefinedException
      */
-    public function input();
+    public function getInput();
 
     /**
      * Return router used for output messages.
@@ -57,7 +57,7 @@ interface ChannelBaseInterface extends EventEmitterInterface, LoopAwareInterface
      * @return ChannelRouterBaseInterface|ChannelRouterCompositeInterface
      * @throws ResourceUndefinedException
      */
-    public function output();
+    public function getOutput();
 
     /**
      * Put message into newly created protocol and return its wrapper.

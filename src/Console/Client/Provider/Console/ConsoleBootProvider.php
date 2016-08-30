@@ -26,7 +26,7 @@ class ConsoleBootProvider extends ServiceProvider implements ServiceProviderInte
         }
 
         $manager->setAutoExit(false);
-        $manager->setVersion($core->version());
+        $manager->setVersion($core->getVersion());
         $manager->addCommands($commands);
 
         $console->onCommand(function() use($manager) {
