@@ -1,6 +1,5 @@
 .idea
-kraken-doc/
-kraken-playground/
+kraken*/
 vendor/
 composer.lock
 composer.phar
