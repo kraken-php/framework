@@ -282,15 +282,6 @@ class RuntimeModel implements RuntimeModelInterface
      * @override
      * @inheritDoc
      */
-    public function eventEmitter()
-    {
-        return $this->eventEmitter;
-    }
-
-    /**
-     * @override
-     * @inheritDoc
-     */
     public function setState($state)
     {
         $this->state = $state;

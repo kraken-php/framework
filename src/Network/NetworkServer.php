@@ -203,7 +203,7 @@ class NetworkServer implements NetworkServerInterface
      * @override
      * @inheritDoc
      */
-    public function setLoop(LoopInterface $loop)
+    public function setLoop(LoopInterface $loop = null)
     {
         $this->listener->setLoop($loop);
     }

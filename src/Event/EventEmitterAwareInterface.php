@@ -5,21 +5,16 @@ namespace Kraken\Event;
 interface EventEmitterAwareInterface
 {
     /**
-     * Return EventEmitter of which component is aware of.
-     *
-     * @return EventEmitterInterface
-     */
-    public function getEventEmitter();
-
-    /**
      * Set EventEmitter of which component is aware of.
      *
-     * @param EventEmitterInterface $emitter
+     * @param EventEmitterInterface|null $emitter
      */
-    public function setEventEmitter(EventEmitterInterface $emitter);
+    public function setEventEmitter(EventEmitterInterface $emitter = null);
 
     /**
-     * @see getEventEmitter
+     * Return EventEmitter of which component is aware of.
+     *
+     * @return EventEmitterInterface|null
      */
-    public function eventEmitter();
+    public function getEventEmitter();
 }

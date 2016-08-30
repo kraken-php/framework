@@ -12,7 +12,7 @@ trait LoopExtendedAwareTrait
     /**
      * @see LoopExtendedAwareInterface::setLoop
      */
-    public function setLoop(LoopExtendedInterface $loop)
+    public function setLoop(LoopExtendedInterface $loop = null)
     {
         $this->loop = $loop;
     }

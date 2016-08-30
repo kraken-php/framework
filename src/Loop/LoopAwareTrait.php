@@ -12,7 +12,7 @@ trait LoopAwareTrait
     /**
      * @see LoopAwareInterface::setLoop
      */
-    public function setLoop(LoopInterface $loop)
+    public function setLoop(LoopInterface $loop = null)
     {
         $this->loop = $loop;
     }
