@@ -71,7 +71,7 @@ class ProcessManagerBase implements ProcessManagerInterface
         $this->fs = $fs;
 
         $this->scriptRoot = $runtime->getCore()->getDataPath() . '/autorun';
-        $this->fsPath = $runtime->getCore()->getDataDir() . '/tmp/process/' . $runtime->getAlias() . '/manager/processes.json';
+        $this->fsPath = $runtime->getCore()->getDataDir() . '/storage/process/' . $runtime->getAlias() . '/manager/processes.json';
         $this->processes = [];
 
         try
