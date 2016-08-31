@@ -57,12 +57,8 @@ class Environment implements EnvironmentInterface
     }
 
     /**
-     * Set an environment variable.
-     *
-     * The environment variable value is stripped of single and double quotes.
-     *
-     * @param string $name
-     * @param string|null $value
+     * @override
+     * @inheritDoc
      */
     public function setEnv($name, $value)
     {
@@ -70,10 +66,8 @@ class Environment implements EnvironmentInterface
     }
 
     /**
-     * Search the different places for environment variables and return first value found.
-     *
-     * @param string $name
-     * @return string|null
+     * @override
+     * @inheritDoc
      */
     public function getEnv($name)
     {
@@ -81,9 +75,8 @@ class Environment implements EnvironmentInterface
     }
 
     /**
-     * Remove an environment variable.
-     *
-     * @param string $name
+     * @override
+     * @inheritDoc
      */
     public function removeEnv($name)
     {
