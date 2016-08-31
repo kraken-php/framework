@@ -22,7 +22,7 @@ class ConsoleClientCore extends Core implements CoreInterface
             'Kraken\Core\Provider\Config\ConfigProvider',
             'Kraken\Core\Provider\Container\ContainerProvider',
             'Kraken\Core\Provider\Core\CoreProvider',
-            'Kraken\Core\Provider\Core\EnvironmentProvider',
+            'Kraken\Core\Provider\Environment\EnvironmentProvider',
             'Kraken\Core\Provider\Event\EventProvider',
             'Kraken\Core\Provider\Log\LogProvider',
             'Kraken\Core\Provider\Loop\LoopProvider',

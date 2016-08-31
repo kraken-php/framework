@@ -1,8 +1,9 @@
 <?php
 
-namespace Kraken\Core;
+namespace Kraken\Environment;
 
-use Kraken\Config\ConfigInterface;
+use Kraken\Core\CoreInputContextInterface;
+use Kraken\Environment\Loader\Loader;
 use Kraken\Runtime\Runtime;
 use Kraken\Util\Invoker\Invoker;
 use Kraken\Util\Invoker\InvokerInterface;
@@ -25,19 +26,24 @@ class Environment implements EnvironmentInterface
     protected $context;
 
     /**
-     * @var ConfigInterface
+     * @var Loader
      */
-    protected $config;
+    protected $loader;
 
     /**
      * @param CoreInputContextInterface $context
-     * @param ConfigInterface $config
+     * @param string $filePath
      */
-    public function __construct(CoreInputContextInterface $context, ConfigInterface $config)
+    public function __construct(CoreInputContextInterface $context, $filePath = '')
     {
         $this->invoker = $this->createInvoker();
         $this->context = $context;
-        $this->config = $config;
+        $this->loader  = $this->createLoader($filePath);
+
+        if ($filePath !== '')
+        {
+            $this->loader->load();
+        }
     }
 
     /**
@@ -47,7 +53,41 @@ class Environment implements EnvironmentInterface
     {
         unset($this->invoker);
         unset($this->context);
-        unset($this->config);
+        unset($this->loader);
+    }
+
+    /**
+     * Set an environment variable.
+     *
+     * The environment variable value is stripped of single and double quotes.
+     *
+     * @param string $name
+     * @param string|null $value
+     */
+    public function setEnv($name, $value)
+    {
+        $this->loader->setEnvironmentVariable($name, $value);
+    }
+
+    /**
+     * Search the different places for environment variables and return first value found.
+     *
+     * @param string $name
+     * @return string|null
+     */
+    public function getEnv($name)
+    {
+        return $this->loader->getEnvironmentVariable($name);
+    }
+
+    /**
+     * Remove an environment variable.
+     *
+     * @param string $name
+     */
+    public function removeEnv($name)
+    {
+        $this->loader->clearEnvironmentVariable($name);
     }
 
     /**
@@ -56,7 +96,7 @@ class Environment implements EnvironmentInterface
      */
     public function setOption($key, $val)
     {
-        return $this->invoker->call('ini_set', [ $key, $val ]);
+        $this->invoker->call('ini_set', [ $key, $val ]);
     }
 
     /**
@@ -72,29 +112,9 @@ class Environment implements EnvironmentInterface
      * @override
      * @inheritDoc
      */
-    public function restoreOption($key)
+    public function removeOption($key)
     {
         $this->invoker->call('ini_restore', [ $key ]);
-
-        return $this->getOption($key);
-    }
-
-    /**
-     * @override
-     * @inheritDoc
-     */
-    public function getEnv($key)
-    {
-        return $this->config->get('core.' . $key);
-    }
-
-    /**
-     * @override
-     * @inheritDoc
-     */
-    public function matchEnv($key, $val)
-    {
-        return $this->getEnv($key) === $val;
     }
 
     /**
@@ -115,7 +135,7 @@ class Environment implements EnvironmentInterface
         $this->invoker->call('register_shutdown_function', [
             function() use($handler) {
                 return $handler(
-                    $this->context->type() === Runtime::UNIT_PROCESS
+                    $this->context->getType() === Runtime::UNIT_PROCESS
                 );
             }
         ]);
@@ -145,5 +165,14 @@ class Environment implements EnvironmentInterface
     protected function createInvoker()
     {
         return new Invoker();
+    }
+
+    /**
+     * @param string $filePath
+     * @return Loader
+     */
+    protected function createLoader($filePath)
+    {
+        return new Loader($filePath, false);
     }
 }

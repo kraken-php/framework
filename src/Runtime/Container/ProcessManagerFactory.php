@@ -24,7 +24,6 @@ class ProcessManagerFactory extends Factory implements ProcessManagerFactoryInte
                 return $reflection->newInstanceArgs([
                     $config['runtime'],
                     $config['channel'],
-                    $config['env'],
                     $config['system'],
                     $config['filesystem']
                 ]);

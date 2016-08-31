@@ -47,7 +47,6 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
     {
         $system  = new SystemUnix();
         $config  = $core->make('Kraken\Config\ConfigInterface');
-        $env     = $core->make('Kraken\Core\EnvironmentInterface');
         $fs      = $core->make('Kraken\Filesystem\FilesystemInterface');
         $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');
         $channel = $core->make('Kraken\Runtime\Channel\ChannelInterface');
@@ -57,7 +56,6 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
         $defaultConfig = [
             'runtime'    => $runtime,
             'channel'    => $channel,
-            'env'        => $env,
             'system'     => $system,
             'filesystem' => $fs,
             'receiver'   => $runtime->getParent()

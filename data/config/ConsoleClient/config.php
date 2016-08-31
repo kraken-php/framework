@@ -26,12 +26,6 @@ return [
         'project' => [
             'main.alias' => 'A',
             'main.name'  => 'Common',
-        ],
-        'cli' => [
-            'title' => 'php'
-        ],
-        'ini'  => [
-            'memory_limit' => '512M'
         ]
     ],
     'log' => [

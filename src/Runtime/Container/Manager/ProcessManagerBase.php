@@ -2,20 +2,19 @@
 
 namespace Kraken\Runtime\Container\Manager;
 
-use Kraken\Core\EnvironmentInterface;
-use Kraken\Throwable\Exception\Runtime\ReadException;
-use Kraken\Throwable\Exception\Logic\InstantiationException;
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
-use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Kraken\Channel\Extra\Request;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Filesystem\FilesystemInterface;
 use Kraken\Promise\Promise;
-use Kraken\Channel\ChannelInterface;
-use Kraken\Channel\Extra\Request;
-use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
 use Kraken\Runtime\Container\ProcessManagerInterface;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeContainerInterface;
+use Kraken\Throwable\Exception\Logic\InstantiationException;
+use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
+use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
+use Kraken\Throwable\Exception\Runtime\ReadException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 use Kraken\Util\System\SystemInterface;
 use Error;
 use Exception;
@@ -31,11 +30,6 @@ class ProcessManagerBase implements ProcessManagerInterface
      * @var ChannelInterface
      */
     protected $channel;
-
-    /**
-     * @var EnvironmentInterface
-     */
-    protected $env;
 
     /**
      * @var FilesystemInterface
@@ -65,17 +59,15 @@ class ProcessManagerBase implements ProcessManagerInterface
     /**
      * @param RuntimeContainerInterface $runtime
      * @param ChannelInterface $channel
-     * @param EnvironmentInterface $env
      * @param SystemInterface $system
      * @param FilesystemInterface $fs
      * @throws InstantiationException
      */
-    public function __construct(RuntimeContainerInterface $runtime, ChannelInterface $channel, EnvironmentInterface $env, SystemInterface $system, FilesystemInterface $fs)
+    public function __construct(RuntimeContainerInterface $runtime, ChannelInterface $channel, SystemInterface $system, FilesystemInterface $fs)
     {
         $this->runtime = $runtime;
         $this->channel = $channel;
-        $this->env = $env;
-        $this->system = $system;
+        $this->system  = $system;
         $this->fs = $fs;
 
         $this->scriptRoot = $runtime->getCore()->getDataPath() . '/autorun';
@@ -103,7 +95,6 @@ class ProcessManagerBase implements ProcessManagerInterface
     {
         unset($this->runtime);
         unset($this->channel);
-        unset($this->env);
         unset($this->system);
         unset($this->fs);
 

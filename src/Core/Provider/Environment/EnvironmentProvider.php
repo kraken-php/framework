@@ -1,12 +1,11 @@
 <?php
 
-namespace Kraken\Core\Provider\Core;
+namespace Kraken\Core\Provider\Environment;
 
 use Kraken\Core\CoreInterface;
-use Kraken\Core\Environment;
-use Kraken\Core\EnvironmentInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
+use Kraken\Environment\Environment;
 
 class EnvironmentProvider extends ServiceProvider implements ServiceProviderInterface
 {
@@ -14,15 +13,15 @@ class EnvironmentProvider extends ServiceProvider implements ServiceProviderInte
      * @var string[]
      */
     protected $requires = [
-        'Kraken\Core\CoreInputContextInterface',
-        'Kraken\Config\ConfigInterface'
+        'Kraken\Core\CoreInterface',
+        'Kraken\Core\CoreInputContextInterface'
     ];
 
     /**
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Core\EnvironmentInterface'
+        'Kraken\Environment\EnvironmentInterface'
     ];
 
     /**
@@ -30,29 +29,21 @@ class EnvironmentProvider extends ServiceProvider implements ServiceProviderInte
      */
     protected function register(CoreInterface $core)
     {
+        $core    = $core->make('Kraken\Core\CoreInterface');
         $context = $core->make('Kraken\Core\CoreInputContextInterface');
-        $config  = $core->make('Kraken\Config\ConfigInterface');
 
-        $env = new Environment($context, $config);
+        $env = new Environment($context, $core->getDataPath() . '/env/.env');
 
         $env->setOption('error_reporting', E_ALL);
         $env->setOption('log_errors', '1');
         $env->setOption('display_errors', '0');
-
-        $inis = (array) $config->get('core.ini');
-        foreach ($inis as $option=>$value)
-        {
-            $env->setOption($option, $value);
-        }
-
-        $this->setProcessProperties($env);
 
         $env->registerErrorHandler([ 'Kraken\Throwable\ErrorHandler', 'handleError' ]);
         $env->registerShutdownHandler([ 'Kraken\Throwable\ErrorHandler', 'handleShutdown' ]);
         $env->registerExceptionHandler([ 'Kraken\Throwable\ExceptionHandler', 'handleException' ]);
 
         $core->instance(
-            'Kraken\Core\EnvironmentInterface',
+            'Kraken\Environment\EnvironmentInterface',
             $env
         );
     }
@@ -63,19 +54,7 @@ class EnvironmentProvider extends ServiceProvider implements ServiceProviderInte
     protected function unregister(CoreInterface $core)
     {
         $core->remove(
-            'Kraken\Core\EnvironmentInterface'
+            'Kraken\Environment\EnvironmentInterface'
         );
-    }
-
-    /**
-     * @param EnvironmentInterface $env
-     */
-    private function setProcessProperties(EnvironmentInterface $env)
-    {
-        $props = $env->getEnv('cli');
-        if ($props['title'] !== 'php' && function_exists('cli_set_process_title'))
-        {
-            cli_set_process_title($props['title']);
-        }
     }
 }

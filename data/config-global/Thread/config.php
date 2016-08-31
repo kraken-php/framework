@@ -42,12 +42,6 @@ return [
             'main.alias' => 'A',
             'main.name'  => 'Common',
         ],
-        'cli' => [
-            'title' => 'php'
-        ],
-        'ini'  => [
-            'memory_limit' => '512M'
-        ],
         'tolerance' => [
             'parent.keepalive' => 15.0,
             'child.keepalive'  => 15.0

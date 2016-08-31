@@ -1,8 +1,8 @@
 <?php
 
-namespace Kraken\_Unit\Core\_Mock;
+namespace Kraken\_Unit\Environment\_Mock;
 
-use Kraken\Core\Environment;
+use Kraken\Environment\Environment;
 use Kraken\Util\Invoker\Invoker;
 use Kraken\Util\Invoker\InvokerInterface;
 

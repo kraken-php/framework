@@ -1,13 +1,14 @@
 <?php
 
-namespace Kraken\_Unit\Core;
+namespace Kraken\_Unit\Environment;
 
-use Kraken\_Unit\Core\_Mock\EnvironmentMock;
-use Kraken\Config\ConfigInterface;
+use Kraken\_Unit\Environment\_Mock\EnvironmentMock;
 use Kraken\Core\CoreInputContextInterface;
-use Kraken\Core\Environment;
-use Kraken\Core\EnvironmentInterface;
+use Kraken\Environment\Environment;
+use Kraken\Environment\EnvironmentInterface;
+use Kraken\Environment\Loader\Loader;
 use Kraken\Test\TUnit;
+use Kraken\Util\Invoker\Invoker;
 
 class EnvironmentTest extends TUnit
 {
@@ -64,16 +65,27 @@ class EnvironmentTest extends TUnit
     /**
      *
      */
-    public function testApiRestoreOption_CallsPHPFunction()
+    public function testApiRemoveOption_CallsPHPFunction()
     {
         $env = $this->createEnvironment();
 
-        $env->restoreOption($key = 'key');
+        $env->removeOption($key = 'key');
 
         $this->assertSame(
-            [ 'ini_restore' => [ $key ], 'ini_get' => [ $key ] ],
+            [ 'ini_restore' => [ $key ] ],
             $env->calls
         );
+    }
+
+    /**
+     *
+     */
+    public function testApiSetEnv_SetsEnvironmentVariable()
+    {
+        $env = $this->createEnvironment();
+        $env->setEnv('KEY', 'VALUE');
+
+        $this->assertSame('VALUE', getenv('KEY'));
     }
 
     /**
@@ -82,28 +94,23 @@ class EnvironmentTest extends TUnit
     public function testApiGetEnv_ReturnsEnvironmentVariable()
     {
         $env = $this->createEnvironment();
+        putenv('KEY=VALUE');
 
-        $this->assertSame('secret', $env->getEnv($key = 'key'));
+        $this->assertSame(getenv('KEY'), $env->getEnv('KEY'));
     }
 
     /**
      *
      */
-    public function testApiMatchEnv_ReturnsTrue_WhenValueMatched()
+    public function testApiRemoveEnv_RemovesEnvironmentVariable()
     {
         $env = $this->createEnvironment();
 
-        $this->assertTrue($env->matchEnv($key = 'key', $val = 'secret'));
-    }
+        $env->setEnv('KEY', 'VALUE');
+        $this->assertSame('VALUE', getenv('KEY'));
 
-    /**
-     *
-     */
-    public function testApiMatchEnv_ReturnsFalse_WhenValueNotMatched()
-    {
-        $env = $this->createEnvironment();
-
-        $this->assertFalse($env->matchEnv($key = 'key', $val = 'other'));
+        $env->removeEnv('KEY');
+        $this->assertSame(false, getenv('KEY'));
     }
 
     /**
@@ -163,6 +170,26 @@ class EnvironmentTest extends TUnit
         );
     }
 
+    /**
+     *
+     */
+    public function testProtectedApiCreateInvoker_CreatesInvoker()
+    {
+        $env = $this->createEnvironment();
+
+        $this->assertInstanceOf(Invoker::class, $this->callProtectedMethod($env, 'createInvoker'));
+    }
+
+    /**
+     *
+     */
+    public function testProtectedApiCreateLoader_CreatesLoader()
+    {
+        $env = $this->createEnvironment();
+
+        $this->assertInstanceOf(Loader::class, $this->callProtectedMethod($env, 'createLoader', [ '', false ]));
+    }
+
 
     /**
      * @return EnvironmentMock
@@ -171,14 +198,6 @@ class EnvironmentTest extends TUnit
     {
         $context = $this->getMock(CoreInputContextInterface::class);
 
-        $config = $this->getMock(ConfigInterface::class);
-        $config
-            ->expects($this->any())
-            ->method('get')
-            ->will($this->returnCallback(function($key) {
-                return 'secret';
-            }));
-
-        return new EnvironmentMock($context, $config);
+        return new EnvironmentMock($context, '');
     }
 }

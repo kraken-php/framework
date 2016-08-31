@@ -6,7 +6,6 @@ use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\ChannelProtocol;
 use Kraken\Channel\Extra\Request;
 use Kraken\Core\CoreInterface;
-use Kraken\Core\EnvironmentInterface;
 use Kraken\Filesystem\FilesystemInterface;
 use Kraken\Promise\PromiseFulfilled;
 use Kraken\Promise\PromiseRejected;
@@ -584,7 +583,6 @@ class ProcessManagerBaseTest extends TUnit
             ->will($this->returnValue($core));
 
         $channel = $this->getMock(ChannelInterface::class, [], [], '', false);
-        $env     = $this->getMock(EnvironmentInterface::class, [], [], '', false);
         $system  = $this->getMock(SystemInterface::class, [], [], '', false);
         $fs      = $this->getMock(FilesystemInterface::class, [], [], '', false);
         $fs
@@ -597,7 +595,7 @@ class ProcessManagerBaseTest extends TUnit
             ->will($this->returnValue(null));
 
         $methods = array_merge($methods, [ 'createRequest' ]);
-        $manager = $this->getMock(ProcessManagerBase::class, $methods, [ $runtime, $channel, $env, $system, $fs ]);
+        $manager = $this->getMock(ProcessManagerBase::class, $methods, [ $runtime, $channel, $system, $fs ]);
         $manager
             ->expects($this->any())
             ->method('createRequest')
