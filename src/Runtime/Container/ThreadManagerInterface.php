@@ -31,6 +31,8 @@ interface ThreadManagerInterface
      * @param string $name
      * @param int $flags
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function createThread($alias, $name, $flags = Runtime::CREATE_DEFAULT);
 
@@ -47,6 +49,8 @@ interface ThreadManagerInterface
      * @param string $alias
      * @param int $flags
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function destroyThread($alias, $flags = Runtime::DESTROY_FORCE_SOFT);
 
@@ -55,6 +59,8 @@ interface ThreadManagerInterface
      *
      * @param string $alias
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function startThread($alias);
 
@@ -63,6 +69,8 @@ interface ThreadManagerInterface
      *
      * @param string $alias
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function stopThread($alias);
 
@@ -74,6 +82,8 @@ interface ThreadManagerInterface
      * @param string[][] $definitions
      * @param int $flags
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function createThreads($definitions, $flags = Runtime::CREATE_DEFAULT);
 
@@ -85,6 +95,8 @@ interface ThreadManagerInterface
      * @param string[] $aliases
      * @param int $flags
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function destroyThreads($aliases, $flags = Runtime::DESTROY_FORCE_SOFT);
 
@@ -93,6 +105,8 @@ interface ThreadManagerInterface
      *
      * @param $aliases
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function startThreads($aliases);
 
@@ -101,6 +115,8 @@ interface ThreadManagerInterface
      *
      * @param $aliases
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function stopThreads($aliases);
 
@@ -108,6 +124,8 @@ interface ThreadManagerInterface
      * Get list of existing thread containers.
      *
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function getThreads();
 
@@ -116,6 +134,8 @@ interface ThreadManagerInterface
      *
      * @param int $flags
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function flushThreads($flags = Runtime::DESTROY_KEEP);
 }

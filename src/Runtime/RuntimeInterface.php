@@ -189,6 +189,8 @@ interface RuntimeInterface extends
      * Create container.
      *
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function create();
 
@@ -196,6 +198,8 @@ interface RuntimeInterface extends
      * Destroy container.
      *
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function destroy();
 
@@ -203,6 +207,8 @@ interface RuntimeInterface extends
      * Start container.
      *
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function start();
 
@@ -210,6 +216,8 @@ interface RuntimeInterface extends
      * Stop container.
      *
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function stop();
 

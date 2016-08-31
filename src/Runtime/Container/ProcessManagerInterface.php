@@ -31,6 +31,8 @@ interface ProcessManagerInterface
      * @param string $name
      * @param int $flags
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function createProcess($alias, $name, $flags = Runtime::CREATE_DEFAULT);
 
@@ -47,6 +49,8 @@ interface ProcessManagerInterface
      * @param string $alias
      * @param int $flags
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function destroyProcess($alias, $flags = Runtime::DESTROY_FORCE_SOFT);
 
@@ -55,6 +59,8 @@ interface ProcessManagerInterface
      *
      * @param string $alias
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function startProcess($alias);
 
@@ -63,6 +69,8 @@ interface ProcessManagerInterface
      *
      * @param string $alias
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function stopProcess($alias);
 
@@ -74,6 +82,8 @@ interface ProcessManagerInterface
      * @param string[][] $definitions
      * @param int $flags
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function createProcesses($definitions, $flags = Runtime::CREATE_DEFAULT);
 
@@ -85,6 +95,8 @@ interface ProcessManagerInterface
      * @param string[] $aliases
      * @param int $flags
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function destroyProcesses($aliases, $flags = Runtime::DESTROY_FORCE_SOFT);
 
@@ -93,6 +105,8 @@ interface ProcessManagerInterface
      *
      * @param $aliases
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function startProcesses($aliases);
 
@@ -101,6 +115,8 @@ interface ProcessManagerInterface
      *
      * @param $aliases
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function stopProcesses($aliases);
 
@@ -108,6 +124,8 @@ interface ProcessManagerInterface
      * Get list of existing process containers.
      *
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function getProcesses();
 
@@ -116,6 +134,8 @@ interface ProcessManagerInterface
      *
      * @param int $flags
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function flushProcesses($flags = Runtime::DESTROY_KEEP);
 }

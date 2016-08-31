@@ -328,6 +328,9 @@ class Promise implements PromiseInterface
      *
      * @param PromiseInterface $promise
      * @return PromiseInterface
+     * @resolves mixed|null
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      */
     protected function settle(PromiseInterface $promise)
     {

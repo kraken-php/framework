@@ -18,6 +18,9 @@ interface SupervisorInterface
      * @param Error|Exception $ex
      * @param mixed[] $params
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      * @throws ExecutionException
      */
     public function __invoke($ex, $params = []);
@@ -96,6 +99,9 @@ interface SupervisorInterface
      * @param Error|Exception $ex
      * @param mixed[] $params
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      */
     public function handle($ex, $params = []);
 }

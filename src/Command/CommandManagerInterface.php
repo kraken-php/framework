@@ -11,6 +11,9 @@ interface CommandManagerInterface
      * @param string $name
      * @param mixed[] $params
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      * @throws ExecutionException
      */
     public function __invoke($name, $params = []);
@@ -52,6 +55,9 @@ interface CommandManagerInterface
      * @param string $name
      * @param mixed[] $params
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      * @throws ExecutionException
      */
     public function execute($name, $params = []);

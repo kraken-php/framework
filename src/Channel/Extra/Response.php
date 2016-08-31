@@ -71,6 +71,9 @@ class Response
      * Send the prepared response.
      *
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      */
     public function call()
     {
@@ -82,6 +85,9 @@ class Response
      *
      * @param PromiseInterface $promise
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      */
     protected function send(PromiseInterface $promise)
     {

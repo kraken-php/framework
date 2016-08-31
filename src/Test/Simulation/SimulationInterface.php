@@ -20,7 +20,6 @@ interface SimulationInterface extends EventEmitterInterface
 
     /**
      * @param string $message
-     * @return PromiseInterface
      */
     public function fail($message);
 

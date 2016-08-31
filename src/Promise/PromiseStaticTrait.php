@@ -12,6 +12,9 @@ trait PromiseStaticTrait
      *
      * @param PromiseInterface|mixed $promiseOrValue
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      */
     public static function doResolve($promiseOrValue = null)
     {
@@ -28,6 +31,7 @@ trait PromiseStaticTrait
      *
      * @param PromiseInterface|mixed $promiseOrValue
      * @return PromiseInterface
+     * @rejects Error|Exception|string|null
      */
     public static function doReject($promiseOrValue = null)
     {
@@ -46,6 +50,7 @@ trait PromiseStaticTrait
      *
      * @param PromiseInterface|mixed $promiseOrValue
      * @return PromiseInterface
+     * @cancels Error|Exception|string|null
      */
     public static function doCancel($promiseOrValue = null)
     {
@@ -74,6 +79,9 @@ trait PromiseStaticTrait
      *
      * @param PromiseInterface[]|mixed[] $promisesOrValues
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      */
     public static function all($promisesOrValues)
     {
@@ -90,6 +98,9 @@ trait PromiseStaticTrait
      *
      * @param PromiseInterface[]|mixed[] $promisesOrValues
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      */
     public static function race($promisesOrValues)
     {
@@ -133,6 +144,9 @@ trait PromiseStaticTrait
      *
      * @param PromiseInterface[]|mixed[] $promisesOrValues
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      */
     public static function any($promisesOrValues)
     {
@@ -152,6 +166,9 @@ trait PromiseStaticTrait
      * @param PromiseInterface[]|mixed[] $promisesOrValues
      * @param int $howMany
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      */
     public static function some($promisesOrValues, $howMany)
     {
@@ -231,6 +248,9 @@ trait PromiseStaticTrait
      * @param PromiseInterface[]|mixed[] $promisesOrValues
      * @param callable $mapFunc
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      */
     public static function map($promisesOrValues, callable $mapFunc)
     {
@@ -279,6 +299,9 @@ trait PromiseStaticTrait
      * @param callable $reduceFunc
      * @param PromiseInterface|mixed|null $initialValue
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      */
     public static function reduce($promisesOrValues, callable $reduceFunc, $initialValue = null)
     {

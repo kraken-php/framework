@@ -91,6 +91,8 @@ interface RuntimeModelInterface extends CoreAwareInterface, CoreInputContextInte
      * Create model.
      *
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function create();
 
@@ -98,6 +100,8 @@ interface RuntimeModelInterface extends CoreAwareInterface, CoreInputContextInte
      * Destroy model.
      *
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function destroy();
 
@@ -105,6 +109,8 @@ interface RuntimeModelInterface extends CoreAwareInterface, CoreInputContextInte
      * Start model.
      *
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function start();
 
@@ -112,6 +118,8 @@ interface RuntimeModelInterface extends CoreAwareInterface, CoreInputContextInte
      * Stop model.
      *
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function stop();
 

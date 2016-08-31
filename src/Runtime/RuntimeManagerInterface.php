@@ -29,6 +29,8 @@ interface RuntimeManagerInterface extends ProcessManagerInterface, ThreadManager
      * @param string $alias
      * @param int $flags
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function destroyRuntime($alias, $flags = Runtime::DESTROY_FORCE_SOFT);
 
@@ -37,6 +39,8 @@ interface RuntimeManagerInterface extends ProcessManagerInterface, ThreadManager
      *
      * @param string $alias
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function startRuntime($alias);
 
@@ -45,6 +49,8 @@ interface RuntimeManagerInterface extends ProcessManagerInterface, ThreadManager
      *
      * @param string $alias
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function stopRuntime($alias);
 
@@ -56,6 +62,8 @@ interface RuntimeManagerInterface extends ProcessManagerInterface, ThreadManager
      * @param string[] $aliases
      * @param int $flags
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function destroyRuntimes($aliases, $flags = Runtime::DESTROY_FORCE_SOFT);
 
@@ -66,6 +74,8 @@ interface RuntimeManagerInterface extends ProcessManagerInterface, ThreadManager
      *
      * @param string[] $aliases
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function startRuntimes($aliases);
 
@@ -74,6 +84,8 @@ interface RuntimeManagerInterface extends ProcessManagerInterface, ThreadManager
      *
      * @param string[] $aliases
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function stopRuntimes($aliases);
 
@@ -81,6 +93,8 @@ interface RuntimeManagerInterface extends ProcessManagerInterface, ThreadManager
      * Get list of existing containers.
      *
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function getRuntimes();
 
@@ -89,6 +103,8 @@ interface RuntimeManagerInterface extends ProcessManagerInterface, ThreadManager
      *
      * @param int $flags
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
      */
     public function flushRuntimes($flags = Runtime::DESTROY_KEEP);
 }

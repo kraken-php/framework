@@ -127,7 +127,7 @@ class Simulation extends BaseEventEmitter implements SimulationInterface
     }
 
     /**
-     * @return PromiseInterface
+     *
      */
     public function fail($message)
     {

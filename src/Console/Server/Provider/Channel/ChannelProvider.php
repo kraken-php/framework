@@ -228,6 +228,9 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
      * @param string $command
      * @param mixed[] $params
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      */
     private function executeCommand($command, $params = [])
     {

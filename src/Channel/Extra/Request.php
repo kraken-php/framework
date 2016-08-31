@@ -80,6 +80,9 @@ class Request
      * Send the prepared request.
      *
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      */
     public function __invoke()
     {
@@ -90,6 +93,9 @@ class Request
      * Send the prepared request.
      *
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      */
     public function call()
     {

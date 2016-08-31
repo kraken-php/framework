@@ -34,8 +34,8 @@ class Command implements CommandInterface
     }
 
     /**
-     * @param mixed[] $params
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function __invoke($params = [])
     {
@@ -43,8 +43,8 @@ class Command implements CommandInterface
     }
 
     /**
-     * @param mixed[] $params
-     * @return PromiseInterface
+     * @override
+     * @inheritDoc
      */
     public function execute($params = [])
     {

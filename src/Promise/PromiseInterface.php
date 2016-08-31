@@ -15,6 +15,9 @@ interface PromiseInterface extends DeferredInterface
      * @param callable|null $onRejected
      * @param callable|null $onCancel
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      */
     public function then(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null);
 
@@ -40,6 +43,9 @@ interface PromiseInterface extends DeferredInterface
      * @param callable|null $onRejected
      * @param callable|null $onCancel
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      */
     public function spread(callable $onFulfilled = null, callable $onRejected = null, callable $onCancel = null);
 
@@ -51,6 +57,9 @@ interface PromiseInterface extends DeferredInterface
      *
      * @param callable $onSuccess
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      */
     public function success(callable $onSuccess);
 
@@ -62,6 +71,9 @@ interface PromiseInterface extends DeferredInterface
      *
      * @param callable $onFailure
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      */
     public function failure(callable $onFailure);
 
@@ -73,6 +85,9 @@ interface PromiseInterface extends DeferredInterface
      *
      * @param callable $onCancel
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      */
     public function abort(callable $onCancel);
 
@@ -83,6 +98,9 @@ interface PromiseInterface extends DeferredInterface
      *
      * @param callable $onFulfilledOrRejected
      * @return PromiseInterface
+     * @resolves mixed
+     * @rejects Error|Exception|string|null
+     * @cancels Error|Exception|string|null
      */
     public function always(callable $onFulfilledOrRejected);
 

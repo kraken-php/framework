@@ -2,7 +2,6 @@
 
 namespace Kraken\Command;
 
-use Kraken\Promise\PromiseInterface;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
 
 class CommandManager implements CommandManagerInterface
@@ -29,10 +28,8 @@ class CommandManager implements CommandManagerInterface
     }
 
     /**
-     * @param string $name
-     * @param mixed[] $params
-     * @return PromiseInterface
-     * @throws ExecutionException
+     * @override
+     * @inheritDoc
      */
     public function __invoke($name, $params = [])
     {
@@ -40,7 +37,8 @@ class CommandManager implements CommandManagerInterface
     }
 
     /**
-     * @param CommandInterface[] $commands
+     * @override
+     * @inheritDoc
      */
     public function import($commands)
     {
@@ -51,7 +49,8 @@ class CommandManager implements CommandManagerInterface
     }
 
     /**
-     * @return CommandInterface[]
+     * @override
+     * @inheritDoc
      */
     public function export()
     {
@@ -59,8 +58,8 @@ class CommandManager implements CommandManagerInterface
     }
 
     /**
-     * @param string $name
-     * @return bool
+     * @override
+     * @inheritDoc
      */
     public function exists($name)
     {
@@ -68,8 +67,8 @@ class CommandManager implements CommandManagerInterface
     }
 
     /**
-     * @param string $name
-     * @param CommandInterface $command
+     * @override
+     * @inheritDoc
      */
     public function set($name, CommandInterface $command)
     {
@@ -77,8 +76,8 @@ class CommandManager implements CommandManagerInterface
     }
 
     /**
-     * @param string $name
-     * @return CommandInterface|null
+     * @override
+     * @inheritDoc
      */
     public function get($name)
     {
@@ -91,7 +90,8 @@ class CommandManager implements CommandManagerInterface
     }
 
     /**
-     * @param string $name
+     * @override
+     * @inheritDoc
      */
     public function remove($name)
     {
@@ -99,10 +99,8 @@ class CommandManager implements CommandManagerInterface
     }
 
     /**
-     * @param string $name
-     * @param mixed[] $params
-     * @return PromiseInterface
-     * @throws ExecutionException
+     * @override
+     * @inheritDoc
      */
     public function execute($name, $params = [])
     {
