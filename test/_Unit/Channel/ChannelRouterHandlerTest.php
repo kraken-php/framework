@@ -3,15 +3,15 @@
 namespace Kraken\_Unit\Channel;
 
 use Kraken\Channel\ChannelProtocol;
-use Kraken\Channel\ChannelRouterBase;
-use Kraken\Channel\ChannelRouterBaseInterface;
+use Kraken\Channel\ChannelRouter;
+use Kraken\Channel\ChannelRouterInterface;
 use Kraken\Channel\ChannelRouterHandler;
 use Kraken\Test\TUnit;
 
 class ChannelRouterHandlerTest extends TUnit
 {
     /**
-     * @var ChannelRouterBaseInterface
+     * @var ChannelRouterInterface
      */
     private $router;
 
@@ -156,7 +156,7 @@ class ChannelRouterHandlerTest extends TUnit
      */
     public function createRouterHandler(callable $matcher, callable $handler, $propagate = false, $limit = 0)
     {
-        $this->router = new ChannelRouterBase();
+        $this->router = new ChannelRouter();
 
         return $this->getMock(ChannelRouterHandler::class, [ 'cancel' ], [ $this->router, $matcher, $handler, $propagate, $limit ]);
     }

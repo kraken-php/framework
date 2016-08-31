@@ -4,7 +4,7 @@ namespace Kraken\Channel\Extra;
 
 use Kraken\Channel\ChannelProtocolInterface;
 use Kraken\Channel\Channel;
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Support\TimeSupport;
@@ -17,7 +17,7 @@ use Exception;
 class Request
 {
     /**
-     * @var ChannelBaseInterface
+     * @var ChannelInterface
      */
     protected $channel;
 
@@ -42,7 +42,7 @@ class Request
     protected $counter;
 
     /**
-     * @param ChannelBaseInterface $channel
+     * @param ChannelInterface $channel
      * @param string $name
      * @param string|ChannelProtocolInterface $message
      * @param mixed[] $params

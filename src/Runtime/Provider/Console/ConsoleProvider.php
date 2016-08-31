@@ -2,7 +2,7 @@
 
 namespace Kraken\Runtime\Provider\Console;
 
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\ChannelCompositeInterface;
 use Kraken\Channel\Router\RuleHandler;
 use Kraken\Core\CoreInterface;
@@ -38,7 +38,7 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
         $factory = $core->make('Kraken\Channel\ChannelFactoryInterface');
         $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
 
-        $console = $factory->create('Kraken\Channel\ChannelBase', [
+        $console = $factory->create('Kraken\Channel\Channel', [
             $runtime->getParent() === null
                 ? $config->get('channel.channels.console.class')
                 : 'Kraken\Channel\Model\Null\NullModel',
@@ -88,9 +88,9 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
 
     /**
      * @param ChannelCompositeInterface $channel
-     * @param ChannelBaseInterface $console
+     * @param ChannelInterface $console
      */
-    private function applyConsoleRouting(ChannelCompositeInterface $channel, ChannelBaseInterface $console)
+    private function applyConsoleRouting(ChannelCompositeInterface $channel, ChannelInterface $console)
     {
         $master = $channel->getBus('master');
 

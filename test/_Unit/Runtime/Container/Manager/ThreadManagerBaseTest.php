@@ -2,7 +2,7 @@
 
 namespace Kraken\_Unit\Runtime\Container\Manager;
 
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\ChannelProtocol;
 use Kraken\Channel\Extra\Request;
 use Kraken\Promise\PromiseFulfilled;
@@ -640,7 +640,7 @@ class ThreadManagerBaseTest extends TUnit
     public function testProtectedApiCreateRequest_CreatesRequest()
     {
         $runtime  = $this->getMock(RuntimeInterface::class, [], [], '', false);
-        $channel  = $this->getMock(ChannelBaseInterface::class, [], [], '', false);
+        $channel  = $this->getMock(ChannelInterface::class, [], [], '', false);
         $channel
             ->expects($this->any())
             ->method('createProtocol')
@@ -675,7 +675,7 @@ class ThreadManagerBaseTest extends TUnit
     public function createThreadManager($methods = [])
     {
         $runtime = $this->getMock(RuntimeInterface::class, [], [], '', false);
-        $channel = $this->getMock(ChannelBaseInterface::class, [], [], '', false);
+        $channel = $this->getMock(ChannelInterface::class, [], [], '', false);
 
         $methods = array_merge($methods, [ 'createRequest' ]);
         $manager = $this->getMock(ThreadManagerBase::class, $methods, [ $runtime, $channel ]);

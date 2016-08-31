@@ -3,7 +3,7 @@
 namespace Kraken\_Unit\Runtime\Command\Arch;
 
 use Kraken\_Unit\Runtime\Command\_T\TCommand;
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\ChannelProtocol;
 use Kraken\Channel\Extra\Request;
 use Kraken\Promise\PromiseFulfilled;
@@ -67,7 +67,7 @@ class ArchStopCommandTest extends TCommand
      */
     public function testProtectedApiCreateRequest_CreatesRequest()
     {
-        $channel  = $this->getMock(ChannelBaseInterface::class, [], [], '', false);
+        $channel  = $this->getMock(ChannelInterface::class, [], [], '', false);
         $channel
             ->expects($this->any())
             ->method('createProtocol')

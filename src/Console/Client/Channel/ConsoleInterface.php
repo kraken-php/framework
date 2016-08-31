@@ -2,7 +2,7 @@
 
 namespace Kraken\Console\Client\Channel;
 
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\ChannelInterface;
 
-interface ConsoleInterface extends ChannelBaseInterface
+interface ConsoleInterface extends ChannelInterface
 {}

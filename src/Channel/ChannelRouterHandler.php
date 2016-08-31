@@ -5,7 +5,7 @@ namespace Kraken\Channel;
 class ChannelRouterHandler
 {
     /**
-     * @var ChannelRouterBaseInterface
+     * @var ChannelRouterInterface
      */
     protected $router;
 
@@ -40,13 +40,13 @@ class ChannelRouterHandler
     protected $cancelled;
 
     /**
-     * @param ChannelRouterBaseInterface $router
+     * @param ChannelRouterInterface $router
      * @param callable $matcher
      * @param callable $handler
      * @param bool $propagate
      * @param int $limit
      */
-    public function __construct(ChannelRouterBaseInterface $router, callable $matcher, callable $handler, $propagate = false, $limit = 0)
+    public function __construct(ChannelRouterInterface $router, callable $matcher, callable $handler, $propagate = false, $limit = 0)
     {
         $this->router = $router;
         $this->matcher = $matcher;
@@ -73,7 +73,7 @@ class ChannelRouterHandler
     /**
      * Return Router to which handler is attached to.
      *
-     * @return ChannelRouterBaseInterface
+     * @return ChannelRouterInterface
      */
     public function getRouter()
     {

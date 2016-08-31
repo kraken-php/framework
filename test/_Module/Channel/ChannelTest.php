@@ -5,10 +5,9 @@ namespace Kraken\_Module\Channel;
 use Kraken\Channel\Model\Zmq\ZmqDealer;
 use Kraken\Channel\Router\RuleHandler;
 use Kraken\Channel\Channel;
-use Kraken\Channel\ChannelBase;
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\ChannelEncoder;
-use Kraken\Channel\ChannelRouterBase;
+use Kraken\Channel\ChannelRouter;
 use Kraken\Channel\ChannelRouterComposite;
 use Kraken\Loop\LoopInterface;
 use Kraken\Test\Simulation\Simulation;
@@ -592,19 +591,19 @@ class ChannelTest extends TModule
     /**
      * @param mixed $data
      * @param LoopInterface $loop
-     * @return ChannelBaseInterface
+     * @return ChannelInterface
      */
     public function createChannel($data, LoopInterface $loop)
     {
         $name    = $data['config']['id'];
         $model   = (new ReflectionClass($data['class']))->newInstance($loop, $data['config']);
         $router  = new ChannelRouterComposite([
-            'input'     => $input  = new ChannelRouterBase(),
-            'output'    => $output = new ChannelRouterBase()
+            'input'     => $input  = new ChannelRouter(),
+            'output'    => $output = new ChannelRouter()
         ]);
         $encoder = new ChannelEncoder(new JsonParser);
 
-        $channel = new ChannelBase($name, $model, $router, $encoder, $loop);
+        $channel = new Channel($name, $model, $router, $encoder, $loop);
 
         $router = $channel->getInput();
         $router->addAnchor(

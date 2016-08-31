@@ -2,7 +2,7 @@
 
 namespace Kraken\Runtime\Command\Arch;
 
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\Extra\Request;
 use Kraken\Command\CommandInterface;
 use Kraken\Promise\Promise;
@@ -12,7 +12,7 @@ use Kraken\Runtime\RuntimeCommand;
 class ArchStatusCommand extends Command implements CommandInterface
 {
     /**
-     * ChannelBaseInterface
+     * ChannelInterface
      */
     protected $channel;
 
@@ -85,12 +85,12 @@ class ArchStatusCommand extends Command implements CommandInterface
     /**
      * Create Request.
      *
-     * @param ChannelBaseInterface $channel
+     * @param ChannelInterface $channel
      * @param string $receiver
      * @param string $command
      * @return Request
      */
-    protected function createRequest(ChannelBaseInterface $channel, $receiver, $command)
+    protected function createRequest(ChannelInterface $channel, $receiver, $command)
     {
         return new Request($channel, $receiver, $command);
     }

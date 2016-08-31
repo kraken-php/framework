@@ -2,7 +2,7 @@
 
 namespace Kraken\_Unit\Runtime\Container\Manager;
 
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\ChannelProtocol;
 use Kraken\Channel\Extra\Request;
 use Kraken\Core\CoreInterface;
@@ -532,7 +532,7 @@ class ProcessManagerBaseTest extends TUnit
      */
     public function testProtectedApiCreateRequest_CreatesRequest()
     {
-        $channel  = $this->getMock(ChannelBaseInterface::class, [], [], '', false);
+        $channel  = $this->getMock(ChannelInterface::class, [], [], '', false);
         $channel
             ->expects($this->any())
             ->method('createProtocol')
@@ -583,7 +583,7 @@ class ProcessManagerBaseTest extends TUnit
             ->method('getCore')
             ->will($this->returnValue($core));
 
-        $channel = $this->getMock(ChannelBaseInterface::class, [], [], '', false);
+        $channel = $this->getMock(ChannelInterface::class, [], [], '', false);
         $env     = $this->getMock(EnvironmentInterface::class, [], [], '', false);
         $system  = $this->getMock(SystemInterface::class, [], [], '', false);
         $fs      = $this->getMock(FilesystemInterface::class, [], [], '', false);

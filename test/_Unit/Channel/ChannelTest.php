@@ -3,13 +3,12 @@
 namespace Kraken\_Unit\Channel;
 
 use Kraken\Channel\Channel;
-use Kraken\Channel\ChannelBase;
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\ChannelEncoderInterface;
 use Kraken\Channel\ChannelModelInterface;
 use Kraken\Channel\ChannelProtocol;
 use Kraken\Channel\ChannelProtocolInterface;
-use Kraken\Channel\ChannelRouterBase;
+use Kraken\Channel\ChannelRouter;
 use Kraken\Channel\ChannelRouterComposite;
 use Kraken\Channel\ChannelRouterCompositeInterface;
 use Kraken\Event\EventHandler;
@@ -17,10 +16,10 @@ use Kraken\Loop\Loop;
 use Kraken\Loop\LoopInterface;
 use Kraken\Test\TUnit;
 
-class ChannelBaseText extends TUnit
+class ChannelTest extends TUnit
 {
     /**
-     * @var ChannelBase|\PHPUnit_Framework_MockObject_MockObject
+     * @var Channel|\PHPUnit_Framework_MockObject_MockObject
      */
     private $channel;
 
@@ -31,8 +30,8 @@ class ChannelBaseText extends TUnit
     {
         $channel = $this->createChannel();
 
-        $this->assertInstanceOf(ChannelBase::class, $channel);
-        $this->assertInstanceOf(ChannelBaseInterface::class, $channel);
+        $this->assertInstanceOf(Channel::class, $channel);
+        $this->assertInstanceOf(ChannelInterface::class, $channel);
     }
 
     /**
@@ -80,7 +79,7 @@ class ChannelBaseText extends TUnit
     {
         $channel = $this->createChannel();
 
-        $input  = $this->getMock(ChannelRouterBase::class, [], [], '', false);
+        $input  = $this->getMock(ChannelRouter::class, [], [], '', false);
         $router = $this->createRouter([ 'getBus' ]);
         $router
             ->expects($this->once())
@@ -98,7 +97,7 @@ class ChannelBaseText extends TUnit
     {
         $channel = $this->createChannel();
 
-        $output = $this->getMock(ChannelRouterBase::class, [], [], '', false);
+        $output = $this->getMock(ChannelRouter::class, [], [], '', false);
         $router = $this->createRouter([ 'getBus' ]);
         $router
             ->expects($this->once())
@@ -1199,7 +1198,7 @@ class ChannelBaseText extends TUnit
 
     /**
      * @param string[]|null $methods
-     * @return ChannelBase|\PHPUnit_Framework_MockObject_MockObject
+     * @return Channel|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createChannel($methods = null)
     {
@@ -1231,7 +1230,7 @@ class ChannelBaseText extends TUnit
         $encoder = $this->getMock(ChannelEncoderInterface::class, [], [], '', false);
         $loop    = $this->getMock(LoopInterface::class, [], [], '', false);
 
-        $mock = $this->getMock(ChannelBase::class, $methods, [ 'name', $model, $router, $encoder, $loop ]);
+        $mock = $this->getMock(Channel::class, $methods, [ 'name', $model, $router, $encoder, $loop ]);
 
         $this->channel = $mock;
 

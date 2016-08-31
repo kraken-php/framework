@@ -3,7 +3,7 @@
 namespace Kraken\Runtime\Provider\Channel;
 
 use Kraken\Channel\Channel;
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\ChannelProtocolInterface;
 use Kraken\Channel\ChannelCompositeInterface;
 use Kraken\Channel\Extra\Response;
@@ -56,7 +56,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
         $factory = $core->make('Kraken\Channel\ChannelFactoryInterface');
 
-        $master = $factory->create('Kraken\Channel\ChannelBase', [
+        $master = $factory->create('Kraken\Channel\Channel', [
             $runtime->getParent() !== null
                 ? $config->get('channel.channels.master.class')
                 : 'Kraken\Channel\Model\Null\NullModel',
@@ -68,7 +68,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
             )
         ]);
 
-        $slave = $factory->create('Kraken\Channel\ChannelBase', [
+        $slave = $factory->create('Kraken\Channel\Channel', [
             $config->get('channel.channels.slave.class'),
             $config->get('channel.channels.slave.config')
         ]);
@@ -199,9 +199,9 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
     /**
      * @param RuntimeInterface $runtime
      * @param ChannelCompositeInterface $composite
-     * @param ChannelBaseInterface $console
+     * @param ChannelInterface $console
      */
-    private function applyRootRouting(RuntimeInterface $runtime, ChannelCompositeInterface $composite, ChannelBaseInterface $console)
+    private function applyRootRouting(RuntimeInterface $runtime, ChannelCompositeInterface $composite, ChannelInterface $console)
     {
         $master = $composite->getBus('master');
         $slave  = $composite->getBus('slave');

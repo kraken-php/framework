@@ -54,12 +54,12 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
         $factory = $core->make('Kraken\Channel\ChannelFactoryInterface');
 
-        $master = $factory->create('Kraken\Channel\ChannelBase', [
+        $master = $factory->create('Kraken\Channel\Channel', [
             $config->get('channel.channels.master.class'),
             $config->get('channel.channels.master.config')
         ]);
 
-        $slave = $factory->create('Kraken\Channel\ChannelBase', [
+        $slave = $factory->create('Kraken\Channel\Channel', [
             $config->get('channel.channels.slave.class'),
             array_merge(
                 $config->get('channel.channels.slave.config'),

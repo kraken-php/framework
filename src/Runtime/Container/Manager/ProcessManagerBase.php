@@ -9,7 +9,7 @@ use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Throwable\Exception\Runtime\RejectionException;
 use Kraken\Filesystem\FilesystemInterface;
 use Kraken\Promise\Promise;
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\Extra\Request;
 use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
 use Kraken\Runtime\Container\ProcessManagerInterface;
@@ -28,7 +28,7 @@ class ProcessManagerBase implements ProcessManagerInterface
     protected $runtime;
 
     /**
-     * @var ChannelBaseInterface
+     * @var ChannelInterface
      */
     protected $channel;
 
@@ -64,13 +64,13 @@ class ProcessManagerBase implements ProcessManagerInterface
 
     /**
      * @param RuntimeInterface $runtime
-     * @param ChannelBaseInterface $channel
+     * @param ChannelInterface $channel
      * @param EnvironmentInterface $env
      * @param SystemInterface $system
      * @param FilesystemInterface $fs
      * @throws InstantiationException
      */
-    public function __construct(RuntimeInterface $runtime, ChannelBaseInterface $channel, EnvironmentInterface $env, SystemInterface $system, FilesystemInterface $fs)
+    public function __construct(RuntimeInterface $runtime, ChannelInterface $channel, EnvironmentInterface $env, SystemInterface $system, FilesystemInterface $fs)
     {
         $this->runtime = $runtime;
         $this->channel = $channel;
@@ -541,12 +541,12 @@ class ProcessManagerBase implements ProcessManagerInterface
     /**
      * Create Request.
      *
-     * @param ChannelBaseInterface $channel
+     * @param ChannelInterface $channel
      * @param string $receiver
      * @param string $command
      * @return Request
      */
-    protected function createRequest(ChannelBaseInterface $channel, $receiver, $command)
+    protected function createRequest(ChannelInterface $channel, $receiver, $command)
     {
         return new Request($channel, $receiver, $command);
     }

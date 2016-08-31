@@ -2,8 +2,8 @@
 
 namespace Kraken\_Unit\Runtime\Command\_T;
 
-use Kraken\Channel\ChannelBase;
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\Channel;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Command\CommandInterface;
 use Kraken\Core\Core;
 use Kraken\Core\CoreInterface;
@@ -118,11 +118,11 @@ class TCommand extends TUnit
 
     /**
      * @param string[]|null $methods
-     * @return ChannelBaseInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return ChannelInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createChannel($methods = [])
     {
-        $channel = $this->getMock(ChannelBase::class, $methods, [], '', false);
+        $channel = $this->getMock(Channel::class, $methods, [], '', false);
 
         if ($this->cmd !== null && $this->existsProtectedProperty($this->cmd, 'channel'))
         {

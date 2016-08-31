@@ -2,7 +2,7 @@
 
 namespace Kraken\Channel;
 
-interface ChannelRouterBaseInterface
+interface ChannelRouterInterface
 {
     /**
      * Handle data using Router.

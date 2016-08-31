@@ -3,7 +3,7 @@
 namespace Kraken\_Unit\Console\Server\Command\Project;
 
 use Kraken\_Unit\Console\Server\_T\TCommand;
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\ChannelProtocol;
 use Kraken\Channel\Extra\Request;
 use Kraken\Config\ConfigInterface;
@@ -59,7 +59,7 @@ class ProjectStatusCommandTest extends TCommand
      */
     public function testProtectedApiCreateRequest_CreatesRequest()
     {
-        $channel  = $this->getMock(ChannelBaseInterface::class, [], [], '', false);
+        $channel  = $this->getMock(ChannelInterface::class, [], [], '', false);
         $channel
             ->expects($this->any())
             ->method('createProtocol')

@@ -16,7 +16,7 @@ use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
  * @event input  : callable(string, ChannelProtocolInterface)
  * @event output : callalbe(string, ChannelProtocolInterface)
  */
-interface ChannelBaseInterface extends EventEmitterInterface, LoopAwareInterface
+interface ChannelInterface extends EventEmitterInterface, LoopAwareInterface
 {
     /**
      * Return Channel name.
@@ -44,7 +44,7 @@ interface ChannelBaseInterface extends EventEmitterInterface, LoopAwareInterface
      *
      * Throws ResourceUndefinedException if input router is not found.
      *
-     * @return ChannelRouterBaseInterface|ChannelRouterCompositeInterface
+     * @return ChannelRouterInterface|ChannelRouterCompositeInterface
      * @throws ResourceUndefinedException
      */
     public function getInput();
@@ -54,7 +54,7 @@ interface ChannelBaseInterface extends EventEmitterInterface, LoopAwareInterface
      *
      * Throws ResourceUndefinedException if output router is not found.
      *
-     * @return ChannelRouterBaseInterface|ChannelRouterCompositeInterface
+     * @return ChannelRouterInterface|ChannelRouterCompositeInterface
      * @throws ResourceUndefinedException
      */
     public function getOutput();
@@ -152,8 +152,8 @@ interface ChannelBaseInterface extends EventEmitterInterface, LoopAwareInterface
      * Channel::MODE_BUFFER - sends message if both sender and receiver are online or buffers it if one of them is
      * offline.
      *
-     * @see ChannelBaseInterface::sendAsync
-     * @see ChannelBaseInterface::sendRequest
+     * @see ChannelInterface::sendAsync
+     * @see ChannelInterface::sendRequest
      *
      * @param string|string[] $name
      * @param string|string[]|ChannelProtocolInterface $message
@@ -204,7 +204,7 @@ interface ChannelBaseInterface extends EventEmitterInterface, LoopAwareInterface
      *
      * This method only enables sending asynchronous messages. For more complex options use send() method.
      *
-     * @see ChannelBaseInterface::send
+     * @see ChannelInterface::send
      *
      * @param string|string[] $name
      * @param string|string[]|ChannelProtocolInterface $message
@@ -218,7 +218,7 @@ interface ChannelBaseInterface extends EventEmitterInterface, LoopAwareInterface
      *
      * This method only enables pushing asynchronous messages. For more complex options use push() method.
      *
-     * @see ChannelBaseInterface::push
+     * @see ChannelInterface::push
      *
      * @param string|string[] $name
      * @param string|string[]|ChannelProtocolInterface $message
@@ -232,7 +232,7 @@ interface ChannelBaseInterface extends EventEmitterInterface, LoopAwareInterface
      *
      * This method only enables sending requests. For more complex options use send() method.
      *
-     * @see ChannelBaseInterface::send
+     * @see ChannelInterface::send
      *
      * @param string|string[] $name
      * @param string|string[]|ChannelProtocolInterface $message
@@ -250,7 +250,7 @@ interface ChannelBaseInterface extends EventEmitterInterface, LoopAwareInterface
      *
      * This method only enables pushing requests. For more complex options use push() method.
      *
-     * @see ChannelBaseInterface::push
+     * @see ChannelInterface::push
      *
      * @param string|string[] $name
      * @param string|string[]|ChannelProtocolInterface $message

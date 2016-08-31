@@ -2,9 +2,9 @@
 
 namespace Kraken\_Module\Supervisor\_Solver;
 
-use Kraken\Supervisor\SolverBase;
+use Kraken\Supervisor\Solver;
 
-class UnexpectedSolver extends SolverBase
+class UnexpectedSolver extends Solver
 {
     /**
      * @override

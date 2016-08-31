@@ -2,23 +2,23 @@
 
 namespace Kraken\Channel;
 
-trait ChannelBaseAwareTrait
+trait ChannelAwareTrait
 {
     /**
-     * @var ChannelBaseInterface|null
+     * @var ChannelInterface|null
      */
     protected $channel = null;
 
     /**
-     * @see ChannelBaseAwareInterface::setChannel
+     * @see ChannelAwareInterface::setChannel
      */
-    public function setChannel(ChannelBaseInterface $channel = null)
+    public function setChannel(ChannelInterface $channel = null)
     {
         $this->channel = $channel;
     }
 
     /**
-     * @see ChannelBaseAwareInterface::getChannel
+     * @see ChannelAwareInterface::getChannel
      */
     public function getChannel()
     {

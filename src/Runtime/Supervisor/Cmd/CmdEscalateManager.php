@@ -2,18 +2,18 @@
 
 namespace Kraken\Runtime\Supervisor\Cmd;
 
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\Extra\Request;
-use Kraken\Runtime\Supervisor\SolverBase;
+use Kraken\Runtime\Supervisor\Solver;
 use Kraken\Supervisor\SolverInterface;
 use Kraken\Runtime\RuntimeCommand;
 use Error;
 use Exception;
 
-class CmdEscalateManager extends SolverBase implements SolverInterface
+class CmdEscalateManager extends Solver implements SolverInterface
 {
     /**
-     * @var ChannelBaseInterface
+     * @var ChannelInterface
      */
     protected $channel;
 
@@ -59,12 +59,12 @@ class CmdEscalateManager extends SolverBase implements SolverInterface
     /**
      * Create Request.
      *
-     * @param ChannelBaseInterface $channel
+     * @param ChannelInterface $channel
      * @param string $receiver
      * @param string $command
      * @return Request
      */
-    protected function createRequest(ChannelBaseInterface $channel, $receiver, $command)
+    protected function createRequest(ChannelInterface $channel, $receiver, $command)
     {
         return new Request($channel, $receiver, $command);
     }

@@ -2,14 +2,14 @@
 
 namespace Kraken\_Unit\Runtime\_T;
 
-use Kraken\Channel\ChannelBase;
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\Channel;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Command\CommandInterface;
 use Kraken\Core\Core;
 use Kraken\Log\Logger;
 use Kraken\Runtime\Container\ThreadContainer;
 use Kraken\Runtime\RuntimeManagerInterface;
-use Kraken\Runtime\Supervisor\SolverBase;
+use Kraken\Runtime\Supervisor\Solver;
 use Kraken\Runtime\RuntimeInterface;
 use Kraken\Supervisor\SolverInterface;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
@@ -56,7 +56,7 @@ class TSolver extends TUnit
     {
         $solver = $this->createSolver();
 
-        $this->assertInstanceOf(SolverBase::class, $solver);
+        $this->assertInstanceOf(Solver::class, $solver);
         $this->assertInstanceOf(SolverInterface::class, $solver);
     }
 
@@ -111,7 +111,7 @@ class TSolver extends TUnit
 
     /**
      * @param string[]|null $methods
-     * @return ChannelBaseInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return ChannelInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createLogger($methods = [])
     {
@@ -127,11 +127,11 @@ class TSolver extends TUnit
 
     /**
      * @param string[]|null $methods
-     * @return ChannelBaseInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return ChannelInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createChannel($methods = [])
     {
-        $channel = $this->getMock(ChannelBase::class, $methods, [], '', false);
+        $channel = $this->getMock(Channel::class, $methods, [], '', false);
 
         if ($this->solver !== null && $this->existsProtectedProperty($this->solver, 'channel'))
         {

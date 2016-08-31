@@ -2,12 +2,12 @@
 
 namespace Kraken\Runtime\Supervisor\Runtime;
 
-use Kraken\Runtime\Supervisor\SolverBase;
+use Kraken\Runtime\Supervisor\Solver;
 use Kraken\Supervisor\SolverInterface;
 use Error;
 use Exception;
 
-class RuntimeStart extends SolverBase implements SolverInterface
+class RuntimeStart extends Solver implements SolverInterface
 {
     /**
      * @var string[]

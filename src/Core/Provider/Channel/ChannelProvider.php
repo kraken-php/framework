@@ -29,7 +29,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         'Kraken\Channel\ChannelModelFactoryInterface',
         'Kraken\Channel\ChannelModelInterface',
         'Kraken\Channel\ChannelFactoryInterface',
-        'Kraken\Channel\ChannelBaseInterface',
+        'Kraken\Channel\ChannelInterface',
         'Kraken\Channel\ChannelCompositeInterface'
     ];
 
@@ -62,7 +62,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         );
 
         $core->factory(
-            'Kraken\Channel\ChannelBaseInterface',
+            'Kraken\Channel\ChannelInterface',
             [ $factory, 'create' ]
         );
 
@@ -90,7 +90,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         );
 
         $core->remove(
-            'Kraken\Channel\ChannelBaseInterface'
+            'Kraken\Channel\ChannelInterface'
         );
 
         $core->remove(

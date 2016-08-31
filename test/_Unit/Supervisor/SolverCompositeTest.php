@@ -3,7 +3,7 @@
 namespace Kraken\_Unit\Supervisor;
 
 use Kraken\Promise\Promise;
-use Kraken\Supervisor\SolverBase;
+use Kraken\Supervisor\Solver;
 use Kraken\Supervisor\SolverComposite;
 use Kraken\Supervisor\SolverInterface;
 use Kraken\Test\TUnit;
@@ -212,7 +212,7 @@ class SolverCompositeTest extends TUnit
     /**
      * @param SolverInterface[] $handlers
      * @param string[]|null $methods
-     * @return SolverBase|\PHPUnit_Framework_MockObject_MockObject
+     * @return Solver|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createSolver($handlers = [], $methods = null)
     {

@@ -2,7 +2,7 @@
 
 namespace Kraken\Console\Client\Provider\Channel;
 
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\Router\RuleHandler;
 use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
@@ -36,7 +36,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         $config  = $core->make('Kraken\Config\ConfigInterface');
         $console = $core->make('Kraken\Console\Client\ConsoleClientInterface');
 
-        $channel = $factory->create('Kraken\Channel\ChannelBase', [
+        $channel = $factory->create('Kraken\Channel\Channel', [
             $config->get('channel.channels.console.class'),
             array_merge(
                 $config->get('channel.channels.console.config'),
@@ -70,9 +70,9 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
     }
 
     /**
-     * @param ChannelBaseInterface $channel
+     * @param ChannelInterface $channel
      */
-    protected function applyConsoleController(ChannelBaseInterface $channel)
+    protected function applyConsoleController(ChannelInterface $channel)
     {
         $router = $channel->getInput();
         $router->addAnchor(

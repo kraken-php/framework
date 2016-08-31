@@ -2,7 +2,7 @@
 
 namespace Kraken\_Unit\Supervisor;
 
-use Kraken\Supervisor\SolverBase;
+use Kraken\Supervisor\Solver;
 use Kraken\Supervisor\SolverComposite;
 use Kraken\Supervisor\SolverFactory;
 use Kraken\Supervisor\SolverInterface;
@@ -388,7 +388,7 @@ class SupervisorTest extends TUnit
      */
     public function createSolver($methods = null)
     {
-        return $this->getMock(SolverBase::class, $methods, [], '', false);
+        return $this->getMock(Solver::class, $methods, [], '', false);
     }
 
     /**

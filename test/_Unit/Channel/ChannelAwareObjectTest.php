@@ -2,19 +2,19 @@
 
 namespace Kraken\_Unit\Channel;
 
-use Kraken\_Unit\Channel\_Mock\ChannelBaseAwareObject;
-use Kraken\Channel\ChannelBase;
+use Kraken\_Unit\Channel\_Mock\ChannelAwareObject;
+use Kraken\Channel\Channel;
 use Kraken\Test\TUnit;
 
-class ChannelBaseAwareObjectTest extends TUnit
+class ChannelAwareObjectTest extends TUnit
 {
     /**
      *
      */
     public function testApiSetChannel_SetsChannel()
     {
-        $object  = $this->createChannelBaseAwareObject();
-        $channel = $this->createChannelBase();
+        $object  = $this->createChannelAwareObject();
+        $channel = $this->createChannel();
 
         $this->assertSame(null, $this->getProtectedProperty($object, 'channel'));
         $object->setChannel($channel);
@@ -26,8 +26,8 @@ class ChannelBaseAwareObjectTest extends TUnit
      */
     public function testApiSetChannel_RemovesChannel_WhenNullPassed()
     {
-        $object  = $this->createChannelBaseAwareObject();
-        $channel = $this->createChannelBase();
+        $object  = $this->createChannelAwareObject();
+        $channel = $this->createChannel();
 
         $object->setChannel($channel);
         $this->assertSame($channel, $this->getProtectedProperty($object, 'channel'));
@@ -40,7 +40,7 @@ class ChannelBaseAwareObjectTest extends TUnit
      */
     public function testApiGetChannel_ReturnsNull_WhenChannelIsNotSet()
     {
-        $object  = $this->createChannelBaseAwareObject();
+        $object  = $this->createChannelAwareObject();
         $this->assertSame(null, $object->getChannel());
     }
 
@@ -49,26 +49,26 @@ class ChannelBaseAwareObjectTest extends TUnit
      */
     public function testApiGetChannel_ReturnsChannel_WhenChannelIsSet()
     {
-        $object  = $this->createChannelBaseAwareObject();
-        $channel = $this->createChannelBase();
+        $object  = $this->createChannelAwareObject();
+        $channel = $this->createChannel();
 
         $object->setChannel($channel);
         $this->assertSame($channel, $object->getChannel());
     }
 
     /**
-     * @return ChannelBase
+     * @return Channel
      */
-    public function createChannelBase()
+    public function createChannel()
     {
-        return $this->getMock(ChannelBase::class, [], [], '', false);
+        return $this->getMock(Channel::class, [], [], '', false);
     }
 
     /**
-     * @return ChannelBaseAwareObject
+     * @return ChannelAwareObject
      */
-    public function createChannelBaseAwareObject()
+    public function createChannelAwareObject()
     {
-        return new ChannelBaseAwareObject();
+        return new ChannelAwareObject();
     }
 }

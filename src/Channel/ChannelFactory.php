@@ -23,15 +23,15 @@ class ChannelFactory extends Factory implements ChannelFactoryInterface
             ->bindParam('encoder', new ChannelEncoder(new JsonParser))
             ->bindParam('router', function() {
                 return new ChannelRouterComposite([
-                    'input'  => new ChannelRouterBase(),
-                    'output' => new ChannelRouterBase()
+                    'input'  => new ChannelRouter(),
+                    'output' => new ChannelRouter()
                 ]);
             })
             ->bindParam('loop', $loop)
         ;
         $factory
-            ->define(ChannelBase::class, function($model, $config = []) use($factory, $modelFactory) {
-                return new ChannelBase(
+            ->define(Channel::class, function($model, $config = []) use($factory, $modelFactory) {
+                return new Channel(
                     isset($config['name']) ? $config['name'] : $factory->getParam('name'),
                     $modelFactory->create($model, [ $config ]),
                     $factory->getParam('router'),

@@ -4,7 +4,7 @@ namespace Kraken\Channel;
 
 use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 
-interface ChannelRouterCompositeInterface extends ChannelRouterBaseInterface
+interface ChannelRouterCompositeInterface extends ChannelRouterInterface
 {
     /**
      * Check if bus exists in router domain.
@@ -20,7 +20,7 @@ interface ChannelRouterCompositeInterface extends ChannelRouterBaseInterface
      * Throws ResourceUndefinedException if bus is not found.
      *
      * @param string $name
-     * @return ChannelRouterBaseInterface|ChannelRouterCompositeInterface
+     * @return ChannelRouterInterface|ChannelRouterCompositeInterface
      * @throws ResourceUndefinedException
      */
     public function getBus($name);
@@ -29,7 +29,7 @@ interface ChannelRouterCompositeInterface extends ChannelRouterBaseInterface
      * Add or replace existing bus in router domain.
      *
      * @param string $name
-     * @param ChannelRouterBaseInterface|ChannelRouterCompositeInterface $router
+     * @param ChannelRouterInterface|ChannelRouterCompositeInterface $router
      * @return ChannelCompositeInterface
      */
     public function setBus($name, $router);
@@ -45,7 +45,7 @@ interface ChannelRouterCompositeInterface extends ChannelRouterBaseInterface
     /**
      * Return all buses existing in router domain.
      *
-     * @return ChannelRouterBaseInterface[]|ChannelRouterCompositeInterface[]
+     * @return ChannelRouterInterface[]|ChannelRouterCompositeInterface[]
      */
     public function getBuses();
 }

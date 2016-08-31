@@ -4,11 +4,10 @@ namespace Kraken\_Unit\Channel;
 
 use Kraken\Channel\ChannelProtocol;
 use Kraken\Channel\ChannelRouter;
-use Kraken\Channel\ChannelRouterBase;
 use Kraken\Channel\ChannelRouterHandler;
 use Kraken\Test\TUnit;
 
-class ChannelRouterBaseTest extends TUnit
+class ChannelRouterTest extends TUnit
 {
     /**
      *
@@ -413,10 +412,10 @@ class ChannelRouterBaseTest extends TUnit
 
     /**
      * @param int $flags
-     * @return ChannelRouterBase
+     * @return ChannelRouter
      */
     public function createChannelRouter($flags = ChannelRouter::MODE_DEFAULT)
     {
-        return new ChannelRouterBase($flags);
+        return new ChannelRouter($flags);
     }
 }

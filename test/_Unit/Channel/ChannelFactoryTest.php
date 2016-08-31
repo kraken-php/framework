@@ -2,7 +2,7 @@
 
 namespace Kraken\_Unit\Channel;
 
-use Kraken\Channel\ChannelBase;
+use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelComposite;
 use Kraken\Channel\ChannelEncoder;
 use Kraken\Channel\ChannelRouterComposite;
@@ -48,7 +48,7 @@ class ChannelFactoryTest extends TUnit
     {
         $factory = $this->createChannelFactory();
         $classes = [
-            ChannelBase::class,
+            Channel::class,
             ChannelComposite::class
         ];
 

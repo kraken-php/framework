@@ -3,7 +3,7 @@
 namespace Kraken\Runtime\Container\Manager;
 
 use Kraken\Promise\Promise;
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\Extra\Request;
 use Kraken\Runtime\Container\ProcessManagerInterface;
 use Kraken\Runtime\RuntimeCommand;
@@ -19,7 +19,7 @@ class ProcessManagerRemote implements ProcessManagerInterface
     protected $runtime;
 
     /**
-     * @var ChannelBaseInterface
+     * @var ChannelInterface
      */
     protected $channel;
 
@@ -30,10 +30,10 @@ class ProcessManagerRemote implements ProcessManagerInterface
 
     /**
      * @param RuntimeInterface $runtime
-     * @param ChannelBaseInterface $channel
+     * @param ChannelInterface $channel
      * @param string|null $receiver
      */
-    public function __construct(RuntimeInterface $runtime, ChannelBaseInterface $channel, $receiver = null)
+    public function __construct(RuntimeInterface $runtime, ChannelInterface $channel, $receiver = null)
     {
         $this->runtime = $runtime;
         $this->channel = $channel;
@@ -206,12 +206,12 @@ class ProcessManagerRemote implements ProcessManagerInterface
     /**
      * Create Request.
      *
-     * @param ChannelBaseInterface $channel
+     * @param ChannelInterface $channel
      * @param string $receiver
      * @param string $command
      * @return Request
      */
-    protected function createRequest(ChannelBaseInterface $channel, $receiver, $command)
+    protected function createRequest(ChannelInterface $channel, $receiver, $command)
     {
         return new Request($channel, $receiver, $command);
     }

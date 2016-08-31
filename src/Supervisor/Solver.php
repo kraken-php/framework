@@ -8,7 +8,7 @@ use Kraken\Throwable\Exception\Runtime\RejectionException;
 use Error;
 use Exception;
 
-class SolverBase implements SolverInterface
+class Solver implements SolverInterface
 {
     /**
      * @var mixed[]

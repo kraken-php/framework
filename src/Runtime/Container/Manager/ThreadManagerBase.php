@@ -3,7 +3,7 @@
 namespace Kraken\Runtime\Container\Manager;
 
 use Kraken\Channel\Extra\Request;
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Promise\Promise;
 use Kraken\Runtime\Container\Thread\ThreadController;
 use Kraken\Runtime\Runtime;
@@ -23,7 +23,7 @@ class ThreadManagerBase implements ThreadManagerInterface
     protected $runtime;
 
     /**
-     * @var ChannelBaseInterface
+     * @var ChannelInterface
      */
     protected $channel;
 
@@ -34,9 +34,9 @@ class ThreadManagerBase implements ThreadManagerInterface
 
     /**
      * @param RuntimeInterface $runtime
-     * @param ChannelBaseInterface $channel
+     * @param ChannelInterface $channel
      */
-    public function __construct(RuntimeInterface $runtime, ChannelBaseInterface $channel)
+    public function __construct(RuntimeInterface $runtime, ChannelInterface $channel)
     {
         $this->runtime = $runtime;
         $this->channel = $channel;
@@ -417,12 +417,12 @@ class ThreadManagerBase implements ThreadManagerInterface
     /**
      * Create Request.
      *
-     * @param ChannelBaseInterface $channel
+     * @param ChannelInterface $channel
      * @param string $receiver
      * @param string $command
      * @return Request
      */
-    protected function createRequest(ChannelBaseInterface $channel, $receiver, $command)
+    protected function createRequest(ChannelInterface $channel, $receiver, $command)
     {
         return new Request($channel, $receiver, $command);
     }

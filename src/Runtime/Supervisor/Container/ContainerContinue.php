@@ -2,12 +2,12 @@
 
 namespace Kraken\Runtime\Supervisor\Container;
 
-use Kraken\Runtime\Supervisor\SolverBase;
+use Kraken\Runtime\Supervisor\Solver;
 use Kraken\Supervisor\SolverInterface;
 use Error;
 use Exception;
 
-class ContainerContinue extends SolverBase implements SolverInterface
+class ContainerContinue extends Solver implements SolverInterface
 {
     /**
      * @param Error|Exception $ex

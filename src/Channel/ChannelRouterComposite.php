@@ -7,12 +7,12 @@ use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 class ChannelRouterComposite implements ChannelRouterCompositeInterface
 {
     /**
-     * @var ChannelRouterBaseInterface[]|ChannelRouterCompositeInterface[]
+     * @var ChannelRouterInterface[]|ChannelRouterCompositeInterface[]
      */
     protected $bus;
 
     /**
-     * @param ChannelRouterBaseInterface[]|ChannelRouterCompositeInterface[] $bus
+     * @param ChannelRouterInterface[]|ChannelRouterCompositeInterface[] $bus
      */
     public function __construct($bus = [])
     {

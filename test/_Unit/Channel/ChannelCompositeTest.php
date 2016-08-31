@@ -3,8 +3,7 @@
 namespace Kraken\_Unit\Channel;
 
 use Kraken\Channel\Channel;
-use Kraken\Channel\ChannelBase;
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\ChannelComposite;
 use Kraken\Channel\ChannelCompositeInterface;
 use Kraken\Channel\ChannelEncoderInterface;
@@ -37,7 +36,7 @@ class ChannelCompositeTest extends TUnit
 
         $this->assertInstanceOf(ChannelComposite::class, $channel);
         $this->assertInstanceOf(ChannelCompositeInterface::class, $channel);
-        $this->assertInstanceOf(ChannelBaseInterface::class, $channel);
+        $this->assertInstanceOf(ChannelInterface::class, $channel);
     }
 
     /**
@@ -1425,7 +1424,7 @@ class ChannelCompositeTest extends TUnit
     /**
      * @param string $name
      * @param string[]|null $methods
-     * @return ChannelBase|\PHPUnit_Framework_MockObject_MockObject
+     * @return Channel|\PHPUnit_Framework_MockObject_MockObject
      */
     public function prepareBus($name = 'name', $methods = [])
     {
@@ -1452,7 +1451,7 @@ class ChannelCompositeTest extends TUnit
         $encoder = $this->getMock(ChannelEncoderInterface::class, [], [], '', false);
         $loop    = $this->getMock(LoopInterface::class, [], [], '', false);
 
-        $bus = $this->getMock(ChannelBase::class, $methods, [ $name, $model, $router, $encoder, $loop ]);
+        $bus = $this->getMock(Channel::class, $methods, [ $name, $model, $router, $encoder, $loop ]);
 
         return $bus;
     }
@@ -1460,7 +1459,7 @@ class ChannelCompositeTest extends TUnit
     /**
      * @param string $name
      * @param string[] $methods
-     * @return ChannelBase|\PHPUnit_Framework_MockObject_MockObject
+     * @return Channel|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createBus($name = 'name', $methods = [])
     {
@@ -1488,7 +1487,7 @@ class ChannelCompositeTest extends TUnit
     }
 
     /**
-     * @param ChannelBaseInterface[]|ChannelCompositeInterface[] $buses
+     * @param ChannelInterface[]|ChannelCompositeInterface[] $buses
      * @param string[]|null $methods
      * @return ChannelComposite|\PHPUnit_Framework_MockObject_MockObject
      */

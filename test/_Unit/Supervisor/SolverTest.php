@@ -2,14 +2,14 @@
 
 namespace Kraken\_Unit\Supervisor;
 
-use Kraken\Supervisor\SolverBase;
+use Kraken\Supervisor\Solver;
 use Kraken\Supervisor\SolverInterface;
 use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
 use Kraken\Throwable\Exception\Runtime\RejectionException;
 use Exception;
 
-class SolverBaseTest extends TUnit
+class SolverTest extends TUnit
 {
     /**
      *
@@ -18,7 +18,7 @@ class SolverBaseTest extends TUnit
     {
         $solver = $this->createSolver();
 
-        $this->assertInstanceOf(SolverBase::class, $solver);
+        $this->assertInstanceOf(Solver::class, $solver);
         $this->assertInstanceOf(SolverInterface::class, $solver);
     }
 
@@ -146,10 +146,10 @@ class SolverBaseTest extends TUnit
     /**
      * @param mixed[] $context
      * @param string[]|null $methods
-     * @return SolverBase|\PHPUnit_Framework_MockObject_MockObject
+     * @return Solver|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createSolver($context = [], $methods = null)
     {
-        return $this->getMock(SolverBase::class, $methods, [ $context ]);
+        return $this->getMock(Solver::class, $methods, [ $context ]);
     }
 }

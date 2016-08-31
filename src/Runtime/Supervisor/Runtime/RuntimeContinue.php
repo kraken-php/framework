@@ -2,14 +2,14 @@
 
 namespace Kraken\Runtime\Supervisor\Runtime;
 
-use Kraken\Channel\ChannelBaseInterface;
-use Kraken\Runtime\Supervisor\SolverBase;
+use Kraken\Channel\ChannelInterface;
+use Kraken\Runtime\Supervisor\Solver;
 use Kraken\Supervisor\SolverInterface;
 use Kraken\Runtime\RuntimeCommand;
 use Error;
 use Exception;
 
-class RuntimeContinue extends SolverBase implements SolverInterface
+class RuntimeContinue extends Solver implements SolverInterface
 {
     /**
      * @var string[]
@@ -19,7 +19,7 @@ class RuntimeContinue extends SolverBase implements SolverInterface
     ];
 
     /**
-     * @var ChannelBaseInterface
+     * @var ChannelInterface
      */
     protected $channel;
 

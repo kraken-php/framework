@@ -4,12 +4,12 @@ namespace Kraken\_Module\Console\Server\_Mock\Supervisor;
 
 use Kraken\Runtime\RuntimeInterface;
 use Kraken\Runtime\RuntimeModelInterface;
-use Kraken\Supervisor\SolverBase;
+use Kraken\Supervisor\Solver;
 use Kraken\Supervisor\SolverInterface;
 use Error;
 use Exception;
 
-class ModelContinue extends SolverBase implements SolverInterface
+class ModelContinue extends Solver implements SolverInterface
 {
     /**
      * @var RuntimeModelInterface|RuntimeInterface

@@ -2,7 +2,7 @@
 
 namespace Kraken\_Unit\Console\Client\_T;
 
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Command\CommandInterface;
 use Kraken\Console\Client\Command\Command;
 use Kraken\Test\TUnit;
@@ -192,7 +192,7 @@ class TCommand extends TUnit
             throw new Exception('Class not set');
         }
 
-        $channel  = $this->getMock(ChannelBaseInterface::class, [], [], '', false);
+        $channel  = $this->getMock(ChannelInterface::class, [], [], '', false);
         $receiver = 'default';
 
         $this->cmd = $this->getMock($this->class, $methods, [ $channel, $receiver ]);

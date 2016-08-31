@@ -5,7 +5,7 @@ namespace Kraken\Channel\Extra;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Channel\Channel;
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\ChannelProtocolInterface;
 use Error;
 use Exception;
@@ -13,7 +13,7 @@ use Exception;
 class Response
 {
     /**
-     * @var ChannelBaseInterface
+     * @var ChannelInterface
      */
     protected $channel;
 
@@ -33,7 +33,7 @@ class Response
     protected $params;
 
     /**
-     * @param ChannelBaseInterface $channel
+     * @param ChannelInterface $channel
      * @param ChannelProtocolInterface $protocol
      * @param string|string[]|Error|Exception $message
      * @param mixed[] $params

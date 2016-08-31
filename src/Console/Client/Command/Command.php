@@ -2,7 +2,7 @@
 
 namespace Kraken\Console\Client\Command;
 
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\Extra\Request;
 use Kraken\Promise\Promise;
 use Kraken\Runtime\Runtime;
@@ -17,7 +17,7 @@ use Exception;
 abstract class Command extends SymfonyCommand implements CommandInterface
 {
     /**
-     * @var ChannelBaseInterface
+     * @var ChannelInterface
      */
     protected $channel;
 
@@ -32,10 +32,10 @@ abstract class Command extends SymfonyCommand implements CommandInterface
     protected $async;
 
     /**
-     * @param ChannelBaseInterface $channel
+     * @param ChannelInterface $channel
      * @param string $receiver
      */
-    public function __construct(ChannelBaseInterface $channel, $receiver)
+    public function __construct(ChannelInterface $channel, $receiver)
     {
         parent::__construct(null);
 

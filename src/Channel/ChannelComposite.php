@@ -21,7 +21,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     protected $name;
 
     /**
-     * @var ChannelBaseInterface[]|ChannelCompositeInterface[]
+     * @var ChannelInterface[]|ChannelCompositeInterface[]
      */
     protected $buses;
 
@@ -47,7 +47,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
 
     /**
      * @param string $name
-     * @param ChannelBaseInterface[]|ChannelCompositeInterface[] $buses
+     * @param ChannelInterface[]|ChannelCompositeInterface[] $buses
      * @param ChannelRouterCompositeInterface $router
      * @param LoopInterface $loop
      */

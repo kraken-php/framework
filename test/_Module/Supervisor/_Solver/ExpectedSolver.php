@@ -2,9 +2,9 @@
 
 namespace Kraken\_Module\Supervisor\_Solver;
 
-use Kraken\Supervisor\SolverBase;
+use Kraken\Supervisor\Solver;
 
-class ExpectedSolver extends SolverBase
+class ExpectedSolver extends Solver
 {
     /**
      * @override

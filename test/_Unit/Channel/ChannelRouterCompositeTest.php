@@ -3,8 +3,8 @@
 namespace Kraken\_Unit\Channel;
 
 use Kraken\Channel\ChannelProtocol;
-use Kraken\Channel\ChannelRouterBase;
-use Kraken\Channel\ChannelRouterBaseInterface;
+use Kraken\Channel\ChannelRouter;
+use Kraken\Channel\ChannelRouterInterface;
 use Kraken\Channel\ChannelRouterComposite;
 use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Test\TUnit;
@@ -33,7 +33,7 @@ class ChannelRouterCompositeTest extends TUnit
      */
     public function testApiGetBus_ReturnsBus_WhenBusDoesExist()
     {
-        $base   = $this->createChannelRouterBase();
+        $base   = $this->createChannelRouter();
         $router = $this->createChannelRouterComposite([ 'bus' => $base ]);
 
         $this->assertSame($base, $router->getBus('bus'));
@@ -55,7 +55,7 @@ class ChannelRouterCompositeTest extends TUnit
      */
     public function testApiSetBus_SetsBus()
     {
-        $base   = $this->createChannelRouterBase();
+        $base   = $this->createChannelRouter();
         $router = $this->createChannelRouterComposite();
 
         $this->assertFalse($router->existsBus('bus'));
@@ -68,7 +68,7 @@ class ChannelRouterCompositeTest extends TUnit
      */
     public function testApiExistsBus_ReturnsTrue_WhenBusDoesExist()
     {
-        $base   = $this->createChannelRouterBase();
+        $base   = $this->createChannelRouter();
         $router = $this->createChannelRouterComposite([ 'bus' => $base ]);
 
         $this->assertTrue($router->existsBus('bus'));
@@ -89,7 +89,7 @@ class ChannelRouterCompositeTest extends TUnit
      */
     public function testApiRemoveBus_RemovesBus_WhenBusDoesExist()
     {
-        $base   = $this->createChannelRouterBase();
+        $base   = $this->createChannelRouter();
         $router = $this->createChannelRouterComposite([ 'bus' => $base ]);
 
         $this->assertTrue($router->existsBus('bus'));
@@ -114,8 +114,8 @@ class ChannelRouterCompositeTest extends TUnit
      */
     public function testApiGetBuses_ReturnsAllBuses()
     {
-        $bus1 = $this->createChannelRouterBase();
-        $bus2 = $this->createChannelRouterBase();
+        $bus1 = $this->createChannelRouter();
+        $bus2 = $this->createChannelRouter();
         $buses = [ 'bus1' => $bus1, 'bus2' => $bus2 ];
         $router = $this->createChannelRouterComposite($buses);
 
@@ -135,13 +135,13 @@ class ChannelRouterCompositeTest extends TUnit
         $abort   = function() {};
         $timeout = 2.0;
 
-        $bus1 = $this->createChannelRouterBase();
+        $bus1 = $this->createChannelRouter();
         $bus1
             ->expects($this->once())
             ->method('handle')
             ->with('bus1', $protocol, $flags, $success, $failure, $abort, $timeout);
 
-        $bus2 = $this->createChannelRouterBase();
+        $bus2 = $this->createChannelRouter();
         $bus2
             ->expects($this->once())
             ->method('handle')
@@ -157,12 +157,12 @@ class ChannelRouterCompositeTest extends TUnit
      */
     public function testApiErase_CallsEraseOnAllBuses()
     {
-        $bus1 = $this->createChannelRouterBase();
+        $bus1 = $this->createChannelRouter();
         $bus1
             ->expects($this->once())
             ->method('erase');
 
-        $bus2 = $this->createChannelRouterBase();
+        $bus2 = $this->createChannelRouter();
         $bus2
             ->expects($this->once())
             ->method('erase');
@@ -182,13 +182,13 @@ class ChannelRouterCompositeTest extends TUnit
         $propagate = true;
         $limit = 2;
 
-        $bus1 = $this->createChannelRouterBase();
+        $bus1 = $this->createChannelRouter();
         $bus1
             ->expects($this->once())
             ->method('addRule')
             ->with($matcher, $handler, $propagate, $limit);
 
-        $bus2 = $this->createChannelRouterBase();
+        $bus2 = $this->createChannelRouter();
         $bus2
             ->expects($this->once())
             ->method('addRule')
@@ -208,13 +208,13 @@ class ChannelRouterCompositeTest extends TUnit
         $propagate = true;
         $limit = 2;
 
-        $bus1 = $this->createChannelRouterBase();
+        $bus1 = $this->createChannelRouter();
         $bus1
             ->expects($this->once())
             ->method('addAnchor')
             ->with($handler, $propagate, $limit);
 
-        $bus2 = $this->createChannelRouterBase();
+        $bus2 = $this->createChannelRouter();
         $bus2
             ->expects($this->once())
             ->method('addAnchor')
@@ -235,15 +235,15 @@ class ChannelRouterCompositeTest extends TUnit
     }
 
     /**
-     * @return ChannelRouterBaseInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return ChannelRouterInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    public function createChannelRouterBase()
+    public function createChannelRouter()
     {
-        return $this->getMock(ChannelRouterBase::class, [], [], '', false);
+        return $this->getMock(ChannelRouter::class, [], [], '', false);
     }
 
     /**
-     * @param ChannelRouterBaseInterface[] $buses
+     * @param ChannelRouterInterface[] $buses
      * @return ChannelRouterComposite
      */
     public function createChannelRouterComposite($buses = [])

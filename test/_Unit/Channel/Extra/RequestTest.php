@@ -2,9 +2,8 @@
 
 namespace Kraken\_Unit\Channel\Extra;
 
-use Kraken\Channel\Channel;
 use Kraken\Channel\Extra\Request;
-use Kraken\Channel\ChannelBase;
+use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelProtocol;
 use Kraken\Channel\ChannelProtocolInterface;
 use Kraken\Loop\Loop;
@@ -378,7 +377,7 @@ class RequestTest extends TUnit
 
     /**
      * @param string $name
-     * @return ChannelBase|\PHPUnit_Framework_MockObject_MockObject
+     * @return Channel|\PHPUnit_Framework_MockObject_MockObject
      */
     private function createChannelMock($name)
     {
@@ -398,7 +397,7 @@ class RequestTest extends TUnit
                 $callable();
             }));
 
-        $channel = $this->getMock(ChannelBase::class, [], [], '', false);
+        $channel = $this->getMock(Channel::class, [], [], '', false);
         $channel
             ->expects($this->atMost(1))
             ->method('createProtocol')

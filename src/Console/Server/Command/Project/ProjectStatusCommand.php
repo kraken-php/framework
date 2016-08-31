@@ -2,7 +2,7 @@
 
 namespace Kraken\Console\Server\Command\Project;
 
-use Kraken\Channel\ChannelBaseInterface;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\Extra\Request;
 use Kraken\Runtime\Command\Command;
 use Kraken\Command\CommandInterface;
@@ -19,7 +19,7 @@ class ProjectStatusCommand extends Command implements CommandInterface
     protected $config;
 
     /**
-     * @var ChannelBaseInterface
+     * @var ChannelInterface
      */
     protected $channel;
 
@@ -66,12 +66,12 @@ class ProjectStatusCommand extends Command implements CommandInterface
     /**
      * Create Request.
      *
-     * @param ChannelBaseInterface $channel
+     * @param ChannelInterface $channel
      * @param string $receiver
      * @param string $command
      * @return Request
      */
-    protected function createRequest(ChannelBaseInterface $channel, $receiver, $command)
+    protected function createRequest(ChannelInterface $channel, $receiver, $command)
     {
         return new Request($channel, $receiver, $command);
     }
