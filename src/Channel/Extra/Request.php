@@ -7,7 +7,7 @@ use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelInterface;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
-use Kraken\Support\TimeSupport;
+use Kraken\Util\Support\TimeSupport;
 use Kraken\Throwable\Exception\Runtime\TimeoutException;
 use Kraken\Throwable\Exception\System\TaskIncompleteException;
 use Kraken\Throwable\ThrowableProxy;

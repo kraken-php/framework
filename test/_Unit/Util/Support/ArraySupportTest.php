@@ -1,9 +1,9 @@
 <?php
 
-namespace Kraken\_Unit\Support;
+namespace Kraken\_Unit\Util\Support;
 
-use Kraken\_Unit\Support\_Mock\ArraySupportMock;
-use Kraken\Support\ArraySupport;
+use Kraken\_Unit\Util\Support\_Mock\ArraySupportMock;
+use Kraken\Util\Support\ArraySupport;
 use Kraken\Test\TUnit;
 use StdClass;
 

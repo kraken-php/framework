@@ -2,9 +2,9 @@
 
 namespace Kraken\Console\Client\Boot;
 
-use ReflectionClass;
 use Kraken\Console\Client\ConsoleClientInterface;
-use Kraken\Support\StringSupport;
+use Kraken\Util\Support\StringSupport;
+use ReflectionClass;
 
 class ConsoleBoot
 {

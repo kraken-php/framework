@@ -2,7 +2,7 @@
 
 namespace Kraken\Config;
 
-use Kraken\Support\ArraySupport;
+use Kraken\Util\Support\ArraySupport;
 
 class Config implements ConfigInterface
 {

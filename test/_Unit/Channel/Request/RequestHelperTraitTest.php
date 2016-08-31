@@ -4,7 +4,7 @@ namespace Kraken\_Unit\Channel\Request;
 
 use Kraken\_Unit\Channel\_Mock\Request\RequestHelperObject;
 use Kraken\Channel\Request\Request;
-use Kraken\Support\TimeSupport;
+use Kraken\Util\Support\TimeSupport;
 use Kraken\Test\TUnit;
 use Exception;
 

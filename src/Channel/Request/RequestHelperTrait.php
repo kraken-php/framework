@@ -2,7 +2,7 @@
 
 namespace Kraken\Channel\Request;
 
-use Kraken\Support\TimeSupport;
+use Kraken\Util\Support\TimeSupport;
 use Kraken\Throwable\Exception\Runtime\TimeoutException;
 use Kraken\Throwable\ThrowableProxy;
 use Error;

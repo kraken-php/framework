@@ -3,7 +3,7 @@
 namespace Kraken\Channel\Router;
 
 use Kraken\Channel\ChannelProtocolInterface;
-use Kraken\Support\StringSupport;
+use Kraken\Util\Support\StringSupport;
 
 class RuleMatchOrigin
 {

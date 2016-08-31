@@ -3,7 +3,7 @@
 namespace Kraken\_Unit\Config;
 
 use Kraken\Config\Config;
-use Kraken\Support\ArraySupport;
+use Kraken\Util\Support\ArraySupport;
 use Kraken\Test\TUnit;
 
 class ConfigTest extends TUnit

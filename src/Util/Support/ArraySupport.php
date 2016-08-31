@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Support;
+namespace Kraken\Util\Support;
 
 abstract class ArraySupport
 {

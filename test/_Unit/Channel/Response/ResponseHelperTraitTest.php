@@ -5,7 +5,7 @@ namespace Kraken\_Unit\Channel\Response;
 use Exception;
 use Kraken\_Unit\Channel\_Mock\Response\ResponseHelperObject;
 use Kraken\Channel\Response\Response;
-use Kraken\Support\TimeSupport;
+use Kraken\Util\Support\TimeSupport;
 use Kraken\Test\TUnit;
 
 class ResponseHelperTraitTest extends TUnit

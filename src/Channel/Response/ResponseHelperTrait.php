@@ -2,7 +2,7 @@
 
 namespace Kraken\Channel\Response;
 
-use Kraken\Support\TimeSupport;
+use Kraken\Util\Support\TimeSupport;
 use Kraken\Throwable\Exception\System\TaskIncompleteException;
 
 trait ResponseHelperTrait

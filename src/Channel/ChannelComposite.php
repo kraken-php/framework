@@ -8,8 +8,8 @@ use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
 use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
 use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
-use Kraken\Support\GeneratorSupport;
-use Kraken\Support\TimeSupport;
+use Kraken\Util\Support\GeneratorSupport;
+use Kraken\Util\Support\TimeSupport;
 
 class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInterface
 {

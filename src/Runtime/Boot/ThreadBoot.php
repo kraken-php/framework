@@ -4,7 +4,7 @@ namespace Kraken\Runtime\Boot;
 
 use Kraken\Runtime\Container\Thread\ThreadController;
 use Kraken\Runtime\RuntimeInterface;
-use Kraken\Support\StringSupport;
+use Kraken\Util\Support\StringSupport;
 use ReflectionClass;
 
 class ThreadBoot

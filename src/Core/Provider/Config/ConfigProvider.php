@@ -11,8 +11,8 @@ use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Filesystem\Filesystem;
 use Kraken\Filesystem\FilesystemAdapterFactory;
-use Kraken\Support\ArraySupport;
-use Kraken\Support\StringSupport;
+use Kraken\Util\Support\ArraySupport;
+use Kraken\Util\Support\StringSupport;
 
 class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
 {

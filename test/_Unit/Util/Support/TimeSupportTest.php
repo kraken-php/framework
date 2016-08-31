@@ -1,9 +1,9 @@
 <?php
 
-namespace Kraken\_Unit\Support;
+namespace Kraken\_Unit\Util\Support;
 
-use Kraken\_Unit\Support\_Mock\TimeSupportMock;
-use Kraken\Support\TimeSupport;
+use Kraken\_Unit\Util\Support\_Mock\TimeSupportMock;
+use Kraken\Util\Support\TimeSupport;
 use Kraken\Test\TUnit;
 
 class TimeSupportTest extends TUnit

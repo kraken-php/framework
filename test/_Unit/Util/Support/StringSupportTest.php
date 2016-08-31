@@ -1,9 +1,9 @@
 <?php
 
-namespace Kraken\_Unit\Support;
+namespace Kraken\_Unit\Util\Support;
 
-use Kraken\_Unit\Support\_Mock\StringSupportMock;
-use Kraken\Support\StringSupport;
+use Kraken\_Unit\Util\Support\_Mock\StringSupportMock;
+use Kraken\Util\Support\StringSupport;
 use Kraken\Test\TUnit;
 
 class StringSupportTest extends TUnit

@@ -9,7 +9,7 @@ use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Log\Handler\HandlerInterface;
 use Kraken\Log\Logger;
 use Kraken\Log\LoggerFactory;
-use Kraken\Support\StringSupport;
+use Kraken\Util\Support\StringSupport;
 
 class LogProvider extends ServiceProvider implements ServiceProviderInterface
 {
