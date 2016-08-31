@@ -19,7 +19,7 @@ class RuntimeDestroySoftTest extends TSolver
     /**
      *
      */
-    public function testApiHandler_InvokesProperAction()
+    public function testApisolver_InvokesProperAction()
     {
         $ex = new Exception();
 
@@ -37,7 +37,7 @@ class RuntimeDestroySoftTest extends TSolver
         $this->assertSame(
             $result,
             $this->callProtectedMethod(
-                $solver, 'handler', [ $ex, [ 'origin' => $origin ] ]
+                $solver, 'solver', [ $ex, [ 'origin' => $origin ] ]
             )
         );
     }
@@ -45,7 +45,7 @@ class RuntimeDestroySoftTest extends TSolver
     /**
      *
      */
-    public function testApiHandle_ThrowsException_WhenParamOriginDoesNotExist()
+    public function testApisolve_ThrowsException_WhenParamOriginDoesNotExist()
     {
         $solver = $this->createSolver();
 
@@ -56,7 +56,7 @@ class RuntimeDestroySoftTest extends TSolver
             ->with($this->isInstanceOf(IllegalCallException::class));
 
         $solver
-            ->handle(new Exception, [])
+            ->solve(new Exception, [])
             ->then(
                 null,
                 $callable

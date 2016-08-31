@@ -1047,7 +1047,7 @@ class RuntimeModelTest extends TUnit
         $super = $this->getMock(Supervisor::class, [], [], '', false);
         $super
             ->expects($this->once())
-            ->method('handle')
+            ->method('solve')
             ->with($ex, $params)
             ->will($this->returnValue(new PromiseFulfilled()));
 
@@ -1088,7 +1088,7 @@ class RuntimeModelTest extends TUnit
         $super = $this->getMock(Supervisor::class, [], [], '', false);
         $super
             ->expects($this->twice())
-            ->method('handle')
+            ->method('solve')
             ->will($this->returnValue(new PromiseRejected($ex2)));
 
         $loop = $this->getMock(Loop::class, [], [], '', false);

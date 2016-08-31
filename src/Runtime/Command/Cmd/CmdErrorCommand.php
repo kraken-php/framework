@@ -60,15 +60,15 @@ class CmdErrorCommand extends Command implements CommandInterface
     {
         try
         {
-            $this->supervisor->handle($ex, [ 'origin' => $origin ]);
+            $this->supervisor->solve($ex, [ 'origin' => $origin ]);
         }
         catch (Error $ex)
         {
-            $this->supervisor->handle($ex, [ 'origin' => $origin ]);
+            $this->supervisor->solve($ex, [ 'origin' => $origin ]);
         }
         catch (Exception $ex)
         {
-            $this->supervisor->handle($ex, [ 'origin' => $origin ]);
+            $this->supervisor->solve($ex, [ 'origin' => $origin ]);
         }
     }
 }

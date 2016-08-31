@@ -43,7 +43,7 @@ class Supervisor implements SupervisorInterface
 
         foreach ($rules as $ruleException=>$ruleHandler)
         {
-            $this->setHandler($ruleException, $ruleHandler);
+            $this->setSolver($ruleException, $ruleHandler);
         }
     }
 
@@ -63,7 +63,7 @@ class Supervisor implements SupervisorInterface
      */
     public function __invoke($ex, $params = [])
     {
-        return $this->handle($ex, $params);
+        return $this->solve($ex, $params);
     }
 
     /**
@@ -106,7 +106,7 @@ class Supervisor implements SupervisorInterface
      * @override
      * @inheritDoc
      */
-    public function existsHandler($exception)
+    public function existsSolver($exception)
     {
         return isset($this->rules[$exception]);
     }
@@ -115,7 +115,7 @@ class Supervisor implements SupervisorInterface
      * @override
      * @inheritDoc
      */
-    public function setHandler($exception, $handler)
+    public function setSolver($exception, $handler)
     {
         if (is_array($handler))
         {
@@ -136,16 +136,16 @@ class Supervisor implements SupervisorInterface
      * @override
      * @inheritDoc
      */
-    public function getHandler($exception)
+    public function getSolver($exception)
     {
-        return $this->existsHandler($exception) ? $this->rules[$exception] : null;
+        return $this->existsSolver($exception) ? $this->rules[$exception] : null;
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function removeHandler($exception)
+    public function removeSolver($exception)
     {
         unset($this->rules[$exception]);
     }
@@ -154,7 +154,7 @@ class Supervisor implements SupervisorInterface
      * @override
      * @inheritDoc
      */
-    public function handle($ex, $params = [], &$try = 0)
+    public function solve($ex, $params = [], &$try = 0)
     {
         $classBaseEx = get_class($ex);
         $classes = array_merge([ $classBaseEx ], class_parents($ex));
@@ -180,7 +180,7 @@ class Supervisor implements SupervisorInterface
 
         $try++;
         $params = array_merge($this->params, $params);
-        $valueOrPromise = $this->getHandler($chosen)->handle($ex, $params);
+        $valueOrPromise = $this->getSolver($chosen)->solve($ex, $params);
 
         return Promise::doResolve($valueOrPromise);
     }

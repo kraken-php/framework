@@ -533,7 +533,7 @@ class RuntimeModel implements RuntimeModelInterface
             try
             {
                 $super
-                    ->handle($ex, $params)
+                    ->solve($ex, $params)
                     ->done(
                         null,
                         function($reason) {
@@ -544,12 +544,12 @@ class RuntimeModel implements RuntimeModelInterface
             catch (Error $ex)
             {
                 $super
-                    ->handle($ex);
+                    ->solve($ex);
             }
             catch (Exception $ex)
             {
                 $super
-                    ->handle($ex);
+                    ->solve($ex);
             }
         });
     }

@@ -4,9 +4,9 @@ namespace Kraken\_Unit\Supervisor;
 
 use Kraken\Supervisor\Solver;
 use Kraken\Supervisor\SolverInterface;
-use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
 use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Kraken\Test\TUnit;
 use Exception;
 
 class SolverTest extends TUnit
@@ -65,10 +65,10 @@ class SolverTest extends TUnit
         $ex = new Exception('Exception');
         $params = [ 'param1' => 'value1', 'param2' => 'value2' ];
 
-        $solver = $this->createSolver([], [ 'handle' ]);
+        $solver = $this->createSolver([], [ 'solve' ]);
         $solver
             ->expects($this->once())
-            ->method('handle')
+            ->method('solve')
             ->with($ex, $params);
 
         $solver($ex, $params);
@@ -96,7 +96,7 @@ class SolverTest extends TUnit
             ->with($this->isInstanceOf(IllegalCallException::class));
 
         $solver
-            ->handle($ex, $params)
+            ->solve($ex, $params)
             ->then(
                 null,
                 $callable
@@ -112,10 +112,10 @@ class SolverTest extends TUnit
         $params = [ 'param1' => 'value1' ];
         $result = 'result';
 
-        $solver = $this->createSolver([], [ 'handler' ]);
+        $solver = $this->createSolver([], [ 'solver' ]);
         $solver
             ->expects($this->once())
-            ->method('handler')
+            ->method('solver')
             ->with($ex, $params)
             ->will($this->returnValue($result));
 
@@ -126,7 +126,7 @@ class SolverTest extends TUnit
             ->with($result);
 
         $solver
-            ->handle($ex, $params)
+            ->solve($ex, $params)
             ->then(
                 $callable
             );
@@ -140,7 +140,7 @@ class SolverTest extends TUnit
         $solver = $this->createSolver();
 
         $this->setExpectedException(RejectionException::class);
-        $this->callProtectedMethod($solver, 'handler', [ new Exception, [] ]);
+        $this->callProtectedMethod($solver, 'solver', [ new Exception, [] ]);
     }
 
     /**

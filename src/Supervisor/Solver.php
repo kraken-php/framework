@@ -47,14 +47,14 @@ class Solver implements SolverInterface
      */
     public function __invoke($ex, $params = [])
     {
-        return $this->handle($ex, $params);
+        return $this->solve($ex, $params);
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function handle($ex, $params = [])
+    public function solve($ex, $params = [])
     {
         foreach ($this->requires as $require)
         {
@@ -66,7 +66,7 @@ class Solver implements SolverInterface
             }
         }
 
-        return Promise::doResolve($this->handler($ex, $params));
+        return Promise::doResolve($this->solver($ex, $params));
     }
 
     /**
@@ -77,7 +77,7 @@ class Solver implements SolverInterface
      * @return mixed
      * @throws RejectionException
      */
-    protected function handler($ex, $params = [])
+    protected function solver($ex, $params = [])
     {
         throw new RejectionException('[' . __CLASS__ . '] code undefined.');
     }

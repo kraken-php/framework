@@ -14,7 +14,7 @@ class ContainerDestroy extends Solver implements SolverInterface
      * @param mixed[] $params
      * @return mixed
      */
-    protected function handler($ex, $params = [])
+    protected function solver($ex, $params = [])
     {
         return $this->runtime->destroy();
     }

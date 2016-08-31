@@ -58,10 +58,10 @@ class SupervisorTest extends TUnit
         $params = [ 'param1' => 'value1', 'param2' => 'value2' ];
         $result = 'result';
 
-        $super = $this->createSupervisor([], [], [ 'handle' ]);
+        $super = $this->createSupervisor([], [], [ 'solve' ]);
         $super
             ->expects($this->once())
-            ->method('handle')
+            ->method('solve')
             ->with($ex, $params)
             ->will($this->returnValue($result));
 
@@ -147,34 +147,34 @@ class SupervisorTest extends TUnit
     /**
      *
      */
-    public function testApiExistsHandler_ReturnsFalse_WhenHandlerDoesNotExist()
+    public function testApiExistsSolver_ReturnsFalse_WhenHandlerDoesNotExist()
     {
         $super = $this->createSupervisor();
 
-        $this->assertFalse($super->existsHandler(Exception::class));
+        $this->assertFalse($super->existsSolver(Exception::class));
     }
 
     /**
      *
      */
-    public function testApiExistsHandler_ReturnsTrue_WhenHandlerDoesExist()
+    public function testApiExistsSolver_ReturnsTrue_WhenHandlerDoesExist()
     {
         $super = $this->createSupervisor([], [
             Exception::class => $this->createSolver()
         ]);
 
-        $this->assertTrue($super->existsHandler(Exception::class));
+        $this->assertTrue($super->existsSolver(Exception::class));
     }
 
     /**
      *
      */
-    public function testApiSetHandler_ResolvesHandler_WhenPassedNameOfExistingHandler()
+    public function testApiSetSolver_ResolvesHandler_WhenPassedNameOfExistingHandler()
     {
         $super = $this->createSupervisor();
 
-        $super->setHandler(Exception::class, 'TestHandler');
-        $result = $super->getHandler(Exception::class);
+        $super->setSolver(Exception::class, 'TestHandler');
+        $result = $super->getSolver(Exception::class);
 
         $this->assertInstanceOf(SolverInterface::class, $result);
     }
@@ -182,12 +182,12 @@ class SupervisorTest extends TUnit
     /**
      *
      */
-    public function testApiSetHandler_AcceptsHandler_WhenConcreteHandlerIsPassed()
+    public function testApiSetSolver_AcceptsHandler_WhenConcreteHandlerIsPassed()
     {
         $super = $this->createSupervisor();
 
-        $super->setHandler(Exception::class, $solver = $this->createSolver());
-        $result = $super->getHandler(Exception::class);
+        $super->setSolver(Exception::class, $solver = $this->createSolver());
+        $result = $super->getSolver(Exception::class);
 
         $this->assertSame($solver, $result);
     }
@@ -195,12 +195,12 @@ class SupervisorTest extends TUnit
     /**
      *
      */
-    public function testApiSetHandler_ResolvesHandler_WhenPassedMultipleNamesOfExistingHandlers()
+    public function testApiSetSolver_ResolvesHandler_WhenPassedMultipleNamesOfExistingHandlers()
     {
         $super = $this->createSupervisor();
 
-        $super->setHandler(Exception::class, [ 'TestHandler', 'ValidHandler' ]);
-        $result = $super->getHandler(Exception::class);
+        $super->setSolver(Exception::class, [ 'TestHandler', 'ValidHandler' ]);
+        $result = $super->getSolver(Exception::class);
         $handlers = $this->getProtectedProperty($result, 'handlers');
 
         $this->assertInstanceOf(SolverComposite::class, $result);
@@ -210,12 +210,12 @@ class SupervisorTest extends TUnit
     /**
      *
      */
-    public function testApiSetHandler_ResolvesHandler_WhenPassedMixedArgumentsArray()
+    public function testApiSetSolver_ResolvesHandler_WhenPassedMixedArgumentsArray()
     {
         $super = $this->createSupervisor();
 
-        $super->setHandler(Exception::class, [ 'TestHandler', $this->createSolver() ]);
-        $result = $super->getHandler(Exception::class);
+        $super->setSolver(Exception::class, [ 'TestHandler', $this->createSolver() ]);
+        $result = $super->getSolver(Exception::class);
         $handlers = $this->getProtectedProperty($result, 'handlers');
 
         $this->assertInstanceOf(SolverComposite::class, $result);
@@ -225,66 +225,66 @@ class SupervisorTest extends TUnit
     /**
      *
      */
-    public function testApiSetHandler_ThrowsException_WhenAtLeastOneHandlerIsInvalid()
+    public function testApiSetSolver_ThrowsException_WhenAtLeastOneHandlerIsInvalid()
     {
         $super = $this->createSupervisor();
 
         $this->setExpectedException(IllegalCallException::class);
-        $super->setHandler(Exception::class, [ 'TestHandler', 'OtherHandler' ]);
+        $super->setSolver(Exception::class, [ 'TestHandler', 'OtherHandler' ]);
     }
 
     /**
      *
      */
-    public function testApiGetHandler_ReturnsNull_WhenHandlerDoesNotExist()
+    public function testApiGetSolver_ReturnsNull_WhenHandlerDoesNotExist()
     {
         $super = $this->createSupervisor();
 
-        $this->assertSame(null, $super->getHandler(Exception::class));
+        $this->assertSame(null, $super->getSolver(Exception::class));
     }
 
     /**
      *
      */
-    public function testApiGetHandler_ReturnsHandler_WhenHandlerDoesExist()
+    public function testApiGetSolver_ReturnsHandler_WhenHandlerDoesExist()
     {
         $super = $this->createSupervisor([], [
             Exception::class => $solver = $this->createSolver()
         ]);
 
-        $this->assertSame($solver, $super->getHandler(Exception::class));
+        $this->assertSame($solver, $super->getSolver(Exception::class));
     }
 
     /**
      *
      */
-    public function testApiRemoveHandler_RemovesHandler_WhenHandlerDoesExist()
+    public function testApiRemoveSolver_RemovesHandler_WhenHandlerDoesExist()
     {
         $super = $this->createSupervisor([], [
             Exception::class => $solver = $this->createSolver()
         ]);
 
-        $this->assertTrue($super->existsHandler(Exception::class));
-        $super->removeHandler(Exception::class);
-        $this->assertFalse($super->existsHandler(Exception::class));
+        $this->assertTrue($super->existsSolver(Exception::class));
+        $super->removeSolver(Exception::class);
+        $this->assertFalse($super->existsSolver(Exception::class));
     }
 
     /**
      *
      */
-    public function testApiRemoveHandler_DoesNothing_WhenHandlerDoesNotExist()
+    public function testApiRemoveSolver_DoesNothing_WhenHandlerDoesNotExist()
     {
         $super = $this->createSupervisor();
 
-        $this->assertFalse($super->existsHandler(Exception::class));
-        $super->removeHandler(Exception::class);
-        $this->assertFalse($super->existsHandler(Exception::class));
+        $this->assertFalse($super->existsSolver(Exception::class));
+        $super->removeSolver(Exception::class);
+        $this->assertFalse($super->existsSolver(Exception::class));
     }
 
     /**
      *
      */
-    public function testApiHandle_HandlesException_UsingFirstValidHandler()
+    public function testApiSolve_HandlesException_UsingFirstValidHandler()
     {
         $ex = new RejectionException();
         $params = [ 'param' => 'value' ];
@@ -292,21 +292,21 @@ class SupervisorTest extends TUnit
 
         $super = $this->createSupervisor();
 
-        $expected = $this->createSolver([ 'handle' ]);
+        $expected = $this->createSolver([ 'solve' ]);
         $expected
             ->expects($this->once())
-            ->method('handle')
+            ->method('solve')
             ->with($ex, $params)
             ->will($this->returnValue($result));
 
-        $unexpected = $this->createSolver([ 'handle' ]);
+        $unexpected = $this->createSolver([ 'solve' ]);
         $unexpected
             ->expects($this->never())
-            ->method('handle');
+            ->method('solve');
 
-        $super->setHandler(WriteException::class, $unexpected);
-        $super->setHandler(RuntimeException::class, $expected);
-        $super->setHandler(Exception::class, $unexpected);
+        $super->setSolver(WriteException::class, $unexpected);
+        $super->setSolver(RuntimeException::class, $expected);
+        $super->setSolver(Exception::class, $unexpected);
 
         $callable = $this->createCallableMock();
         $callable
@@ -315,26 +315,26 @@ class SupervisorTest extends TUnit
             ->with($result);
 
         $super
-            ->handle($ex, $params)
+            ->solve($ex, $params)
             ->then($callable);
     }
 
     /**
      *
      */
-    public function testApiHandle_RejectsPromise_WhenNoValidExceptionFound()
+    public function testApiSolve_RejectsPromise_WhenNoValidExceptionFound()
     {
         $ex = new RejectionException();
         $params = [ 'param' => 'value' ];
 
         $super = $this->createSupervisor();
 
-        $unexpected = $this->createSolver([ 'handle' ]);
+        $unexpected = $this->createSolver([ 'solve' ]);
         $unexpected
             ->expects($this->never())
-            ->method('handle');
+            ->method('solve');
 
-        $super->setHandler(WriteException::class, $unexpected);
+        $super->setSolver(WriteException::class, $unexpected);
 
         $callable = $this->createCallableMock();
         $callable
@@ -343,7 +343,7 @@ class SupervisorTest extends TUnit
             ->with($this->isInstanceOf(ExecutionException::class));
 
         $super
-            ->handle($ex, $params)
+            ->solve($ex, $params)
             ->then(null, $callable);
     }
 

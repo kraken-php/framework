@@ -22,7 +22,7 @@ class RuntimeDestroy extends Solver implements SolverInterface
      * @param mixed[] $params
      * @return mixed
      */
-    protected function handler($ex, $params = [])
+    protected function solver($ex, $params = [])
     {
         $manager = $this->runtime->manager();
 

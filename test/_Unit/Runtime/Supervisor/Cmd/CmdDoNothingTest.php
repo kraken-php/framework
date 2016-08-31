@@ -16,7 +16,7 @@ class CmdDoNothingTest extends TSolver
     /**
      *
      */
-    public function testApiHandler_InvokesProperAction()
+    public function testApisolver_InvokesProperAction()
     {
         $ex = new Exception();
         $params = [];
@@ -26,7 +26,7 @@ class CmdDoNothingTest extends TSolver
         $this->assertSame(
             null,
             $this->callProtectedMethod(
-                $solver, 'handler', [ $ex, $params ]
+                $solver, 'solver', [ $ex, $params ]
             )
         );
     }

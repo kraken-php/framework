@@ -21,7 +21,7 @@ class CmdEscalateManagerTest extends TSolver
     /**
      *
      */
-    public function testApiHandler_InvokesProperAction()
+    public function testApisolver_InvokesProperAction()
     {
         $ex = new Exception();
         $params = [];
@@ -49,7 +49,7 @@ class CmdEscalateManagerTest extends TSolver
         $this->assertSame(
             $result,
             $this->callProtectedMethod(
-                $solver, 'handler', [ $ex, $params ]
+                $solver, 'solver', [ $ex, $params ]
             )
         );
     }

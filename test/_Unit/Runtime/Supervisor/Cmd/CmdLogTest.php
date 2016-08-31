@@ -18,7 +18,7 @@ class CmdLogTest extends TSolver
     /**
      *
      */
-    public function testApiHandler_InvokesProperAction()
+    public function testApisolver_InvokesProperAction()
     {
         $ex = new Exception();
         $params = [];
@@ -31,7 +31,7 @@ class CmdLogTest extends TSolver
             ->with(Logger::EMERGENCY, $this->isType('string'));
 
         $this->callProtectedMethod(
-            $solver, 'handler', [ $ex, $params ]
+            $solver, 'solver', [ $ex, $params ]
         );
     }
 }

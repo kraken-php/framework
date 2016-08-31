@@ -3,17 +3,17 @@
 namespace Kraken\Supervisor;
 
 use Kraken\Promise\PromiseInterface;
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
+use Kraken\Throwable\Exception\Runtime\ExecutionException;
 use Error;
 use Exception;
 
 interface SupervisorInterface
 {
     /**
-     * Handle given Error or Exception with set of params using solver's handler method.
+     * Solve given Error or Exception with set of params using solver's handler method.
      *
-     * @see SupervisorInterface::handle
+     * @see SupervisorInterface::solve
      *
      * @param Error|Exception $ex
      * @param mixed[] $params
@@ -57,15 +57,15 @@ interface SupervisorInterface
     public function removeParam($key);
 
     /**
-     * Check if handler for $exception does exist.
+     * Check if solver for $exception does exist.
      *
      * @param string $exception
      * @return bool
      */
-    public function existsHandler($exception);
+    public function existsSolver($exception);
 
     /**
-     * Set handler for $exception.
+     * Set solver for $exception.
      *
      * IllegalCallException is thrown if given $handler cannot be resolved.
      *
@@ -73,22 +73,22 @@ interface SupervisorInterface
      * @param SolverInterface|string|string[] $handler
      * @throws IllegalCallException
      */
-    public function setHandler($exception, $handler);
+    public function setSolver($exception, $handler);
 
     /**
-     * Return handler for $exception or null if it does not exist.
+     * Return solver for $exception or null if it does not exist.
      *
      * @param string $exception
      * @return SolverInterface|null
      */
-    public function getHandler($exception);
+    public function getSolver($exception);
 
     /**
-     * Remove handler for $exception.
+     * Remove solver for $exception.
      *
      * @param string $exception
      */
-    public function removeHandler($exception);
+    public function removeSolver($exception);
 
     /**
      * Handle error or exception of $ex using known handlers.
@@ -103,5 +103,5 @@ interface SupervisorInterface
      * @rejects Error|Exception|string|null
      * @cancels Error|Exception|string|null
      */
-    public function handle($ex, $params = []);
+    public function solve($ex, $params = []);
 }

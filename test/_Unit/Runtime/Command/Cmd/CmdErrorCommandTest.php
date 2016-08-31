@@ -27,7 +27,7 @@ class CmdErrorCommandTest extends TCommand
         $manager = $this->createSupervisor();
         $manager
             ->expects($this->atLeastOnce())
-            ->method('handle')
+            ->method('solve')
             ->with($this->isInstanceOf(Exception::class), [ 'origin' => $origin ]);
 
         $this->assertSame(

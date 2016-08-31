@@ -42,7 +42,7 @@ class CmdLog extends Solver implements SolverInterface
      * @param mixed[] $params
      * @return mixed
      */
-    protected function handler($ex, $params = [])
+    protected function solver($ex, $params = [])
     {
         $this->logger->log(
             $this->context['level'],

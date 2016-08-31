@@ -40,16 +40,16 @@ class SolverComposite implements SolverInterface
      */
     public function __invoke($ex, $params = [])
     {
-        return $this->handle($ex, $params);
+        return $this->solve($ex, $params);
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function handle($ex, $params = [])
+    public function solve($ex, $params = [])
     {
-        return Promise::doResolve($this->handler($ex, $params));
+        return Promise::doResolve($this->solver($ex, $params));
     }
 
     /**
@@ -60,7 +60,7 @@ class SolverComposite implements SolverInterface
      * @return mixed
      * @throws RejectionException
      */
-    protected function handler($ex, $params = [])
+    protected function solver($ex, $params = [])
     {
         $promise = Promise::doResolve();
 
@@ -70,7 +70,7 @@ class SolverComposite implements SolverInterface
 
             $promise = $promise->then(
                 function() use($ex, $params, $current) {
-                    return Promise::doResolve($current->handle($ex, $params));
+                    return Promise::doResolve($current->solve($ex, $params));
                 }
             );
         }

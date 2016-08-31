@@ -133,8 +133,8 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
      */
     private function bootBaseOrRemote($supervisor, $default = [], $handlers = [], $plugins = [])
     {
-        $this->setHandlers($supervisor, $handlers);
-        $this->setHandlers($supervisor, $default);
+        $this->setSolvers($supervisor, $handlers);
+        $this->setSolvers($supervisor, $default);
 
         foreach ($plugins as $pluginClass)
         {
@@ -158,11 +158,11 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
      * @param SupervisorInterface $supervisor
      * @param SolverInterface[]|string[]|string[][] $handlers
      */
-    private function setHandlers(SupervisorInterface $supervisor, $handlers)
+    private function setSolvers(SupervisorInterface $supervisor, $handlers)
     {
         foreach ($handlers as $exception=>$handler)
         {
-            $supervisor->setHandler($exception, $handler);
+            $supervisor->setSolver($exception, $handler);
         }
     }
 

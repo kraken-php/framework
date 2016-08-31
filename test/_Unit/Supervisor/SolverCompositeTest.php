@@ -65,10 +65,10 @@ class SolverCompositeTest extends TUnit
         $ex = new Exception('Exception');
         $params = [ 'param1' => 'value1', 'param2' => 'value2' ];
 
-        $solver = $this->createSolver([], [ 'handle' ]);
+        $solver = $this->createSolver([], [ 'solve' ]);
         $solver
             ->expects($this->once())
-            ->method('handle')
+            ->method('solve')
             ->with($ex, $params);
 
         $solver($ex, $params);
@@ -77,16 +77,16 @@ class SolverCompositeTest extends TUnit
     /**
      *
      */
-    public function testApiHandle_CallsHandlerMethod()
+    public function testApiSolve_CallsHandlerMethod()
     {
         $ex = new Exception('Exception');
         $params = [ 'param1' => 'value1' ];
         $result = 'result';
 
-        $solver = $this->createSolver([], [ 'handler' ]);
+        $solver = $this->createSolver([], [ 'solver' ]);
         $solver
             ->expects($this->once())
-            ->method('handler')
+            ->method('solver')
             ->with($ex, $params)
             ->will($this->returnValue($result));
 
@@ -97,7 +97,7 @@ class SolverCompositeTest extends TUnit
             ->with($result);
 
         $solver
-            ->handle($ex, $params)
+            ->solve($ex, $params)
             ->then(
                 $callable
             );
@@ -106,7 +106,7 @@ class SolverCompositeTest extends TUnit
     /**
      *
      */
-    public function testApiHandler_CallsHandlersOneAfterAnother()
+    public function testApiSolver_CallsHandlersOneAfterAnother()
     {
         $ex = new Exception('Exception');
         $params = [ 'params1' => 'value1' ];
@@ -115,7 +115,7 @@ class SolverCompositeTest extends TUnit
         $solver1 = $this->getMock(SolverInterface::class, [], [], '', false);
         $solver1
             ->expects($this->once())
-            ->method('handle')
+            ->method('solve')
             ->with($ex, $params)
             ->will($this->returnCallback(function() use(&$queue) {
                 $queue .= 'A';
@@ -127,7 +127,7 @@ class SolverCompositeTest extends TUnit
         $solver2 = $this->getMock(SolverInterface::class, [], [], '', false);
         $solver2
             ->expects($this->once())
-            ->method('handle')
+            ->method('solve')
             ->with($ex, $params)
             ->will($this->returnCallback(function() use(&$queue) {
                 $queue .= 'B';
@@ -145,7 +145,7 @@ class SolverCompositeTest extends TUnit
             ->method('__invoke')
             ->with('done');
 
-        $result = $this->callProtectedMethod($solver, 'handler', [ $ex, $params ]);
+        $result = $this->callProtectedMethod($solver, 'solver', [ $ex, $params ]);
         $result
             ->then($callable);
 
@@ -155,7 +155,7 @@ class SolverCompositeTest extends TUnit
     /**
      *
      */
-    public function testApiHandler_RejectsPromise_OnFirstRejection()
+    public function testApiSolver_RejectsPromise_OnFirstRejection()
     {
         $ex1 = new Exception('Exception');
         $ex2 = new Exception('Other Exception');
@@ -165,7 +165,7 @@ class SolverCompositeTest extends TUnit
         $solver1 = $this->getMock(SolverInterface::class, [], [], '', false);
         $solver1
             ->expects($this->once())
-            ->method('handle')
+            ->method('solve')
             ->with($ex1, $params)
             ->will($this->returnCallback(function() use(&$queue, $ex2) {
                 $queue .= 'A';
@@ -175,7 +175,7 @@ class SolverCompositeTest extends TUnit
         $solver2 = $this->getMock(SolverInterface::class, [], [], '', false);
         $solver2
             ->expects($this->never())
-            ->method('handle')
+            ->method('solve')
             ->with($ex1, $params)
             ->will($this->returnCallback(function() use(&$queue) {
                 $queue .= 'B';
@@ -184,7 +184,7 @@ class SolverCompositeTest extends TUnit
         $solver3 = $this->getMock(SolverInterface::class, [], [], '', false);
         $solver3
             ->expects($this->never())
-            ->method('handle')
+            ->method('solve')
             ->with($ex1, $params)
             ->will($this->returnCallback(function() use(&$queue) {
                 $queue .= 'C';
@@ -202,7 +202,7 @@ class SolverCompositeTest extends TUnit
             ->method('__invoke')
             ->with($ex2);
 
-        $result = $this->callProtectedMethod($solver, 'handler', [ $ex1, $params ]);
+        $result = $this->callProtectedMethod($solver, 'solver', [ $ex1, $params ]);
         $result
             ->then(null, $callable);
 

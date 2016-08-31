@@ -20,7 +20,7 @@ class RuntimeRecreateTest extends TSolver
     /**
      *
      */
-    public function testApiHandler_ThrowsException_WhenRuntimeDoesNotExist()
+    public function testApisolver_ThrowsException_WhenRuntimeDoesNotExist()
     {
         $ex = new Exception();
 
@@ -46,7 +46,7 @@ class RuntimeRecreateTest extends TSolver
             ->with($this->isInstanceOf(RejectionException::class));
 
         $this
-            ->callProtectedMethod($solver, 'handler', [ $ex, [ 'origin' => $origin ] ])
+            ->callProtectedMethod($solver, 'solver', [ $ex, [ 'origin' => $origin ] ])
             ->then(
                 null,
                 $callable
@@ -56,7 +56,7 @@ class RuntimeRecreateTest extends TSolver
     /**
      *
      */
-    public function testApiHandler_InvokesProperAction_WhenRuntimeDoesExistAsThread()
+    public function testApisolver_InvokesProperAction_WhenRuntimeDoesExistAsThread()
     {
         $ex = new Exception();
 
@@ -84,7 +84,7 @@ class RuntimeRecreateTest extends TSolver
         $this->assertSame(
             $result,
             $this->callProtectedMethod(
-                $solver, 'handler', [ $ex, [ 'origin' => $origin ] ]
+                $solver, 'solver', [ $ex, [ 'origin' => $origin ] ]
             )
         );
     }
@@ -92,7 +92,7 @@ class RuntimeRecreateTest extends TSolver
     /**
      *
      */
-    public function testApiHandler_InvokesProperAction_WhenRuntimeDoesExistAsProcess()
+    public function testApisolver_InvokesProperAction_WhenRuntimeDoesExistAsProcess()
     {
         $ex = new Exception();
 
@@ -120,7 +120,7 @@ class RuntimeRecreateTest extends TSolver
         $this->assertSame(
             $result,
             $this->callProtectedMethod(
-                $solver, 'handler', [ $ex, [ 'origin' => $origin ] ]
+                $solver, 'solver', [ $ex, [ 'origin' => $origin ] ]
             )
         );
     }
@@ -128,7 +128,7 @@ class RuntimeRecreateTest extends TSolver
     /**
      *
      */
-    public function testApiHandle_ThrowsException_WhenParamOriginDoesNotExist()
+    public function testApisolve_ThrowsException_WhenParamOriginDoesNotExist()
     {
         $solver = $this->createSolver();
 
@@ -139,7 +139,7 @@ class RuntimeRecreateTest extends TSolver
             ->with($this->isInstanceOf(IllegalCallException::class));
 
         $solver
-            ->handle(new Exception, [])
+            ->solve(new Exception, [])
             ->then(
                 null,
                 $callable
