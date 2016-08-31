@@ -6,7 +6,7 @@ use Kraken\Command\CommandInterface;
 use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
-use Kraken\Runtime\RuntimeInterface;
+use Kraken\Runtime\RuntimeContainerInterface;
 use ReflectionClass;
 
 class CommandProvider extends ServiceProvider implements ServiceProviderInterface
@@ -16,7 +16,7 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
      */
     protected function boot(CoreInterface $core)
     {
-        $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
+        $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');
         $manager = $core->make('Kraken\Command\CommandManagerInterface');
 
         $manager->import(
@@ -35,10 +35,10 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
     }
 
     /**
-     * @param RuntimeInterface $runtime
+     * @param RuntimeContainerInterface $runtime
      * @return CommandInterface[]
      */
-    protected function commands(RuntimeInterface $runtime)
+    protected function commands(RuntimeContainerInterface $runtime)
     {
         $cmds = [
             'project:create'    => 'Kraken\Console\Server\Command\Project\ProjectCreateCommand',

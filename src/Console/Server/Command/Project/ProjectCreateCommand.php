@@ -47,7 +47,7 @@ class ProjectCreateCommand extends Command implements CommandInterface
         }
 
         return $this->runtime
-            ->manager()
+            ->getManager()
             ->createProcess(
                 $this->config->get('main.alias'),
                 $this->config->get('main.name'),

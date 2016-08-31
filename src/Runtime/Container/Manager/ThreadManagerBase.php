@@ -8,7 +8,7 @@ use Kraken\Promise\Promise;
 use Kraken\Runtime\Container\Thread\ThreadController;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeCommand;
-use Kraken\Runtime\RuntimeInterface;
+use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Runtime\Container\Thread\ThreadWrapper;
 use Kraken\Runtime\Container\ThreadManagerInterface;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
@@ -18,7 +18,7 @@ use Kraken\Throwable\Exception\Runtime\RejectionException;
 class ThreadManagerBase implements ThreadManagerInterface
 {
     /**
-     * @var RuntimeInterface
+     * @var RuntimeContainerInterface
      */
     protected $runtime;
 
@@ -33,10 +33,10 @@ class ThreadManagerBase implements ThreadManagerInterface
     protected $threads;
 
     /**
-     * @param RuntimeInterface $runtime
+     * @param RuntimeContainerInterface $runtime
      * @param ChannelInterface $channel
      */
-    public function __construct(RuntimeInterface $runtime, ChannelInterface $channel)
+    public function __construct(RuntimeContainerInterface $runtime, ChannelInterface $channel)
     {
         $this->runtime = $runtime;
         $this->channel = $channel;

@@ -8,7 +8,7 @@ use Kraken\Event\EventHandler;
 use Kraken\Loop\Loop;
 use Kraken\Promise\Promise;
 use Kraken\Runtime\RuntimeContainer;
-use Kraken\Runtime\RuntimeInterface;
+use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Runtime\RuntimeManager;
 use Kraken\Runtime\RuntimeModel;
 use Kraken\Test\TUnit;
@@ -31,7 +31,7 @@ trait RuntimeCase
 
 
         $test->assertInstanceOf(RuntimeContainer::class, $runtime);
-        $test->assertInstanceOf(RuntimeInterface::class, $runtime);
+        $test->assertInstanceOf(RuntimeContainerInterface::class, $runtime);
         $test->assertInstanceOf(EventEmitter::class, $runtime);
     }
 

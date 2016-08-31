@@ -9,7 +9,7 @@ use Kraken\Promise\PromiseFulfilled;
 use Kraken\Runtime\Container\Manager\ThreadManagerRemote;
 use Kraken\Runtime\Container\ThreadManagerInterface;
 use Kraken\Runtime\RuntimeCommand;
-use Kraken\Runtime\RuntimeInterface;
+use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\Runtime\RejectionException;
 
@@ -222,7 +222,7 @@ class ThreadManagerRemoteTest extends TUnit
      */
     public function testProtectedApiCreateRequest_CreatesRequest()
     {
-        $runtime  = $this->getMock(RuntimeInterface::class, [], [], '', false);
+        $runtime  = $this->getMock(RuntimeContainerInterface::class, [], [], '', false);
         $channel  = $this->getMock(ChannelInterface::class, [], [], '', false);
         $channel
             ->expects($this->any())
@@ -257,7 +257,7 @@ class ThreadManagerRemoteTest extends TUnit
      */
     public function createThreadManager($receiver = null)
     {
-        $runtime = $this->getMock(RuntimeInterface::class, [], [], '', false);
+        $runtime = $this->getMock(RuntimeContainerInterface::class, [], [], '', false);
         $runtime
             ->expects($this->any())
             ->method('getParent')

@@ -3,7 +3,7 @@
 namespace Kraken\Runtime\Boot;
 
 use Kraken\Runtime\Container\Thread\ThreadController;
-use Kraken\Runtime\RuntimeInterface;
+use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Util\Support\StringSupport;
 use ReflectionClass;
 
@@ -89,7 +89,7 @@ class ThreadBoot
 
     /**
      * @param string $path
-     * @return RuntimeInterface
+     * @return RuntimeContainerInterface
      */
     public function boot($path)
     {

@@ -4,12 +4,12 @@ namespace Kraken\Runtime\Supervisor;
 
 use Kraken\Supervisor\SolverInterface;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
-use Kraken\Runtime\RuntimeInterface;
+use Kraken\Runtime\RuntimeContainerInterface;
 
 class Solver extends \Kraken\Supervisor\Solver implements SolverInterface
 {
     /**
-     * @var RuntimeInterface
+     * @var RuntimeContainerInterface
      */
     protected $runtime;
 

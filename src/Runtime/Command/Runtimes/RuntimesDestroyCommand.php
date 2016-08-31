@@ -19,6 +19,6 @@ class RuntimesDestroyCommand extends Command implements CommandInterface
             throw new RejectionException('Invalid params.');
         }
 
-        return $this->runtime->manager()->destroyRuntimes($params['aliases'], (int)$params['flags']);
+        return $this->runtime->getManager()->destroyRuntimes($params['aliases'], (int)$params['flags']);
     }
 }

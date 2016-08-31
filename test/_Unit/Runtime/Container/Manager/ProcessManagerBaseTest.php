@@ -14,7 +14,7 @@ use Kraken\Runtime\Container\Manager\ProcessManagerBase;
 use Kraken\Runtime\Container\ProcessManagerInterface;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeCommand;
-use Kraken\Runtime\RuntimeInterface;
+use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
@@ -577,7 +577,7 @@ class ProcessManagerBaseTest extends TUnit
             ->method('getDataDir')
             ->will($this->returnValue(''));
 
-        $runtime = $this->getMock(RuntimeInterface::class, [], [], '', false);
+        $runtime = $this->getMock(RuntimeContainerInterface::class, [], [], '', false);
         $runtime
             ->expects($this->any())
             ->method('getCore')

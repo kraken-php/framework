@@ -3,7 +3,7 @@
 namespace Kraken\Runtime\Container;
 
 use Kraken\Runtime\RuntimeContainer;
-use Kraken\Runtime\RuntimeInterface;
+use Kraken\Runtime\RuntimeContainerInterface;
 
-abstract class ThreadContainer extends RuntimeContainer implements RuntimeInterface
+abstract class ThreadContainer extends RuntimeContainer implements RuntimeContainerInterface
 {}

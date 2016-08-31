@@ -15,7 +15,7 @@ use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Runtime\Runtime;
-use Kraken\Runtime\RuntimeInterface;
+use Kraken\Runtime\RuntimeContainerInterface;
 use Error;
 use Exception;
 
@@ -28,7 +28,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         'Kraken\Command\CommandManagerInterface',
         'Kraken\Config\ConfigInterface',
         'Kraken\Channel\ChannelFactoryInterface',
-        'Kraken\Runtime\RuntimeInterface'
+        'Kraken\Runtime\RuntimeContainerInterface'
     ];
 
     /**
@@ -51,7 +51,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         $this->commander = $core->make('Kraken\Command\CommandManagerInterface');
 
         $config  = $core->make('Kraken\Config\ConfigInterface');
-        $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
+        $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');
         $factory = $core->make('Kraken\Channel\ChannelFactoryInterface');
 
         $master = $factory->create('Kraken\Channel\Channel', [
@@ -95,7 +95,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
      */
     protected function boot(CoreInterface $core)
     {
-        $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
+        $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');
         $channel = $core->make('Kraken\Runtime\Channel\ChannelInterface');
         $loop    = $core->make('Kraken\Loop\LoopInterface');
 
@@ -112,10 +112,10 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
     }
 
     /**
-     * @param RuntimeInterface $runtime
+     * @param RuntimeContainerInterface $runtime
      * @param ChannelCompositeInterface $composite
      */
-    private function applyConsoleRouting(RuntimeInterface $runtime, ChannelCompositeInterface $composite)
+    private function applyConsoleRouting(RuntimeContainerInterface $runtime, ChannelCompositeInterface $composite)
     {
         $master = $composite->getBus('master');
         $slave  = $composite->getBus('slave');

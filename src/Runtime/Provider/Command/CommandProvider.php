@@ -8,7 +8,7 @@ use Kraken\Config\ConfigInterface;
 use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
-use Kraken\Runtime\RuntimeInterface;
+use Kraken\Runtime\RuntimeContainerInterface;
 
 class CommandProvider extends ServiceProvider implements ServiceProviderInterface
 {
@@ -26,7 +26,7 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function boot(CoreInterface $core)
     {
         $config  = $core->make('Kraken\Config\ConfigInterface');
-        $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
+        $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');
         $factory = $core->make('Kraken\Command\CommandFactoryInterface');
         $manager = $core->make('Kraken\Command\CommandManagerInterface');
 
@@ -42,10 +42,10 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
     /**
      * @param ConfigInterface $config
      * @param CommandFactoryInterface $factory
-     * @param RuntimeInterface $runtime
+     * @param RuntimeContainerInterface $runtime
      * @return CommandInterface[]
      */
-    protected function getDefaultCommands(ConfigInterface $config, CommandFactoryInterface $factory, RuntimeInterface $runtime)
+    protected function getDefaultCommands(ConfigInterface $config, CommandFactoryInterface $factory, RuntimeContainerInterface $runtime)
     {
         return [
             'arch:start'            => $factory->create('ArchStartCommand',         [[ 'runtime' => $runtime ]]),
@@ -92,10 +92,10 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
     /**
      * @param ConfigInterface $config
      * @param CommandFactoryInterface $factory
-     * @param RuntimeInterface $runtime
+     * @param RuntimeContainerInterface $runtime
      * @return CommandInterface[]
      */
-    protected function getAppCommands(ConfigInterface $config, CommandFactoryInterface $factory, RuntimeInterface $runtime)
+    protected function getAppCommands(ConfigInterface $config, CommandFactoryInterface $factory, RuntimeContainerInterface $runtime)
     {
         $cmds = (array) $config->get('command.commands');
         $commands = [];

@@ -3,13 +3,13 @@
 namespace Kraken\Runtime\Command;
 
 use Kraken\Command\CommandInterface;
-use Kraken\Runtime\RuntimeInterface;
+use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
 
 class Command extends \Kraken\Command\Command implements CommandInterface
 {
     /**
-     * @var RuntimeInterface
+     * @var RuntimeContainerInterface
      */
     protected $runtime;
 
@@ -19,9 +19,9 @@ class Command extends \Kraken\Command\Command implements CommandInterface
      */
     public function __construct($context = [])
     {
-        if (!isset($context['runtime']) || !$context['runtime'] instanceof RuntimeInterface)
+        if (!isset($context['runtime']) || !$context['runtime'] instanceof RuntimeContainerInterface)
         {
-            throw new InstantiationException('Command did not get expected RuntimeInterface.');
+            throw new InstantiationException('Command did not get expected RuntimeContainerInterface.');
         }
 
         $this->runtime = $context['runtime'];

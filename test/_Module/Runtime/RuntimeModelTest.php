@@ -245,7 +245,7 @@ class RuntimeModelTest extends TModule
 
         $queue = [];
         $super = $this->createSupervisor($model);
-        $super->setHandler(Exception::class, new ModelContinue([ 'model' => $model, 'queue' => &$queue ]));
+        $super->setSolver(Exception::class, new ModelContinue([ 'model' => $model, 'queue' => &$queue ]));
 
         $emitter->on('start', function() use($loop, &$queue) {
             $loop->onTick(function() use(&$queue) {

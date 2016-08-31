@@ -47,7 +47,7 @@ class ProjectDestroyCommand extends Command implements CommandInterface
         }
 
         return $this->runtime
-            ->manager()
+            ->getManager()
             ->destroyProcess(
                 $this->config->get('main.alias'),
                 $params['flags']

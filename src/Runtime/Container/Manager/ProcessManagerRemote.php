@@ -8,7 +8,7 @@ use Kraken\Channel\Extra\Request;
 use Kraken\Runtime\Container\ProcessManagerInterface;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\Runtime;
-use Kraken\Runtime\RuntimeInterface;
+use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Throwable\Exception\Runtime\RejectionException;
 
 class ProcessManagerRemote implements ProcessManagerInterface
@@ -29,11 +29,11 @@ class ProcessManagerRemote implements ProcessManagerInterface
     protected $receiver;
 
     /**
-     * @param RuntimeInterface $runtime
+     * @param RuntimeContainerInterface $runtime
      * @param ChannelInterface $channel
      * @param string|null $receiver
      */
-    public function __construct(RuntimeInterface $runtime, ChannelInterface $channel, $receiver = null)
+    public function __construct(RuntimeContainerInterface $runtime, ChannelInterface $channel, $receiver = null)
     {
         $this->runtime = $runtime;
         $this->channel = $channel;

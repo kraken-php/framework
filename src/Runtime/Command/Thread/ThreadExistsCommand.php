@@ -19,6 +19,6 @@ class ThreadExistsCommand extends Command implements CommandInterface
             throw new RejectionException('Invalid params.');
         }
 
-        return $this->runtime->manager()->existsThread($params['alias']);
+        return $this->runtime->getManager()->existsThread($params['alias']);
     }
 }

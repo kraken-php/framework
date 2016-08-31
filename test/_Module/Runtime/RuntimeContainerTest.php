@@ -263,7 +263,7 @@ class RuntimeContainerTest extends TModule
 
         $queue = [];
         $super = $this->createSupervisor();
-        $super->setHandler(Exception::class, new ModelContinue([ 'model' => $model, 'queue' => &$queue ]));
+        $super->setSolver(Exception::class, new ModelContinue([ 'model' => $model, 'queue' => &$queue ]));
 
         $container->on('start', function() use($loop, &$queue) {
             $loop->onTick(function() use(&$queue) {

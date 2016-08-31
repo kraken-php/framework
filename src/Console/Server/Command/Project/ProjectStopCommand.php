@@ -42,7 +42,7 @@ class ProjectStopCommand extends Command implements CommandInterface
     protected function command($params = [])
     {
         return $this->runtime
-            ->manager()
+            ->getManager()
             ->stopProcess(
                 $this->config->get('main.alias')
             )

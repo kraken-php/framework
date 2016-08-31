@@ -26,14 +26,9 @@ use Exception;
  * @event stop          : callable()
  * @event afterStop     : callable()
  */
-interface RuntimeInterface extends
+interface RuntimeContainerInterface extends
     EventEmitterInterface, CoreInputContextInterface, CoreGetterAwareInterface, LoopGetterAwareInterface
 {
-    /**
-     * @return CoreInterface
-     */
-    public function core();
-
     /**
      * Return model on which container is working
      *

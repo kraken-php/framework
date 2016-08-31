@@ -26,7 +26,7 @@ class RuntimeRecreate extends Solver implements SolverInterface
      */
     protected function solver($ex, $params = [])
     {
-        $manager = $this->runtime->manager();
+        $manager = $this->runtime->getManager();
         $alias = $params['origin'];
 
         if ($manager->existsThread($alias))

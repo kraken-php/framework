@@ -2,21 +2,21 @@
 
 namespace Kraken\Runtime\Supervisor;
 
-use Kraken\Runtime\RuntimeInterface;
+use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Supervisor\SolverFactoryInterface;
 use Kraken\Util\Factory\Factory;
 
 class SolverFactory extends Factory implements SolverFactoryInterface
 {
     /**
-     * @var RuntimeInterface
+     * @var RuntimeContainerInterface
      */
     protected $runtime;
 
     /**
-     * @param RuntimeInterface $runtime
+     * @param RuntimeContainerInterface $runtime
      */
-    public function __construct(RuntimeInterface $runtime)
+    public function __construct(RuntimeContainerInterface $runtime)
     {
         parent::__construct();
 

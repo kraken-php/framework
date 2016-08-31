@@ -11,7 +11,7 @@ use Kraken\Core\Core;
 use Kraken\Core\CoreInterface;
 use Kraken\Runtime\Command\Command;
 use Kraken\Runtime\Container\ThreadContainer;
-use Kraken\Runtime\RuntimeInterface;
+use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Runtime\RuntimeManagerInterface;
 use Kraken\Supervisor\SupervisorInterface;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
@@ -36,7 +36,7 @@ class TCommand extends TUnit
     protected $manager;
 
     /**
-     * @var RuntimeInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var RuntimeContainerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $runtime;
 
@@ -76,7 +76,7 @@ class TCommand extends TUnit
         $command = $this->createCommand();
         $context = $this->getProtectedProperty($command, 'context');
 
-        $this->assertInstanceOf(RuntimeInterface::class, $context['runtime']);
+        $this->assertInstanceOf(RuntimeContainerInterface::class, $context['runtime']);
     }
 
     /**
@@ -181,12 +181,12 @@ class TCommand extends TUnit
 
     /**
      * @param string[]|null $methods
-     * @return RuntimeInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return RuntimeContainerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createRuntime($methods = [])
     {
         $methods = array_merge($methods, [
-            'manager',
+            'getManager',
             'getCore'
         ]);
 
@@ -200,7 +200,7 @@ class TCommand extends TUnit
         $runtime = $this->getMock(ThreadContainer::class, $methods, [ 'parent', 'alias', 'name' ]);
         $runtime
             ->expects($this->any())
-            ->method('manager')
+            ->method('getManager')
             ->will($this->returnValue($manager));
         $runtime
             ->expects($this->any())

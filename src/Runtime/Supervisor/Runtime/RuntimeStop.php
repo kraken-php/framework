@@ -23,6 +23,6 @@ class RuntimeStop extends Solver implements SolverInterface
      */
     protected function solver($ex, $params = [])
     {
-        return $this->runtime->manager()->stopRuntime($params['origin']);
+        return $this->runtime->getManager()->stopRuntime($params['origin']);
     }
 }

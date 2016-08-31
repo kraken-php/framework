@@ -19,7 +19,7 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
      * @var string[]
      */
     protected $requires = [
-        'Kraken\Runtime\RuntimeInterface'
+        'Kraken\Runtime\RuntimeContainerInterface'
     ];
 
     /**
@@ -35,7 +35,7 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
      */
     protected function register(CoreInterface $core)
     {
-        $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
+        $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');
 
         $factory = new SolverFactory($runtime);
         $config = [];

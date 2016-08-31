@@ -19,6 +19,6 @@ class ThreadsCreateCommand extends Command implements CommandInterface
             throw new RejectionException('Invalid params.');
         }
 
-        return $this->runtime->manager()->createThreads($params['definitions'], (int)$params['flags']);
+        return $this->runtime->getManager()->createThreads($params['definitions'], (int)$params['flags']);
     }
 }

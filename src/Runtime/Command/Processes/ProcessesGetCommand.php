@@ -14,6 +14,6 @@ class ProcessesGetCommand extends Command implements CommandInterface
      */
     protected function command($params = [])
     {
-        return $this->runtime->manager()->getProcesses();
+        return $this->runtime->getManager()->getProcesses();
     }
 }

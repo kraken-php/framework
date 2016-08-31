@@ -19,6 +19,6 @@ class ProcessStartCommand extends Command implements CommandInterface
             throw new RejectionException('Invalid params.');
         }
 
-        return $this->runtime->manager()->startProcess($params['alias']);
+        return $this->runtime->getManager()->startProcess($params['alias']);
     }
 }

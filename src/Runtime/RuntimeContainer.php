@@ -4,11 +4,11 @@ namespace Kraken\Runtime;
 
 use Kraken\Core\CoreInterface;
 use Kraken\Event\EventEmitter;
-use Kraken\Runtime\Provider\Runtime\RuntimeAutowireProvider;
+use Kraken\Runtime\Provider\Runtime\RuntimeBootProvider;
 use Kraken\Runtime\Provider\Runtime\RuntimeProvider;
 use Error;
 
-abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
+abstract class RuntimeContainer extends EventEmitter implements RuntimeContainerInterface
 {
     /**
      * @var RuntimeModelInterface
@@ -99,15 +99,6 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     public function setCore(CoreInterface $core = null)
     {
         $this->model->setCore($core);
-    }
-
-    /**
-     * @override
-     * @inheritDoc
-     */
-    public function core()
-    {
-        return $this->getCore();
     }
 
     /**
@@ -348,12 +339,12 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     /**
      * @internal
      * @param CoreInterface $core
-     * @return RuntimeInterface
+     * @return RuntimeContainerInterface
      */
     public function internalBoot(CoreInterface $core)
     {
         $core->registerProvider(new RuntimeProvider($this));
-        $core->registerProvider(new RuntimeAutowireProvider());
+        $core->registerProvider(new RuntimeBootProvider());
 
         return $this->boot($core);
     }
@@ -361,7 +352,7 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
     /**
      * @internal
      * @param CoreInterface $core
-     * @return RuntimeInterface
+     * @return RuntimeContainerInterface
      */
     public function internalConstruct(CoreInterface $core)
     {
@@ -385,7 +376,7 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
      * This method
      *
      * @param CoreInterface $core
-     * @return RuntimeInterface
+     * @return RuntimeContainerInterface
      */
     protected function boot(CoreInterface $core)
     {
@@ -396,7 +387,7 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeInterface
      * This method will be called on container construction. It should contain logic to be fired after booting up.
      *
      * @param CoreInterface $core
-     * @return RuntimeInterface
+     * @return RuntimeContainerInterface
      */
     protected function construct(CoreInterface $core)
     {

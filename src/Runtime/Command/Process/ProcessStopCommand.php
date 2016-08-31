@@ -19,6 +19,6 @@ class ProcessStopCommand extends Command implements CommandInterface
             throw new RejectionException('Invalid params.');
         }
 
-        return $this->runtime->manager()->stopProcess($params['alias']);
+        return $this->runtime->getManager()->stopProcess($params['alias']);
     }
 }

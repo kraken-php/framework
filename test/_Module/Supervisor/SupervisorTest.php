@@ -50,7 +50,7 @@ class SupervisorTest extends TModule
         );
 
         $super
-            ->handle($ex, $params)
+            ->solve($ex, $params)
             ->then(
                 function($value) use(&$result) {
                     $result = $value;
@@ -84,7 +84,7 @@ class SupervisorTest extends TModule
         );
 
         $super
-            ->handle($ex, $params)
+            ->solve($ex, $params)
             ->then(
                 null,
                 function($ex) use(&$result) {

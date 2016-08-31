@@ -19,6 +19,6 @@ class ProcessesDestroyCommand extends Command implements CommandInterface
             throw new RejectionException('Invalid params.');
         }
 
-        return $this->runtime->manager()->destroyProcesses($params['aliases'], (int)$params['flags']);
+        return $this->runtime->getManager()->destroyProcesses($params['aliases'], (int)$params['flags']);
     }
 }

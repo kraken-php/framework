@@ -3,7 +3,7 @@
 namespace Kraken\_Unit\Runtime\Command;
 
 use Kraken\Runtime\Supervisor\SolverFactory;
-use Kraken\Runtime\RuntimeInterface;
+use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Test\TUnit;
 
 class SolverFactoryTest extends TUnit
@@ -13,7 +13,7 @@ class SolverFactoryTest extends TUnit
      */
     public function testCaseFactory_PossesAllDefinitions()
     {
-        $runtime  = $this->getMock(RuntimeInterface::class, [], [], '', false);
+        $runtime  = $this->getMock(RuntimeContainerInterface::class, [], [], '', false);
         $factory  = new SolverFactory($runtime);
         $commands = [
             'CmdDoNothing'          => 'Kraken\Runtime\Supervisor\Cmd\CmdDoNothing',

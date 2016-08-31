@@ -10,7 +10,7 @@ use Kraken\Log\Logger;
 use Kraken\Runtime\Container\ThreadContainer;
 use Kraken\Runtime\RuntimeManagerInterface;
 use Kraken\Runtime\Supervisor\Solver;
-use Kraken\Runtime\RuntimeInterface;
+use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Supervisor\SolverInterface;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Test\TUnit;
@@ -34,7 +34,7 @@ class TSolver extends TUnit
     protected $manager;
 
     /**
-     * @var RuntimeInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var RuntimeContainerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $runtime;
 
@@ -68,7 +68,7 @@ class TSolver extends TUnit
         $solver  = $this->createSolver();
         $runtime = $this->getProtectedProperty($solver, 'runtime');
 
-        $this->assertInstanceOf(RuntimeInterface::class, $runtime);
+        $this->assertInstanceOf(RuntimeContainerInterface::class, $runtime);
     }
 
     /**
@@ -156,14 +156,14 @@ class TSolver extends TUnit
 
     /**
      * @param string[]|null $methods
-     * @return RuntimeInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return RuntimeContainerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createRuntime($methods = [])
     {
         $methods = array_merge($methods, [
-            'manager',
+            'getManager',
             'getCore',
-            'parent'
+            'getParent'
         ]);
 
         $manager = $this->getMock(RuntimeManagerInterface::class, [], [], '', false);
@@ -176,7 +176,7 @@ class TSolver extends TUnit
         $runtime = $this->getMock(ThreadContainer::class, $methods, [ 'parent', 'alias', 'name' ]);
         $runtime
             ->expects($this->any())
-            ->method('manager')
+            ->method('getManager')
             ->will($this->returnValue($manager));
         $runtime
             ->expects($this->any())
@@ -184,7 +184,7 @@ class TSolver extends TUnit
             ->will($this->returnValue($core));
         $runtime
             ->expects($this->any())
-            ->method('parent')
+            ->method('getParent')
             ->will($this->returnValue('parent'));
 
         if ($this->solver !== null)

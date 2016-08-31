@@ -11,7 +11,7 @@ use Kraken\Loop\Timer\TimerCollection;
 use Kraken\Runtime\Container\ProcessManagerFactory;
 use Kraken\Runtime\Container\ThreadManagerFactory;
 use Kraken\Runtime\Runtime;
-use Kraken\Runtime\RuntimeInterface;
+use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Runtime\RuntimeManager;
 use Kraken\Runtime\RuntimeManagerFactoryInterface;
 use Kraken\Runtime\RuntimeManagerInterface;
@@ -27,7 +27,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
     protected $requires = [
         'Kraken\Config\ConfigInterface',
         'Kraken\Filesystem\FilesystemInterface',
-        'Kraken\Runtime\RuntimeInterface',
+        'Kraken\Runtime\RuntimeContainerInterface',
         'Kraken\Runtime\Channel\ChannelInterface'
     ];
 
@@ -49,7 +49,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
         $config  = $core->make('Kraken\Config\ConfigInterface');
         $env     = $core->make('Kraken\Core\EnvironmentInterface');
         $fs      = $core->make('Kraken\Filesystem\FilesystemInterface');
-        $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
+        $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');
         $channel = $core->make('Kraken\Runtime\Channel\ChannelInterface');
 
         $this->registerRuntimeSupervision($runtime, $channel, $config);
@@ -122,11 +122,11 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
     }
 
     /**
-     * @param RuntimeInterface $runtime
+     * @param RuntimeContainerInterface $runtime
      * @param ChannelCompositeInterface $composite
      * @param ConfigInterface $config
      */
-    private function registerRuntimeSupervision(RuntimeInterface $runtime, ChannelCompositeInterface $composite, ConfigInterface $config)
+    private function registerRuntimeSupervision(RuntimeContainerInterface $runtime, ChannelCompositeInterface $composite, ConfigInterface $config)
     {
         $timerCollection = new TimerCollection();
 

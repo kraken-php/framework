@@ -19,6 +19,6 @@ class ThreadStartCommand extends Command implements CommandInterface
             throw new RejectionException('Invalid params.');
         }
 
-        return $this->runtime->manager()->startThread($params['alias']);
+        return $this->runtime->getManager()->startThread($params['alias']);
     }
 }

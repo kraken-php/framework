@@ -19,6 +19,6 @@ class ThreadsDestroyCommand extends Command implements CommandInterface
             throw new RejectionException('Invalid params.');
         }
 
-        return $this->runtime->manager()->destroyThreads($params['aliases'], (int)$params['flags']);
+        return $this->runtime->getManager()->destroyThreads($params['aliases'], (int)$params['flags']);
     }
 }

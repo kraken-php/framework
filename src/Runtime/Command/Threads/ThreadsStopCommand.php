@@ -19,6 +19,6 @@ class ThreadsStopCommand extends Command implements CommandInterface
             throw new RejectionException('Invalid params.');
         }
 
-        return $this->runtime->manager()->stopThreads($params['aliases']);
+        return $this->runtime->getManager()->stopThreads($params['aliases']);
     }
 }

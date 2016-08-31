@@ -19,6 +19,6 @@ class RuntimesStartCommand extends Command implements CommandInterface
             throw new RejectionException('Invalid params.');
         }
 
-        return $this->runtime->manager()->startRuntimes($params['aliases']);
+        return $this->runtime->getManager()->startRuntimes($params['aliases']);
     }
 }

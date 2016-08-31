@@ -14,6 +14,6 @@ class RuntimesGetCommand extends Command implements CommandInterface
      */
     protected function command($params = [])
     {
-        return $this->runtime->manager()->getRuntimes();
+        return $this->runtime->getManager()->getRuntimes();
     }
 }

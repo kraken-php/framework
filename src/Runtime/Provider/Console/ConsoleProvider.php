@@ -18,7 +18,7 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
     protected $requires = [
         'Kraken\Config\ConfigInterface',
         'Kraken\Channel\ChannelFactoryInterface',
-        'Kraken\Runtime\RuntimeInterface',
+        'Kraken\Runtime\RuntimeContainerInterface',
         'Kraken\Command\CommandManagerInterface'
     ];
 
@@ -36,7 +36,7 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
     {
         $config  = $core->make('Kraken\Config\ConfigInterface');
         $factory = $core->make('Kraken\Channel\ChannelFactoryInterface');
-        $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
+        $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');
 
         $console = $factory->create('Kraken\Channel\Channel', [
             $runtime->getParent() === null
@@ -69,7 +69,7 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
      */
     protected function boot(CoreInterface $core)
     {
-        $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
+        $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');
         $channel = $core->make('Kraken\Runtime\Channel\ChannelInterface');
         $console = $core->make('Kraken\Runtime\Channel\ConsoleInterface');
         $loop    = $core->make('Kraken\Loop\LoopInterface');

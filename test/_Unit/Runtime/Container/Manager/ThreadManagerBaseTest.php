@@ -11,7 +11,7 @@ use Kraken\Runtime\Container\Manager\ThreadManagerBase;
 use Kraken\Runtime\Container\ThreadManagerInterface;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeCommand;
-use Kraken\Runtime\RuntimeInterface;
+use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
@@ -639,7 +639,7 @@ class ThreadManagerBaseTest extends TUnit
      */
     public function testProtectedApiCreateRequest_CreatesRequest()
     {
-        $runtime  = $this->getMock(RuntimeInterface::class, [], [], '', false);
+        $runtime  = $this->getMock(RuntimeContainerInterface::class, [], [], '', false);
         $channel  = $this->getMock(ChannelInterface::class, [], [], '', false);
         $channel
             ->expects($this->any())
@@ -674,7 +674,7 @@ class ThreadManagerBaseTest extends TUnit
      */
     public function createThreadManager($methods = [])
     {
-        $runtime = $this->getMock(RuntimeInterface::class, [], [], '', false);
+        $runtime = $this->getMock(RuntimeContainerInterface::class, [], [], '', false);
         $channel = $this->getMock(ChannelInterface::class, [], [], '', false);
 
         $methods = array_merge($methods, [ 'createRequest' ]);

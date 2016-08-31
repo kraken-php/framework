@@ -47,7 +47,7 @@ class ArchStatusCommand extends Command implements CommandInterface
         return $promise
             ->then(
                 function() use($runtime) {
-                    return $runtime->manager()->getRuntimes();
+                    return $runtime->getManager()->getRuntimes();
                 }
             )
             ->then(

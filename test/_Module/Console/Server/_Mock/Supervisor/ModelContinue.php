@@ -2,7 +2,7 @@
 
 namespace Kraken\_Module\Console\Server\_Mock\Supervisor;
 
-use Kraken\Runtime\RuntimeInterface;
+use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Runtime\RuntimeModelInterface;
 use Kraken\Supervisor\Solver;
 use Kraken\Supervisor\SolverInterface;
@@ -12,7 +12,7 @@ use Exception;
 class ModelContinue extends Solver implements SolverInterface
 {
     /**
-     * @var RuntimeModelInterface|RuntimeInterface
+     * @var RuntimeModelInterface|RuntimeContainerInterface
      */
     protected $model;
 
@@ -48,7 +48,7 @@ class ModelContinue extends Solver implements SolverInterface
      * @param mixed[] $params
      * @return mixed
      */
-    protected function handler($ex, $params = [])
+    protected function solver($ex, $params = [])
     {
         $model = $this->model;
         $loop  = $model->getLoop();

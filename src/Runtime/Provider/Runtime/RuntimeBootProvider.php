@@ -6,14 +6,14 @@ use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
 
-class RuntimeAutowireProvider extends ServiceProvider implements ServiceProviderInterface
+class RuntimeBootProvider extends ServiceProvider implements ServiceProviderInterface
 {
     /**
      * @var string[]
      */
     protected $requires = [
         'Kraken\Loop\LoopExtendedInterface',
-        'Kraken\Runtime\RuntimeInterface',
+        'Kraken\Runtime\RuntimeContainerInterface',
         'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
         'Kraken\Runtime\RuntimeManagerInterface'
     ];
@@ -24,7 +24,7 @@ class RuntimeAutowireProvider extends ServiceProvider implements ServiceProvider
     protected function register(CoreInterface $core)
     {
         $loop    = $core->make('Kraken\Loop\LoopExtendedInterface');
-        $runtime = $core->make('Kraken\Runtime\RuntimeInterface');
+        $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');
         $error   = $core->make('Kraken\Runtime\Supervisor\SupervisorBaseInterface');
         $manager = $core->make('Kraken\Runtime\RuntimeManagerInterface');
 

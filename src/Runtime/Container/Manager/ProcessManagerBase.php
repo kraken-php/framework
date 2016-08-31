@@ -15,7 +15,7 @@ use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
 use Kraken\Runtime\Container\ProcessManagerInterface;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\Runtime;
-use Kraken\Runtime\RuntimeInterface;
+use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Util\System\SystemInterface;
 use Error;
 use Exception;
@@ -23,7 +23,7 @@ use Exception;
 class ProcessManagerBase implements ProcessManagerInterface
 {
     /**
-     * @var RuntimeInterface
+     * @var RuntimeContainerInterface
      */
     protected $runtime;
 
@@ -63,14 +63,14 @@ class ProcessManagerBase implements ProcessManagerInterface
     protected $processes;
 
     /**
-     * @param RuntimeInterface $runtime
+     * @param RuntimeContainerInterface $runtime
      * @param ChannelInterface $channel
      * @param EnvironmentInterface $env
      * @param SystemInterface $system
      * @param FilesystemInterface $fs
      * @throws InstantiationException
      */
-    public function __construct(RuntimeInterface $runtime, ChannelInterface $channel, EnvironmentInterface $env, SystemInterface $system, FilesystemInterface $fs)
+    public function __construct(RuntimeContainerInterface $runtime, ChannelInterface $channel, EnvironmentInterface $env, SystemInterface $system, FilesystemInterface $fs)
     {
         $this->runtime = $runtime;
         $this->channel = $channel;

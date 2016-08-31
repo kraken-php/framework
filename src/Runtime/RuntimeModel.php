@@ -191,15 +191,6 @@ class RuntimeModel implements RuntimeModelInterface
      * @override
      * @inheritDoc
      */
-    public function core()
-    {
-        return $this->core;
-    }
-
-    /**
-     * @override
-     * @inheritDoc
-     */
     public function setRuntimeManager(RuntimeManagerInterface $manager = null)
     {
         $this->manager = $manager;

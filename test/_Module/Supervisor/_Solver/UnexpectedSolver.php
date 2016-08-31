@@ -10,7 +10,7 @@ class UnexpectedSolver extends Solver
      * @override
      * @inheritDoc
      */
-    protected function handler($ex, $params = [])
+    protected function solver($ex, $params = [])
     {
         return null;
     }

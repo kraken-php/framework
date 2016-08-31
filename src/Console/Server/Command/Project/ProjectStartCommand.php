@@ -42,7 +42,7 @@ class ProjectStartCommand extends Command implements CommandInterface
     protected function command($params = [])
     {
         return $this->runtime
-            ->manager()
+            ->getManager()
             ->startProcess(
                 $this->config->get('main.alias')
             )

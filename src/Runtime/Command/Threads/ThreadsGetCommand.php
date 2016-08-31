@@ -14,6 +14,6 @@ class ThreadsGetCommand extends Command implements CommandInterface
      */
     protected function command($params = [])
     {
-        return $this->runtime->manager()->getThreads();
+        return $this->runtime->getManager()->getThreads();
     }
 }
