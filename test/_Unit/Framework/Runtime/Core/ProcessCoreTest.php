@@ -1,22 +1,60 @@
 <?php
 
-namespace Kraken\Runtime\Container;
+namespace Kraken\_Unit\Framework\Runtime\Core;
 
 use Kraken\Core\Core;
-use Kraken\Core\CoreInterface;
+use Kraken\Framework\Runtime\Core\ProcessCore;
 use Kraken\Runtime\Runtime;
+use Kraken\Test\TUnit;
 
-class ProcessCore extends Core implements CoreInterface
+class ProcessCoreTest extends TUnit
 {
     /**
-     * @var string
+     *
      */
-    const RUNTIME_UNIT = Runtime::UNIT_PROCESS;
+    public function testCaseRuntimeUnit_IsProcess()
+    {
+        $core = $this->createCore();
+
+        $this->assertSame(Runtime::UNIT_PROCESS, $core::RUNTIME_UNIT);
+    }
+
+    /**
+     *
+     */
+    public function testApiGetDefaultProviders_ReturnsDefaultProviders()
+    {
+        $core = $this->createCore();
+        $providers = $this->callProtectedMethod($core, 'getDefaultProviders');
+
+        $this->assertSame($this->getDefaultProviders(), $providers);
+
+        foreach ($providers as $provider)
+        {
+            $this->assertTrue(class_exists($provider));
+        }
+    }
+
+    /**
+     *
+     */
+    public function testApiGetDefaultAliases_ReturnsDefaultAliases()
+    {
+        $core = $this->createCore();
+        $aliases = $this->callProtectedMethod($core, 'getDefaultAliases');
+
+        $this->assertSame($this->getDefaultAliases(), $aliases);
+
+        foreach ($aliases as $alias=>$target)
+        {
+            $this->assertTrue(interface_exists($target) || class_exists($target), "Provider $target does not exist.");
+        }
+    }
 
     /**
      * @return string[]
      */
-    protected function getDefaultProviders()
+    public function getDefaultProviders()
     {
         return [
             'Kraken\Core\Provider\Channel\ChannelProvider',
@@ -41,7 +79,7 @@ class ProcessCore extends Core implements CoreInterface
     /**
      * @return string[]
      */
-    protected function getDefaultAliases()
+    public function getDefaultAliases()
     {
         return [
             'Channel'           => 'Kraken\Runtime\Channel\ChannelInterface',
@@ -63,5 +101,13 @@ class ProcessCore extends Core implements CoreInterface
             'Supervisor.Base'   => 'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
             'Supervisor.Remote' => 'Kraken\Runtime\Supervisor\SupervisorRemoteInterface'
         ];
+    }
+
+    /**
+     * @return Core
+     */
+    public function createCore()
+    {
+        return new ProcessCore();
     }
 }

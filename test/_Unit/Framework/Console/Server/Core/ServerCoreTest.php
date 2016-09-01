@@ -1,9 +1,9 @@
 <?php
 
-namespace Kraken\_Unit\Console\Server;
+namespace Kraken\_Unit\Framework\Console\Server\Core;
 
-use Kraken\Console\Server\ServerCore;
 use Kraken\Core\Core;
+use Kraken\Framework\Console\Server\Core\ServerCore;
 use Kraken\Runtime\Runtime;
 use Kraken\Test\TUnit;
 

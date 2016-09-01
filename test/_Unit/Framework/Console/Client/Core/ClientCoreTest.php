@@ -1,9 +1,9 @@
 <?php
 
-namespace Kraken\_Unit\Console\Server;
+namespace Kraken\_Unit\Framework\Console\Server\Core;
 
-use Kraken\Console\Client\ClientCore;
 use Kraken\Core\Core;
+use Kraken\Framework\Console\Client\Core\ClientCore;
 use Kraken\Test\TUnit;
 
 class ClientCoreTest extends TUnit

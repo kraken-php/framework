@@ -4,8 +4,8 @@
  * Any modifications in this file should be done with exceptional care.
  */
 
-$core = new \Kraken\Console\Server\ServerCore(
-    __DIR__ . '/../../'
+$core = new \Kraken\Framework\Console\Server\Core\ServerCore(
+    realpath(__DIR__ . '/../../../')
 );
 
 $providers = [

@@ -4,8 +4,8 @@
  * Any modifications in this file should be done with exceptional care.
  */
 
-$core = new \Kraken\Runtime\Container\ProcessCore(
-    __DIR__ . '/../../'
+$core = new \Kraken\Framework\Runtime\Core\ProcessCore(
+    realpath(__DIR__ . '/../../')
 );
 
 $providers = [

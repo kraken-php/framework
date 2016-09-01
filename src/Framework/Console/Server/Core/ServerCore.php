@@ -1,60 +1,22 @@
 <?php
 
-namespace Kraken\_Unit\Runtime\Container;
+namespace Kraken\Framework\Console\Server\Core;
 
 use Kraken\Core\Core;
-use Kraken\Runtime\Container\ProcessCore;
+use Kraken\Core\CoreInterface;
 use Kraken\Runtime\Runtime;
-use Kraken\Test\TUnit;
 
-class ProcessCoreTest extends TUnit
+class ServerCore extends Core implements CoreInterface
 {
     /**
-     *
+     * @var string
      */
-    public function testCaseRuntimeUnit_IsProcess()
-    {
-        $core = $this->createCore();
-
-        $this->assertSame(Runtime::UNIT_PROCESS, $core::RUNTIME_UNIT);
-    }
-
-    /**
-     *
-     */
-    public function testApiGetDefaultProviders_ReturnsDefaultProviders()
-    {
-        $core = $this->createCore();
-        $providers = $this->callProtectedMethod($core, 'getDefaultProviders');
-
-        $this->assertSame($this->getDefaultProviders(), $providers);
-
-        foreach ($providers as $provider)
-        {
-            $this->assertTrue(class_exists($provider));
-        }
-    }
-
-    /**
-     *
-     */
-    public function testApiGetDefaultAliases_ReturnsDefaultAliases()
-    {
-        $core = $this->createCore();
-        $aliases = $this->callProtectedMethod($core, 'getDefaultAliases');
-
-        $this->assertSame($this->getDefaultAliases(), $aliases);
-
-        foreach ($aliases as $alias=>$target)
-        {
-            $this->assertTrue(interface_exists($target) || class_exists($target), "Provider $target does not exist.");
-        }
-    }
+    const RUNTIME_UNIT = Runtime::UNIT_PROCESS;
 
     /**
      * @return string[]
      */
-    public function getDefaultProviders()
+    protected function getDefaultProviders()
     {
         return [
             'Kraken\Core\Provider\Channel\ChannelProvider',
@@ -68,9 +30,9 @@ class ProcessCoreTest extends TUnit
             'Kraken\Core\Provider\Filesystem\FilesystemProvider',
             'Kraken\Core\Provider\Log\LogProvider',
             'Kraken\Core\Provider\Loop\LoopProvider',
-            'Kraken\Runtime\Provider\Channel\ChannelProvider',
+            'Kraken\Console\Server\Provider\Channel\ChannelProvider',
+            'Kraken\Console\Server\Provider\Command\CommandProvider',
             'Kraken\Runtime\Provider\Command\CommandProvider',
-            'Kraken\Runtime\Provider\Console\ConsoleProvider',
             'Kraken\Runtime\Provider\Supervisor\SupervisorProvider',
             'Kraken\Runtime\Provider\Runtime\RuntimeManagerProvider'
         ];
@@ -79,15 +41,13 @@ class ProcessCoreTest extends TUnit
     /**
      * @return string[]
      */
-    public function getDefaultAliases()
+    protected function getDefaultAliases()
     {
         return [
             'Channel'           => 'Kraken\Runtime\Channel\ChannelInterface',
             'Channel.Internal'  => 'Kraken\Runtime\Channel\ChannelInterface',
-            'Channel.Console'   => 'Kraken\Runtime\Channel\ConsoleInterface',
             'CommandManager'    => 'Kraken\Command\CommandManagerInterface',
             'Config'            => 'Kraken\Config\ConfigInterface',
-            'Console'           => 'Kraken\Runtime\Channel\ConsoleInterface',
             'Container'         => 'Kraken\Container\ContainerInterface',
             'Core'              => 'Kraken\Core\CoreInterface',
             'Emitter'           => 'Kraken\Event\EventEmitterInterface',
@@ -101,13 +61,5 @@ class ProcessCoreTest extends TUnit
             'Supervisor.Base'   => 'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
             'Supervisor.Remote' => 'Kraken\Runtime\Supervisor\SupervisorRemoteInterface'
         ];
-    }
-
-    /**
-     * @return Core
-     */
-    public function createCore()
-    {
-        return new ProcessCore();
     }
 }

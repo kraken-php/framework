@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Console\Client;
+namespace Kraken\Framework\Console\Client\Core;
 
 use Kraken\Core\Core;
 use Kraken\Core\CoreInterface;

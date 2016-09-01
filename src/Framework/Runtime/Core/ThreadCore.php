@@ -1,17 +1,17 @@
 <?php
 
-namespace Kraken\Console\Server;
+namespace Kraken\Framework\Runtime\Core;
 
 use Kraken\Core\Core;
 use Kraken\Core\CoreInterface;
 use Kraken\Runtime\Runtime;
 
-class ServerCore extends Core implements CoreInterface
+class ThreadCore extends Core implements CoreInterface
 {
     /**
      * @var string
      */
-    const RUNTIME_UNIT = Runtime::UNIT_PROCESS;
+    const RUNTIME_UNIT = Runtime::UNIT_THREAD;
 
     /**
      * @return string[]
@@ -30,9 +30,9 @@ class ServerCore extends Core implements CoreInterface
             'Kraken\Core\Provider\Filesystem\FilesystemProvider',
             'Kraken\Core\Provider\Log\LogProvider',
             'Kraken\Core\Provider\Loop\LoopProvider',
-            'Kraken\Console\Server\Provider\Channel\ChannelProvider',
-            'Kraken\Console\Server\Provider\Command\CommandProvider',
+            'Kraken\Runtime\Provider\Channel\ChannelProvider',
             'Kraken\Runtime\Provider\Command\CommandProvider',
+            'Kraken\Runtime\Provider\Console\ConsoleProvider',
             'Kraken\Runtime\Provider\Supervisor\SupervisorProvider',
             'Kraken\Runtime\Provider\Runtime\RuntimeManagerProvider'
         ];
@@ -46,8 +46,10 @@ class ServerCore extends Core implements CoreInterface
         return [
             'Channel'           => 'Kraken\Runtime\Channel\ChannelInterface',
             'Channel.Internal'  => 'Kraken\Runtime\Channel\ChannelInterface',
+            'Channel.Console'   => 'Kraken\Runtime\Channel\ConsoleInterface',
             'CommandManager'    => 'Kraken\Command\CommandManagerInterface',
             'Config'            => 'Kraken\Config\ConfigInterface',
+            'Console'           => 'Kraken\Runtime\Channel\ConsoleInterface',
             'Container'         => 'Kraken\Container\ContainerInterface',
             'Core'              => 'Kraken\Core\CoreInterface',
             'Emitter'           => 'Kraken\Event\EventEmitterInterface',
