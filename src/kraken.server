@@ -24,14 +24,6 @@ if (!defined('STDIN'))
 try
 {
     $process = (new \Kraken\Framework\Console\Server\Boot\ServerBoot)
-        ->controller(
-            'Kraken\\Console\\Server\\Server'
-        )
-        ->constructor([
-            null,
-            'Server',
-            'Server'
-        ])
         ->boot(
             $dataPath
         );

@@ -35,8 +35,12 @@ class ServerBoot
     public function __construct(ProcessController $runtimeController = null)
     {
         $this->runtimeController = ($runtimeController !== null) ? $runtimeController : new ProcessController();
-        $this->controllerParams = [];
-        $this->controllerClass = '\\%prefix%\\Process\\%name%\\%name%Controller';
+        $this->controllerParams = [
+            null,
+            'Server',
+            'Server'
+        ];
+        $this->controllerClass = '\\Kraken\\Console\\Server\\Server';
         $this->params = [
             'prefix' => 'Kraken',
             'name'   => 'Undefined'

@@ -36,7 +36,7 @@ class ThreadBoot
     {
         $this->runtimeController = ($threadController !== null) ? $threadController : new ThreadController();
         $this->controllerParams = [];
-        $this->controllerClass = '\\%prefix%\\Thread\\%name%\\%name%Controller';
+        $this->controllerClass = '\\%prefix%\\Thread\\%name%\\%name%Container';
         $this->params = [
             'prefix' => 'Kraken',
             'name'   => 'Undefined'
@@ -110,7 +110,7 @@ class ThreadBoot
         else
         {
             $core = require(
-                $datapath . '/bootstrap-global/Thread/bootstrap.php'
+                $datapath . '/bootstrap/Thread/bootstrap.php'
             );
         }
 

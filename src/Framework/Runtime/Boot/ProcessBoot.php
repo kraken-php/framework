@@ -36,7 +36,7 @@ class ProcessBoot
     {
         $this->runtimeController = ($runtimeController !== null) ? $runtimeController : new ProcessController();
         $this->controllerParams = [];
-        $this->controllerClass = '\\%prefix%\\Process\\%name%\\%name%Controller';
+        $this->controllerClass = '\\%prefix%\\Process\\%name%\\%name%Container';
         $this->params = [
             'prefix' => 'Kraken',
             'name'   => 'Undefined'
@@ -110,7 +110,7 @@ class ProcessBoot
         else
         {
             $core = require(
-                $datapath . '/bootstrap-global/Process/bootstrap.php'
+                $datapath . '/bootstrap/Process/bootstrap.php'
             );
         }
 
