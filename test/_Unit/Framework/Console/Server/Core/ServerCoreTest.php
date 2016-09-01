@@ -57,22 +57,22 @@ class ServerCoreTest extends TUnit
     public function getDefaultProviders()
     {
         return [
-            'Kraken\Core\Provider\Channel\ChannelProvider',
-            'Kraken\Core\Provider\Command\CommandProvider',
-            'Kraken\Core\Provider\Config\ConfigProvider',
-            'Kraken\Core\Provider\Container\ContainerProvider',
-            'Kraken\Core\Provider\Core\CoreProvider',
-            'Kraken\Core\Provider\Environment\EnvironmentProvider',
-            'Kraken\Core\Provider\Supervisor\SupervisorProvider',
-            'Kraken\Core\Provider\Event\EventProvider',
-            'Kraken\Core\Provider\Filesystem\FilesystemProvider',
-            'Kraken\Core\Provider\Log\LogProvider',
-            'Kraken\Core\Provider\Loop\LoopProvider',
-            'Kraken\Console\Server\Provider\Channel\ChannelProvider',
-            'Kraken\Console\Server\Provider\Command\CommandProvider',
-            'Kraken\Runtime\Provider\Command\CommandProvider',
-            'Kraken\Runtime\Provider\Supervisor\SupervisorProvider',
-            'Kraken\Runtime\Provider\Runtime\RuntimeManagerProvider'
+            'Kraken\Framework\Core\Provider\ChannelProvider',
+            'Kraken\Framework\Core\Provider\CommandProvider',
+            'Kraken\Framework\Core\Provider\ConfigProvider',
+            'Kraken\Framework\Core\Provider\ContainerProvider',
+            'Kraken\Framework\Core\Provider\CoreProvider',
+            'Kraken\Framework\Core\Provider\EnvironmentProvider',
+            'Kraken\Framework\Core\Provider\SupervisorProvider',
+            'Kraken\Framework\Core\Provider\EventProvider',
+            'Kraken\Framework\Core\Provider\FilesystemProvider',
+            'Kraken\Framework\Core\Provider\LogProvider',
+            'Kraken\Framework\Core\Provider\LoopProvider',
+            'Kraken\Framework\Console\Server\Provider\ChannelProvider',
+            'Kraken\Framework\Console\Server\Provider\CommandProvider',
+            'Kraken\Framework\Runtime\Provider\CommandProvider',
+            'Kraken\Framework\Runtime\Provider\SupervisorProvider',
+            'Kraken\Framework\Runtime\Provider\RuntimeManagerProvider'
         ];
     }
 

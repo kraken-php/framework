@@ -4,8 +4,8 @@ namespace Kraken\Runtime;
 
 use Kraken\Core\CoreInterface;
 use Kraken\Event\EventEmitter;
-use Kraken\Runtime\Provider\Runtime\RuntimeBootProvider;
-use Kraken\Runtime\Provider\Runtime\RuntimeProvider;
+use Kraken\Framework\Runtime\Provider\RuntimeBootProvider;
+use Kraken\Framework\Runtime\Provider\RuntimeProvider;
 use Error;
 
 abstract class RuntimeContainer extends EventEmitter implements RuntimeContainerInterface

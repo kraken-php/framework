@@ -2,11 +2,11 @@
 
 namespace Kraken\Console\Client;
 
-use Kraken\Console\Client\Provider\Console\ConsoleBootProvider;
-use Kraken\Console\Client\Provider\Console\ConsoleProvider;
 use Kraken\Core\CoreAwareTrait;
 use Kraken\Core\CoreInterface;
 use Kraken\Event\BaseEventEmitter;
+use Kraken\Framework\Console\Client\Provider\ConsoleBootProvider;
+use Kraken\Framework\Console\Client\Provider\ConsoleProvider;
 use Kraken\Loop\LoopExtendedAwareTrait;
 
 class Client extends BaseEventEmitter implements ClientInterface

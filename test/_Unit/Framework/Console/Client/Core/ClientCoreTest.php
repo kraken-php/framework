@@ -56,16 +56,16 @@ class ClientCoreTest extends TUnit
     public function getDefaultProviders()
     {
         return [
-            'Kraken\Core\Provider\Channel\ChannelProvider',
-            'Kraken\Core\Provider\Config\ConfigProvider',
-            'Kraken\Core\Provider\Container\ContainerProvider',
-            'Kraken\Core\Provider\Core\CoreProvider',
-            'Kraken\Core\Provider\Environment\EnvironmentProvider',
-            'Kraken\Core\Provider\Event\EventProvider',
-            'Kraken\Core\Provider\Log\LogProvider',
-            'Kraken\Core\Provider\Loop\LoopProvider',
-            'Kraken\Console\Client\Provider\Channel\ChannelProvider',
-            'Kraken\Console\Client\Provider\Command\CommandProvider'
+            'Kraken\Framework\Core\Provider\ChannelProvider',
+            'Kraken\Framework\Core\Provider\ConfigProvider',
+            'Kraken\Framework\Core\Provider\ContainerProvider',
+            'Kraken\Framework\Core\Provider\CoreProvider',
+            'Kraken\Framework\Core\Provider\EnvironmentProvider',
+            'Kraken\Framework\Core\Provider\EventProvider',
+            'Kraken\Framework\Core\Provider\LogProvider',
+            'Kraken\Framework\Core\Provider\LoopProvider',
+            'Kraken\Framework\Console\Client\Provider\ChannelProvider',
+            'Kraken\Framework\Console\Client\Provider\CommandProvider'
         ];
     }
 
