@@ -1,10 +1,10 @@
 <?php
 /**
- * Bootstrap file for Console based application.
+ * Bootstrap file for Console Server.
  * Any modifications in this file should be done with exceptional care.
  */
 
-$core = new \Kraken\Console\Client\ConsoleClientCore(
+$core = new \Kraken\Console\Server\ServerCore(
     __DIR__ . '/../../'
 );
 

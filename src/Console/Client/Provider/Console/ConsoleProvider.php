@@ -2,7 +2,7 @@
 
 namespace Kraken\Console\Client\Provider\Console;
 
-use Kraken\Console\Client\ConsoleClientInterface;
+use Kraken\Console\Client\ClientInterface;
 use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
@@ -14,18 +14,18 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
      */
     protected $provides = [
         'Kraken\Core\CoreInputContextInterface',
-        'Kraken\Console\Client\ConsoleClientInterface'
+        'Kraken\Console\Client\ClientInterface'
     ];
 
     /**
-     * @var ConsoleClientInterface
+     * @var ClientInterface
      */
     protected $console;
 
     /**
-     * @param ConsoleClientInterface $console
+     * @param ClientInterface $console
      */
-    public function __construct(ConsoleClientInterface $console)
+    public function __construct(ClientInterface $console)
     {
         $this->console = $console;
     }
@@ -49,7 +49,7 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
         );
 
         $core->instance(
-            'Kraken\Console\Client\ConsoleClientInterface',
+            'Kraken\Console\Client\ClientInterface',
             $this->console
         );
     }
@@ -64,7 +64,7 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
         );
 
         $core->remove(
-            'Kraken\Console\Client\ConsoleClientInterface'
+            'Kraken\Console\Client\ClientInterface'
         );
     }
 

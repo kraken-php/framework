@@ -2,7 +2,7 @@
 
 namespace Kraken\_Unit\Console\Client;
 
-use Kraken\Console\Client\ConsoleClient;
+use Kraken\Console\Client\Client;
 use Kraken\Core\Core;
 use Kraken\Event\EventHandler;
 use Kraken\Loop\Loop;
@@ -53,7 +53,7 @@ class ClientTest extends TUnit
         $test = $this->getTest();
         $runtime = $this->createRuntime();
 
-        $test->assertSame('ConsoleClient', $runtime->getAlias());
+        $test->assertSame('Client', $runtime->getAlias());
     }
 
     /**
@@ -64,7 +64,7 @@ class ClientTest extends TUnit
         $test = $this->getTest();
         $runtime = $this->createRuntime();
 
-        $test->assertSame('ConsoleClient', $runtime->getName());
+        $test->assertSame('Client', $runtime->getName());
     }
 
     /**
@@ -258,6 +258,6 @@ class ClientTest extends TUnit
     public function createRuntime($methods = null)
     {
 
-        return $this->getMock(ConsoleClient::class, $methods, []);
+        return $this->getMock(Client::class, $methods, []);
     }
 }

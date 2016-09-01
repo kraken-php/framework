@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Runtime\Boot;
+namespace Kraken\Framework\Runtime\Boot;
 
 use Kraken\Runtime\Container\Process\ProcessController;
 use Kraken\Runtime\RuntimeContainerInterface;

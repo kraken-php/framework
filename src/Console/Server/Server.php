@@ -5,7 +5,7 @@ namespace Kraken\Console\Server;
 use Kraken\Core\CoreInterface;
 use Kraken\Runtime\Container\ProcessContainer;
 
-class ConsoleServer extends ProcessContainer
+class Server extends ProcessContainer implements ServerInterface
 {
     /**
      * @override

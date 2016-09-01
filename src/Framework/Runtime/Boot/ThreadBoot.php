@@ -1,13 +1,19 @@
 <?php
 
-namespace Kraken\Console\Client\Boot;
+namespace Kraken\Framework\Runtime\Boot;
 
-use Kraken\Console\Client\ConsoleClientInterface;
+use Kraken\Runtime\Container\Thread\ThreadController;
+use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Util\Support\StringSupport;
 use ReflectionClass;
 
-class ConsoleBoot
+class ThreadBoot
 {
+    /**
+     * @var ThreadController
+     */
+    protected $threadController;
+
     /**
      * @var mixed[]
      */
@@ -24,12 +30,13 @@ class ConsoleBoot
     protected $params;
 
     /**
-     *
+     * @param ThreadController $threadController
      */
-    public function __construct()
+    public function __construct(ThreadController $threadController = null)
     {
+        $this->runtimeController = ($threadController !== null) ? $threadController : new ThreadController();
         $this->controllerParams = [];
-        $this->controllerClass = '\\Kraken\\Console\\Client\\ConsoleClient';
+        $this->controllerClass = '\\%prefix%\\Thread\\%name%\\%name%Controller';
         $this->params = [
             'prefix' => 'Kraken',
             'name'   => 'Undefined'
@@ -41,6 +48,7 @@ class ConsoleBoot
      */
     public function __destruct()
     {
+        unset($this->runtimeController);
         unset($this->controllerParams);
         unset($this->controllerClass);
         unset($this->params);
@@ -48,7 +56,7 @@ class ConsoleBoot
 
     /**
      * @param string $class
-     * @return ProcessBoot
+     * @return ThreadBoot
      */
     public function controller($class)
     {
@@ -59,7 +67,7 @@ class ConsoleBoot
 
     /**
      * @param mixed[] $args
-     * @return ProcessBoot
+     * @return ThreadBoot
      */
     public function constructor($args)
     {
@@ -70,7 +78,7 @@ class ConsoleBoot
 
     /**
      * @param string[] $params
-     * @return ProcessBoot
+     * @return ThreadBoot
      */
     public function params($params)
     {
@@ -81,20 +89,31 @@ class ConsoleBoot
 
     /**
      * @param string $path
-     * @return ConsoleClientInterface
+     * @return RuntimeContainerInterface
      */
     public function boot($path)
     {
-        $core = require(
-            realpath($path) . '/bootstrap/ConsoleClient/bootstrap.php'
-        );
-
+        $datapath = realpath($path);
         $controller = (new ReflectionClass(
             StringSupport::parametrize($this->controllerClass, $this->params)
         ))
         ->newInstanceArgs(
             array_merge($this->controllerParams)
         );
+
+        if (file_exists($datapath . '/bootstrap/' . $controller->getName() . '/bootstrap.php'))
+        {
+            $core = require(
+                $datapath . '/bootstrap/' . $controller->getName() . '/bootstrap.php'
+            );
+        }
+        else
+        {
+            $core = require(
+                $datapath . '/bootstrap-global/Thread/bootstrap.php'
+            );
+        }
+
         $controller
             ->setCore($core);
 
@@ -107,6 +126,10 @@ class ConsoleBoot
 
         $core
             ->boot();
+
+        $controller
+            ->getLoop()
+            ->setFlowController($this->runtimeController);
 
         $controller
             ->internalConstruct($core);

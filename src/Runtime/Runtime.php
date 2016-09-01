@@ -27,12 +27,12 @@ abstract class Runtime
     /**
      * @var string
      */
-    const RESERVED_CONSOLE_CLIENT = 'ConsoleClient';
+    const RESERVED_CONSOLE_CLIENT = 'Client';
 
     /**
      * @var string
      */
-    const RESERVED_CONSOLE_SERVER = 'ConsoleServer';
+    const RESERVED_CONSOLE_SERVER = 'Server';
 
     /**
      * @var int

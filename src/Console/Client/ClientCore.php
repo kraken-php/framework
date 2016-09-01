@@ -5,7 +5,7 @@ namespace Kraken\Console\Client;
 use Kraken\Core\Core;
 use Kraken\Core\CoreInterface;
 
-class ConsoleClientCore extends Core implements CoreInterface
+class ClientCore extends Core implements CoreInterface
 {
     /**
      * @var string

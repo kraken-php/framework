@@ -24,7 +24,7 @@ if (!defined('STDIN'))
  */
 try
 {
-    $console = (new \Kraken\Console\Client\Boot\ConsoleBoot)
+    $console = (new \Kraken\Framework\Console\Client\Boot\ClientBoot)
         ->boot(
             $dataPath
         );

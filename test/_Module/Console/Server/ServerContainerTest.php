@@ -3,14 +3,13 @@
 namespace Kraken\_Module\Console\Server;
 
 use Kraken\_Module\Console\Server\_Mock\Supervisor\ModelContinue;
-use Kraken\Console\Server\ConsoleServer;
+use Kraken\Console\Server\Server;
 use Kraken\Core\Core;
 use Kraken\Core\CoreInterface;
 use Kraken\Event\EventEmitterInterface;
 use Kraken\Loop\Model\SelectLoop;
 use Kraken\Loop\Loop;
 use Kraken\Runtime\Container\ProcessContainer;
-use Kraken\Runtime\Container\ThreadContainer;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeContainer;
 use Kraken\Runtime\RuntimeManager;
@@ -304,7 +303,7 @@ class ServerContainerTest extends TModule
      */
     public function createServerContainer()
     {
-        return $this->getMock(ConsoleServer::class, null, [ 'parent', 'alias', 'name' ]);
+        return $this->getMock(Server::class, null, [ 'parent', 'alias', 'name' ]);
     }
 
     /**

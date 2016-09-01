@@ -2,7 +2,7 @@
 
 namespace Kraken\_Unit\Console\Server;
 
-use Kraken\Console\Client\ConsoleClientCore;
+use Kraken\Console\Client\ClientCore;
 use Kraken\Core\Core;
 use Kraken\Test\TUnit;
 
@@ -82,6 +82,6 @@ class ClientCoreTest extends TUnit
      */
     public function createCore()
     {
-        return new ConsoleClientCore();
+        return new ClientCore();
     }
 }

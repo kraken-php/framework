@@ -9,7 +9,7 @@ use Kraken\Core\CoreInterface;
 use Kraken\Event\BaseEventEmitter;
 use Kraken\Loop\LoopExtendedAwareTrait;
 
-class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
+class Client extends BaseEventEmitter implements ClientInterface
 {
     use CoreAwareTrait;
     use LoopExtendedAwareTrait;
@@ -46,7 +46,7 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
      */
     public function getAlias()
     {
-        return 'ConsoleClient';
+        return 'Client';
     }
 
     /**
@@ -55,7 +55,7 @@ class ConsoleClient extends BaseEventEmitter implements ConsoleClientInterface
      */
     public function getName()
     {
-        return 'ConsoleClient';
+        return 'Client';
     }
 
     /**

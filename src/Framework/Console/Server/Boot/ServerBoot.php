@@ -1,18 +1,18 @@
 <?php
 
-namespace Kraken\Runtime\Boot;
+namespace Kraken\Framework\Console\Server\Boot;
 
-use Kraken\Runtime\Container\Thread\ThreadController;
+use Kraken\Runtime\Container\Process\ProcessController;
 use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Util\Support\StringSupport;
 use ReflectionClass;
 
-class ThreadBoot
+class ServerBoot
 {
     /**
-     * @var ThreadController
+     * @var ProcessController
      */
-    protected $threadController;
+    protected $runtimeController;
 
     /**
      * @var mixed[]
@@ -30,13 +30,13 @@ class ThreadBoot
     protected $params;
 
     /**
-     * @param ThreadController $threadController
+     * @param ProcessController $runtimeController
      */
-    public function __construct(ThreadController $threadController = null)
+    public function __construct(ProcessController $runtimeController = null)
     {
-        $this->runtimeController = ($threadController !== null) ? $threadController : new ThreadController();
+        $this->runtimeController = ($runtimeController !== null) ? $runtimeController : new ProcessController();
         $this->controllerParams = [];
-        $this->controllerClass = '\\%prefix%\\Thread\\%name%\\%name%Controller';
+        $this->controllerClass = '\\%prefix%\\Process\\%name%\\%name%Controller';
         $this->params = [
             'prefix' => 'Kraken',
             'name'   => 'Undefined'
@@ -56,7 +56,7 @@ class ThreadBoot
 
     /**
      * @param string $class
-     * @return ThreadBoot
+     * @return ServerBoot
      */
     public function controller($class)
     {
@@ -67,7 +67,7 @@ class ThreadBoot
 
     /**
      * @param mixed[] $args
-     * @return ThreadBoot
+     * @return ServerBoot
      */
     public function constructor($args)
     {
@@ -78,7 +78,7 @@ class ThreadBoot
 
     /**
      * @param string[] $params
-     * @return ThreadBoot
+     * @return ServerBoot
      */
     public function params($params)
     {
@@ -94,25 +94,16 @@ class ThreadBoot
     public function boot($path)
     {
         $datapath = realpath($path);
+        $core = require(
+            $datapath . '/bootstrap/Console/Server/bootstrap.php'
+        );
+
         $controller = (new ReflectionClass(
             StringSupport::parametrize($this->controllerClass, $this->params)
         ))
         ->newInstanceArgs(
             array_merge($this->controllerParams)
         );
-
-        if (file_exists($datapath . '/bootstrap/' . $controller->getName() . '/bootstrap.php'))
-        {
-            $core = require(
-                $datapath . '/bootstrap/' . $controller->getName() . '/bootstrap.php'
-            );
-        }
-        else
-        {
-            $core = require(
-                $datapath . '/bootstrap-global/Thread/bootstrap.php'
-            );
-        }
 
         $controller
             ->setCore($core);

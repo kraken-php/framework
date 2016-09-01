@@ -3,7 +3,7 @@
 namespace Kraken\_Unit\Console\Server;
 
 use Kraken\_Unit\Runtime\_Case\RuntimeCase;
-use Kraken\Console\Server\ConsoleServer;
+use Kraken\Console\Server\Server;
 use Kraken\Runtime\RuntimeContainer;
 use Kraken\Test\TUnit;
 
@@ -22,6 +22,6 @@ class ServerTest extends TUnit
         $params[1] = isset($params[1]) ? $params[1] : 'alias';
         $params[2] = isset($params[2]) ? $params[2] : 'class';
 
-        return $this->getMock(ConsoleServer::class, $methods, $params);
+        return $this->getMock(Server::class, $methods, $params);
     }
 }

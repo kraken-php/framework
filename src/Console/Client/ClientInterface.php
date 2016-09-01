@@ -12,7 +12,7 @@ use Kraken\Loop\LoopExtendedAwareInterface;
  * @event stop    : callable()
  * @event command : callable()
  */
-interface ConsoleClientInterface extends CoreInputContextInterface, CoreSetterAwareInterface, LoopExtendedAwareInterface
+interface ClientInterface extends CoreInputContextInterface, CoreSetterAwareInterface, LoopExtendedAwareInterface
 {
     /**
      * Attach start event handler.

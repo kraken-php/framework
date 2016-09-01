@@ -23,14 +23,14 @@ if (!defined('STDIN'))
  */
 try
 {
-    $process = (new \Kraken\Console\Server\Boot\ConsoleBoot)
+    $process = (new \Kraken\Framework\Console\Server\Boot\ServerBoot)
         ->controller(
-            'Kraken\\Console\\Server\\ConsoleServer'
+            'Kraken\\Console\\Server\\Server'
         )
         ->constructor([
             null,
-            'ConsoleServer',
-            'ConsoleServer'
+            'Server',
+            'Server'
         ])
         ->boot(
             $dataPath

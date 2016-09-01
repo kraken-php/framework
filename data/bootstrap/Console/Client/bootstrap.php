@@ -1,10 +1,10 @@
 <?php
 /**
- * Bootstrap file for ProcessContainers.
+ * Bootstrap file for Console Client.
  * Any modifications in this file should be done with exceptional care.
  */
 
-$core = new \Kraken\Console\Server\ConsoleServerCore(
+$core = new \Kraken\Console\Client\ClientCore(
     __DIR__ . '/../../'
 );
 

@@ -6,7 +6,7 @@ use Kraken\Core\Core;
 use Kraken\Core\CoreInterface;
 use Kraken\Runtime\Runtime;
 
-class ConsoleServerCore extends Core implements CoreInterface
+class ServerCore extends Core implements CoreInterface
 {
     /**
      * @var string

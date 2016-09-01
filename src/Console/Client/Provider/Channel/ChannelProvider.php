@@ -16,7 +16,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
      */
     protected $requires = [
         'Kraken\Config\ConfigInterface',
-        'Kraken\Console\Client\ConsoleClientInterface',
+        'Kraken\Console\Client\ClientInterface',
         'Kraken\Channel\ChannelFactoryInterface'
     ];
 
@@ -34,7 +34,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
     {
         $factory = $core->make('Kraken\Channel\ChannelFactoryInterface');
         $config  = $core->make('Kraken\Config\ConfigInterface');
-        $console = $core->make('Kraken\Console\Client\ConsoleClientInterface');
+        $console = $core->make('Kraken\Console\Client\ClientInterface');
 
         $channel = $factory->create('Kraken\Channel\Channel', [
             $config->get('channel.channels.console.class'),

@@ -2,7 +2,7 @@
 
 namespace Kraken\_Unit\Console\Server;
 
-use Kraken\Console\Server\ConsoleServerCore;
+use Kraken\Console\Server\ServerCore;
 use Kraken\Core\Core;
 use Kraken\Runtime\Runtime;
 use Kraken\Test\TUnit;
@@ -106,6 +106,6 @@ class ServerCoreTest extends TUnit
      */
     public function createCore()
     {
-        return new ConsoleServerCore();
+        return new ServerCore();
     }
 }
