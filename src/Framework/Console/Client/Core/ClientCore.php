@@ -15,7 +15,7 @@ class ClientCore extends Core implements CoreInterface
     /**
      * @return string[]
      */
-    protected function getDefaultProviders()
+    public function getDefaultProviders()
     {
         return [
             'Kraken\Framework\Core\Provider\ChannelProvider',
@@ -34,7 +34,7 @@ class ClientCore extends Core implements CoreInterface
     /**
      * @return string[]
      */
-    protected function getDefaultAliases()
+    public function getDefaultAliases()
     {
         return [];
     }

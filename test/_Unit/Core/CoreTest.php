@@ -2,7 +2,6 @@
 
 namespace Kraken\_Unit\Core;
 
-use Kraken\_Unit\Core\_Mock\CoreMock;
 use Kraken\_Unit\Core\_Provider\AProvider;
 use Kraken\_Unit\Core\_Provider\BProvider;
 use Kraken\Container\Container;
@@ -45,15 +44,6 @@ class CoreTest extends TUnit
         $this->assertInstanceOf(Core::class, $core);
         $this->assertInstanceOf(CoreInterface::class, $core);
         $this->assertInstanceOf(Container::class, $core);
-    }
-
-    /**
-     *
-     */
-    public function testApiConstructor_ThrowsException_WhenOneOfInvokedMethodsThrowsException()
-    {
-        $this->setExpectedException(InstantiationException::class);
-        $core = new CoreMock();
     }
 
     /**
@@ -489,44 +479,6 @@ class CoreTest extends TUnit
         $expected = [];
 
         $this->assertSame($expected, $default);
-    }
-
-    /**
-     *
-     */
-    public function testApiRegisterDefaultProviders_RegistersDefaultProviders()
-    {
-        $providers = [ 'something' ];
-        $core = $this->createCore([], [ 'registerProviders', 'getDefaultProviders' ]);
-        $core
-            ->expects($this->once())
-            ->method('getDefaultProviders')
-            ->will($this->returnValue($providers));
-        $core
-            ->expects($this->once())
-            ->method('registerProviders')
-            ->with($providers);
-
-        $this->callProtectedMethod($core, 'registerDefaultProviders');
-    }
-
-    /**
-     *
-     */
-    public function testApiRegisterDefaultProviders_RegistersDefaultAliases()
-    {
-        $aliases = [ 'some'=>'target' ];
-        $core = $this->createCore([], [ 'registerAliases', 'getDefaultAliases' ]);
-        $core
-            ->expects($this->once())
-            ->method('getDefaultAliases')
-            ->will($this->returnValue($aliases));
-        $core
-            ->expects($this->once())
-            ->method('registerAliases')
-            ->with($aliases);
-
-        $this->callProtectedMethod($core, 'registerDefaultAliases');
     }
 
     /**

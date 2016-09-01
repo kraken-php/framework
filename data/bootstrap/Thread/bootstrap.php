@@ -8,17 +8,23 @@ $core = new \Kraken\Framework\Runtime\Core\ThreadCore(
     realpath(__DIR__ . '/../../')
 );
 
-$providers = [
-    /**
-     * List of service providers that needs to be registered for your application to work correctly.
-     */
-];
+$providers = $core->getDefaultProviders();
+$providers = array_merge($providers,
+    [
+        /**
+         * List of service providers that needs to be registered for your application to work correctly.
+         */
+    ]
+);
 
-$aliases = [
-    /**
-     * List of aliases that needs to be registered in IoC container for specified interfaces.
-     */
-];
+$aliases = $core->getDefaultAliases();
+$aliases = array_merge($aliases,
+    [
+        /**
+         * List of aliases that needs to be registered in IoC container for specified interfaces.
+         */
+    ]
+);
 
 $core->registerProviders($providers);
 $core->registerAliases($aliases);

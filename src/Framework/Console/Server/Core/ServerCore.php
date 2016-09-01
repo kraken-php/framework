@@ -16,7 +16,7 @@ class ServerCore extends Core implements CoreInterface
     /**
      * @return string[]
      */
-    protected function getDefaultProviders()
+    public function getDefaultProviders()
     {
         return [
             'Kraken\Framework\Core\Provider\ChannelProvider',
@@ -41,7 +41,7 @@ class ServerCore extends Core implements CoreInterface
     /**
      * @return string[]
      */
-    protected function getDefaultAliases()
+    public function getDefaultAliases()
     {
         return [
             'Channel'           => 'Kraken\Runtime\Channel\ChannelInterface',
