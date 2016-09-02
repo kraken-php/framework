@@ -2,7 +2,7 @@
 
 namespace Kraken\Framework\Core\Provider;
 
-use Kraken\Command\CommandManager;
+use Kraken\Runtime\Command\CommandManager;
 use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
@@ -18,8 +18,8 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Command\CommandFactoryInterface',
-        'Kraken\Command\CommandManagerInterface'
+        'Kraken\Runtime\Command\CommandFactoryInterface',
+        'Kraken\Runtime\Command\CommandManagerInterface'
     ];
 
     /**
@@ -31,12 +31,12 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
         $manager = new CommandManager();
 
         $core->instance(
-            'Kraken\Command\CommandFactoryInterface',
+            'Kraken\Runtime\Command\CommandFactoryInterface',
             $factory
         );
 
         $core->instance(
-            'Kraken\Command\CommandManagerInterface',
+            'Kraken\Runtime\Command\CommandManagerInterface',
             $manager
         );
     }
@@ -47,11 +47,11 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function unregister(CoreInterface $core)
     {
         $core->remove(
-            'Kraken\Command\CommandFactoryInterface'
+            'Kraken\Runtime\Command\CommandFactoryInterface'
         );
 
         $core->remove(
-            'Kraken\Command\CommandManagerInterface'
+            'Kraken\Runtime\Command\CommandManagerInterface'
         );
     }
 
@@ -62,7 +62,7 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function boot(CoreInterface $core)
     {
         $config = $core->make('Kraken\Config\ConfigInterface');
-        $factory = $core->make('Kraken\Command\CommandFactoryInterface');
+        $factory = $core->make('Kraken\Runtime\Command\CommandFactoryInterface');
 
         $commands = (array) $config->get('command.models');
         foreach ($commands as $commandClass)

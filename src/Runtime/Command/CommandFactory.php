@@ -2,7 +2,6 @@
 
 namespace Kraken\Runtime\Command;
 
-use Kraken\Command\CommandFactoryInterface;
 use Kraken\Util\Factory\Factory;
 
 class CommandFactory extends Factory implements CommandFactoryInterface

@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Command;
+namespace Kraken\Runtime\Command;
 
 use Kraken\Promise\PromiseInterface;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;

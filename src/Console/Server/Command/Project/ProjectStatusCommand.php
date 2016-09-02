@@ -5,7 +5,7 @@ namespace Kraken\Console\Server\Command\Project;
 use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\Extra\Request;
 use Kraken\Runtime\Command\Command;
-use Kraken\Command\CommandInterface;
+use Kraken\Runtime\Command\CommandInterface;
 use Kraken\Config\Config;
 use Kraken\Config\ConfigInterface;
 use Kraken\Throwable\Exception\Runtime\RejectionException;
@@ -32,7 +32,7 @@ class ProjectStatusCommand extends Command implements CommandInterface
         $core = $this->runtime->getCore();
 
         $config  = $core->make('Kraken\Config\ConfigInterface');
-        $channel = $core->make('Kraken\Runtime\Channel\ChannelInterface');
+        $channel = $core->make('Kraken\Runtime\Service\ChannelInternal');
 
         $this->config  = $this->createConfig($config);
         $this->channel = $channel;

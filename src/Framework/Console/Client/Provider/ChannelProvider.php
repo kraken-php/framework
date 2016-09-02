@@ -24,7 +24,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Console\Client\Channel\ConsoleInterface'
+        'Kraken\Console\Client\Service\ChannelConsole'
     ];
 
     /**
@@ -54,7 +54,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         });
 
         $core->instance(
-            'Kraken\Console\Client\Channel\ConsoleInterface',
+            'Kraken\Console\Client\Service\ChannelConsole',
             $channel
         );
     }
@@ -65,7 +65,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function unregister(CoreInterface $core)
     {
         $core->remove(
-            'Kraken\Console\Client\Channel\ConsoleInterface'
+            'Kraken\Console\Client\Service\ChannelConsole'
         );
     }
 

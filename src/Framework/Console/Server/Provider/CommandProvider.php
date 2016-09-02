@@ -2,7 +2,7 @@
 
 namespace Kraken\Framework\Console\Server\Provider;
 
-use Kraken\Command\CommandInterface;
+use Kraken\Runtime\Command\CommandInterface;
 use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
@@ -17,7 +17,7 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function boot(CoreInterface $core)
     {
         $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');
-        $manager = $core->make('Kraken\Command\CommandManagerInterface');
+        $manager = $core->make('Kraken\Runtime\Command\CommandManagerInterface');
 
         $manager->import(
             $this->commands($runtime)

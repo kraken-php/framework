@@ -3,7 +3,7 @@
 namespace Kraken\_Unit\Console\Client\_T;
 
 use Kraken\Channel\ChannelInterface;
-use Kraken\Command\CommandInterface;
+use Kraken\Runtime\Command\CommandInterface;
 use Kraken\Console\Client\Command\Command;
 use Kraken\Test\TUnit;
 use Exception;

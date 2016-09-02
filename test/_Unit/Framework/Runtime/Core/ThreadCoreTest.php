@@ -82,12 +82,12 @@ class ThreadCoreTest extends TUnit
     public function getDefaultAliases()
     {
         return [
-            'Channel'           => 'Kraken\Runtime\Channel\ChannelInterface',
-            'Channel.Internal'  => 'Kraken\Runtime\Channel\ChannelInterface',
-            'Channel.Console'   => 'Kraken\Runtime\Channel\ConsoleInterface',
-            'CommandManager'    => 'Kraken\Command\CommandManagerInterface',
+            'Channel'           => 'Kraken\Runtime\Service\ChannelInternal',
+            'Channel.Internal'  => 'Kraken\Runtime\Service\ChannelInternal',
+            'Channel.Console'   => 'Kraken\Runtime\Service\ChannelConsole',
+            'Command.Manager'   => 'Kraken\Runtime\Command\CommandManagerInterface',
             'Config'            => 'Kraken\Config\ConfigInterface',
-            'Console'           => 'Kraken\Runtime\Channel\ConsoleInterface',
+            'Console'           => 'Kraken\Runtime\Service\ChannelConsole',
             'Container'         => 'Kraken\Container\ContainerInterface',
             'Core'              => 'Kraken\Core\CoreInterface',
             'Emitter'           => 'Kraken\Event\EventEmitterInterface',

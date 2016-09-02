@@ -3,7 +3,7 @@
 namespace Kraken\Console\Server\Command\Server;
 
 use Kraken\Runtime\Command\Command;
-use Kraken\Command\CommandInterface;
+use Kraken\Runtime\Command\CommandInterface;
 
 class ServerPingCommand extends Command implements CommandInterface
 {

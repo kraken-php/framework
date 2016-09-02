@@ -15,7 +15,7 @@ class ConsoleBootProvider extends ServiceProvider implements ServiceProviderInte
     {
         $factory = $core->make('Kraken\Console\Client\Command\CommandFactoryInterface');
         $manager = $core->make('Kraken\Console\Client\Command\CommandManagerInterface');
-        $channel = $core->make('Kraken\Console\Client\Channel\ConsoleInterface');
+        $channel = $core->make('Kraken\Console\Client\Service\ChannelConsole');
         $console = $core->make('Kraken\Console\Client\ClientInterface');
 
         $cmds = (array) $factory->getDefinitions();

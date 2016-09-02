@@ -4,7 +4,7 @@ namespace Kraken\_Unit\Console\Server\_T;
 
 use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelInterface;
-use Kraken\Command\CommandInterface;
+use Kraken\Runtime\Command\CommandInterface;
 use Kraken\Config\Config;
 use Kraken\Config\ConfigInterface;
 use Kraken\Core\Core;

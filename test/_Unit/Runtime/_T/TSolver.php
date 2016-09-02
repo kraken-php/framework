@@ -4,7 +4,7 @@ namespace Kraken\_Unit\Runtime\_T;
 
 use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelInterface;
-use Kraken\Command\CommandInterface;
+use Kraken\Runtime\Command\CommandInterface;
 use Kraken\Core\Core;
 use Kraken\Log\Logger;
 use Kraken\Runtime\Container\ThreadContainer;

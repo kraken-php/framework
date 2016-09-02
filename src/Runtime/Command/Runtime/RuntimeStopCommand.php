@@ -3,7 +3,7 @@
 namespace Kraken\Runtime\Command\Runtime;
 
 use Kraken\Runtime\Command\Command;
-use Kraken\Command\CommandInterface;
+use Kraken\Runtime\Command\CommandInterface;
 use Kraken\Throwable\Exception\Runtime\RejectionException;
 
 class RuntimeStopCommand extends Command implements CommandInterface

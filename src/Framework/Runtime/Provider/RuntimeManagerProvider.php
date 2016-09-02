@@ -28,7 +28,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
         'Kraken\Config\ConfigInterface',
         'Kraken\Filesystem\FilesystemInterface',
         'Kraken\Runtime\RuntimeContainerInterface',
-        'Kraken\Runtime\Channel\ChannelInterface'
+        'Kraken\Runtime\Service\ChannelInternal'
     ];
 
     /**
@@ -49,7 +49,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
         $config  = $core->make('Kraken\Config\ConfigInterface');
         $fs      = $core->make('Kraken\Filesystem\FilesystemInterface');
         $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');
-        $channel = $core->make('Kraken\Runtime\Channel\ChannelInterface');
+        $channel = $core->make('Kraken\Runtime\Service\ChannelInternal');
 
         $this->registerRuntimeSupervision($runtime, $channel, $config);
 

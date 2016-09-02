@@ -19,14 +19,14 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
         'Kraken\Config\ConfigInterface',
         'Kraken\Channel\ChannelFactoryInterface',
         'Kraken\Runtime\RuntimeContainerInterface',
-        'Kraken\Command\CommandManagerInterface'
+        'Kraken\Runtime\Command\CommandManagerInterface'
     ];
 
     /**
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Runtime\Channel\ConsoleInterface'
+        'Kraken\Runtime\Service\ChannelConsole'
     ];
 
     /**
@@ -49,7 +49,7 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
         ]);
 
         $core->instance(
-            'Kraken\Runtime\Channel\ConsoleInterface',
+            'Kraken\Runtime\Service\ChannelConsole',
             $console
         );
     }
@@ -60,7 +60,7 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function unregister(CoreInterface $core)
     {
         $core->remove(
-            'Kraken\Runtime\Channel\ConsoleInterface'
+            'Kraken\Runtime\Service\ChannelConsole'
         );
     }
 
@@ -70,8 +70,8 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function boot(CoreInterface $core)
     {
         $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');
-        $channel = $core->make('Kraken\Runtime\Channel\ChannelInterface');
-        $console = $core->make('Kraken\Runtime\Channel\ConsoleInterface');
+        $channel = $core->make('Kraken\Runtime\Service\ChannelInternal');
+        $console = $core->make('Kraken\Runtime\Service\ChannelConsole');
         $loop    = $core->make('Kraken\Loop\LoopInterface');
 
         $this->applyConsoleRouting($channel, $console);

@@ -5,7 +5,7 @@ namespace Kraken\Runtime\Command\Arch;
 use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\Extra\Request;
 use Kraken\Runtime\Command\Command;
-use Kraken\Command\CommandInterface;
+use Kraken\Runtime\Command\CommandInterface;
 use Kraken\Throwable\Exception\Runtime\RejectionException;
 use Kraken\Promise\Promise;
 use Kraken\Runtime\RuntimeCommand;
@@ -23,7 +23,7 @@ class ArchStartCommand extends Command implements CommandInterface
      */
     protected function construct()
     {
-        $this->channel = $this->runtime->getCore()->make('Kraken\Runtime\Channel\ChannelInterface');
+        $this->channel = $this->runtime->getCore()->make('Kraken\Runtime\Service\ChannelInternal');
     }
 
     /**

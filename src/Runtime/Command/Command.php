@@ -2,12 +2,18 @@
 
 namespace Kraken\Runtime\Command;
 
-use Kraken\Command\CommandInterface;
+use Kraken\Promise\Promise;
 use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 
-class Command extends \Kraken\Command\Command implements CommandInterface
+class Command implements CommandInterface
 {
+    /**
+     * @var mixed[]
+     */
+    protected $context;
+
     /**
      * @var RuntimeContainerInterface
      */
@@ -25,8 +31,9 @@ class Command extends \Kraken\Command\Command implements CommandInterface
         }
 
         $this->runtime = $context['runtime'];
+        $this->context = $context;
 
-        parent::__construct($context);
+        $this->construct();
     }
 
     /**
@@ -34,8 +41,54 @@ class Command extends \Kraken\Command\Command implements CommandInterface
      */
     public function __destruct()
     {
-        unset($this->runtime);
+        $this->destruct();
 
-        parent::__destruct();
+        unset($this->runtime);
+        unset($this->context);
     }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function __invoke($params = [])
+    {
+        return $this->execute($params);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function execute($params = [])
+    {
+        $promise = Promise::doResolve($params);
+
+        return $promise
+            ->then(function($params) {
+                return $this->command($params);
+            });
+    }
+
+    /**
+     * @param mixed[] $params
+     * @return mixed
+     * @throws RejectionException
+     */
+    protected function command($params = [])
+    {
+        throw new RejectionException('Command code undefined.');
+    }
+
+    /**
+     *
+     */
+    protected function construct()
+    {}
+
+    /**
+     *
+     */
+    protected function destruct()
+    {}
 }

@@ -2,8 +2,8 @@
 
 namespace Kraken\Framework\Runtime\Provider;
 
-use Kraken\Command\CommandFactoryInterface;
-use Kraken\Command\CommandInterface;
+use Kraken\Runtime\Command\CommandFactoryInterface;
+use Kraken\Runtime\Command\CommandInterface;
 use Kraken\Config\ConfigInterface;
 use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
@@ -16,8 +16,8 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
      * @var string[]
      */
     protected $requires = [
-        'Kraken\Command\CommandFactoryInterface',
-        'Kraken\Command\CommandManagerInterface'
+        'Kraken\Runtime\Command\CommandFactoryInterface',
+        'Kraken\Runtime\Command\CommandManagerInterface'
     ];
 
     /**
@@ -27,8 +27,8 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
     {
         $config  = $core->make('Kraken\Config\ConfigInterface');
         $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');
-        $factory = $core->make('Kraken\Command\CommandFactoryInterface');
-        $manager = $core->make('Kraken\Command\CommandManagerInterface');
+        $factory = $core->make('Kraken\Runtime\Command\CommandFactoryInterface');
+        $manager = $core->make('Kraken\Runtime\Command\CommandManagerInterface');
 
         $manager->import(
             $this->getDefaultCommands($config, $factory, $runtime)

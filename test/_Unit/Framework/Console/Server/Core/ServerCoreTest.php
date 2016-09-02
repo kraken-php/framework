@@ -82,9 +82,9 @@ class ServerCoreTest extends TUnit
     public function getDefaultAliases()
     {
         return [
-            'Channel'           => 'Kraken\Runtime\Channel\ChannelInterface',
-            'Channel.Internal'  => 'Kraken\Runtime\Channel\ChannelInterface',
-            'CommandManager'    => 'Kraken\Command\CommandManagerInterface',
+            'Channel'           => 'Kraken\Runtime\Service\ChannelInternal',
+            'Channel.Internal'  => 'Kraken\Runtime\Service\ChannelInternal',
+            'Command.Manager'   => 'Kraken\Runtime\Command\CommandManagerInterface',
             'Config'            => 'Kraken\Config\ConfigInterface',
             'Container'         => 'Kraken\Container\ContainerInterface',
             'Core'              => 'Kraken\Core\CoreInterface',

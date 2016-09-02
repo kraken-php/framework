@@ -3,7 +3,7 @@
 namespace Kraken\Console\Server\Command\Project;
 
 use Kraken\Runtime\Command\Command;
-use Kraken\Command\CommandInterface;
+use Kraken\Runtime\Command\CommandInterface;
 use Kraken\Config\Config;
 use Kraken\Config\ConfigInterface;
 use Kraken\Throwable\Exception\Runtime\RejectionException;

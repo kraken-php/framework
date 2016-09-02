@@ -4,7 +4,7 @@ namespace Kraken\Runtime\Command\Container;
 
 use Kraken\Promise\Promise;
 use Kraken\Runtime\Command\Command;
-use Kraken\Command\CommandInterface;
+use Kraken\Runtime\Command\CommandInterface;
 
 class ContainerDestroyCommand extends Command implements CommandInterface
 {

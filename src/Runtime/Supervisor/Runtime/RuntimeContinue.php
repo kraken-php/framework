@@ -28,7 +28,7 @@ class RuntimeContinue extends Solver implements SolverInterface
      */
     protected function construct()
     {
-        $this->channel = $this->runtime->getCore()->make('Kraken\Runtime\Channel\ChannelInterface');
+        $this->channel = $this->runtime->getCore()->make('Kraken\Runtime\Service\ChannelInternal');
     }
 
     /**
