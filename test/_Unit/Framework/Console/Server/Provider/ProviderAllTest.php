@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\_Unit\Console\Server\Provider;
+namespace Kraken\_Unit\Framework\Console\Server\Provider;
 
 use Kraken\Framework\Console\Server\Provider\ChannelProvider;
 use Kraken\Framework\Console\Server\Provider\CommandProvider;

@@ -4,8 +4,6 @@ namespace Kraken\Runtime;
 
 use Kraken\Core\CoreInterface;
 use Kraken\Event\EventEmitter;
-use Kraken\Framework\Runtime\Provider\RuntimeBootProvider;
-use Kraken\Framework\Runtime\Provider\RuntimeProvider;
 use Error;
 
 abstract class RuntimeContainer extends EventEmitter implements RuntimeContainerInterface
@@ -343,8 +341,7 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeContainer
      */
     public function internalBoot(CoreInterface $core)
     {
-        $core->registerProvider(new RuntimeProvider($this));
-        $core->registerProvider(new RuntimeBootProvider());
+        $core->instance(RuntimeContainer::class, $this);
 
         return $this->boot($core);
     }

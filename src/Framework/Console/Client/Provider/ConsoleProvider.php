@@ -2,10 +2,9 @@
 
 namespace Kraken\Framework\Console\Client\Provider;
 
-use Kraken\Console\Client\ClientInterface;
-use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
+use Kraken\Core\CoreInterface;
 
 class ConsoleProvider extends ServiceProvider implements ServiceProviderInterface
 {
@@ -18,39 +17,20 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
     ];
 
     /**
-     * @var ClientInterface
-     */
-    protected $console;
-
-    /**
-     * @param ClientInterface $console
-     */
-    public function __construct(ClientInterface $console)
-    {
-        $this->console = $console;
-    }
-
-    /**
-     *
-     */
-    public function __destruct()
-    {
-        unset($this->console);
-    }
-
-    /**
      * @param CoreInterface $core
      */
     protected function register(CoreInterface $core)
     {
+        $console = $core->make('Kraken\Console\Client\Client');
+
         $core->instance(
             'Kraken\Core\CoreInputContextInterface',
-            $this->console
+            $console
         );
 
         $core->instance(
             'Kraken\Console\Client\ClientInterface',
-            $this->console
+            $console
         );
     }
 
@@ -73,7 +53,7 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
      */
     protected function boot(CoreInterface $core)
     {
-        $console = $this->console;
+        $console = $core->make('Kraken\Console\Client\ClientInterface');
         $loop    = $core->make('Kraken\Loop\LoopExtendedInterface');
 
         $console->setLoop($loop);

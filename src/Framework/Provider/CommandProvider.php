@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Framework\Core\Provider;
+namespace Kraken\Framework\Provider;
 
 use Kraken\Runtime\Command\CommandManager;
 use Kraken\Core\CoreInterface;

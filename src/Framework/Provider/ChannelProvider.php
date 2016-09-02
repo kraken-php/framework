@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Framework\Core\Provider;
+namespace Kraken\Framework\Provider;
 
 use Kraken\Channel\ChannelFactory;
 use Kraken\Channel\ChannelModelFactory;

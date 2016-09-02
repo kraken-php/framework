@@ -1,18 +1,18 @@
 <?php
 
-namespace Kraken\_Unit\Core\Provider;
+namespace Kraken\_Unit\Framework\Provider;
 
-use Kraken\Framework\Core\Provider\ChannelProvider;
-use Kraken\Framework\Core\Provider\CommandProvider;
-use Kraken\Framework\Core\Provider\ConfigProvider;
-use Kraken\Framework\Core\Provider\ContainerProvider;
-use Kraken\Framework\Core\Provider\CoreProvider;
-use Kraken\Framework\Core\Provider\EnvironmentProvider;
-use Kraken\Framework\Core\Provider\EventProvider;
-use Kraken\Framework\Core\Provider\FilesystemProvider;
-use Kraken\Framework\Core\Provider\LogProvider;
-use Kraken\Framework\Core\Provider\LoopProvider;
-use Kraken\Framework\Core\Provider\SupervisorProvider;
+use Kraken\Framework\Provider\ChannelProvider;
+use Kraken\Framework\Provider\CommandProvider;
+use Kraken\Framework\Provider\ConfigProvider;
+use Kraken\Framework\Provider\ContainerProvider;
+use Kraken\Framework\Provider\CoreProvider;
+use Kraken\Framework\Provider\EnvironmentProvider;
+use Kraken\Framework\Provider\EventProvider;
+use Kraken\Framework\Provider\FilesystemProvider;
+use Kraken\Framework\Provider\LogProvider;
+use Kraken\Framework\Provider\LoopProvider;
+use Kraken\Framework\Provider\SupervisorProvider;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Core;
 use Kraken\Test\TUnit;
