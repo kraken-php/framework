@@ -5,12 +5,17 @@ namespace Kraken\Framework\Core\Provider;
 use Kraken\Config\Config;
 use Kraken\Config\ConfigFactory;
 use Kraken\Config\ConfigInterface;
+use Kraken\Config\Overwrite\OverwriteMerger;
+use Kraken\Config\Overwrite\OverwriteReverseIsolater;
+use Kraken\Config\Overwrite\OverwriteReverseMerger;
+use Kraken\Config\Overwrite\OverwriteReverseReplacer;
 use Kraken\Core\CoreInterface;
 use Kraken\Core\CoreInputContextInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Filesystem\Filesystem;
 use Kraken\Filesystem\FilesystemAdapterFactory;
+use Kraken\Runtime\Runtime;
 use Kraken\Util\Support\ArraySupport;
 use Kraken\Util\Support\StringSupport;
 
@@ -31,23 +36,49 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
     ];
 
     /**
+     * @var CoreInterface
+     */
+    private $core;
+
+    /**
+     * @var CoreInputContextInterface
+     */
+    private $context;
+
+    /**
      * @param CoreInterface $core
      */
     protected function register(CoreInterface $core)
     {
         $context = $core->make('Kraken\Core\CoreInputContextInterface');
 
-        $global = $core->getDataPath() . '/config-global/' . $this->getDir($core->getType());
-        $local  = $core->getDataPath() . '/config/' . $context->getName();
+        $this->core = $core;
+        $this->context = $context;
 
-        $config = new Config();
-        $this->addConfigByPath($config, $global);
-        $this->addConfigByPath($config, $local);
-        $this->addConfig($config, new Config($core->config()));
+        $dir  = $this->getDir($context->getName(), $context->getType());
+        $name = $context->getName();
+
+        $prefix   = $core->getDataPath() . '/config/' . $dir;
+        $typePath = $prefix . '/config\.([a-zA-Z]*?)$';
+        $namePath = $prefix . '/' . $name . '/config\.([a-zA-Z]*?)$';
+
+        $path = is_dir($prefix . '/' . $name) ? $namePath : $typePath;
+
+        $data = $core->config();
+        $data['imports'] = [];
+        $data['imports'][] = [
+            'resource' => $path,
+            'mode'     => 'merge'
+        ];
+
+        $config = new Config($data);
+        $config->setOverwriteHandler(new OverwriteReverseMerger);
+        $this->configure($config);
+        $config->setOverwriteHandler(new OverwriteMerger);
 
         $vars = array_merge(
             $config->exists('vars') ? $config->get('vars') : [],
-            $this->getDefaultVariables($core, $context)
+            $this->getDefaultVariables()
         );
 
         $records = ArraySupport::flatten($config->getAll());
@@ -71,6 +102,9 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
      */
     protected function unregister(CoreInterface $core)
     {
+        unset($this->core);
+        unset($this->context);
+
         $core->remove(
             'Kraken\Config\ConfigInterface'
         );
@@ -82,82 +116,92 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
      */
     private function createConfig($path)
     {
-        if (!is_dir($path))
-        {
-            return new Config();
-        }
-
         $factory = new FilesystemAdapterFactory();
+
+        $path = explode('/', $path);
+        $file = array_pop($path);
+        $path = implode('/', $path);
 
         return (new ConfigFactory(
             new Filesystem(
                 $factory->create('Local', [ [ 'path' => $path ] ])
-            )
+            ),
+            [ '#' . $file . '#si' ]
         ))->create();
     }
 
     /**
-     * @param string $runtimeUnit
+     * @param string $name
+     * @param string $type
      * @return string
      */
-    private function getDir($runtimeUnit)
+    private function getDir($name, $type)
     {
-        return $runtimeUnit;
+        if ($name === Runtime::RESERVED_CONSOLE_CLIENT || $name === Runtime::RESERVED_CONSOLE_SERVER)
+        {
+            return 'Console';
+        }
+
+        return $type;
     }
 
     /**
      * @param string $option
-     * @return callable
+     * @return callable|null
      */
     private function getOverwriteHandler($option)
     {
         switch ($option)
         {
-            case 'isolate':     return Config::getOverwriteHandlerIsolater();
-            case 'replace':     return Config::getOverwriteHandlerReplacer();
-            case 'merge':       return Config::getOverwriteHandlerMerger();
-            default:            return Config::getOverwriteHandlerMerger();
+            case 'isolate':     return new OverwriteReverseIsolater();
+            case 'replace':     return new OverwriteReverseReplacer();
+            case 'merge':       return new OverwriteReverseMerger();
+            default:            return null;
         }
     }
 
     /**
      * @param ConfigInterface $config
-     * @param string $path
      */
-    private function addConfigByPath(ConfigInterface $config, $path)
+    private function configure(ConfigInterface $config)
     {
-        $this->addConfig($config, $this->createConfig($path));
-    }
-
-    /**
-     * @param ConfigInterface $config
-     * @param ConfigInterface $current
-     */
-    private function addConfig(ConfigInterface $config, ConfigInterface $current)
-    {
-        $dirs = (array) $current->get('config.dirs');
-        foreach ($dirs as $dir)
+        if ($config->exists('imports'))
         {
-            $this->addConfigByPath($current, $dir);
+            $resources = (array) $config->get('imports');
+        }
+        else
+        {
+            $resources = [];
         }
 
-        if ($current->exists('config.mode'))
+        foreach ($resources as $resource)
         {
-            $config->setOverwriteHandler(
-                $this->getOverwriteHandler($current->get('config.mode'))
+            $handler = isset($resource['mode'])
+                ? $this->getOverwriteHandler($resource['mode'])
+                : null
+            ;
+
+            $path = StringSupport::parametrize(
+                $resource['resource'],
+                $this->getDefaultVariables()
             );
-        }
 
-        $config->merge($current->getAll());
+            $current = $this->createConfig($path);
+
+            $this->configure($current);
+
+            $config->merge($current->getAll(), $handler);
+        }
     }
 
     /**
-     * @param CoreInterface $core
-     * @param CoreInputContextInterface $context
      * @return string[]
      */
-    private function getDefaultVariables(CoreInterface $core, CoreInputContextInterface $context)
+    private function getDefaultVariables()
     {
+        $core    = $this->core;
+        $context = $this->context;
+
         return [
             'runtime'   => $context->getType(),
             'parent'    => $context->getParent(),
@@ -165,7 +209,7 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
             'name'      => $context->getName(),
             'basepath'  => $core->getBasePath(),
             'datapath'  => $core->getDataPath(),
-            'host.main' => '127.0.0.1'
+            'localhost' => '127.0.0.1'
         ];
     }
 }

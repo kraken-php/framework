@@ -39,33 +39,33 @@ interface FilesystemInterface
      *
      * @param string $directory
      * @param bool $recursive
-     * @param string $filterPattern
+     * @param string|string[] $filterPatterns
      * @return array
      * @throws ReadException
      */
-    public function getContents($directory = '', $recursive = false, $filterPattern = '');
+    public function getContents($directory = '', $recursive = false, $filterPatterns = []);
 
     /**
      * List files of a directory.
      *
      * @param string $directory
      * @param bool $recursive
-     * @param string $filterPattern
+     * @param string|string[] $filterPatterns
      * @return array
      * @throws ReadException
      */
-    public function getFiles($directory = '', $recursive = false, $filterPattern = '');
+    public function getFiles($directory = '', $recursive = false, $filterPatterns = []);
 
     /**
      * List directories of a directory.
      *
      * @param string $directory
      * @param bool $recursive
-     * @param string $filterPattern
+     * @param string|string[] $filterPatterns
      * @return array
      * @throws ReadException
      */
-    public function getDirectories($directory = '', $recursive = false, $filterPattern = '');
+    public function getDirectories($directory = '', $recursive = false, $filterPatterns = []);
 
     /**
      * Get visibility of a file or directory.

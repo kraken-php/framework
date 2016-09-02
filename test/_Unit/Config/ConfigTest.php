@@ -3,6 +3,7 @@
 namespace Kraken\_Unit\Config;
 
 use Kraken\Config\Config;
+use Kraken\Config\Overwrite\OverwriteMerger;
 use Kraken\Util\Support\ArraySupport;
 use Kraken\Test\TUnit;
 
@@ -109,9 +110,32 @@ class ConfigTest extends TUnit
 
         $config->merge($new);
 
-        $merger = $config->getOverwriteHandlerMerger();
+        $merger = new OverwriteMerger();
         $this->assertSame(
             $merger($old, $new),
+            $config->getConfiguration()
+        );
+    }
+
+    /**
+     *
+     */
+    public function testApiMerge_UsesHandler_WhenHandlerIsProvided()
+    {
+        $config = $this->createConfig();
+        $old = $config->getConfiguration();
+        $new = [
+            'b' => [ 'b' => 'new_Option' ],
+            'h' => 'test',
+            'a' => 5
+        ];
+
+        $config->merge($new, function($old, $new) {
+            return $old;
+        });
+
+        $this->assertSame(
+            $old,
             $config->getConfiguration()
         );
     }
@@ -227,58 +251,13 @@ class ConfigTest extends TUnit
     /**
      *
      */
-    public function testApiGetOverwriteHandlerMerger_ReturnsHandlerThatMergesConfigs()
+    public function testApiGetDefaultHandler_ReturnsDefaultHandler()
     {
         $config = $this->createConfig();
 
-        $old = $config->getConfiguration();
-        $new = [
-            'b' => [ 'b' => 'new_Option' ],
-            'h' => 'test',
-            'a' => 5
-        ];
+        $handler = $this->callProtectedMethod($config, 'getDefaultHandler');
 
-        $handler = $config::getOverwriteHandlerMerger();
-
-        $this->assertSame(ArraySupport::merge([ $old, $new ]), $handler($old, $new));
-    }
-
-    /**
-     *
-     */
-    public function testApiGetOverwriteHandlerReplacer_ReturnsHandlerThatReplacesConfigs()
-    {
-        $config = $this->createConfig();
-
-        $old = $config->getConfiguration();
-        $new = [
-            'b' => [ 'b' => 'new_Option' ],
-            'h' => 'test',
-            'a' => 5
-        ];
-
-        $handler = $config::getOverwriteHandlerReplacer();
-
-        $this->assertSame(ArraySupport::replace([ $old, $new ]), $handler($old, $new));
-    }
-
-    /**
-     *
-     */
-    public function testApiGetOverwriteHandlerIsolater_ReturnsHandlerThatIsolatesConfigs()
-    {
-        $config = $this->createConfig();
-
-        $old = $config->getConfiguration();
-        $new = [
-            'b' => 'new_Option',
-            'h' => 'test',
-            'a' => 5
-        ];
-
-        $handler = $config::getOverwriteHandlerIsolater();
-
-        $this->assertSame($new, $handler($old, $new));
+        $this->assertInstanceOf(OverwriteMerger::class, $handler);
     }
 
     /**
@@ -299,6 +278,28 @@ class ConfigTest extends TUnit
         ];
 
         $merged = $this->callProtectedMethod($config, 'overwrite', [ $old, $new ]);
+
+        $this->assertSame($handler($old, $new), $merged);
+    }
+
+    /**
+     *
+     */
+    public function testApiOverwrite_OverwritesConfig_UsingPassedHandler()
+    {
+        $handler = function($current, $new) {
+            return array_merge($current, $new);
+        };
+        $config = $this->createConfig();
+
+        $old = $config->getConfiguration();
+        $new = [
+            'b' => [ 'b' => 'new_Option' ],
+            'h' => 'test',
+            'a' => 5
+        ];
+
+        $merged = $this->callProtectedMethod($config, 'overwrite', [ $old, $new, $handler ]);
 
         $this->assertSame($handler($old, $new), $merged);
     }

@@ -135,7 +135,7 @@ class FilesystemManager implements FilesystemManagerInterface
      * @override
      * @inheritDoc
      */
-    public function getContents($directory = '', $recursive = false, $filterPattern = '')
+    public function getContents($directory = '', $recursive = false, $filterPatterns = [])
     {
         list($prefix, $directory) = $this->filterPrefix($directory);
 
@@ -144,14 +144,14 @@ class FilesystemManager implements FilesystemManagerInterface
             throw new ReadException("No filesystem saved under prefix [$prefix].");
         }
 
-        return $fs->getContents($directory, $recursive, $filterPattern);
+        return $fs->getContents($directory, $recursive, $filterPatterns);
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function getFiles($directory = '', $recursive = false, $filterPattern = '')
+    public function getFiles($directory = '', $recursive = false, $filterPatterns = [])
     {
         list($prefix, $directory) = $this->filterPrefix($directory);
 
@@ -160,14 +160,14 @@ class FilesystemManager implements FilesystemManagerInterface
             throw new ReadException("No filesystem saved under prefix [$prefix].");
         }
 
-        return $fs->getFiles($directory, $recursive, $filterPattern);
+        return $fs->getFiles($directory, $recursive, $filterPatterns);
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function getDirectories($directory = '', $recursive = false, $filterPattern = '')
+    public function getDirectories($directory = '', $recursive = false, $filterPatterns = [])
     {
         list($prefix, $directory) = $this->filterPrefix($directory);
 
@@ -176,7 +176,7 @@ class FilesystemManager implements FilesystemManagerInterface
             throw new ReadException("No filesystem saved under prefix [$prefix].");
         }
 
-        return $fs->getDirectories($directory, $recursive, $filterPattern);
+        return $fs->getDirectories($directory, $recursive, $filterPatterns);
     }
 
     /**

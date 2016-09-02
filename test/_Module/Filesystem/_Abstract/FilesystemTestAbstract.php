@@ -117,10 +117,17 @@ abstract class FilesystemTestAbstract extends TModule
         $path = isset($this->paths[$path]) ? $this->paths[$path] : $path;
         $path = $this->path . $path;
 
-        $filter = function($object) use($typeFilter, $filePattern) {
-            $check1 = ($filePattern !== '') ? (bool) preg_match($filePattern, $object['basename']) : true;
-            $check2 = ($typeFilter !== '')  ? ($typeFilter === $object['type'])                    : true;
-            return $check1 && $check2;
+        $filePatterns = (array) $filePattern;
+        $filter = function($object) use($typeFilter, $filePatterns) {
+            foreach ($filePatterns as $filePattern)
+            {
+                if ($filePattern !== '' && !preg_match($filePattern, $object['basename']))
+                {
+                    return false;
+                }
+            }
+
+            return ($typeFilter === '' || $typeFilter === $object['type']);
         };
 
         $data = $this->getPathAllData($path, $recursive);

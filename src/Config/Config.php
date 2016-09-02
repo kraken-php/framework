@@ -2,6 +2,7 @@
 
 namespace Kraken\Config;
 
+use Kraken\Config\Overwrite\OverwriteMerger;
 use Kraken\Util\Support\ArraySupport;
 
 class Config implements ConfigInterface
@@ -39,39 +40,6 @@ class Config implements ConfigInterface
      * @override
      * @inheritDoc
      */
-    public static function getOverwriteHandlerMerger()
-    {
-        return function($current, $new) {
-            return ArraySupport::merge([ $current, $new ]);
-        };
-    }
-
-    /**
-     * @override
-     * @inheritDoc
-     */
-    public static function getOverwriteHandlerReplacer()
-    {
-        return function($current, $new) {
-            return ArraySupport::replace([$current, $new]);
-        };
-    }
-
-    /**
-     * @override
-     * @inheritDoc
-     */
-    public static function getOverwriteHandlerIsolater()
-    {
-        return function($current, $new) {
-            return $new;
-        };
-    }
-
-    /**
-     * @override
-     * @inheritDoc
-     */
     public function setConfiguration($config)
     {
         $this->config = ArraySupport::expand($config);
@@ -92,7 +60,7 @@ class Config implements ConfigInterface
      */
     public function setOverwriteHandler(callable $handler = null)
     {
-        $this->overwriteHandler = $handler !== null ? $handler : call_user_func([ $this, 'getOverwriteHandlerMerger' ]);
+        $this->overwriteHandler = $handler !== null ? $handler : $this->getDefaultHandler();
     }
 
     /**
@@ -108,9 +76,9 @@ class Config implements ConfigInterface
      * @override
      * @inheritDoc
      */
-    public function merge($config)
+    public function merge($config, $handler = null)
     {
-        $this->config = $this->overwrite($this->config, $config);
+        $this->config = $this->overwrite($this->config, $config, $handler);
 
         return $this;
     }
@@ -165,10 +133,24 @@ class Config implements ConfigInterface
      *
      * @param array $current
      * @param array $new
+     * @param callable|null $handler
      * @return array
      */
-    protected function overwrite($current, $new)
+    protected function overwrite($current, $new, $handler = null)
     {
-        return call_user_func_array($this->overwriteHandler, [ $current, $new ]);
+        if ($handler === null)
+        {
+            $handler = $this->overwriteHandler;
+        }
+
+        return call_user_func_array($handler, [ $current, $new ]);
+    }
+
+    /**
+     * @return callable
+     */
+    protected function getDefaultHandler()
+    {
+        return new OverwriteMerger();
     }
 }

@@ -129,7 +129,7 @@ class Filesystem implements FilesystemInterface
      * @override
      * @inheritDoc
      */
-    public function getContents($directory = '', $recursive = false, $filterPattern = '')
+    public function getContents($directory = '', $recursive = false, $filterPatterns = [])
     {
         try
         {
@@ -146,8 +146,16 @@ class Filesystem implements FilesystemInterface
             }
 
             $proxy = $this;
-            $filter = function($object) use($proxy, $filterPattern) {
-                return $proxy->match($filterPattern, $object['basename']);
+            $filterPatterns = (array) $filterPatterns;
+            $filter = function($object) use($proxy, $filterPatterns) {
+                foreach ($filterPatterns as $filterPattern)
+                {
+                    if (!$proxy->match($filterPattern, $object['basename']))
+                    {
+                        return false;
+                    }
+                }
+                return true;
             };
 
             return array_values(array_filter($contents, $filter));
@@ -164,7 +172,7 @@ class Filesystem implements FilesystemInterface
      * @override
      * @inheritDoc
      */
-    public function getFiles($directory = '', $recursive = false, $filterPattern = '')
+    public function getFiles($directory = '', $recursive = false, $filterPatterns = [])
     {
         try
         {
@@ -181,8 +189,20 @@ class Filesystem implements FilesystemInterface
             }
 
             $proxy = $this;
-            $filter = function($object) use($proxy, $filterPattern) {
-                return $object['type'] === 'file' && $proxy->match($filterPattern, $object['basename']);
+            $filterPatterns = (array) $filterPatterns;
+            $filter = function($object) use($proxy, $filterPatterns) {
+                if ($object['type'] !== 'file')
+                {
+                    return false;
+                }
+                foreach ($filterPatterns as $filterPattern)
+                {
+                    if (!$proxy->match($filterPattern, $object['basename']))
+                    {
+                        return false;
+                    }
+                }
+                return true;
             };
 
             return array_values(array_filter($contents, $filter));
@@ -199,7 +219,7 @@ class Filesystem implements FilesystemInterface
      * @override
      * @inheritDoc
      */
-    public function getDirectories($directory = '', $recursive = false, $filterPattern = '')
+    public function getDirectories($directory = '', $recursive = false, $filterPatterns = [])
     {
         try
         {
@@ -216,8 +236,20 @@ class Filesystem implements FilesystemInterface
             }
 
             $proxy = $this;
-            $filter = function($object) use($proxy, $filterPattern) {
-                return $object['type'] === 'dir' && $proxy->match($filterPattern, $object['basename']);
+            $filterPatterns = (array) $filterPatterns;
+            $filter = function($object) use($proxy, $filterPatterns) {
+                if ($object['type'] !== 'dir')
+                {
+                    return false;
+                }
+                foreach ($filterPatterns as $filterPattern)
+                {
+                    if (!$proxy->match($filterPattern, $object['basename']))
+                    {
+                        return false;
+                    }
+                }
+                return true;
             };
 
             return array_values(array_filter($contents, $filter));

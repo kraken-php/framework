@@ -9,7 +9,7 @@ return [
                 'class'  => 'Kraken\Channel\Model\Socket\Socket',
                 'config' => [
                     'type'      => 2,
-                    'endpoint'  => 'tcp://%host.main%:2060'
+                    'endpoint'  => 'tcp://%localhost%:2060'
                 ]
             ]
         ]
@@ -18,14 +18,10 @@ return [
         'models'   => [],
         'plugins'  => []
     ],
-    'config' => [
-        'mode' => 'merge', // replace||merge||isolate
-        'dirs' => []
-    ],
     'core' => [
         'project' => [
-            'main.alias' => 'A',
-            'main.name'  => 'Common',
+            'main.alias' => 'Main',
+            'main.name'  => 'Main',
         ]
     ],
     'log' => [

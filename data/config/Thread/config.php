@@ -9,21 +9,21 @@ return [
                 'class'  => 'Kraken\Channel\Model\Socket\Socket',
                 'config' => [
                     'type'      => 2,
-                    'endpoint'  => 'tcp://%host.main%:2080'
+                    'endpoint'  => 'tcp://%localhost%:2080'
                 ]
             ],
             'slave' => [
                 'class'  => 'Kraken\Channel\Model\Socket\Socket',
                 'config' => [
                     'type'      => 1,
-                    'endpoint'  => 'tcp://%host.main%:2081'
+                    'endpoint'  => 'tcp://%localhost%:2081'
                 ]
             ],
             'console' => [
                 'class'  => 'Kraken\Channel\Model\Socket\Socket',
                 'config' => [
                     'type'      => 1,
-                    'endpoint'  => 'tcp://%host.main%:2061'
+                    'endpoint'  => 'tcp://%localhost%:2061'
                 ]
             ]
         ]
@@ -33,14 +33,10 @@ return [
         'plugins'  => [],
         'commands' => []
     ],
-    'config' => [
-        'mode' => 'merge', // replace||merge||isolate
-        'dirs' => []
-    ],
     'core' => [
         'project' => [
-            'main.alias' => 'A',
-            'main.name'  => 'Common',
+            'main.alias' => 'Main',
+            'main.name'  => 'Main',
         ],
         'tolerance' => [
             'parent.keepalive' => 15.0,

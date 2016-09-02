@@ -154,4 +154,16 @@ trait FsApiGetFilesPartial
 
         $test->assertSame($this->getPathData('', 'file', true, $filePattern), $fs->getFiles($this->getPrefixed(''), true, $filePattern));
     }
+
+    /**
+     *
+     */
+    public function testApiGetFiles_ReturnsContents_WhenMultipleFilepatternsAreSet()
+    {
+        $test = $this->getTest();
+        $fs = $this->createFilesystem();
+        $filePatterns = [ '#^DIR_#si', '#_A$#si' ];
+
+        $test->assertSame($this->getPathData('', 'file', true, $filePatterns), $fs->getFiles($this->getPrefixed(''), true, $filePatterns));
+    }
 }

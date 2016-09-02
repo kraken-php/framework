@@ -10,21 +10,30 @@ class ConfigFactory extends SimpleFactory implements ConfigFactoryInterface
 {
     /**
      * @param FilesystemInterface $fs
+     * @param string[] $masks
      * @param ParserInterface[] $parsers
+     * @param bool $recursive
      */
-    public function __construct(FilesystemInterface $fs, $parsers = [])
+    public function __construct(FilesystemInterface $fs, $masks = [], $parsers = [], $recursive = false)
     {
         parent::__construct();
 
         $factory = $this;
         $factory->bindParam('fs', $fs);
+        $factory->bindParam('masks', $masks);
         $factory->bindParam('parsers', $parsers);
+        $factory->bindParam('recursive', $recursive);
 
         $factory->define(function(callable $overwriteHandler = null) {
             $fs = $this->getParam('fs');
+            $masks = $this->getParam('masks');
             $parsers = $this->getParam('parsers');
+            $recursive = $this->getParam('recursive');
 
-            $files = $fs->getFiles('', true, '#(' . $this->getPatternForExt() . ')$#si');
+            $filters = $masks;
+            $filters[] = '#(' . $this->getPatternForExt() . ')$#si';
+
+            $files = $fs->getFiles('', $recursive, $filters);
             $data = [];
             $config = new Config($data, $overwriteHandler);
 
@@ -55,16 +64,16 @@ class ConfigFactory extends SimpleFactory implements ConfigFactoryInterface
      */
     private function getPatternForExt()
     {
-        $pattern = [
+        $patterns = [
             '\.php'
         ];
         $parsers = $this->getParam('parsers');
 
         foreach (array_keys($parsers) as $ext)
         {
-            $pattern[] = '\.' . $ext;
+            $patterns[] = '\.' . $ext;
         }
 
-        return implode("|", $pattern);
+        return implode("|", $patterns);
     }
 }

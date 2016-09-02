@@ -1,9 +1,9 @@
 <?php
 
-namespace Kraken\_Unit\Config;
+namespace Kraken\_Module\Config;
 
-use Kraken\Config\Config;
 use Kraken\Config\ConfigFactory;
+use Kraken\Config\Overwrite\OverwriteMerger;
 use Kraken\Filesystem\Filesystem;
 use Kraken\Filesystem\FilesystemAdapterFactory;
 use Kraken\Test\TModule;
@@ -54,7 +54,7 @@ class ConfigFactoryTest extends TModule
 
         $factory = $this->createConfigFactory();
         $config = $factory->create([
-            Config::getOverwriteHandlerMerger()
+            new OverwriteMerger()
         ]);
         $expected = [
             'a' => 'x',
@@ -102,6 +102,6 @@ class ConfigFactoryTest extends TModule
             'json' => new JsonParser()
         ];
 
-        return new ConfigFactory($fs, $parsers);
+        return new ConfigFactory($fs, [], $parsers, true);
     }
 }

@@ -8,9 +8,10 @@ interface ConfigWriterInterface
      * Merge given configuration with existing one using previously set overwrite handler.
      *
      * @param array $config
+     * @param callable|null $handler
      * @return ConfigInterface
      */
-    public function merge($config);
+    public function merge($config, $handler = null);
 
     /**
      * Set configuration under $key to $value.

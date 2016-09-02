@@ -8,22 +8,15 @@ return [
             'master' => [
                 'class'  => 'Kraken\Channel\Model\Socket\Socket',
                 'config' => [
-                    'type'      => 2,
-                    'endpoint'  => 'tcp://%host.main%:2080'
+                    'type'      => 1,
+                    'endpoint'  => 'tcp://%localhost%:2060'
                 ]
             ],
             'slave' => [
                 'class'  => 'Kraken\Channel\Model\Socket\Socket',
                 'config' => [
-                    'type'      => 1,
-                    'endpoint'  => 'tcp://%host.main%:2081'
-                ]
-            ],
-            'console' => [
-                'class'  => 'Kraken\Channel\Model\Socket\Socket',
-                'config' => [
-                    'type'      => 1,
-                    'endpoint'  => 'tcp://%host.main%:2061'
+                    'type'      => 2,
+                    'endpoint'  => 'tcp://%localhost%:2061'
                 ]
             ]
         ]
@@ -33,18 +26,14 @@ return [
         'plugins'  => [],
         'commands' => []
     ],
-    'config' => [
-        'mode' => 'merge', // replace||merge||isolate
-        'dirs' => []
-    ],
     'core' => [
         'project' => [
-            'main.alias' => 'A',
-            'main.name'  => 'Common',
+            'main.alias' => 'Main',
+            'main.name'  => 'Main',
         ],
         'tolerance' => [
-            'parent.keepalive' => 15.0,
-            'child.keepalive'  => 15.0
+            'parent.keepalive' => 0.0,
+            'child.keepalive'  => 0.0
         ]
     ],
     'error' => [
@@ -83,15 +72,11 @@ return [
         'model' => 'Kraken\Loop\Model\SelectLoop'
     ],
     'runtime' => [
-        'manager' => [
-            'process' => [
-                'class'  => 'Kraken\Runtime\Container\Manager\ProcessManagerBase',
-                'config' => []
-            ],
-            'thread' => [
-                'class'  => 'Kraken\Runtime\Container\Manager\ThreadManagerBase',
-                'config' => []
-            ]
+        'processManager' => [
+            'supervisorName' => null
+        ],
+        'threadManager' => [
+            'supervisorName' => null
         ]
     ]
 ];
