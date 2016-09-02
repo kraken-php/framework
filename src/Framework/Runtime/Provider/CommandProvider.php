@@ -2,24 +2,16 @@
 
 namespace Kraken\Framework\Runtime\Provider;
 
-use Kraken\Runtime\Command\CommandFactoryInterface;
-use Kraken\Runtime\Command\CommandInterface;
 use Kraken\Config\ConfigInterface;
-use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
+use Kraken\Core\CoreInterface;
+use Kraken\Runtime\Command\CommandFactoryInterface;
+use Kraken\Runtime\Command\CommandInterface;
 use Kraken\Runtime\RuntimeContainerInterface;
 
 class CommandProvider extends ServiceProvider implements ServiceProviderInterface
 {
-    /**
-     * @var string[]
-     */
-    protected $requires = [
-        'Kraken\Runtime\Command\CommandFactoryInterface',
-        'Kraken\Runtime\Command\CommandManagerInterface'
-    ];
-
     /**
      * @param CoreInterface $core
      */

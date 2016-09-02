@@ -70,7 +70,6 @@ class ServerCoreTest extends TUnit
             'Kraken\Framework\Core\Provider\LoopProvider',
             'Kraken\Framework\Console\Server\Provider\ChannelProvider',
             'Kraken\Framework\Console\Server\Provider\CommandProvider',
-            'Kraken\Framework\Runtime\Provider\CommandProvider',
             'Kraken\Framework\Runtime\Provider\SupervisorProvider',
             'Kraken\Framework\Runtime\Provider\RuntimeManagerProvider'
         ];

@@ -13,6 +13,6 @@ class CmdPingCommand extends Command implements CommandInterface
      */
     protected function command($params = [])
     {
-        return 'ping';
+        return gethostbyname(gethostname());
     }
 }

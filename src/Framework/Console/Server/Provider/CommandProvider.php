@@ -2,10 +2,12 @@
 
 namespace Kraken\Framework\Console\Server\Provider;
 
-use Kraken\Runtime\Command\CommandInterface;
-use Kraken\Core\CoreInterface;
+use Kraken\Config\ConfigInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
+use Kraken\Core\CoreInterface;
+use Kraken\Runtime\Command\CommandFactoryInterface;
+use Kraken\Runtime\Command\CommandInterface;
 use Kraken\Runtime\RuntimeContainerInterface;
 use ReflectionClass;
 
@@ -16,11 +18,17 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
      */
     protected function boot(CoreInterface $core)
     {
+        $config  = $core->make('Kraken\Config\ConfigInterface');
         $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');
+        $factory = $core->make('Kraken\Runtime\Command\CommandFactoryInterface');
         $manager = $core->make('Kraken\Runtime\Command\CommandManagerInterface');
 
         $manager->import(
-            $this->commands($runtime)
+            $this->getDefaultCommands($runtime)
+        );
+
+        $manager->import(
+            $this->getAppCommands($config, $factory, $runtime)
         );
     }
 
@@ -38,7 +46,7 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
      * @param RuntimeContainerInterface $runtime
      * @return CommandInterface[]
      */
-    protected function commands(RuntimeContainerInterface $runtime)
+    protected function getDefaultCommands(RuntimeContainerInterface $runtime)
     {
         $cmds = [
             'project:create'    => 'Kraken\Console\Server\Command\Project\ProjectCreateCommand',
@@ -55,5 +63,23 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
         }
 
         return $cmds;
+    }
+
+    /**
+     * @param ConfigInterface $config
+     * @param CommandFactoryInterface $factory
+     * @param RuntimeContainerInterface $runtime
+     * @return CommandInterface[]
+     */
+    protected function getAppCommands(ConfigInterface $config, CommandFactoryInterface $factory, RuntimeContainerInterface $runtime)
+    {
+        $cmds = (array) $config->get('command.commands');
+        $commands = [];
+        foreach ($cmds as $name=>$command)
+        {
+            $commands[$name] = $factory->create($command, [[ 'runtime' => $runtime ]]);
+        }
+
+        return $commands;
     }
 }

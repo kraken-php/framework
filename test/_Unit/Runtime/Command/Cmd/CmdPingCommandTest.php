@@ -18,7 +18,7 @@ class CmdPingCommandTest extends TCommand
     public function testApiCommand_InvokesProperAction()
     {
         $command  = $this->createCommand();
-        $expected = 'ping';
+        $expected = gethostbyname(gethostname());
 
         $this->assertSame(
             $expected,
