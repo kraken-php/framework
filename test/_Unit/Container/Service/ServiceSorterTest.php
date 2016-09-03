@@ -1,15 +1,15 @@
 <?php
 
-namespace Kraken\_Unit\Core\Service;
+namespace Kraken\_Unit\Container\Service;
 
-use Kraken\_Unit\Core\_Provider\AProvider;
-use Kraken\_Unit\Core\_Provider\BProvider;
-use Kraken\_Unit\Core\_Provider\CProvider;
-use Kraken\_Unit\Core\_Provider\DProvider;
-use Kraken\_Unit\Core\_Provider\EProvider;
-use Kraken\_Unit\Core\_Provider\FProvider;
-use Kraken\_Unit\Core\_Provider\GProvider;
-use Kraken\Core\Service\ServiceSorter;
+use Kraken\_Unit\Container\_Provider\AProvider;
+use Kraken\_Unit\Container\_Provider\BProvider;
+use Kraken\_Unit\Container\_Provider\CProvider;
+use Kraken\_Unit\Container\_Provider\DProvider;
+use Kraken\_Unit\Container\_Provider\EProvider;
+use Kraken\_Unit\Container\_Provider\FProvider;
+use Kraken\_Unit\Container\_Provider\GProvider;
+use Kraken\Container\Service\ServiceSorter;
 use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Throwable\Exception\Runtime\OverflowException;

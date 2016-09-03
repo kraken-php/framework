@@ -13,7 +13,7 @@ use Kraken\Framework\Provider\FilesystemProvider;
 use Kraken\Framework\Provider\LogProvider;
 use Kraken\Framework\Provider\LoopProvider;
 use Kraken\Framework\Provider\SupervisorProvider;
-use Kraken\Core\Service\ServiceProvider;
+use Kraken\Container\ServiceProvider;
 use Kraken\Core\Core;
 use Kraken\Test\TUnit;
 

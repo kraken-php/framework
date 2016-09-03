@@ -2,7 +2,7 @@
 
 namespace Kraken\_Unit\Framework\Runtime\Provider;
 
-use Kraken\Core\Service\ServiceProvider;
+use Kraken\Container\ServiceProvider;
 use Kraken\Core\Core;
 use Kraken\Framework\Runtime\Provider\ChannelProvider;
 use Kraken\Framework\Runtime\Provider\CommandProvider;

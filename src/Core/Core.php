@@ -3,7 +3,7 @@
 namespace Kraken\Core;
 
 use Kraken\Container\Container;
-use Kraken\Core\Service\ServiceRegister;
+use Kraken\Container\ServiceRegister;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Runtime\Runtime;

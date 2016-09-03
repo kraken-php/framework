@@ -4,8 +4,8 @@ namespace Kraken\Framework\Provider;
 
 use Kraken\Config\ConfigInterface;
 use Kraken\Container\ContainerInterface;
-use Kraken\Core\Service\ServiceProvider;
-use Kraken\Core\Service\ServiceProviderInterface;
+use Kraken\Container\ServiceProvider;
+use Kraken\Container\ServiceProviderInterface;
 use Kraken\Log\Handler\HandlerInterface;
 use Kraken\Log\Logger;
 use Kraken\Log\LoggerFactory;

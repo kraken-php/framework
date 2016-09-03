@@ -3,8 +3,8 @@
 namespace Kraken\Framework\Provider;
 
 use Kraken\Container\ContainerInterface;
-use Kraken\Core\Service\ServiceProvider;
-use Kraken\Core\Service\ServiceProviderInterface;
+use Kraken\Container\ServiceProvider;
+use Kraken\Container\ServiceProviderInterface;
 use Kraken\Filesystem\Filesystem;
 use Kraken\Filesystem\FilesystemAdapterFactory;
 use Kraken\Filesystem\FilesystemManager;

@@ -1,14 +1,14 @@
 <?php
 
-namespace Kraken\_Module\Core\Service;
+namespace Kraken\_Module\Container;
 
-use Kraken\_Module\Core\_Provider\AProvider;
-use Kraken\_Module\Core\_Provider\BProvider;
-use Kraken\_Module\Core\_Resource\Resource;
-use Kraken\_Module\Core\_Resource\ResourceInterface;
+use Kraken\_Module\Container\_Provider\AProvider;
+use Kraken\_Module\Container\_Provider\BProvider;
+use Kraken\_Module\Container\_Resource\Resource;
+use Kraken\_Module\Container\_Resource\ResourceInterface;
 use Kraken\Container\Container;
 use Kraken\Container\ContainerInterface;
-use Kraken\Core\Service\ServiceRegister;
+use Kraken\Container\ServiceRegister;
 use Kraken\Test\TModule;
 
 class ServiceRegisterTest extends TModule

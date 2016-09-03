@@ -3,8 +3,8 @@
 namespace Kraken\Framework\Provider;
 
 use Kraken\Container\ContainerInterface;
-use Kraken\Core\Service\ServiceProvider;
-use Kraken\Core\Service\ServiceProviderInterface;
+use Kraken\Container\ServiceProvider;
+use Kraken\Container\ServiceProviderInterface;
 use Kraken\Runtime\Supervisor\SolverFactory;
 use Kraken\Supervisor\SolverFactoryInterface;
 use Kraken\Supervisor\Supervisor;

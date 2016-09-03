@@ -7,7 +7,7 @@ use Kraken\Framework\Console\Client\Provider\CommandProvider;
 use Kraken\Framework\Console\Client\Provider\ConsoleBootProvider;
 use Kraken\Framework\Console\Client\Provider\ConsoleProvider;
 use Kraken\Console\Client\Client;
-use Kraken\Core\Service\ServiceProvider;
+use Kraken\Container\ServiceProvider;
 use Kraken\Core\Core;
 use Kraken\Test\TUnit;
 

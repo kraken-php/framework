@@ -6,8 +6,8 @@ use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\ChannelCompositeInterface;
 use Kraken\Channel\Router\RuleHandler;
 use Kraken\Container\ContainerInterface;
-use Kraken\Core\Service\ServiceProvider;
-use Kraken\Core\Service\ServiceProviderInterface;
+use Kraken\Container\ServiceProvider;
+use Kraken\Container\ServiceProviderInterface;
 use Kraken\Runtime\Runtime;
 
 class ConsoleProvider extends ServiceProvider implements ServiceProviderInterface

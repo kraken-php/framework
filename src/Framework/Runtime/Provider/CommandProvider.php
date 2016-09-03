@@ -3,8 +3,8 @@
 namespace Kraken\Framework\Runtime\Provider;
 
 use Kraken\Config\ConfigInterface;
-use Kraken\Core\Service\ServiceProvider;
-use Kraken\Core\Service\ServiceProviderInterface;
+use Kraken\Container\ServiceProvider;
+use Kraken\Container\ServiceProviderInterface;
 use Kraken\Container\ContainerInterface;
 use Kraken\Runtime\Command\CommandFactoryInterface;
 use Kraken\Runtime\Command\CommandInterface;

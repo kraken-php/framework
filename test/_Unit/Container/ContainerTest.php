@@ -2,7 +2,6 @@
 
 namespace Kraken\_Unit\Container;
 
-use Exception;
 use Kraken\_Unit\Container\_Asset\Baz;
 use Kraken\_Unit\Container\_Asset\BazInterface;
 use Kraken\_Unit\Container\_Mock\ContainerMock;
@@ -13,6 +12,7 @@ use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\Runtime\ReadException;
 use Kraken\Throwable\Exception\Runtime\WriteException;
 use Prophecy\Argument;
+use Exception;
 
 class ContainerTest extends TUnit
 {

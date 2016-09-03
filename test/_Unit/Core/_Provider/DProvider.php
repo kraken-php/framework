@@ -2,7 +2,7 @@
 
 namespace Kraken\_Unit\Core\_Provider;
 
-use Kraken\Core\Service\ServiceProvider;
+use Kraken\Container\ServiceProvider;
 
 class DProvider extends ServiceProvider
 {

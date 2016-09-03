@@ -1,10 +1,10 @@
 <?php
 
-namespace Kraken\_Unit\Core\_Provider;
+namespace Kraken\_Unit\Container\_Provider;
 
 use Kraken\Container\ServiceProvider;
 
-class AProvider extends ServiceProvider
+class DProvider extends ServiceProvider
 {
     /**
      * @var string[]
@@ -14,5 +14,5 @@ class AProvider extends ServiceProvider
     /**
      * @var string[]
      */
-    protected $provides = [ 'A0', 'A1', 'A2' ];
+    protected $provides = [ 'D' ];
 }

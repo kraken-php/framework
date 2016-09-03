@@ -3,7 +3,7 @@
 namespace Kraken\Core;
 
 use Kraken\Container\ContainerInterface;
-use Kraken\Core\Service\ServiceProviderInterface;
+use Kraken\Container\ServiceProviderInterface;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
 use Kraken\Throwable\Exception\Logic\InstantiationException;

@@ -3,8 +3,8 @@
 namespace Kraken\Framework\Provider;
 
 use Kraken\Container\ContainerInterface;
-use Kraken\Core\Service\ServiceProvider;
-use Kraken\Core\Service\ServiceProviderInterface;
+use Kraken\Container\ServiceProvider;
+use Kraken\Container\ServiceProviderInterface;
 use Kraken\Loop\Loop;
 
 class LoopProvider extends ServiceProvider implements ServiceProviderInterface

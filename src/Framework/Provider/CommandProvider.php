@@ -4,8 +4,8 @@ namespace Kraken\Framework\Provider;
 
 use Kraken\Runtime\Command\CommandManager;
 use Kraken\Container\ContainerInterface;
-use Kraken\Core\Service\ServiceProvider;
-use Kraken\Core\Service\ServiceProviderInterface;
+use Kraken\Container\ServiceProvider;
+use Kraken\Container\ServiceProviderInterface;
 use Kraken\Runtime\Command\CommandFactory;
 use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;

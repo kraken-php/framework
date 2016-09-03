@@ -4,7 +4,7 @@ namespace Kraken\_Unit\Framework\Console\Server\Provider;
 
 use Kraken\Framework\Console\Server\Provider\ChannelProvider;
 use Kraken\Framework\Console\Server\Provider\CommandProvider;
-use Kraken\Core\Service\ServiceProvider;
+use Kraken\Container\ServiceProvider;
 use Kraken\Core\Core;
 use Kraken\Test\TUnit;
 

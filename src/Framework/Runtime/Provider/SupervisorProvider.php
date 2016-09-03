@@ -4,8 +4,8 @@ namespace Kraken\Framework\Runtime\Provider;
 
 use Kraken\Config\ConfigInterface;
 use Kraken\Container\ContainerInterface;
-use Kraken\Core\Service\ServiceProvider;
-use Kraken\Core\Service\ServiceProviderInterface;
+use Kraken\Container\ServiceProvider;
+use Kraken\Container\ServiceProviderInterface;
 use Kraken\Supervisor\SolverInterface;
 use Kraken\Supervisor\SupervisorInterface;
 use Kraken\Supervisor\SupervisorPluginInterface;

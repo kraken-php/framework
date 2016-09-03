@@ -1,8 +1,7 @@
 <?php
 
-namespace Kraken\Core\Service;
+namespace Kraken\Container;
 
-use Kraken\Container\ContainerInterface;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
 use Error;
 use Exception;

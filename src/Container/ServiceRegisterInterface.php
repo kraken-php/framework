@@ -1,6 +1,6 @@
 <?php
 
-namespace Kraken\Core\Service;
+namespace Kraken\Container;
 
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;

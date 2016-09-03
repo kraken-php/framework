@@ -1,13 +1,13 @@
 <?php
 
-namespace Kraken\Core\Service;
+namespace Kraken\Container;
 
-use Kraken\Container\ContainerInterface;
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Kraken\Container\Service\ServiceSorter;
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
 use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
+use Kraken\Throwable\Exception\Runtime\ExecutionException;
 use Kraken\Throwable\Exception\Runtime\OverflowException;
 use Error;
 use Exception;

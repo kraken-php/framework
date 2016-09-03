@@ -2,8 +2,8 @@
 
 namespace Kraken\Framework\Console\Client\Provider;
 
-use Kraken\Core\Service\ServiceProvider;
-use Kraken\Core\Service\ServiceProviderInterface;
+use Kraken\Container\ServiceProvider;
+use Kraken\Container\ServiceProviderInterface;
 use Kraken\Container\ContainerInterface;
 
 class ConsoleProvider extends ServiceProvider implements ServiceProviderInterface

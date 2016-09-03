@@ -7,7 +7,7 @@ use Kraken\_Module\Core\_Provider\BProvider;
 use Kraken\_Module\Core\_Resource\Resource;
 use Kraken\_Module\Core\_Resource\ResourceInterface;
 use Kraken\Core\CoreInterface;
-use Kraken\Core\Service\ServiceRegister;
+use Kraken\Container\ServiceRegister;
 use Kraken\Core\Core;
 use Kraken\Test\TModule;
 

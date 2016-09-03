@@ -1,15 +1,14 @@
 <?php
 
-namespace Kraken\_Unit\Core\Service;
+namespace Kraken\_Unit\Container;
 
-
-use Kraken\_Unit\Core\_Provider\AProvider;
-use Kraken\_Unit\Core\_Provider\BProvider;
-use Kraken\_Unit\Core\_Provider\CProvider;
-use Kraken\_Unit\Core\_Provider\DProvider;
-use Kraken\_Unit\Core\_Provider\EProvider;
-use Kraken\_Unit\Core\_Provider\NonProvider;
-use Kraken\Core\Service\ServiceRegister;
+use Kraken\_Unit\Container\_Provider\AProvider;
+use Kraken\_Unit\Container\_Provider\BProvider;
+use Kraken\_Unit\Container\_Provider\CProvider;
+use Kraken\_Unit\Container\_Provider\DProvider;
+use Kraken\_Unit\Container\_Provider\EProvider;
+use Kraken\_Unit\Container\_Provider\NonProvider;
+use Kraken\Container\ServiceRegister;
 use Kraken\Container\Container;
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;

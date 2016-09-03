@@ -1,9 +1,9 @@
 <?php
 
-namespace Kraken\_Module\Core\_Provider;
+namespace Kraken\_Module\Container\_Provider;
 
-use Kraken\_Module\Core\_Resource\Resource;
-use Kraken\_Module\Core\_Resource\ResourceInterface;
+use Kraken\_Module\Container\_Resource\Resource;
+use Kraken\_Module\Container\_Resource\ResourceInterface;
 use Kraken\Container\ContainerInterface;
 use Kraken\Container\ServiceProvider;
 
