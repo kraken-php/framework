@@ -47,7 +47,7 @@ class FilesystemProvider extends ServiceProvider implements ServiceProviderInter
         {
             $fsCloud->mountFilesystem($disk, new Filesystem(
                 $factory->create(
-                    $config['factory'],
+                    $config['class'],
                     [ $config['config'] ]
                 )
             ));

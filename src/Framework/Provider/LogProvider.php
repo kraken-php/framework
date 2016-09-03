@@ -33,19 +33,25 @@ class LogProvider extends ServiceProvider implements ServiceProviderInterface
      */
     protected function register(ContainerInterface $container)
     {
-        $config  = $container->make('Kraken\Config\ConfigInterface');
+        $config   = $container->make('Kraken\Config\ConfigInterface');
+        $handlers = [];
+
+        if ($config->exists('log.levels'))
+        {
+            $levels = (array) $config->get('log.levels');
+        }
+        else
+        {
+            $levels = [];
+        }
+
+        foreach ($levels as $level)
+        {
+            $handlers[] = $this->createHandler($config, strtolower($level), constant("\\Kraken\\Log\\Logger::$level"));
+        }
 
         $factory = new LoggerFactory();
-        $logger  = new Logger(
-            'Kraken',
-            [
-                $this->createHandler($config, 'error',   Logger::EMERGENCY),
-                $this->createHandler($config, 'warning', Logger::WARNING),
-                $this->createHandler($config, 'notice',  Logger::NOTICE),
-                $this->createHandler($config, 'info',    Logger::INFO),
-                $this->createHandler($config, 'debug',   Logger::DEBUG),
-            ]
-        );
+        $logger  = new Logger('Kraken', $handlers);
 
         $container->instance(
             'Kraken\Log\LoggerFactory',
@@ -83,12 +89,12 @@ class LogProvider extends ServiceProvider implements ServiceProviderInterface
         $factory = new LoggerFactory();
 
         $formatter = $factory->createFormatter(
-            'LineFormatter', [ $config->get('log.messagePattern'), $config->get('log.datePattern'), true ]
+            'LineFormatter', [ $config->get('log.config.messagePattern'), $config->get('log.config.datePattern'), true ]
         );
 
-        $filePermission = $config->get('log.filePermission');
-        $fileLocking = (bool) $config->get('log.fileLocking');
-        $filePath = $config->get('log.filePattern');
+        $filePermission = $config->get('log.config.filePermission');
+        $fileLocking = (bool) $config->get('log.config.fileLocking');
+        $filePath = $config->get('log.config.filePattern');
 
         $loggerHandler = $factory->createHandler(
             'StreamHandler',

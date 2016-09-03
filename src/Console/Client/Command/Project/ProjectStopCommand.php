@@ -16,7 +16,7 @@ class ProjectStopCommand extends Command
     {
         $this
             ->setName('project:stop')
-            ->setDescription('Stops project using core.project configuration.')
+            ->setDescription('Stops project using project.config configuration.')
         ;
     }
 

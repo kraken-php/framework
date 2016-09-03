@@ -62,6 +62,6 @@ class ProjectStopCommand extends Command implements CommandInterface
      */
     protected function createConfig(ConfigInterface $config = null)
     {
-        return new Config($config === null ? [] : $config->get('core.project'));
+        return new Config($config === null ? [] : $config->get('project.config'));
     }
 }

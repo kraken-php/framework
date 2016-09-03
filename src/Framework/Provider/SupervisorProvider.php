@@ -80,7 +80,7 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
         $config  = $container->make('Kraken\Config\ConfigInterface');
         $factory = $container->make('Kraken\Supervisor\SolverFactoryInterface');
 
-        $handlers = (array) $config->get('error.handlers');
+        $handlers = (array) $config->get('supervision.solvers');
         foreach ($handlers as $handlerClass)
         {
             if (!class_exists($handlerClass))
@@ -94,7 +94,7 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
                 });
         }
 
-        $plugins = (array) $config->get('error.plugins');
+        $plugins = (array) $config->get('supervision.plugins');
         foreach ($plugins as $pluginClass)
         {
             if (!class_exists($pluginClass))

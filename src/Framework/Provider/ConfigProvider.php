@@ -207,7 +207,7 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
 
         return [
             'runtime'   => $context->getType(),
-            'parent'    => $context->getParent(),
+            'parent'    => $context->getParent() === null ? 'null' : $context->getParent(),
             'alias'     => $context->getAlias(),
             'name'      => $context->getName(),
             'basepath'  => $core->getBasePath(),

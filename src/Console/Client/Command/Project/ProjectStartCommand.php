@@ -16,7 +16,7 @@ class ProjectStartCommand extends Command
     {
         $this
             ->setName('project:start')
-            ->setDescription('Starts project using core.project configuration.')
+            ->setDescription('Starts project using project.config configuration.')
         ;
     }
 

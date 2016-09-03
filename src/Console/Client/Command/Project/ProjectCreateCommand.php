@@ -18,7 +18,7 @@ class ProjectCreateCommand extends Command
     {
         $this
             ->setName('project:create')
-            ->setDescription('Creates project using core.project configuration.')
+            ->setDescription('Creates project using project.config configuration.')
         ;
 
         $this->addOption(

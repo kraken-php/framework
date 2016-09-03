@@ -39,8 +39,8 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
     {
         $config = $container->make('Kraken\Config\ConfigInterface');
 
-        $errorManager    = $container->make('Kraken\Supervisor\SupervisorInterface', [ null, $config->get('error.manager.params') ]);
-        $errorSupervisor = $container->make('Kraken\Supervisor\SupervisorInterface', [ null, $config->get('error.supervisor.params') ]);
+        $errorManager    = $container->make('Kraken\Supervisor\SupervisorInterface', [ null, $config->get('supervision.base.params') ]);
+        $errorSupervisor = $container->make('Kraken\Supervisor\SupervisorInterface', [ null, $config->get('supervision.remote.params') ]);
 
         $container->instance(
             'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
@@ -89,7 +89,7 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
      */
     private function bootBaseSupervisor(SupervisorInterface $supervisor, ConfigInterface $config)
     {
-        $handlers = (array) $config->get('error.manager.handlers');
+        $handlers = (array) $config->get('supervision.base.handlers');
 
         $default = [
             $this->systemException('ChildUnresponsiveException')   => [ 'RuntimeRecreate', 'ContainerContinue' ],
@@ -99,7 +99,7 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
             'Exception'                                            => [ 'CmdLog', 'ContainerContinue' ]
         ];
 
-        $plugins = (array) $config->get('error.manager.plugins');
+        $plugins = (array) $config->get('supervision.base.plugins');
 
         $this->bootBaseOrRemote($supervisor, $default, $handlers, $plugins);
     }
@@ -111,7 +111,7 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
      */
     private function bootRemoteSupervisor(SupervisorInterface $supervisor, ConfigInterface $config)
     {
-        $handlers = (array) $config->get('error.supervisor.handlers');
+        $handlers = (array) $config->get('supervision.remote.handlers');
 
         $default = [
             $this->systemError('FatalError')    => 'ContainerDestroy',
@@ -119,7 +119,7 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
             'Exception'                         => 'ContainerContinue'
         ];
 
-        $plugins = (array) $config->get('error.supervisor.plugins');
+        $plugins = (array) $config->get('supervision.remote.plugins');
 
         $this->bootBaseOrRemote($supervisor, $default, $handlers, $plugins);
     }

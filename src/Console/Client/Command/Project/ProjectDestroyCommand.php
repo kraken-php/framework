@@ -18,7 +18,7 @@ class ProjectDestroyCommand extends Command
     {
         $this
             ->setName('project:destroy')
-            ->setDescription('Destroys project using core.project configuration.')
+            ->setDescription('Destroys project using project.config configuration.')
         ;
 
         $this->addOption(

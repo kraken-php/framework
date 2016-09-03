@@ -26,7 +26,7 @@ class ProjectStatusCommand extends Command
     {
         $this
             ->setName('project:status')
-            ->setDescription('Checks status of project using core.project configuration.')
+            ->setDescription('Checks status of project using project.config configuration.')
         ;
     }
 

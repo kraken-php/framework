@@ -132,7 +132,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
 
         $channel = $composite->getBus('slave');
 
-        $keepalive = $config->get('core.tolerance.child.keepalive');
+        $keepalive = $config->get('project.tolerance.child.keepalive');
         $channel->on('disconnect', function($alias) use($runtime, $keepalive, $timerCollection) {
             if ($keepalive <= 0)
             {
@@ -159,7 +159,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
 
         $channel = $composite->getBus('master');
 
-        $keepalive = $config->get('core.tolerance.parent.keepalive');
+        $keepalive = $config->get('project.tolerance.parent.keepalive');
         $channel->on('disconnect', function($alias) use($runtime, $keepalive, $timerCollection) {
             if ($keepalive <= 0)
             {
