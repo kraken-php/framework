@@ -4,10 +4,7 @@ namespace Kraken\Throwable;
 
 use Kraken\Throwable\Error\FatalError;
 use Kraken\Throwable\Error\NoticeError;
-use Kraken\Throwable\Error\UndefinedError;
 use Kraken\Throwable\Error\WarningError;
-use Error;
-use Exception;
 
 abstract class ErrorHandler
 {
@@ -82,11 +79,11 @@ abstract class ErrorHandler
         {
             static::handleError($err['type'], $err['message'], $err['file'], $err['line']);
         }
-        catch (Error $ex)
+        catch (\Error $ex)
         {
             echo call_user_func(static::$errHandler, $ex) . PHP_EOL;
         }
-        catch (Exception $ex)
+        catch (\Exception $ex)
         {
             echo call_user_func(static::$excHandler, $ex) . PHP_EOL;
         }

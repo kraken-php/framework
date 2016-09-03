@@ -10,7 +10,7 @@ use Kraken\Container\ServiceProvider;
 use Kraken\Container\ServiceProviderInterface;
 use Kraken\Runtime\Runtime;
 
-class ConsoleProvider extends ServiceProvider implements ServiceProviderInterface
+class ChannelConsoleProvider extends ServiceProvider implements ServiceProviderInterface
 {
     /**
      * @var string[]

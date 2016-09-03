@@ -2,11 +2,11 @@
 
 namespace Kraken\_Unit\Framework\Runtime\Provider;
 
-use Kraken\Container\ServiceProvider;
 use Kraken\Core\Core;
+use Kraken\Container\ServiceProvider;
 use Kraken\Framework\Runtime\Provider\ChannelProvider;
+use Kraken\Framework\Runtime\Provider\ChannelConsoleProvider;
 use Kraken\Framework\Runtime\Provider\CommandProvider;
-use Kraken\Framework\Runtime\Provider\ConsoleProvider;
 use Kraken\Framework\Runtime\Provider\RuntimeProvider;
 use Kraken\Framework\Runtime\Provider\RuntimeBootProvider;
 use Kraken\Framework\Runtime\Provider\RuntimeManagerProvider;
@@ -45,8 +45,8 @@ class ProviderAllTest extends TUnit
     {
         return [
             [ new ChannelProvider() ],
+            [ new ChannelConsoleProvider() ],
             [ new CommandProvider() ],
-            [ new ConsoleProvider() ],
             [ new RuntimeProvider($this->getMock(RuntimeContainerInterface::class, [], [], '', false)) ],
             [ new RuntimeBootProvider() ],
             [ new RuntimeManagerProvider() ],
