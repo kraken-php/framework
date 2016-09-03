@@ -3,7 +3,7 @@
 namespace Kraken\Framework\Runtime\Provider;
 
 use Kraken\Config\ConfigInterface;
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Supervisor\SolverInterface;
@@ -33,50 +33,50 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
     ];
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function register(CoreInterface $core)
+    protected function register(ContainerInterface $container)
     {
-        $config = $core->make('Kraken\Config\ConfigInterface');
+        $config = $container->make('Kraken\Config\ConfigInterface');
 
-        $errorManager    = $core->make('Kraken\Supervisor\SupervisorInterface', [ null, $config->get('error.manager.params') ]);
-        $errorSupervisor = $core->make('Kraken\Supervisor\SupervisorInterface', [ null, $config->get('error.supervisor.params') ]);
+        $errorManager    = $container->make('Kraken\Supervisor\SupervisorInterface', [ null, $config->get('error.manager.params') ]);
+        $errorSupervisor = $container->make('Kraken\Supervisor\SupervisorInterface', [ null, $config->get('error.supervisor.params') ]);
 
-        $core->instance(
+        $container->instance(
             'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
             $errorManager
         );
 
-        $core->instance(
+        $container->instance(
             'Kraken\Runtime\Supervisor\SupervisorRemoteInterface',
             $errorSupervisor
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function unregister(CoreInterface $core)
+    protected function unregister(ContainerInterface $container)
     {
-        $core->remove(
+        $container->remove(
             'Kraken\Runtime\Supervisor\SupervisorBaseInterface'
         );
 
-        $core->remove(
+        $container->remove(
             'Kraken\Runtime\Supervisor\SupervisorRemoteInterface'
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      * @throws Exception
      */
-    protected function boot(CoreInterface $core)
+    protected function boot(ContainerInterface $container)
     {
-        $config = $core->make('Kraken\Config\ConfigInterface');
+        $config = $container->make('Kraken\Config\ConfigInterface');
 
-        $baseSupervisor   = $core->make('Kraken\Runtime\Supervisor\SupervisorBaseInterface');
-        $remoteSupervisor = $core->make('Kraken\Runtime\Supervisor\SupervisorRemoteInterface');
+        $baseSupervisor   = $container->make('Kraken\Runtime\Supervisor\SupervisorBaseInterface');
+        $remoteSupervisor = $container->make('Kraken\Runtime\Supervisor\SupervisorRemoteInterface');
 
         $this->bootBaseSupervisor($baseSupervisor, $config);
         $this->bootRemoteSupervisor($remoteSupervisor, $config);

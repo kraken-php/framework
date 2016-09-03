@@ -10,7 +10,7 @@ use Kraken\Channel\Extra\Response;
 use Kraken\Channel\Router\RuleHandler;
 use Kraken\Channel\Router\RuleMatchDestination;
 use Kraken\Runtime\Command\CommandManagerInterface;
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Promise\Promise;
@@ -46,15 +46,15 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
     protected $commander;
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function register(CoreInterface $core)
+    protected function register(ContainerInterface $container)
     {
-        $this->commander = $core->make('Kraken\Runtime\Command\CommandManagerInterface');
+        $this->commander = $container->make('Kraken\Runtime\Command\CommandManagerInterface');
 
-        $config  = $core->make('Kraken\Config\ConfigInterface');
-        $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');
-        $factory = $core->make('Kraken\Channel\ChannelFactoryInterface');
+        $config  = $container->make('Kraken\Config\ConfigInterface');
+        $runtime = $container->make('Kraken\Runtime\RuntimeContainerInterface');
+        $factory = $container->make('Kraken\Channel\ChannelFactoryInterface');
 
         $master = $factory->create('Kraken\Channel\Channel', [
             $runtime->getParent() !== null
@@ -78,33 +78,33 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
             ->setBus('slave', $slave)
         ;
 
-        $core->instance(
+        $container->instance(
             'Kraken\Runtime\Service\ChannelInternal',
             $composite
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function unregister(CoreInterface $core)
+    protected function unregister(ContainerInterface $container)
     {
         unset($this->commander);
 
-        $core->remove(
+        $container->remove(
             'Kraken\Runtime\Service\ChannelInternal'
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function boot(CoreInterface $core)
+    protected function boot(ContainerInterface $container)
     {
-        $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');
-        $channel = $core->make('Kraken\Runtime\Service\ChannelInternal');
-        $console = $core->make('Kraken\Runtime\Service\ChannelConsole');
-        $loop    = $core->make('Kraken\Loop\LoopInterface');
+        $runtime = $container->make('Kraken\Runtime\RuntimeContainerInterface');
+        $channel = $container->make('Kraken\Runtime\Service\ChannelInternal');
+        $console = $container->make('Kraken\Runtime\Service\ChannelConsole');
+        $loop    = $container->make('Kraken\Loop\LoopInterface');
 
         if ($runtime->getParent() === null)
         {

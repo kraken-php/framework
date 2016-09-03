@@ -2,7 +2,7 @@
 
 namespace Kraken\Framework\Provider;
 
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Loop\Loop;
@@ -25,36 +25,36 @@ class LoopProvider extends ServiceProvider implements ServiceProviderInterface
     ];
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function register(CoreInterface $core)
+    protected function register(ContainerInterface $container)
     {
-        $config = $core->make('Kraken\Config\ConfigInterface');
+        $config = $container->make('Kraken\Config\ConfigInterface');
 
         $model = $config->get('loop.model');
         $loop = new Loop(new $model());
 
-        $core->instance(
+        $container->instance(
             'Kraken\Loop\LoopInterface',
             $loop
         );
 
-        $core->instance(
+        $container->instance(
             'Kraken\Loop\LoopExtendedInterface',
             $loop
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function unregister(CoreInterface $core)
+    protected function unregister(ContainerInterface $container)
     {
-        $core->remove(
+        $container->remove(
             'Kraken\Loop\LoopInterface'
         );
 
-        $core->remove(
+        $container->remove(
             'Kraken\Loop\LoopExtendedInterface'
         );
     }

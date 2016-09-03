@@ -33,6 +33,8 @@ class ServerCore extends Core implements CoreInterface
             'Kraken\Framework\Console\Server\Provider\ChannelProvider',
             'Kraken\Framework\Console\Server\Provider\CommandProvider',
             'Kraken\Framework\Runtime\Provider\SupervisorProvider',
+            'Kraken\Framework\Runtime\Provider\RuntimeProvider',
+            'Kraken\Framework\Runtime\Provider\RuntimeBootProvider',
             'Kraken\Framework\Runtime\Provider\RuntimeManagerProvider'
         ];
     }

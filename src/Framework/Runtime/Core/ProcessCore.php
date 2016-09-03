@@ -34,6 +34,8 @@ class ProcessCore extends Core implements CoreInterface
             'Kraken\Framework\Runtime\Provider\CommandProvider',
             'Kraken\Framework\Runtime\Provider\ConsoleProvider',
             'Kraken\Framework\Runtime\Provider\SupervisorProvider',
+            'Kraken\Framework\Runtime\Provider\RuntimeProvider',
+            'Kraken\Framework\Runtime\Provider\RuntimeBootProvider',
             'Kraken\Framework\Runtime\Provider\RuntimeManagerProvider'
         ];
     }

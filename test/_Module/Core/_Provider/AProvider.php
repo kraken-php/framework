@@ -3,7 +3,7 @@
 namespace Kraken\_Module\Core\_Provider;
 
 use Kraken\_Module\Core\_Resource\Resource;
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Core\Service\ServiceProvider;
 
 class AProvider extends ServiceProvider
@@ -21,27 +21,27 @@ class AProvider extends ServiceProvider
     ];
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    public function register(CoreInterface $core)
+    public function register(ContainerInterface $container)
     {
-        $core->instance(Resource::class, new Resource([ 'a' => 'A', 'b' => 'B', 'booted' => false ]));
+        $container->instance(Resource::class, new Resource([ 'a' => 'A', 'b' => 'B', 'booted' => false ]));
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    public function unregister(CoreInterface $core)
+    public function unregister(ContainerInterface $container)
     {
-        $core->remove(Resource::class);
+        $container->remove(Resource::class);
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    public function boot(CoreInterface $core)
+    public function boot(ContainerInterface $container)
     {
-        $res = $core->make(Resource::class);
+        $res = $container->make(Resource::class);
 
         $res->data['booted'] = true;
     }

@@ -65,7 +65,9 @@ class ClientCoreTest extends TUnit
             'Kraken\Framework\Provider\LogProvider',
             'Kraken\Framework\Provider\LoopProvider',
             'Kraken\Framework\Console\Client\Provider\ChannelProvider',
-            'Kraken\Framework\Console\Client\Provider\CommandProvider'
+            'Kraken\Framework\Console\Client\Provider\CommandProvider',
+            'Kraken\Framework\Console\Client\Provider\ConsoleProvider',
+            'Kraken\Framework\Console\Client\Provider\ConsoleBootProvider'
         ];
     }
 

@@ -2,7 +2,7 @@
 
 namespace Kraken\_Unit\Core\Service;
 
-use Kraken\Core\Core;
+use Kraken\Container\Container;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
 use Kraken\Test\TUnit;
@@ -88,16 +88,16 @@ class ServiceProviderTest extends TUnit
      */
     public function testApiRegisterProvider_RegistersProvider()
     {
-        $core = $this->getMock(Core::class, [], [], '', false);
+        $container = $this->getMock(Container::class, [], [], '', false);
 
         $provider = $this->createProvider([ 'register' ]);
         $provider
             ->expects($this->once())
             ->method('register')
-            ->with($core);
+            ->with($container);
 
         $this->assertFalse($provider->isRegistered());
-        $provider->registerProvider($core);
+        $provider->registerProvider($container);
         $this->assertTrue($provider->isRegistered());
     }
 
@@ -106,17 +106,17 @@ class ServiceProviderTest extends TUnit
      */
     public function testApiRegisterProvider_ThrowsException_WhenModelThrowsException()
     {
-        $core = $this->getMock(Core::class, [], [], '', false);
+        $container = $this->getMock(Container::class, [], [], '', false);
 
         $provider = $this->createProvider([ 'register' ]);
         $provider
             ->expects($this->once())
             ->method('register')
-            ->with($core)
+            ->with($container)
             ->will($this->throwException(new Exception));
 
         $this->setExpectedException(ExecutionException::class);
-        $provider->registerProvider($core);
+        $provider->registerProvider($container);
     }
 
     /**
@@ -124,17 +124,17 @@ class ServiceProviderTest extends TUnit
      */
     public function testApiUnregisterProvider_UnregistersProvider()
     {
-        $core = $this->getMock(Core::class, [], [], '', false);
+        $container = $this->getMock(Container::class, [], [], '', false);
 
         $provider = $this->createProvider([ 'unregister' ]);
         $provider
             ->expects($this->once())
             ->method('unregister')
-            ->with($core);
+            ->with($container);
 
         $this->setProtectedProperty($provider, 'registered', true);
         $this->assertTrue($provider->isRegistered());
-        $provider->unregisterProvider($core);
+        $provider->unregisterProvider($container);
         $this->assertFalse($provider->isRegistered());
     }
 
@@ -143,16 +143,16 @@ class ServiceProviderTest extends TUnit
      */
     public function testApiBootProvider_BootsProvider()
     {
-        $core = $this->getMock(Core::class, [], [], '', false);
+        $container = $this->getMock(Container::class, [], [], '', false);
 
         $provider = $this->createProvider([ 'boot' ]);
         $provider
             ->expects($this->once())
             ->method('boot')
-            ->with($core);
+            ->with($container);
 
         $this->assertFalse($provider->isBooted());
-        $provider->bootProvider($core);
+        $provider->bootProvider($container);
         $this->assertTrue($provider->isBooted());
     }
 
@@ -161,17 +161,17 @@ class ServiceProviderTest extends TUnit
      */
     public function testApiBootProvider_ThrowsException_WhenModelThrowsException()
     {
-        $core = $this->getMock(Core::class, [], [], '', false);
+        $container = $this->getMock(Container::class, [], [], '', false);
 
         $provider = $this->createProvider([ 'boot' ]);
         $provider
             ->expects($this->once())
             ->method('boot')
-            ->with($core)
+            ->with($container)
             ->will($this->throwException(new Exception));
 
         $this->setExpectedException(ExecutionException::class);
-        $provider->bootProvider($core);
+        $provider->bootProvider($container);
     }
 
 

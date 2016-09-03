@@ -3,7 +3,7 @@
 namespace Kraken\Framework\Provider;
 
 use Kraken\Runtime\Command\CommandManager;
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Runtime\Command\CommandFactory;
@@ -23,46 +23,46 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
     ];
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function register(CoreInterface $core)
+    protected function register(ContainerInterface $container)
     {
         $factory = new CommandFactory();
         $manager = new CommandManager();
 
-        $core->instance(
+        $container->instance(
             'Kraken\Runtime\Command\CommandFactoryInterface',
             $factory
         );
 
-        $core->instance(
+        $container->instance(
             'Kraken\Runtime\Command\CommandManagerInterface',
             $manager
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function unregister(CoreInterface $core)
+    protected function unregister(ContainerInterface $container)
     {
-        $core->remove(
+        $container->remove(
             'Kraken\Runtime\Command\CommandFactoryInterface'
         );
 
-        $core->remove(
+        $container->remove(
             'Kraken\Runtime\Command\CommandManagerInterface'
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      * @throws Exception
      */
-    protected function boot(CoreInterface $core)
+    protected function boot(ContainerInterface $container)
     {
-        $config = $core->make('Kraken\Config\ConfigInterface');
-        $factory = $core->make('Kraken\Runtime\Command\CommandFactoryInterface');
+        $config  = $container->make('Kraken\Config\ConfigInterface');
+        $factory = $container->make('Kraken\Runtime\Command\CommandFactoryInterface');
 
         $commands = (array) $config->get('command.models');
         foreach ($commands as $commandClass)

@@ -6,9 +6,9 @@ use Kraken\_Module\Core\_Provider\AProvider;
 use Kraken\_Module\Core\_Provider\BProvider;
 use Kraken\_Module\Core\_Resource\Resource;
 use Kraken\_Module\Core\_Resource\ResourceInterface;
-use Kraken\Core\CoreInterface;
+use Kraken\Container\Container;
+use Kraken\Container\ContainerInterface;
 use Kraken\Core\Service\ServiceRegister;
-use Kraken\Core\Core;
 use Kraken\Test\TModule;
 
 class ServiceRegisterTest extends TModule
@@ -18,16 +18,16 @@ class ServiceRegisterTest extends TModule
      */
     public function testCaseServiceRegister_RegistersAndBootsProviders()
     {
-        $core = new Core();
-        $register = $this->createRegister($core);
+        $container = new Container();
+        $register = $this->createRegister($container);
 
         $register->registerProvider($b = new BProvider);
         $register->registerProvider($a = new AProvider);
 
         $register->boot();
 
-        $p1 = $core->make(Resource::class);
-        $p2 = $core->make(ResourceInterface::class);
+        $p1 = $container->make(Resource::class);
+        $p2 = $container->make(ResourceInterface::class);
 
         $p = $p1;
 
@@ -40,8 +40,8 @@ class ServiceRegisterTest extends TModule
      */
     public function testCaseServiceRegister_RegistersAliases()
     {
-        $core = new Core();
-        $register = $this->createRegister($core);
+        $container = new Container();
+        $register = $this->createRegister($container);
 
         $register->registerProvider($b = new BProvider);
         $register->registerProvider($a = new AProvider);
@@ -51,11 +51,11 @@ class ServiceRegisterTest extends TModule
 
         $register->boot();
 
-        $p1 = $core->make(Resource::class);
-        $p2 = $core->make(ResourceInterface::class);
+        $p1 = $container->make(Resource::class);
+        $p2 = $container->make(ResourceInterface::class);
 
-        $a1 = $core->make(Resource::class);
-        $a2 = $core->make(ResourceInterface::class);
+        $a1 = $container->make(Resource::class);
+        $a2 = $container->make(ResourceInterface::class);
 
         $p = $p1;
 
@@ -66,11 +66,11 @@ class ServiceRegisterTest extends TModule
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      * @return ServiceRegister
      */
-    public function createRegister(CoreInterface $core)
+    public function createRegister(ContainerInterface $container)
     {
-        return new ServiceRegister($core);
+        return new ServiceRegister($container);
     }
 }

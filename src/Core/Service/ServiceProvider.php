@@ -2,7 +2,7 @@
 
 namespace Kraken\Core\Service;
 
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
 use Error;
 use Exception;
@@ -69,11 +69,11 @@ class ServiceProvider implements ServiceProviderInterface
      * @override
      * @inheritDoc
      */
-    public function registerProvider(CoreInterface $core)
+    public function registerProvider(ContainerInterface $container)
     {
         try
         {
-            $this->register($core);
+            $this->register($container);
             $this->registered = true;
             return;
         }
@@ -89,9 +89,9 @@ class ServiceProvider implements ServiceProviderInterface
      * @override
      * @inheritDoc
      */
-    public function unregisterProvider(CoreInterface $core)
+    public function unregisterProvider(ContainerInterface $container)
     {
-        $this->unregister($core);
+        $this->unregister($container);
         $this->registered = false;
     }
 
@@ -99,11 +99,11 @@ class ServiceProvider implements ServiceProviderInterface
      * @override
      * @inheritDoc
      */
-    public function bootProvider(CoreInterface $core)
+    public function bootProvider(ContainerInterface $container)
     {
         try
         {
-            $this->boot($core);
+            $this->boot($container);
             $this->booted = true;
             return;
         }
@@ -120,10 +120,10 @@ class ServiceProvider implements ServiceProviderInterface
      *
      * This method should contain code to fire when Provider is being registered.
      *
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      * @throws Exception
      */
-    protected function register(CoreInterface $core)
+    protected function register(ContainerInterface $container)
     {}
 
     /**
@@ -132,9 +132,9 @@ class ServiceProvider implements ServiceProviderInterface
      * This method should contain code to fire when Provider is being unregistered. All previously opened connectios,
      * streams, files and other vulnerable resources opened in ::register() should be closed here.
      *
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function unregister(CoreInterface $core)
+    protected function unregister(ContainerInterface $container)
     {}
 
     /**
@@ -143,10 +143,10 @@ class ServiceProvider implements ServiceProviderInterface
      * This method should container code to fire when Provider is being booted. In comparison to ::register() method
      * this will be fired after all Providers have been already registered.
      *
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      * @throws Exception
      */
-    protected function boot(CoreInterface $core)
+    protected function boot(ContainerInterface $container)
     {}
 
     /**

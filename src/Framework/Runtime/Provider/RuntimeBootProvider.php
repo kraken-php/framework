@@ -2,7 +2,7 @@
 
 namespace Kraken\Framework\Runtime\Provider;
 
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
 
@@ -19,14 +19,14 @@ class RuntimeBootProvider extends ServiceProvider implements ServiceProviderInte
     ];
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function register(CoreInterface $core)
+    protected function register(ContainerInterface $container)
     {
-        $loop    = $core->make('Kraken\Loop\LoopExtendedInterface');
-        $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');
-        $error   = $core->make('Kraken\Runtime\Supervisor\SupervisorBaseInterface');
-        $manager = $core->make('Kraken\Runtime\RuntimeManagerInterface');
+        $loop    = $container->make('Kraken\Loop\LoopExtendedInterface');
+        $runtime = $container->make('Kraken\Runtime\RuntimeContainerInterface');
+        $error   = $container->make('Kraken\Runtime\Supervisor\SupervisorBaseInterface');
+        $manager = $container->make('Kraken\Runtime\RuntimeManagerInterface');
 
         $model = $runtime->getModel();
         $model->setLoop($loop);

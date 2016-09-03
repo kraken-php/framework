@@ -6,7 +6,7 @@ use Kraken\Console\Client\Command\CommandFactory;
 use Kraken\Console\Client\Command\CommandManager;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Util\Factory\FactoryPluginInterface;
@@ -30,12 +30,12 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
     ];
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      * @throws Exception
      */
-    protected function register(CoreInterface $core)
+    protected function register(ContainerInterface $container)
     {
-        $config = $core->make('Kraken\Config\ConfigInterface');
+        $config = $container->make('Kraken\Config\ConfigInterface');
         $factory = new CommandFactory();
 
         $commands = (array) $config->get('command.models');
@@ -72,27 +72,27 @@ class CommandProvider extends ServiceProvider implements ServiceProviderInterfac
 
         $manager = new CommandManager();
 
-        $core->instance(
+        $container->instance(
             'Kraken\Console\Client\Command\CommandFactoryInterface',
             $factory
         );
 
-        $core->instance(
+        $container->instance(
             'Kraken\Console\Client\Command\CommandManagerInterface',
             $manager
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function unregister(CoreInterface $core)
+    protected function unregister(ContainerInterface $container)
     {
-        $core->remove(
+        $container->remove(
             'Kraken\Console\Client\Command\CommandFactoryInterface'
         );
 
-        $core->remove(
+        $container->remove(
             'Kraken\Console\Client\Command\CommandManagerInterface'
         );
     }

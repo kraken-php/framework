@@ -5,7 +5,7 @@ namespace Kraken\Framework\Runtime\Provider;
 use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\ChannelCompositeInterface;
 use Kraken\Channel\Router\RuleHandler;
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Runtime\Runtime;
@@ -30,13 +30,13 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
     ];
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function register(CoreInterface $core)
+    protected function register(ContainerInterface $container)
     {
-        $config  = $core->make('Kraken\Config\ConfigInterface');
-        $factory = $core->make('Kraken\Channel\ChannelFactoryInterface');
-        $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');
+        $config  = $container->make('Kraken\Config\ConfigInterface');
+        $factory = $container->make('Kraken\Channel\ChannelFactoryInterface');
+        $runtime = $container->make('Kraken\Runtime\RuntimeContainerInterface');
 
         $console = $factory->create('Kraken\Channel\Channel', [
             $runtime->getParent() === null
@@ -48,31 +48,31 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
             )
         ]);
 
-        $core->instance(
+        $container->instance(
             'Kraken\Runtime\Service\ChannelConsole',
             $console
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function unregister(CoreInterface $core)
+    protected function unregister(ContainerInterface $container)
     {
-        $core->remove(
+        $container->remove(
             'Kraken\Runtime\Service\ChannelConsole'
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function boot(CoreInterface $core)
+    protected function boot(ContainerInterface $container)
     {
-        $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');
-        $channel = $core->make('Kraken\Runtime\Service\ChannelInternal');
-        $console = $core->make('Kraken\Runtime\Service\ChannelConsole');
-        $loop    = $core->make('Kraken\Loop\LoopInterface');
+        $runtime = $container->make('Kraken\Runtime\RuntimeContainerInterface');
+        $channel = $container->make('Kraken\Runtime\Service\ChannelInternal');
+        $console = $container->make('Kraken\Runtime\Service\ChannelConsole');
+        $loop    = $container->make('Kraken\Loop\LoopInterface');
 
         $this->applyConsoleRouting($channel, $console);
 

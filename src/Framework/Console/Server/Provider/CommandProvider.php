@@ -5,7 +5,7 @@ namespace Kraken\Framework\Console\Server\Provider;
 use Kraken\Config\ConfigInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Runtime\Command\CommandFactoryInterface;
 use Kraken\Runtime\Command\CommandInterface;
 use Kraken\Runtime\RuntimeContainerInterface;
@@ -14,9 +14,9 @@ use ReflectionClass;
 class CommandProvider extends ServiceProvider implements ServiceProviderInterface
 {
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $core
      */
-    protected function boot(CoreInterface $core)
+    protected function boot(ContainerInterface $core)
     {
         $config  = $core->make('Kraken\Config\ConfigInterface');
         $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');

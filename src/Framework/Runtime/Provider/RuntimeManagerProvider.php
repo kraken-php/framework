@@ -4,7 +4,7 @@ namespace Kraken\Framework\Runtime\Provider;
 
 use Kraken\Channel\ChannelCompositeInterface;
 use Kraken\Config\ConfigInterface;
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Loop\Timer\TimerCollection;
@@ -25,6 +25,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
      * @var string[]
      */
     protected $requires = [
+        'Kraken\Core\CoreInterface',
         'Kraken\Config\ConfigInterface',
         'Kraken\Filesystem\FilesystemInterface',
         'Kraken\Runtime\RuntimeContainerInterface',
@@ -41,15 +42,16 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
     ];
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function register(CoreInterface $core)
+    protected function register(ContainerInterface $container)
     {
         $system  = new SystemUnix();
-        $config  = $core->make('Kraken\Config\ConfigInterface');
-        $fs      = $core->make('Kraken\Filesystem\FilesystemInterface');
-        $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');
-        $channel = $core->make('Kraken\Runtime\Service\ChannelInternal');
+        $core    = $container->make('Kraken\Core\CoreInterface');
+        $config  = $container->make('Kraken\Config\ConfigInterface');
+        $fs      = $container->make('Kraken\Filesystem\FilesystemInterface');
+        $runtime = $container->make('Kraken\Runtime\RuntimeContainerInterface');
+        $channel = $container->make('Kraken\Runtime\Service\ChannelInternal');
 
         $this->registerRuntimeSupervision($runtime, $channel, $config);
 
@@ -70,14 +72,14 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
         }
 
         $managerProcess = $this->createManager(
-            $core,
+            $container,
             $factoryProcess,
             $defaultConfig,
             $config->get('runtime.manager.process')
         );
 
         $managerThread = $this->createManager(
-            $core,
+            $container,
             $factoryThread,
             $defaultConfig,
             $config->get('runtime.manager.thread')
@@ -85,36 +87,36 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
 
         $managerRuntime = new RuntimeManager($managerProcess, $managerThread);
 
-        $core->instance(
+        $container->instance(
             'Kraken\Runtime\Container\ProcessManagerInterface',
             $managerProcess
         );
 
-        $core->instance(
+        $container->instance(
             'Kraken\Runtime\Container\ThreadManagerInterface',
             $managerThread
         );
 
-        $core->instance(
+        $container->instance(
             'Kraken\Runtime\RuntimeManagerInterface',
             $managerRuntime
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function unregister(CoreInterface $core)
+    protected function unregister(ContainerInterface $container)
     {
-        $core->remove(
+        $container->remove(
             'Kraken\Runtime\Container\ProcessManagerInterface'
         );
 
-        $core->remove(
+        $container->remove(
             'Kraken\Runtime\Container\ThreadManagerInterface'
         );
 
-        $core->remove(
+        $container->remove(
             'Kraken\Runtime\RuntimeManagerInterface'
         );
     }
@@ -184,13 +186,13 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      * @param RuntimeManagerFactoryInterface $managerFactory
      * @param mixed[] $default
      * @param mixed[] $config
      * @return RuntimeManagerInterface
      */
-    private function createManager(CoreInterface $core, RuntimeManagerFactoryInterface $managerFactory, $default, $config)
+    private function createManager(ContainerInterface $container, RuntimeManagerFactoryInterface $managerFactory, $default, $config)
     {
         $managerClass = $config['class'];
         $managerConfig = array_merge($default, $config['config']);
@@ -199,7 +201,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
         {
             if (is_string($value) && class_exists($value))
             {
-                $managerConfig[$key] = $core->make($value);
+                $managerConfig[$key] = $container->make($value);
             }
         }
 

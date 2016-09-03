@@ -4,7 +4,7 @@ namespace Kraken\Framework\Provider;
 
 use Kraken\Channel\ChannelFactory;
 use Kraken\Channel\ChannelModelFactory;
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
@@ -34,78 +34,78 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
     ];
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function register(CoreInterface $core)
+    protected function register(ContainerInterface $container)
     {
-        $loop = $core->make('Kraken\Loop\LoopInterface');
-        $context = $core->make('Kraken\Core\CoreInputContextInterface');
+        $loop = $container->make('Kraken\Loop\LoopInterface');
+        $context = $container->make('Kraken\Core\CoreInputContextInterface');
 
         $modelFactory = new ChannelModelFactory($context->getAlias(), $loop);
         $factory = new ChannelFactory($context->getAlias(), $modelFactory, $loop);
 
-        $core->instance(
+        $container->instance(
             'Kraken\Channel\ChannelModelFactoryInterface',
             $modelFactory
         );
 
-        $core->factory(
+        $container->factory(
             'Kraken\Channel\ChannelModelInterface',
             function() use($modelFactory) {
                 return $modelFactory->create('Kraken\Channel\Model\Null\NullModel');
             }
         );
 
-        $core->instance(
+        $container->instance(
             'Kraken\Channel\ChannelFactoryInterface',
             $factory
         );
 
-        $core->factory(
+        $container->factory(
             'Kraken\Channel\ChannelInterface',
             [ $factory, 'create' ]
         );
 
-        $core->factory(
+        $container->factory(
             'Kraken\Channel\ChannelCompositeInterface',
             [ $factory, 'create' ]
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function unregister(CoreInterface $core)
+    protected function unregister(ContainerInterface $container)
     {
-        $core->remove(
+        $container->remove(
             'Kraken\Channel\ChannelModelFactoryInterface'
         );
 
-        $core->remove(
+        $container->remove(
             'Kraken\Channel\ChannelModelInterface'
         );
 
-        $core->remove(
+        $container->remove(
             'Kraken\Channel\ChannelFactoryInterface'
         );
 
-        $core->remove(
+        $container->remove(
             'Kraken\Channel\ChannelInterface'
         );
 
-        $core->remove(
+        $container->remove(
             'Kraken\Channel\ChannelCompositeInterface'
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      * @throws Exception
      */
-    protected function boot(CoreInterface $core)
+    protected function boot(ContainerInterface $container)
     {
-        $config = $core->make('Kraken\Config\ConfigInterface');
-        $factory = $core->make('Kraken\Channel\ChannelModelFactoryInterface');
+        $config  = $container->make('Kraken\Config\ConfigInterface');
+        $factory = $container->make('Kraken\Channel\ChannelModelFactoryInterface');
 
         $models = (array) $config->get('channel.models');
         foreach ($models as $modelClass)

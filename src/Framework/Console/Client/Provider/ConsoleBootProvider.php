@@ -4,19 +4,20 @@ namespace Kraken\Framework\Console\Client\Provider;
 
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 
 class ConsoleBootProvider extends ServiceProvider implements ServiceProviderInterface
 {
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function boot(CoreInterface $core)
+    protected function boot(ContainerInterface $container)
     {
-        $factory = $core->make('Kraken\Console\Client\Command\CommandFactoryInterface');
-        $manager = $core->make('Kraken\Console\Client\Command\CommandManagerInterface');
-        $channel = $core->make('Kraken\Console\Client\Service\ChannelConsole');
-        $console = $core->make('Kraken\Console\Client\ClientInterface');
+        $core    = $container->make('Kraken\Core\CoreInterface');
+        $factory = $container->make('Kraken\Console\Client\Command\CommandFactoryInterface');
+        $manager = $container->make('Kraken\Console\Client\Command\CommandManagerInterface');
+        $channel = $container->make('Kraken\Console\Client\Service\ChannelConsole');
+        $console = $container->make('Kraken\Console\Client\ClientInterface');
 
         $cmds = (array) $factory->getDefinitions();
         $commands = [];

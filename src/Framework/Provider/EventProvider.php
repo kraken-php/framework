@@ -2,7 +2,7 @@
 
 namespace Kraken\Framework\Provider;
 
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Event\EventEmitter;
@@ -24,26 +24,26 @@ class EventProvider extends ServiceProvider implements ServiceProviderInterface
     ];
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function register(CoreInterface $core)
+    protected function register(ContainerInterface $container)
     {
         $emitter = new EventEmitter(
-            $core->make('Kraken\Loop\LoopInterface')
+            $container->make('Kraken\Loop\LoopInterface')
         );
 
-        $core->instance(
+        $container->instance(
             'Kraken\Event\EventEmitterInterface',
             $emitter
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function unregister(CoreInterface $core)
+    protected function unregister(ContainerInterface $container)
     {
-        $core->remove(
+        $container->remove(
             'Kraken\Event\EventEmitterInterface'
         );
     }

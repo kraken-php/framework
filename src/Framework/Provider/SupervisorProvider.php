@@ -2,7 +2,7 @@
 
 namespace Kraken\Framework\Provider;
 
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Runtime\Supervisor\SolverFactory;
@@ -31,21 +31,21 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
     ];
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function register(CoreInterface $core)
+    protected function register(ContainerInterface $container)
     {
-        $runtime = $core->make('Kraken\Runtime\RuntimeContainerInterface');
+        $runtime = $container->make('Kraken\Runtime\RuntimeContainerInterface');
 
         $factory = new SolverFactory($runtime);
         $config = [];
 
-        $core->instance(
+        $container->instance(
             'Kraken\Supervisor\SolverFactoryInterface',
             $factory
         );
 
-        $core->factory(
+        $container->factory(
             'Kraken\Supervisor\SupervisorInterface',
             function (SolverFactoryInterface $passedFactory = null, $passedConfig = [], $passedRules = []) use($factory, $config) {
                 return new Supervisor(
@@ -58,27 +58,27 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function unregister(CoreInterface $core)
+    protected function unregister(ContainerInterface $container)
     {
-        $core->remove(
+        $container->remove(
             'Kraken\Supervisor\SolverFactoryInterface'
         );
 
-        $core->remove(
+        $container->remove(
             'Kraken\Supervisor\SupervisorInterface'
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      * @throws Exception
      */
-    protected function boot(CoreInterface $core)
+    protected function boot(ContainerInterface $container)
     {
-        $config  = $core->make('Kraken\Config\ConfigInterface');
-        $factory = $core->make('Kraken\Supervisor\SolverFactoryInterface');
+        $config  = $container->make('Kraken\Config\ConfigInterface');
+        $factory = $container->make('Kraken\Supervisor\SolverFactoryInterface');
 
         $handlers = (array) $config->get('error.handlers');
         foreach ($handlers as $handlerClass)

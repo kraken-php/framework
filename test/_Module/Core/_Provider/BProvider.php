@@ -4,7 +4,7 @@ namespace Kraken\_Module\Core\_Provider;
 
 use Kraken\_Module\Core\_Resource\Resource;
 use Kraken\_Module\Core\_Resource\ResourceInterface;
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Core\Service\ServiceProvider;
 
 class BProvider extends ServiceProvider
@@ -24,18 +24,18 @@ class BProvider extends ServiceProvider
     ];
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    public function register(CoreInterface $core)
+    public function register(ContainerInterface $container)
     {
-        $core->alias(ResourceInterface::class, Resource::class);
+        $container->alias(ResourceInterface::class, Resource::class);
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    public function unregister(CoreInterface $core)
+    public function unregister(ContainerInterface $container)
     {
-        $core->remove(ResourceInterface::class);
+        $container->remove(ResourceInterface::class);
     }
 }

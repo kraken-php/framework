@@ -2,7 +2,7 @@
 
 namespace Kraken\Framework\Provider;
 
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
 
@@ -16,22 +16,22 @@ class ContainerProvider extends ServiceProvider implements ServiceProviderInterf
     ];
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function register(CoreInterface $core)
+    protected function register(ContainerInterface $container)
     {
-        $core->instance(
+        $container->instance(
             'Kraken\Container\ContainerInterface',
-            $core
+            $container
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function unregister(CoreInterface $core)
+    protected function unregister(ContainerInterface $container)
     {
-        $core->remove(
+        $container->remove(
             'Kraken\Container\ContainerInterface'
         );
     }

@@ -2,7 +2,7 @@
 
 namespace Kraken\Core\Service;
 
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
 
 interface ServiceProviderInterface
@@ -40,27 +40,27 @@ interface ServiceProviderInterface
      *
      * This method registers Provider and calls its ::register() method.
      *
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      * @throws ExecutionException
      */
-    public function registerProvider(CoreInterface $core);
+    public function registerProvider(ContainerInterface $container);
 
     /**
      * Unregister Provider
      *
      * This method unregisters Provider and calls its ::unregister() method.
      *
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    public function unregisterProvider(CoreInterface $core);
+    public function unregisterProvider(ContainerInterface $container);
 
     /**
      * Boot Provider.
      *
      * This method boots Provider and calls its ::boot() method.
      *
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      * @throws ExecutionException
      */
-    public function bootProvider(CoreInterface $core);
+    public function bootProvider(ContainerInterface $container);
 }

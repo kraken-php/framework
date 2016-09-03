@@ -2,7 +2,7 @@
 
 namespace Kraken\Framework\Provider;
 
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Filesystem\Filesystem;
@@ -15,6 +15,7 @@ class FilesystemProvider extends ServiceProvider implements ServiceProviderInter
      * @var string[]
      */
     protected $requires = [
+        'Kraken\Core\CoreInterface',
         'Kraken\Config\ConfigInterface'
     ];
 
@@ -27,11 +28,12 @@ class FilesystemProvider extends ServiceProvider implements ServiceProviderInter
     ];
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function register(CoreInterface $core)
+    protected function register(ContainerInterface $container)
     {
-        $config = $core->make('Kraken\Config\ConfigInterface');
+        $core   = $container->make('Kraken\Core\CoreInterface');
+        $config = $container->make('Kraken\Config\ConfigInterface');
 
         $factory = new FilesystemAdapterFactory();
         $fsCloud = new FilesystemManager();
@@ -51,27 +53,27 @@ class FilesystemProvider extends ServiceProvider implements ServiceProviderInter
             ));
         }
 
-        $core->instance(
+        $container->instance(
             'Kraken\Filesystem\FilesystemInterface',
             $fsDisk
         );
 
-        $core->instance(
+        $container->instance(
             'Kraken\Filesystem\FilesystemManagerInterface',
             $fsCloud
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function unregister(CoreInterface $core)
+    protected function unregister(ContainerInterface $container)
     {
-        $core->remove(
+        $container->remove(
             'Kraken\Filesystem\FilesystemInterface'
         );
 
-        $core->remove(
+        $container->remove(
             'Kraken\Filesystem\FilesystemManagerInterface'
         );
     }

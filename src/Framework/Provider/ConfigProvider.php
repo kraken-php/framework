@@ -9,8 +9,9 @@ use Kraken\Config\Overwrite\OverwriteMerger;
 use Kraken\Config\Overwrite\OverwriteReverseIsolater;
 use Kraken\Config\Overwrite\OverwriteReverseMerger;
 use Kraken\Config\Overwrite\OverwriteReverseReplacer;
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Core\CoreInputContextInterface;
+use Kraken\Core\CoreInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Filesystem\Filesystem;
@@ -25,6 +26,7 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
      * @var string[]
      */
     protected $requires = [
+        'Kraken\Core\CoreInterface',
         'Kraken\Core\CoreInputContextInterface'
     ];
 
@@ -46,13 +48,14 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
     private $context;
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function register(CoreInterface $core)
+    protected function register(ContainerInterface $container)
     {
-        $context = $core->make('Kraken\Core\CoreInputContextInterface');
+        $core    = $container->make('Kraken\Core\CoreInterface');
+        $context = $container->make('Kraken\Core\CoreInputContextInterface');
 
-        $this->core = $core;
+        $this->core    = $core;
         $this->context = $context;
 
         $dir  = $this->getDir($context->getName(), $context->getType());
@@ -91,21 +94,21 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
             }
         }
 
-        $core->instance(
+        $container->instance(
             'Kraken\Config\ConfigInterface',
             $config
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function unregister(CoreInterface $core)
+    protected function unregister(ContainerInterface $container)
     {
         unset($this->core);
         unset($this->context);
 
-        $core->remove(
+        $container->remove(
             'Kraken\Config\ConfigInterface'
         );
     }

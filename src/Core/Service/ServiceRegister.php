@@ -2,7 +2,7 @@
 
 namespace Kraken\Core\Service;
 
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
@@ -15,9 +15,9 @@ use Exception;
 class ServiceRegister implements ServiceRegisterInterface
 {
     /**
-     * @var CoreInterface
+     * @var ContainerInterface
      */
-    protected $core;
+    protected $container;
 
     /**
      * @var ServiceProviderInterface[]
@@ -35,11 +35,11 @@ class ServiceRegister implements ServiceRegisterInterface
     protected $booted;
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    public function __construct(CoreInterface $core)
+    public function __construct(ContainerInterface $container)
     {
-        $this->core = $core;
+        $this->container = $container;
         $this->serviceProviders = [];
         $this->serviceAliases = [];
         $this->booted = false;
@@ -62,7 +62,7 @@ class ServiceRegister implements ServiceRegisterInterface
             {}
         }
 
-        unset($this->core);
+        unset($this->container);
         unset($this->serviceProviders);
         unset($this->serviceAliases);
         unset($this->booted);
@@ -114,7 +114,7 @@ class ServiceRegister implements ServiceRegisterInterface
         {
             if ($this->booted)
             {
-                $provider->registerProvider($this->core);
+                $provider->registerProvider($this->container);
             }
         }
         catch (Error $ex)
@@ -146,7 +146,7 @@ class ServiceRegister implements ServiceRegisterInterface
             throw new ResourceUndefinedException("ServiceProvider " . $this->getProviderClass($provider) . " not registered.");
         }
 
-        $provider->unregisterProvider($this->core);
+        $provider->unregisterProvider($this->container);
 
         $this->markProviderUnregistered($provider);
     }
@@ -233,7 +233,7 @@ class ServiceRegister implements ServiceRegisterInterface
 
             try
             {
-                $this->core->alias($alias, $existing);
+                $this->container->alias($alias, $existing);
             }
             catch (Error $ex)
             {}
@@ -258,7 +258,7 @@ class ServiceRegister implements ServiceRegisterInterface
             throw new ResourceUndefinedException("ServiceProvider alias for $alias is not registered.");
         }
 
-        $this->core->remove($alias);
+        $this->container->remove($alias);
 
         unset($this->serviceAliases[$alias]);
     }
@@ -339,7 +339,7 @@ class ServiceRegister implements ServiceRegisterInterface
             {
                 if (!$provider->isRegistered())
                 {
-                    $provider->registerProvider($this->core);
+                    $provider->registerProvider($this->container);
                 }
             }
             catch (Error $ex)
@@ -365,7 +365,7 @@ class ServiceRegister implements ServiceRegisterInterface
 
             try
             {
-                $this->core->alias($alias, $concrete);
+                $this->container->alias($alias, $concrete);
             }
             catch (Error $ex)
             {}
@@ -390,7 +390,7 @@ class ServiceRegister implements ServiceRegisterInterface
 
             try
             {
-                $provider->bootProvider($this->core);
+                $provider->bootProvider($this->container);
             }
             catch (Error $ex)
             {}

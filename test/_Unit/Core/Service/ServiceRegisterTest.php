@@ -10,7 +10,7 @@ use Kraken\_Unit\Core\_Provider\DProvider;
 use Kraken\_Unit\Core\_Provider\EProvider;
 use Kraken\_Unit\Core\_Provider\NonProvider;
 use Kraken\Core\Service\ServiceRegister;
-use Kraken\Core\Core;
+use Kraken\Container\Container;
 use Kraken\Throwable\Exception\Logic\IllegalCallException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
@@ -345,13 +345,13 @@ class ServiceRegisterTest extends TUnit
         $alias = 'alias';
         $existing = 'existing';
 
-        $core = $this->getMock(Core::class);
-        $core
+        $container = $this->getMock(Container::class);
+        $container
             ->expects($this->once())
             ->method('alias')
             ->with($alias, $existing);
 
-        $this->setProtectedProperty($register, 'core', $core);
+        $this->setProtectedProperty($register, 'container', $container);
         $this->setProtectedProperty($register, 'booted', true);
         $register->registerAlias($alias, $existing);
     }
@@ -379,14 +379,14 @@ class ServiceRegisterTest extends TUnit
         $alias = 'alias';
         $existing = 'existing';
 
-        $core = $this->getMock(Core::class);
-        $core
+        $container = $this->getMock(Container::class);
+        $container
             ->expects($this->once())
             ->method('alias')
             ->with($alias, $existing)
             ->will($this->throwException(new Exception));
 
-        $this->setProtectedProperty($register, 'core', $core);
+        $this->setProtectedProperty($register, 'container', $container);
         $this->setProtectedProperty($register, 'booted', true);
 
         $this->setExpectedException(ExecutionException::class);
@@ -515,8 +515,8 @@ class ServiceRegisterTest extends TUnit
      */
     public function createRegister($methods = null)
     {
-        $core = $this->getMock(Core::class);
+        $container = $this->getMock(Container::class);
 
-        return $this->getMock(ServiceRegister::class, $methods, [ $core ]);
+        return $this->getMock(ServiceRegister::class, $methods, [ $container ]);
     }
 }

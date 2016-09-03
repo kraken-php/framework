@@ -2,7 +2,7 @@
 
 namespace Kraken\Framework\Runtime\Provider;
 
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
 
@@ -17,33 +17,33 @@ class RuntimeProvider extends ServiceProvider implements ServiceProviderInterfac
     ];
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function register(CoreInterface $core)
+    protected function register(ContainerInterface $container)
     {
-        $runtime = $core->make('Kraken\Runtime\RuntimeContainer');
+        $runtime = $container->make('Kraken\Runtime\RuntimeContainer');
 
-        $core->instance(
+        $container->instance(
             'Kraken\Core\CoreInputContextInterface',
             $runtime
         );
 
-        $core->instance(
+        $container->instance(
             'Kraken\Runtime\RuntimeContainerInterface',
             $runtime
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function unregister(CoreInterface $core)
+    protected function unregister(ContainerInterface $container)
     {
-        $core->remove(
+        $container->remove(
             'Kraken\Core\CoreInputContextInterface'
         );
 
-        $core->remove(
+        $container->remove(
             'Kraken\Runtime\RuntimeContainerInterface'
         );
     }

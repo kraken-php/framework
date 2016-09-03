@@ -3,7 +3,7 @@
 namespace Kraken\Framework\Provider;
 
 use Kraken\Config\ConfigInterface;
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Log\Handler\HandlerInterface;
@@ -29,57 +29,56 @@ class LogProvider extends ServiceProvider implements ServiceProviderInterface
     ];
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function register(CoreInterface $core)
+    protected function register(ContainerInterface $container)
     {
-        $config  = $core->make('Kraken\Config\ConfigInterface');
+        $config  = $container->make('Kraken\Config\ConfigInterface');
 
         $factory = new LoggerFactory();
         $logger  = new Logger(
             'Kraken',
             [
-                $this->createHandler($core, $config, 'error',   Logger::EMERGENCY),
-                $this->createHandler($core, $config, 'warning', Logger::WARNING),
-                $this->createHandler($core, $config, 'notice',  Logger::NOTICE),
-                $this->createHandler($core, $config, 'info',    Logger::INFO),
-                $this->createHandler($core, $config, 'debug',   Logger::DEBUG),
+                $this->createHandler($config, 'error',   Logger::EMERGENCY),
+                $this->createHandler($config, 'warning', Logger::WARNING),
+                $this->createHandler($config, 'notice',  Logger::NOTICE),
+                $this->createHandler($config, 'info',    Logger::INFO),
+                $this->createHandler($config, 'debug',   Logger::DEBUG),
             ]
         );
 
-        $core->instance(
+        $container->instance(
             'Kraken\Log\LoggerFactory',
             $factory
         );
 
-        $core->instance(
+        $container->instance(
             'Kraken\Log\LoggerInterface',
             $logger
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function unregister(CoreInterface $core)
+    protected function unregister(ContainerInterface $container)
     {
-        $core->remove(
+        $container->remove(
             'Kraken\Log\LoggerInterface'
         );
 
-        $core->remove(
+        $container->remove(
             'Kraken\Log\LoggerFactory'
         );
     }
 
     /**
-     * @param CoreInterface $core
      * @param ConfigInterface $config
      * @param string $level
      * @param int $loggerLevel
      * @return HandlerInterface
      */
-    private function createHandler(CoreInterface $core, ConfigInterface $config, $level, $loggerLevel)
+    private function createHandler(ConfigInterface $config, $level, $loggerLevel)
     {
         $factory = new LoggerFactory();
 

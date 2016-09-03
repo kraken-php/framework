@@ -4,7 +4,7 @@ namespace Kraken\Framework\Console\Client\Provider;
 
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 
 class ConsoleProvider extends ServiceProvider implements ServiceProviderInterface
 {
@@ -17,44 +17,44 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
     ];
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function register(CoreInterface $core)
+    protected function register(ContainerInterface $container)
     {
-        $console = $core->make('Kraken\Console\Client\Client');
+        $console = $container->make('Kraken\Console\Client\Client');
 
-        $core->instance(
+        $container->instance(
             'Kraken\Core\CoreInputContextInterface',
             $console
         );
 
-        $core->instance(
+        $container->instance(
             'Kraken\Console\Client\ClientInterface',
             $console
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function unregister(CoreInterface $core)
+    protected function unregister(ContainerInterface $container)
     {
-        $core->remove(
+        $container->remove(
             'Kraken\Core\CoreInputContextInterface'
         );
 
-        $core->remove(
+        $container->remove(
             'Kraken\Console\Client\ClientInterface'
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function boot(CoreInterface $core)
+    protected function boot(ContainerInterface $container)
     {
-        $console = $core->make('Kraken\Console\Client\ClientInterface');
-        $loop    = $core->make('Kraken\Loop\LoopExtendedInterface');
+        $console = $container->make('Kraken\Console\Client\ClientInterface');
+        $loop    = $container->make('Kraken\Loop\LoopExtendedInterface');
 
         $console->setLoop($loop);
     }

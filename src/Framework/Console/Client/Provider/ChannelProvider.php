@@ -4,7 +4,7 @@ namespace Kraken\Framework\Console\Client\Provider;
 
 use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\Router\RuleHandler;
-use Kraken\Core\CoreInterface;
+use Kraken\Container\ContainerInterface;
 use Kraken\Core\Service\ServiceProvider;
 use Kraken\Core\Service\ServiceProviderInterface;
 use Kraken\Runtime\Runtime;
@@ -28,13 +28,13 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
     ];
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function register(CoreInterface $core)
+    protected function register(ContainerInterface $container)
     {
-        $factory = $core->make('Kraken\Channel\ChannelFactoryInterface');
-        $config  = $core->make('Kraken\Config\ConfigInterface');
-        $console = $core->make('Kraken\Console\Client\ClientInterface');
+        $factory = $container->make('Kraken\Channel\ChannelFactoryInterface');
+        $config  = $container->make('Kraken\Config\ConfigInterface');
+        $console = $container->make('Kraken\Console\Client\ClientInterface');
 
         $channel = $factory->create('Kraken\Channel\Channel', [
             $config->get('channel.channels.console.class'),
@@ -53,18 +53,18 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
             $channel->stop();
         });
 
-        $core->instance(
+        $container->instance(
             'Kraken\Console\Client\Service\ChannelConsole',
             $channel
         );
     }
 
     /**
-     * @param CoreInterface $core
+     * @param ContainerInterface $container
      */
-    protected function unregister(CoreInterface $core)
+    protected function unregister(ContainerInterface $container)
     {
-        $core->remove(
+        $container->remove(
             'Kraken\Console\Client\Service\ChannelConsole'
         );
     }
