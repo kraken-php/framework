@@ -3,7 +3,7 @@
 namespace Kraken\Console\Client;
 
 use Kraken\Core\CoreSetterAwareInterface;
-use Kraken\Core\CoreInputContextInterface;
+use Kraken\Runtime\RuntimeContextInterface;
 use Kraken\Event\EventHandler;
 use Kraken\Loop\LoopExtendedAwareInterface;
 
@@ -12,7 +12,7 @@ use Kraken\Loop\LoopExtendedAwareInterface;
  * @event stop    : callable()
  * @event command : callable()
  */
-interface ClientInterface extends CoreInputContextInterface, CoreSetterAwareInterface, LoopExtendedAwareInterface
+interface ClientInterface extends RuntimeContextInterface, CoreSetterAwareInterface, LoopExtendedAwareInterface
 {
     /**
      * Attach start event handler.

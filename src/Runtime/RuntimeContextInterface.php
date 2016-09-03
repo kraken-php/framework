@@ -1,8 +1,8 @@
 <?php
 
-namespace Kraken\Core;
+namespace Kraken\Runtime;
 
-interface CoreInputContextInterface
+interface RuntimeContextInterface
 {
     /**
      * Return type of RuntimeContainer.

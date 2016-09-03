@@ -12,7 +12,7 @@ class RuntimeProvider extends ServiceProvider implements ServiceProviderInterfac
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Core\CoreInputContextInterface',
+        'Kraken\Runtime\RuntimeContextInterface',
         'Kraken\Runtime\RuntimeContainerInterface'
     ];
 
@@ -24,7 +24,7 @@ class RuntimeProvider extends ServiceProvider implements ServiceProviderInterfac
         $runtime = $container->make('Kraken\Runtime\RuntimeContainer');
 
         $container->instance(
-            'Kraken\Core\CoreInputContextInterface',
+            'Kraken\Runtime\RuntimeContextInterface',
             $runtime
         );
 
@@ -40,7 +40,7 @@ class RuntimeProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function unregister(ContainerInterface $container)
     {
         $container->remove(
-            'Kraken\Core\CoreInputContextInterface'
+            'Kraken\Runtime\RuntimeContextInterface'
         );
 
         $container->remove(

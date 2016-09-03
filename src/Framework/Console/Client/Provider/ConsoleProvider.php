@@ -12,7 +12,7 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Core\CoreInputContextInterface',
+        'Kraken\Runtime\RuntimeContextInterface',
         'Kraken\Console\Client\ClientInterface'
     ];
 
@@ -24,7 +24,7 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
         $console = $container->make('Kraken\Console\Client\Client');
 
         $container->instance(
-            'Kraken\Core\CoreInputContextInterface',
+            'Kraken\Runtime\RuntimeContextInterface',
             $console
         );
 
@@ -40,7 +40,7 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function unregister(ContainerInterface $container)
     {
         $container->remove(
-            'Kraken\Core\CoreInputContextInterface'
+            'Kraken\Runtime\RuntimeContextInterface'
         );
 
         $container->remove(

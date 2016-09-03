@@ -10,7 +10,7 @@ use Kraken\Config\Overwrite\OverwriteReverseIsolater;
 use Kraken\Config\Overwrite\OverwriteReverseMerger;
 use Kraken\Config\Overwrite\OverwriteReverseReplacer;
 use Kraken\Container\ContainerInterface;
-use Kraken\Core\CoreInputContextInterface;
+use Kraken\Runtime\RuntimeContextInterface;
 use Kraken\Core\CoreInterface;
 use Kraken\Container\ServiceProvider;
 use Kraken\Container\ServiceProviderInterface;
@@ -27,7 +27,7 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
      */
     protected $requires = [
         'Kraken\Core\CoreInterface',
-        'Kraken\Core\CoreInputContextInterface'
+        'Kraken\Runtime\RuntimeContextInterface'
     ];
 
     /**
@@ -43,7 +43,7 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
     private $core;
 
     /**
-     * @var CoreInputContextInterface
+     * @var RuntimeContextInterface
      */
     private $context;
 
@@ -53,7 +53,7 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
     protected function register(ContainerInterface $container)
     {
         $core    = $container->make('Kraken\Core\CoreInterface');
-        $context = $container->make('Kraken\Core\CoreInputContextInterface');
+        $context = $container->make('Kraken\Runtime\RuntimeContextInterface');
 
         $this->core    = $core;
         $this->context = $context;

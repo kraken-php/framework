@@ -3,7 +3,7 @@
 namespace Kraken\_Unit\Environment;
 
 use Kraken\_Unit\Environment\_Mock\EnvironmentMock;
-use Kraken\Core\CoreInputContextInterface;
+use Kraken\Runtime\RuntimeContextInterface;
 use Kraken\Environment\Environment;
 use Kraken\Environment\EnvironmentInterface;
 use Kraken\Environment\Loader\Loader;
@@ -196,7 +196,7 @@ class EnvironmentTest extends TUnit
      */
     public function createEnvironment()
     {
-        $context = $this->getMock(CoreInputContextInterface::class);
+        $context = $this->getMock(RuntimeContextInterface::class);
 
         return new EnvironmentMock($context, '');
     }

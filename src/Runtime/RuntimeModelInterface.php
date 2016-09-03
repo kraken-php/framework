@@ -3,7 +3,6 @@
 namespace Kraken\Runtime;
 
 use Kraken\Core\CoreAwareInterface;
-use Kraken\Core\CoreInputContextInterface;
 use Kraken\Supervisor\SupervisorAwareInterface;
 use Kraken\Event\EventEmitterAwareInterface;
 use Kraken\Loop\LoopExtendedAwareInterface;
@@ -11,7 +10,7 @@ use Kraken\Promise\PromiseInterface;
 use Error;
 use Exception;
 
-interface RuntimeModelInterface extends CoreAwareInterface, CoreInputContextInterface, SupervisorAwareInterface,
+interface RuntimeModelInterface extends CoreAwareInterface, RuntimeContextInterface, SupervisorAwareInterface,
     EventEmitterAwareInterface, LoopExtendedAwareInterface, RuntimeManagerAwareInterface
 {
     /**

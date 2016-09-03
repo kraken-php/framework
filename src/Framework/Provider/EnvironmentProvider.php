@@ -14,7 +14,7 @@ class EnvironmentProvider extends ServiceProvider implements ServiceProviderInte
      */
     protected $requires = [
         'Kraken\Core\CoreInterface',
-        'Kraken\Core\CoreInputContextInterface'
+        'Kraken\Runtime\RuntimeContextInterface'
     ];
 
     /**
@@ -30,7 +30,7 @@ class EnvironmentProvider extends ServiceProvider implements ServiceProviderInte
     protected function register(ContainerInterface $container)
     {
         $core    = $container->make('Kraken\Core\CoreInterface');
-        $context = $container->make('Kraken\Core\CoreInputContextInterface');
+        $context = $container->make('Kraken\Runtime\RuntimeContextInterface');
 
         $env = new Environment($context, $core->getDataPath() . '/config.env/.env');
 

@@ -2,7 +2,7 @@
 
 namespace Kraken\Environment;
 
-use Kraken\Core\CoreInputContextInterface;
+use Kraken\Runtime\RuntimeContextInterface;
 use Kraken\Environment\Loader\Loader;
 use Kraken\Runtime\Runtime;
 use Kraken\Util\Invoker\Invoker;
@@ -21,7 +21,7 @@ class Environment implements EnvironmentInterface
     protected $invoker;
 
     /**
-     * @var CoreInputContextInterface
+     * @var RuntimeContextInterface
      */
     protected $context;
 
@@ -31,10 +31,10 @@ class Environment implements EnvironmentInterface
     protected $loader;
 
     /**
-     * @param CoreInputContextInterface $context
+     * @param RuntimeContextInterface $context
      * @param string $filePath
      */
-    public function __construct(CoreInputContextInterface $context, $filePath = '')
+    public function __construct(RuntimeContextInterface $context, $filePath = '')
     {
         $this->invoker = $this->createInvoker();
         $this->context = $context;

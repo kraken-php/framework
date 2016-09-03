@@ -18,7 +18,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
      * @var string[]
      */
     protected $requires = [
-        'Kraken\Core\CoreInputContextInterface',
+        'Kraken\Runtime\RuntimeContextInterface',
         'Kraken\Loop\LoopInterface'
     ];
 
@@ -38,8 +38,8 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
      */
     protected function register(ContainerInterface $container)
     {
-        $loop = $container->make('Kraken\Loop\LoopInterface');
-        $context = $container->make('Kraken\Core\CoreInputContextInterface');
+        $loop    = $container->make('Kraken\Loop\LoopInterface');
+        $context = $container->make('Kraken\Runtime\RuntimeContextInterface');
 
         $modelFactory = new ChannelModelFactory($context->getAlias(), $loop);
         $factory = new ChannelFactory($context->getAlias(), $modelFactory, $loop);

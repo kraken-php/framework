@@ -2,8 +2,7 @@
 
 namespace Kraken\_Unit\Environment;
 
-use Kraken\_Unit\Environment\_Mock\EnvironmentMock;
-use Kraken\Core\CoreInputContextInterface;
+use Kraken\Runtime\RuntimeContextInterface;
 use Kraken\Environment\Loader\Loader;
 use Kraken\Test\TUnit;
 use Kraken\Util\Invoker\Invoker;
@@ -79,7 +78,7 @@ class LoaderTest extends TUnit
      */
     public function createLoader()
     {
-        $context = $this->getMock(CoreInputContextInterface::class);
+        $context = $this->getMock(RuntimeContextInterface::class);
 
         return new Loader($context, '');
     }

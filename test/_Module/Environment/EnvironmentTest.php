@@ -2,7 +2,7 @@
 
 namespace Kraken\_Module\Environment;
 
-use Kraken\Core\CoreInputContextInterface;
+use Kraken\Runtime\RuntimeContextInterface;
 use Kraken\Environment\Environment;
 use Kraken\Test\TModule;
 
@@ -38,7 +38,7 @@ class EnvironmentTest extends TModule
      */
     public function testCaseEnvironment_ReadsAndParsesEnvFileCorrectly()
     {
-        $context = $this->getMock(CoreInputContextInterface::class);
+        $context = $this->getMock(RuntimeContextInterface::class);
 
         $env = new Environment($context, $this->path);
 

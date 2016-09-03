@@ -3,7 +3,7 @@
 namespace Kraken\Runtime;
 
 use Kraken\Core\CoreGetterAwareInterface;
-use Kraken\Core\CoreInputContextInterface;
+use Kraken\Runtime\RuntimeContextInterface;
 use Kraken\Core\CoreInterface;
 use Kraken\Event\EventEmitterInterface;
 use Kraken\Event\EventHandler;
@@ -27,7 +27,7 @@ use Exception;
  * @event afterStop     : callable()
  */
 interface RuntimeContainerInterface extends
-    EventEmitterInterface, CoreInputContextInterface, CoreGetterAwareInterface, LoopGetterAwareInterface
+    EventEmitterInterface, RuntimeContextInterface, CoreGetterAwareInterface, LoopGetterAwareInterface
 {
     /**
      * Return model on which container is working
