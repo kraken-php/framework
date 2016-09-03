@@ -16,12 +16,16 @@
          verbose="true">
 
     <testsuites>
-        <testsuite name="Kraken Unit Test Suite">
+        <testsuite name="Kraken Unit Tests">
             <directory suffix="Test.php">test/_Unit</directory>
         </testsuite>
 
-        <testsuite name="Kraken Module Test Suite">
+        <testsuite name="Kraken Module Tests">
             <directory suffix="Test.php">test/_Module</directory>
+        </testsuite>
+
+        <testsuite name="Kraken Integration Tests">
+            <directory suffix="Test.php">test/_Integration</directory>
         </testsuite>
     </testsuites>
 

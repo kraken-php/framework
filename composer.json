@@ -36,6 +36,7 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "Kraken\\_Integration\\": "test/_Integration",
             "Kraken\\_Module\\": "test/_Module",
             "Kraken\\_Unit\\": "test/_Unit"
         }
