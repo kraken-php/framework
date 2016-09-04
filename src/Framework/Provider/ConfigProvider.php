@@ -28,7 +28,8 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
      */
     protected $requires = [
         'Kraken\Core\CoreInterface',
-        'Kraken\Runtime\RuntimeContextInterface'
+        'Kraken\Runtime\RuntimeContextInterface',
+        'Kraken\Environment\EnvironmentInterface'
     ];
 
     /**
@@ -55,6 +56,7 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
     {
         $core    = $container->make('Kraken\Core\CoreInterface');
         $context = $container->make('Kraken\Runtime\RuntimeContextInterface');
+        $env     = $container->make('Kraken\Environment\EnvironmentInterface');
 
         $this->core    = $core;
         $this->context = $context;
@@ -90,6 +92,14 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
         {
             $new = StringSupport::parametrize($value, $vars);
 
+            $new = preg_replace_callback(
+                '#%env(\.([a-zA-Z0-9_-]*?))+%#si',
+                function($matches) use($env) {
+                    $key = strtoupper(str_replace([ '%', 'env.' ], [ '', '' ], $matches[0]));
+                    return $env->getEnv($key);
+                },
+                $new);
+
             if (is_string($value) && $new != $value)
             {
                 if (ctype_digit($new))
@@ -100,6 +110,9 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
                 $config->set($key, $new);
             }
         }
+
+
+        var_dump(ArraySupport::flatten($config->get('project')));
 
         $container->instance(
             'Kraken\Config\ConfigInterface',

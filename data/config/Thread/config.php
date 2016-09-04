@@ -47,8 +47,8 @@ return [
      */
     'project' => [
         'config' => [
-            'main.alias' => 'Main',
-            'main.name'  => 'Main',
+            'main.alias' => '%env.project_root%',
+            'main.name'  => '%env.project_name%',
         ],
         'tolerance' => [
             'parent.keepalive' => 15.0,
