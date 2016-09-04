@@ -95,7 +95,7 @@ return [
             'console' => [
                 'class'  => 'Kraken\Channel\Model\Socket\Socket',
                 'config' => [
-                    'type'      => 2,
+                    'type'      => '%channel.connector%',
                     'endpoint'  => 'tcp://%localhost%:2060'
                 ]
             ]

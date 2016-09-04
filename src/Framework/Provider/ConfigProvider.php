@@ -2,6 +2,7 @@
 
 namespace Kraken\Framework\Provider;
 
+use Kraken\Channel\Channel;
 use Kraken\Config\Config;
 use Kraken\Config\ConfigFactory;
 use Kraken\Config\ConfigInterface;
@@ -88,8 +89,14 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
         foreach ($records as $key=>$value)
         {
             $new = StringSupport::parametrize($value, $vars);
+
             if (is_string($value) && $new != $value)
             {
+                if (ctype_digit($new))
+                {
+                    $new = (int) $new;
+                }
+
                 $config->set($key, $new);
             }
         }
@@ -212,7 +219,9 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
             'name'      => $context->getName(),
             'basepath'  => $core->getBasePath(),
             'datapath'  => $core->getDataPath(),
-            'localhost' => '127.0.0.1'
+            'localhost' => '127.0.0.1',
+            'channel.binder'    => Channel::BINDER,
+            'channel.connector' => Channel::CONNECTOR
         ];
     }
 }

@@ -99,21 +99,21 @@ return [
             'master' => [
                 'class'  => 'Kraken\Channel\Model\Socket\Socket',
                 'config' => [
-                    'type'      => 2,
+                    'type'      => '%channel.connector%',
                     'endpoint'  => 'tcp://%localhost%:2080'
                 ]
             ],
             'slave' => [
                 'class'  => 'Kraken\Channel\Model\Socket\Socket',
                 'config' => [
-                    'type'      => 1,
+                    'type'      => '%channel.binder%',
                     'endpoint'  => 'tcp://%localhost%:2081'
                 ]
             ],
             'console' => [
                 'class'  => 'Kraken\Channel\Model\Socket\Socket',
                 'config' => [
-                    'type'      => 1,
+                    'type'      => '%channel.binder%',
                     'endpoint'  => 'tcp://%localhost%:2061'
                 ]
             ]
