@@ -78,8 +78,8 @@ class ServiceRegister implements ServiceRegisterInterface
         {
             $this->sortProviders();
             $this->registerProviders();
-            $this->bootProviders();
             $this->registerAliases();
+            $this->bootProviders();
 
             $this->booted = true;
             return;
