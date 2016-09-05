@@ -29,7 +29,8 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
         'Kraken\Config\ConfigInterface',
         'Kraken\Filesystem\FilesystemInterface',
         'Kraken\Runtime\RuntimeContainerInterface',
-        'Kraken\Runtime\Service\ChannelInternal'
+        'Kraken\Runtime\Service\ChannelInternal',
+        'Kraken\Util\System\SystemInterface'
     ];
 
     /**
@@ -46,7 +47,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
      */
     protected function register(ContainerInterface $container)
     {
-        $system  = new SystemUnix();
+        $system  = $container->make('Kraken\Util\System\SystemInterface');
         $core    = $container->make('Kraken\Core\CoreInterface');
         $config  = $container->make('Kraken\Config\ConfigInterface');
         $fs      = $container->make('Kraken\Filesystem\FilesystemInterface');

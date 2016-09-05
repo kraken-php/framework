@@ -30,6 +30,7 @@ class ThreadCore extends Core implements CoreInterface
             'Kraken\Framework\Provider\FilesystemProvider',
             'Kraken\Framework\Provider\LogProvider',
             'Kraken\Framework\Provider\LoopProvider',
+            'Kraken\Framework\Provider\SystemProvider',
             'Kraken\Framework\Runtime\Provider\ChannelProvider',
             'Kraken\Framework\Runtime\Provider\ChannelConsoleProvider',
             'Kraken\Framework\Runtime\Provider\CommandProvider',
@@ -65,7 +66,8 @@ class ThreadCore extends Core implements CoreInterface
             'Runtime.Manager'   => 'Kraken\Runtime\RuntimeManagerInterface',
             'Supervisor'        => 'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
             'Supervisor.Base'   => 'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
-            'Supervisor.Remote' => 'Kraken\Runtime\Supervisor\SupervisorRemoteInterface'
+            'Supervisor.Remote' => 'Kraken\Runtime\Supervisor\SupervisorRemoteInterface',
+            'System'            => 'Kraken\Util\System\SystemInterface'
         ];
     }
 }

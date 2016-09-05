@@ -17,7 +17,8 @@ class ProjectProvider extends ServiceProvider implements ServiceProviderInterfac
         'Kraken\Config\ConfigInterface',
         'Kraken\Filesystem\FilesystemInterface',
         'Kraken\Runtime\RuntimeContainerInterface',
-        'Kraken\Runtime\Service\ChannelInternal'
+        'Kraken\Runtime\Service\ChannelInternal',
+        'Kraken\Util\System\SystemInterface'
     ];
 
     /**
@@ -35,7 +36,7 @@ class ProjectProvider extends ServiceProvider implements ServiceProviderInterfac
         $config  = $container->make('Kraken\Config\ConfigInterface');
         $runtime = $container->make('Kraken\Runtime\RuntimeContainerInterface');
         $channel = $container->make('Kraken\Runtime\Service\ChannelInternal');
-        $system  = new SystemUnix();
+        $system  = $container->make('Kraken\Util\System\SystemInterface');
         $fs      = $container->make('Kraken\Filesystem\FilesystemInterface');
 
         $manager = new ProjectManager($runtime, $channel, $system, $fs);

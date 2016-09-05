@@ -30,6 +30,7 @@ class ServerCore extends Core implements CoreInterface
             'Kraken\Framework\Provider\FilesystemProvider',
             'Kraken\Framework\Provider\LogProvider',
             'Kraken\Framework\Provider\LoopProvider',
+            'Kraken\Framework\Provider\SystemProvider',
             'Kraken\Framework\Runtime\Provider\SupervisorProvider',
             'Kraken\Framework\Runtime\Provider\RuntimeProvider',
             'Kraken\Framework\Runtime\Provider\RuntimeBootProvider',
@@ -64,7 +65,8 @@ class ServerCore extends Core implements CoreInterface
             'Runtime.Context'   => 'Kraken\Runtime\RuntimeContextInterface',
             'Supervisor'        => 'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
             'Supervisor.Base'   => 'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
-            'Supervisor.Remote' => 'Kraken\Runtime\Supervisor\SupervisorRemoteInterface'
+            'Supervisor.Remote' => 'Kraken\Runtime\Supervisor\SupervisorRemoteInterface',
+            'System'            => 'Kraken\Util\System\SystemInterface'
         ];
     }
 }
