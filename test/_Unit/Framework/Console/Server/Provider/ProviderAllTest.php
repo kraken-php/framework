@@ -2,10 +2,11 @@
 
 namespace Kraken\_Unit\Framework\Console\Server\Provider;
 
-use Kraken\Framework\Console\Server\Provider\ChannelProvider;
-use Kraken\Framework\Console\Server\Provider\CommandProvider;
 use Kraken\Container\ServiceProvider;
 use Kraken\Core\Core;
+use Kraken\Framework\Console\Server\Provider\ChannelProvider;
+use Kraken\Framework\Console\Server\Provider\CommandProvider;
+use Kraken\Framework\Console\Server\Provider\ProjectProvider;
 use Kraken\Test\TUnit;
 
 class ProviderAllTest extends TUnit
@@ -39,7 +40,8 @@ class ProviderAllTest extends TUnit
     {
         return [
             [ new ChannelProvider() ],
-            [ new CommandProvider() ]
+            [ new CommandProvider() ],
+            [ new ProjectProvider() ]
         ];
     }
 }

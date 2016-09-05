@@ -23,13 +23,12 @@ class ProjectDestroyCommandTest extends TCommand
         $flags = 0;
 
         $command = $this->createCommand();
-        $manager = $this->createManager();
-        $config  = $this->createConfig([ 'main.alias' => 'main' ]);
+        $project = $this->createProjectManager();
 
-        $manager
+        $project
             ->expects($this->once())
-            ->method('destroyProcess')
-            ->with('main', $flags)
+            ->method('destroyProject')
+            ->with($flags)
             ->will($this->returnCallback(function() {
                 return new PromiseFulfilled('ok');
             }));
@@ -56,15 +55,5 @@ class ProjectDestroyCommandTest extends TCommand
         $command = $this->createCommand();
 
         $this->callProtectedMethod($command, 'command', [[]]);
-    }
-
-    /**
-     *
-     */
-    public function testProtectedApiCreateConfig_CreatesConfig()
-    {
-        $cmd = $this->createCommand();
-
-        $this->assertInstanceOf(ConfigInterface::class, $this->callProtectedMethod($cmd, 'createConfig'));
     }
 }

@@ -4,6 +4,8 @@ namespace Kraken\_Unit\Console\Server\_T;
 
 use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelInterface;
+use Kraken\Console\Server\Manager\ProjectManager;
+use Kraken\Console\Server\Manager\ProjectManagerInterface;
 use Kraken\Runtime\Command\CommandInterface;
 use Kraken\Config\Config;
 use Kraken\Config\ConfigInterface;
@@ -34,6 +36,11 @@ class TCommand extends TUnit
      * @var RuntimeManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $manager;
+
+    /**
+     * @var ProjectManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $project;
 
     /**
      * @var RuntimeContainerInterface|\PHPUnit_Framework_MockObject_MockObject
@@ -164,6 +171,22 @@ class TCommand extends TUnit
         }
 
         return $super;
+    }
+
+    /**
+     * @param string[]|null $methods
+     * @return ProjectManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    public function createProjectManager($methods = [])
+    {
+        $project = $this->getMock(ProjectManager::class, $methods, [], '', false);
+
+        if ($this->cmd !== null && $this->existsProtectedProperty($this->cmd, 'manager'))
+        {
+            $this->setProtectedProperty($this->cmd, 'manager', $project);
+        }
+
+        return $project;
     }
 
     /**

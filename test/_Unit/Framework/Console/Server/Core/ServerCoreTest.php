@@ -68,12 +68,13 @@ class ServerCoreTest extends TUnit
             'Kraken\Framework\Provider\FilesystemProvider',
             'Kraken\Framework\Provider\LogProvider',
             'Kraken\Framework\Provider\LoopProvider',
-            'Kraken\Framework\Console\Server\Provider\ChannelProvider',
-            'Kraken\Framework\Console\Server\Provider\CommandProvider',
             'Kraken\Framework\Runtime\Provider\SupervisorProvider',
             'Kraken\Framework\Runtime\Provider\RuntimeProvider',
             'Kraken\Framework\Runtime\Provider\RuntimeBootProvider',
-            'Kraken\Framework\Runtime\Provider\RuntimeManagerProvider'
+            'Kraken\Framework\Runtime\Provider\RuntimeManagerProvider',
+            'Kraken\Framework\Console\Server\Provider\ChannelProvider',
+            'Kraken\Framework\Console\Server\Provider\CommandProvider',
+            'Kraken\Framework\Console\Server\Provider\ProjectProvider'
         ];
     }
 
@@ -96,6 +97,7 @@ class ServerCoreTest extends TUnit
             'Filesystem.Cloud'  => 'Kraken\Filesystem\FilesystemManagerInterface',
             'Logger'            => 'Kraken\Log\LoggerInterface',
             'Loop'              => 'Kraken\Loop\LoopInterface',
+            'Project.Manager'   => 'Kraken\Console\Server\Manager\ProjectManagerInterface',
             'Supervisor'        => 'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
             'Supervisor.Base'   => 'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
             'Supervisor.Remote' => 'Kraken\Runtime\Supervisor\SupervisorRemoteInterface'

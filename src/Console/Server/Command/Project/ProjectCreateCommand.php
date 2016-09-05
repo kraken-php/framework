@@ -2,18 +2,17 @@
 
 namespace Kraken\Console\Server\Command\Project;
 
+use Kraken\Console\Server\Manager\ProjectManagerInterface;
 use Kraken\Runtime\Command\Command;
 use Kraken\Runtime\Command\CommandInterface;
-use Kraken\Config\Config;
-use Kraken\Config\ConfigInterface;
 use Kraken\Throwable\Exception\Runtime\RejectionException;
 
 class ProjectCreateCommand extends Command implements CommandInterface
 {
     /**
-     * @var ConfigInterface
+     * @var ProjectManagerInterface
      */
-    protected $config;
+    protected $manager;
 
     /**
      * @override
@@ -21,9 +20,7 @@ class ProjectCreateCommand extends Command implements CommandInterface
      */
     protected function construct()
     {
-        $config = $this->runtime->getCore()->make('Kraken\Config\ConfigInterface');
-
-        $this->config = $this->createConfig($config);
+        $this->manager = $this->runtime->getCore()->make('Project.Manager');
     }
 
     /**
@@ -32,7 +29,7 @@ class ProjectCreateCommand extends Command implements CommandInterface
      */
     protected function destruct()
     {
-        unset($this->config);
+        unset($this->manager);
     }
 
     /**
@@ -46,29 +43,13 @@ class ProjectCreateCommand extends Command implements CommandInterface
             throw new RejectionException('Invalid params.');
         }
 
-        return $this->runtime
-            ->getManager()
-            ->createProcess(
-                $this->config->get('main.alias'),
-                $this->config->get('main.name'),
-                $params['flags']
-            )
+        return $this->manager
+            ->createProject($params['flags'])
             ->then(
                 function() {
                     return 'Project has been created.';
                 }
             )
         ;
-    }
-
-    /**
-     * Create Config.
-     *
-     * @param ConfigInterface|null $config
-     * @return Config
-     */
-    protected function createConfig(ConfigInterface $config = null)
-    {
-        return new Config($config === null ? [] : $config->get('project.config'));
     }
 }

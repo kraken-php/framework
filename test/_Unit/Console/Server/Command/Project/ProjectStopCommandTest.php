@@ -21,13 +21,11 @@ class ProjectStopCommandTest extends TCommand
     {
         $command = $this->createCommand();
         $manager = $this->createManager();
-        $channel = $this->createChannel();
-        $config  = $this->createConfig([ 'main.alias' => 'main' ]);
+        $project = $this->createProjectManager();
 
-        $manager
+        $project
             ->expects($this->once())
-            ->method('stopProcess')
-            ->with('main')
+            ->method('stopProject')
             ->will($this->returnCallback(function() {
                 return new PromiseFulfilled('ok');
             }));
@@ -43,15 +41,5 @@ class ProjectStopCommandTest extends TCommand
 
         $result
             ->then($expect);
-    }
-
-    /**
-     *
-     */
-    public function testProtectedApiCreateConfig_CreatesConfig()
-    {
-        $cmd = $this->createCommand();
-
-        $this->assertInstanceOf(ConfigInterface::class, $this->callProtectedMethod($cmd, 'createConfig'));
     }
 }

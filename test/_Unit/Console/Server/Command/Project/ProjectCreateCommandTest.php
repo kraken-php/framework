@@ -23,13 +23,12 @@ class ProjectCreateCommandTest extends TCommand
         $flags = 0;
 
         $command = $this->createCommand();
-        $manager = $this->createManager();
-        $config  = $this->createConfig([ 'main.alias' => 'main', 'main.name' => 'name' ]);
+        $project = $this->createProjectManager();
 
-        $manager
+        $project
             ->expects($this->once())
-            ->method('createProcess')
-            ->with('main', 'name', $flags)
+            ->method('createProject')
+            ->with($flags)
             ->will($this->returnCallback(function() {
                 return new PromiseFulfilled('ok');
             }));
@@ -56,15 +55,5 @@ class ProjectCreateCommandTest extends TCommand
         $command = $this->createCommand();
 
         $this->callProtectedMethod($command, 'command', [[]]);
-    }
-
-    /**
-     *
-     */
-    public function testProtectedApiCreateConfig_CreatesConfig()
-    {
-        $cmd = $this->createCommand();
-
-        $this->assertInstanceOf(ConfigInterface::class, $this->callProtectedMethod($cmd, 'createConfig'));
     }
 }
