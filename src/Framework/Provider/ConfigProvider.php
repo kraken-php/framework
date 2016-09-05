@@ -111,9 +111,6 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
             }
         }
 
-
-        var_dump(ArraySupport::flatten($config->get('project')));
-
         $container->instance(
             'Kraken\Config\ConfigInterface',
             $config
