@@ -89,7 +89,6 @@ class ThreadCoreTest extends TUnit
             'Channel.Console'   => 'Kraken\Runtime\Service\ChannelConsole',
             'Command.Manager'   => 'Kraken\Runtime\Command\CommandManagerInterface',
             'Config'            => 'Kraken\Config\ConfigInterface',
-            'Console'           => 'Kraken\Runtime\Service\ChannelConsole',
             'Container'         => 'Kraken\Container\ContainerInterface',
             'Core'              => 'Kraken\Core\CoreInterface',
             'Emitter'           => 'Kraken\Event\EventEmitterInterface',
@@ -99,6 +98,9 @@ class ThreadCoreTest extends TUnit
             'Filesystem.Cloud'  => 'Kraken\Filesystem\FilesystemManagerInterface',
             'Logger'            => 'Kraken\Log\LoggerInterface',
             'Loop'              => 'Kraken\Loop\LoopInterface',
+            'Runtime'           => 'Kraken\Runtime\RuntimeContainerInterface',
+            'Runtime.Context'   => 'Kraken\Runtime\RuntimeContextInterface',
+            'Runtime.Manager'   => 'Kraken\Runtime\RuntimeManagerInterface',
             'Supervisor'        => 'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
             'Supervisor.Base'   => 'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
             'Supervisor.Remote' => 'Kraken\Runtime\Supervisor\SupervisorRemoteInterface'

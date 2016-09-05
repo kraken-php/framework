@@ -98,6 +98,8 @@ class ServerCoreTest extends TUnit
             'Logger'            => 'Kraken\Log\LoggerInterface',
             'Loop'              => 'Kraken\Loop\LoopInterface',
             'Project.Manager'   => 'Kraken\Console\Server\Manager\ProjectManagerInterface',
+            'Runtime'           => 'Kraken\Runtime\RuntimeContainerInterface',
+            'Runtime.Context'   => 'Kraken\Runtime\RuntimeContextInterface',
             'Supervisor'        => 'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
             'Supervisor.Base'   => 'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
             'Supervisor.Remote' => 'Kraken\Runtime\Supervisor\SupervisorRemoteInterface'
