@@ -107,7 +107,7 @@ return [
                 'class'  => 'Kraken\Channel\Model\Socket\Socket',
                 'config' => [
                     'type'      => '%channel.binder%',
-                    'endpoint'  => 'tcp://%localhost%:2081'
+                    'endpoint'  => '%func.genEndpoint%'
                 ]
             ],
             'console' => [

@@ -17,9 +17,11 @@ $args   = [];
 
 for ($i=4; ; $i++)
 {
-    if (isset($argv[$i]))
+    if (!isset($argv[$i]))
     {
-        $arg = explode('=', ltrim($argv[$i], '-'));
-        $args[$arg[0]] = $arg[1];
+        break;
     }
+
+    $arg = explode('=', ltrim($argv[$i], '-'));
+    $args[$arg[0]] = $arg[1];
 }
