@@ -92,7 +92,7 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
         $records = ArraySupport::flatten($config->getAll());
         foreach ($records as $key=>$value)
         {
-            $new = StringSupport::parametrize($value, $vars);
+            $new = $value;
 
             $new = preg_replace_callback(
                 '#%env(\.([a-zA-Z0-9_-]*?))+%#si',
@@ -108,6 +108,8 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
                     return call_user_func([ $runtime, $matches[1] ]);
                 },
                 $new);
+
+            $new = StringSupport::parametrize($new, $vars);
 
             if (is_string($value) && $new != $value)
             {
