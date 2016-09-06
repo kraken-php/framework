@@ -13,3 +13,13 @@ $controller = null;
 $parent = (string) $argv[1];
 $alias  = (string) $argv[2];
 $name   = (string) $argv[3];
+$args   = [];
+
+for ($i=4; ; $i++)
+{
+    if (isset($argv[$i]))
+    {
+        $arg = explode('=', ltrim($argv[$i], '-'));
+        $args[$arg[0]] = $arg[1];
+    }
+}

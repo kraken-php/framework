@@ -33,4 +33,11 @@ interface RuntimeContextInterface
      * @return string
      */
     public function getName();
+
+    /**
+     * Return context arguments passed to runtime on construction.
+     *
+     * @return string[]
+     */
+    public function getArgs();
 }

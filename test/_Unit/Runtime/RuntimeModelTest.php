@@ -76,6 +76,17 @@ class RuntimeModelTest extends TUnit
      */
     public function testApiGetName_ReturnsName()
     {
+        $args = [ 'arg1' => 'val1', 'arg2' => 'val2' ];
+        $runtime = $this->createModel([ 'parent', 'alias', 'name', $args ]);
+
+        $this->assertSame($args, $runtime->getArgs());
+    }
+
+    /**
+     *
+     */
+    public function testApiGetArgs_ReturnsArgs()
+    {
         $runtime = $this->createModel([ 'parent', 'alias', $name = 'someName' ]);
 
         $this->assertSame($name, $runtime->getName());

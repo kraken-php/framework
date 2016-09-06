@@ -115,6 +115,18 @@ trait RuntimeCase
     /**
      *
      */
+    public function testApiGetArgs_ReturnsArgs()
+    {
+        $test = $this->getTest();
+        $args = [ 'arg1' => 'val1', 'arg2' => 'val2' ];
+        $runtime = $this->createRuntime([ 'parent', 'alias', 'name', $args ]);
+
+        $test->assertSame($args, $runtime->getArgs());
+    }
+
+    /**
+     *
+     */
     public function testApiGetCore_CallsModelMethod()
     {
         $test = $this->getTest();

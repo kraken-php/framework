@@ -60,6 +60,15 @@ class Client extends BaseEventEmitter implements ClientInterface
      * @override
      * @inheritDoc
      */
+    public function getArgs()
+    {
+        return [];
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
     public function onStart(callable $callback)
     {
         return $this->on('start', $callback);

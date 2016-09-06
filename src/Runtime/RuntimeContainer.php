@@ -17,12 +17,13 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeContainer
      * @param string $parent
      * @param string $alias
      * @param string $name
+     * @param string[] $args
      */
-    public function __construct($parent, $alias, $name)
+    public function __construct($parent, $alias, $name, $args = [])
     {
         parent::__construct();
 
-        $this->model = new RuntimeModel($parent, $alias, $name);
+        $this->model = new RuntimeModel($parent, $alias, $name, $args);
         $this->model->setEventEmitter($this);
     }
 
@@ -79,6 +80,15 @@ abstract class RuntimeContainer extends EventEmitter implements RuntimeContainer
     public function getName()
     {
         return $this->model->getName();
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getArgs()
+    {
+        return $this->model->getArgs();
     }
 
     /**

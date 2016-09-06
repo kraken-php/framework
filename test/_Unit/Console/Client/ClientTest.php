@@ -68,6 +68,17 @@ class ClientTest extends TUnit
     }
 
     /**
+     *
+     */
+    public function testApiGetArgs_ReturnsArgs()
+    {
+        $test = $this->getTest();
+        $runtime = $this->createRuntime();
+
+        $test->assertSame([], $runtime->getArgs());
+    }
+
+    /**
      * @dataProvider eventsProvider
      */
     public function testCaseAllOnMethods_RegisterHandlersForEvents($event)

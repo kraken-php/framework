@@ -47,6 +47,11 @@ class RuntimeModel implements RuntimeModelInterface
     protected $name;
 
     /**
+     * @var string[]
+     */
+    protected $args;
+
+    /**
      * @var int
      */
     protected $state;
@@ -95,12 +100,14 @@ class RuntimeModel implements RuntimeModelInterface
      * @param string $parent
      * @param string $alias
      * @param string $name
+     * @param string[] $args
      */
-    public function __construct($parent, $alias, $name)
+    public function __construct($parent, $alias, $name, $args = [])
     {
         $this->parent = ($parent === Runtime::PARENT_UNDEFINED || $parent === Runtime::RESERVED_CONSOLE_SERVER) ? null : $parent;
         $this->alias = $alias;
         $this->name = $name;
+        $this->args = $args;
 
         $this->state = Runtime::STATE_DESTROYED;
         $this->core = null;
@@ -121,6 +128,7 @@ class RuntimeModel implements RuntimeModelInterface
         unset($this->parent);
         unset($this->alias);
         unset($this->name);
+        unset($this->args);
 
         unset($this->state);
         unset($this->core);
@@ -167,6 +175,15 @@ class RuntimeModel implements RuntimeModelInterface
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getArgs()
+    {
+        return $this->args;
     }
 
     /**

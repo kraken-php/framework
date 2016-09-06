@@ -10,8 +10,8 @@ use Kraken\Promise\PromiseInterface;
 use Error;
 use Exception;
 
-interface RuntimeModelInterface extends CoreAwareInterface, RuntimeContextInterface, SupervisorAwareInterface,
-    EventEmitterAwareInterface, LoopExtendedAwareInterface, RuntimeManagerAwareInterface
+interface RuntimeModelInterface extends RuntimeContextInterface, RuntimeManagerAwareInterface, SupervisorAwareInterface,
+    CoreAwareInterface, EventEmitterAwareInterface, LoopExtendedAwareInterface
 {
     /**
      * Set state of model.
