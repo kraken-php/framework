@@ -202,7 +202,7 @@ class RouterCompositeTest extends TUnit
     /**
      *
      */
-    public function testApiAddAnchor_CallsAddAnchorOnAllBuses()
+    public function testApiAddDefault_CallsAddAnchorOnAllBuses()
     {
         $handler = function() {};
         $propagate = true;
@@ -211,18 +211,18 @@ class RouterCompositeTest extends TUnit
         $bus1 = $this->createChannelRouter();
         $bus1
             ->expects($this->once())
-            ->method('addAnchor')
+            ->method('addDefault')
             ->with($handler, $propagate, $limit);
 
         $bus2 = $this->createChannelRouter();
         $bus2
             ->expects($this->once())
-            ->method('addAnchor')
+            ->method('addDefault')
             ->with($handler, $propagate, $limit);
 
         $router = $this->createChannelRouterComposite([ 'bus1' => $bus1, 'bus2' => $bus2 ]);
 
-        $router->addAnchor($handler, $propagate, $limit);
+        $router->addDefault($handler, $propagate, $limit);
     }
 
 

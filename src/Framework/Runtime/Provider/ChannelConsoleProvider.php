@@ -95,7 +95,7 @@ class ChannelConsoleProvider extends ServiceProvider implements ServiceProviderI
         $master = $channel->getBus('master');
 
         $router = $console->getInput();
-        $router->addAnchor(
+        $router->addDefault(
             new RuleHandler(function($params) use($master) {
                 $master->receive(
                     $params['alias'],
@@ -105,7 +105,7 @@ class ChannelConsoleProvider extends ServiceProvider implements ServiceProviderI
         );
 
         $router = $console->getOutput();
-        $router->addAnchor(
+        $router->addDefault(
             new RuleHandler(function($params) use($channel) {
                 $channel->push(
                     $params['alias'],

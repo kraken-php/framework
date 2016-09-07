@@ -141,13 +141,13 @@ class RouterComposite implements RouterCompositeInterface
      * @override
      * @inheritDoc
      */
-    public function addAnchor(callable $handler, $propagate = false, $limit = 0)
+    public function addDefault(callable $handler, $propagate = false, $limit = 0)
     {
         $handlers = [];
 
         foreach ($this->bus as $bus=>$router)
         {
-            $handlers[] = $router->addAnchor($handler, $propagate, $limit);
+            $handlers[] = $router->addDefault($handler, $propagate, $limit);
         }
 
         return $handlers;

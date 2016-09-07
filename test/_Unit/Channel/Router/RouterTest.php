@@ -77,8 +77,8 @@ class RouterTest extends TUnit
         $passer  = function() { return false; };
 
         $router->addRule($passer, $this->expectCallableNever());
-        $router->addAnchor($this->expectCallableOnce());
-        $router->addAnchor($this->expectCallableNever());
+        $router->addDefault($this->expectCallableOnce());
+        $router->addDefault($this->expectCallableNever());
 
         $router->handle($name, $protocol);
     }
@@ -96,8 +96,8 @@ class RouterTest extends TUnit
         $passer  = function() { return false; };
 
         $router->addRule($passer, $this->expectCallableNever());
-        $router->addAnchor($this->expectCallableOnce(), true);
-        $router->addAnchor($this->expectCallableOnce());
+        $router->addDefault($this->expectCallableOnce(), true);
+        $router->addDefault($this->expectCallableOnce());
 
         $router->handle($name, $protocol);
     }
@@ -132,7 +132,7 @@ class RouterTest extends TUnit
         $protocol = $this->createProtocol();
         $callable = function() {};
 
-        $router->addAnchor($callable);
+        $router->addDefault($callable);
 
         $status = $router->handle($name, $protocol);
 
@@ -183,7 +183,7 @@ class RouterTest extends TUnit
         $protocol = $this->createProtocol();
         $callable = function() {};
 
-        $router->addAnchor($callable);
+        $router->addDefault($callable);
 
         $status = $router->handle($name, $protocol);
 
@@ -302,7 +302,7 @@ class RouterTest extends TUnit
     /**
      *
      */
-    public function testApiAddAnchor_AddsDefault()
+    public function testApiAddDefault_AddsDefault()
     {
         $router = $this->createRouter();
 
@@ -313,7 +313,7 @@ class RouterTest extends TUnit
         $this->assertCount(0, $rules);
         $this->assertSame (0, $rulesPointer);
 
-        $router->addAnchor($handler);
+        $router->addDefault($handler);
 
         $rules = $this->getProtectedProperty($router, 'anchors');
         $rulesPointer = $this->getProtectedProperty($router, 'anchorsPointer');
@@ -351,7 +351,7 @@ class RouterTest extends TUnit
 
         $handler = function() {};
 
-        $router->addAnchor($handler);
+        $router->addDefault($handler);
 
         $rules = $this->getProtectedProperty($router, 'anchors');
         $this->assertCount(1, $rules);

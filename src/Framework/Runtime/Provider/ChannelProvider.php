@@ -135,14 +135,14 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         $slave  = $composite->getBus('slave');
 
         $router = $composite->getInput();
-        $router->addAnchor(
+        $router->addDefault(
             new RuleHandler(function($params) {
                 return true;
             })
         );
 
         $router = $composite->getOutput();
-        $router->addAnchor(
+        $router->addDefault(
             function($receiver, ProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($runtime, $slave, $master) {
                 if ($runtime->getManager()->existsRuntime($receiver) || $slave->isConnected($receiver))
                 {
@@ -162,7 +162,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
                 $this->executeProtocol($composite, $params['protocol']);
             })
         );
-        $router->addAnchor(
+        $router->addDefault(
             new RuleHandler(function($params) use($slave) {
                 $slave->push($slave->getConnected(), $params['protocol'], $params['flags']);
             })
@@ -175,21 +175,21 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
                 $this->executeProtocol($composite, $params['protocol']);
             })
         );
-        $router->addAnchor(
+        $router->addDefault(
             new RuleHandler(function($params) use($runtime, $slave, $master) {
                 $master->push($runtime->getParent(), $params['protocol'], $params['flags']);
             })
         );
 
         $router = $master->getOutput();
-        $router->addAnchor(
+        $router->addDefault(
             function($sender, ProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($master) {
                 $master->push($sender, $protocol, $flags, $success, $failure, $cancel, $timeout);
             }
         );
 
         $router = $slave->getOutput();
-        $router->addAnchor(
+        $router->addDefault(
             function($sender, ProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($slave) {
                 $slave->push($sender, $protocol, $flags, $success, $failure, $cancel, $timeout);
             }
@@ -207,14 +207,14 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         $slave  = $composite->getBus('slave');
 
         $router = $composite->getInput();
-        $router->addAnchor(
+        $router->addDefault(
             new RuleHandler(function($params) {
                 return true;
             })
         );
 
         $router = $composite->getOutput();
-        $router->addAnchor(
+        $router->addDefault(
             function($receiver, ProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($runtime, $slave, $console) {
                 if ($receiver === Runtime::RESERVED_CONSOLE_CLIENT || $protocol->getDestination() === Runtime::RESERVED_CONSOLE_CLIENT)
                 {
@@ -238,7 +238,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
                 $this->executeProtocol($composite, $params['protocol']);
             })
         );
-        $router->addAnchor(
+        $router->addDefault(
             new RuleHandler(function($params) use($slave) {
                 $slave->push($slave->getConnected(), $params['protocol'], $params['flags']);
             })
@@ -251,7 +251,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
                 $this->executeProtocol($composite, $params['protocol']);
             })
         );
-        $router->addAnchor(
+        $router->addDefault(
             new RuleHandler(function($params) use($runtime, $slave, $console) {
                 $receiver = $params['alias'];
                 $protocol = $params['protocol'];
@@ -267,14 +267,14 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         );
 
         $router = $master->getOutput();
-        $router->addAnchor(
+        $router->addDefault(
             function($sender, ProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($master) {
                 $master->push($sender, $protocol, $flags, $success, $failure, $cancel, $timeout);
             }
         );
 
         $router = $slave->getOutput();
-        $router->addAnchor(
+        $router->addDefault(
             function($sender, ProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($slave) {
                 $slave->push($sender, $protocol, $flags, $success, $failure, $cancel, $timeout);
             }

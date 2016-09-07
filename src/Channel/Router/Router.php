@@ -149,7 +149,7 @@ class Router implements RouterInterface
      * @override
      * @inheritDoc
      */
-    public function addAnchor(callable $handler, $propagate = false, $limit = 0)
+    public function addDefault(callable $handler, $propagate = false, $limit = 0)
     {
         return $this->addDefaultHandler(
             new RouterRule($this, function() {}, $handler, $propagate, $limit)

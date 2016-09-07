@@ -44,5 +44,5 @@ interface RouterInterface
      * @param int $limit
      * @return RouterRule|RouterRule[]
      */
-    public function addAnchor(callable $handler, $propagate = false, $limit = 0);
+    public function addDefault(callable $handler, $propagate = false, $limit = 0);
 }

@@ -121,14 +121,14 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         $slave  = $composite->getBus('slave');
 
         $router = $composite->getInput();
-        $router->addAnchor(
+        $router->addDefault(
             new RuleHandler(function($params) {
                 return true;
             })
         );
 
         $router = $composite->getOutput();
-        $router->addAnchor(
+        $router->addDefault(
             new RuleHandler(function($params) use($slave, $master) {
                 $ch = ($params['alias'] === Runtime::RESERVED_CONSOLE_CLIENT) ? $master : $slave;
                 $ch->push(
@@ -150,21 +150,21 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
                 $this->executeProtocol($composite, $params['protocol']);
             })
         );
-        $router->addAnchor(
+        $router->addDefault(
             new RuleHandler(function($params) use($slave) {
                 $slave->push($slave->getConnected(), $params['protocol'], $params['flags']);
             })
         );
 
         $router = $slave->getInput();
-        $router->addAnchor(
+        $router->addDefault(
             new RuleHandler(function($params) use($runtime, $slave, $master) {
                 $master->push(Runtime::RESERVED_CONSOLE_CLIENT, $params['protocol'], $params['flags']);
             })
         );
 
         $router = $master->getOutput();
-        $router->addAnchor(
+        $router->addDefault(
             new RuleHandler(function($params) use($master) {
                 $protocol = $params['protocol'];
                 $master->push(
@@ -180,7 +180,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         );
 
         $router = $slave->getOutput();
-        $router->addAnchor(
+        $router->addDefault(
             new RuleHandler(function($params) use($slave) {
                 $protocol = $params['protocol'];
                 $slave->push(

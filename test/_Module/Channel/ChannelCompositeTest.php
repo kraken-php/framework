@@ -587,7 +587,7 @@ class ChannelCompositeTest extends TModule
         $channel = new ChannelComposite($name, $buses, $router, $loop);
 
         $router = $channel->getInput();
-        $router->addAnchor(
+        $router->addDefault(
             new RuleHandler(function($params) use($channel) {
                 $channel->pull(
                     $params['alias'],
@@ -597,7 +597,7 @@ class ChannelCompositeTest extends TModule
         );
 
         $router = $channel->getOutput();
-        $router->addAnchor(
+        $router->addDefault(
             new RuleHandler(function($params) use($channel) {
                 $channel->push(
                     $params['alias'],
@@ -632,7 +632,7 @@ class ChannelCompositeTest extends TModule
         $channel = new Channel($name, $model, $router, $encoder, $loop);
 
         $router = $channel->getInput();
-        $router->addAnchor(
+        $router->addDefault(
             new RuleHandler(function($params) use($channel) {
                 $channel->pull(
                     $params['alias'],
@@ -642,7 +642,7 @@ class ChannelCompositeTest extends TModule
         );
 
         $router = $channel->getOutput();
-        $router->addAnchor(
+        $router->addDefault(
             new RuleHandler(function($params) use($channel) {
                 $channel->push(
                     $params['alias'],

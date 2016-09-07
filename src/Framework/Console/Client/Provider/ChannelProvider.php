@@ -75,12 +75,12 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function applyConsoleController(ChannelInterface $channel)
     {
         $router = $channel->getInput();
-        $router->addAnchor(
+        $router->addDefault(
             new RuleHandler(function($params) {})
         );
 
         $router = $channel->getOutput();
-        $router->addAnchor(
+        $router->addDefault(
             new RuleHandler(function($params) use($channel) {
                 $channel->push(
                     $params['alias'],
