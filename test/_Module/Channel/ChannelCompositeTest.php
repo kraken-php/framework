@@ -4,11 +4,12 @@ namespace Kraken\_Module\Channel;
 
 use Kraken\Channel\Encoder\Encoder;
 use Kraken\Channel\Model\Zmq\ZmqDealer;
-use Kraken\Channel\Router\RuleHandle\RuleHandler;
 use Kraken\Channel\Router\Router;
 use Kraken\Channel\Router\RouterComposite;
+use Kraken\Channel\Router\RuleHandle\RuleHandler;
 use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelInterface;
+use Kraken\Channel\ChannelComposite;
 use Kraken\Loop\LoopInterface;
 use Kraken\Test\Simulation\Simulation;
 use Kraken\Util\Parser\Json\JsonParser;
@@ -16,7 +17,7 @@ use Kraken\Test\Simulation\SimulationInterface;
 use Kraken\Test\TModule;
 use ReflectionClass;
 
-class ChannelTest extends TModule
+class ChannelCompositeTest extends TModule
 {
     const ALIAS_A = 'A';
     const ALIAS_B = 'B';
@@ -30,7 +31,7 @@ class ChannelTest extends TModule
     /**
      * @dataProvider modelProvider
      */
-    public function testChannel_PushesAndReceivesData_InPairWithBuffer($data)
+    public function testChannelBox_PushesAndReceivesData_InPairWithBuffer($data)
     {
         $this
             ->simulate(function(SimulationInterface $sim) use($data) {
@@ -39,8 +40,8 @@ class ChannelTest extends TModule
                     $sim->done();
                 });
 
-                $master = $this->createChannel($data['master'], $loop);
-                $slaver = $this->createChannel($data['slave1'], $loop);
+                $master = $this->createComposite($data['master'], $loop);
+                $slaver = $this->createComposite($data['slave1'], $loop);
 
                 $master->on('start', function() use($sim, $master, $slaver) {
                     $master->push(self::ALIAS_B, self::MSG_2, Channel::MODE_BUFFER);
@@ -65,7 +66,6 @@ class ChannelTest extends TModule
                     $slaver->stop();
                     usleep(200e3);
                 });
-
                 $slaver->push(self::ALIAS_A, self::MSG_1, Channel::MODE_BUFFER);
             })
             ->expect([
@@ -78,7 +78,7 @@ class ChannelTest extends TModule
     /**
      * @dataProvider modelProvider
      */
-    public function testChannel_PushesAndReceivesData_InPairWithOnlineBuffer($data)
+    public function testChannelBox_PushesAndReceivesData_InPairWithOnlineBuffer($data)
     {
         $this
             ->simulate(function(SimulationInterface $sim) use($data) {
@@ -87,8 +87,8 @@ class ChannelTest extends TModule
                     $sim->done();
                 });
 
-                $master = $this->createChannel($data['master'], $loop);
-                $slaver = $this->createChannel($data['slave1'], $loop);
+                $master = $this->createComposite($data['master'], $loop);
+                $slaver = $this->createComposite($data['slave1'], $loop);
 
                 $master->on('start', function() use($master, $slaver) {
                     $master->push(self::ALIAS_B, self::MSG_1, Channel::MODE_BUFFER_ONLINE);
@@ -121,7 +121,7 @@ class ChannelTest extends TModule
     /**
      * @dataProvider modelProvider
      */
-    public function testChannel_PushesAndReceivesData_InPairWithOfflineBuffer($data)
+    public function testChannelBox_PushesAndReceivesData_InPairWithOfflineBuffer($data)
     {
         $this
             ->simulate(function(SimulationInterface $sim) use($data) {
@@ -130,8 +130,8 @@ class ChannelTest extends TModule
                     $sim->done();
                 });
 
-                $master = $this->createChannel($data['master'], $loop);
-                $slaver = $this->createChannel($data['slave1'], $loop);
+                $master = $this->createComposite($data['master'], $loop);
+                $slaver = $this->createComposite($data['slave1'], $loop);
 
                 $slaver->on('input', function($alias, $message) use($sim) {
                     $sim->expect('input', [ $alias, $message->getMessage() ]);
@@ -162,7 +162,7 @@ class ChannelTest extends TModule
     /**
      * @dataProvider modelProvider
      */
-    public function testChannel_PushesAndReceivesData_InPairWithoutBuffer($data)
+    public function testChannelBox_PushesAndReceivesData_InPairWithoutBuffer($data)
     {
         $this
             ->simulate(function(SimulationInterface $sim) use($data) {
@@ -171,8 +171,8 @@ class ChannelTest extends TModule
                     $sim->done();
                 });
 
-                $master = $this->createChannel($data['master'], $loop);
-                $slaver = $this->createChannel($data['slave1'], $loop);
+                $master = $this->createComposite($data['master'], $loop);
+                $slaver = $this->createComposite($data['slave1'], $loop);
 
                 $master->on('start', function() use($master, $slaver) {
                     $master->push(self::ALIAS_B, self::MSG_2, Channel::MODE_STANDARD);
@@ -209,7 +209,7 @@ class ChannelTest extends TModule
     /**
      * @dataProvider modelProvider
      */
-    public function testChannel_SendsAndReceivesData_InPairWithBuffer($data)
+    public function testChannelBox_SendsAndReceivesData_InPairWithBuffer($data)
     {
         $this
             ->simulate(function(SimulationInterface $sim) use($data) {
@@ -218,8 +218,8 @@ class ChannelTest extends TModule
                     $sim->done();
                 });
 
-                $master = $this->createChannel($data['master'], $loop);
-                $slaver = $this->createChannel($data['slave1'], $loop);
+                $master = $this->createComposite($data['master'], $loop);
+                $slaver = $this->createComposite($data['slave1'], $loop);
 
                 $master->on('start', function() use($sim, $master, $slaver) {
                     $master->send(self::ALIAS_B, self::MSG_2, Channel::MODE_BUFFER);
@@ -257,7 +257,7 @@ class ChannelTest extends TModule
     /**
      * @dataProvider modelProvider
      */
-    public function testChannel_SendsAndReceivesData_InPairWithOnlineBuffer($data)
+    public function testChannelBox_SendsAndReceivesData_InPairWithOnlineBuffer($data)
     {
         $this
             ->simulate(function(SimulationInterface $sim) use($data) {
@@ -266,8 +266,8 @@ class ChannelTest extends TModule
                     $sim->done();
                 });
 
-                $master = $this->createChannel($data['master'], $loop);
-                $slaver = $this->createChannel($data['slave1'], $loop);
+                $master = $this->createComposite($data['master'], $loop);
+                $slaver = $this->createComposite($data['slave1'], $loop);
 
                 $master->on('start', function() use($master, $slaver) {
                     $master->send(self::ALIAS_B, self::MSG_1, Channel::MODE_BUFFER_ONLINE);
@@ -289,20 +289,18 @@ class ChannelTest extends TModule
                     $slaver->stop();
                     usleep(200e3);
                 });
-
-
             })
             ->expect([
                 [ 'input', [ self::ALIAS_A, self::MSG_1 ] ],
                 [ 'input', [ self::ALIAS_A, self::MSG_2 ] ],
                 [ 'input', [ self::ALIAS_A, [ self::MSG_3, self::MSG_4 ] ] ]
-            ]);
+            ], Simulation::EVENTS_COMPARE_RANDOMLY);
     }
 
     /**
      * @dataProvider modelProvider
      */
-    public function testChannel_SendsAndReceivesData_InPairWithOfflineBuffer($data)
+    public function testChannelBox_SendsAndReceivesData_InPairWithOfflineBuffer($data)
     {
         $this
             ->simulate(function(SimulationInterface $sim) use($data) {
@@ -311,8 +309,8 @@ class ChannelTest extends TModule
                     $sim->done();
                 });
 
-                $master = $this->createChannel($data['master'], $loop);
-                $slaver = $this->createChannel($data['slave1'], $loop);
+                $master = $this->createComposite($data['master'], $loop);
+                $slaver = $this->createComposite($data['slave1'], $loop);
 
                 $slaver->on('input', function($alias, $message) use($sim) {
                     $sim->expect('input', [ $alias, $message->getMessage() ]);
@@ -343,7 +341,7 @@ class ChannelTest extends TModule
     /**
      * @dataProvider modelProvider
      */
-    public function testChannel_SendsAndReceivesData_InPairWithoutBuffer($data)
+    public function testChannelBox_SendsAndReceivesData_InPairWithoutBuffer($data)
     {
         $this
             ->simulate(function(SimulationInterface $sim) use($data) {
@@ -352,8 +350,8 @@ class ChannelTest extends TModule
                     $sim->done();
                 });
 
-                $master = $this->createChannel($data['master'], $loop);
-                $slaver = $this->createChannel($data['slave1'], $loop);
+                $master = $this->createComposite($data['master'], $loop);
+                $slaver = $this->createComposite($data['slave1'], $loop);
 
                 $master->on('start', function() use($master, $slaver) {
                     $master->send(self::ALIAS_B, self::MSG_2, Channel::MODE_STANDARD);
@@ -387,76 +385,11 @@ class ChannelTest extends TModule
             ]);
     }
 
-    /**
-     * @dataProvider modelProvider
-     */
-    public function testChannel_EmitsConnectAndDisconnectEvents_InThreesome($data)
-    {
-        $this
-            ->simulate(function(SimulationInterface $sim) use($data) {
-                $loop = $sim->getLoop();
-
-                $data['master']['config']['heartbeatKeepalive'] = 100;
-
-                $master = $this->createChannel($data['master'], $loop);
-                $slave1 = $this->createChannel($data['slave1'], $loop);
-                $slave2 = $this->createChannel($data['slave2'], $loop);
-
-                $master->on('start', function() use($master, $slave1, $slave2) {
-                    $slave1->start();
-                    $slave2->start();
-                });
-                $master->on('connect', function($name) use($sim) {
-                    $sim->expect('connect', [ $name ]);
-                });
-                $master->on('disconnect', function($name) use($sim) {
-                    $sim->expect('disconnect', [ $name ]);
-                });
-
-                $sim->delayOnce('down', 2, function() use($sim, $loop) {
-                    $loop->addTimer(0.5, function() use($sim) {
-                        $sim->done();
-                    });
-                });
-
-                $slave1->on('start', function() use($sim, $slave1, $loop) {
-                    $loop->addTimer(0.25, function() use($slave1) {
-                        $slave1->stop();
-                    });
-                });
-                $slave1->on('stop', function() use($sim) {
-                    $sim->emit('down');
-                });
-
-                $slave2->on('start', function() use($sim, $slave2, $loop) {
-                    $loop->addTimer(0.25, function() use($slave2) {
-                        $slave2->stop();
-                    });
-                });
-                $slave2->on('stop', function() use($sim) {
-                    $sim->emit('down');
-                });
-
-                $sim->onStart(function() use($master) {
-                    $master->start();
-                });
-                $sim->onStop(function() use($master, $slave1, $slave2) {
-                    $master->stop();
-                    usleep(200e3);
-                });
-            })
-            ->expect([
-                [ 'connect', [ self::ALIAS_B ] ],
-                [ 'connect', [ self::ALIAS_C ] ],
-                [ 'disconnect', [ self::ALIAS_B ] ],
-                [ 'disconnect', [ self::ALIAS_C ] ],
-            ]);
-    }
 
     /**
      * @dataProvider modelProvider
      */
-    public function testChannel_EmitsInputAndOutputEvents_InPair($data)
+    public function testChannelBox_EmitsInputAndOutputEvents_InPair($data)
     {
         $this
             ->simulate(function(SimulationInterface $sim) use($data) {
@@ -465,8 +398,8 @@ class ChannelTest extends TModule
                     $sim->done();
                 });
 
-                $master = $this->createChannel($data['master'], $loop);
-                $slaver = $this->createChannel($data['slave1'], $loop);
+                $master = $this->createComposite($data['master'], $loop);
+                $slaver = $this->createComposite($data['slave1'], $loop);
 
                 $master->on('input', function($alias, $message) use($sim, $master, $slaver) {
                     $sim->expect('input', [ $alias, $message->getMessage() ]);
@@ -520,30 +453,54 @@ class ChannelTest extends TModule
         return [
             [
                 'master' => [
-                    'class'  => '\Kraken\Channel\Model\Socket\Socket',
-                    'config' => [
-                        'id' => self::ALIAS_A,
-                        'hosts' => self::ALIAS_A,
-                        'type' => Channel::BINDER,
-                        'endpoint' => 'tcp://127.0.0.1:2080'
+                    'name'  => self::ALIAS_A,
+                    'buses' => [
+                        'bus1' => [
+                            'class'  => '\Kraken\Channel\Model\Socket\Socket',
+                            'config' => [
+                                'id' => self::ALIAS_A,
+                                'hosts' => [ self::ALIAS_A ],
+                                'type' => ZmqDealer::BINDER,
+                                'endpoint' => 'tcp://127.0.0.1:2080'
+                            ]
+                        ],
+                        'bus2' => [
+                            'class'  => '\Kraken\Channel\Model\Socket\Socket',
+                            'config' => [
+                                'id' => self::ALIAS_A,
+                                'hosts' => [ self::ALIAS_A ],
+                                'type' => ZmqDealer::BINDER,
+                                'endpoint' => 'tcp://127.0.0.1:2081'
+                            ]
+                        ]
                     ]
                 ],
-                'slave1' => [
-                    'class'  => '\Kraken\Channel\Model\Socket\Socket',
-                    'config' => [
-                        'id' => self::ALIAS_B,
-                        'hosts' => self::ALIAS_A,
-                        'type' => Channel::CONNECTOR,
-                        'endpoint' => 'tcp://127.0.0.1:2080'
+                'slave1'  => [
+                    'name'  => self::ALIAS_B,
+                    'buses' => [
+                        'bus1' => [
+                            'class'  => '\Kraken\Channel\Model\Socket\Socket',
+                            'config' => [
+                                'id' => self::ALIAS_B,
+                                'hosts' => [ self::ALIAS_A ],
+                                'type' => ZmqDealer::CONNECTOR,
+                                'endpoint' => 'tcp://127.0.0.1:2080'
+                            ]
+                        ]
                     ]
                 ],
-                'slave2' => [
-                    'class'  => '\Kraken\Channel\Model\Socket\Socket',
-                    'config' => [
-                        'id' => self::ALIAS_C,
-                        'hosts' => self::ALIAS_A,
-                        'type' => Channel::CONNECTOR,
-                        'endpoint' => 'tcp://127.0.0.1:2080'
+                'slave2'  => [
+                    'name'  => self::ALIAS_C,
+                    'buses' => [
+                        'bus1' => [
+                            'class'  => '\Kraken\Channel\Model\Socket\Socket',
+                            'config' => [
+                                'id' => self::ALIAS_C,
+                                'hosts' => [ self::ALIAS_A ],
+                                'type' => ZmqDealer::CONNECTOR,
+                                'endpoint' => 'tcp://127.0.0.1:2081'
+                            ]
+                        ]
                     ]
                 ]
             ]
@@ -558,34 +515,103 @@ class ChannelTest extends TModule
         return [
             [
                 'master' => [
-                    'class'  => '\Kraken\Channel\Model\Zmq\ZmqDealer',
-                    'config' => [
-                        'id' => self::ALIAS_A,
-                        'hosts' => [ self::ALIAS_A ],
-                        'type' => ZmqDealer::BINDER,
-                        'endpoint' => 'tcp://127.0.0.1:2080'
+                    'name'  => self::ALIAS_A,
+                    'buses' => [
+                        'bus1' => [
+                            'class'  => '\Kraken\Channel\Model\Zmq\ZmqDealer',
+                            'config' => [
+                                'id' => self::ALIAS_A,
+                                'hosts' => [ self::ALIAS_A ],
+                                'type' => ZmqDealer::BINDER,
+                                'endpoint' => 'tcp://127.0.0.1:2080'
+                            ]
+                        ],
+                        'bus2' => [
+                            'class'  => '\Kraken\Channel\Model\Zmq\ZmqDealer',
+                            'config' => [
+                                'id' => self::ALIAS_A,
+                                'hosts' => [ self::ALIAS_A ],
+                                'type' => ZmqDealer::BINDER,
+                                'endpoint' => 'tcp://127.0.0.1:2081'
+                            ]
+                        ]
                     ]
                 ],
-                'slave1' => [
-                    'class'  => '\Kraken\Channel\Model\Zmq\ZmqDealer',
-                    'config' => [
-                        'id' => self::ALIAS_B,
-                        'hosts' => [ self::ALIAS_A ],
-                        'type' => ZmqDealer::CONNECTOR,
-                        'endpoint' => 'tcp://127.0.0.1:2080'
+                'slave1'  => [
+                    'name'  => self::ALIAS_B,
+                    'buses' => [
+                        'bus1' => [
+                            'class'  => '\Kraken\Channel\Model\Zmq\ZmqDealer',
+                            'config' => [
+                                'id' => self::ALIAS_B,
+                                'hosts' => [ self::ALIAS_A ],
+                                'type' => ZmqDealer::CONNECTOR,
+                                'endpoint' => 'tcp://127.0.0.1:2080'
+                            ]
+                        ]
                     ]
                 ],
-                'slave2' => [
-                    'class'  => '\Kraken\Channel\Model\Zmq\ZmqDealer',
-                    'config' => [
-                        'id' => self::ALIAS_C,
-                        'hosts' => [ self::ALIAS_A ],
-                        'type' => ZmqDealer::CONNECTOR,
-                        'endpoint' => 'tcp://127.0.0.1:2080'
+                'slave2'  => [
+                    'name'  => self::ALIAS_C,
+                    'buses' => [
+                        'bus1' => [
+                            'class'  => '\Kraken\Channel\Model\Zmq\ZmqDealer',
+                            'config' => [
+                                'id' => self::ALIAS_C,
+                                'hosts' => [ self::ALIAS_A ],
+                                'type' => ZmqDealer::CONNECTOR,
+                                'endpoint' => 'tcp://127.0.0.1:2081'
+                            ]
+                        ]
                     ]
                 ]
             ]
         ];
+    }
+
+    public function createComposite($data, LoopInterface $loop)
+    {
+        $name  = $data['name'];
+        $buses = [];
+
+        foreach ($data['buses'] as $busName=>$bus)
+        {
+            $buses[$busName] = $this->createChannel($bus, $loop);
+        }
+
+        $router  = new RouterComposite([
+            'input'     => $input  = new Router(),
+            'output'    => $output = new Router()
+        ]);
+
+        $channel = new ChannelComposite($name, $buses, $router, $loop);
+
+        $router = $channel->getInput();
+        $router->addAnchor(
+            new RuleHandler(function($params) use($channel) {
+                $channel->pull(
+                    $params['alias'],
+                    $params['protocol']
+                );
+            })
+        );
+
+        $router = $channel->getOutput();
+        $router->addAnchor(
+            new RuleHandler(function($params) use($channel) {
+                $channel->push(
+                    $params['alias'],
+                    $params['protocol'],
+                    $params['flags'],
+                    $params['success'],
+                    $params['failure'],
+                    $params['cancel'],
+                    $params['timeout']
+                );
+            })
+        );
+
+        return $channel;
     }
 
     /**

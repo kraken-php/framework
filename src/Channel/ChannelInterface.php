@@ -2,7 +2,10 @@
 
 namespace Kraken\Channel;
 
-use Kraken\Channel\Request\Request;
+use Kraken\Channel\Protocol\ProtocolInterface;
+use Kraken\Channel\Record\RequestRecord;
+use Kraken\Channel\Router\RouterCompositeInterface;
+use Kraken\Channel\Router\RouterInterface;
 use Kraken\Event\EventEmitterInterface;
 use Kraken\Event\EventHandler;
 use Kraken\Loop\LoopAwareInterface;
@@ -13,8 +16,8 @@ use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
  * @event stop  : callable()
  * @event connect    : callable(string)
  * @event disconnect : callable(string)
- * @event input  : callable(string, ChannelProtocolInterface)
- * @event output : callalbe(string, ChannelProtocolInterface)
+ * @event input  : callable(string, ProtocolInterface)
+ * @event output : callalbe(string, ProtocolInterface)
  */
 interface ChannelInterface extends EventEmitterInterface, LoopAwareInterface
 {
@@ -35,7 +38,7 @@ interface ChannelInterface extends EventEmitterInterface, LoopAwareInterface
     /**
      * Return router which is being used by Channel.
      *
-     * @return ChannelRouterCompositeInterface
+     * @return RouterCompositeInterface
      */
     public function getRouter();
 
@@ -44,7 +47,7 @@ interface ChannelInterface extends EventEmitterInterface, LoopAwareInterface
      *
      * Throws ResourceUndefinedException if input router is not found.
      *
-     * @return ChannelRouterInterface|ChannelRouterCompositeInterface
+     * @return RouterInterface|RouterCompositeInterface
      * @throws ResourceUndefinedException
      */
     public function getInput();
@@ -54,7 +57,7 @@ interface ChannelInterface extends EventEmitterInterface, LoopAwareInterface
      *
      * Throws ResourceUndefinedException if output router is not found.
      *
-     * @return ChannelRouterInterface|ChannelRouterCompositeInterface
+     * @return RouterInterface|RouterCompositeInterface
      * @throws ResourceUndefinedException
      */
     public function getOutput();
@@ -63,7 +66,7 @@ interface ChannelInterface extends EventEmitterInterface, LoopAwareInterface
      * Put message into newly created protocol and return its wrapper.
      *
      * @param string|string[]|null $message
-     * @return ChannelProtocolInterface
+     * @return ProtocolInterface
      */
     public function createProtocol($message = null);
 
@@ -156,7 +159,7 @@ interface ChannelInterface extends EventEmitterInterface, LoopAwareInterface
      * @see ChannelInterface::sendRequest
      *
      * @param string|string[] $name
-     * @param string|string[]|ChannelProtocolInterface $message
+     * @param string|string[]|ProtocolInterface $message
      * @param int $flags
      * @param callable|null $success
      * @param callable|null $failure
@@ -189,13 +192,13 @@ interface ChannelInterface extends EventEmitterInterface, LoopAwareInterface
      * offline.
      *
      * @param string|string[] $name
-     * @param string|string[]|ChannelProtocolInterface $message
+     * @param string|string[]|ProtocolInterface $message
      * @param int $flags
      * @param callable|null $success
      * @param callable|null $failure
      * @param callable|null $cancel
      * @param float $timeout
-     * @return Request|Request[]|null|null[]|bool|bool[]
+     * @return RequestRecord|RequestRecord[]|null|null[]|bool|bool[]
      */
     public function push($name, $message, $flags = Channel::MODE_DEFAULT, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0);
 
@@ -207,7 +210,7 @@ interface ChannelInterface extends EventEmitterInterface, LoopAwareInterface
      * @see ChannelInterface::send
      *
      * @param string|string[] $name
-     * @param string|string[]|ChannelProtocolInterface $message
+     * @param string|string[]|ProtocolInterface $message
      * @param int $flags
      * @return bool|bool[]
      */
@@ -221,7 +224,7 @@ interface ChannelInterface extends EventEmitterInterface, LoopAwareInterface
      * @see ChannelInterface::push
      *
      * @param string|string[] $name
-     * @param string|string[]|ChannelProtocolInterface $message
+     * @param string|string[]|ProtocolInterface $message
      * @param int $flags
      * @return bool|bool[]
      */
@@ -235,7 +238,7 @@ interface ChannelInterface extends EventEmitterInterface, LoopAwareInterface
      * @see ChannelInterface::send
      *
      * @param string|string[] $name
-     * @param string|string[]|ChannelProtocolInterface $message
+     * @param string|string[]|ProtocolInterface $message
      * @param int $flags
      * @param callable|null $success
      * @param callable|null $failure
@@ -253,13 +256,13 @@ interface ChannelInterface extends EventEmitterInterface, LoopAwareInterface
      * @see ChannelInterface::push
      *
      * @param string|string[] $name
-     * @param string|string[]|ChannelProtocolInterface $message
+     * @param string|string[]|ProtocolInterface $message
      * @param int $flags
      * @param callable|null $success
      * @param callable|null $failure
      * @param callable|null $cancel
      * @param float $timeout
-     * @return Request|Request[]|null|null[]
+     * @return RequestRecord|RequestRecord[]|null|null[]
      */
     public function pushRequest($name, $message, $flags = Channel::MODE_DEFAULT, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0);
 
@@ -270,9 +273,9 @@ interface ChannelInterface extends EventEmitterInterface, LoopAwareInterface
      * depending on router rules.
      *
      * @param string $sender
-     * @param ChannelProtocolInterface $protocol
+     * @param ProtocolInterface $protocol
      */
-    public function receive($sender, ChannelProtocolInterface $protocol);
+    public function receive($sender, ProtocolInterface $protocol);
 
     /**
      * Pull message from sender.
@@ -280,9 +283,9 @@ interface ChannelInterface extends EventEmitterInterface, LoopAwareInterface
      * This method pulls message immediataly processing it without router usage.
      *
      * @param string $sender
-     * @param ChannelProtocolInterface $protocol
+     * @param ProtocolInterface $protocol
      */
-    public function pull($sender, ChannelProtocolInterface $protocol);
+    public function pull($sender, ProtocolInterface $protocol);
 
     /**
      * Check if channel is started.

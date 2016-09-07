@@ -2,10 +2,10 @@
 
 namespace Kraken\_Unit\Channel\Extra;
 
-use Kraken\Channel\Channel;
-use Kraken\Channel\ChannelProtocol;
-use Kraken\Channel\ChannelProtocolInterface;
 use Kraken\Channel\Extra\Response;
+use Kraken\Channel\Protocol\Protocol;
+use Kraken\Channel\Protocol\ProtocolInterface;
+use Kraken\Channel\Channel;
 use Kraken\Loop\Loop;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
@@ -79,7 +79,7 @@ class ResponseTest extends TUnit
         $channel
             ->expects($this->once())
             ->method('send')
-            ->will($this->returnCallback(function($origin, ChannelProtocolInterface $answer, $mode) {
+            ->will($this->returnCallback(function($origin, ProtocolInterface $answer, $mode) {
                 $this->assertSame('secret', $answer->getMessage());
                 $this->assertSame('', $answer->getException());
                 $this->assertSame(Channel::MODE_BUFFER_ONLINE, $mode);
@@ -101,7 +101,7 @@ class ResponseTest extends TUnit
         $channel
             ->expects($this->once())
             ->method('send')
-            ->will($this->returnCallback(function($origin, ChannelProtocolInterface $answer, $mode) use($ex) {
+            ->will($this->returnCallback(function($origin, ProtocolInterface $answer, $mode) use($ex) {
                 $this->assertSame('secret', $answer->getMessage());
                 $this->assertSame(get_class($ex), $answer->getException());
                 $this->assertSame(Channel::MODE_BUFFER_ONLINE, $mode);
@@ -111,7 +111,7 @@ class ResponseTest extends TUnit
     }
 
     /**
-     * @param ChannelProtocolInterface $protocol
+     * @param ProtocolInterface $protocol
      * @param string|string[]|Error|Exception $message
      * @param mixed[] $params
      * @param string[] $methods
@@ -127,11 +127,11 @@ class ResponseTest extends TUnit
     }
 
     /**
-     * @return ChannelProtocol
+     * @return Protocol
      */
     public function createProtocol()
     {
-        return new ChannelProtocol('', 'uniqueID', '', '', '', '', 0);
+        return new Protocol('', 'uniqueID', '', '', '', '', 0);
     }
 
     /**
@@ -161,7 +161,7 @@ class ResponseTest extends TUnit
             ->expects($this->atMost(1))
             ->method('createProtocol')
             ->will($this->returnCallback(function($message = null) use($name) {
-                return new ChannelProtocol('', 'uniqueID', '', $name, $message, '', 0);
+                return new Protocol('', 'uniqueID', '', $name, $message, '', 0);
             }));
         $channel
             ->expects($this->any())

@@ -2,12 +2,12 @@
 
 namespace Kraken\Framework\Console\Server\Provider;
 
-use Kraken\Channel\Channel;
-use Kraken\Channel\ChannelProtocolInterface;
-use Kraken\Channel\ChannelCompositeInterface;
 use Kraken\Channel\Extra\Response;
-use Kraken\Channel\Router\RuleHandler;
-use Kraken\Channel\Router\RuleMatchDestination;
+use Kraken\Channel\Protocol\ProtocolInterface;
+use Kraken\Channel\Router\RuleHandle\RuleHandler;
+use Kraken\Channel\Router\RuleMatch\RuleMatchDestination;
+use Kraken\Channel\Channel;
+use Kraken\Channel\ChannelCompositeInterface;
 use Kraken\Runtime\Command\CommandManagerInterface;
 use Kraken\Container\ContainerInterface;
 use Kraken\Container\ServiceProvider;
@@ -198,9 +198,9 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
 
     /**
      * @param ChannelCompositeInterface $composite
-     * @param ChannelProtocolInterface $protocol
+     * @param ProtocolInterface $protocol
      */
-    private function executeProtocol(ChannelCompositeInterface $composite, ChannelProtocolInterface $protocol)
+    private function executeProtocol(ChannelCompositeInterface $composite, ProtocolInterface $protocol)
     {
         $params = json_decode($protocol->getMessage(), true);
         $command = array_shift($params);

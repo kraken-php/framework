@@ -2,13 +2,13 @@
 
 namespace Kraken\Framework\Runtime\Provider;
 
+use Kraken\Channel\Extra\Response;
+use Kraken\Channel\Protocol\ProtocolInterface;
+use Kraken\Channel\Router\RuleHandle\RuleHandler;
+use Kraken\Channel\Router\RuleMatch\RuleMatchDestination;
 use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelInterface;
-use Kraken\Channel\ChannelProtocolInterface;
 use Kraken\Channel\ChannelCompositeInterface;
-use Kraken\Channel\Extra\Response;
-use Kraken\Channel\Router\RuleHandler;
-use Kraken\Channel\Router\RuleMatchDestination;
 use Kraken\Runtime\Command\CommandManagerInterface;
 use Kraken\Container\ContainerInterface;
 use Kraken\Container\ServiceProvider;
@@ -143,7 +143,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
 
         $router = $composite->getOutput();
         $router->addAnchor(
-            function($receiver, ChannelProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($runtime, $slave, $master) {
+            function($receiver, ProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($runtime, $slave, $master) {
                 if ($runtime->getManager()->existsRuntime($receiver) || $slave->isConnected($receiver))
                 {
                     $slave->push($receiver, $protocol, $flags, $success, $failure, $cancel, $timeout);
@@ -183,14 +183,14 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
 
         $router = $master->getOutput();
         $router->addAnchor(
-            function($sender, ChannelProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($master) {
+            function($sender, ProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($master) {
                 $master->push($sender, $protocol, $flags, $success, $failure, $cancel, $timeout);
             }
         );
 
         $router = $slave->getOutput();
         $router->addAnchor(
-            function($sender, ChannelProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($slave) {
+            function($sender, ProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($slave) {
                 $slave->push($sender, $protocol, $flags, $success, $failure, $cancel, $timeout);
             }
         );
@@ -215,7 +215,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
 
         $router = $composite->getOutput();
         $router->addAnchor(
-            function($receiver, ChannelProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($runtime, $slave, $console) {
+            function($receiver, ProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($runtime, $slave, $console) {
                 if ($receiver === Runtime::RESERVED_CONSOLE_CLIENT || $protocol->getDestination() === Runtime::RESERVED_CONSOLE_CLIENT)
                 {
                     $console->push(Runtime::RESERVED_CONSOLE_CLIENT, $protocol, $flags, $success, $failure, $cancel, $timeout);
@@ -268,14 +268,14 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
 
         $router = $master->getOutput();
         $router->addAnchor(
-            function($sender, ChannelProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($master) {
+            function($sender, ProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($master) {
                 $master->push($sender, $protocol, $flags, $success, $failure, $cancel, $timeout);
             }
         );
 
         $router = $slave->getOutput();
         $router->addAnchor(
-            function($sender, ChannelProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($slave) {
+            function($sender, ProtocolInterface $protocol, $flags, callable $success = null, callable $failure = null, callable $cancel = null, $timeout = 0.0) use($slave) {
                 $slave->push($sender, $protocol, $flags, $success, $failure, $cancel, $timeout);
             }
         );
@@ -283,9 +283,9 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
 
     /**
      * @param ChannelCompositeInterface $composite
-     * @param ChannelProtocolInterface $protocol
+     * @param ProtocolInterface $protocol
      */
-    private function executeProtocol(ChannelCompositeInterface $composite, ChannelProtocolInterface $protocol)
+    private function executeProtocol(ChannelCompositeInterface $composite, ProtocolInterface $protocol)
     {
         /**
          * If the json_decode fails, it means the received message is leftover of request response,

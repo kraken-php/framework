@@ -3,16 +3,16 @@
 namespace Kraken\_Unit\Channel\Extra;
 
 use Kraken\Channel\Extra\Request;
+use Kraken\Channel\Protocol\Protocol;
+use Kraken\Channel\Protocol\ProtocolInterface;
 use Kraken\Channel\Channel;
-use Kraken\Channel\ChannelProtocol;
-use Kraken\Channel\ChannelProtocolInterface;
 use Kraken\Loop\Loop;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseFulfilled;
 use Kraken\Promise\PromiseInterface;
-use Kraken\Test\TUnit;
 use Kraken\Throwable\Exception\Runtime\TimeoutException;
 use Kraken\Throwable\Exception\System\TaskIncompleteException;
+use Kraken\Test\TUnit;
 use Closure;
 use Exception;
 
@@ -34,7 +34,7 @@ class RequestTest extends TUnit
         $req = $this->createRequest('name', $secret = 'secret');
         $message = $this->getProtectedProperty($req, 'message');
 
-        $this->assertInstanceOf(ChannelProtocol::class, $message);
+        $this->assertInstanceOf(Protocol::class, $message);
         $this->assertSame($secret, $message->getMessage());
     }
 
@@ -46,13 +46,13 @@ class RequestTest extends TUnit
         $name = 'name';
         $secret = 'secret';
 
-        $protocol = new ChannelProtocol();
+        $protocol = new Protocol();
         $protocol->setMessage($secret);
 
         $req = $this->createRequest($name, $protocol);
         $message = $this->getProtectedProperty($req, 'message');
 
-        $this->assertInstanceOf(ChannelProtocol::class, $message);
+        $this->assertInstanceOf(Protocol::class, $message);
         $this->assertSame($secret, $message->getMessage());
     }
 
@@ -361,7 +361,7 @@ class RequestTest extends TUnit
 
     /**
      * @param string $name
-     * @param string|ChannelProtocolInterface $message
+     * @param string|ProtocolInterface $message
      * @param mixed[] $params
      * @param string[] $methods
      * @return Request|\PHPUnit_Framework_MockObject_MockObject
@@ -402,7 +402,7 @@ class RequestTest extends TUnit
             ->expects($this->atMost(1))
             ->method('createProtocol')
             ->will($this->returnCallback(function($message = null) use($name) {
-                return new ChannelProtocol('', 'uniqueID', '', $name, $message, '', 0);
+                return new Protocol('', 'uniqueID', '', $name, $message, '', 0);
             }));
         $channel
             ->expects($this->any())

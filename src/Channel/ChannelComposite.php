@@ -2,6 +2,9 @@
 
 namespace Kraken\Channel;
 
+use Kraken\Channel\Protocol\Protocol;
+use Kraken\Channel\Protocol\ProtocolInterface;
+use Kraken\Channel\Router\RouterCompositeInterface;
 use Kraken\Event\BaseEventEmitter;
 use Kraken\Event\EventHandler;
 use Kraken\Loop\LoopAwareTrait;
@@ -26,7 +29,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     protected $buses;
 
     /**
-     * @var ChannelRouterCompositeInterface
+     * @var RouterCompositeInterface
      */
     protected $router;
 
@@ -48,10 +51,10 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     /**
      * @param string $name
      * @param ChannelInterface[]|ChannelCompositeInterface[] $buses
-     * @param ChannelRouterCompositeInterface $router
+     * @param RouterCompositeInterface $router
      * @param LoopInterface $loop
      */
-    public function __construct($name, $buses = [], ChannelRouterCompositeInterface $router, LoopInterface $loop)
+    public function __construct($name, $buses = [], RouterCompositeInterface $router, LoopInterface $loop)
     {
         $this->name = $name;
         $this->buses = [];
@@ -216,7 +219,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
             $message = (string) $message;
         }
 
-        return new ChannelProtocol('', $this->genID(), '', '', $message);
+        return new Protocol('', $this->genID(), '', '', $message);
     }
 
     /**
@@ -405,7 +408,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
      * @override
      * @inheritDoc
      */
-    public function receive($sender, ChannelProtocolInterface $protocol)
+    public function receive($sender, ProtocolInterface $protocol)
     {
         if ($this->getInput()->handle($sender, $protocol))
         {
@@ -417,7 +420,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
      * @override
      * @inheritDoc
      */
-    public function pull($sender, ChannelProtocolInterface $protocol)
+    public function pull($sender, ProtocolInterface $protocol)
     {
         $this->emit('input', [ $sender, $protocol ]);
     }
@@ -510,7 +513,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
 
     /**
      * @param string $name
-     * @param ChannelProtocolInterface $message
+     * @param ProtocolInterface $message
      * @param int $flags
      * @return bool
      */
@@ -530,7 +533,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
 
     /**
      * @param string $name
-     * @param ChannelProtocolInterface $message
+     * @param ProtocolInterface $message
      * @param int $flags
      * @return bool
      */
@@ -574,7 +577,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
 
     /**
      * @param string $name
-     * @param string|ChannelProtocolInterface $message
+     * @param string|ProtocolInterface $message
      * @param int $flags
      * @param callable|null $success
      * @param callable|null $failure
@@ -589,7 +592,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
 
     /**
      * @param string $name
-     * @param string|ChannelProtocolInterface $message
+     * @param string|ProtocolInterface $message
      * @param int $flags
      * @param callable|null $success
      * @param callable|null $failure
@@ -638,9 +641,9 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     /**
      * @internal
      * @param string $sender
-     * @param ChannelProtocolInterface $protocol
+     * @param ProtocolInterface $protocol
      */
-    public function handleReceive($sender, ChannelProtocolInterface $protocol)
+    public function handleReceive($sender, ProtocolInterface $protocol)
     {
         $this->getInput()->handle($sender, $protocol);
     }
@@ -676,12 +679,12 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     }
 
     /**
-     * @param ChannelProtocolInterface|null|string|string[] $message
-     * @return ChannelProtocolInterface
+     * @param ProtocolInterface|null|string|string[] $message
+     * @return ProtocolInterface
      */
     protected function createMessageProtocol($message)
     {
-        if (!($message instanceof ChannelProtocolInterface))
+        if (!($message instanceof ProtocolInterface))
         {
             $message = $this->createProtocol($message);
         }

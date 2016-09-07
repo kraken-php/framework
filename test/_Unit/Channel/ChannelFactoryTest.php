@@ -2,10 +2,10 @@
 
 namespace Kraken\_Unit\Channel;
 
+use Kraken\Channel\Encoder\Encoder;
+use Kraken\Channel\Router\RouterComposite;
 use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelComposite;
-use Kraken\Channel\ChannelEncoder;
-use Kraken\Channel\ChannelRouterComposite;
 use Kraken\Channel\ChannelFactory;
 use Kraken\Channel\ChannelModelFactory;
 use Kraken\Loop\Loop;
@@ -36,8 +36,8 @@ class ChannelFactoryTest extends TUnit
         $factory = $this->createChannelFactory();
 
         $this->assertSame($this->name, $factory->getParam('name'));
-        $this->assertInstanceOf(ChannelEncoder::class, $factory->getParam('encoder'));
-        $this->assertInstanceOf(ChannelRouterComposite::class, $factory->getParam('router'));
+        $this->assertInstanceOf(Encoder::class, $factory->getParam('encoder'));
+        $this->assertInstanceOf(RouterComposite::class, $factory->getParam('router'));
         $this->assertSame($this->loop, $factory->getParam('loop'));
     }
 

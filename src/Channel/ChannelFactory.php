@@ -2,6 +2,10 @@
 
 namespace Kraken\Channel;
 
+use Kraken\Channel\Encoder\Encoder;
+use Kraken\Channel\Encoder\EncoderInterface;
+use Kraken\Channel\Router\Router;
+use Kraken\Channel\Router\RouterComposite;
 use Kraken\Loop\LoopInterface;
 use Kraken\Util\Factory\Factory;
 use Kraken\Util\Parser\Json\JsonParser;
@@ -20,11 +24,11 @@ class ChannelFactory extends Factory implements ChannelFactoryInterface
         $factory = $this;
         $factory
             ->bindParam('name', $name)
-            ->bindParam('encoder', new ChannelEncoder(new JsonParser))
+            ->bindParam('encoder', new Encoder(new JsonParser))
             ->bindParam('router', function() {
-                return new ChannelRouterComposite([
-                    'input'  => new ChannelRouter(),
-                    'output' => new ChannelRouter()
+                return new RouterComposite([
+                    'input'  => new Router(),
+                    'output' => new Router()
                 ]);
             })
             ->bindParam('loop', $loop)

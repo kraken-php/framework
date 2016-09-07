@@ -2,7 +2,7 @@
 
 namespace Kraken\Channel\Extra;
 
-use Kraken\Channel\ChannelProtocolInterface;
+use Kraken\Channel\Protocol\ProtocolInterface;
 use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelInterface;
 use Kraken\Promise\Promise;
@@ -27,7 +27,7 @@ class Request
     protected $name;
 
     /**
-     * @var ChannelProtocolInterface|string
+     * @var ProtocolInterface|string
      */
     protected $message;
 
@@ -44,14 +44,14 @@ class Request
     /**
      * @param ChannelInterface $channel
      * @param string $name
-     * @param string|ChannelProtocolInterface $message
+     * @param string|ProtocolInterface $message
      * @param mixed[] $params
      */
     public function __construct($channel, $name, $message, $params = [])
     {
         $this->channel = $channel;
         $this->name = $name;
-        $this->message = ($message instanceof ChannelProtocolInterface) ? $message : $this->channel->createProtocol($message);
+        $this->message = ($message instanceof ProtocolInterface) ? $message : $this->channel->createProtocol($message);
         $this->params = [
             'timeout'           => isset($params['timeout']) ? $params['timeout'] : 3.0,
             'retriesLimit'      => isset($params['retriesLimit']) ? $params['retriesLimit'] : 6,

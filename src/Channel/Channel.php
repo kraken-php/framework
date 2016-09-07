@@ -2,14 +2,20 @@
 
 namespace Kraken\Channel;
 
+use Kraken\Channel\Encoder\Encoder;
+use Kraken\Channel\Encoder\EncoderInterface;
+use Kraken\Channel\Extra\Request;
 use Kraken\Channel\Extra\Response;
-use Kraken\Channel\Request\RequestHelperTrait;
-use Kraken\Channel\Response\ResponseHelperTrait;
+use Kraken\Channel\Protocol\Protocol;
+use Kraken\Channel\Protocol\ProtocolInterface;
+use Kraken\Channel\Record\RequestRecordStorage;
+use Kraken\Channel\Record\ResponseRecordStorage;
+use Kraken\Channel\Router\RouterCompositeInterface;
 use Kraken\Event\EventEmitter;
 use Kraken\Event\EventHandler;
+use Kraken\Loop\Timer\TimerInterface;
 use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
-use Kraken\Loop\Timer\TimerInterface;
 use Kraken\Util\Support\GeneratorSupport;
 use Kraken\Util\Support\StringSupport;
 use Kraken\Util\Support\TimeSupport;
@@ -22,8 +28,8 @@ use Kraken\Throwable\ThrowableProxy;
 class Channel extends EventEmitter implements ChannelInterface
 {
     use LoopAwareTrait;
-    use RequestHelperTrait;
-    use ResponseHelperTrait;
+    use RequestRecordStorage;
+    use ResponseRecordStorage;
 
     /**
      * @var string
@@ -81,12 +87,12 @@ class Channel extends EventEmitter implements ChannelInterface
     protected $model;
 
     /**
-     * @var ChannelRouterCompositeInterface
+     * @var RouterCompositeInterface
      */
     protected $router;
 
     /**
-     * @var ChannelEncoderInterface
+     * @var EncoderInterface
      */
     protected $encoder;
 
@@ -118,12 +124,12 @@ class Channel extends EventEmitter implements ChannelInterface
     /**
      * @param string $name
      * @param ChannelModelInterface $model
-     * @param ChannelRouterCompositeInterface $router
-     * @param ChannelEncoderInterface $encoder
+     * @param RouterCompositeInterface $router
+     * @param EncoderInterface $encoder
      * @param LoopInterface $loop
      * @throws InstantiationException
      */
-    public function __construct($name, ChannelModelInterface $model, ChannelRouterCompositeInterface $router, ChannelEncoderInterface $encoder, LoopInterface $loop)
+    public function __construct($name, ChannelModelInterface $model, RouterCompositeInterface $router, EncoderInterface $encoder, LoopInterface $loop)
     {
         parent::__construct($loop);
 
@@ -237,7 +243,7 @@ class Channel extends EventEmitter implements ChannelInterface
             $message = (string) $message;
         }
 
-        return new ChannelProtocol('', $this->genID(), '', $this->name, $message, '', $this->getTime());
+        return new Protocol('', $this->genID(), '', $this->name, $message, '', $this->getTime());
     }
 
     /**
@@ -416,7 +422,7 @@ class Channel extends EventEmitter implements ChannelInterface
      * @override
      * @inheritDoc
      */
-    public function receive($sender, ChannelProtocolInterface $protocol)
+    public function receive($sender, ProtocolInterface $protocol)
     {
         if ($this->handleReceiveRequest($protocol))
         {
@@ -433,7 +439,7 @@ class Channel extends EventEmitter implements ChannelInterface
      * @override
      * @inheritDoc
      */
-    public function pull($sender, ChannelProtocolInterface $protocol)
+    public function pull($sender, ProtocolInterface $protocol)
     {
         $this->emit('input', [ $sender, $protocol ]);
     }
@@ -608,7 +614,7 @@ class Channel extends EventEmitter implements ChannelInterface
     public function handleReceive($sender, $multipartMessage)
     {
         $protocol = $this->encoder
-            ->with(new ChannelProtocol())
+            ->with(new Protocol())
             ->decode(implode('', $multipartMessage));
 
         if ($this->handleReceiveRequest($protocol))
@@ -623,10 +629,10 @@ class Channel extends EventEmitter implements ChannelInterface
     }
 
     /**
-     * @param ChannelProtocolInterface
+     * @param ProtocolInterface
      * @return bool
      */
-    protected function handleReceiveRequest(ChannelProtocolInterface $protocol)
+    protected function handleReceiveRequest(ProtocolInterface $protocol)
     {
         if ($protocol->getType() === Channel::TYPE_REQ && $protocol->getDestination() === $this->name)
         {
@@ -647,10 +653,10 @@ class Channel extends EventEmitter implements ChannelInterface
     }
 
     /**
-     * @param ChannelProtocolInterface $protocol
+     * @param ProtocolInterface $protocol
      * @return bool
      */
-    protected function handleReceiveResponse(ChannelProtocolInterface $protocol)
+    protected function handleReceiveResponse(ProtocolInterface $protocol)
     {
         $pid = $protocol->getPid();
 
@@ -710,11 +716,11 @@ class Channel extends EventEmitter implements ChannelInterface
 
     /**
      * @param string|string[] $message
-     * @return ChannelProtocolInterface
+     * @return ProtocolInterface
      */
     protected function createMessageProtocol($message)
     {
-        if (!($message instanceof ChannelProtocolInterface))
+        if (!($message instanceof ProtocolInterface))
         {
             $message = $this->createProtocol($message);
         }
@@ -751,7 +757,7 @@ class Channel extends EventEmitter implements ChannelInterface
 
             foreach ($unfinished as $response)
             {
-                $protocol = new ChannelProtocol('', $response->getPid(), '', $response->getAlias(), '', '', $this->getTime());
+                $protocol = new Protocol('', $response->getPid(), '', $response->getAlias(), '', '', $this->getTime());
                 $response = new Response($this, $protocol, new TaskIncompleteException("Task unfinished."));
                 $response->call();
             }

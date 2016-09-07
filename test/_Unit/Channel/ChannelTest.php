@@ -2,15 +2,15 @@
 
 namespace Kraken\_Unit\Channel;
 
+use Kraken\Channel\Encoder\EncoderInterface;
+use Kraken\Channel\Protocol\Protocol;
+use Kraken\Channel\Protocol\ProtocolInterface;
+use Kraken\Channel\Router\Router;
+use Kraken\Channel\Router\RouterComposite;
+use Kraken\Channel\Router\RouterCompositeInterface;
 use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelInterface;
-use Kraken\Channel\ChannelEncoderInterface;
 use Kraken\Channel\ChannelModelInterface;
-use Kraken\Channel\ChannelProtocol;
-use Kraken\Channel\ChannelProtocolInterface;
-use Kraken\Channel\ChannelRouter;
-use Kraken\Channel\ChannelRouterComposite;
-use Kraken\Channel\ChannelRouterCompositeInterface;
 use Kraken\Event\EventHandler;
 use Kraken\Loop\Loop;
 use Kraken\Loop\LoopInterface;
@@ -79,7 +79,7 @@ class ChannelTest extends TUnit
     {
         $channel = $this->createChannel();
 
-        $input  = $this->getMock(ChannelRouter::class, [], [], '', false);
+        $input  = $this->getMock(Router::class, [], [], '', false);
         $router = $this->createRouter([ 'getBus' ]);
         $router
             ->expects($this->once())
@@ -97,7 +97,7 @@ class ChannelTest extends TUnit
     {
         $channel = $this->createChannel();
 
-        $output = $this->getMock(ChannelRouter::class, [], [], '', false);
+        $output = $this->getMock(Router::class, [], [], '', false);
         $router = $this->createRouter([ 'getBus' ]);
         $router
             ->expects($this->once())
@@ -117,7 +117,7 @@ class ChannelTest extends TUnit
 
         $result = $channel->createProtocol();
 
-        $this->assertInstanceOf(ChannelProtocolInterface::class, $result);
+        $this->assertInstanceOf(ProtocolInterface::class, $result);
         $this->assertSame('', $result->getMessage());
     }
 
@@ -130,7 +130,7 @@ class ChannelTest extends TUnit
 
         $result = $channel->createProtocol('text');
 
-        $this->assertInstanceOf(ChannelProtocolInterface::class, $result);
+        $this->assertInstanceOf(ProtocolInterface::class, $result);
         $this->assertSame('text', $result->getMessage());
     }
 
@@ -708,7 +708,7 @@ class ChannelTest extends TUnit
     public function testApiReceive_ReturnsImmediatelyIfRequestIsReceived()
     {
         $name = 'name';
-        $protocol = new ChannelProtocol();
+        $protocol = new Protocol();
 
         $channel = $this->createChannel([ 'handleReceiveRequest', 'handleReceiveResponse' ]);
         $channel
@@ -729,7 +729,7 @@ class ChannelTest extends TUnit
     public function testApiReceive_ReturnsImmediately_WhenRequestIsReceived()
     {
         $name = 'name';
-        $protocol = new ChannelProtocol();
+        $protocol = new Protocol();
 
         $channel = $this->createChannel([ 'handleReceiveRequest', 'handleReceiveResponse' ]);
         $channel
@@ -750,7 +750,7 @@ class ChannelTest extends TUnit
     public function testApiReceive_EmitsEvent_WhenResponseIsReceived()
     {
         $name = 'name';
-        $protocol = new ChannelProtocol();
+        $protocol = new Protocol();
 
         $channel = $this->createChannel([ 'emit', 'handleReceiveRequest', 'handleReceiveResponse' ]);
         $channel
@@ -777,9 +777,9 @@ class ChannelTest extends TUnit
     public function testApiReceive_EmitsEvent_WhenResponseIsHandledByRouter()
     {
         $name = 'name';
-        $protocol = new ChannelProtocol();
+        $protocol = new Protocol();
 
-        $mock = $this->getMock(ChannelRouterComposite::class, [], [], '', false);
+        $mock = $this->getMock(RouterComposite::class, [], [], '', false);
         $mock
             ->expects($this->once())
             ->method('handle')
@@ -815,9 +815,9 @@ class ChannelTest extends TUnit
     public function testApiReceive_DoesNothing_WhenResponseIsNotHandledByRouter()
     {
         $name = 'name';
-        $protocol = new ChannelProtocol();
+        $protocol = new Protocol();
 
-        $mock = $this->getMock(ChannelRouterComposite::class, [], [], '', false);
+        $mock = $this->getMock(RouterComposite::class, [], [], '', false);
         $mock
             ->expects($this->once())
             ->method('handle')
@@ -852,7 +852,7 @@ class ChannelTest extends TUnit
     public function testApiPull_PullsMessage()
     {
         $name = 'name';
-        $protocol = new ChannelProtocol();
+        $protocol = new Protocol();
 
         $channel = $this->createChannel([ 'emit' ]);
         $channel
@@ -987,11 +987,11 @@ class ChannelTest extends TUnit
     public function testApiHandleSendAsync_HandlesMessageUsingOutput()
     {
         $name = 'name';
-        $message = new ChannelProtocol();
+        $message = new Protocol();
         $flags = 'flags';
         $status = true;
 
-        $mock = $this->getMock(ChannelRouterComposite::class, [ 'handle' ], [], '', false);
+        $mock = $this->getMock(RouterComposite::class, [ 'handle' ], [], '', false);
         $mock
             ->expects($this->once())
             ->method('handle')
@@ -1015,7 +1015,7 @@ class ChannelTest extends TUnit
     public function testApiHandleSendRequest_HandlesMessagUsingOutput()
     {
         $name = 'name';
-        $message = new ChannelProtocol();
+        $message = new Protocol();
         $flags = 'flags';
         $success = function() {};
         $failure = function() {};
@@ -1023,7 +1023,7 @@ class ChannelTest extends TUnit
         $timeout = 2.0;
         $status = true;
 
-        $mock = $this->getMock(ChannelRouterComposite::class, [ 'handle' ], [], '', false);
+        $mock = $this->getMock(RouterComposite::class, [ 'handle' ], [], '', false);
         $mock
             ->expects($this->once())
             ->method('handle')
@@ -1108,7 +1108,7 @@ class ChannelTest extends TUnit
     public function testProtectedApiCreateMessageProtocol_AcceptsMessageProtocol()
     {
         $channel = $this->createChannel();
-        $message = new ChannelProtocol();
+        $message = new Protocol();
         $result  = $this->callProtectedMethod($channel, 'createMessageProtocol', [ $message ]);
 
         $this->assertSame($message, $result);
@@ -1123,7 +1123,7 @@ class ChannelTest extends TUnit
         $message = 'message';
         $result  = $this->callProtectedMethod($channel, 'createMessageProtocol', [ $message ]);
 
-        $this->assertInstanceOf(ChannelProtocol::class, $result);
+        $this->assertInstanceOf(Protocol::class, $result);
         $this->assertSame($message, $result->getMessage());
     }
 
@@ -1136,7 +1136,7 @@ class ChannelTest extends TUnit
         $message = null;
         $result  = $this->callProtectedMethod($channel, 'createMessageProtocol', [ $message ]);
 
-        $this->assertInstanceOf(ChannelProtocol::class, $result);
+        $this->assertInstanceOf(Protocol::class, $result);
         $this->assertSame('', $result->getMessage());
     }
 
@@ -1146,7 +1146,7 @@ class ChannelTest extends TUnit
     public function testProtectedApiCreateMessageProtocol_DoesNotOverwriteSetFields()
     {
         $channel = $this->createChannel();
-        $message = new ChannelProtocol(
+        $message = new Protocol(
             $type = 'type',
             $pid = 'pid',
             $dest = 'destination',
@@ -1157,7 +1157,7 @@ class ChannelTest extends TUnit
         );
         $result  = $this->callProtectedMethod($channel, 'createMessageProtocol', [ $message ]);
 
-        $this->assertInstanceOf(ChannelProtocol::class, $result);
+        $this->assertInstanceOf(Protocol::class, $result);
         $this->assertSame($type, $result->getType());
         $this->assertSame($pid, $result->getPid());
         $this->assertSame($dest, $result->getDestination());
@@ -1173,10 +1173,10 @@ class ChannelTest extends TUnit
     public function testProtectedApiCreateMessageProtocol_OverwritesNotSetFields()
     {
         $channel = $this->createChannel();
-        $message = new ChannelProtocol();
+        $message = new Protocol();
         $result  = $this->callProtectedMethod($channel, 'createMessageProtocol', [ $message ]);
 
-        $this->assertInstanceOf(ChannelProtocol::class, $result);
+        $this->assertInstanceOf(Protocol::class, $result);
         $this->assertNotSame('', $result->getPid());
         $this->assertGreaterThan(0, $result->getTimestamp());
     }
@@ -1221,13 +1221,13 @@ class ChannelTest extends TUnit
                 return $this->getMock(EventHandler::class, [], [], '', false);
             }));
 
-        $router  = $this->getMock(ChannelRouterCompositeInterface::class, [], [], '', false);
+        $router  = $this->getMock(RouterCompositeInterface::class, [], [], '', false);
         $router
             ->expects($this->any())
             ->method('getBus')
             ->will($this->returnValue(null));
 
-        $encoder = $this->getMock(ChannelEncoderInterface::class, [], [], '', false);
+        $encoder = $this->getMock(EncoderInterface::class, [], [], '', false);
         $loop    = $this->getMock(LoopInterface::class, [], [], '', false);
 
         $mock = $this->getMock(Channel::class, $methods, [ 'name', $model, $router, $encoder, $loop ]);
@@ -1238,7 +1238,7 @@ class ChannelTest extends TUnit
     }
 
     /**
-     * @return ChannelRouterComposite|\PHPUnit_Framework_MockObject_MockObject
+     * @return RouterComposite|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createModel()
     {
@@ -1251,11 +1251,11 @@ class ChannelTest extends TUnit
 
     /**
      * @param string[]|null $methods
-     * @return ChannelRouterComposite|\PHPUnit_Framework_MockObject_MockObject
+     * @return RouterComposite|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createRouter($methods = null)
     {
-        $mock = $this->getMock(ChannelRouterComposite::class, $methods, [], '', false);
+        $mock = $this->getMock(RouterComposite::class, $methods, [], '', false);
 
         $this->setProtectedProperty($this->channel, 'router', $mock);
 

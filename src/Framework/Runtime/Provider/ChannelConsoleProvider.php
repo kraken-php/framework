@@ -4,7 +4,7 @@ namespace Kraken\Framework\Runtime\Provider;
 
 use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\ChannelCompositeInterface;
-use Kraken\Channel\Router\RuleHandler;
+use Kraken\Channel\Router\RuleHandle\RuleHandler;
 use Kraken\Container\ContainerInterface;
 use Kraken\Container\ServiceProvider;
 use Kraken\Container\ServiceProviderInterface;
