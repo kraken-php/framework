@@ -3,9 +3,9 @@
 namespace Kraken\_Unit\Runtime\Command\Arch;
 
 use Kraken\_Unit\Runtime\Command\_T\TCommand;
-use Kraken\Channel\ChannelInterface;
-use Kraken\Channel\ChannelProtocol;
 use Kraken\Channel\Extra\Request;
+use Kraken\Channel\Protocol\Protocol;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Promise\PromiseFulfilled;
 use Kraken\Runtime\Command\Arch\ArchStatusCommand;
 
@@ -76,7 +76,7 @@ class ArchStatusCommandTest extends TCommand
             ->expects($this->any())
             ->method('createProtocol')
             ->will($this->returnCallback(function($message) {
-                return new ChannelProtocol('', '', '', '', $message);
+                return new Protocol('', '', '', '', $message);
             }));
         $receiver = 'receiver';
         $command  = 'command';

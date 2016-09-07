@@ -3,9 +3,9 @@
 namespace Kraken\_Unit\Runtime\Supervisor;
 
 use Kraken\_Unit\Runtime\_T\TSolver;
-use Kraken\Channel\ChannelInterface;
-use Kraken\Channel\ChannelProtocol;
 use Kraken\Channel\Extra\Request;
+use Kraken\Channel\Protocol\Protocol;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\Supervisor\Cmd\CmdEscalateManager;
 use Exception;
@@ -64,7 +64,7 @@ class CmdEscalateManagerTest extends TSolver
             ->expects($this->any())
             ->method('createProtocol')
             ->will($this->returnCallback(function($message) {
-                return new ChannelProtocol('', '', '', '', $message);
+                return new Protocol('', '', '', '', $message);
             }));
         $receiver = 'receiver';
         $command  = 'command';

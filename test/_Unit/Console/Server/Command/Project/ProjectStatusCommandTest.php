@@ -3,9 +3,9 @@
 namespace Kraken\_Unit\Console\Server\Command\Project;
 
 use Kraken\_Unit\Console\Server\_T\TCommand;
-use Kraken\Channel\ChannelInterface;
-use Kraken\Channel\ChannelProtocol;
 use Kraken\Channel\Extra\Request;
+use Kraken\Channel\Protocol\Protocol;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Config\ConfigInterface;
 use Kraken\Console\Server\Command\Project\ProjectStatusCommand;
 use Kraken\Promise\PromiseFulfilled;
@@ -64,7 +64,7 @@ class ProjectStatusCommandTest extends TCommand
             ->expects($this->any())
             ->method('createProtocol')
             ->will($this->returnCallback(function($message) {
-                return new ChannelProtocol('', '', '', '', $message);
+                return new Protocol('', '', '', '', $message);
             }));
         $receiver = 'receiver';
         $command  = 'command';

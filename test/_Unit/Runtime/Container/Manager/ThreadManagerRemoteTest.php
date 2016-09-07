@@ -2,9 +2,9 @@
 
 namespace Kraken\_Unit\Runtime\Container\Manager;
 
-use Kraken\Channel\ChannelInterface;
-use Kraken\Channel\ChannelProtocol;
 use Kraken\Channel\Extra\Request;
+use Kraken\Channel\Protocol\Protocol;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Promise\PromiseFulfilled;
 use Kraken\Runtime\Container\Manager\ThreadManagerRemote;
 use Kraken\Runtime\Container\ThreadManagerInterface;
@@ -228,7 +228,7 @@ class ThreadManagerRemoteTest extends TUnit
             ->expects($this->any())
             ->method('createProtocol')
             ->will($this->returnCallback(function($message) {
-                return new ChannelProtocol('', '', '', '', $message);
+                return new Protocol('', '', '', '', $message);
             }));
         $receiver = 'receiver';
         $command  = 'command';
