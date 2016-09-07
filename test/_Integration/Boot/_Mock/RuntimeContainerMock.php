@@ -2,9 +2,9 @@
 
 namespace Kraken\_Integration\Boot\_Mock;
 
-use Kraken\Runtime\Container\ThreadContainer;
+use Kraken\Runtime\RuntimeContainer;
 
-class MockedThreadContainer extends ThreadContainer
+class RuntimeContainerMock extends RuntimeContainer
 {
     /**
      * @return string

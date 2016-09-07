@@ -7,7 +7,7 @@ use Kraken\Channel\ChannelInterface;
 use Kraken\Runtime\Command\CommandInterface;
 use Kraken\Core\Core;
 use Kraken\Log\Logger;
-use Kraken\Runtime\Container\ThreadContainer;
+use Kraken\Runtime\RuntimeContainer;
 use Kraken\Runtime\RuntimeManagerInterface;
 use Kraken\Runtime\Supervisor\Solver;
 use Kraken\Runtime\RuntimeContainerInterface;
@@ -173,7 +173,7 @@ class TSolver extends TUnit
             ->method('make')
             ->will($this->returnValue(null));
 
-        $runtime = $this->getMock(ThreadContainer::class, $methods, [ 'parent', 'alias', 'name' ]);
+        $runtime = $this->getMock(RuntimeContainer::class, $methods, [ 'parent', 'alias', 'name' ]);
         $runtime
             ->expects($this->any())
             ->method('getManager')

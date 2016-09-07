@@ -8,8 +8,6 @@ use Kraken\Core\CoreInterface;
 use Kraken\Event\EventEmitterInterface;
 use Kraken\Loop\Model\SelectLoop;
 use Kraken\Loop\Loop;
-use Kraken\Runtime\Container\ProcessContainer;
-use Kraken\Runtime\Container\ThreadContainer;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeContainer;
 use Kraken\Runtime\RuntimeManager;
@@ -294,25 +292,16 @@ class RuntimeContainerTest extends TModule
     public function containerProvider()
     {
         return [
-            [ $this->createProcessContainer() ],
-            [ $this->createThreadContainer() ]
+            [ $this->createRuntimeContainer() ]
         ];
     }
 
     /**
-     * @return ProcessContainer|\PHPUnit_Framework_MockObject_MockObject
+     * @return RuntimeContainer|\PHPUnit_Framework_MockObject_MockObject
      */
-    public function createProcessContainer()
+    public function createRuntimeContainer()
     {
-        return $this->getMockForAbstractClass(ProcessContainer::class, [ 'parent', 'alias', 'name' ]);
-    }
-
-    /**
-     * @return ThreadContainer|\PHPUnit_Framework_MockObject_MockObject
-     */
-    public function createThreadContainer()
-    {
-        return $this->getMockForAbstractClass(ProcessContainer::class, [ 'parent', 'alias', 'name' ]);
+        return $this->getMock(RuntimeContainer::class, null, [ 'parent', 'alias', 'name' ]);
     }
 
     /**

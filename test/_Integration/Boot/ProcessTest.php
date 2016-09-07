@@ -2,10 +2,10 @@
 
 namespace Kraken\_Integration\Boot;
 
-use Composer\Autoload\ClassLoader;
-use Kraken\_Integration\Boot\_Mock\MockedProcessContainer;
+use Kraken\_Integration\Boot\_Mock\RuntimeContainerMock;
 use Kraken\Framework\Runtime\Boot\ProcessBoot;
 use Kraken\Test\TModule;
+use Composer\Autoload\ClassLoader;
 
 class ProcessTest extends TModule
 {
@@ -25,7 +25,7 @@ class ProcessTest extends TModule
         $dataPath = realpath(__DIR__ . '/../../../') . '/data';
         $process  = (new ProcessBoot)
             ->controller(
-                MockedProcessContainer::class
+                RuntimeContainerMock::class
             )
             ->constructor([
                 'undefined',

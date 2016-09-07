@@ -6,7 +6,7 @@ use Kraken\Core\CoreInterface;
 use Kraken\Event\EventEmitter;
 use Error;
 
-abstract class RuntimeContainer extends EventEmitter implements RuntimeContainerInterface
+class RuntimeContainer extends EventEmitter implements RuntimeContainerInterface
 {
     /**
      * @var RuntimeModelInterface

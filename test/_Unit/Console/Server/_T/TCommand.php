@@ -12,7 +12,7 @@ use Kraken\Config\ConfigInterface;
 use Kraken\Core\Core;
 use Kraken\Core\CoreInterface;
 use Kraken\Runtime\Command\Command;
-use Kraken\Runtime\Container\ThreadContainer;
+use Kraken\Runtime\RuntimeContainer;
 use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Runtime\RuntimeManagerInterface;
 use Kraken\Supervisor\SupervisorInterface;
@@ -220,7 +220,7 @@ class TCommand extends TUnit
             ->method('make')
             ->will($this->returnValue(null));
 
-        $runtime = $this->getMock(ThreadContainer::class, $methods, [ 'parent', 'alias', 'name' ]);
+        $runtime = $this->getMock(RuntimeContainer::class, $methods, [ 'parent', 'alias', 'name' ]);
         $runtime
             ->expects($this->any())
             ->method('getManager')
