@@ -42,6 +42,11 @@ class ProcessManagerBase implements ProcessManagerInterface
     protected $system;
 
     /**
+     * @var string[]
+     */
+    protected $context;
+
+    /**
      * @var string
      */
     protected $scriptRoot;
@@ -59,17 +64,20 @@ class ProcessManagerBase implements ProcessManagerInterface
     /**
      * @param RuntimeContainerInterface $runtime
      * @param ChannelInterface $channel
+     * @param string[] $context
      * @param SystemInterface $system
      * @param FilesystemInterface $fs
      * @throws InstantiationException
      */
-    public function __construct(RuntimeContainerInterface $runtime, ChannelInterface $channel, SystemInterface $system, FilesystemInterface $fs)
+    public function __construct(RuntimeContainerInterface $runtime, ChannelInterface $channel, $context,
+        SystemInterface $system, FilesystemInterface $fs)
     {
         $this->runtime = $runtime;
         $this->channel = $channel;
         $this->system  = $system;
         $this->fs = $fs;
 
+        $this->context = $context;
         $this->scriptRoot = $runtime->getCore()->getDataPath() . '/autorun';
         $this->fsPath = $runtime->getCore()->getDataDir() . '/storage/process/' . $runtime->getAlias() . '/manager/processes.json';
         $this->processes = [];
@@ -98,6 +106,7 @@ class ProcessManagerBase implements ProcessManagerInterface
         unset($this->system);
         unset($this->fs);
 
+        unset($this->context);
         unset($this->scriptRoot);
         unset($this->fsPath);
         unset($this->processes);
@@ -184,7 +193,11 @@ class ProcessManagerBase implements ProcessManagerInterface
             );
         }
 
-        $pid = $this->system->run($this->phpCommand('kraken.process', [ $this->runtime->getAlias(), $alias, $name ]));
+        $pid = $this->system->run($this->phpCommand(
+            'kraken.process',
+            [ $this->runtime->getAlias(), $alias, $name ],
+            $this->context
+        ));
 
         if (!$this->system->existsPid($pid))
         {
@@ -547,11 +560,22 @@ class ProcessManagerBase implements ProcessManagerInterface
      *
      * @param string $command
      * @param string[] $params
+     * @param string[] $context
      * @return string
      */
-    private function phpCommand($command, $params = [])
+    private function phpCommand($command, $params = [], $context = [])
     {
-        return implode(' ', array_merge([ PHP_BINARY, realpath($this->scriptRoot . DIRECTORY_SEPARATOR . $command) ], $params));
+        $contextParams = [];
+        foreach ($context as $arg=>$val)
+        {
+            $contextParams[] = '--' . $arg . '=' . $val;
+        }
+
+        return implode(' ', array_merge(
+            [ PHP_BINARY, realpath($this->scriptRoot . DIRECTORY_SEPARATOR . $command) ],
+            $params,
+            $contextParams
+        ));
     }
 
     /**

@@ -28,6 +28,11 @@ class ThreadManagerBase implements ThreadManagerInterface
     protected $channel;
 
     /**
+     * @var string[]
+     */
+    protected $context;
+
+    /**
      * @var ThreadWrapper[]
      */
     protected $threads;
@@ -35,11 +40,13 @@ class ThreadManagerBase implements ThreadManagerInterface
     /**
      * @param RuntimeContainerInterface $runtime
      * @param ChannelInterface $channel
+     * @param string[] $context
      */
-    public function __construct(RuntimeContainerInterface $runtime, ChannelInterface $channel)
+    public function __construct(RuntimeContainerInterface $runtime, ChannelInterface $channel, $context)
     {
         $this->runtime = $runtime;
         $this->channel = $channel;
+        $this->context = $context;
         $this->threads = [];
     }
 
@@ -50,6 +57,7 @@ class ThreadManagerBase implements ThreadManagerInterface
     {
         unset($this->runtime);
         unset($this->channel);
+        unset($this->context);
         unset($this->threads);
     }
 
@@ -126,7 +134,8 @@ class ThreadManagerBase implements ThreadManagerInterface
             $this->runtime->getCore()->getDataPath(),
             $this->runtime->getAlias(),
             $alias,
-            $name
+            $name,
+            $this->context
         );
         $wrapper->start(PTHREADS_INHERIT_ALL);
 

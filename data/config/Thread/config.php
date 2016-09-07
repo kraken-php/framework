@@ -42,6 +42,18 @@ return [
 
     /**
      * -----------------------------------------------------------------------------------------------------------------
+     * Context variables to pass to this container's children.
+     * -----------------------------------------------------------------------------------------------------------------
+     * This variable should contain associative array of key=>value variables. All variables declared here will be able
+     * to be used in this container's children by using %inherited.variableName% notation.
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+    'context' => [
+        'master.endpoint' => '%func.genEndpoint%'
+    ],
+
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
      * Project configuration.
      * -----------------------------------------------------------------------------------------------------------------
      */
@@ -100,7 +112,7 @@ return [
                 'class'  => 'Kraken\Channel\Model\Socket\Socket',
                 'config' => [
                     'type'      => '%channel.connector%',
-                    'endpoint'  => 'tcp://%localhost%:2080'
+                    'endpoint'  => '%inherited.master.endpoint%'
                 ]
             ],
             'slave' => [

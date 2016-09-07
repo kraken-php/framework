@@ -595,7 +595,7 @@ class ProcessManagerBaseTest extends TUnit
             ->will($this->returnValue(null));
 
         $methods = array_merge($methods, [ 'createRequest' ]);
-        $manager = $this->getMock(ProcessManagerBase::class, $methods, [ $runtime, $channel, $system, $fs ]);
+        $manager = $this->getMock(ProcessManagerBase::class, $methods, [ $runtime, $channel, [], $system, $fs ]);
         $manager
             ->expects($this->any())
             ->method('createRequest')

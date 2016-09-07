@@ -23,7 +23,8 @@ class ThreadManagerFactory extends Factory implements ThreadManagerFactoryInterf
                 $reflection = (new ReflectionClass(ThreadManagerBase::class));
                 return $reflection->newInstanceArgs([
                     $config['runtime'],
-                    $config['channel']
+                    $config['channel'],
+                    $config['context']
                 ]);
             })
             ->define(ThreadManagerRemote::class, function($config = []) {

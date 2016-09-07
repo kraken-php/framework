@@ -678,7 +678,7 @@ class ThreadManagerBaseTest extends TUnit
         $channel = $this->getMock(ChannelInterface::class, [], [], '', false);
 
         $methods = array_merge($methods, [ 'createRequest' ]);
-        $manager = $this->getMock(ThreadManagerBase::class, $methods, [ $runtime, $channel ]);
+        $manager = $this->getMock(ThreadManagerBase::class, $methods, [ $runtime, $channel, [] ]);
         $manager
             ->expects($this->any())
             ->method('createRequest')

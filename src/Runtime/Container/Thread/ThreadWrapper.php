@@ -32,18 +32,26 @@ class ThreadWrapper extends Thread
     public $name;
 
     /**
+     * @var string[]
+     */
+    public $args;
+
+    /**
+     * @param $controller
      * @param string $datapath
      * @param string $parent
      * @param string $alias
      * @param string $name
+     * @param string[] $args
      */
-    public function __construct($controller, $datapath, $parent, $alias, $name)
+    public function __construct($controller, $datapath, $parent, $alias, $name, $args = [])
     {
         $this->controller = $controller;
         $this->datapath = $datapath;
         $this->parent = $parent;
         $this->alias = $alias;
         $this->name = $name;
+        $this->args = $args;
     }
 
     /**
@@ -56,6 +64,7 @@ class ThreadWrapper extends Thread
         unset($this->parent);
         unset($this->alias);
         unset($this->name);
+//        unset($this->args);
     }
 
     /**
@@ -71,7 +80,7 @@ class ThreadWrapper extends Thread
         $parent     = $this->parent;
         $alias      = $this->alias;
         $name       = $this->name;
-        $args       = [];
+        $args       = $this->args;
 
         require(
             $this->datapath . '/autorun/kraken.thread'

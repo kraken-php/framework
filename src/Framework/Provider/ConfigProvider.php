@@ -231,7 +231,7 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
         $core    = $this->core;
         $context = $this->context;
 
-        return [
+        $vars = [
             'runtime'   => $context->getType(),
             'parent'    => $context->getParent() === null ? 'null' : $context->getParent(),
             'alias'     => $context->getAlias(),
@@ -242,5 +242,12 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
             'channel.binder'    => Channel::BINDER,
             'channel.connector' => Channel::CONNECTOR
         ];
+
+        foreach ($context->getArgs() as $arg=>$val)
+        {
+            $vars['inherited.' . $arg] = $val;
+        }
+
+        return $vars;
     }
 }

@@ -17,6 +17,7 @@ use Kraken\Runtime\RuntimeManagerFactoryInterface;
 use Kraken\Runtime\RuntimeManagerInterface;
 use Kraken\Throwable\Exception\System\ChildUnresponsiveException;
 use Kraken\Throwable\Exception\System\ParentUnresponsiveException;
+use Kraken\Util\Support\ArraySupport;
 use Kraken\Util\System\SystemUnix;
 
 class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderInterface
@@ -56,9 +57,12 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
 
         $this->registerRuntimeSupervision($runtime, $channel, $config);
 
+        $context = $config->exists('context') ? ArraySupport::flatten($config->get('context')) : [];
+
         $defaultConfig = [
             'runtime'    => $runtime,
             'channel'    => $channel,
+            'context'    => $context,
             'system'     => $system,
             'filesystem' => $fs,
             'receiver'   => $runtime->getParent()
