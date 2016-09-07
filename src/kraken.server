@@ -9,8 +9,8 @@ $dataPath = $basePath . '/data';
 /**
  * Include autoloader & dependencies
  */
-require $basePath . '/vendor/autoload.php';
-require $dataPath . '/autorun/autorun.php5.polyfill';
+require_once $dataPath . '/autorun/autoload';
+require_once $dataPath . '/autorun/autorun.php5.polyfill';
 
 if (!defined('STDIN'))
 {

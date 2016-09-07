@@ -29,7 +29,6 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
     protected $requires = [
         'Kraken\Core\CoreInterface',
         'Kraken\Runtime\RuntimeContextInterface',
-        'Kraken\Runtime\RuntimeContainerInterface',
         'Kraken\Environment\EnvironmentInterface'
     ];
 
@@ -57,7 +56,6 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
     {
         $core    = $container->make('Kraken\Core\CoreInterface');
         $context = $container->make('Kraken\Runtime\RuntimeContextInterface');
-        $runtime = $container->make('Kraken\Runtime\RuntimeContainerInterface');
         $env     = $container->make('Kraken\Environment\EnvironmentInterface');
 
         $this->core    = $core;
@@ -104,8 +102,8 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
 
             $new = preg_replace_callback(
                 '#%func\.([a-zA-Z0-9_-]*?)%#si',
-                function($matches) use($runtime) {
-                    return call_user_func([ $runtime, $matches[1] ]);
+                function($matches) use($context) {
+                    return call_user_func([ $context, $matches[1] ]);
                 },
                 $new);
 

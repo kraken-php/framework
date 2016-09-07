@@ -2,10 +2,16 @@
 
 namespace Kraken\Runtime\Container\Thread;
 
+use Composer\Autoload\ClassLoader;
 use Threaded;
 
 class ThreadController extends Threaded
 {
+    /**
+     * @var ClassLoader
+     */
+    public $loader;
+
     /**
      * @var bool
      */
@@ -19,8 +25,9 @@ class ThreadController extends Threaded
     /**
      *
      */
-    public function __construct()
+    public function __construct(ClassLoader $loader)
     {
+        $this->loader = $loader;
         $this->killed = false;
         $this->isRunning = true;
     }

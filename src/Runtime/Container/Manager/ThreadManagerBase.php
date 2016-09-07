@@ -119,7 +119,8 @@ class ThreadManagerBase implements ThreadManagerInterface
             );
         }
 
-        $controller = new ThreadController();
+        global $loader;
+        $controller = new ThreadController($loader);
         $wrapper = new ThreadWrapper(
             $controller,
             $this->runtime->getCore()->getDataPath(),

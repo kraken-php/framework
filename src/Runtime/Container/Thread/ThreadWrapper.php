@@ -64,9 +64,14 @@ class ThreadWrapper extends Thread
     public function run()
     {
         $controller = $this->controller;
+        $loader     = $this->controller->loader;
+
+        $loader->register();
+
         $parent     = $this->parent;
         $alias      = $this->alias;
         $name       = $this->name;
+        $args       = [];
 
         require(
             $this->datapath . '/autorun/kraken.thread'

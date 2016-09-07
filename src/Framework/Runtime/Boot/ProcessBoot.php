@@ -34,7 +34,9 @@ class ProcessBoot
      */
     public function __construct(ProcessController $runtimeController = null)
     {
-        $this->runtimeController = ($runtimeController !== null) ? $runtimeController : new ProcessController();
+        global $loader;
+
+        $this->runtimeController = ($runtimeController !== null) ? $runtimeController : new ProcessController($loader);
         $this->controllerParams = [];
         $this->controllerClass = '\\%prefix%\\Process\\%name%\\%name%Container';
         $this->params = [

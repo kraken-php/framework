@@ -2,6 +2,7 @@
 
 namespace Kraken\_Integration\Boot;
 
+use Composer\Autoload\ClassLoader;
 use Kraken\_Integration\Boot\_Mock\MockedThreadContainer;
 use Kraken\Framework\Runtime\Boot\ThreadBoot;
 use Kraken\Test\TModule;
@@ -17,6 +18,9 @@ class ThreadTest extends TModule
         {
             return;
         }
+
+        global $loader;
+        $loader = $this->getMock(ClassLoader::class, [], [], '', false);
 
         $dataPath = realpath(__DIR__ . '/../../../') . '/data';
         $thread   = (new ThreadBoot)

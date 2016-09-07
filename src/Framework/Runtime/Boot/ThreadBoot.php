@@ -34,7 +34,9 @@ class ThreadBoot
      */
     public function __construct(ThreadController $threadController = null)
     {
-        $this->runtimeController = ($threadController !== null) ? $threadController : new ThreadController();
+        global $loader;
+
+        $this->runtimeController = ($threadController !== null) ? $threadController : new ThreadController($loader);
         $this->controllerParams = [];
         $this->controllerClass = '\\%prefix%\\Thread\\%name%\\%name%Container';
         $this->params = [

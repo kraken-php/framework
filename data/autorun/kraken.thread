@@ -1,16 +1,19 @@
 <?php
 
 /**
- * Declare paths
+ * Declare paths & variables
  */
 $dataPath = realpath(__DIR__ . '/..');
 $basePath = realpath($dataPath . '/..');
 
+$controller = isset($controller) ? $controller : null;
+$loader     = isset($loader)     ? $loader     : null;
+
 /**
  * Include autoloader & dependencies.
  */
-require $basePath . '/vendor/autoload.php';
 require $dataPath . '/autorun/autorun.php5.polyfill';
+require_once $dataPath . '/autorun/autoload';
 require_once $dataPath . '/autorun/autorun.params';
 
 /**
@@ -18,7 +21,7 @@ require_once $dataPath . '/autorun/autorun.params';
  */
 try
 {
-    $process = (new \Kraken\Framework\Runtime\Boot\ThreadBoot)
+    $thread = (new \Kraken\Framework\Runtime\Boot\ThreadBoot($controller))
         ->params([
             'prefix' => 'App',
             'name'   => $name
@@ -33,7 +36,7 @@ try
             $dataPath
         );
 
-    $process
+    $thread
         ->create();
 }
 catch (\Error $ex)
