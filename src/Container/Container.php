@@ -182,17 +182,6 @@ class Container implements ContainerInterface
         $name = is_callable($object) ? 'callable' : (string) $object;
 
         throw new WriteException("Binding object of [$name] as [$aliasOrClass] to Container failed.");
-
-//        if (!is_object($object) || is_callable($object))
-//        {
-//            throw new WriteException(sprintf(
-//                "Binding object of [%s] as [%s] to Container failed.",
-//                is_callable($object) ? 'callable' : $object,
-//                $aliasOrClass
-//            ));
-//        }
-//
-//        $this->bind($aliasOrClass, $object);
     }
 
     /**
@@ -260,7 +249,7 @@ class Container implements ContainerInterface
                 $made = $made->getObject();
             }
 
-            return $made;
+            return $made === $aliasOrClass ? null : $made;
         }
         catch (Error $ex)
         {}
