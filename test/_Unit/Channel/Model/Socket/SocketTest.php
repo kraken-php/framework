@@ -142,7 +142,7 @@ class SocketTest extends TUnit
                 'id'        => 'model',
                 'endpoint'  => 'tcp://127.0.0.1:2080',
                 'type'      => $params['type'],
-                'hosts'     => 'model',
+                'host'      => 'model',
 
             ],
             $params

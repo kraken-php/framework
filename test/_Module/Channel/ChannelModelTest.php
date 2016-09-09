@@ -663,7 +663,7 @@ class ChannelModelTest extends TModule
                     'class'  => '\Kraken\Channel\Model\Socket\Socket',
                     'config' => [
                         'id' => self::ALIAS_A,
-                        'hosts' => self::ALIAS_A,
+                        'host' => self::ALIAS_A,
                         'type' => Channel::BINDER,
                         'endpoint' => 'tcp://127.0.0.1:2080'
                     ]
@@ -672,7 +672,7 @@ class ChannelModelTest extends TModule
                     'class'  => '\Kraken\Channel\Model\Socket\Socket',
                     'config' => [
                         'id' => self::ALIAS_B,
-                        'hosts' => self::ALIAS_A,
+                        'host' => self::ALIAS_A,
                         'type' => Channel::CONNECTOR,
                         'endpoint' => 'tcp://127.0.0.1:2080'
                     ]
@@ -681,7 +681,7 @@ class ChannelModelTest extends TModule
                     'class'  => '\Kraken\Channel\Model\Socket\Socket',
                     'config' => [
                         'id' => self::ALIAS_C,
-                        'hosts' => self::ALIAS_A,
+                        'host' => self::ALIAS_A,
                         'type' => Channel::CONNECTOR,
                         'endpoint' => 'tcp://127.0.0.1:2080'
                     ]
@@ -701,7 +701,7 @@ class ChannelModelTest extends TModule
                     'class'  => '\Kraken\Channel\Model\Zmq\ZmqDealer',
                     'config' => [
                         'id' => self::ALIAS_A,
-                        'hosts' => [ self::ALIAS_A ],
+                        'host' => [ self::ALIAS_A ],
                         'type' => ZmqDealer::BINDER,
                         'endpoint' => 'tcp://127.0.0.1:2080'
                     ]
@@ -710,7 +710,7 @@ class ChannelModelTest extends TModule
                     'class'  => '\Kraken\Channel\Model\Zmq\ZmqDealer',
                     'config' => [
                         'id' => self::ALIAS_B,
-                        'hosts' => [ self::ALIAS_A ],
+                        'host' => [ self::ALIAS_A ],
                         'type' => ZmqDealer::CONNECTOR,
                         'endpoint' => 'tcp://127.0.0.1:2080'
                     ]
@@ -719,7 +719,7 @@ class ChannelModelTest extends TModule
                     'class'  => '\Kraken\Channel\Model\Zmq\ZmqDealer',
                     'config' => [
                         'id' => self::ALIAS_C,
-                        'hosts' => [ self::ALIAS_A ],
+                        'host' => [ self::ALIAS_A ],
                         'type' => ZmqDealer::CONNECTOR,
                         'endpoint' => 'tcp://127.0.0.1:2080'
                     ]

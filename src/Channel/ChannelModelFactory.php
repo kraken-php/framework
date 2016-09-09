@@ -35,7 +35,7 @@ class ChannelModelFactory extends Factory implements ChannelModelFactoryInterfac
                             'id'        => isset($config['name']) ? $config['name'] : $factory->getParam('name'),
                             'endpoint'  => '',
                             'type'      => Channel::BINDER,
-                            'hosts'     => isset($config['name']) ? $config['name'] : $factory->getParam('name')
+                            'host'      => isset($config['name']) ? $config['name'] : $factory->getParam('name')
                         ],
                         $config
                     )
@@ -49,7 +49,7 @@ class ChannelModelFactory extends Factory implements ChannelModelFactoryInterfac
                             'id'        => isset($config['name']) ? $config['name'] : $factory->getParam('name'),
                             'endpoint'  => '',
                             'type'      => Channel::BINDER,
-                            'hosts'     => isset($config['name']) ? $config['name'] : $factory->getParam('name')
+                            'host '     => isset($config['name']) ? $config['name'] : $factory->getParam('name')
                         ],
                         $config
                     )

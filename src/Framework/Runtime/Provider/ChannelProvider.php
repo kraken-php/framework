@@ -63,7 +63,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
             array_merge(
                 $config->get('channel.channels.master.config'),
                 [
-                    'hosts' => $runtime->getParent() !== null ? $runtime->getParent() : $runtime->getAlias()
+                    'host' => $runtime->getParent() !== null ? $runtime->getParent() : $runtime->getAlias()
                 ]
             )
         ]);

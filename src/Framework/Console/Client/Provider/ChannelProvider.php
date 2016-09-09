@@ -40,7 +40,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
             $config->get('channel.channels.console.class'),
             array_merge(
                 $config->get('channel.channels.console.config'),
-                [ 'hosts' => Runtime::RESERVED_CONSOLE_SERVER ]
+                [ 'host' => Runtime::RESERVED_CONSOLE_SERVER ]
             )
         ]);
 

@@ -44,7 +44,7 @@ class ChannelConsoleProvider extends ServiceProvider implements ServiceProviderI
                 : 'Kraken\Channel\Model\Null\NullModel',
             array_merge(
                 $config->get('channel.channels.console.config'),
-                [ 'hosts' => Runtime::RESERVED_CONSOLE_CLIENT ]
+                [ 'host' => Runtime::RESERVED_CONSOLE_CLIENT ]
             )
         ]);
 

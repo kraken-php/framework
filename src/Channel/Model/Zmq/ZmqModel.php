@@ -155,7 +155,7 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
         $id         = $params['id'];
         $endpoint   = $params['endpoint'];
         $type       = $params['type'];
-        $hosts      = $params['hosts'];
+        $hosts      = $params['host'];
 
         $flags = [
             'enableHeartbeat'       => isset($params['enableHeartbeat']) ? $params['enableHeartbeat'] : true,
