@@ -68,6 +68,7 @@ class ThreadCoreTest extends TUnit
             'Kraken\Framework\Provider\FilesystemProvider',
             'Kraken\Framework\Provider\LogProvider',
             'Kraken\Framework\Provider\LoopProvider',
+            'Kraken\Framework\Provider\IsolateNullProvider',
             'Kraken\Framework\Provider\SystemProvider',
             'Kraken\Framework\Runtime\Provider\ChannelProvider',
             'Kraken\Framework\Runtime\Provider\ChannelConsoleProvider',

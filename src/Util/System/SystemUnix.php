@@ -2,15 +2,47 @@
 
 namespace Kraken\Util\System;
 
+use Kraken\Util\Isolate\IsolateInterface;
+
 class SystemUnix implements SystemInterface
 {
+    /**
+     * @var IsolateInterface|null
+     */
+    protected $isolator;
+
+    /**
+     * @param IsolateInterface|null $isolator
+     */
+    public function __construct(IsolateInterface $isolator = null)
+    {
+        $this->isolator = $isolator;
+    }
+
+    /**
+     *
+     */
+    public function __destruct()
+    {
+        unset($this->isolator);
+    }
+
     /**
      * @override
      * @inheritDoc
      */
-    public function run($command)
+    public function run($command, $isolate = false)
     {
-        return exec($command . ' >/dev/null 2>&1 & echo $!');
+        $command = 'setsid ' . $command . '</dev/null >/dev/null 2>&1 & echo $!';
+
+        if ($isolate === true && $this->isolator !== null)
+        {
+            return $this->isolator->call('exec', [ $command ]);
+        }
+        else
+        {
+            return exec($command);
+        }
     }
 
     /**

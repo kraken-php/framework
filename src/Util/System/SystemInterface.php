@@ -8,9 +8,10 @@ interface SystemInterface
      * Run command asynchronously, and get pid of its process.
      *
      * @param string $command
+     * @param bool $isolate
      * @return string
      */
-    public function run($command);
+    public function run($command, $isolate = false);
 
     /**
      * Kill process with given pid, returns whether operation was successful.
@@ -24,6 +25,7 @@ interface SystemInterface
      * Checks if process with given pid exists, returns whether operation was successful.
      *
      * @param string $pid
+     * @param bool $isolate
      * @return bool
      */
     public function existsPid($pid);

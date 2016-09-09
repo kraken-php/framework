@@ -59,11 +59,11 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
         }
         catch (Error $ex)
         {
-            throw new InstantiationException('SocketServer could not be created.');
+            throw new InstantiationException('SocketServer could not be created.', $ex);
         }
         catch (Exception $ex)
         {
-            throw new InstantiationException('SocketServer could not be created.');
+            throw new InstantiationException('SocketServer could not be created.', $ex);
         }
     }
 

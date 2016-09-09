@@ -11,6 +11,14 @@ class RuntimeProvider extends ServiceProvider implements ServiceProviderInterfac
     /**
      * @var string[]
      */
+    protected $requires = [
+        /** This provider does not necessarily need this interface, however it has to be registered before **/
+        'Kraken\Util\System\SystemInterface'
+    ];
+
+    /**
+     * @var string[]
+     */
     protected $provides = [
         'Kraken\Runtime\RuntimeContextInterface',
         'Kraken\Runtime\RuntimeContainerInterface'
