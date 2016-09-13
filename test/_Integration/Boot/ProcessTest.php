@@ -3,7 +3,7 @@
 namespace Kraken\_Integration\Boot;
 
 use Kraken\_Integration\Boot\_Mock\RuntimeContainerMock;
-use Kraken\Framework\Runtime\Boot\ProcessBoot;
+use Kraken\Root\Runtime\Boot\ProcessBoot;
 use Kraken\Test\TModule;
 use Composer\Autoload\ClassLoader;
 

@@ -4,7 +4,7 @@
  * Any modifications in this file should be done with exceptional care.
  */
 
-$core = new \Kraken\Framework\Runtime\Core\ProcessCore(
+$core = new \Kraken\Root\Runtime\Core\ProcessCore(
     realpath(__DIR__ . '/../../')
 );
 

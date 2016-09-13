@@ -4,7 +4,7 @@
  * Any modifications in this file should be done with exceptional care.
  */
 
-$core = new \Kraken\Framework\Console\Client\Core\ClientCore(
+$core = new \Kraken\Root\Console\Client\Core\ClientCore(
     realpath(__DIR__ . '/../../../')
 );
 

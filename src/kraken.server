@@ -23,7 +23,7 @@ if (!defined('STDIN'))
  */
 try
 {
-    $process = (new \Kraken\Framework\Console\Server\Boot\ServerBoot)
+    $process = (new \Kraken\Root\Console\Server\Boot\ServerBoot)
         ->boot(
             $dataPath
         );

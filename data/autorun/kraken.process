@@ -21,7 +21,7 @@ require_once $dataPath . '/autorun/autorun.params';
  */
 try
 {
-    $process = (new \Kraken\Framework\Runtime\Boot\ProcessBoot($controller))
+    $process = (new \Kraken\Root\Runtime\Boot\ProcessBoot($controller))
         ->params([
             'prefix' => 'App',
             'name'   => $name

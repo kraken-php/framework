@@ -2,7 +2,7 @@
 
 namespace Kraken\_Integration\Boot;
 
-use Kraken\Framework\Console\Client\Boot\ClientBoot;
+use Kraken\Root\Console\Client\Boot\ClientBoot;
 use Kraken\Test\TModule;
 
 class ConsoleClientTest extends TModule
