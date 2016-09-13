@@ -81,7 +81,7 @@ to download full application stack, you can require any of the following compone
 ## Performance
 
 Kraken is able to emit millions of events and thousands of messages and connections per second using single container.
-It is scalable for multiple processes and threads, faster than both traditional PHP approach and able to handle same or 
+It is scalable for multiple processes and threads, faster than traditional PHP approach and able to handle same or 
 higher amount of connections that Node.js.
 
 <p align="center">
@@ -91,7 +91,7 @@ higher amount of connections that Node.js.
 ## Requirements
 
 * PHP v5.5, v5.6 or v7.0+,
-* [Pthreads](http://php.net/manual/en/book.pthreads.php) extension enabled,
+* [Pthreads](http://php.net/manual/en/book.pthreads.php) extension enabled (only if you want to use Threads),
 * UNIX or ~~Windows~~ OS.
 
 ## Installation and Official Documentation
@@ -109,17 +109,17 @@ check out our [pre-configured application](https://github.com/kraken-php/kraken)
 > however, cannot be guaranteed with usage of third party vendors as some (ex. ORMs) are known to be prone to this problem. 
 > The easiest way to avoid it is to simply use destructors, unset functions and create memory allocation and deallocation
 > tests. If despite that you still stumble across this problem, the best way to deal with it is to isolate leaking piece 
-> of code in separated container and restart it cyclically when it reaches its limits.
+> of code in separated container and restart it cyclically when it reaches its memory limits.
 
 If there are any additional questions that you have about framework, please check whether the answers for them have been 
-already posted in [faq section][4] or ask on our [mailing list][8].
+already posted in [faq section][4] or ask on our [discussion group][8].
 
 
 ## Contributing
 
 Thank you for considering contributing to Kraken Framework! The contribution guide can be found in the [contribution tips][5].
 
-### License
+## License
 
 Kraken Framework is open-sourced software licensed under the [MIT license][6]. The documentation is provided under [FDL-1.3 license][7].
 
