@@ -6,6 +6,8 @@
 [![Latest Unstable Version](https://poser.pugx.org/kraken-php/framework/v/unstable)](https://packagist.org/packages/kraken-php/framework) 
 [![License](https://poser.pugx.org/kraken-php/framework/license)](https://packagist.org/packages/kraken-php/framework)
 
+> **Note:** This repository contains the core code of the Kraken Framework. If you want to start developing new application with Kraken, visit the main [Kraken Repository](https://github.com/kraken-php/kraken). If you want to learn more visit [Offical website](http://kraken-php.com).
+
 <p align="center">
 <img src="https://avatars2.githubusercontent.com/u/15938282?v=3&s=150" />
 </p>
@@ -48,7 +50,7 @@ Kraken features:
 * ReactPHP-compatibility adapters.
 * ...and more.
 
-Full list of features can be found on [official webpage][1].
+Full list of features can be found on [official website][1].
 
 ## Modules
 
@@ -82,6 +84,10 @@ Kraken is able to emit millions of events and thousands of messages and connecti
 It is scalable for multiple processes and threads, faster than both traditional PHP approach and able to handle same or 
 higher amount of connections that Node.js.
 
+<p align="center">
+<img src="https://docs.google.com/uc?export=download&id=0B_FVuB10kPjVT21lY3JzVTRwT3c" width="882" height="334" />
+</p>
+
 ## Requirements
 
 * PHP v5.5, v5.6 or v7.0+,
@@ -95,15 +101,15 @@ check out our [pre-configured application](https://github.com/kraken-php/kraken)
 
 ## Frequently Asked Questions
 
-### Is PHP GC able to handle daemonized, long-running application?
+#### Is PHP GC able to handle daemonized, long-running application?
 
-In most cases yes, but developers still have to keep an eye on application memory usage. PHP 5.5+, which is required for 
-using framework, is able to successfully deal with proper memory handling and garbage collecting. It proves to be true 
-regarding Kraken modules as in development cycle special attention was paid to ensure they do not leak memory. This, 
-however, cannot be guaranteed with usage of third party vendors as some (ex. ORMs) are known to be prone to this problem. 
-The easiest way to avoid it is to simply use destructors, unset functions and create memory allocation and deallocation
-tests. If despite that you still stumble across this problem, the best way to deal with it is to isolate leaking piece 
-of code in separated container and restart it cyclically when it reaches its limits.
+> In most cases yes, but developers still have to keep an eye on application memory usage. PHP 5.5+, which is required for 
+> using framework, is able to successfully deal with proper memory handling and garbage collecting. It proves to be true 
+> regarding Kraken modules as in development cycle special attention was paid to ensure they do not leak memory. This, 
+> however, cannot be guaranteed with usage of third party vendors as some (ex. ORMs) are known to be prone to this problem. 
+> The easiest way to avoid it is to simply use destructors, unset functions and create memory allocation and deallocation
+> tests. If despite that you still stumble across this problem, the best way to deal with it is to isolate leaking piece 
+> of code in separated container and restart it cyclically when it reaches its limits.
 
 If there are any additional questions that you have about framework, please check whether the answers for them have been 
 already posted in [faq section][4] or ask on our [mailing list][8].
