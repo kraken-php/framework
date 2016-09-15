@@ -9,6 +9,7 @@
 > **Note:** This repository is part of [Kraken Framework][3]. It can be used as standalone library, but for the best 
 efficiency we suggest you to also check out the rest of [Kraken Repository][5].
 
+<br>
 <p align="center">
 <img src="https://avatars2.githubusercontent.com/u/15938282?v=3&s=150" />
 </p>
@@ -66,10 +67,10 @@ This library is read-only subtree split of Kraken Framework. To make contributio
 
 ## License
 
-This library licensed under the same license as [Kraken Framework][4].
+This library licensed under the same license as [Kraken Framework][3].
 
 [1]: http://kraken-php.com
 [2]: http://kraken-php.com/docs/0.3/channel
-[3]: http://github.com/kraken-php/framework
-[4]: http://github.com/kraken-php/kraken
+[3]: https://github.com/kraken-php/framework
+[4]: https://github.com/kraken-php/kraken
 [5]: https://github.com/kraken-php
