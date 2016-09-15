@@ -1,0 +1,33 @@
+{
+    "name": "kraken-php/container",
+    "description": "Kraken Framework Console Component.",
+    "keywords": [
+        "kraken", "kraken-php", "container", "service", "service container", "ioc", "ioc container", "dependency", "dependency injection", "injection", "provider", "di"
+    ],
+    "license": "MIT",
+    "homepage": "http://kraken-php.com",
+    "support": {
+        "issues": "https://github.com/kraken-php/framework/issues",
+        "source": "https://github.com/kraken-php/framework"
+    },
+    "authors": [{
+        "name": "Kamil Jamroz"
+    }],
+    "require": {
+        "php": ">=5.5.9",
+        "kraken-php/throwable": "0.3.*",
+        "league/container": "^2.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kraken\\Container\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.4-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

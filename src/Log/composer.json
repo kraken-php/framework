@@ -1,0 +1,34 @@
+{
+    "name": "kraken-php/log",
+    "description": "Kraken Framework Logging Component.",
+    "keywords": [
+        "kraken", "kraken-php", "log", "logger"
+    ],
+    "license": "MIT",
+    "homepage": "http://kraken-php.com",
+    "support": {
+        "issues": "https://github.com/kraken-php/framework/issues",
+        "source": "https://github.com/kraken-php/framework"
+    },
+    "authors": [{
+        "name": "Kamil Jamroz"
+    }],
+    "require": {
+        "php": ">=5.5.9",
+        "kraken-php/throwable": "0.3.*",
+        "kraken-php/util": "0.3.*",
+        "monolog/monolog": "^1.21"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kraken\\Log\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.4-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

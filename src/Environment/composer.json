@@ -1,0 +1,33 @@
+{
+    "name": "kraken-php/environment",
+    "description": "Kraken Framework Environment Component.",
+    "keywords": [
+        "kraken", "kraken-php", "dotenv", "env", "environment"
+    ],
+    "license": "MIT",
+    "homepage": "http://kraken-php.com",
+    "support": {
+        "issues": "https://github.com/kraken-php/framework/issues",
+        "source": "https://github.com/kraken-php/framework"
+    },
+    "authors": [{
+        "name": "Kamil Jamroz"
+    }],
+    "require": {
+        "php": ">=5.5.9",
+        "kraken-php/util": "0.3.*",
+        "vlucas/phpdotenv": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kraken\\Environment\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.4-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

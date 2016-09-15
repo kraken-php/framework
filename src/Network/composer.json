@@ -1,0 +1,38 @@
+{
+    "name": "kraken-php/network",
+    "description": "Kraken Framework Network Component.",
+    "keywords": [
+        "kraken", "kraken-php", "server", "request", "reply", "request-reply", "async", "asynchronous", "http", "ws", "websocket", "socket"
+    ],
+    "license": "MIT",
+    "homepage": "http://kraken-php.com",
+    "support": {
+        "issues": "https://github.com/kraken-php/framework/issues",
+        "source": "https://github.com/kraken-php/framework"
+    },
+    "authors": [{
+        "name": "Kamil Jamroz"
+    }],
+    "require": {
+        "php": ">=5.5.9",
+        "kraken-php/ipc": "0.3.*",
+        "kraken-php/loop": "0.3.*",
+        "kraken-php/throwable": "0.3.*",
+        "kraken-php/util": "0.3.*",
+        "cboden/ratchet": "^0.3",
+        "guzzlehttp/guzzle": "^6.1",
+        "symfony/http-foundation": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kraken\\Network\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.4-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

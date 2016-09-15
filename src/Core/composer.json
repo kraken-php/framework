@@ -1,0 +1,33 @@
+{
+    "name": "kraken-php/core",
+    "description": "Kraken Framework Core Component.",
+    "keywords": [
+        "kraken", "kraken-php", "core", "root"
+    ],
+    "license": "MIT",
+    "homepage": "http://kraken-php.com",
+    "support": {
+        "issues": "https://github.com/kraken-php/framework/issues",
+        "source": "https://github.com/kraken-php/framework"
+    },
+    "authors": [{
+        "name": "Kamil Jamroz"
+    }],
+    "require": {
+        "php": ">=5.5.9",
+        "kraken-php/container": "0.3.*",
+        "kraken-php/throwable": "0.3.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kraken\\Core\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.4-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

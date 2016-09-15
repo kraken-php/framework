@@ -1,0 +1,37 @@
+{
+    "name": "kraken-php/filesystem",
+    "description": "Kraken Framework Filesystem Component.",
+    "keywords": [
+        "kraken", "kraken-php", "filesystem", "file", "storage"
+    ],
+    "license": "MIT",
+    "homepage": "http://kraken-php.com",
+    "support": {
+        "issues": "https://github.com/kraken-php/framework/issues",
+        "source": "https://github.com/kraken-php/framework"
+    },
+    "authors": [{
+        "name": "Kamil Jamroz"
+    }],
+    "require": {
+        "php": ">=5.5.9",
+        "kraken-php/throwable": "0.3.*",
+        "kraken-php/util": "0.3.*",
+        "league/flysystem": "^1.0"
+    },
+    "suggest": {
+        "ext-fileinfo": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kraken\\Filesystem\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.4-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

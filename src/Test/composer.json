@@ -1,0 +1,35 @@
+{
+    "name": "kraken-php/test",
+    "description": "Kraken Framework Test Component.",
+    "keywords": [
+        "kraken", "kraken-php", "test", "tdd"
+    ],
+    "license": "MIT",
+    "homepage": "http://kraken-php.com",
+    "support": {
+        "issues": "https://github.com/kraken-php/framework/issues",
+        "source": "https://github.com/kraken-php/framework"
+    },
+    "authors": [{
+        "name": "Kamil Jamroz"
+    }],
+    "require": {
+        "php": ">=5.5.9",
+        "kraken-php/event": "0.3.*",
+        "kraken-php/loop": "0.3.*",
+        "kraken-php/promise": "0.3.*",
+        "phpunit/phpunit": "4.8.*|5.2.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kraken\\Test\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.4-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

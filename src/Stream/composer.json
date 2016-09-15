@@ -1,0 +1,35 @@
+{
+    "name": "kraken-php/stream",
+    "description": "Kraken Framework Stream Component.",
+    "keywords": [
+        "kraken", "kraken-php", "stream", "async", "asynchronous"
+    ],
+    "license": "MIT",
+    "homepage": "http://kraken-php.com",
+    "support": {
+        "issues": "https://github.com/kraken-php/framework/issues",
+        "source": "https://github.com/kraken-php/framework"
+    },
+    "authors": [{
+        "name": "Kamil Jamroz"
+    }],
+    "require": {
+        "php": ">=5.5.9",
+        "kraken-php/event": "0.3.*",
+        "kraken-php/loop": "0.3.*",
+        "kraken-php/throwable": "0.3.*",
+        "kraken-php/util": "0.3.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kraken\\Stream\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.4-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

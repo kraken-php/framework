@@ -1,0 +1,31 @@
+{
+    "name": "kraken-php/throwable",
+    "description": "Kraken Framework Throwable Component.",
+    "keywords": [
+        "kraken", "kraken-php", "throwable", "error", "exception"
+    ],
+    "license": "MIT",
+    "homepage": "http://kraken-php.com",
+    "support": {
+        "issues": "https://github.com/kraken-php/framework/issues",
+        "source": "https://github.com/kraken-php/framework"
+    },
+    "authors": [{
+        "name": "Kamil Jamroz"
+    }],
+    "require": {
+        "php": ">=5.5.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kraken\\Throwable\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.4-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

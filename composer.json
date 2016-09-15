@@ -2,10 +2,16 @@
     "name": "kraken-php/framework",
     "description": "The first and only multi-processed, multi-threaded, fault-tolerant framework for PHP.",
     "keywords": [
-        "kraken", "framework", "websocket", "socket", "server", "asynchronous", "soa", "thread", "process", "fault-tolerant", "fault-tolerance"
+        "kraken", "kraken-php", "framework", "distribution", "distributed", "async", "asynchronous", "parallel", "concurrent",
+        "process", "thread", "multi-processed", "multi-threaded", "event-driven", "message-driven", "service", "soa", "agent",
+        "agent-model", "fault-tolerance", "fault-tolerant", "error-tolerance", "error-tolerant", "daemon", "demon"
     ],
     "license": "MIT",
     "homepage": "http://kraken-php.com",
+    "support": {
+        "issues": "https://github.com/kraken-php/framework/issues",
+        "source": "https://github.com/kraken-php/framework"
+    },
     "authors": [{
         "name": "Kamil Jamroz"
     }],
@@ -27,7 +33,8 @@
         "ext-libevent": ">=0.1.0",
         "ext-event": "~1.0",
         "ext-libev": "*",
-        "ext-zmq": "*"
+        "ext-zmq": "*",
+        "ext-fileinfo": "*"
     },
     "autoload": {
         "psr-4": {

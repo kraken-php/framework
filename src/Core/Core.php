@@ -6,7 +6,6 @@ use Kraken\Container\Container;
 use Kraken\Container\ServiceRegister;
 use Kraken\Throwable\Exception\Runtime\ExecutionException;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
-use Kraken\Runtime\Runtime;
 use Error;
 use Exception;
 
@@ -20,7 +19,7 @@ class Core extends Container implements CoreInterface
     /**
      * @var string
      */
-    const RUNTIME_UNIT = Runtime::UNIT_UNDEFINED;
+    const RUNTIME_UNIT = 'Undefined';
 
     /**
      * @var string
