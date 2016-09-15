@@ -8,6 +8,7 @@
 
 > **Note:** This repository contains the core code of the Kraken Framework. If you want to start developing new application with Kraken, visit the main [Kraken Repository](https://github.com/kraken-php/kraken). If you want to learn more visit [Offical website](http://kraken-php.com).
 
+<br>
 <p align="center">
 <img src="https://avatars2.githubusercontent.com/u/15938282?v=3&s=150" />
 </p>
@@ -65,12 +66,12 @@ to download full application stack, you can require any of the following compone
 * [__Kraken/Environment__](https://github.com/kraken-php/environment) : Environment controller,
 * [__Kraken/Event__](https://github.com/kraken-php/event) : Support for events,
 * [__Kraken/Filesystem__](https://github.com/kraken-php/filesystem) : Default filesystem,
-* [__Kraken/Framework__](https://github.com/kraken-php/framework) : Default providers and configuration options,
 * [__Kraken/Ipc__](https://github.com/kraken-php/ipc) : IPC models,
 * [__Kraken/Log__](https://github.com/kraken-php/log) : Default logger,
 * [__Kraken/Loop__](https://github.com/kraken-php/loop) : Event-loop implementation,
 * [__Kraken/Network__](https://github.com/kraken-php/network) : Network protocols servers,
 * [__Kraken/Promise__](https://github.com/kraken-php/promise) : Promise/A+ implementation,
+* [__Kraken/Root__](https://github.com/kraken-php/root) : Default composition root,
 * [__Kraken/Runtime__](https://github.com/kraken-php/runtime) : Process and Thread abstractions,
 * [__Kraken/Stream__](https://github.com/kraken-php/stream) : Stream wrappers,
 * [__Kraken/Supervision__](https://github.com/kraken-php/supervision) : Supervisors and problem solvers,
@@ -90,14 +91,14 @@ higher amount of connections that Node.js.
 
 ## Requirements
 
-* PHP v5.5, v5.6 or v7.0+,
-* [Pthreads](http://php.net/manual/en/book.pthreads.php) extension enabled (only if you want to use Threads),
+* PHP-5.5, PHP-5.6 or PHP-7.0+,
+* [Pthreads](http://php.net/manual/en/book.pthreads.php) extension enabled (only if you want to use threading),
 * UNIX or ~~Windows~~ OS.
 
 ## Installation and Official Documentation
 
-Documentation for the framework can be found in the [official documentation][2] page. To see installation instructions, please
-check out our [pre-configured application](https://github.com/kraken-php/kraken) or go to [installation guide][3].
+Documentation for the framework can be found in the [official documentation][2] page. To see installation instructions, 
+please check out our [default application](https://github.com/kraken-php/kraken) or go to [installation guide][3].
 
 ## Frequently Asked Questions
 
@@ -111,6 +112,7 @@ check out our [pre-configured application](https://github.com/kraken-php/kraken)
 > tests. If despite that you still stumble across this problem, the best way to deal with it is to isolate leaking piece 
 > of code in separated container and restart it cyclically when it reaches its memory limits.
 
+<br>
 If there are any additional questions that you have about framework, please check whether the answers for them have been 
 already posted in [faq section][4] or ask on our [discussion group][8].
 
