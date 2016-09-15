@@ -4,7 +4,6 @@ namespace Kraken\Environment;
 
 use Kraken\Runtime\RuntimeContextInterface;
 use Kraken\Environment\Loader\Loader;
-use Kraken\Runtime\Runtime;
 use Kraken\Util\Invoker\Invoker;
 use Kraken\Util\Invoker\InvokerInterface;
 
@@ -125,13 +124,7 @@ class Environment implements EnvironmentInterface
      */
     public function registerShutdownHandler(callable $handler)
     {
-        $this->invoker->call('register_shutdown_function', [
-            function() use($handler) {
-                return $handler(
-                    $this->context->getType() === Runtime::UNIT_PROCESS
-                );
-            }
-        ]);
+        $this->invoker->call('register_shutdown_function', [ $handler ]);
     }
 
     /**
