@@ -14,7 +14,7 @@ class RuntimeBootProvider extends ServiceProvider implements ServiceProviderInte
     protected $requires = [
         'Kraken\Loop\LoopExtendedInterface',
         'Kraken\Runtime\RuntimeContainerInterface',
-        'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
+        'Kraken\Runtime\Supervision\SupervisorBaseInterface',
         'Kraken\Runtime\RuntimeManagerInterface'
     ];
 
@@ -25,7 +25,7 @@ class RuntimeBootProvider extends ServiceProvider implements ServiceProviderInte
     {
         $loop    = $container->make('Kraken\Loop\LoopExtendedInterface');
         $runtime = $container->make('Kraken\Runtime\RuntimeContainerInterface');
-        $error   = $container->make('Kraken\Runtime\Supervisor\SupervisorBaseInterface');
+        $error   = $container->make('Kraken\Runtime\Supervision\SupervisorBaseInterface');
         $manager = $container->make('Kraken\Runtime\RuntimeManagerInterface');
 
         $model = $runtime->getModel();

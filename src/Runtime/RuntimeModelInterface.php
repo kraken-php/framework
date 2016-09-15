@@ -3,7 +3,7 @@
 namespace Kraken\Runtime;
 
 use Kraken\Core\CoreAwareInterface;
-use Kraken\Supervisor\SupervisorAwareInterface;
+use Kraken\Supervision\SupervisorAwareInterface;
 use Kraken\Event\EventEmitterAwareInterface;
 use Kraken\Loop\LoopExtendedAwareInterface;
 use Kraken\Promise\PromiseInterface;

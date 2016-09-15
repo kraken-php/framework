@@ -5,9 +5,9 @@ namespace Kraken\Root\Provider;
 use Kraken\Container\ContainerInterface;
 use Kraken\Container\ServiceProvider;
 use Kraken\Container\ServiceProviderInterface;
-use Kraken\Runtime\Supervisor\SolverFactory;
-use Kraken\Supervisor\SolverFactoryInterface;
-use Kraken\Supervisor\Supervisor;
+use Kraken\Runtime\Supervision\SolverFactory;
+use Kraken\Supervision\SolverFactoryInterface;
+use Kraken\Supervision\Supervisor;
 use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Util\Factory\FactoryPluginInterface;
@@ -26,8 +26,8 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Supervisor\SolverFactoryInterface',
-        'Kraken\Supervisor\SupervisorInterface'
+        'Kraken\Supervision\SolverFactoryInterface',
+        'Kraken\Supervision\SupervisorInterface'
     ];
 
     /**
@@ -41,12 +41,12 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
         $config = [];
 
         $container->instance(
-            'Kraken\Supervisor\SolverFactoryInterface',
+            'Kraken\Supervision\SolverFactoryInterface',
             $factory
         );
 
         $container->factory(
-            'Kraken\Supervisor\SupervisorInterface',
+            'Kraken\Supervision\SupervisorInterface',
             function (SolverFactoryInterface $passedFactory = null, $passedConfig = [], $passedRules = []) use($factory, $config) {
                 return new Supervisor(
                     $passedFactory !== null ? $passedFactory : $factory,
@@ -63,11 +63,11 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
     protected function unregister(ContainerInterface $container)
     {
         $container->remove(
-            'Kraken\Supervisor\SolverFactoryInterface'
+            'Kraken\Supervision\SolverFactoryInterface'
         );
 
         $container->remove(
-            'Kraken\Supervisor\SupervisorInterface'
+            'Kraken\Supervision\SupervisorInterface'
         );
     }
 
@@ -78,7 +78,7 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
     protected function boot(ContainerInterface $container)
     {
         $config  = $container->make('Kraken\Config\ConfigInterface');
-        $factory = $container->make('Kraken\Supervisor\SolverFactoryInterface');
+        $factory = $container->make('Kraken\Supervision\SolverFactoryInterface');
 
         $handlers = (array) $config->get('supervision.solvers');
         foreach ($handlers as $handlerClass)

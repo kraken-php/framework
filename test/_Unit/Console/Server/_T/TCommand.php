@@ -15,7 +15,7 @@ use Kraken\Runtime\Command\Command;
 use Kraken\Runtime\RuntimeContainer;
 use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Runtime\RuntimeManagerInterface;
-use Kraken\Supervisor\SupervisorInterface;
+use Kraken\Supervision\SupervisorInterface;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Test\TUnit;
 use Exception;

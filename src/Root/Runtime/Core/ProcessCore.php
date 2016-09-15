@@ -65,9 +65,9 @@ class ProcessCore extends Core implements CoreInterface
             'Runtime'           => 'Kraken\Runtime\RuntimeContainerInterface',
             'Runtime.Context'   => 'Kraken\Runtime\RuntimeContextInterface',
             'Runtime.Manager'   => 'Kraken\Runtime\RuntimeManagerInterface',
-            'Supervisor'        => 'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
-            'Supervisor.Base'   => 'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
-            'Supervisor.Remote' => 'Kraken\Runtime\Supervisor\SupervisorRemoteInterface',
+            'Supervisor'        => 'Kraken\Runtime\Supervision\SupervisorBaseInterface',
+            'Supervisor.Base'   => 'Kraken\Runtime\Supervision\SupervisorBaseInterface',
+            'Supervisor.Remote' => 'Kraken\Runtime\Supervision\SupervisorRemoteInterface',
             'System'            => 'Kraken\Util\System\SystemInterface'
         ];
     }

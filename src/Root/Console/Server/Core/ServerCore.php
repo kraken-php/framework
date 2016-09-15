@@ -64,9 +64,9 @@ class ServerCore extends Core implements CoreInterface
             'Project.Manager'   => 'Kraken\Console\Server\Manager\ProjectManagerInterface',
             'Runtime'           => 'Kraken\Runtime\RuntimeContainerInterface',
             'Runtime.Context'   => 'Kraken\Runtime\RuntimeContextInterface',
-            'Supervisor'        => 'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
-            'Supervisor.Base'   => 'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
-            'Supervisor.Remote' => 'Kraken\Runtime\Supervisor\SupervisorRemoteInterface',
+            'Supervisor'        => 'Kraken\Runtime\Supervision\SupervisorBaseInterface',
+            'Supervisor.Base'   => 'Kraken\Runtime\Supervision\SupervisorBaseInterface',
+            'Supervisor.Remote' => 'Kraken\Runtime\Supervision\SupervisorRemoteInterface',
             'System'            => 'Kraken\Util\System\SystemInterface'
         ];
     }

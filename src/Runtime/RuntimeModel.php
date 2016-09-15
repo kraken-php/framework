@@ -5,7 +5,7 @@ namespace Kraken\Runtime;
 use Kraken\Event\EventEmitterInterface;
 use Kraken\Core\CoreInterface;
 use Kraken\Promise\Promise;
-use Kraken\Supervisor\SupervisorInterface;
+use Kraken\Supervision\SupervisorInterface;
 use Kraken\Loop\Loop;
 use Kraken\Loop\LoopExtendedInterface;
 use Kraken\Throwable\Exception\LogicException;

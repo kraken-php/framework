@@ -6,9 +6,9 @@ use Kraken\Config\ConfigInterface;
 use Kraken\Container\ContainerInterface;
 use Kraken\Container\ServiceProvider;
 use Kraken\Container\ServiceProviderInterface;
-use Kraken\Supervisor\SolverInterface;
-use Kraken\Supervisor\SupervisorInterface;
-use Kraken\Supervisor\SupervisorPluginInterface;
+use Kraken\Supervision\SolverInterface;
+use Kraken\Supervision\SupervisorInterface;
+use Kraken\Supervision\SupervisorPluginInterface;
 use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Exception;
@@ -20,16 +20,16 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
      */
     protected $requires = [
         'Kraken\Config\ConfigInterface',
-        'Kraken\Supervisor\SupervisorInterface',
-        'Kraken\Supervisor\SolverFactoryInterface'
+        'Kraken\Supervision\SupervisorInterface',
+        'Kraken\Supervision\SolverFactoryInterface'
     ];
 
     /**
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
-        'Kraken\Runtime\Supervisor\SupervisorRemoteInterface'
+        'Kraken\Runtime\Supervision\SupervisorBaseInterface',
+        'Kraken\Runtime\Supervision\SupervisorRemoteInterface'
     ];
 
     /**
@@ -39,16 +39,16 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
     {
         $config = $container->make('Kraken\Config\ConfigInterface');
 
-        $errorManager    = $container->make('Kraken\Supervisor\SupervisorInterface', [ null, $config->get('supervision.base.params') ]);
-        $errorSupervisor = $container->make('Kraken\Supervisor\SupervisorInterface', [ null, $config->get('supervision.remote.params') ]);
+        $errorManager    = $container->make('Kraken\Supervision\SupervisorInterface', [ null, $config->get('supervision.base.params') ]);
+        $errorSupervisor = $container->make('Kraken\Supervision\SupervisorInterface', [ null, $config->get('supervision.remote.params') ]);
 
         $container->instance(
-            'Kraken\Runtime\Supervisor\SupervisorBaseInterface',
+            'Kraken\Runtime\Supervision\SupervisorBaseInterface',
             $errorManager
         );
 
         $container->instance(
-            'Kraken\Runtime\Supervisor\SupervisorRemoteInterface',
+            'Kraken\Runtime\Supervision\SupervisorRemoteInterface',
             $errorSupervisor
         );
     }
@@ -59,11 +59,11 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
     protected function unregister(ContainerInterface $container)
     {
         $container->remove(
-            'Kraken\Runtime\Supervisor\SupervisorBaseInterface'
+            'Kraken\Runtime\Supervision\SupervisorBaseInterface'
         );
 
         $container->remove(
-            'Kraken\Runtime\Supervisor\SupervisorRemoteInterface'
+            'Kraken\Runtime\Supervision\SupervisorRemoteInterface'
         );
     }
 
@@ -75,8 +75,8 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
     {
         $config = $container->make('Kraken\Config\ConfigInterface');
 
-        $baseSupervisor   = $container->make('Kraken\Runtime\Supervisor\SupervisorBaseInterface');
-        $remoteSupervisor = $container->make('Kraken\Runtime\Supervisor\SupervisorRemoteInterface');
+        $baseSupervisor   = $container->make('Kraken\Runtime\Supervision\SupervisorBaseInterface');
+        $remoteSupervisor = $container->make('Kraken\Runtime\Supervision\SupervisorRemoteInterface');
 
         $this->bootBaseSupervisor($baseSupervisor, $config);
         $this->bootRemoteSupervisor($remoteSupervisor, $config);

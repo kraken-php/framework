@@ -2,7 +2,7 @@
 
 namespace Kraken\_Module\Runtime;
 
-use Kraken\_Module\Runtime\_Mock\Supervisor\ModelContinue;
+use Kraken\_Module\Runtime\_Mock\Supervision\ModelContinue;
 use Kraken\Core\Core;
 use Kraken\Core\CoreInterface;
 use Kraken\Event\EventEmitterInterface;
@@ -12,8 +12,8 @@ use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeContainer;
 use Kraken\Runtime\RuntimeManager;
 use Kraken\Runtime\RuntimeModel;
-use Kraken\Supervisor\SolverFactory;
-use Kraken\Supervisor\Supervisor;
+use Kraken\Supervision\SolverFactory;
+use Kraken\Supervision\Supervisor;
 use Kraken\Test\TModule;
 use Exception;
 

@@ -13,7 +13,7 @@ use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeManager;
 use Kraken\Runtime\RuntimeModel;
 use Kraken\Runtime\RuntimeModelInterface;
-use Kraken\Supervisor\Supervisor;
+use Kraken\Supervision\Supervisor;
 use Kraken\Throwable\Exception\LogicException;
 use Kraken\Throwable\Exception\Runtime\RejectionException;
 use Kraken\Test\TUnit;
