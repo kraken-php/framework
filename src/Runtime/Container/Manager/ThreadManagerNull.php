@@ -2,6 +2,7 @@
 
 namespace Kraken\Runtime\Container\Manager;
 
+use Kraken\Channel\Channel;
 use Kraken\Promise\Promise;
 use Kraken\Runtime\Container\ThreadManagerInterface;
 use Kraken\Runtime\Runtime;
@@ -9,6 +10,28 @@ use Kraken\Throwable\Exception\Runtime\RejectionException;
 
 class ThreadManagerNull implements ThreadManagerInterface
 {
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function sendRequest($alias, $message, $params = [])
+    {
+        return Promise::doReject(
+            new RejectionException("Request for [$alias] cannot be send on null manager.")
+        );
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function sendMessage($alias, $message, $flags = Channel::MODE_DEFAULT)
+    {
+        return Promise::doReject(
+            new RejectionException("Message for [$alias] cannot be send on null manager.")
+        );
+    }
+
     /**
      * @override
      * @inheritDoc

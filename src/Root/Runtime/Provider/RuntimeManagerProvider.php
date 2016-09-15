@@ -90,7 +90,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
             $config->get('runtime.manager.thread')
         );
 
-        $managerRuntime = new RuntimeManager($managerProcess, $managerThread);
+        $managerRuntime = new RuntimeManager($channel, $managerProcess, $managerThread);
 
         $container->instance(
             'Kraken\Runtime\Container\ProcessManagerInterface',

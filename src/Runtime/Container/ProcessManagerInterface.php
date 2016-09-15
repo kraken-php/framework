@@ -5,7 +5,7 @@ namespace Kraken\Runtime\Container;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Runtime\Runtime;
 
-interface ProcessManagerInterface
+interface ProcessManagerInterface extends AbstractManagerInterface
 {
     /**
      * Check if process container exists.

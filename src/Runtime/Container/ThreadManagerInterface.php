@@ -5,7 +5,7 @@ namespace Kraken\Runtime\Container;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Runtime\Runtime;
 
-interface ThreadManagerInterface
+interface ThreadManagerInterface extends AbstractManagerInterface
 {
     /**
      * Check if thread container exists.

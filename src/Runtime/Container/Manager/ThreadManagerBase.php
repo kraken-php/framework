@@ -2,6 +2,7 @@
 
 namespace Kraken\Runtime\Container\Manager;
 
+use Kraken\Channel\Channel;
 use Kraken\Channel\Extra\Request;
 use Kraken\Channel\ChannelInterface;
 use Kraken\Promise\Promise;
@@ -59,6 +60,37 @@ class ThreadManagerBase implements ThreadManagerInterface
         unset($this->channel);
         unset($this->context);
         unset($this->threads);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function sendRequest($alias, $message, $params = [])
+    {
+        $req = new Request(
+            $this->channel,
+            $alias,
+            $message,
+            $params
+        );
+
+        return $req->call();
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function sendMessage($alias, $message, $flags = Channel::MODE_DEFAULT)
+    {
+        $result = $this->channel->send(
+            $alias,
+            $message,
+            $flags
+        );
+
+        return Promise::doResolve($result);
     }
 
     /**

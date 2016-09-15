@@ -3,6 +3,7 @@
 namespace Kraken\_Unit\Runtime;
 
 use Kraken\_Unit\Runtime\_Mock\RuntimeManagerMock;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseFulfilled;
 use Kraken\Runtime\Container\ProcessManagerInterface;
@@ -966,12 +967,13 @@ class RuntimeManagerTest extends TUnit
      */
     public function createRuntimeManager($methods = [])
     {
+        $channel = $this->getMock(ChannelInterface::class, [], [], '', false);
         $process = $this->getMock(ProcessManagerInterface::class, [], [], '', false);
         $thread  = $this->getMock(ThreadManagerInterface::class, [], [], '', false);
 
         $methods = array_merge([ 'getThread', 'getProcess' ], $methods);
 
-        $manager =  $this->getMock(RuntimeManagerMock::class, $methods, [ $process, $thread ]);
+        $manager =  $this->getMock(RuntimeManagerMock::class, $methods, [ $channel, $process, $thread ]);
         $manager
             ->expects($this->any())
             ->method('getThread')

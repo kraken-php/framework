@@ -2,14 +2,21 @@
 
 namespace Kraken\Runtime;
 
+use Kraken\Channel\Channel;
+use Kraken\Channel\Extra\Request;
+use Kraken\Channel\ChannelInterface;
 use Kraken\Promise\Promise;
-use Kraken\Promise\PromiseInterface;
 use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Runtime\Container\ProcessManagerInterface;
 use Kraken\Runtime\Container\ThreadManagerInterface;
 
 class RuntimeManager implements RuntimeManagerInterface
 {
+    /**
+     * @var ChannelInterface
+     */
+    protected $runtimeChannel;
+
     /**
      * @var ProcessManagerInterface
      */
@@ -21,13 +28,15 @@ class RuntimeManager implements RuntimeManagerInterface
     protected $threadManager;
 
     /**
+     * @param ChannelInterface $channel
      * @param ProcessManagerInterface $processManager
      * @param ThreadManagerInterface $threadManager
      */
-    public function __construct(ProcessManagerInterface $processManager, ThreadManagerInterface $threadManager)
+    public function __construct(ChannelInterface $channel, ProcessManagerInterface $processManager, ThreadManagerInterface $threadManager)
     {
+        $this->runtimeChannel = $channel;
         $this->processManager = $processManager;
-        $this->threadManager = $threadManager;
+        $this->threadManager  = $threadManager;
     }
 
     /**
@@ -35,8 +44,40 @@ class RuntimeManager implements RuntimeManagerInterface
      */
     public function __destruct()
     {
+        unset($this->runtimeChannel);
         unset($this->processManager);
         unset($this->threadManager);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function sendRequest($alias, $message, $params = [])
+    {
+        $req = new Request(
+            $this->runtimeChannel,
+            $alias,
+            $message,
+            $params
+        );
+
+        return $req->call();
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function sendMessage($alias, $message, $flags = Channel::MODE_DEFAULT)
+    {
+        $result = $this->runtimeChannel->send(
+            $alias,
+            $message,
+            $flags
+        );
+
+        return Promise::doResolve($result);
     }
 
     /**

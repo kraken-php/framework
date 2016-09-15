@@ -2,6 +2,7 @@
 
 namespace Kraken\Runtime\Container\Manager;
 
+use Kraken\Channel\Channel;
 use Kraken\Promise\Promise;
 use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\Extra\Request;
@@ -48,6 +49,37 @@ class ProcessManagerRemote implements ProcessManagerInterface
         unset($this->runtime);
         unset($this->channel);
         unset($this->receiver);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function sendRequest($alias, $message, $params = [])
+    {
+        $req = new Request(
+            $this->channel,
+            $alias,
+            $message,
+            $params
+        );
+
+        return $req->call();
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function sendMessage($alias, $message, $flags = Channel::MODE_DEFAULT)
+    {
+        $result = $this->channel->send(
+            $alias,
+            $message,
+            $flags
+        );
+
+        return Promise::doResolve($result);
     }
 
     /**
