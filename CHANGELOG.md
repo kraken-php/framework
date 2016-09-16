@@ -1,9 +1,7 @@
-CHANGELOG for 0.2.x
-===================
+# Release Notes
 
-This changelog references the relevant changes (bug and security fixes) done
-in 0.2 minor versions.
+This changelog references the relevant changes, bug and security fixes done.
 
-* 0.2.0 (2016-01-30)
+## v0.3.0 (2016-09-16)
 
-  * Initial release
+- Initial release of publicly accessible version of Kraken
