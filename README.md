@@ -1,7 +1,6 @@
 # Kraken PHP Framework ~ Release the Kraken!
 
 [![Build Status](https://travis-ci.org/kraken-php/framework.svg)](https://travis-ci.org/kraken-php/framework)
-[![Total Downloads](https://poser.pugx.org/kraken-php/framework/downloads)](https://packagist.org/packages/kraken-php/framework) 
 [![Latest Stable Version](https://poser.pugx.org/kraken-php/framework/v/stable)](https://packagist.org/packages/kraken-php/framework) 
 [![Latest Unstable Version](https://poser.pugx.org/kraken-php/framework/v/unstable)](https://packagist.org/packages/kraken-php/framework) 
 [![License](https://poser.pugx.org/kraken-php/framework/license)](https://packagist.org/packages/kraken-php/framework)
