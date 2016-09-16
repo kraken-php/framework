@@ -36,6 +36,27 @@
         "ext-zmq": "*",
         "ext-fileinfo": "*"
     },
+    "replace": {
+        "kraken-php/channel": "self.version",
+        "kraken-php/config": "self.version",
+        "kraken-php/console": "self.version",
+        "kraken-php/container": "self.version",
+        "kraken-php/core": "self.version",
+        "kraken-php/environment": "self.version",
+        "kraken-php/event": "self.version",
+        "kraken-php/filesystem": "self.version",
+        "kraken-php/ipc": "self.version",
+        "kraken-php/log": "self.version",
+        "kraken-php/loop": "self.version",
+        "kraken-php/network": "self.version",
+        "kraken-php/promise": "self.version",
+        "kraken-php/root": "self.version",
+        "kraken-php/runtime": "self.version",
+        "kraken-php/stream": "self.version",
+        "kraken-php/supervision": "self.version",
+        "kraken-php/throwable": "self.version",
+        "kraken-php/util": "self.version"
+    },
     "autoload": {
         "psr-4": {
             "Kraken\\": "src"
