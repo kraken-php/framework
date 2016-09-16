@@ -19,8 +19,6 @@ efficiency we suggest you to also check out the rest of [Kraken Repository][5].
 Kraken/Runtime is component that provides container-based abstraction for Threads and Processes and means of managing
 and supervising children containers from its ancestor level.
 
-See more in [official documentation][2].
-
 ## Feature Highlights
 
 Kraken/Runtime features:
@@ -35,6 +33,10 @@ Kraken/Runtime features:
 * Supervision problem solvers,
 * Kraken Framework compatibility,
 * ...and more.
+
+## Interface
+
+See more in [official documentation][2].
 
 ## Requirements
 

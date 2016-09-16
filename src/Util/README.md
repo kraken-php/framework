@@ -18,8 +18,6 @@ efficiency we suggest you to also check out the rest of [Kraken Repository][5].
 
 Kraken/Util is aggregation of utility classes and helpers.
 
-See more in [official documentation][2].
-
 ## Feature Highlights
 
 Kraken/Util features:
@@ -34,6 +32,10 @@ Kraken/Util features:
 * Callbacks isolator,
 * Kraken Framework compatibility,
 * ...and more.
+
+## Interface
+
+See more in [official documentation][2].
 
 ## Requirements
 

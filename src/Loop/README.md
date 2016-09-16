@@ -19,8 +19,6 @@ efficiency we suggest you to also check out the rest of [Kraken Repository][5].
 Kraken/Loop is component that provides abstraction layer for writing asynchronous code in PHP on single thread or process
 with usage of single or multiple loops.
 
-See more in [official documentation][2].
-
 ## Feature Highlights
 
 Kraken/Loop features:
@@ -39,6 +37,10 @@ Kraken/Loop features:
 * ReactPHP EventLoop adapters,
 * Kraken Framework compatibility,
 * ...and more.
+
+## Interface
+
+See more in [official documentation][2].
 
 ## Requirements
 

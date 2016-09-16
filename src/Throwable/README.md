@@ -18,8 +18,6 @@ efficiency we suggest you to also check out the rest of [Kraken Repository][5].
 
 Kraken/Throwable is component that provides throwable hierarchy used in Kraken Framework and additional helpers.
 
-See more in [official documentation][2].
-
 ## Feature Highlights
 
 Kraken/Throwable features:
@@ -32,6 +30,10 @@ Kraken/Throwable features:
 * Implementation of throwable objects proxy,
 * Kraken Framework compatibility,
 * ...and more.
+
+## Interface
+
+See more in [official documentation][2].
 
 ## Requirements
 

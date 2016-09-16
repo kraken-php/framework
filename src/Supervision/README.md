@@ -18,8 +18,6 @@ efficiency we suggest you to also check out the rest of [Kraken Repository][5].
 
 Kraken/Supervision is component that provides supervision mechanism for runtime containers and common problem solvers.
 
-See more in [official documentation][2].
-
 ## Feature Highlights
 
 Kraken/Supervision features:
@@ -28,6 +26,10 @@ Kraken/Supervision features:
 * Implementation of simple and composite solvers,
 * Kraken Framework compatibility,
 * ...and more.
+
+## Interface
+
+See more in [official documentation][2].
 
 ## Requirements
 

@@ -22,8 +22,6 @@ provides complex routing mechanisms, protocols, message encoders and extends beh
 implementing hearbeat mechanisms, reconnect mechanisms and allowing usage of both async and request-reply messaging 
 patterns.
 
-See more in [official documentation][2].
-
 ## Feature Highlights
 
 Kraken/Channel features:
@@ -41,6 +39,10 @@ Kraken/Channel features:
 * Promise-based helpers,
 * Kraken Framework compatibility,
 * ...and more.
+
+## Interface
+
+See more in [official documentation][2].
 
 ## Requirements
 

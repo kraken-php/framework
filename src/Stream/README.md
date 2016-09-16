@@ -18,8 +18,6 @@ efficiency we suggest you to also check out the rest of [Kraken Repository][5].
 
 Kraken/Stream is component that provides consistent interface for streams and allows asynchronous writing and reading.
 
-See more in [official documentation][2].
-
 ## Feature Highlights
 
 Kraken/Stream features:
@@ -28,6 +26,10 @@ Kraken/Stream features:
 * Implementation of asynchronous and synchronous streams,
 * Kraken Framework compatibility,
 * ...and more.
+
+## Interface
+
+See more in [official documentation][2].
 
 ## Requirements
 

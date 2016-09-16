@@ -19,8 +19,6 @@ efficiency we suggest you to also check out the rest of [Kraken Repository][5].
 Kraken/Core fulfills the role of application core. It is composition of service container and register and is aware of
 its execution context.
 
-See more in [official documentation][2].
-
 ## Feature Highlights
 
 Kraken/Core features:
@@ -30,6 +28,10 @@ Kraken/Core features:
 * Registering and booting mechanisms for application,
 * Kraken Framework compatibility,
 * ...and more.
+
+## Interface
+
+See more in [official documentation][2].
 
 ## Requirements
 

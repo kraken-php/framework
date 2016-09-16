@@ -19,8 +19,6 @@ efficiency we suggest you to also check out the rest of [Kraken Repository][5].
 Kraken/Promise is component that provides PHP implementation of promises using Promise/A+ specification and additional 
 promise-related concepts such as joining, mapping, reducing and cancelling promises.
 
-See more in [official documentation][2].
-
 ## Feature Highlights
 
 Kraken/Promise features:
@@ -31,6 +29,10 @@ Kraken/Promise features:
 * Methods to join, map, race, reduce and do other things with set of promises,
 * Kraken Framework compatibility,
 * ...and more.
+
+## Interface
+
+See more in [official documentation][2].
 
 ## Requirements
 

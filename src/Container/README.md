@@ -18,8 +18,6 @@ efficiency we suggest you to also check out the rest of [Kraken Repository][5].
 
 Kraken/Container is both powerful dependency injection container and service container.
 
-See more in [official documentation][2].
-
 ## Feature Highlights
 
 Kraken/Container features:
@@ -33,6 +31,10 @@ Kraken/Container features:
 * Sorting algorithm to ensure right execution order of providers, based on their dependencies,
 * Kraken Framework compatibility,
 * ...and more.
+
+## Interface
+
+See more in [official documentation][2].
 
 ## Requirements
 

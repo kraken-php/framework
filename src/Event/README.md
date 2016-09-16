@@ -18,8 +18,6 @@ efficiency we suggest you to also check out the rest of [Kraken Repository][5].
 
 Kraken/Event provides classes to implement event-based architecture.
 
-See more in [official documentation][2].
-
 ## Feature Highlights
 
 Kraken/Event features:
@@ -29,6 +27,10 @@ Kraken/Event features:
 * Expanded interface for attaching listeners and managing events propagation,
 * Kraken Framework compatibility,
 * ...and more.
+
+## Interface
+
+See more in [official documentation][2].
 
 ## Requirements
 

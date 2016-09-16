@@ -19,8 +19,6 @@ efficiency we suggest you to also check out the rest of [Kraken Repository][5].
 Kraken/Ipc is component that provides various models for implementing inter-process communication via asynchronous
 sockets or external services.
 
-See more in [official documentation][2].
-
 ## Feature Highlights
 
 Kraken/Ipc features:
@@ -30,6 +28,10 @@ Kraken/Ipc features:
 * Support for ZeroMQ extension and ZeroMQ protocols,
 * Kraken Framework compatibility,
 * ...and more.
+
+## Interface
+
+See more in [official documentation][2].
 
 ## Requirements
 

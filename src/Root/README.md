@@ -19,8 +19,6 @@ efficiency we suggest you to also check out the rest of [Kraken Repository][5].
 Kraken/Root fulfills the role of application composition root. It consists of pre-configured providers, bootloaders and
 core configurations for Kraken console processes and runtime containers.
 
-See more in [official documentation][2].
-
 ## Feature Highlights
 
 Kraken/Root features:
@@ -30,6 +28,10 @@ Kraken/Root features:
 * Pre-defined configuration for console Client and Server,
 * Pre-defined configuration for runtime containers,
 * ...and more.
+
+## Interface
+
+See more in [official documentation][2].
 
 ## Requirements
 

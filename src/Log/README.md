@@ -19,8 +19,6 @@ efficiency we suggest you to also check out the rest of [Kraken Repository][5].
 Kraken/Log is component that allows writing application logs using files, sockets, inboxes, databases and various web 
 services.
 
-See more in [official documentation][2].
-
 ## Feature Highlights
 
 Kraken/Log features:
@@ -32,6 +30,10 @@ Kraken/Log features:
 * PSR-3 compatibility,
 * Kraken Framework compatibility,
 * ...and more.
+
+## Interface
+
+See more in [official documentation][2].
 
 ## Requirements
 

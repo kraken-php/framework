@@ -19,8 +19,6 @@ efficiency we suggest you to also check out the rest of [Kraken Repository][5].
 Kraken/Filesystem is component that allows managing multiple filesystems and provides abstraction for various storage
 models.
 
-See more in [official documentation][2].
-
 ## Feature Highlights
 
 Kraken/Filesystem features:
@@ -30,6 +28,10 @@ Kraken/Filesystem features:
 * Support for multiple storage models including clouds,
 * Kraken Framework compatibility,
 * ...and more.
+
+## Interface
+
+See more in [official documentation][2].
 
 ## Requirements
 

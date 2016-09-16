@@ -19,8 +19,6 @@ efficiency we suggest you to also check out the rest of [Kraken Repository][5].
 Kraken/Environment is component that allows for reading and writing environment variables with support for modifying
 PHP ini values and execution environment.
 
-See more in [official documentation][2].
-
 ## Feature Highlights
 
 Kraken/Environment features:
@@ -29,6 +27,10 @@ Kraken/Environment features:
 * Support for modifying PHP.ini values via .env files,
 * Kraken Framework compatibility,
 * ...and more.
+
+## Interface
+
+See more in [official documentation][2].
 
 ## Requirements
 

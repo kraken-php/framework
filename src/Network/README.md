@@ -19,8 +19,6 @@ efficiency we suggest you to also check out the rest of [Kraken Repository][5].
 Kraken/Network is component that provides possibility to create standalone, asynchronous servers supporting various network
 protocols, including TCP, HTTP and WebSockets.
 
-See more in [official documentation][2].
-
 ## Feature Highlights
 
 Kraken/Network features:
@@ -34,6 +32,10 @@ Kraken/Network features:
 * HTTP session provider,
 * Kraken Framework compatibility,
 * ...and more.
+
+## Interface
+
+See more in [official documentation][2].
 
 ## Requirements
 

@@ -19,8 +19,6 @@ efficiency we suggest you to also check out the rest of [Kraken Repository][5].
 Kraken/Console implements both console client and console server to use in applications developed with use of Kraken 
 Framework.
 
-See more in [official documentation][2].
-
 ## Feature Highlights
 
 Kraken/Console features:
@@ -31,6 +29,10 @@ Kraken/Console features:
 * Transparent and centralized management for distributed application,
 * Kraken Framework compatibility,
 * ...and more.
+
+## Interface
+
+See more in [official documentation][2].
 
 ## Requirements
 

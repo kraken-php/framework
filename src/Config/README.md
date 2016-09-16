@@ -19,8 +19,6 @@ efficiency we suggest you to also check out the rest of [Kraken Repository][5].
 Kraken/Config is component that allows to find, load, combine, autofill and validate configuration values of your
 application.
 
-See more in [official documentation][2].
-
 ## Feature Highlights
 
 Kraken/Config features:
@@ -30,6 +28,10 @@ Kraken/Config features:
 * Buil-in overwrite handlers,
 * Kraken Framework compatibility,
 * ...and more.
+
+## Interface
+
+See more in [official documentation][2].
 
 ## Requirements
 
