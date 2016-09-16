@@ -1,3 +1,0 @@
-<?php
-
-$loader = require_once $basePath . '/vendor/autoload.php';
