@@ -5,6 +5,7 @@
 [![Latest Stable Version](https://poser.pugx.org/kraken-php/environment/v/stable)](https://packagist.org/packages/kraken-php/environment) 
 [![Latest Unstable Version](https://poser.pugx.org/kraken-php/environment/v/unstable)](https://packagist.org/packages/kraken-php/environment) 
 [![License](https://poser.pugx.org/kraken-php/framework/license)](https://packagist.org/packages/kraken-php/framework)
+[![Kraken Compatible](https://img.shields.io/badge/kraken-compatible-8002af.svg)](https://github.com/kraken-php/framework)
 
 > **Note:** This repository is part of [Kraken Framework][3]. It can be used as standalone library, but for the best 
 efficiency we suggest you to also check out the rest of [Kraken Repository][5].
