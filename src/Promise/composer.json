@@ -2,7 +2,7 @@
     "name": "kraken-php/promise",
     "description": "Kraken Framework Promise Component.",
     "keywords": [
-        "kraken", "kraken-php", "promise", "promise/A+", "async", "asynchronous"
+        "kraken", "kraken-php", "promise", "async", "asynchronous"
     ],
     "license": "MIT",
     "homepage": "http://kraken-php.com",
