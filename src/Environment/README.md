@@ -61,7 +61,7 @@ This library is read-only subtree split of Kraken Framework. To make contributio
 This library licensed under the same license as [Kraken Framework][3].
 
 [1]: http://kraken-php.com
-[2]: http://kraken-php.com/docs/0.3/environment
+[2]: http://kraken-php.com/docs/api-environment
 [3]: https://github.com/kraken-php/framework
 [4]: https://github.com/kraken-php/kraken
 [5]: https://github.com/kraken-php
