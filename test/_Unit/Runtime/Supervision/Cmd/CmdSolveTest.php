@@ -3,15 +3,15 @@
 namespace Kraken\_Unit\Runtime\Supervision;
 
 use Kraken\_Unit\Runtime\_T\TSolver;
-use Kraken\Runtime\Supervision\Cmd\CmdEscalateSupervisor;
+use Kraken\Runtime\Supervision\Cmd\CmdSolve;
 use Exception;
 
-class CmdEscalateSupervisorTest extends TSolver
+class CmdSolveTest extends TSolver
 {
     /**
      * @var string
      */
-    protected $class = CmdEscalateSupervisor::class;
+    protected $class = CmdSolve::class;
 
     /**
      *

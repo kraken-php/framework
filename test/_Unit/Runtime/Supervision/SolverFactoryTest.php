@@ -17,8 +17,8 @@ class SolverFactoryTest extends TUnit
         $factory  = new SolverFactory($runtime);
         $commands = [
             'CmdDoNothing'          => 'Kraken\Runtime\Supervision\Cmd\CmdDoNothing',
-            'CmdEscalateManager'    => 'Kraken\Runtime\Supervision\Cmd\CmdEscalateManager',
-            'CmdEscalateSupervisor' => 'Kraken\Runtime\Supervision\Cmd\CmdEscalateSupervisor',
+            'CmdEscalate'           => 'Kraken\Runtime\Supervision\Cmd\CmdEscalate',
+            'CmdSolve'              => 'Kraken\Runtime\Supervision\Cmd\CmdSolve',
             'CmdLog'                => 'Kraken\Runtime\Supervision\Cmd\CmdLog',
             'RuntimeContinue'       => 'Kraken\Runtime\Supervision\Runtime\RuntimeContinue',
             'RuntimeDestroy'        => 'Kraken\Runtime\Supervision\Runtime\RuntimeDestroy',

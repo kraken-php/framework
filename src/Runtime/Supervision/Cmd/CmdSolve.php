@@ -8,7 +8,7 @@ use Kraken\Promise\Promise;
 use Error;
 use Exception;
 
-class CmdEscalateSupervisor extends Solver implements SolverInterface
+class CmdSolve extends Solver implements SolverInterface
 {
     /**
      * @param Error|Exception $ex

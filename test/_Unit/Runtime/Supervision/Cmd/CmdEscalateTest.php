@@ -7,16 +7,16 @@ use Kraken\Channel\Extra\Request;
 use Kraken\Channel\Protocol\Protocol;
 use Kraken\Channel\ChannelInterface;
 use Kraken\Runtime\RuntimeCommand;
-use Kraken\Runtime\Supervision\Cmd\CmdEscalateManager;
+use Kraken\Runtime\Supervision\Cmd\CmdEscalate;
 use Exception;
 use stdClass;
 
-class CmdEscalateManagerTest extends TSolver
+class CmdEscalateTest extends TSolver
 {
     /**
      * @var string
      */
-    protected $class = CmdEscalateManager::class;
+    protected $class = CmdEscalate::class;
 
     /**
      *

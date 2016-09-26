@@ -10,7 +10,7 @@ use Kraken\Runtime\RuntimeCommand;
 use Error;
 use Exception;
 
-class CmdEscalateManager extends Solver implements SolverInterface
+class CmdEscalate extends Solver implements SolverInterface
 {
     /**
      * @var ChannelInterface
