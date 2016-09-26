@@ -19,6 +19,7 @@
         "php": ">=5.5.9",
         "symfony/console": "^3.0",
         "symfony/http-foundation": "^3.0",
+        "symfony/routing": "^3.0",
         "league/flysystem": "^1.0",
         "league/container": "^2.2",
         "monolog/monolog": "^1.21",
