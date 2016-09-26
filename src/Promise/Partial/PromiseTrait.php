@@ -1,11 +1,16 @@
 <?php
 
-namespace Kraken\Promise;
+namespace Kraken\Promise\Partial;
 
 use Kraken\Promise\Helper\CancellationQueue;
+use Kraken\Promise\Promise;
+use Kraken\Promise\PromiseCancelled;
+use Kraken\Promise\PromiseFulfilled;
+use Kraken\Promise\PromiseInterface;
+use Kraken\Promise\PromiseRejected;
 use Kraken\Throwable\Exception\Runtime\UnderflowException;
 
-trait PromiseStaticTrait
+trait PromiseTrait
 {
     /**
      * Resolve Promise or value.

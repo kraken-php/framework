@@ -2,12 +2,13 @@
 
 namespace Kraken\Promise;
 
+use Kraken\Promise\Partial\PromiseTrait;
 use Error;
 use Exception;
 
 class Promise implements PromiseInterface
 {
-    use PromiseStaticTrait;
+    use PromiseTrait;
 
     /**
      * @var PromiseInterface|null
