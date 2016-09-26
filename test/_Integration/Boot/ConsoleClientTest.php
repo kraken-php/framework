@@ -17,7 +17,7 @@ class ConsoleClientTest extends TModule
             return;
         }
 
-        $dataPath = realpath(__DIR__ . '/../../../') . '/data';
+        $dataPath = realpath(__DIR__ . '/..') . '/_Data';
         $console  = (new ClientBoot)
             ->boot(
                 $dataPath

@@ -22,7 +22,7 @@ class ProcessTest extends TModule
         global $loader;
         $loader = $this->getMock(ClassLoader::class, [], [], '', false);
 
-        $dataPath = realpath(__DIR__ . '/../../../') . '/data';
+        $dataPath = realpath(__DIR__ . '/..') . '/_Data';
         $process  = (new ProcessBoot)
             ->controller(
                 RuntimeContainerMock::class

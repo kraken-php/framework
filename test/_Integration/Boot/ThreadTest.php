@@ -22,7 +22,7 @@ class ThreadTest extends TModule
         global $loader;
         $loader = $this->getMock(ClassLoader::class, [], [], '', false);
 
-        $dataPath = realpath(__DIR__ . '/../../../') . '/data';
+        $dataPath = realpath(__DIR__ . '/..') . '/_Data';
         $thread   = (new ThreadBoot)
             ->controller(
                 RuntimeContainerMock::class

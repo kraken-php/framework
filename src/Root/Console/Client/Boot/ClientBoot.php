@@ -29,7 +29,7 @@ class ClientBoot
     public function __construct()
     {
         $this->controllerParams = [];
-        $this->controllerClass = '\\Kraken\\Console\\Client\\Client';
+            $this->controllerClass = '\\Kraken\\Console\\Client\\Client';
         $this->params = [
             'prefix' => 'Kraken',
             'name'   => 'Undefined'
@@ -48,7 +48,7 @@ class ClientBoot
 
     /**
      * @param string $class
-     * @return Client
+     * @return ClientBoot
      */
     public function controller($class)
     {
@@ -59,7 +59,7 @@ class ClientBoot
 
     /**
      * @param mixed[] $args
-     * @return Client
+     * @return ClientBoot
      */
     public function constructor($args)
     {
@@ -70,7 +70,7 @@ class ClientBoot
 
     /**
      * @param string[] $params
-     * @return Client
+     * @return ClientBoot
      */
     public function params($params)
     {

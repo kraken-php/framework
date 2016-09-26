@@ -21,7 +21,7 @@ class ConsoleServerTest extends TModule
         global $loader;
         $loader = $this->getMock(ClassLoader::class, [], [], '', false);
 
-        $dataPath = realpath(__DIR__ . '/../../../') . '/data';
+        $dataPath = realpath(__DIR__ . '/..') . '/_Data';
         $console  = (new ServerBoot)
             ->boot(
                 $dataPath
