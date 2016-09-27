@@ -7,6 +7,7 @@ use Kraken\Container\ServiceProvider;
 use Kraken\Container\ServiceProviderInterface;
 use Kraken\Filesystem\Filesystem;
 use Kraken\Filesystem\FilesystemAdapterFactory;
+use Kraken\Filesystem\FilesystemFactory;
 use Kraken\Filesystem\FilesystemManager;
 
 class FilesystemProvider extends ServiceProvider implements ServiceProviderInterface
@@ -24,6 +25,7 @@ class FilesystemProvider extends ServiceProvider implements ServiceProviderInter
      */
     protected $provides = [
         'Kraken\Filesystem\FilesystemInterface',
+        'Kraken\Filesystem\FilesystemFactoryInterface',
         'Kraken\Filesystem\FilesystemManagerInterface'
     ];
 
@@ -59,6 +61,11 @@ class FilesystemProvider extends ServiceProvider implements ServiceProviderInter
         );
 
         $container->instance(
+            'Kraken\Filesystem\FilesystemFactoryInterface',
+            new FilesystemFactory
+        );
+
+        $container->instance(
             'Kraken\Filesystem\FilesystemManagerInterface',
             $fsCloud
         );
@@ -71,6 +78,10 @@ class FilesystemProvider extends ServiceProvider implements ServiceProviderInter
     {
         $container->remove(
             'Kraken\Filesystem\FilesystemInterface'
+        );
+
+        $container->remove(
+            'Kraken\Filesystem\FilesystemFactoryInterface'
         );
 
         $container->remove(
