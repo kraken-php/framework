@@ -4,7 +4,9 @@ namespace Kraken\Root\Runtime\Boot;
 
 use Kraken\Runtime\Container\Thread\ThreadController;
 use Kraken\Runtime\RuntimeContainerInterface;
+use Kraken\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Util\Support\StringSupport;
+use Exception;
 use ReflectionClass;
 
 class ThreadBoot
@@ -20,7 +22,7 @@ class ThreadBoot
     protected $controllerParams;
 
     /**
-     * @var string
+     * @var string|string[]
      */
     protected $controllerClass;
 
@@ -38,7 +40,10 @@ class ThreadBoot
 
         $this->runtimeController = ($threadController !== null) ? $threadController : new ThreadController($loader);
         $this->controllerParams = [];
-        $this->controllerClass = '\\%prefix%\\Thread\\%name%\\%name%Container';
+        $this->controllerClass  = [
+            '\\%prefix%\\Thread\\Container\\%name%\\%name%Container',
+            '\\%prefix%\\Runtime\\Container\\%name%\\%name%Container'
+        ];
         $this->params = [
             'prefix' => 'Kraken',
             'name'   => 'Undefined'
@@ -57,12 +62,12 @@ class ThreadBoot
     }
 
     /**
-     * @param string $class
+     * @param string|string[] $class
      * @return ThreadBoot
      */
     public function controller($class)
     {
-        $this->controllerClass = $class;
+        $this->controllerClass = (array) $class;
 
         return $this;
     }
@@ -92,16 +97,31 @@ class ThreadBoot
     /**
      * @param string $path
      * @return RuntimeContainerInterface
+     * @throws Exception
      */
     public function boot($path)
     {
+        $controllerClass = '';
+        $controllerClassFound = false;
+
+        foreach ($this->controllerClass as $controllerClass)
+        {
+            $controllerClass = StringSupport::parametrize($controllerClass, $this->params);
+
+            if (class_exists($controllerClass))
+            {
+                $controllerClassFound = true;
+                break;
+            }
+        }
+
+        if (!$controllerClassFound)
+        {
+            throw new InstantiationException('Runtime class not found');
+        }
+
+        $controller = (new ReflectionClass($controllerClass))->newInstanceArgs($this->controllerParams);
         $datapath = realpath($path);
-        $controller = (new ReflectionClass(
-            StringSupport::parametrize($this->controllerClass, $this->params)
-        ))
-        ->newInstanceArgs(
-            array_merge($this->controllerParams)
-        );
 
         if (file_exists($datapath . '/bootstrap/' . $controller->getName() . '/bootstrap.php'))
         {
