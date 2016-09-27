@@ -106,7 +106,7 @@ class ThreadManagerBase implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function createThread($alias, $name, $flags = Runtime::CREATE_DEFAULT)
+    public function createThread($alias, $name, $flags = Runtime::CREATE_DEFAULT, $params = [])
     {
         if (isset($this->threads[$alias]))
         {
@@ -120,30 +120,30 @@ class ThreadManagerBase implements ThreadManagerInterface
             if ($flags === Runtime::CREATE_FORCE_SOFT)
             {
                 return $this
-                    ->destroyThread($alias, Runtime::DESTROY_FORCE_SOFT)
+                    ->destroyThread($alias, Runtime::DESTROY_FORCE_SOFT, $params)
                     ->then(
-                        function() use($manager, $alias, $name) {
-                            return $manager->createThread($alias, $name);
+                        function() use($manager, $alias, $name, $params) {
+                            return $manager->createThread($alias, $name, $params);
                         }
                     );
             }
             else if ($flags === Runtime::CREATE_FORCE_HARD)
             {
                 return $this
-                    ->destroyThread($alias, Runtime::DESTROY_FORCE_HARD)
+                    ->destroyThread($alias, Runtime::DESTROY_FORCE_HARD, $params)
                     ->then(
-                        function() use($manager, $alias, $name) {
-                            return $manager->createThread($alias, $name);
+                        function() use($manager, $alias, $name, $params) {
+                            return $manager->createThread($alias, $name, $params);
                         }
                     );
             }
             else if ($flags === Runtime::CREATE_FORCE)
             {
                 return $this
-                    ->destroyThread($alias, Runtime::DESTROY_FORCE)
+                    ->destroyThread($alias, Runtime::DESTROY_FORCE, $params)
                     ->then(
-                        function() use($manager, $alias, $name) {
-                            return $manager->createThread($alias, $name);
+                        function() use($manager, $alias, $name, $params) {
+                            return $manager->createThread($alias, $name, $params);
                         }
                     );
             }
@@ -174,7 +174,7 @@ class ThreadManagerBase implements ThreadManagerInterface
         $this->allocateThread($alias, $wrapper);
 
         $req = $this->createRequest(
-            $this->channel, $alias, new RuntimeCommand('cmd:ping')
+            $this->channel, $alias, new RuntimeCommand('cmd:ping', $params)
         );
 
         return $req->call()
@@ -197,7 +197,7 @@ class ThreadManagerBase implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function destroyThread($alias, $flags = Runtime::DESTROY_FORCE_SOFT)
+    public function destroyThread($alias, $flags = Runtime::DESTROY_FORCE_SOFT, $params = [])
     {
         if (!isset($this->threads[$alias]))
         {
@@ -218,7 +218,7 @@ class ThreadManagerBase implements ThreadManagerInterface
             $req = $this->createRequest(
                 $this->channel,
                 $alias,
-                new RuntimeCommand('container:destroy')
+                new RuntimeCommand('container:destroy', $params)
             );
 
             return $req->call()
@@ -234,11 +234,11 @@ class ThreadManagerBase implements ThreadManagerInterface
         {
             $manager = $this;
             return $manager
-                ->destroyThread($alias, Runtime::DESTROY_FORCE_SOFT)
+                ->destroyThread($alias, Runtime::DESTROY_FORCE_SOFT, $params)
                 ->then(
                     null,
-                    function() use($manager, $alias) {
-                        return $manager->destroyThread($alias, Runtime::DESTROY_FORCE_HARD);
+                    function() use($manager, $alias, $params) {
+                        return $manager->destroyThread($alias, Runtime::DESTROY_FORCE_HARD, $params);
                     }
                 );
         }
@@ -263,12 +263,12 @@ class ThreadManagerBase implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function startThread($alias)
+    public function startThread($alias, $params = [])
     {
         $req = $this->createRequest(
             $this->channel,
             $alias,
-            new RuntimeCommand('container:start')
+            new RuntimeCommand('container:start', $params)
         );
 
         return $req->call();
@@ -278,12 +278,12 @@ class ThreadManagerBase implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function stopThread($alias)
+    public function stopThread($alias, $params = [])
     {
         $req = $this->createRequest(
             $this->channel,
             $alias,
-            new RuntimeCommand('container:stop')
+            new RuntimeCommand('container:stop', $params)
         );
 
         return $req->call();
@@ -293,13 +293,13 @@ class ThreadManagerBase implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function createThreads($definitions, $flags = Runtime::CREATE_DEFAULT)
+    public function createThreads($definitions, $flags = Runtime::CREATE_DEFAULT, $params = [])
     {
         $promises = [];
 
         foreach ($definitions as $alias=>$name)
         {
-            $promises[] = $this->createThread($alias, $name, $flags);
+            $promises[] = $this->createThread($alias, $name, $flags, $params);
         }
 
         return Promise::all($promises)
@@ -317,13 +317,13 @@ class ThreadManagerBase implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function destroyThreads($aliases, $flags = Runtime::DESTROY_FORCE_SOFT)
+    public function destroyThreads($aliases, $flags = Runtime::DESTROY_FORCE_SOFT, $params = [])
     {
         $promises = [];
 
         foreach ($aliases as $alias)
         {
-            $promises[] = $this->destroyThread($alias, $flags);
+            $promises[] = $this->destroyThread($alias, $flags, $params);
         }
 
         return Promise::all($promises)
@@ -341,13 +341,13 @@ class ThreadManagerBase implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function startThreads($aliases)
+    public function startThreads($aliases, $params = [])
     {
         $promises = [];
 
         foreach ($aliases as $alias)
         {
-            $promises[] = $this->startThread($alias);
+            $promises[] = $this->startThread($alias, $params);
         }
 
         return Promise::all($promises)
@@ -365,13 +365,13 @@ class ThreadManagerBase implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function stopThreads($aliases)
+    public function stopThreads($aliases, $params = [])
     {
         $promises = [];
 
         foreach ($aliases as $alias)
         {
-            $promises[] = $this->stopThread($alias);
+            $promises[] = $this->stopThread($alias, $params);
         }
 
         return Promise::all($promises)

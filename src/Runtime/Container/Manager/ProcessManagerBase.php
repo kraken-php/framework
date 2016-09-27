@@ -157,7 +157,7 @@ class ProcessManagerBase implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function createProcess($alias, $name, $flags = Runtime::CREATE_DEFAULT)
+    public function createProcess($alias, $name, $flags = Runtime::CREATE_DEFAULT, $params = [])
     {
         if (isset($this->processes[$alias]))
         {
@@ -171,7 +171,7 @@ class ProcessManagerBase implements ProcessManagerInterface
             if ($flags === Runtime::CREATE_DEFAULT && $this->processes[$alias]['verified'] === false)
             {
                 $req = $this->createRequest(
-                    $this->channel, $alias, new RuntimeCommand('cmd:ping')
+                    $this->channel, $alias, new RuntimeCommand('cmd:ping', $params)
                 );
 
                 return $req->call()
@@ -179,37 +179,37 @@ class ProcessManagerBase implements ProcessManagerInterface
                         function() {
                             return 'Process has been created.';
                         },
-                        function() use($manager, $alias, $name) {
-                            return $manager->createProcess($alias, $name, Runtime::CREATE_FORCE_HARD);
+                        function() use($manager, $alias, $name, $params) {
+                            return $manager->createProcess($alias, $name, Runtime::CREATE_FORCE_HARD, $params);
                         }
                     );
             }
             else if ($flags === Runtime::CREATE_FORCE_SOFT)
             {
                 return $this
-                    ->destroyProcess($alias, Runtime::DESTROY_FORCE_SOFT)
+                    ->destroyProcess($alias, Runtime::DESTROY_FORCE_SOFT, $params)
                     ->then(
-                        function() use($manager, $alias, $name) {
-                            return $manager->createProcess($alias, $name);
+                        function() use($manager, $alias, $name, $params) {
+                            return $manager->createProcess($alias, $name, $params);
                         }
                     );
             }
             else if ($flags === Runtime::CREATE_FORCE_HARD)
             {
                 return $this
-                    ->destroyProcess($alias, Runtime::DESTROY_FORCE_HARD)
+                    ->destroyProcess($alias, Runtime::DESTROY_FORCE_HARD, $params)
                     ->then(
-                        function() use($manager, $alias, $name) {
-                            return $manager->createProcess($alias, $name);
+                        function() use($manager, $alias, $name, $params) {
+                            return $manager->createProcess($alias, $name, $params);
                         }
                     );
             }
             else if ($flags === Runtime::CREATE_FORCE)
             {
-                return $this->destroyProcess($alias, Runtime::DESTROY_FORCE)
+                return $this->destroyProcess($alias, Runtime::DESTROY_FORCE, $params)
                     ->then(
-                        function() use($manager, $alias, $name) {
-                            return $manager->createProcess($alias, $name);
+                        function() use($manager, $alias, $name, $params) {
+                            return $manager->createProcess($alias, $name, $params);
                         }
                     );
             }
@@ -242,7 +242,7 @@ class ProcessManagerBase implements ProcessManagerInterface
         }
 
         $req = $this->createRequest(
-            $this->channel, $alias, new RuntimeCommand('cmd:ping')
+            $this->channel, $alias, new RuntimeCommand('cmd:ping', $params)
         );
 
         return $req
@@ -266,7 +266,7 @@ class ProcessManagerBase implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function destroyProcess($alias, $flags = Runtime::DESTROY_FORCE_SOFT)
+    public function destroyProcess($alias, $flags = Runtime::DESTROY_FORCE_SOFT, $params = [])
     {
         if (!isset($this->processes[$alias]))
         {
@@ -287,7 +287,7 @@ class ProcessManagerBase implements ProcessManagerInterface
             $req = $this->createRequest(
                 $this->channel,
                 $alias,
-                new RuntimeCommand('container:destroy')
+                new RuntimeCommand('container:destroy', $params)
             );
 
             return $req
@@ -304,11 +304,11 @@ class ProcessManagerBase implements ProcessManagerInterface
         {
             $manager = $this;
             return $manager
-                ->destroyProcess($alias, Runtime::DESTROY_FORCE_SOFT)
+                ->destroyProcess($alias, Runtime::DESTROY_FORCE_SOFT, $params)
                 ->then(
                     null,
-                    function() use($manager, $alias) {
-                        return $manager->destroyProcess($alias, Runtime::DESTROY_FORCE_HARD);
+                    function() use($manager, $alias, $params) {
+                        return $manager->destroyProcess($alias, Runtime::DESTROY_FORCE_HARD, $params);
                     }
                 );
         }
@@ -347,12 +347,12 @@ class ProcessManagerBase implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function startProcess($alias)
+    public function startProcess($alias, $params = [])
     {
         $req = $this->createRequest(
             $this->channel,
             $alias,
-            new RuntimeCommand('container:start')
+            new RuntimeCommand('container:start', $params)
         );
 
         return $req->call();
@@ -362,12 +362,12 @@ class ProcessManagerBase implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function stopProcess($alias)
+    public function stopProcess($alias, $params = [])
     {
         $req = $this->createRequest(
             $this->channel,
             $alias,
-            new RuntimeCommand('container:stop')
+            new RuntimeCommand('container:stop', $params)
         );
 
         return $req->call();
@@ -377,13 +377,13 @@ class ProcessManagerBase implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function createProcesses($definitions, $flags = Runtime::CREATE_DEFAULT)
+    public function createProcesses($definitions, $flags = Runtime::CREATE_DEFAULT, $params = [])
     {
         $promises = [];
 
         foreach ($definitions as $alias=>$name)
         {
-            $promises[] = $this->createProcess($alias, $name, $flags);
+            $promises[] = $this->createProcess($alias, $name, $flags, $params);
         }
 
         return Promise::all($promises)
@@ -401,13 +401,13 @@ class ProcessManagerBase implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function destroyProcesses($aliases, $flags = Runtime::DESTROY_FORCE_SOFT)
+    public function destroyProcesses($aliases, $flags = Runtime::DESTROY_FORCE_SOFT, $params = [])
     {
         $promises = [];
 
         foreach ($aliases as $alias)
         {
-            $promises[] = $this->destroyProcess($alias, $flags);
+            $promises[] = $this->destroyProcess($alias, $flags, $params);
         }
 
         return Promise::all($promises)
@@ -425,13 +425,13 @@ class ProcessManagerBase implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function startProcesses($aliases)
+    public function startProcesses($aliases, $params = [])
     {
         $promises = [];
 
         foreach ($aliases as $alias)
         {
-            $promises[] = $this->startProcess($alias);
+            $promises[] = $this->startProcess($alias, $params);
         }
 
         return Promise::all($promises)
@@ -449,13 +449,13 @@ class ProcessManagerBase implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function stopProcesses($aliases)
+    public function stopProcesses($aliases, $params = [])
     {
         $promises = [];
 
         foreach ($aliases as $alias)
         {
-            $promises[] = $this->stopProcess($alias);
+            $promises[] = $this->stopProcess($alias, $params);
         }
 
         return Promise::all($promises)

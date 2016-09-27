@@ -24,7 +24,7 @@ class CmdEscalateTest extends TSolver
     public function testApisolver_InvokesProperAction()
     {
         $ex = new Exception();
-        $params = [];
+        $params = [ 'hash' => 'hash' ];
         $result = new StdClass;
 
         $call = $this->getMock(Request::class, [], [], '', false);

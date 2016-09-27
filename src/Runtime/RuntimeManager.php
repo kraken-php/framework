@@ -93,15 +93,15 @@ class RuntimeManager implements RuntimeManagerInterface
      * @override
      * @inheritDoc
      */
-    public function destroyRuntime($alias, $flags = Runtime::DESTROY_FORCE_SOFT)
+    public function destroyRuntime($alias, $flags = Runtime::DESTROY_FORCE_SOFT, $params = [])
     {
         if ($this->existsThread($alias))
         {
-            return $this->threadManager->destroyThread($alias, $flags);
+            return $this->threadManager->destroyThread($alias, $flags, $params);
         }
         else if ($this->existsProcess($alias))
         {
-            return $this->processManager->destroyProcess($alias, $flags);
+            return $this->processManager->destroyProcess($alias, $flags, $params);
         }
 
         return Promise::doReject(new ResourceUndefinedException("Runtime with alias [$alias] does not exist."));
@@ -111,15 +111,15 @@ class RuntimeManager implements RuntimeManagerInterface
      * @override
      * @inheritDoc
      */
-    public function startRuntime($alias)
+    public function startRuntime($alias, $params = [])
     {
         if ($this->existsThread($alias))
         {
-            return $this->threadManager->startThread($alias);
+            return $this->threadManager->startThread($alias, $params);
         }
         else if ($this->existsProcess($alias))
         {
-            return $this->processManager->startProcess($alias);
+            return $this->processManager->startProcess($alias, $params);
         }
 
         return Promise::doReject(new ResourceUndefinedException("Runtime with alias [$alias] does not exist."));
@@ -129,15 +129,15 @@ class RuntimeManager implements RuntimeManagerInterface
      * @override
      * @inheritDoc
      */
-    public function stopRuntime($alias)
+    public function stopRuntime($alias, $params = [])
     {
         if ($this->existsThread($alias))
         {
-            return $this->threadManager->stopThread($alias);
+            return $this->threadManager->stopThread($alias, $params);
         }
         else if ($this->existsProcess($alias))
         {
-            return $this->processManager->stopProcess($alias);
+            return $this->processManager->stopProcess($alias, $params);
         }
 
         return Promise::doReject(new ResourceUndefinedException("Runtime with alias [$alias] does not exist."));
@@ -147,13 +147,13 @@ class RuntimeManager implements RuntimeManagerInterface
      * @override
      * @inheritDoc
      */
-    public function destroyRuntimes($aliases, $flags = Runtime::DESTROY_FORCE_SOFT)
+    public function destroyRuntimes($aliases, $flags = Runtime::DESTROY_FORCE_SOFT, $params = [])
     {
         $promises = [];
 
         foreach ($aliases as $alias)
         {
-            $promises[] = $this->destroyRuntime($alias, $flags);
+            $promises[] = $this->destroyRuntime($alias, $flags, $params);
         }
 
         return Promise::all($promises);
@@ -163,13 +163,13 @@ class RuntimeManager implements RuntimeManagerInterface
      * @override
      * @inheritDoc
      */
-    public function startRuntimes($aliases)
+    public function startRuntimes($aliases, $params = [])
     {
         $promises = [];
 
         foreach ($aliases as $alias)
         {
-            $promises[] = $this->startRuntime($alias);
+            $promises[] = $this->startRuntime($alias, $params);
         }
 
         return Promise::all($promises);
@@ -179,13 +179,13 @@ class RuntimeManager implements RuntimeManagerInterface
      * @override
      * @inheritDoc
      */
-    public function stopRuntimes($aliases)
+    public function stopRuntimes($aliases, $params = [])
     {
         $promises = [];
 
         foreach ($aliases as $alias)
         {
-            $promises[] = $this->stopRuntime($alias);
+            $promises[] = $this->stopRuntime($alias, $params);
         }
 
         return Promise::all($promises);
@@ -234,72 +234,72 @@ class RuntimeManager implements RuntimeManagerInterface
      * @override
      * @inheritDoc
      */
-    public function createProcess($alias, $name, $flags = Runtime::CREATE_DEFAULT)
+    public function createProcess($alias, $name, $flags = Runtime::CREATE_DEFAULT, $params = [])
     {
-        return $this->processManager->createProcess($alias, $name, $flags);
+        return $this->processManager->createProcess($alias, $name, $flags, $params);
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function destroyProcess($alias, $flags = Runtime::DESTROY_FORCE_SOFT)
+    public function destroyProcess($alias, $flags = Runtime::DESTROY_FORCE_SOFT, $params = [])
     {
-        return $this->processManager->destroyProcess($alias, $flags);
+        return $this->processManager->destroyProcess($alias, $flags, $params);
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function startProcess($alias)
+    public function startProcess($alias, $params = [])
     {
-        return $this->processManager->startProcess($alias);
+        return $this->processManager->startProcess($alias, $params);
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function stopProcess($alias)
+    public function stopProcess($alias, $params = [])
     {
-        return $this->processManager->stopProcess($alias);
+        return $this->processManager->stopProcess($alias, $params);
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function createProcesses($definitions, $flags = Runtime::CREATE_DEFAULT)
+    public function createProcesses($definitions, $flags = Runtime::CREATE_DEFAULT, $params = [])
     {
-        return $this->processManager->createProcesses($definitions, $flags);
+        return $this->processManager->createProcesses($definitions, $flags, $params);
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function destroyProcesses($aliases, $flags = Runtime::DESTROY_FORCE_SOFT)
+    public function destroyProcesses($aliases, $flags = Runtime::DESTROY_FORCE_SOFT, $params = [])
     {
-        return $this->processManager->destroyProcesses($aliases, $flags);
+        return $this->processManager->destroyProcesses($aliases, $flags, $params);
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function startProcesses($aliases)
+    public function startProcesses($aliases, $params = [])
     {
-        return $this->processManager->startProcesses($aliases);
+        return $this->processManager->startProcesses($aliases, $params);
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function stopProcesses($aliases)
+    public function stopProcesses($aliases, $params = [])
     {
-        return $this->processManager->stopProcesses($aliases);
+        return $this->processManager->stopProcesses($aliases, $params);
     }
 
     /**
@@ -333,72 +333,72 @@ class RuntimeManager implements RuntimeManagerInterface
      * @override
      * @inheritDoc
      */
-    public function createThread($alias, $name, $flags = Runtime::CREATE_DEFAULT)
+    public function createThread($alias, $name, $flags = Runtime::CREATE_DEFAULT, $params = [])
     {
-        return $this->threadManager->createThread($alias, $name, $flags);
+        return $this->threadManager->createThread($alias, $name, $flags, $params);
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function destroyThread($alias, $flags = Runtime::DESTROY_FORCE_SOFT)
+    public function destroyThread($alias, $flags = Runtime::DESTROY_FORCE_SOFT, $params = [])
     {
-        return $this->threadManager->destroyThread($alias, $flags);
+        return $this->threadManager->destroyThread($alias, $flags, $params);
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function startThread($alias)
+    public function startThread($alias, $params = [])
     {
-        return $this->threadManager->startThread($alias);
+        return $this->threadManager->startThread($alias, $params);
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function stopThread($alias)
+    public function stopThread($alias, $params = [])
     {
-        return $this->threadManager->stopThread($alias);
+        return $this->threadManager->stopThread($alias, $params);
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function createThreads($definitions, $flags = Runtime::CREATE_DEFAULT)
+    public function createThreads($definitions, $flags = Runtime::CREATE_DEFAULT, $params = [])
     {
-        return $this->threadManager->createThreads($definitions, $flags);
+        return $this->threadManager->createThreads($definitions, $flags, $params);
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function destroyThreads($aliases, $flags = Runtime::DESTROY_FORCE_SOFT)
+    public function destroyThreads($aliases, $flags = Runtime::DESTROY_FORCE_SOFT, $params = [])
     {
-        return $this->threadManager->destroyThreads($aliases, $flags);
+        return $this->threadManager->destroyThreads($aliases, $flags, $params);
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function startThreads($aliases)
+    public function startThreads($aliases, $params = [])
     {
-        return $this->threadManager->startThreads($aliases);
+        return $this->threadManager->startThreads($aliases, $params);
     }
 
     /**
      * @override
      * @inheritDoc
      */
-    public function stopThreads($aliases)
+    public function stopThreads($aliases, $params = [])
     {
-        return $this->threadManager->stopThreads($aliases);
+        return $this->threadManager->stopThreads($aliases, $params);
     }
 
     /**

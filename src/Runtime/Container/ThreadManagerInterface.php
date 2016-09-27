@@ -30,11 +30,12 @@ interface ThreadManagerInterface extends AbstractManagerInterface
      * @param string $alias
      * @param string $name
      * @param int $flags
+     * @param mixed[] $params
      * @return PromiseInterface
      * @resolves mixed
      * @rejects Error|Exception|string|null
      */
-    public function createThread($alias, $name, $flags = Runtime::CREATE_DEFAULT);
+    public function createThread($alias, $name, $flags = Runtime::CREATE_DEFAULT, $params = []);
 
     /**
      * Destroy existing container.
@@ -48,31 +49,34 @@ interface ThreadManagerInterface extends AbstractManagerInterface
      *
      * @param string $alias
      * @param int $flags
+     * @param mixed[] $params
      * @return PromiseInterface
      * @resolves mixed
      * @rejects Error|Exception|string|null
      */
-    public function destroyThread($alias, $flags = Runtime::DESTROY_FORCE_SOFT);
+    public function destroyThread($alias, $flags = Runtime::DESTROY_FORCE_SOFT, $params = []);
 
     /**
      * Start existing thread container.
      *
      * @param string $alias
+     * @param mixed[] $params
      * @return PromiseInterface
      * @resolves mixed
      * @rejects Error|Exception|string|null
      */
-    public function startThread($alias);
+    public function startThread($alias, $params = []);
 
     /**
      * Stop existing thread container.
      *
      * @param string $alias
+     * @param mixed[] $params
      * @return PromiseInterface
      * @resolves mixed
      * @rejects Error|Exception|string|null
      */
-    public function stopThread($alias);
+    public function stopThread($alias, $params = []);
 
     /**
      * Create multiple thread containers at once.
@@ -81,11 +85,12 @@ interface ThreadManagerInterface extends AbstractManagerInterface
      *
      * @param string[][] $definitions
      * @param int $flags
+     * @param mixed[] $params
      * @return PromiseInterface
      * @resolves mixed
      * @rejects Error|Exception|string|null
      */
-    public function createThreads($definitions, $flags = Runtime::CREATE_DEFAULT);
+    public function createThreads($definitions, $flags = Runtime::CREATE_DEFAULT, $params = []);
 
     /**
      * Destroy multiple thread containers at once.
@@ -94,31 +99,34 @@ interface ThreadManagerInterface extends AbstractManagerInterface
      *
      * @param string[] $aliases
      * @param int $flags
+     * @param mixed[] $params
      * @return PromiseInterface
      * @resolves mixed
      * @rejects Error|Exception|string|null
      */
-    public function destroyThreads($aliases, $flags = Runtime::DESTROY_FORCE_SOFT);
+    public function destroyThreads($aliases, $flags = Runtime::DESTROY_FORCE_SOFT, $params = []);
 
     /**
      * Start multiple thread container at once.
      *
-     * @param $aliases
+     * @param string[] $aliases
+     * @param mixed[] $params
      * @return PromiseInterface
      * @resolves mixed
      * @rejects Error|Exception|string|null
      */
-    public function startThreads($aliases);
+    public function startThreads($aliases, $params = []);
 
     /**
      * Stop multiple thread container at once.
      *
-     * @param $aliases
+     * @param string[] $aliases
+     * @param mixed[] $params
      * @return PromiseInterface
      * @resolves mixed
      * @rejects Error|Exception|string|null
      */
-    public function stopThreads($aliases);
+    public function stopThreads($aliases, $params = []);
 
     /**
      * Get list of existing thread containers.

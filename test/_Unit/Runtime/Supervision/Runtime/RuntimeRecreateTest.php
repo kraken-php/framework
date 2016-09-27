@@ -24,7 +24,8 @@ class RuntimeRecreateTest extends TSolver
     {
         $ex = new Exception();
 
-        $origin  = 'origin';
+        $origin = 'origin';
+        $hash   = 'hash';
 
         $solver  = $this->createSolver();
         $manager = $this->createManager();
@@ -60,7 +61,8 @@ class RuntimeRecreateTest extends TSolver
     {
         $ex = new Exception();
 
-        $origin  = 'origin';
+        $origin = 'origin';
+        $hash   = 'hash';
         $result = new StdClass;
 
         $solver  = $this->createSolver();
@@ -78,13 +80,13 @@ class RuntimeRecreateTest extends TSolver
         $manager
             ->expects($this->once())
             ->method('createThread')
-            ->with($origin, null, Runtime::CREATE_FORCE)
+            ->with($origin, null, Runtime::CREATE_FORCE, [ 'hash' => $hash ])
             ->will($this->returnValue($result));
 
         $this->assertSame(
             $result,
             $this->callProtectedMethod(
-                $solver, 'solver', [ $ex, [ 'origin' => $origin ] ]
+                $solver, 'solver', [ $ex, [ 'origin' => $origin, 'hash' => $hash ] ]
             )
         );
     }
@@ -96,7 +98,8 @@ class RuntimeRecreateTest extends TSolver
     {
         $ex = new Exception();
 
-        $origin  = 'origin';
+        $origin = 'origin';
+        $hash   = 'hash';
         $result = new StdClass;
 
         $solver  = $this->createSolver();
@@ -114,13 +117,13 @@ class RuntimeRecreateTest extends TSolver
         $manager
             ->expects($this->once())
             ->method('createProcess')
-            ->with($origin, null, Runtime::CREATE_FORCE)
+            ->with($origin, null, Runtime::CREATE_FORCE, [ 'hash' => $hash ])
             ->will($this->returnValue($result));
 
         $this->assertSame(
             $result,
             $this->callProtectedMethod(
-                $solver, 'solver', [ $ex, [ 'origin' => $origin ] ]
+                $solver, 'solver', [ $ex, [ 'origin' => $origin, 'hash' => $hash ] ]
             )
         );
     }

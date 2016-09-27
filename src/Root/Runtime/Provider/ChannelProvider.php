@@ -19,6 +19,7 @@ use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeContainerInterface;
 use Error;
 use Exception;
+use Kraken\Throwable\Exception\Runtime\RejectionException;
 
 class ChannelProvider extends ServiceProvider implements ServiceProviderInterface
 {
@@ -158,8 +159,8 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         $router = $master->getInput();
         $router->addRule(
             new RuleMatchDestination($master->getName()),
-            new RuleHandler(function($params) use($composite) {
-                $this->executeProtocol($composite, $params['protocol']);
+            new RuleHandler(function($params) use($runtime, $composite) {
+                $this->executeProtocol($runtime, $composite, $params['protocol']);
             })
         );
         $router->addDefault(
@@ -171,8 +172,8 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         $router = $slave->getInput();
         $router->addRule(
             new RuleMatchDestination($slave->getName()),
-            new RuleHandler(function($params) use($composite) {
-                $this->executeProtocol($composite, $params['protocol']);
+            new RuleHandler(function($params) use($runtime, $composite) {
+                $this->executeProtocol($runtime, $composite, $params['protocol']);
             })
         );
         $router->addDefault(
@@ -234,8 +235,8 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         $router = $master->getInput();
         $router->addRule(
             new RuleMatchDestination($master->getName()),
-            new RuleHandler(function($params) use($composite) {
-                $this->executeProtocol($composite, $params['protocol']);
+            new RuleHandler(function($params) use($runtime, $composite) {
+                $this->executeProtocol($runtime, $composite, $params['protocol']);
             })
         );
         $router->addDefault(
@@ -247,8 +248,8 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         $router = $slave->getInput();
         $router->addRule(
             new RuleMatchDestination($slave->getName()),
-            new RuleHandler(function($params) use($composite) {
-                $this->executeProtocol($composite, $params['protocol']);
+            new RuleHandler(function($params) use($runtime, $composite) {
+                $this->executeProtocol($runtime, $composite, $params['protocol']);
             })
         );
         $router->addDefault(
@@ -282,10 +283,11 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
     }
 
     /**
+     * @param RuntimeContainerInterface $runtime
      * @param ChannelCompositeInterface $composite
      * @param ProtocolInterface $protocol
      */
-    private function executeProtocol(ChannelCompositeInterface $composite, ProtocolInterface $protocol)
+    private function executeProtocol(RuntimeContainerInterface $runtime, ChannelCompositeInterface $composite, ProtocolInterface $protocol)
     {
         /**
          * If the json_decode fails, it means the received message is leftover of request response,
@@ -296,7 +298,33 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
             $params = json_decode($protocol->getMessage(), true);
             $command = array_shift($params);
             $params['origin'] = $protocol->getOrigin();
-            $promise = $this->executeCommand($command, $params);
+
+            if (!$runtime->isFailed() || (isset($params['hash']) && $runtime->getHash() === $params['hash']))
+            {
+                $promise = $this->executeCommand($command, $params);
+            }
+            else
+            {
+                $promise = Promise::doReject(new RejectionException(
+                    'Container is currently in failed state and cannot execute any tasks.'
+                ));
+            }
+
+            if ($protocol->getType() === Channel::TYPE_REQ)
+            {
+                $promise
+                    ->then(
+                        function($response) use($composite, $protocol, $command) {
+                            return (new Response($composite, $protocol, $response))->call();
+                        },
+                        function($reason) use($composite, $protocol) {
+                            return (new Response($composite, $protocol, $reason))->call();
+                        },
+                        function($reason) use($composite, $protocol) {
+                            return (new Response($composite, $protocol, $reason))->call();
+                        }
+                    );
+            }
         }
         catch (Error $ex)
         {
@@ -305,22 +333,6 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         catch (Exception $ex)
         {
             return;
-        }
-
-        if ($protocol->getType() === Channel::TYPE_REQ)
-        {
-            $promise
-                ->then(
-                    function($response) use($composite, $protocol, $command) {
-                        return (new Response($composite, $protocol, $response))->call();
-                    },
-                    function($reason) use($composite, $protocol) {
-                        return (new Response($composite, $protocol, $reason))->call();
-                    },
-                    function($reason) use($composite, $protocol) {
-                        return (new Response($composite, $protocol, $reason))->call();
-                    }
-                );
         }
     }
 

@@ -468,7 +468,8 @@ trait RuntimeCase
             [ 'created' ],
             [ 'destroyed' ],
             [ 'started' ],
-            [ 'stopped' ]
+            [ 'stopped' ],
+            [ 'failed' ]
         ];
     }
 

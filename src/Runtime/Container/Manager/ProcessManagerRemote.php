@@ -95,12 +95,15 @@ class ProcessManagerRemote implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function createProcess($alias, $name, $flags = Runtime::CREATE_DEFAULT)
+    public function createProcess($alias, $name, $flags = Runtime::CREATE_DEFAULT, $params = [])
     {
         $req = $this->createRequest(
             $this->channel,
             $this->receiver,
-            new RuntimeCommand('process:create', [ 'alias' => $alias, 'name' => $name, 'flags' => $flags ])
+            new RuntimeCommand('process:create', array_merge(
+                $params,
+                [ 'alias' => $alias, 'name' => $name, 'flags' => $flags ]
+            ))
         );
 
         return $req->call();
@@ -110,12 +113,15 @@ class ProcessManagerRemote implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function destroyProcess($alias, $flags = Runtime::DESTROY_FORCE_SOFT)
+    public function destroyProcess($alias, $flags = Runtime::DESTROY_FORCE_SOFT, $params = [])
     {
         $req = $this->createRequest(
             $this->channel,
             $this->receiver,
-            new RuntimeCommand('process:destroy', [ 'alias' => $alias, 'flags' => $flags ])
+            new RuntimeCommand('process:destroy', array_merge(
+                $params,
+                [ 'alias' => $alias, 'flags' => $flags ]
+            ))
         );
 
         return $req->call();
@@ -125,12 +131,15 @@ class ProcessManagerRemote implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function startProcess($alias)
+    public function startProcess($alias, $params = [])
     {
         $req = $this->createRequest(
             $this->channel,
             $this->receiver,
-            new RuntimeCommand('process:start', [ 'alias' => $alias ])
+            new RuntimeCommand('process:start', array_merge(
+                $params,
+                [ 'alias' => $alias ]
+            ))
         );
 
         return $req->call();
@@ -140,12 +149,15 @@ class ProcessManagerRemote implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function stopProcess($alias)
+    public function stopProcess($alias, $params = [])
     {
         $req = $this->createRequest(
             $this->channel,
             $this->receiver,
-            new RuntimeCommand('process:stop', [ 'alias' => $alias ])
+            new RuntimeCommand('process:stop', array_merge(
+                $params,
+                [ 'alias' => $alias ]
+            ))
         );
 
         return $req->call();
@@ -155,12 +167,15 @@ class ProcessManagerRemote implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function createProcesses($definitions, $flags = Runtime::CREATE_DEFAULT)
+    public function createProcesses($definitions, $flags = Runtime::CREATE_DEFAULT, $params = [])
     {
         $req = $this->createRequest(
             $this->channel,
             $this->receiver,
-            new RuntimeCommand('processes:create', [ 'definitions' => $definitions, 'flags' => $flags ])
+            new RuntimeCommand('processes:create', array_merge(
+                $params,
+                [ 'definitions' => $definitions, 'flags' => $flags ])
+            )
         );
 
         return $req->call();
@@ -170,12 +185,15 @@ class ProcessManagerRemote implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function destroyProcesses($aliases, $flags = Runtime::DESTROY_FORCE_SOFT)
+    public function destroyProcesses($aliases, $flags = Runtime::DESTROY_FORCE_SOFT, $params = [])
     {
         $req = $this->createRequest(
             $this->channel,
             $this->receiver,
-            new RuntimeCommand('processes:destroy', [ 'aliases' => $aliases, 'flags' => $flags ])
+            new RuntimeCommand('processes:destroy', array_merge(
+                $params,
+                [ 'aliases' => $aliases, 'flags' => $flags ]
+            ))
         );
 
         return $req->call();
@@ -185,12 +203,15 @@ class ProcessManagerRemote implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function startProcesses($aliases)
+    public function startProcesses($aliases, $params = [])
     {
         $req = $this->createRequest(
             $this->channel,
             $this->receiver,
-            new RuntimeCommand('processes:start', [ 'aliases' => $aliases ])
+            new RuntimeCommand('processes:start', array_merge(
+                $params,
+                [ 'aliases' => $aliases ]
+            ))
         );
 
         return $req->call();
@@ -200,12 +221,15 @@ class ProcessManagerRemote implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function stopProcesses($aliases)
+    public function stopProcesses($aliases, $params = [])
     {
         $req = $this->createRequest(
             $this->channel,
             $this->receiver,
-            new RuntimeCommand('processes:stop', [ 'aliases' => $aliases ])
+            new RuntimeCommand('processes:stop', array_merge(
+                $params,
+                [ 'aliases' => $aliases ]
+            ))
         );
 
         return $req->call();

@@ -46,9 +46,11 @@ class RuntimeContinue extends Solver implements SolverInterface
      */
     protected function solver($ex, $params = [])
     {
+        $hash = isset($params['hash']) ? $params['hash'] : '';
+
         return $this->channel->send(
             $params['origin'],
-            new RuntimeCommand('container:continue')
+            new RuntimeCommand('container:continue', [ 'hash' => $hash ])
         );
     }
 }

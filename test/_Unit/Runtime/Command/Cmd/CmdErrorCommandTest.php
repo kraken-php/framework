@@ -20,20 +20,22 @@ class CmdErrorCommandTest extends TCommand
     public function testApiCommand_InvokesProperAction()
     {
         $exception = 'Exception';
-        $message   = 'Reason';
-        $origin    = 'Origin';
+        $message   = 'reason';
+        $origin    = 'origin';
+        $hash      = 'hash';
 
         $command = $this->createCommand();
         $manager = $this->createSupervisor();
         $manager
             ->expects($this->atLeastOnce())
             ->method('solve')
-            ->with($this->isInstanceOf(Exception::class), [ 'origin' => $origin ]);
+            ->with($this->isInstanceOf(Exception::class), [ 'origin' => $origin, 'hash' => $hash ])
+            ->will($this->returnValue(null));
 
         $this->assertSame(
             null,
             $this->callProtectedMethod(
-                $command, 'command', [[ 'exception' => $exception, 'message' => $message, 'origin' => $origin ]]
+                $command, 'command', [[ 'exception' => $exception, 'message' => $message, 'origin' => $origin, 'hash' => $hash ]]
             )
         );
     }

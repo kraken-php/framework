@@ -24,8 +24,10 @@ class RuntimeDestroyHard extends Solver implements SolverInterface
      */
     protected function solver($ex, $params = [])
     {
+        $hash = isset($params['hash']) ? $params['hash'] : '';
+
         $manager = $this->runtime->getManager();
 
-        return $manager->destroyRuntime($params['origin'], Runtime::DESTROY_FORCE_HARD);
+        return $manager->destroyRuntime($params['origin'], Runtime::DESTROY_FORCE_HARD, [ 'hash' => $hash ]);
     }
 }

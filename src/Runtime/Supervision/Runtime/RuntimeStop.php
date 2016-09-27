@@ -23,6 +23,8 @@ class RuntimeStop extends Solver implements SolverInterface
      */
     protected function solver($ex, $params = [])
     {
-        return $this->runtime->getManager()->stopRuntime($params['origin']);
+        $hash = isset($params['hash']) ? $params['hash'] : '';
+
+        return $this->runtime->getManager()->stopRuntime($params['origin'], [ 'hash' => $hash ]);
     }
 }

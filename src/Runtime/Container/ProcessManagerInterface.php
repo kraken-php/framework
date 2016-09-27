@@ -30,11 +30,12 @@ interface ProcessManagerInterface extends AbstractManagerInterface
      * @param string $alias
      * @param string $name
      * @param int $flags
+     * @param mixed[] $params
      * @return PromiseInterface
      * @resolves mixed
      * @rejects Error|Exception|string|null
      */
-    public function createProcess($alias, $name, $flags = Runtime::CREATE_DEFAULT);
+    public function createProcess($alias, $name, $flags = Runtime::CREATE_DEFAULT, $params = []);
 
     /**
      * Destroy existing container.
@@ -48,31 +49,34 @@ interface ProcessManagerInterface extends AbstractManagerInterface
      *
      * @param string $alias
      * @param int $flags
+     * @param mixed[] $params
      * @return PromiseInterface
      * @resolves mixed
      * @rejects Error|Exception|string|null
      */
-    public function destroyProcess($alias, $flags = Runtime::DESTROY_FORCE_SOFT);
+    public function destroyProcess($alias, $flags = Runtime::DESTROY_FORCE_SOFT, $params = []);
 
     /**
      * Start existing process container.
      *
      * @param string $alias
+     * @param mixed[] $params
      * @return PromiseInterface
      * @resolves mixed
      * @rejects Error|Exception|string|null
      */
-    public function startProcess($alias);
+    public function startProcess($alias, $params = []);
 
     /**
      * Stop existing process container.
      *
      * @param string $alias
+     * @param mixed[] $params
      * @return PromiseInterface
      * @resolves mixed
      * @rejects Error|Exception|string|null
      */
-    public function stopProcess($alias);
+    public function stopProcess($alias, $params = []);
 
     /**
      * Create multiple process containers at once.
@@ -81,11 +85,12 @@ interface ProcessManagerInterface extends AbstractManagerInterface
      *
      * @param string[][] $definitions
      * @param int $flags
+     * @param mixed[] $params
      * @return PromiseInterface
      * @resolves mixed
      * @rejects Error|Exception|string|null
      */
-    public function createProcesses($definitions, $flags = Runtime::CREATE_DEFAULT);
+    public function createProcesses($definitions, $flags = Runtime::CREATE_DEFAULT, $params = []);
 
     /**
      * Destroy multiple process containers at once.
@@ -94,31 +99,34 @@ interface ProcessManagerInterface extends AbstractManagerInterface
      *
      * @param string[] $aliases
      * @param int $flags
+     * @param mixed[] $params
      * @return PromiseInterface
      * @resolves mixed
      * @rejects Error|Exception|string|null
      */
-    public function destroyProcesses($aliases, $flags = Runtime::DESTROY_FORCE_SOFT);
+    public function destroyProcesses($aliases, $flags = Runtime::DESTROY_FORCE_SOFT, $params = []);
 
     /**
      * Start multiple process containers at once.
      *
      * @param $aliases
+     * @param mixed[] $params
      * @return PromiseInterface
      * @resolves mixed
      * @rejects Error|Exception|string|null
      */
-    public function startProcesses($aliases);
+    public function startProcesses($aliases, $params = []);
 
     /**
      * Stop multiple process containers at once.
      *
      * @param $aliases
+     * @param mixed[] $params
      * @return PromiseInterface
      * @resolves mixed
      * @rejects Error|Exception|string|null
      */
-    public function stopProcesses($aliases);
+    public function stopProcesses($aliases, $params = []);
 
     /**
      * Get list of existing process containers.

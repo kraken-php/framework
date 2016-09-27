@@ -45,7 +45,7 @@ class ProcessManagerNull implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function createProcess($alias, $name, $flags = Runtime::CREATE_DEFAULT)
+    public function createProcess($alias, $name, $flags = Runtime::CREATE_DEFAULT, $params = [])
     {
         return Promise::doReject(
             new RejectionException("Process [$alias] could not be created.")
@@ -56,7 +56,7 @@ class ProcessManagerNull implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function destroyProcess($alias, $flags = Runtime::DESTROY_FORCE_SOFT)
+    public function destroyProcess($alias, $flags = Runtime::DESTROY_FORCE_SOFT, $params = [])
     {
         return Promise::doResolve(
             "Process [$alias] was not needed to be destroyed, because it had not existed."
@@ -67,7 +67,7 @@ class ProcessManagerNull implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function startProcess($alias)
+    public function startProcess($alias, $params = [])
     {
         return Promise::doReject(
             new RejectionException("Runtime [$alias] could not be started.")
@@ -78,7 +78,7 @@ class ProcessManagerNull implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function stopProcess($alias)
+    public function stopProcess($alias, $params = [])
     {
         return Promise::doReject(
             new RejectionException("Runtime [$alias] could not be stopped.")
@@ -89,7 +89,7 @@ class ProcessManagerNull implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function createProcesses($definitions, $flags = Runtime::CREATE_DEFAULT)
+    public function createProcesses($definitions, $flags = Runtime::CREATE_DEFAULT, $params = [])
     {
         return Promise::doReject(
             new RejectionException("Processes could not be created.")
@@ -100,7 +100,7 @@ class ProcessManagerNull implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function destroyProcesses($aliases, $flags = Runtime::DESTROY_FORCE_SOFT)
+    public function destroyProcesses($aliases, $flags = Runtime::DESTROY_FORCE_SOFT, $params = [])
     {
         return Promise::doResolve(
             "Processes have been destroyed."
@@ -111,7 +111,7 @@ class ProcessManagerNull implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function startProcesses($aliases)
+    public function startProcesses($aliases, $params = [])
     {
         return Promise::doReject(
             new RejectionException("Processes could not be started.")
@@ -122,7 +122,7 @@ class ProcessManagerNull implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
-    public function stopProcesses($aliases)
+    public function stopProcesses($aliases, $params = [])
     {
         return Promise::doReject(
             new RejectionException("Processes could not be stopped.")

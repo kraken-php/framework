@@ -49,10 +49,18 @@ interface RuntimeContainerInterface extends RuntimeContextInterface, CoreGetterA
      * Runtime::STATE_STARTED
      * Runtime::STATE_STOPPED
      * Runtime::STATE_DESTROYED
+     * Runtime::STATE_FAILED
      *
      * @return int
      */
     public function getState();
+
+    /**
+     * Return failure hash if the container is in the failed state or null if it is not.
+     *
+     * @return string|null
+     */
+    public function getHash();
 
     /**
      * Attach beforeCreate event handler.
@@ -177,6 +185,13 @@ interface RuntimeContainerInterface extends RuntimeContextInterface, CoreGetterA
      * @return bool
      */
     public function isStopped();
+
+    /**
+     * Check if container is in failed state.
+     *
+     * @return bool
+     */
+    public function isFailed();
 
     /**
      * Create container.

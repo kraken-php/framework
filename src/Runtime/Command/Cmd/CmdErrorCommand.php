@@ -48,27 +48,31 @@ class CmdErrorCommand extends Command implements CommandInterface
         $class   = $params['exception'];
         $message = $params['message'];
         $origin  = $params['origin'];
+        $hash    = isset($params['hash']) ? $params['hash'] : '';
 
-        $this->handleException($origin, new $class($message));
+        $this->handleException(new $class($message), [
+            'origin' => $origin,
+            'hash'   => $hash
+        ]);
     }
 
     /**
-     * @param string $origin
      * @param Error|Exception $ex
+     * @param mixed[] $params
      */
-    protected function handleException($origin, $ex)
+    protected function handleException($ex, $params)
     {
         try
         {
-            $this->supervisor->solve($ex, [ 'origin' => $origin ]);
+            $this->supervisor->solve($ex, $params);
         }
         catch (Error $ex)
         {
-            $this->supervisor->solve($ex, [ 'origin' => $origin ]);
+            $this->supervisor->solve($ex, $params);
         }
         catch (Exception $ex)
         {
-            $this->supervisor->solve($ex, [ 'origin' => $origin ]);
+            $this->supervisor->solve($ex, $params);
         }
     }
 }

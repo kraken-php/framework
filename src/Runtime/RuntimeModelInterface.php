@@ -45,6 +45,13 @@ interface RuntimeModelInterface extends RuntimeContextInterface, RuntimeManagerA
     public function state();
 
     /**
+     * Return failure hash if the container is in the failed state or null if it is not.
+     *
+     * @return string|null
+     */
+    public function getHash();
+
+    /**
      * Checks if model is in specified state.
      *
      * State might be one of:
@@ -52,6 +59,7 @@ interface RuntimeModelInterface extends RuntimeContextInterface, RuntimeManagerA
      * Runtime::STATE_STARTED
      * Runtime::STATE_STOPPED
      * Runtime::STATE_DESTROYED
+     * Runtime::STATE_FAILED
      *
      * @param int $state
      * @return bool
@@ -85,6 +93,13 @@ interface RuntimeModelInterface extends RuntimeContextInterface, RuntimeManagerA
      * @return bool
      */
     public function isStopped();
+
+    /**
+     * Checks if model is in stopped state.
+     *
+     * @return bool
+     */
+    public function isFailed();
 
     /**
      * Create model.

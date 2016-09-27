@@ -12,6 +12,7 @@ use Kraken\Throwable\Exception\LogicException;
 use Kraken\Throwable\Exception\Runtime\RejectionException;
 use Error;
 use Exception;
+use Kraken\Util\Support\HashSupport;
 use ReflectionClass;
 
 class RuntimeModel implements RuntimeModelInterface
@@ -97,6 +98,11 @@ class RuntimeModel implements RuntimeModelInterface
     protected $eventEmitter;
 
     /**
+     * @var string|null
+     */
+    private $failureHash;
+
+    /**
      * @param string $parent
      * @param string $alias
      * @param string $name
@@ -118,6 +124,7 @@ class RuntimeModel implements RuntimeModelInterface
         $this->loopNextState = self::LOOP_STATE_STOPPED;
         $this->supervisor = null;
         $this->eventEmitter = null;
+        $this->failureHash = null;
     }
 
     /**
@@ -139,6 +146,7 @@ class RuntimeModel implements RuntimeModelInterface
         unset($this->loopNextState);
         unset($this->supervisor);
         unset($this->eventEmitter);
+        unset($this->failureHash);
     }
 
     /**
@@ -317,9 +325,18 @@ class RuntimeModel implements RuntimeModelInterface
      * @override
      * @inheritDoc
      */
+    public function getHash()
+    {
+        return $this->failureHash;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
     public function isState($state)
     {
-        return $this->state === $state;
+        return ($state === Runtime::STATE_FAILED && $this->failureHash !== null) || ($this->state === $state);
     }
 
     /**
@@ -356,6 +373,15 @@ class RuntimeModel implements RuntimeModelInterface
     public function isStopped()
     {
         return $this->isState(Runtime::STATE_STOPPED);
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function isFailed()
+    {
+        return $this->isState(Runtime::STATE_FAILED);
     }
 
     /**
@@ -533,8 +559,18 @@ class RuntimeModel implements RuntimeModelInterface
      */
     public function fail($ex, $params = [])
     {
+        if ($this->failureHash !== null)
+        {
+            return;
+        }
+
         $super = $this->getSupervisor();
         $loop  = $this->getLoop();
+
+        $hash = HashSupport::hash();
+
+        $this->failureHash = $hash;
+        $params['hash'] = $hash;
 
         $this->setLoopState(self::LOOP_STATE_FAILED);
         $loop->onTick(function() use($super, $ex, $params) {
@@ -568,6 +604,7 @@ class RuntimeModel implements RuntimeModelInterface
      */
     public function succeed()
     {
+        $this->failureHash = null;
         $this->setLoopState(self::LOOP_STATE_STARTED);
         $this->startLoop();
     }

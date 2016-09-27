@@ -95,12 +95,15 @@ class ThreadManagerRemote implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function createThread($alias, $name, $flags = Runtime::CREATE_DEFAULT)
+    public function createThread($alias, $name, $flags = Runtime::CREATE_DEFAULT, $params = [])
     {
         $req = $this->createRequest(
             $this->channel,
             $this->receiver,
-            new RuntimeCommand('thread:create', [ 'alias' => $alias, 'name' => $name, 'flags' => $flags ])
+            new RuntimeCommand('thread:create', array_merge(
+                $params,
+                [ 'alias' => $alias, 'name' => $name, 'flags' => $flags ]
+            ))
         );
 
         return $req->call();
@@ -110,12 +113,15 @@ class ThreadManagerRemote implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function destroyThread($alias, $flags = Runtime::DESTROY_FORCE_SOFT)
+    public function destroyThread($alias, $flags = Runtime::DESTROY_FORCE_SOFT, $params = [])
     {
         $req = $this->createRequest(
             $this->channel,
             $this->receiver,
-            new RuntimeCommand('thread:destroy', [ 'alias' => $alias, 'flags' => $flags ])
+            new RuntimeCommand('thread:destroy', array_merge(
+                $params,
+                [ 'alias' => $alias, 'flags' => $flags ]
+            ))
         );
 
         return $req->call();
@@ -125,12 +131,15 @@ class ThreadManagerRemote implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function startThread($alias)
+    public function startThread($alias, $params = [])
     {
         $req = $this->createRequest(
             $this->channel,
             $this->receiver,
-            new RuntimeCommand('thread:start', [ 'alias' => $alias ])
+            new RuntimeCommand('thread:start', array_merge(
+                $params,
+                [ 'alias' => $alias ]
+            ))
         );
 
         return $req->call();
@@ -140,12 +149,15 @@ class ThreadManagerRemote implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function stopThread($alias)
+    public function stopThread($alias, $params = [])
     {
         $req = $this->createRequest(
             $this->channel,
             $this->receiver,
-            new RuntimeCommand('thread:stop', [ 'alias' => $alias ])
+            new RuntimeCommand('thread:stop', array_merge(
+                $params,
+                [ 'alias' => $alias ]
+            ))
         );
 
         return $req->call();
@@ -155,12 +167,15 @@ class ThreadManagerRemote implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function createThreads($definitions, $flags = Runtime::CREATE_DEFAULT)
+    public function createThreads($definitions, $flags = Runtime::CREATE_DEFAULT, $params = [])
     {
         $req = $this->createRequest(
             $this->channel,
             $this->receiver,
-            new RuntimeCommand('threads:create', [ 'definitions' => $definitions, 'flags' => $flags ])
+            new RuntimeCommand('threads:create', array_merge(
+                $params,
+                [ 'definitions' => $definitions, 'flags' => $flags ]
+            ))
         );
 
         return $req->call();
@@ -170,12 +185,15 @@ class ThreadManagerRemote implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function destroyThreads($aliases, $flags = Runtime::DESTROY_FORCE_SOFT)
+    public function destroyThreads($aliases, $flags = Runtime::DESTROY_FORCE_SOFT, $params = [])
     {
         $req = $this->createRequest(
             $this->channel,
             $this->receiver,
-            new RuntimeCommand('threads:destroy', [ 'aliases' => $aliases, 'flags' => $flags ])
+            new RuntimeCommand('threads:destroy', array_merge(
+                $params,
+                [ 'aliases' => $aliases, 'flags' => $flags ]
+            ))
         );
 
         return $req->call();
@@ -185,12 +203,15 @@ class ThreadManagerRemote implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function startThreads($aliases)
+    public function startThreads($aliases, $params = [])
     {
         $req = $this->createRequest(
             $this->channel,
             $this->receiver,
-            new RuntimeCommand('threads:start', [ 'aliases' => $aliases ])
+            new RuntimeCommand('threads:start', array_merge(
+                $params,
+                [ 'aliases' => $aliases ]
+            ))
         );
 
         return $req->call();
@@ -200,12 +221,15 @@ class ThreadManagerRemote implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function stopThreads($aliases)
+    public function stopThreads($aliases, $params = [])
     {
         $req = $this->createRequest(
             $this->channel,
             $this->receiver,
-            new RuntimeCommand('threads:stop', [ 'aliases' => $aliases ])
+            new RuntimeCommand('threads:stop', array_merge(
+                $params,
+                [ 'aliases' => $aliases ]
+            ))
         );
 
         return $req->call();

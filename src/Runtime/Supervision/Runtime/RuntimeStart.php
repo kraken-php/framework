@@ -23,6 +23,8 @@ class RuntimeStart extends Solver implements SolverInterface
      */
     protected function solver($ex, $params = [])
     {
-        return $this->runtime->getManager()->startRuntime($params['origin']);
+        $hash = isset($params['hash']) ? $params['hash'] : '';
+
+        return $this->runtime->getManager()->startRuntime($params['origin'], [ 'hash' => $hash ]);
     }
 }

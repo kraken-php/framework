@@ -112,6 +112,7 @@ class RuntimeManagerTest extends TUnit
         $manager = $this->createRuntimeManager();
         $alias = 'alias';
         $flags = 'flags';
+        $params = [ 'param' => 'value' ];
 
         $thread = $manager->getThread();
         $thread
@@ -121,7 +122,7 @@ class RuntimeManagerTest extends TUnit
         $thread
             ->expects($this->once())
             ->method('destroyThread')
-            ->with($alias, $flags)
+            ->with($alias, $flags, $params)
             ->will($this->returnValue(new PromiseFulfilled()));
 
         $callable = $this->createCallableMock();
@@ -130,7 +131,7 @@ class RuntimeManagerTest extends TUnit
             ->method('__invoke');
 
         $manager
-            ->destroyRuntime($alias, $flags)
+            ->destroyRuntime($alias, $flags, $params)
             ->then(
                 $callable
             );
@@ -144,6 +145,7 @@ class RuntimeManagerTest extends TUnit
         $manager = $this->createRuntimeManager();
         $alias = 'alias';
         $flags = 'flags';
+        $params = [ 'param' => 'value' ];
 
         $thread = $manager->getThread();
         $thread
@@ -159,7 +161,7 @@ class RuntimeManagerTest extends TUnit
         $process
             ->expects($this->once())
             ->method('destroyProcess')
-            ->with($alias, $flags)
+            ->with($alias, $flags, $params)
             ->will($this->returnValue(new PromiseFulfilled()));
 
         $callable = $this->createCallableMock();
@@ -168,7 +170,7 @@ class RuntimeManagerTest extends TUnit
             ->method('__invoke');
 
         $manager
-            ->destroyRuntime($alias, $flags)
+            ->destroyRuntime($alias, $flags, $params)
             ->then(
                 $callable
             );
@@ -182,6 +184,7 @@ class RuntimeManagerTest extends TUnit
         $manager = $this->createRuntimeManager();
         $alias = 'alias';
         $flags = 'flags';
+        $params = [ 'param' => 'value' ];
 
         $thread = $manager->getThread();
         $thread
@@ -202,7 +205,7 @@ class RuntimeManagerTest extends TUnit
             ->with($this->isInstanceOf(ResourceUndefinedException::class));
 
         $manager
-            ->destroyRuntime($alias, $flags)
+            ->destroyRuntime($alias, $flags, $params)
             ->then(
                 null,
                 $callable
@@ -216,6 +219,7 @@ class RuntimeManagerTest extends TUnit
     {
         $manager = $this->createRuntimeManager();
         $alias = 'alias';
+        $params = [ 'param' => 'value' ];
 
         $thread = $manager->getThread();
         $thread
@@ -225,7 +229,7 @@ class RuntimeManagerTest extends TUnit
         $thread
             ->expects($this->once())
             ->method('startThread')
-            ->with($alias)
+            ->with($alias, $params)
             ->will($this->returnValue(new PromiseFulfilled()));
 
         $callable = $this->createCallableMock();
@@ -234,7 +238,7 @@ class RuntimeManagerTest extends TUnit
             ->method('__invoke');
 
         $manager
-            ->startRuntime($alias)
+            ->startRuntime($alias, $params)
             ->then(
                 $callable
             );
@@ -247,6 +251,7 @@ class RuntimeManagerTest extends TUnit
     {
         $manager = $this->createRuntimeManager();
         $alias = 'alias';
+        $params = [ 'param' => 'value' ];
 
         $thread = $manager->getThread();
         $thread
@@ -262,7 +267,7 @@ class RuntimeManagerTest extends TUnit
         $process
             ->expects($this->once())
             ->method('startProcess')
-            ->with($alias)
+            ->with($alias, $params)
             ->will($this->returnValue(new PromiseFulfilled()));
 
         $callable = $this->createCallableMock();
@@ -271,7 +276,7 @@ class RuntimeManagerTest extends TUnit
             ->method('__invoke');
 
         $manager
-            ->startRuntime($alias)
+            ->startRuntime($alias, $params)
             ->then(
                 $callable
             );
@@ -284,6 +289,7 @@ class RuntimeManagerTest extends TUnit
     {
         $manager = $this->createRuntimeManager();
         $alias = 'alias';
+        $params = [ 'param' => 'value' ];
 
         $thread = $manager->getThread();
         $thread
@@ -304,7 +310,7 @@ class RuntimeManagerTest extends TUnit
             ->with($this->isInstanceOf(ResourceUndefinedException::class));
 
         $manager
-            ->startRuntime($alias)
+            ->startRuntime($alias, $params)
             ->then(
                 null,
                 $callable
@@ -318,6 +324,7 @@ class RuntimeManagerTest extends TUnit
     {
         $manager = $this->createRuntimeManager();
         $alias = 'alias';
+        $params = [ 'param' => 'value' ];
 
         $thread = $manager->getThread();
         $thread
@@ -327,7 +334,7 @@ class RuntimeManagerTest extends TUnit
         $thread
             ->expects($this->once())
             ->method('stopThread')
-            ->with($alias)
+            ->with($alias, $params)
             ->will($this->returnValue(new PromiseFulfilled()));
 
         $callable = $this->createCallableMock();
@@ -336,7 +343,7 @@ class RuntimeManagerTest extends TUnit
             ->method('__invoke');
 
         $manager
-            ->stopRuntime($alias)
+            ->stopRuntime($alias, $params)
             ->then(
                 $callable
             );
@@ -349,6 +356,7 @@ class RuntimeManagerTest extends TUnit
     {
         $manager = $this->createRuntimeManager();
         $alias = 'alias';
+        $params = [ 'param' => 'value' ];
 
         $thread = $manager->getThread();
         $thread
@@ -364,7 +372,7 @@ class RuntimeManagerTest extends TUnit
         $process
             ->expects($this->once())
             ->method('stopProcess')
-            ->with($alias)
+            ->with($alias, $params)
             ->will($this->returnValue(new PromiseFulfilled()));
 
         $callable = $this->createCallableMock();
@@ -373,7 +381,7 @@ class RuntimeManagerTest extends TUnit
             ->method('__invoke');
 
         $manager
-            ->stopRuntime($alias)
+            ->stopRuntime($alias, $params)
             ->then(
                 $callable
             );
@@ -386,6 +394,7 @@ class RuntimeManagerTest extends TUnit
     {
         $manager = $this->createRuntimeManager();
         $alias = 'alias';
+        $params = [ 'param' => 'value' ];
 
         $thread = $manager->getThread();
         $thread
@@ -406,7 +415,7 @@ class RuntimeManagerTest extends TUnit
             ->with($this->isInstanceOf(ResourceUndefinedException::class));
 
         $manager
-            ->stopRuntime($alias)
+            ->stopRuntime($alias, $params)
             ->then(
                 null,
                 $callable
@@ -421,17 +430,18 @@ class RuntimeManagerTest extends TUnit
         $expected = [ $alias1 = 'alias1', $alias2 = 'alias2' ];
         $aliases  = [];
         $flags = 'flags';
+        $params = [ 'param' => 'value' ];
 
         $manager = $this->createRuntimeManager([ 'destroyRuntime' ]);
         $manager
             ->expects($this->twice())
             ->method('destroyRuntime')
-            ->with($this->isType('string'), $flags)
+            ->with($this->isType('string'), $flags, $params)
             ->will($this->returnCallback(function($alias, $flags) use(&$aliases) {
                 $aliases[] = $alias;
             }));
 
-        $manager->destroyRuntimes($expected, $flags);
+        $manager->destroyRuntimes($expected, $flags, $params);
 
         $this->assertSame($expected, $aliases);
     }
@@ -443,17 +453,18 @@ class RuntimeManagerTest extends TUnit
     {
         $expected = [ $alias1 = 'alias1', $alias2 = 'alias2' ];
         $aliases  = [];
+        $params = [ 'param' => 'value' ];
 
         $manager = $this->createRuntimeManager([ 'startRuntime' ]);
         $manager
             ->expects($this->twice())
             ->method('startRuntime')
-            ->with($this->isType('string'))
+            ->with($this->isType('string'), $params)
             ->will($this->returnCallback(function($alias) use(&$aliases) {
                 $aliases[] = $alias;
             }));
 
-        $manager->startRuntimes($expected);
+        $manager->startRuntimes($expected, $params);
 
         $this->assertSame($expected, $aliases);
     }
@@ -465,17 +476,18 @@ class RuntimeManagerTest extends TUnit
     {
         $expected = [ $alias1 = 'alias1', $alias2 = 'alias2' ];
         $aliases  = [];
+        $params = [ 'param' => 'value' ];
 
         $manager = $this->createRuntimeManager([ 'stopRuntime' ]);
         $manager
             ->expects($this->twice())
             ->method('stopRuntime')
-            ->with($this->isType('string'))
+            ->with($this->isType('string'), $params)
             ->will($this->returnCallback(function($alias) use(&$aliases) {
                 $aliases[] = $alias;
             }));
 
-        $manager->stopRuntimes($expected);
+        $manager->stopRuntimes($expected, $params);
 
         $this->assertSame($expected, $aliases);
     }
@@ -566,16 +578,17 @@ class RuntimeManagerTest extends TUnit
         $manager = $this->createRuntimeManager();
         $alias = 'alias';
         $flags = 'flags';
+        $params = [ 'param' => 'value' ];
         $promise = new Promise();
 
         $process = $manager->getProcess();
         $process
             ->expects($this->once())
             ->method('createProcess')
-            ->with($alias, $flags)
+            ->with($alias, $flags, $params)
             ->will($this->returnValue($promise));
 
-        $this->assertSame($promise, $manager->createProcess($alias, $flags));
+        $this->assertSame($promise, $manager->createProcess($alias, $flags, $params));
     }
 
     /**
@@ -585,16 +598,17 @@ class RuntimeManagerTest extends TUnit
     {
         $manager = $this->createRuntimeManager();
         $alias = 'alias';
+        $params = [ 'param' => 'value' ];
         $promise = new Promise();
 
         $process = $manager->getProcess();
         $process
             ->expects($this->once())
             ->method('destroyProcess')
-            ->with($alias)
+            ->with($alias, $params)
             ->will($this->returnValue($promise));
 
-        $this->assertSame($promise, $manager->destroyProcess($alias));
+        $this->assertSame($promise, $manager->destroyProcess($alias, $params));
     }
 
     /**
@@ -604,16 +618,17 @@ class RuntimeManagerTest extends TUnit
     {
         $manager = $this->createRuntimeManager();
         $alias = 'alias';
+        $params = [ 'param' => 'value' ];
         $promise = new Promise();
 
         $process = $manager->getProcess();
         $process
             ->expects($this->once())
             ->method('startProcess')
-            ->with($alias)
+            ->with($alias, $params)
             ->will($this->returnValue($promise));
 
-        $this->assertSame($promise, $manager->startProcess($alias));
+        $this->assertSame($promise, $manager->startProcess($alias, $params));
     }
 
     /**
@@ -623,16 +638,17 @@ class RuntimeManagerTest extends TUnit
     {
         $manager = $this->createRuntimeManager();
         $alias = 'alias';
+        $params = [ 'param' => 'value' ];
         $promise = new Promise();
 
         $process = $manager->getProcess();
         $process
             ->expects($this->once())
             ->method('stopProcess')
-            ->with($alias)
+            ->with($alias, $params)
             ->will($this->returnValue($promise));
 
-        $this->assertSame($promise, $manager->stopProcess($alias));
+        $this->assertSame($promise, $manager->stopProcess($alias, $params));
     }
 
 
@@ -644,16 +660,17 @@ class RuntimeManagerTest extends TUnit
         $manager = $this->createRuntimeManager();
         $aliases = [ 'alias1', 'alias2' ];
         $flags = 'flags';
+        $params = [ 'param' => 'value' ];
         $promise = new Promise();
 
         $process = $manager->getProcess();
         $process
             ->expects($this->once())
             ->method('createProcesses')
-            ->with($aliases, $flags)
+            ->with($aliases, $flags, $params)
             ->will($this->returnValue($promise));
 
-        $this->assertSame($promise, $manager->createProcesses($aliases, $flags));
+        $this->assertSame($promise, $manager->createProcesses($aliases, $flags, $params));
     }
 
     /**
@@ -663,16 +680,17 @@ class RuntimeManagerTest extends TUnit
     {
         $manager = $this->createRuntimeManager();
         $aliases = [ 'alias1', 'alias2' ];
+        $params = [ 'param' => 'value' ];
         $promise = new Promise();
 
         $process = $manager->getProcess();
         $process
             ->expects($this->once())
             ->method('destroyProcesses')
-            ->with($aliases)
+            ->with($aliases, $params)
             ->will($this->returnValue($promise));
 
-        $this->assertSame($promise, $manager->destroyProcesses($aliases));
+        $this->assertSame($promise, $manager->destroyProcesses($aliases, $params));
     }
 
     /**
@@ -682,16 +700,17 @@ class RuntimeManagerTest extends TUnit
     {
         $manager = $this->createRuntimeManager();
         $aliases = [ 'alias1', 'alias2' ];
+        $params = [ 'param' => 'value' ];
         $promise = new Promise();
 
         $process = $manager->getProcess();
         $process
             ->expects($this->once())
             ->method('startProcesses')
-            ->with($aliases)
+            ->with($aliases, $params)
             ->will($this->returnValue($promise));
 
-        $this->assertSame($promise, $manager->startProcesses($aliases));
+        $this->assertSame($promise, $manager->startProcesses($aliases, $params));
     }
 
     /**
@@ -701,16 +720,17 @@ class RuntimeManagerTest extends TUnit
     {
         $manager = $this->createRuntimeManager();
         $aliases = [ 'alias1', 'alias2' ];
+        $params = [ 'param' => 'value' ];
         $promise = new Promise();
 
         $process = $manager->getProcess();
         $process
             ->expects($this->once())
             ->method('stopProcesses')
-            ->with($aliases)
+            ->with($aliases, $params)
             ->will($this->returnValue($promise));
 
-        $this->assertSame($promise, $manager->stopProcesses($aliases));
+        $this->assertSame($promise, $manager->stopProcesses($aliases, $params));
     }
 
     /**
@@ -776,16 +796,17 @@ class RuntimeManagerTest extends TUnit
         $manager = $this->createRuntimeManager();
         $alias = 'alias';
         $flags = 'flags';
+        $params = [ 'param' => 'value' ];
         $promise = new Promise();
 
         $thread = $manager->getThread();
         $thread
             ->expects($this->once())
             ->method('createThread')
-            ->with($alias, $flags)
+            ->with($alias, $flags, $params)
             ->will($this->returnValue($promise));
 
-        $this->assertSame($promise, $manager->createThread($alias, $flags));
+        $this->assertSame($promise, $manager->createThread($alias, $flags, $params));
     }
 
     /**
@@ -795,16 +816,17 @@ class RuntimeManagerTest extends TUnit
     {
         $manager = $this->createRuntimeManager();
         $alias = 'alias';
+        $params = [ 'param' => 'value' ];
         $promise = new Promise();
 
         $thread = $manager->getThread();
         $thread
             ->expects($this->once())
             ->method('destroyThread')
-            ->with($alias)
+            ->with($alias, $params)
             ->will($this->returnValue($promise));
 
-        $this->assertSame($promise, $manager->destroyThread($alias));
+        $this->assertSame($promise, $manager->destroyThread($alias, $params));
     }
 
     /**
@@ -814,16 +836,17 @@ class RuntimeManagerTest extends TUnit
     {
         $manager = $this->createRuntimeManager();
         $alias = 'alias';
+        $params = [ 'param' => 'value' ];
         $promise = new Promise();
 
         $thread = $manager->getThread();
         $thread
             ->expects($this->once())
             ->method('startThread')
-            ->with($alias)
+            ->with($alias, $params)
             ->will($this->returnValue($promise));
 
-        $this->assertSame($promise, $manager->startThread($alias));
+        $this->assertSame($promise, $manager->startThread($alias, $params));
     }
 
     /**
@@ -833,100 +856,105 @@ class RuntimeManagerTest extends TUnit
     {
         $manager = $this->createRuntimeManager();
         $alias = 'alias';
+        $params = [ 'param' => 'value' ];
         $promise = new Promise();
 
         $thread = $manager->getThread();
         $thread
             ->expects($this->once())
             ->method('stopThread')
-            ->with($alias)
+            ->with($alias, $params)
             ->will($this->returnValue($promise));
 
-        $this->assertSame($promise, $manager->stopThread($alias));
+        $this->assertSame($promise, $manager->stopThread($alias, $params));
     }
 
 
     /**
      *
      */
-    public function testApiCreateThreades_CallsModelMethod()
+    public function testApiCreateThreads_CallsModelMethod()
     {
         $manager = $this->createRuntimeManager();
         $aliases = [ 'alias1', 'alias2' ];
         $flags = 'flags';
+        $params = [ 'param' => 'value' ];
         $promise = new Promise();
 
         $thread = $manager->getThread();
         $thread
             ->expects($this->once())
             ->method('createThreads')
-            ->with($aliases, $flags)
+            ->with($aliases, $flags, $params)
             ->will($this->returnValue($promise));
 
-        $this->assertSame($promise, $manager->createThreads($aliases, $flags));
+        $this->assertSame($promise, $manager->createThreads($aliases, $flags, $params));
     }
 
     /**
      *
      */
-    public function testApiDestroyThreades_CallsModelMethod()
+    public function testApiDestroyThreads_CallsModelMethod()
     {
         $manager = $this->createRuntimeManager();
         $aliases = [ 'alias1', 'alias2' ];
+        $params = [ 'param' => 'value' ];
         $promise = new Promise();
 
         $thread = $manager->getThread();
         $thread
             ->expects($this->once())
             ->method('destroyThreads')
-            ->with($aliases)
+            ->with($aliases, $params)
             ->will($this->returnValue($promise));
 
-        $this->assertSame($promise, $manager->destroyThreads($aliases));
+        $this->assertSame($promise, $manager->destroyThreads($aliases, $params));
     }
 
     /**
      *
      */
-    public function testApiStartThreades_CallsModelMethod()
+    public function testApiStartThreads_CallsModelMethod()
     {
         $manager = $this->createRuntimeManager();
         $aliases = [ 'alias1', 'alias2' ];
+        $params = [ 'param' => 'value' ];
         $promise = new Promise();
 
         $thread = $manager->getThread();
         $thread
             ->expects($this->once())
             ->method('startThreads')
-            ->with($aliases)
+            ->with($aliases, $params)
             ->will($this->returnValue($promise));
 
-        $this->assertSame($promise, $manager->startThreads($aliases));
+        $this->assertSame($promise, $manager->startThreads($aliases, $params));
     }
 
     /**
      *
      */
-    public function testApiStopThreades_CallsModelMethod()
+    public function testApiStopThreads_CallsModelMethod()
     {
         $manager = $this->createRuntimeManager();
         $aliases = [ 'alias1', 'alias2' ];
+        $params = [ 'param' => 'value' ];
         $promise = new Promise();
 
         $thread = $manager->getThread();
         $thread
             ->expects($this->once())
             ->method('stopThreads')
-            ->with($aliases)
+            ->with($aliases, $params)
             ->will($this->returnValue($promise));
 
-        $this->assertSame($promise, $manager->stopThreads($aliases));
+        $this->assertSame($promise, $manager->stopThreads($aliases, $params));
     }
 
     /**
      *
      */
-    public function testApiGetThreades_CallsModelMethod()
+    public function testApiGetThreads_CallsModelMethod()
     {
         $manager = $this->createRuntimeManager();
         $promise = new Promise();
@@ -943,7 +971,7 @@ class RuntimeManagerTest extends TUnit
     /**
      *
      */
-    public function testApiFlushThreades_CallsModelMethod()
+    public function testApiFlushThreads_CallsModelMethod()
     {
         $manager = $this->createRuntimeManager();
         $flags = 'flags';

@@ -93,4 +93,9 @@ abstract class Runtime
      * @var int
      */
     const STATE_STOPPED = 8;
+
+    /**
+     * @var int
+     */
+    const STATE_FAILED = 16;
 }

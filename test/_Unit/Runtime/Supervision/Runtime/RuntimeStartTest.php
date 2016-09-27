@@ -22,7 +22,8 @@ class RuntimeStartTest extends TSolver
     {
         $ex = new Exception();
 
-        $origin  = 'origin';
+        $origin = 'origin';
+        $hash   = 'hash';
         $result = new StdClass;
 
         $solver  = $this->createSolver();
@@ -30,13 +31,13 @@ class RuntimeStartTest extends TSolver
         $manager
             ->expects($this->once())
             ->method('startRuntime')
-            ->with($origin)
+            ->with($origin, [ 'hash' => $hash ])
             ->will($this->returnValue($result));
 
         $this->assertSame(
             $result,
             $this->callProtectedMethod(
-                $solver, 'solver', [ $ex, [ 'origin' => $origin ] ]
+                $solver, 'solver', [ $ex, [ 'origin' => $origin, 'hash' => $hash ] ]
             )
         );
     }

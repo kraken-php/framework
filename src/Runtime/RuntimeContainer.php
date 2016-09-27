@@ -140,6 +140,15 @@ class RuntimeContainer extends EventEmitter implements RuntimeContainerInterface
      * @override
      * @inheritDoc
      */
+    public function getHash()
+    {
+        return $this->model->getHash();
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
     public function onBeforeCreate(callable $callback)
     {
         return $this->on('beforeCreate', $callback);
@@ -278,6 +287,15 @@ class RuntimeContainer extends EventEmitter implements RuntimeContainerInterface
     public function isStopped()
     {
         return $this->model->isStopped();
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function isFailed()
+    {
+        return $this->model->isFailed();
     }
 
     /**

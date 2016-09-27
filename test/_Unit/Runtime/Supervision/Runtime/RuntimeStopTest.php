@@ -22,7 +22,8 @@ class RuntimeStopTest extends TSolver
     {
         $ex = new Exception();
 
-        $origin  = 'origin';
+        $origin = 'origin';
+        $hash   = 'hash';
         $result = new StdClass;
 
         $solver  = $this->createSolver();
@@ -36,7 +37,7 @@ class RuntimeStopTest extends TSolver
         $this->assertSame(
             $result,
             $this->callProtectedMethod(
-                $solver, 'solver', [ $ex, [ 'origin' => $origin ] ]
+                $solver, 'solver', [ $ex, [ 'origin' => $origin, 'hash' => $hash ] ]
             )
         );
     }

@@ -78,8 +78,8 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
         $baseSupervisor   = $container->make('Kraken\Runtime\Supervision\SupervisorBaseInterface');
         $remoteSupervisor = $container->make('Kraken\Runtime\Supervision\SupervisorRemoteInterface');
 
-        $this->bootBaseSupervisor($baseSupervisor, $config);
-        $this->bootRemoteSupervisor($remoteSupervisor, $config);
+        $this->bootBaseSupervision($baseSupervisor, $config);
+        $this->bootRemoteSupervision($remoteSupervisor, $config);
     }
 
     /**
@@ -87,7 +87,7 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
      * @param ConfigInterface $config
      * @throws Exception
      */
-    private function bootBaseSupervisor(SupervisorInterface $supervisor, ConfigInterface $config)
+    private function bootBaseSupervision(SupervisorInterface $supervisor, ConfigInterface $config)
     {
         $handlers = (array) $config->get('supervision.base.handlers');
 
@@ -95,8 +95,8 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
             $this->systemException('ChildUnresponsiveException')   => [ 'RuntimeRecreate', 'ContainerContinue' ],
             $this->systemException('ParentUnresponsiveException')  => [ 'ContainerDestroy' ],
             $this->systemError('FatalError')                       => [ 'CmdLog', 'ContainerDestroy' ],
-            'Error'                                                => [ 'CmdLog', 'ContainerContinue' ],
-            'Exception'                                            => [ 'CmdLog', 'ContainerContinue' ]
+            'Error'                                                => [ 'CmdLog', 'CmdEscalate' ],
+            'Exception'                                            => [ 'CmdLog', 'CmdEscalate' ]
         ];
 
         $plugins = (array) $config->get('supervision.base.plugins');
@@ -109,14 +109,14 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
      * @param ConfigInterface $config
      * @throws Exception
      */
-    private function bootRemoteSupervisor(SupervisorInterface $supervisor, ConfigInterface $config)
+    private function bootRemoteSupervision(SupervisorInterface $supervisor, ConfigInterface $config)
     {
         $handlers = (array) $config->get('supervision.remote.handlers');
 
         $default = [
-            $this->systemError('FatalError')    => 'ContainerDestroy',
-            'Error'                             => 'ContainerContinue',
-            'Exception'                         => 'ContainerContinue'
+            $this->systemError('FatalError')    => 'RuntimeDestroyHard',
+            'Error'                             => 'RuntimeContinue',
+            'Exception'                         => 'RuntimeContinue'
         ];
 
         $plugins = (array) $config->get('supervision.remote.plugins');

@@ -45,7 +45,7 @@ class ThreadManagerNull implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function createThread($alias, $name, $flags = Runtime::CREATE_DEFAULT)
+    public function createThread($alias, $name, $flags = Runtime::CREATE_DEFAULT, $params = [])
     {
         return Promise::doReject(
             new RejectionException("Thread [$alias] could not be created.")
@@ -56,7 +56,7 @@ class ThreadManagerNull implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function destroyThread($alias, $flags = Runtime::DESTROY_FORCE_SOFT)
+    public function destroyThread($alias, $flags = Runtime::DESTROY_FORCE_SOFT, $params = [])
     {
         return Promise::doResolve(
             "Thread [$alias] was not needed to be destroyed, because it had not existed."
@@ -67,7 +67,7 @@ class ThreadManagerNull implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function startThread($alias)
+    public function startThread($alias, $params = [])
     {
         return Promise::doReject(
             new RejectionException("Runtime [$alias] could not be started.")
@@ -78,7 +78,7 @@ class ThreadManagerNull implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function stopThread($alias)
+    public function stopThread($alias, $params = [])
     {
         return Promise::doReject(
             new RejectionException("Runtime [$alias] could not be stopped.")
@@ -89,7 +89,7 @@ class ThreadManagerNull implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function createThreads($definitions, $flags = Runtime::CREATE_DEFAULT)
+    public function createThreads($definitions, $flags = Runtime::CREATE_DEFAULT, $params = [])
     {
         return Promise::doReject(
             new RejectionException("Threads could not be created.")
@@ -100,7 +100,7 @@ class ThreadManagerNull implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function destroyThreads($aliases, $flags = Runtime::DESTROY_FORCE_SOFT)
+    public function destroyThreads($aliases, $flags = Runtime::DESTROY_FORCE_SOFT, $params = [])
     {
         return Promise::doResolve(
             "Threads have been destroyed."
@@ -111,7 +111,7 @@ class ThreadManagerNull implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function startThreads($aliases)
+    public function startThreads($aliases, $params = [])
     {
         return Promise::doReject(
             new RejectionException("Threads could not be started.")
@@ -122,7 +122,7 @@ class ThreadManagerNull implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
-    public function stopThreads($aliases)
+    public function stopThreads($aliases, $params = [])
     {
         return Promise::doReject(
             new RejectionException("Threads could not be stopped.")

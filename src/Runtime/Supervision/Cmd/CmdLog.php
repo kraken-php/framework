@@ -26,7 +26,7 @@ class CmdLog extends Solver implements SolverInterface
             $this->context['level'] = Logger::EMERGENCY;
         }
 
-        $this->logger = $this->runtime->getCore()->make('Kraken\Log\LoggerInterface');
+        $this->logger = $this->runtime->getCore()->make(LoggerInterface::class);
     }
 
     /**

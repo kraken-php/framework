@@ -2,6 +2,7 @@
 
 namespace Kraken\Runtime\Supervision\Cmd;
 
+use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\Extra\Request;
 use Kraken\Runtime\Supervision\Solver;
@@ -12,6 +13,13 @@ use Exception;
 
 class CmdEscalate extends Solver implements SolverInterface
 {
+    /**
+     * @var string[]
+     */
+    protected $requires = [
+        'hash'
+    ];
+
     /**
      * @var ChannelInterface
      */
@@ -50,7 +58,11 @@ class CmdEscalate extends Solver implements SolverInterface
         $req = $this->createRequest(
             $this->channel,
             $this->parent,
-            new RuntimeCommand('cmd:error', [ 'exception' => get_class($ex), 'message' => $ex->getMessage() ])
+            new RuntimeCommand('cmd:error', [
+                'exception' => get_class($ex),
+                'message'   => $ex->getMessage(),
+                'hash'      => $params['hash']
+            ])
         );
 
         return $req->call();

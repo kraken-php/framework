@@ -23,7 +23,8 @@ class RuntimeContinueTest extends TSolver
     {
         $ex = new Exception();
 
-        $origin  = 'origin';
+        $origin = 'origin';
+        $hash   = 'hash';
         $result = new StdClass;
 
         $solver  = $this->createSolver();
@@ -37,7 +38,7 @@ class RuntimeContinueTest extends TSolver
         $this->assertSame(
             $result,
             $this->callProtectedMethod(
-                $solver, 'solver', [ $ex, [ 'origin' => $origin ] ]
+                $solver, 'solver', [ $ex, [ 'origin' => $origin, 'hash' => $hash ] ]
             )
         );
     }
@@ -45,7 +46,7 @@ class RuntimeContinueTest extends TSolver
     /**
      *
      */
-    public function testApisolve_ThrowsException_WhenParamOriginDoesNotExist()
+    public function testApiSolve_ThrowsException_WhenParamOriginDoesNotExist()
     {
         $solver = $this->createSolver();
 

@@ -496,6 +496,47 @@ class RuntimeModelTest extends TUnit
     /**
      *
      */
+    public function testApiIsFailed_ReturnsFalse_WhenStateDoesNotMatch()
+    {
+        $runtime = $this->createModel();
+        $this->assertFalse($runtime->isFailed());
+    }
+
+    /**
+     *
+     */
+    public function testApiIsFailed_ReturnsTrue_WhenStateDoesMatch()
+    {
+        $ex = new Exception;
+        $params = [];
+
+        $super = $this->getMock(Supervisor::class, [], [], '', false);
+        $loop  = $this->getMock(Loop::class, [], [], '', false);
+        $loop
+            ->expects($this->once())
+            ->method('onTick');
+
+        $runtime = $this->createModel([], [ 'getSupervisor', 'getLoop', 'setLoopState' ]);
+        $runtime
+            ->expects($this->once())
+            ->method('getSupervisor')
+            ->will($this->returnValue($super));
+        $runtime
+            ->expects($this->once())
+            ->method('getLoop')
+            ->will($this->returnValue($loop));
+        $runtime
+            ->expects($this->once())
+            ->method('setLoopState');
+
+        $runtime->fail($ex, $params);
+
+        $this->assertTrue($runtime->isFailed());
+    }
+
+    /**
+     *
+     */
     public function testApiCreate_RejectsPromise_WhenInvokedFromStateOtherThanCreatedOrDestroyed()
     {
         $runtime = $this->createModel();
@@ -1057,9 +1098,9 @@ class RuntimeModelTest extends TUnit
 
         $super = $this->getMock(Supervisor::class, [], [], '', false);
         $super
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('solve')
-            ->with($ex, $params)
+            ->with($ex, $this->isType('array'))
             ->will($this->returnValue(new PromiseFulfilled()));
 
         $loop = $this->getMock(Loop::class, [], [], '', false);
@@ -1125,6 +1166,36 @@ class RuntimeModelTest extends TUnit
             ->with(RuntimeModel::LOOP_STATE_FAILED);
 
         $runtime->fail($ex1, $params);
+    }
+
+    /**
+     *
+     */
+    public function testApiFail_CannotBeCalledMoreThanOnceInRow()
+    {
+        $ex = new Exception();
+        $params = [];
+
+        $super = $this->getMock(Supervisor::class, [], [], '', false);
+        $loop  = $this->getMock(Loop::class, [], [], '', false);
+        $loop
+            ->expects($this->once())
+            ->method('onTick');
+        $runtime = $this->createModel([], [ 'getSupervisor', 'getLoop', 'setLoopState' ]);
+        $runtime
+            ->expects($this->once())
+            ->method('getSupervisor')
+            ->will($this->returnValue($super));
+        $runtime
+            ->expects($this->once())
+            ->method('getLoop')
+            ->will($this->returnValue($loop));
+        $runtime
+            ->expects($this->once())
+            ->method('setLoopState');
+
+        $runtime->fail($ex, $params);
+        $runtime->fail($ex, $params);
     }
 
     /**

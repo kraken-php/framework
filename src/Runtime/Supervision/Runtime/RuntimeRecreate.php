@@ -27,15 +27,17 @@ class RuntimeRecreate extends Solver implements SolverInterface
     protected function solver($ex, $params = [])
     {
         $manager = $this->runtime->getManager();
+
+        $hash  = isset($params['hash']) ? $params['hash'] : '';
         $alias = $params['origin'];
 
         if ($manager->existsThread($alias))
         {
-            return $manager->createThread($alias, null, Runtime::CREATE_FORCE);
+            return $manager->createThread($alias, null, Runtime::CREATE_FORCE, [ 'hash' => $hash ]);
         }
         else if ($manager->existsProcess($alias))
         {
-            return $manager->createProcess($alias, null, Runtime::CREATE_FORCE);
+            return $manager->createProcess($alias, null, Runtime::CREATE_FORCE, [ 'hash' => $hash ]);
         }
 
         return Promise::doReject(new RejectionException("Runtime [$alias] does not exists."));
