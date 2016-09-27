@@ -14,7 +14,7 @@ class EventTest extends TModule
     /**
      *
      */
-    public function testEventEmitter_SupportsBigAmountOfEventHandlers_ForTheSameEvent()
+    public function testEventEmitter_SupportsBigAmountOfEventListeners_ForTheSameEvent()
     {
         $emitter = new EventEmitter();
 
@@ -34,7 +34,7 @@ class EventTest extends TModule
     /**
      *
      */
-    public function testEventEmitter_SupportsBigAmountOfEventHandlers_ForDifferentEvents()
+    public function testEventEmitter_SupportsBigAmountOfEventListeners_ForDifferentEvents()
     {
         $emitter = new EventEmitter();
 

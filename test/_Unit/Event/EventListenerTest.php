@@ -3,15 +3,15 @@
 namespace Kraken\_Unit\Event;
 
 use Kraken\Event\EventEmitterInterface;
-use Kraken\Event\EventHandler;
+use Kraken\Event\EventListener;
 use Kraken\Test\TUnit;
 
-class EventHandlerTest extends TUnit
+class EventListenerTest extends TUnit
 {
     /**
      * @dataProvider handlerProvider
      */
-    public function testApiGetEmitter_ReturnsEmitter(EventHandler $handler, $params)
+    public function testApiGetEmitter_ReturnsEmitter(EventListener $handler, $params)
     {
         $this->assertSame($params['emitter'], $handler->getEmitter());
     }
@@ -19,7 +19,7 @@ class EventHandlerTest extends TUnit
     /**
      * @dataProvider handlerProvider
      */
-    public function testApiGetEvent_ReturnsEvent(EventHandler $handler, $params)
+    public function testApiGetEvent_ReturnsEvent(EventListener $handler, $params)
     {
         $this->assertEquals($params['event'], $handler->getEvent());
     }
@@ -27,7 +27,7 @@ class EventHandlerTest extends TUnit
     /**
      * @dataProvider handlerProvider
      */
-    public function testApiGetHandler_ReturnsHandler(EventHandler $handler, $params)
+    public function testApiGetHandler_ReturnsHandler(EventListener $handler, $params)
     {
         $this->assertSame($params['handler'], $handler->getHandler());
     }
@@ -35,7 +35,7 @@ class EventHandlerTest extends TUnit
     /**
      * @dataProvider handlerProvider
      */
-    public function testApiGetListener_ReturnsListener_WhenListenerIsPresent(EventHandler $handler, $params)
+    public function testApiGetListener_ReturnsListener_WhenListenerIsPresent(EventListener $handler, $params)
     {
         $this->assertSame($params['listener'], $handler->getListener());
     }
@@ -45,7 +45,7 @@ class EventHandlerTest extends TUnit
      */
     public function testApiGetListener_ReturnsHandler_WhenListenerIsAbsent()
     {
-        $handler = new EventHandler(
+        $handler = new EventListener(
             $gemitter   = $this->getEmitter(),
             $gevent     = $this->getEvent(),
             $ghandler   = $this->getHandler()
@@ -57,7 +57,7 @@ class EventHandlerTest extends TUnit
     /**
      * @dataProvider handlerProvider
      */
-    public function testApiCancel_CallsRemoveListenerOnEmitter(EventHandler $handler, $params)
+    public function testApiCancel_CallsRemoveListenerOnEmitter(EventListener $handler, $params)
     {
         $emitter = $params['emitter'];
         $emitter
@@ -78,7 +78,7 @@ class EventHandlerTest extends TUnit
     {
         return [
             [
-                new EventHandler(
+                new EventListener(
                     $emitter    = $this->getEmitter(),
                     $event      = $this->getEvent(),
                     $handler    = $this->getHandler(),

@@ -189,7 +189,7 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
         $this->buffer = $this->getBuffer();
         $this->connectionPool = $this->getConnectionPool();
 
-        $this->setEventHandler('messages', [ $this, 'onMessages' ]);
+        $this->setEventListener('messages', [ $this, 'onMessages' ]);
     }
 
     /**
@@ -199,7 +199,7 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
     {
         $this->stop();
 
-        $this->removeEventHandler('messages', [ $this, 'onMessages' ]);
+        $this->removeEventListener('messages', [ $this, 'onMessages' ]);
 
         unset($this->context);
         unset($this->id);
@@ -442,7 +442,7 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
      * @param string $event
      * @param callable $callback
      */
-    protected function setEventHandler($event, callable $callback)
+    protected function setEventListener($event, callable $callback)
     {
         $this->socket->on($event, $callback);
     }
@@ -451,7 +451,7 @@ abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterfac
      * @param string $event
      * @param callable $callback
      */
-    protected function removeEventHandler($event, callable $callback)
+    protected function removeEventListener($event, callable $callback)
     {
         $this->socket->removeListener($event, $callback);
     }

@@ -26,63 +26,63 @@ interface EventEmitterInterface
     public function getMode();
 
     /**
-     * Set listener for event. This method returns EventHandler.
+     * Set listener for event. This method returns EventListener.
      *
      * @param string $event
      * @param callable $listener
-     * @return EventHandler
+     * @return EventListener
      */
     public function on($event, callable $listener);
 
     /**
-     * Set listener for event that will fire only once. This method returns EventHandler
+     * Set listener for event that will fire only once. This method returns EventListener
      *
      * @param string $event
      * @param callable $listener
-     * @return EventHandler
+     * @return EventListener
      */
     public function once($event, callable $listener);
 
     /**
-     * Set listener for event that will fire at most as many times as set limit to. This method returns EventHandler
+     * Set listener for event that will fire at most as many times as set limit to. This method returns EventListener
      *
      * @param string $event
      * @param int $limit
      * @param callable $listener
-     * @return EventHandler
+     * @return EventListener
      */
     public function times($event, $limit, callable $listener);
 
     /**
      * Set listener for event that will start to be invoked after $ticks number of events is emitted. This method
-     * returns EventHandler.
+     * returns EventListener.
      *
      * @param string $event
      * @param int $ticks
      * @param callable $listener
-     * @return EventHandler
+     * @return EventListener
      */
     public function delay($event, $ticks, callable $listener);
 
     /**
      * Set listener for event that will fire only once after $ticks number of events is emitted. This method returns
-     * EventHandler
+     * EventListener
      *
      * @param string $event
      * @param int $ticks
      * @param callable $listener
-     * @return EventHandler
+     * @return EventListener
      */
     public function delayOnce($event, $ticks, callable $listener);
 
     /**
      * Set listener for event that will fire at most as many times as $limit is set to, but only after $ticks number of
-     * events is emitted. This method returns EventHandler
+     * events is emitted. This method returns EventListener
      *
      * @param string $event
      * @param int $limit
      * @param callable $listener
-     * @return EventHandler
+     * @return EventListener
      */
     public function delayTimes($event, $ticks, $limit, callable $listener);
 
@@ -130,7 +130,7 @@ interface EventEmitterInterface
      *
      * @param EventEmitterInterface $emitter
      * @param string $event
-     * @return EventHandler
+     * @return EventListener
      */
     public function copyEvent(EventEmitterInterface $emitter, $event);
 
@@ -139,7 +139,7 @@ interface EventEmitterInterface
      *
      * @param EventEmitterInterface $emitter
      * @param string[] $events
-     * @return EventHandler[]
+     * @return EventListener[]
      */
     public function copyEvents(EventEmitterInterface $emitter, $events);
 

@@ -2,7 +2,7 @@
 
 namespace Kraken\Event;
 
-class EventHandler
+class EventListener
 {
     /**
      * @var EventEmitterInterface

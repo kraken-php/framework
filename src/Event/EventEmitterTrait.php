@@ -57,7 +57,7 @@ trait EventEmitterTrait
     {
         $handler = $this->emitter->on($event, $listener);
 
-        return new EventHandler($this, $handler->getEvent(), $handler->getHandler(), $handler->getListener());
+        return new EventListener($this, $handler->getEvent(), $handler->getHandler(), $handler->getListener());
     }
 
     /**
@@ -67,7 +67,7 @@ trait EventEmitterTrait
     {
         $handler = $this->emitter->once($event, $listener);
 
-        return new EventHandler($this, $handler->getEvent(), $handler->getHandler(), $handler->getListener());
+        return new EventListener($this, $handler->getEvent(), $handler->getHandler(), $handler->getListener());
     }
 
     /**
@@ -77,7 +77,7 @@ trait EventEmitterTrait
     {
         $handler = $this->emitter->times($event, $limit, $listener);
 
-        return new EventHandler($this, $handler->getEvent(), $handler->getHandler(), $handler->getListener());
+        return new EventListener($this, $handler->getEvent(), $handler->getHandler(), $handler->getListener());
     }
 
     /**
@@ -87,7 +87,7 @@ trait EventEmitterTrait
     {
         $handler = $this->emitter->delay($event, $ticks, $listener);
 
-        return new EventHandler($this, $handler->getEvent(), $handler->getHandler(), $handler->getListener());
+        return new EventListener($this, $handler->getEvent(), $handler->getHandler(), $handler->getListener());
     }
 
     /**
@@ -97,7 +97,7 @@ trait EventEmitterTrait
     {
         $handler = $this->emitter->delayOnce($event, $ticks, $listener);
 
-        return new EventHandler($this, $handler->getEvent(), $handler->getHandler(), $handler->getListener());
+        return new EventListener($this, $handler->getEvent(), $handler->getHandler(), $handler->getListener());
     }
 
     /**
@@ -107,7 +107,7 @@ trait EventEmitterTrait
     {
         $handler = $this->emitter->delayTimes($event, $ticks, $limit, $listener);
 
-        return new EventHandler($this, $handler->getEvent(), $handler->getHandler(), $handler->getListener());
+        return new EventListener($this, $handler->getEvent(), $handler->getHandler(), $handler->getListener());
     }
 
     /**

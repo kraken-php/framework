@@ -4,7 +4,7 @@ namespace Kraken\_Unit\Console\_Case;
 
 use Kraken\Core\Core;
 use Kraken\Event\EventEmitter;
-use Kraken\Event\EventHandler;
+use Kraken\Event\EventListener;
 use Kraken\Loop\Loop;
 use Kraken\Promise\Promise;
 use Kraken\Runtime\RuntimeContainer;
@@ -231,7 +231,7 @@ trait RuntimeCase
         $runtime = $this->createRuntime();
         $result  = call_user_func_array([ $runtime, 'on' . ucfirst($event) ], [ $callable ]);
 
-        $test->assertInstanceOf(EventHandler::class, $result);
+        $test->assertInstanceOf(EventListener::class, $result);
 
         $runtime->emit($event, [ $arg1, $arg2 ]);
     }

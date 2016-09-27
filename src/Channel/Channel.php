@@ -12,7 +12,7 @@ use Kraken\Channel\Record\RequestRecordStorage;
 use Kraken\Channel\Record\ResponseRecordStorage;
 use Kraken\Channel\Router\RouterCompositeInterface;
 use Kraken\Event\EventEmitter;
-use Kraken\Event\EventHandler;
+use Kraken\Event\EventListener;
 use Kraken\Loop\Timer\TimerInterface;
 use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
@@ -97,7 +97,7 @@ class Channel extends EventEmitter implements ChannelInterface
     protected $encoder;
 
     /**
-     * @var EventHandler[]
+     * @var EventListener[]
      */
     protected $handlers;
 

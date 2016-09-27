@@ -7,7 +7,7 @@ use Kraken\Channel\Record\RequestRecord;
 use Kraken\Channel\Router\RouterCompositeInterface;
 use Kraken\Channel\Router\RouterInterface;
 use Kraken\Event\EventEmitterInterface;
-use Kraken\Event\EventHandler;
+use Kraken\Event\EventListener;
 use Kraken\Loop\LoopAwareInterface;
 use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
 
@@ -75,7 +75,7 @@ interface ChannelInterface extends EventEmitterInterface, LoopAwareInterface
      *
      * @handle start
      * @param callable $handler
-     * @return EventHandler
+     * @return EventListener
      */
     public function onStart(callable $handler);
 
@@ -84,7 +84,7 @@ interface ChannelInterface extends EventEmitterInterface, LoopAwareInterface
      *
      * @handle stop
      * @param callable $handler
-     * @return EventHandler
+     * @return EventListener
      */
     public function onStop(callable $handler);
 
@@ -93,7 +93,7 @@ interface ChannelInterface extends EventEmitterInterface, LoopAwareInterface
      *
      * @handle connect
      * @param callable $handler
-     * @return EventHandler
+     * @return EventListener
      */
     public function onConnect(callable $handler);
 
@@ -102,7 +102,7 @@ interface ChannelInterface extends EventEmitterInterface, LoopAwareInterface
      *
      * @handle disconnect
      * @param callable $handler
-     * @return EventHandler
+     * @return EventListener
      */
     public function onDisconnect(callable $handler);
 
@@ -111,7 +111,7 @@ interface ChannelInterface extends EventEmitterInterface, LoopAwareInterface
      *
      * @handle receive
      * @param callable $handler
-     * @return EventHandler
+     * @return EventListener
      */
     public function onInput(callable $handler);
 
@@ -120,7 +120,7 @@ interface ChannelInterface extends EventEmitterInterface, LoopAwareInterface
      *
      * @handle send
      * @param callable $handler
-     * @return EventHandler
+     * @return EventListener
      */
     public function onOutput(callable $handler);
 

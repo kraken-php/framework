@@ -462,7 +462,7 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
      * @param string $event
      * @param callable $callback
      */
-    protected function setEventHandler($event, callable $callback)
+    protected function setEventListener($event, callable $callback)
     {
         if ($this->socket !== null)
         {
@@ -474,7 +474,7 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
      * @param string $event
      * @param callable $callback
      */
-    protected function removeEventHandler($event, callable $callback)
+    protected function removeEventListener($event, callable $callback)
     {
         if ($this->socket !== null)
         {

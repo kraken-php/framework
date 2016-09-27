@@ -4,7 +4,7 @@ namespace Kraken\Runtime;
 
 use Kraken\Core\CoreGetterAwareInterface;
 use Kraken\Event\EventEmitterInterface;
-use Kraken\Event\EventHandler;
+use Kraken\Event\EventListener;
 use Kraken\Loop\LoopGetterAwareInterface;
 use Kraken\Promise\PromiseInterface;
 use Error;
@@ -58,7 +58,7 @@ interface RuntimeContainerInterface extends RuntimeContextInterface, CoreGetterA
      * Attach beforeCreate event handler.
      *
      * @param callable $callback
-     * @return EventHandler
+     * @return EventListener
      */
     public function onBeforeCreate(callable $callback);
 
@@ -66,7 +66,7 @@ interface RuntimeContainerInterface extends RuntimeContextInterface, CoreGetterA
      * Attach create event handler.
      *
      * @param callable $callback
-     * @return EventHandler
+     * @return EventListener
      */
     public function onCreate(callable $callback);
 
@@ -74,7 +74,7 @@ interface RuntimeContainerInterface extends RuntimeContextInterface, CoreGetterA
      * Attach afterCreate event handler.
      *
      * @param callable $callback
-     * @return EventHandler
+     * @return EventListener
      */
     public function onAfterCreate(callable $callback);
 
@@ -82,7 +82,7 @@ interface RuntimeContainerInterface extends RuntimeContextInterface, CoreGetterA
      * Attach beforeDestroy event handler.
      *
      * @param callable $callback
-     * @return EventHandler
+     * @return EventListener
      */
     public function onBeforeDestroy(callable $callback);
 
@@ -90,7 +90,7 @@ interface RuntimeContainerInterface extends RuntimeContextInterface, CoreGetterA
      * Attach destroy event handler.
      *
      * @param callable $callback
-     * @return EventHandler
+     * @return EventListener
      */
     public function onDestroy(callable $callback);
 
@@ -98,7 +98,7 @@ interface RuntimeContainerInterface extends RuntimeContextInterface, CoreGetterA
      * Attach afterDestroy event handler.
      *
      * @param callable $callback
-     * @return EventHandler
+     * @return EventListener
      */
     public function onAfterDestroy(callable $callback);
 
@@ -106,7 +106,7 @@ interface RuntimeContainerInterface extends RuntimeContextInterface, CoreGetterA
      * Attach beforeStart event handler.
      *
      * @param callable $callback
-     * @return EventHandler
+     * @return EventListener
      */
     public function onBeforeStart(callable $callback);
 
@@ -114,7 +114,7 @@ interface RuntimeContainerInterface extends RuntimeContextInterface, CoreGetterA
      * Attach start event handler.
      *
      * @param callable $callback
-     * @return EventHandler
+     * @return EventListener
      */
     public function onStart(callable $callback);
 
@@ -122,7 +122,7 @@ interface RuntimeContainerInterface extends RuntimeContextInterface, CoreGetterA
      * Attach afterStart event handler.
      *
      * @param callable $callback
-     * @return EventHandler
+     * @return EventListener
      */
     public function onAfterStart(callable $callback);
 
@@ -130,7 +130,7 @@ interface RuntimeContainerInterface extends RuntimeContextInterface, CoreGetterA
      * Attach beforeStop event handler.
      *
      * @param callable $callback
-     * @return EventHandler
+     * @return EventListener
      */
     public function onBeforeStop(callable $callback);
 
@@ -138,7 +138,7 @@ interface RuntimeContainerInterface extends RuntimeContextInterface, CoreGetterA
      * Attach stop event handler.
      *
      * @param callable $callback
-     * @return EventHandler
+     * @return EventListener
      */
     public function onStop(callable $callback);
 
@@ -146,7 +146,7 @@ interface RuntimeContainerInterface extends RuntimeContextInterface, CoreGetterA
      * Attach afterStop event handler.
      *
      * @param callable $callback
-     * @return EventHandler
+     * @return EventListener
      */
     public function onAfterStop(callable $callback);
 

@@ -4,7 +4,7 @@ namespace Kraken\_Unit\Console\Client;
 
 use Kraken\Console\Client\Client;
 use Kraken\Core\Core;
-use Kraken\Event\EventHandler;
+use Kraken\Event\EventListener;
 use Kraken\Loop\Loop;
 use Kraken\Runtime\RuntimeContainer;
 use Kraken\Test\TUnit;
@@ -97,7 +97,7 @@ class ClientTest extends TUnit
         $runtime = $this->createRuntime();
         $result  = call_user_func_array([ $runtime, 'on' . ucfirst($event) ], [ $callable ]);
 
-        $test->assertInstanceOf(EventHandler::class, $result);
+        $test->assertInstanceOf(EventListener::class, $result);
 
         $runtime->emit($event, [ $arg1, $arg2 ]);
     }

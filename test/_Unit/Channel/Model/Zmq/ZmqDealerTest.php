@@ -170,7 +170,7 @@ class ZmqDealerTest extends TUnit
 
         $methods = array_merge(
             [
-                'removeEventHandler'
+                'removeEventListener'
             ],
             $methods
         );
@@ -179,7 +179,7 @@ class ZmqDealerTest extends TUnit
         $model = $this->getMock(ZmqDealer::class, $methods, [ $loop, $params ], '', false);
         $model
             ->expects($this->any())
-            ->method('removeEventHandler');
+            ->method('removeEventListener');
 
         $this->model = $model;
 

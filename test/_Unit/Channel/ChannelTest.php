@@ -11,7 +11,7 @@ use Kraken\Channel\Router\RouterCompositeInterface;
 use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\ChannelModelInterface;
-use Kraken\Event\EventHandler;
+use Kraken\Event\EventListener;
 use Kraken\Loop\Loop;
 use Kraken\Loop\LoopInterface;
 use Kraken\Test\TUnit;
@@ -139,7 +139,7 @@ class ChannelTest extends TUnit
      */
     public function testCaseAllOnMethods_RegisterHandlers($event)
     {
-        $handler  = $this->getMock(EventHandler::class, [], [], '', false);
+        $handler  = $this->getMock(EventListener::class, [], [], '', false);
         $callable = function() {};
 
         $method = 'on' . ucfirst($event);
@@ -1210,7 +1210,7 @@ class ChannelTest extends TUnit
                 $handlers = [];
                 foreach ($events as $event)
                 {
-                    $handlers[] = $this->getMock(EventHandler::class, [], [], '', false);
+                    $handlers[] = $this->getMock(EventListener::class, [], [], '', false);
                 }
                 return $handlers;
             }));
@@ -1218,7 +1218,7 @@ class ChannelTest extends TUnit
             ->expects($this->any())
             ->method('on')
             ->will($this->returnCallback(function($event, $callback) {
-                return $this->getMock(EventHandler::class, [], [], '', false);
+                return $this->getMock(EventListener::class, [], [], '', false);
             }));
 
         $router  = $this->getMock(RouterCompositeInterface::class, [], [], '', false);

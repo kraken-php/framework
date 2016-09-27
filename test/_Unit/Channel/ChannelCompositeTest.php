@@ -13,7 +13,7 @@ use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\ChannelComposite;
 use Kraken\Channel\ChannelCompositeInterface;
 use Kraken\Channel\ChannelModelInterface;
-use Kraken\Event\EventHandler;
+use Kraken\Event\EventListener;
 use Kraken\Loop\Loop;
 use Kraken\Loop\LoopInterface;
 use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
@@ -259,7 +259,7 @@ class ChannelCompositeTest extends TUnit
      */
     public function testCaseAllOnMethods_RegisterHandlers($event)
     {
-        $handler  = $this->getMock(EventHandler::class, [], [], '', false);
+        $handler  = $this->getMock(EventListener::class, [], [], '', false);
         $callable = function() {};
 
         $method = 'on' . ucfirst($event);
@@ -1436,7 +1436,7 @@ class ChannelCompositeTest extends TUnit
                 $handlers = [];
                 foreach ($events as $event)
                 {
-                    $handlers[] = $this->getMock(EventHandler::class, [], [], '', false);
+                    $handlers[] = $this->getMock(EventListener::class, [], [], '', false);
                 }
                 return $handlers;
             }));
@@ -1444,7 +1444,7 @@ class ChannelCompositeTest extends TUnit
             ->expects($this->any())
             ->method('on')
             ->will($this->returnCallback(function($event, $callback) {
-                return $this->getMock(EventHandler::class, [], [], '', false);
+                return $this->getMock(EventListener::class, [], [], '', false);
             }));
 
         $router  = $this->getMock(RouterCompositeInterface::class, [], [], '', false);
@@ -1472,7 +1472,7 @@ class ChannelCompositeTest extends TUnit
                 $handlers = [];
                 foreach ($events as $event)
                 {
-                    $handlers[] = $this->getMock(EventHandler::class, [], [], '', false);
+                    $handlers[] = $this->getMock(EventListener::class, [], [], '', false);
                 }
                 return $handlers;
             }));
@@ -1480,7 +1480,7 @@ class ChannelCompositeTest extends TUnit
             ->expects($this->any())
             ->method('on')
             ->will($this->returnCallback(function($event, $callback) {
-                return $this->getMock(EventHandler::class, [], [], '', false);
+                return $this->getMock(EventListener::class, [], [], '', false);
             }));
 
         return $bus;

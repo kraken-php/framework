@@ -28,7 +28,7 @@ trait AsyncEventEmitterTrait
     protected function attachOnceListener($pointer, $event, callable $listener)
     {
         return function() use($listener, $event, $pointer) {
-            unset($this->emitterEventHandlers[$event][$pointer]);
+            unset($this->eventListeners[$event][$pointer]);
 
             $args = func_get_args();
             $this->getLoop()->onTick(function() use($listener, $args) {
@@ -47,7 +47,7 @@ trait AsyncEventEmitterTrait
             if (--$limit === 0)
             {
                 unset($limit);
-                unset($emitter->emitterEventHandlers[$event][$pointer]);
+                unset($emitter->eventListeners[$event][$pointer]);
             }
 
             $args = func_get_args();

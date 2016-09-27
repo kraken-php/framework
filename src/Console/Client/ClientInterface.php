@@ -4,7 +4,7 @@ namespace Kraken\Console\Client;
 
 use Kraken\Core\CoreSetterAwareInterface;
 use Kraken\Runtime\RuntimeContextInterface;
-use Kraken\Event\EventHandler;
+use Kraken\Event\EventListener;
 use Kraken\Loop\LoopExtendedAwareInterface;
 
 /**
@@ -18,7 +18,7 @@ interface ClientInterface extends RuntimeContextInterface, CoreSetterAwareInterf
      * Attach start event handler.
      *
      * @param callable $callback
-     * @return EventHandler
+     * @return EventListener
      */
     public function onStart(callable $callback);
 
@@ -26,7 +26,7 @@ interface ClientInterface extends RuntimeContextInterface, CoreSetterAwareInterf
      * Attach stop event handler.
      *
      * @param callable $callback
-     * @return EventHandler
+     * @return EventListener
      */
     public function onStop(callable $callback);
 
@@ -34,7 +34,7 @@ interface ClientInterface extends RuntimeContextInterface, CoreSetterAwareInterf
      * Attach command event handler.
      *
      * @param callable $callback
-     * @return EventHandler
+     * @return EventListener
      */
     public function onCommand(callable $callback);
 

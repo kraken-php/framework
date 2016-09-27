@@ -6,7 +6,7 @@ use Kraken\Channel\Protocol\Protocol;
 use Kraken\Channel\Protocol\ProtocolInterface;
 use Kraken\Channel\Router\RouterCompositeInterface;
 use Kraken\Event\BaseEventEmitter;
-use Kraken\Event\EventHandler;
+use Kraken\Event\EventListener;
 use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
 use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
@@ -34,7 +34,7 @@ class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInter
     protected $router;
 
     /**
-     * @var EventHandler[][]
+     * @var EventListener[][]
      */
     protected $events;
 
