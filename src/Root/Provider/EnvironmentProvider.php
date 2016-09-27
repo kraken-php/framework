@@ -34,7 +34,7 @@ class EnvironmentProvider extends ServiceProvider implements ServiceProviderInte
         $core    = $container->make('Kraken\Core\CoreInterface');
         $context = $container->make('Kraken\Runtime\RuntimeContextInterface');
 
-        $env = new Environment($context, $core->getDataPath() . '/config.env/.env');
+        $env = new Environment($context, $core->getDataPath() . '/environment/.env');
 
         $env->setOption('error_reporting', E_ALL);
         $env->setOption('log_errors', '1');
