@@ -84,6 +84,21 @@ class RuntimeManager implements RuntimeManagerInterface
      * @override
      * @inheritDoc
      */
+    public function sendCommand($alias, $command, $params = [])
+    {
+        $req = new Request(
+            $this->runtimeChannel,
+            $alias,
+            new RuntimeCommand($command, $params)
+        );
+
+        return $req->call();
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
     public function existsRuntime($alias)
     {
         return $this->existsProcess($alias) || $this->existsThread($alias);

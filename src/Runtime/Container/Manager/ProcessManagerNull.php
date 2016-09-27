@@ -36,6 +36,17 @@ class ProcessManagerNull implements ProcessManagerInterface
      * @override
      * @inheritDoc
      */
+    public function sendCommand($alias, $command, $params = [])
+    {
+        return Promise::doReject(
+            new RejectionException("Command to [$alias] cannot be send on null manager.")
+        );
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
     public function existsProcess($alias)
     {
         return false;

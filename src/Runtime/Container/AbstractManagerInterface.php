@@ -27,4 +27,13 @@ interface AbstractManagerInterface
      * @return PromiseInterface
      */
     public function sendMessage($alias, $message, $flags = Channel::MODE_DEFAULT);
+
+    /**
+     * Invoke remote command using specified Runtime Container.
+     *
+     * @param string $alias
+     * @param string $command
+     * @param mixed[] $params
+     */
+    public function sendCommand($alias, $command, $params = []);
 }

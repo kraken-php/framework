@@ -97,6 +97,21 @@ class ThreadManagerBase implements ThreadManagerInterface
      * @override
      * @inheritDoc
      */
+    public function sendCommand($alias, $command, $params = [])
+    {
+        $req = new Request(
+            $this->channel,
+            $alias,
+            new RuntimeCommand($command, $params)
+        );
+
+        return $req->call();
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
     public function existsThread($alias)
     {
         return isset($this->threads[$alias]);
