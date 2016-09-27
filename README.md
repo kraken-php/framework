@@ -130,7 +130,7 @@ Kraken Framework is open-sourced software licensed under the [MIT license][6]. T
 [2]: http://kraken-php.com/docs
 [3]: http://kraken-php.com/docs/installation
 [4]: http://kraken-php.com/faqs
-[5]: http://kraken-php.com/docs/contributions
+[5]: https://github.com/kraken-php/framework/blob/master/CONTRIBUTING.md
 [6]: http://opensource.org/licenses/MIT
 [7]: https://www.gnu.org/licenses/fdl-1.3.en.html
 [8]: https://gitter.im/kraken-php/framework
