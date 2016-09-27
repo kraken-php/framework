@@ -7,7 +7,7 @@
 [![Gitter](https://badges.gitter.im/kraken-php/framework.svg)](https://gitter.im/kraken-php/framework?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![@kraken_php on Twitter](https://img.shields.io/badge/twitter-%40kraken__php-blue.svg)](https://twitter.com/kraken_php)
 
-> **Note:** This repository contains the core code of the Kraken Framework. If you want to start developing new application with Kraken, visit the main [Kraken Repository](https://github.com/kraken-php/kraken). If you want to learn more visit [Offical website](http://kraken-php.com).
+> **Note:** This repository contains the core of the Kraken Framework. If you want to start developing new application with Kraken, check out [Kraken Application Skeleton](https://github.com/kraken-php/kraken). If you want to learn more visit [offical website](http://kraken-php.com).
 
 <br>
 <p align="center">
@@ -94,12 +94,12 @@ higher amount of connections that Node.js.
 
 * PHP-5.5, PHP-5.6 or PHP-7.0+,
 * [Pthreads](http://php.net/manual/en/book.pthreads.php) extension enabled (only if you want to use threading),
-* UNIX or ~~Windows~~ OS.
+* UNIX OS.
 
 ## Installation and Official Documentation
 
 Documentation for the framework can be found in the [official documentation][2] page. To see installation instructions, 
-please check out our [default application](https://github.com/kraken-php/kraken) or go to [installation guide][3].
+please check out [application skeleton](https://github.com/kraken-php/kraken) or go to [installation guide][3].
 
 ## Frequently Asked Questions
 
@@ -115,7 +115,7 @@ please check out our [default application](https://github.com/kraken-php/kraken)
 
 <br>
 If there are any additional questions that you have about framework, please check whether the answers for them have been 
-already posted in [faq section][4] or ask on our [discussion group][8].
+already posted in [faq section][4] or ask on our [gitter room][8].
 
 
 ## Contributing
@@ -128,9 +128,9 @@ Kraken Framework is open-sourced software licensed under the [MIT license][6]. T
 
 [1]: http://kraken-php.com
 [2]: http://kraken-php.com/docs
-[3]: http://kraken-php.com/getting_started
-[4]: http://kraken-php.com/faq
+[3]: http://kraken-php.com/docs/installation
+[4]: http://kraken-php.com/faqs
 [5]: http://kraken-php.com/docs/contributions
 [6]: http://opensource.org/licenses/MIT
 [7]: https://www.gnu.org/licenses/fdl-1.3.en.html
-[8]: https://groups.google.com/forum/#!forum/kraken-php
+[8]: https://gitter.im/kraken-php/framework
