@@ -264,9 +264,22 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
      */
     protected function createServer($endpoint, $config = [])
     {
-        if (stripos($endpoint, 'unix://') !== false && $endpoint[7] !== DIRECTORY_SEPARATOR)
+        if (stripos($endpoint, 'unix://') !== false)
         {
-            $endpoint = 'unix://' . getcwd() . DIRECTORY_SEPARATOR . substr($endpoint, 7);
+            if ($endpoint[7] === DIRECTORY_SEPARATOR)
+            {
+                $path = substr($endpoint, 7);
+            }
+            else
+            {
+                $path = getcwd() . DIRECTORY_SEPARATOR . substr($endpoint, 7);
+                $endpoint = 'unix://' . $path;
+            }
+
+            if (file_exists($path))
+            {
+                unlink($path);
+            }
         }
 
         $backlog = (int) (isset($config['backlog']) ? $config['backlog'] : self::DEFAULT_BACKLOG);
