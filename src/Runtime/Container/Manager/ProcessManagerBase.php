@@ -244,7 +244,7 @@ class ProcessManagerBase implements ProcessManagerInterface
             'kraken.process',
             [ $this->runtime->getAlias(), $alias, $name ],
             $this->context
-        ), true);
+        ));
 
         if (!$this->system->existsPid($pid))
         {

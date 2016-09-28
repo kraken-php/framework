@@ -30,7 +30,6 @@ class ProcessCore extends Core implements CoreInterface
             'Kraken\Root\Provider\FilesystemProvider',
             'Kraken\Root\Provider\LogProvider',
             'Kraken\Root\Provider\LoopProvider',
-            'Kraken\Root\Provider\IsolateProvider',
             'Kraken\Root\Provider\SystemProvider',
             'Kraken\Root\Runtime\Provider\ChannelProvider',
             'Kraken\Root\Runtime\Provider\ChannelConsoleProvider',

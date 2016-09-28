@@ -31,11 +31,11 @@ class SystemUnix implements SystemInterface
      * @override
      * @inheritDoc
      */
-    public function run($command, $isolate = false)
+    public function run($command)
     {
-        $command = 'setsid ' . $command . '</dev/null >/dev/null 2>&1 & echo $!';
+        $command = $command . '>/dev/null 2>&1 & echo $!';
 
-        if ($isolate === true && $this->isolator !== null)
+        if ($this->isolator !== null)
         {
             return $this->isolator->call('exec', [ $command ]);
         }

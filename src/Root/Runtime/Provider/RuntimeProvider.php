@@ -12,7 +12,9 @@ class RuntimeProvider extends ServiceProvider implements ServiceProviderInterfac
      * @var string[]
      */
     protected $requires = [
-        /** This provider does not necessarily need this interface, however it has to be registered before **/
+        /**
+         * This provider does not necessarily need this interface, however it has to be registered here to load before.
+         **/
         'Kraken\Util\System\SystemInterface'
     ];
 
