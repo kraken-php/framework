@@ -3,6 +3,7 @@
 namespace Kraken\Root\Runtime\Boot;
 
 use Kraken\Runtime\Container\Thread\ThreadController;
+use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Util\Support\StringSupport;
@@ -22,9 +23,14 @@ class ThreadBoot
     protected $controllerParams;
 
     /**
-     * @var string|string[]
+     * @var string[]
      */
-    protected $controllerClass;
+    protected $controllerPatterns;
+
+    /**
+     * @var string[]
+     */
+    protected $bootstrapPatterns;
 
     /**
      * @var string[]
@@ -40,9 +46,15 @@ class ThreadBoot
 
         $this->runtimeController = ($threadController !== null) ? $threadController : new ThreadController($loader);
         $this->controllerParams = [];
-        $this->controllerClass  = [
+        $this->controllerPatterns = [
             '\\%prefix%\\Thread\\Container\\%name%\\%name%Container',
             '\\%prefix%\\Runtime\\Container\\%name%\\%name%Container'
+        ];
+        $this->bootstrapPatterns = [
+            '%datapath%/bootstrap/Thread/%name%/bootstrap.php',
+            '%datapath%/bootstrap/Runtime/%name%/bootstrap.php',
+            '%datapath%/bootstrap/Thread/bootstrap.php',
+            '%datapath%/bootstrap/Runtime/bootstrap.php'
         ];
         $this->params = [
             'prefix' => 'Kraken',
@@ -57,17 +69,29 @@ class ThreadBoot
     {
         unset($this->runtimeController);
         unset($this->controllerParams);
-        unset($this->controllerClass);
+        unset($this->controllerPatterns);
+        unset($this->boostrapPatterns);
         unset($this->params);
     }
 
     /**
-     * @param string|string[] $class
+     * @param string|string[] $patternOrPatterns
      * @return ThreadBoot
      */
-    public function controller($class)
+    public function controllers($patternOrPatterns)
     {
-        $this->controllerClass = (array) $class;
+        $this->controllerPatterns = (array) $patternOrPatterns;
+
+        return $this;
+    }
+
+    /**
+     * @param string|string[] $patternOrPatterns
+     * @return ThreadBoot
+     */
+    public function bootstraps($patternOrPatterns)
+    {
+        $this->bootstrapPatterns = (array) $patternOrPatterns;
 
         return $this;
     }
@@ -104,7 +128,7 @@ class ThreadBoot
         $controllerClass = '';
         $controllerClassFound = false;
 
-        foreach ($this->controllerClass as $controllerClass)
+        foreach ($this->controllerPatterns as $controllerClass)
         {
             $controllerClass = StringSupport::parametrize($controllerClass, $this->params);
 
@@ -121,20 +145,35 @@ class ThreadBoot
         }
 
         $controller = (new ReflectionClass($controllerClass))->newInstanceArgs($this->controllerParams);
-        $datapath = realpath($path);
 
-        if (file_exists($datapath . '/bootstrap/' . $controller->getName() . '/bootstrap.php'))
+        $params = array_merge(
+            [
+                'type'      => $type = Runtime::UNIT_THREAD,
+                'datapath'  => realpath($path)
+            ],
+            $this->params
+        );
+
+        $bootstrapFile = '';
+        $bootstrapFileFound = false;
+
+        foreach ($this->bootstrapPatterns as $bootstrapFile)
         {
-            $core = require(
-                $datapath . '/bootstrap/' . $controller->getName() . '/bootstrap.php'
-            );
+            $bootstrapFile = StringSupport::parametrize($bootstrapFile, $params);
+
+            if (file_exists($bootstrapFile))
+            {
+                $bootstrapFileFound = true;
+                break;
+            }
         }
-        else
+
+        if (!$bootstrapFileFound)
         {
-            $core = require(
-                $datapath . '/bootstrap/Thread/bootstrap.php'
-            );
+            throw new InstantiationException('Bootstrap file not found');
         }
+
+        $core = require($bootstrapFile);
 
         $controller
             ->setCore($core);

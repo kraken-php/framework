@@ -49,7 +49,7 @@ return [
      * -----------------------------------------------------------------------------------------------------------------
      */
     'context' => [
-        'master.endpoint' => '%func.genEndpoint%'
+        'master.endpoint' => 'unix://%datapath%/temp/socket/%alias%.sock'
     ],
 
     /**
@@ -59,8 +59,8 @@ return [
      */
     'project' => [
         'config' => [
-            'main.alias' => '%env.project_root%',
-            'main.name'  => '%env.project_name%',
+            'main.alias' => 'Main',
+            'main.name'  => 'Main',
         ],
         'tolerance' => [
             'parent.keepalive' => 15.0,
@@ -119,7 +119,7 @@ return [
                 'class'  => 'Kraken\Channel\Model\Socket\Socket',
                 'config' => [
                     'type'      => '%channel.binder%',
-                    'endpoint'  => '%func.genEndpoint%'
+                    'endpoint'  => 'unix://%datapath%/temp/socket/%alias%.sock'
                 ]
             ],
             'console' => [

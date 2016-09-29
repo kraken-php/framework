@@ -24,7 +24,7 @@ class ProcessTest extends TModule
 
         $dataPath = realpath(__DIR__ . '/..') . '/_Data';
         $process  = (new ProcessBoot)
-            ->controller(
+            ->controllers(
                 RuntimeContainerMock::class
             )
             ->constructor([

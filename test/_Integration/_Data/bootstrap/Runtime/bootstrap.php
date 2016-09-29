@@ -1,10 +1,11 @@
 <?php
 /**
- * Bootstrap file for ThreadContainers.
+ * Bootstrap file for ProcessContainers.
  * Any modifications in this file should be done with exceptional care.
  */
 
-$core = new \Kraken\Root\Runtime\Core\ThreadCore(
+$core = new \Kraken\Root\Runtime\Core\Factory($type);
+$core = $core->create(
     realpath(__DIR__ . '/../../')
 );
 

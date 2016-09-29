@@ -24,7 +24,7 @@ class ThreadTest extends TModule
 
         $dataPath = realpath(__DIR__ . '/..') . '/_Data';
         $thread   = (new ThreadBoot)
-            ->controller(
+            ->controllers(
                 RuntimeContainerMock::class
             )
             ->constructor([
