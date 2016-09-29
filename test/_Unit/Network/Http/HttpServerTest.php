@@ -9,8 +9,8 @@ use Kraken\Network\Http\HttpResponseInterface;
 use Kraken\Network\Http\HttpServer;
 use Kraken\Network\Http\HttpServerInterface;
 use Kraken\Network\Null\NullServer;
-use Kraken\Network\ServerComponentAwareInterface;
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentAwareInterface;
+use Kraken\Network\NetworkComponentInterface;
 use Kraken\Network\NetworkConnectionInterface;
 use Kraken\Network\NetworkMessage;
 use Kraken\Network\NetworkMessageInterface;
@@ -36,8 +36,8 @@ class HttpServerTest extends TUnit
 
         $this->assertInstanceOf(HttpServer::class, $server);
         $this->assertInstanceOf(HttpServerInterface::class, $server);
-        $this->assertInstanceOf(ServerComponentAwareInterface::class, $server);
-        $this->assertInstanceOf(ServerComponentInterface::class, $server);
+        $this->assertInstanceOf(NetworkComponentAwareInterface::class, $server);
+        $this->assertInstanceOf(NetworkComponentInterface::class, $server);
     }
 
     /**
@@ -330,24 +330,24 @@ class HttpServerTest extends TUnit
     }
 
     /**
-     * @return ServerComponentAwareInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return NetworkComponentAwareInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createAware()
     {
-        return $this->getMock(ServerComponentAwareInterface::class, [], [], '', false);
+        return $this->getMock(NetworkComponentAwareInterface::class, [], [], '', false);
     }
 
     /**
-     * @return ServerComponentInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return NetworkComponentInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createComponent()
     {
-        return $this->getMock(ServerComponentInterface::class, [], [], '', false);
+        return $this->getMock(NetworkComponentInterface::class, [], [], '', false);
     }
 
     /**
-     * @param ServerComponentAwareInterface $aware
-     * @param ServerComponentInterface $component
+     * @param NetworkComponentAwareInterface $aware
+     * @param NetworkComponentInterface $component
      * @param string[]|null $methods
      * @return HttpServer|\PHPUnit_Framework_MockObject_MockObject
      */

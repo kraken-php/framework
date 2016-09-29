@@ -5,7 +5,7 @@ namespace Kraken\_Unit\Network;
 use Kraken\Ipc\Socket\SocketListener;
 use Kraken\Loop\Loop;
 use Kraken\Network\Http\Component\Router\HttpRouter;
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentInterface;
 use Kraken\Network\Socket\Component\Firewall\SocketFirewall;
 use Kraken\Network\NetworkServer;
 use Kraken\Network\NetworkServerInterface;
@@ -63,7 +63,7 @@ class NetworkServerTest extends TUnit
     public function testApiAddRoute_CallsMethodOnRouter()
     {
         $path = 'path';
-        $component = $this->getMock(ServerComponentInterface::class, [], [], '', false);
+        $component = $this->getMock(NetworkComponentInterface::class, [], [], '', false);
 
         $server = $this->createNetworkServer();
         $router = $this->createRouter([ 'addRoute' ]);

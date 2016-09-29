@@ -2,7 +2,7 @@
 
 namespace Kraken\Network\Http\Component\Session;
 
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentInterface;
 
-interface HttpSessionInterface extends ServerComponentInterface
+interface HttpSessionInterface extends NetworkComponentInterface
 {}

@@ -8,8 +8,8 @@ use Kraken\Network\Http\HttpRequest;
 use Kraken\Network\Http\HttpServer;
 use Kraken\Network\Null\NullServer;
 use Kraken\Network\Socket\SocketServer;
-use Kraken\Network\ServerComponentAwareInterface;
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentAwareInterface;
+use Kraken\Network\NetworkComponentInterface;
 use Kraken\Test\TUnit;
 use Kraken\Network\NetworkConnection;
 use Kraken\Network\NetworkMessage;
@@ -44,8 +44,8 @@ class HttpSessionTest extends TUnit
 
         $this->assertInstanceOf(HttpSession::class, $session);
         $this->assertInstanceOf(HttpSessionInterface::class, $session);
-        $this->assertInstanceOf(ServerComponentAwareInterface::class, $session);
-        $this->assertInstanceOf(ServerComponentInterface::class, $session);
+        $this->assertInstanceOf(NetworkComponentAwareInterface::class, $session);
+        $this->assertInstanceOf(NetworkComponentInterface::class, $session);
     }
 
     /**
@@ -217,7 +217,7 @@ class HttpSessionTest extends TUnit
 
     /**
      * @param string[]|null $methods
-     * @return ServerComponentAwareInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return NetworkComponentAwareInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createServer($methods = [])
     {
@@ -227,7 +227,7 @@ class HttpSessionTest extends TUnit
     }
 
     /**
-     * @return ServerComponentInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return NetworkComponentInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createComponent($methods = [])
     {
@@ -243,8 +243,8 @@ class HttpSessionTest extends TUnit
     }
 
     /**
-     * @param ServerComponentAwareInterface $aware
-     * @param ServerComponentInterface $component
+     * @param NetworkComponentAwareInterface $aware
+     * @param NetworkComponentInterface $component
      * @param SessionHandlerInterface $handler
      * @param mixed[] $options
      * @param string[]|null $methods

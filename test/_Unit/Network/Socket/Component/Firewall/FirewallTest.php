@@ -4,8 +4,8 @@ namespace Kraken\_Unit\Network\Socket\Component\Firewall;
 
 use Kraken\Ipc\Socket\SocketListener;
 use Kraken\Network\Null\NullServer;
-use Kraken\Network\ServerComponentAwareInterface;
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentAwareInterface;
+use Kraken\Network\NetworkComponentInterface;
 use Kraken\Network\Socket\Component\Firewall\SocketFirewall;
 use Kraken\Network\Socket\Component\Firewall\SocketFirewallInterface;
 use Kraken\Network\Socket\SocketServer;
@@ -27,8 +27,8 @@ class FirewallTest extends TUnit
 
         $this->assertInstanceOf(SocketFirewall::class, $firewall);
         $this->assertInstanceOf(SocketFirewallInterface::class, $firewall);
-        $this->assertInstanceOf(ServerComponentAwareInterface::class, $firewall);
-        $this->assertInstanceOf(ServerComponentInterface::class, $firewall);
+        $this->assertInstanceOf(NetworkComponentAwareInterface::class, $firewall);
+        $this->assertInstanceOf(NetworkComponentInterface::class, $firewall);
     }
 
     /**
@@ -360,7 +360,7 @@ class FirewallTest extends TUnit
 
     /**
      * @param string[]|null $methods
-     * @return ServerComponentAwareInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return NetworkComponentAwareInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createServer($methods = [])
     {
@@ -370,16 +370,16 @@ class FirewallTest extends TUnit
     }
 
     /**
-     * @return ServerComponentInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return NetworkComponentInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createComponent()
     {
-        return $this->getMock(ServerComponentInterface::class, [], [], '', false);
+        return $this->getMock(NetworkComponentInterface::class, [], [], '', false);
     }
 
     /**
-     * @param ServerComponentAwareInterface $aware
-     * @param ServerComponentInterface $component
+     * @param NetworkComponentAwareInterface $aware
+     * @param NetworkComponentInterface $component
      * @param string[]|null $methods
      * @return SocketFirewall|\PHPUnit_Framework_MockObject_MockObject
      */

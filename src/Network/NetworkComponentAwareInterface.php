@@ -2,19 +2,19 @@
 
 namespace Kraken\Network;
 
-interface ServerComponentAwareInterface
+interface NetworkComponentAwareInterface
 {
     /**
      * Set component to which data is being transferred to.
      *
-     * @param ServerComponentInterface|null $component
+     * @param NetworkComponentInterface|null $component
      */
-    public function setComponent(ServerComponentInterface $component = null);
+    public function setComponent(NetworkComponentInterface $component = null);
 
     /**
      * Get component to which data is being transferred to.
      *
-     * @return ServerComponentInterface|null
+     * @return NetworkComponentInterface|null
      */
     public function getComponent();
 }

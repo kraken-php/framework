@@ -6,7 +6,7 @@ use Kraken\Network\Http\HttpRequestInterface;
 use Kraken\Network\Http\HttpResponse;
 use Kraken\Network\Http\HttpResponseInterface;
 use Kraken\Network\NetworkMessageInterface;
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentInterface;
 use Kraken\Network\NetworkConnectionInterface;
 use Kraken\Network\Websocket\Driver\Version\VersionInterface;
 use Ratchet\WebSocket\Encoding\ValidatorInterface;
@@ -62,10 +62,10 @@ class Version extends RFC6455 implements VersionInterface
 
     /**
      * @param NetworkConnectionInterface $conn
-     * @param ServerComponentInterface $coalescedCallback
+     * @param NetworkComponentInterface $coalescedCallback
      * @return Connection
      */
-    public function wsUpgrade(NetworkConnectionInterface $conn, ServerComponentInterface $component)
+    public function wsUpgrade(NetworkConnectionInterface $conn, NetworkComponentInterface $component)
     {
         $upgraded = new Connection($conn);
 

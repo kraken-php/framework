@@ -4,14 +4,14 @@ namespace Kraken\Network\Socket;
 use Kraken\Ipc\Socket\SocketInterface;
 use Kraken\Ipc\Socket\SocketListenerInterface;
 use Kraken\Network\Null\NullServer;
-use Kraken\Network\ServerComponentAwareInterface;
+use Kraken\Network\NetworkComponentAwareInterface;
 use Kraken\Network\NetworkConnection;
 use Kraken\Network\NetworkMessage;
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentInterface;
 use Error;
 use Exception;
 
-class SocketServer implements SocketServerInterface, ServerComponentAwareInterface
+class SocketServer implements SocketServerInterface, NetworkComponentAwareInterface
 {
     /**
      * @var SocketListenerInterface
@@ -19,15 +19,15 @@ class SocketServer implements SocketServerInterface, ServerComponentAwareInterfa
     protected $socket;
 
     /**
-     * @var ServerComponentInterface
+     * @var NetworkComponentInterface
      */
     protected $component;
 
     /**
-     * @param ServerComponentInterface $component
+     * @param NetworkComponentInterface $component
      * @param SocketListenerInterface $socket
      */
-    public function __construct(SocketListenerInterface $socket, ServerComponentInterface $component = null)
+    public function __construct(SocketListenerInterface $socket, NetworkComponentInterface $component = null)
     {
 
         $this->socket = $socket;
@@ -58,7 +58,7 @@ class SocketServer implements SocketServerInterface, ServerComponentAwareInterfa
      * @override
      * @inheritDoc
      */
-    public function setComponent(ServerComponentInterface $component = null)
+    public function setComponent(NetworkComponentInterface $component = null)
     {
         $this->component = $component === null ? new NullServer() : $component;
     }

@@ -10,7 +10,7 @@ use Kraken\Network\Http\HttpRequest;
 use Kraken\Network\Http\HttpRequestInterface;
 use Kraken\Network\Http\HttpServer;
 use Kraken\Network\Socket\SocketServer;
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentInterface;
 use Kraken\Network\NetworkConnectionInterface;
 use Kraken\Test\Simulation\SimulationInterface;
 use Kraken\Test\TModule;
@@ -146,11 +146,11 @@ class HttpServerTest extends TModule
     }
 
     /**
-     * @param ServerComponentInterface $component
+     * @param NetworkComponentInterface $component
      * @param LoopInterface $loop
      * @return SocketServer
      */
-    public function createServer(ServerComponentInterface $component, LoopInterface $loop)
+    public function createServer(NetworkComponentInterface $component, LoopInterface $loop)
     {
         $this->listener = new SocketListener($this->endpoint, $loop);
         $this->server   = new SocketServer($this->listener);

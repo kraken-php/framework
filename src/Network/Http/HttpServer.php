@@ -2,21 +2,21 @@
 
 namespace Kraken\Network\Http;
 
-use Kraken\Network\ServerComponentAwareInterface;
+use Kraken\Network\NetworkComponentAwareInterface;
 use Kraken\Network\Http\Driver\HttpDriver;
 use Kraken\Network\Http\Driver\HttpDriverInterface;
 use Kraken\Network\Null\NullServer;
 use Kraken\Network\NetworkMessageInterface;
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentInterface;
 use Kraken\Network\NetworkConnectionInterface;
 use Kraken\Util\Buffer\Buffer;
 use Error;
 use Exception;
 
-class HttpServer implements HttpServerInterface, ServerComponentAwareInterface
+class HttpServer implements HttpServerInterface, NetworkComponentAwareInterface
 {
     /**
-     * @var ServerComponentInterface
+     * @var NetworkComponentInterface
      */
     protected $httpServer;
 
@@ -26,10 +26,10 @@ class HttpServer implements HttpServerInterface, ServerComponentAwareInterface
     protected $httpDriver;
 
     /**
-     * @param ServerComponentAwareInterface|null $aware
-     * @param ServerComponentInterface|null $component
+     * @param NetworkComponentAwareInterface|null $aware
+     * @param NetworkComponentInterface|null $component
      */
-    public function __construct(ServerComponentAwareInterface $aware = null, ServerComponentInterface $component = null)
+    public function __construct(NetworkComponentAwareInterface $aware = null, NetworkComponentInterface $component = null)
     {
         $this->httpServer = $component;
         $this->httpDriver = new HttpDriver();
@@ -62,7 +62,7 @@ class HttpServer implements HttpServerInterface, ServerComponentAwareInterface
      * @override
      * @inheritDoc
      */
-    public function setComponent(ServerComponentInterface $component = null)
+    public function setComponent(NetworkComponentInterface $component = null)
     {
         $this->httpServer = $component === null ? new NullServer() : $component;
     }

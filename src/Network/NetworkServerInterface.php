@@ -28,10 +28,10 @@ interface NetworkServerInterface extends LoopResourceInterface
      * Add an endpoint/application to the server.
      *
      * @param string $path
-     * @param ServerComponentInterface $component
+     * @param NetworkComponentInterface $component
      * @return NetworkServerInterface
      */
-    public function addRoute($path, ServerComponentInterface $component);
+    public function addRoute($path, NetworkComponentInterface $component);
 
     /**
      * Remote endpoint/application from the server.

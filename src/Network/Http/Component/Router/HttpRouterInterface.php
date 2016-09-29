@@ -2,9 +2,9 @@
 
 namespace Kraken\Network\Http\Component\Router;
 
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentInterface;
 
-interface HttpRouterInterface extends ServerComponentInterface
+interface HttpRouterInterface extends NetworkComponentInterface
 {
     /**
      * Add an origin to the whitelist that will be allowed to connect to your application.
@@ -49,10 +49,10 @@ interface HttpRouterInterface extends ServerComponentInterface
      * Add an endpoint/application to the server.
      *
      * @param string $path
-     * @param ServerComponentInterface $component
+     * @param NetworkComponentInterface $component
      * @return HttpRouterInterface
      */
-    public function addRoute($path, ServerComponentInterface $component);
+    public function addRoute($path, NetworkComponentInterface $component);
 
     /**
      * Remote endpoint/application from the server.

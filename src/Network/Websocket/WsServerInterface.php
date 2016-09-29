@@ -3,9 +3,9 @@
 namespace Kraken\Network\Websocket;
 
 use Kraken\Network\Websocket\Driver\WsDriverInterface;
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentInterface;
 
-interface WsServerInterface extends ServerComponentInterface
+interface WsServerInterface extends NetworkComponentInterface
 {
     /**
      * Return current driver

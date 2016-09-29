@@ -11,8 +11,8 @@ use Kraken\Network\Websocket\WsServer;
 use Kraken\Network\Websocket\WsServerInterface;
 use Kraken\Network\NetworkConnectionInterface;
 use Kraken\Network\NetworkMessage;
-use Kraken\Network\ServerComponentAwareInterface;
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentAwareInterface;
+use Kraken\Network\NetworkComponentInterface;
 use Kraken\Test\TUnit;
 use Exception;
 use StdClass;
@@ -35,8 +35,8 @@ class WsServerTest extends TUnit
 
         $this->assertInstanceOf(WsServer::class, $server);
         $this->assertInstanceOf(WsServerInterface::class, $server);
-        $this->assertInstanceOf(ServerComponentAwareInterface::class, $server);
-        $this->assertInstanceOf(ServerComponentInterface::class, $server);
+        $this->assertInstanceOf(NetworkComponentAwareInterface::class, $server);
+        $this->assertInstanceOf(NetworkComponentInterface::class, $server);
     }
 
     /**
@@ -370,24 +370,24 @@ class WsServerTest extends TUnit
     }
 
     /**
-     * @return ServerComponentAwareInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return NetworkComponentAwareInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createAware()
     {
-        return $this->getMock(ServerComponentAwareInterface::class, [], [], '', false);
+        return $this->getMock(NetworkComponentAwareInterface::class, [], [], '', false);
     }
 
     /**
-     * @return ServerComponentInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return NetworkComponentInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createComponent()
     {
-        return $this->getMock(ServerComponentInterface::class, [], [], '', false);
+        return $this->getMock(NetworkComponentInterface::class, [], [], '', false);
     }
 
     /**
-     * @param ServerComponentAwareInterface $aware
-     * @param ServerComponentInterface $component
+     * @param NetworkComponentAwareInterface $aware
+     * @param NetworkComponentInterface $component
      * @param string[]|null $methods
      * @return WsServer|\PHPUnit_Framework_MockObject_MockObject
      */

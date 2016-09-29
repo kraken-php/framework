@@ -6,11 +6,11 @@ use Error;
 use Exception;
 use Kraken\Event\BaseEventEmitter;
 use Kraken\Network\Http\HttpRequestInterface;
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentInterface;
 use Kraken\Network\NetworkConnectionInterface;
 use Kraken\Network\NetworkMessageInterface;
 
-class ComponentMock extends BaseEventEmitter implements ServerComponentInterface
+class ComponentMock extends BaseEventEmitter implements NetworkComponentInterface
 {
     /**
      * @override

@@ -3,10 +3,10 @@
 namespace Kraken\Network\Null;
 
 use Kraken\Network\NetworkMessageInterface;
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentInterface;
 use Kraken\Network\NetworkConnectionInterface;
 
-class NullServer implements ServerComponentInterface
+class NullServer implements NetworkComponentInterface
 {
     /**
      * @override

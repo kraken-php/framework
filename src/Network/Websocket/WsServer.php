@@ -2,7 +2,7 @@
 
 namespace Kraken\Network\Websocket;
 
-use Kraken\Network\ServerComponentAwareInterface;
+use Kraken\Network\NetworkComponentAwareInterface;
 use Kraken\Network\Http\HttpRequestInterface;
 use Kraken\Network\Http\HttpResponse;
 use Kraken\Network\Null\NullServer;
@@ -10,7 +10,7 @@ use Kraken\Network\Websocket\Driver\WsDriver;
 use Kraken\Network\Websocket\Driver\WsDriverInterface;
 use Kraken\Network\NetworkConnectionInterface;
 use Kraken\Network\NetworkMessageInterface;
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentInterface;
 use Error;
 use Exception;
 use SplObjectStorage;
@@ -20,10 +20,10 @@ use StdClass;
  * @link http://ca.php.net/manual/en/ref.http.php
  * @link http://dev.w3.org/html5/websockets/
  */
-class WsServer implements WsServerInterface, ServerComponentAwareInterface
+class WsServer implements WsServerInterface, NetworkComponentAwareInterface
 {
     /**
-     * @var ServerComponentInterface
+     * @var NetworkComponentInterface
      */
     protected $wsServer;
 
@@ -38,10 +38,10 @@ class WsServer implements WsServerInterface, ServerComponentAwareInterface
     protected $connCollection;
 
     /**
-     * @param ServerComponentAwareInterface|null $aware
-     * @param ServerComponentInterface|null $component
+     * @param NetworkComponentAwareInterface|null $aware
+     * @param NetworkComponentInterface|null $component
      */
-    public function __construct(ServerComponentAwareInterface $aware = null, ServerComponentInterface $component = null)
+    public function __construct(NetworkComponentAwareInterface $aware = null, NetworkComponentInterface $component = null)
     {
         $this->wsServer = $component === null ? new NullServer() : $component;
         $this->wsDriver = new WsDriver();
@@ -67,7 +67,7 @@ class WsServer implements WsServerInterface, ServerComponentAwareInterface
      * @override
      * @inheritDoc
      */
-    public function setComponent(ServerComponentInterface $component = null)
+    public function setComponent(NetworkComponentInterface $component = null)
     {
         $this->wsServer = $component === null ? new NullServer() : $component;
     }

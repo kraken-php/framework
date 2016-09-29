@@ -3,9 +3,9 @@
 namespace Kraken\Network\Http;
 
 use Kraken\Network\Http\Driver\HttpDriverInterface;
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentInterface;
 
-interface HttpServerInterface extends ServerComponentInterface
+interface HttpServerInterface extends NetworkComponentInterface
 {
     /**
      * Return current driver.

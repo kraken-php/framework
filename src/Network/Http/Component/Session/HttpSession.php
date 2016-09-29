@@ -3,8 +3,8 @@
 namespace Kraken\Network\Http\Component\Session;
 
 use Kraken\Network\Null\NullServer;
-use Kraken\Network\ServerComponentAwareInterface;
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentAwareInterface;
+use Kraken\Network\NetworkComponentInterface;
 use Kraken\Network\NetworkConnectionInterface;
 use Kraken\Network\NetworkMessageInterface;
 use Kraken\Throwable\Exception\RuntimeException;
@@ -14,10 +14,10 @@ use Symfony\Component\HttpFoundation\Session\Storage\Handler\NullSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Session;
 use SessionHandlerInterface;
 
-class HttpSession implements HttpSessionInterface, ServerComponentAwareInterface
+class HttpSession implements HttpSessionInterface, NetworkComponentAwareInterface
 {
     /**
-     * @var ServerComponentInterface
+     * @var NetworkComponentInterface
      */
     protected $component;
 
@@ -37,16 +37,16 @@ class HttpSession implements HttpSessionInterface, ServerComponentAwareInterface
     protected $serializer;
 
     /**
-     * @param ServerComponentAwareInterface|null $aware
-     * @param ServerComponentInterface|null $component
+     * @param NetworkComponentAwareInterface|null $aware
+     * @param NetworkComponentInterface|null $component
      * @param SessionHandlerInterface|null $handler
      * @param string[] $options
      * @param HandlerInterface|null $serializer
      * @throws RuntimeException
      */
     public function __construct(
-        ServerComponentAwareInterface $aware = null,
-        ServerComponentInterface $component = null,
+        NetworkComponentAwareInterface $aware = null,
+        NetworkComponentInterface $component = null,
         SessionHandlerInterface $handler = null,
         $options = [],
         HandlerInterface $serializer = null
@@ -96,7 +96,7 @@ class HttpSession implements HttpSessionInterface, ServerComponentAwareInterface
      * @override
      * @inheritDoc
      */
-    public function setComponent(ServerComponentInterface $component = null)
+    public function setComponent(NetworkComponentInterface $component = null)
     {
         $this->component = $component === null ? new NullServer() : $component;
     }

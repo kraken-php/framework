@@ -3,15 +3,15 @@
 namespace Kraken\Network\Socket\Component\Firewall;
 
 use Kraken\Network\Null\NullServer;
-use Kraken\Network\ServerComponentAwareInterface;
+use Kraken\Network\NetworkComponentAwareInterface;
 use Kraken\Network\NetworkConnectionInterface;
 use Kraken\Network\NetworkMessageInterface;
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentInterface;
 
-class SocketFirewall implements SocketFirewallInterface, ServerComponentAwareInterface
+class SocketFirewall implements SocketFirewallInterface, NetworkComponentAwareInterface
 {
     /**
-     * @var ServerComponentInterface
+     * @var NetworkComponentInterface
      */
     protected $component;
 
@@ -21,10 +21,10 @@ class SocketFirewall implements SocketFirewallInterface, ServerComponentAwareInt
     protected $blacklist;
 
     /**
-     * @param ServerComponentAwareInterface|null $aware
-     * @param ServerComponentInterface|null $component
+     * @param NetworkComponentAwareInterface|null $aware
+     * @param NetworkComponentInterface|null $component
      */
-    public function __construct(ServerComponentAwareInterface $aware = null, ServerComponentInterface $component = null)
+    public function __construct(NetworkComponentAwareInterface $aware = null, NetworkComponentInterface $component = null)
     {
         $this->component = $component;
         $this->blacklist = [];
@@ -48,7 +48,7 @@ class SocketFirewall implements SocketFirewallInterface, ServerComponentAwareInt
      * @override
      * @inheritDoc
      */
-    public function setComponent(ServerComponentInterface $component = null)
+    public function setComponent(NetworkComponentInterface $component = null)
     {
         $this->component = $component === null ? new NullServer() : $component;
     }

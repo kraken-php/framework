@@ -9,7 +9,7 @@ use Kraken\Loop\LoopInterface;
 use Kraken\Test\Simulation\SimulationInterface;
 use Kraken\Network\Socket\SocketServer;
 use Kraken\Test\TModule;
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentInterface;
 use Kraken\Network\NetworkConnectionInterface;
 use Kraken\Network\NetworkMessageInterface;
 
@@ -102,11 +102,11 @@ class SocketServerTest extends TModule
     }
 
     /**
-     * @param ServerComponentInterface $component
+     * @param NetworkComponentInterface $component
      * @param LoopInterface $loop
      * @return SocketServer
      */
-    public function createServer(ServerComponentInterface $component, LoopInterface $loop)
+    public function createServer(NetworkComponentInterface $component, LoopInterface $loop)
     {
         $this->listener = new SocketListener($this->endpoint, $loop);
         $this->server   = new SocketServer($this->listener, $component);

@@ -98,7 +98,7 @@ class NetworkServer implements NetworkServerInterface
      * @override
      * @inheritDoc
      */
-    public function addRoute($path, ServerComponentInterface $component)
+    public function addRoute($path, NetworkComponentInterface $component)
     {
         return $this->router->addRoute($path, $component);
     }

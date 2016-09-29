@@ -9,8 +9,8 @@ use Kraken\Network\Http\HttpResponseInterface;
 use Kraken\Network\Http\HttpServer;
 use Kraken\Network\Null\NullServer;
 use Kraken\Network\Socket\SocketServer;
-use Kraken\Network\ServerComponentAwareInterface;
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentAwareInterface;
+use Kraken\Network\NetworkComponentInterface;
 use Kraken\Network\NetworkConnection;
 use Kraken\Network\NetworkConnectionInterface;
 use Kraken\Network\NetworkMessage;
@@ -37,7 +37,7 @@ class HttpRouterTest extends TUnit
 
         $this->assertInstanceOf(HttpRouter::class, $router);
         $this->assertInstanceOf(HttpRouterInterface::class, $router);
-        $this->assertInstanceOf(ServerComponentInterface::class, $router);
+        $this->assertInstanceOf(NetworkComponentInterface::class, $router);
     }
 
     /**
@@ -545,7 +545,7 @@ class HttpRouterTest extends TUnit
 
     /**
      * @param string[]|null $methods
-     * @return ServerComponentAwareInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return NetworkComponentAwareInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createServer($methods = [])
     {
@@ -555,11 +555,11 @@ class HttpRouterTest extends TUnit
     }
 
     /**
-     * @return ServerComponentInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return NetworkComponentInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createComponent()
     {
-        return $this->getMock(ServerComponentInterface::class, [], [], '', false);
+        return $this->getMock(NetworkComponentInterface::class, [], [], '', false);
     }
 
     /**
@@ -579,7 +579,7 @@ class HttpRouterTest extends TUnit
     }
 
     /**
-     * @param ServerComponentAwareInterface $aware
+     * @param NetworkComponentAwareInterface $aware
      * @param string[]|null $methods
      * @param mixed[] $params
      * @return HttpRouter|\PHPUnit_Framework_MockObject_MockObject

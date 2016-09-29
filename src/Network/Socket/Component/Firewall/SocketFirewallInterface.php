@@ -2,9 +2,9 @@
 
 namespace Kraken\Network\Socket\Component\Firewall;
 
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentInterface;
 
-interface SocketFirewallInterface extends ServerComponentInterface
+interface SocketFirewallInterface extends NetworkComponentInterface
 {
     /**
      * Add an address to the blacklist that will not be allowed to connect to your application.

@@ -8,8 +8,8 @@ use Kraken\Ipc\Socket\SocketListenerInterface;
 use Kraken\Network\Null\NullServer;
 use Kraken\Network\Socket\SocketServer;
 use Kraken\Network\Socket\SocketServerInterface;
-use Kraken\Network\ServerComponentAwareInterface;
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentAwareInterface;
+use Kraken\Network\NetworkComponentInterface;
 use Kraken\Network\NetworkConnection;
 use Kraken\Network\NetworkMessage;
 use Kraken\Test\TUnit;
@@ -28,7 +28,7 @@ class SocketServerTest extends TUnit
 
         $this->assertInstanceOf(SocketServer::class, $server);
         $this->assertInstanceOf(SocketServerInterface::class, $server);
-        $this->assertInstanceOf(ServerComponentAwareInterface::class, $server);
+        $this->assertInstanceOf(NetworkComponentAwareInterface::class, $server);
     }
 
     /**
@@ -322,11 +322,11 @@ class SocketServerTest extends TUnit
     }
 
     /**
-     * @return ServerComponentInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @return NetworkComponentInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     public function createComponent()
     {
-        return $this->getMock(ServerComponentInterface::class, [], [], '', false);
+        return $this->getMock(NetworkComponentInterface::class, [], [], '', false);
     }
 
     /**
@@ -339,7 +339,7 @@ class SocketServerTest extends TUnit
 
     /**
      * @param SocketListenerInterface $listener
-     * @param ServerComponentInterface $component
+     * @param NetworkComponentInterface $component
      * @param string[]|null $methods
      * @return SocketServer|\PHPUnit_Framework_MockObject_MockObject
      */

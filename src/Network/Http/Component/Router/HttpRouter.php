@@ -4,10 +4,10 @@ namespace Kraken\Network\Http\Component\Router;
 
 use Kraken\Network\Http\HttpRequestInterface;
 use Kraken\Network\Http\HttpResponse;
-use Kraken\Network\ServerComponentAwareInterface;
+use Kraken\Network\NetworkComponentAwareInterface;
 use Kraken\Network\NetworkConnectionInterface;
 use Kraken\Network\NetworkMessageInterface;
-use Kraken\Network\ServerComponentInterface;
+use Kraken\Network\NetworkComponentInterface;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
@@ -51,10 +51,10 @@ class HttpRouter implements HttpRouterInterface
     protected $allowedOrigins;
 
     /**
-     * @param ServerComponentAwareInterface $aware
+     * @param NetworkComponentAwareInterface $aware
      * @param mixed[] $params
      */
-    public function __construct(ServerComponentAwareInterface $aware = null, $params = [])
+    public function __construct(NetworkComponentAwareInterface $aware = null, $params = [])
     {
         $this->routes = (isset($params['routes']) && $params['routes'] instanceof RouteCollection)
             ? $params['routes']
@@ -147,7 +147,7 @@ class HttpRouter implements HttpRouterInterface
      * @override
      * @inheritDoc
      */
-    public function addRoute($path, ServerComponentInterface $component)
+    public function addRoute($path, NetworkComponentInterface $component)
     {
         $this->routes->add(
             $path,
