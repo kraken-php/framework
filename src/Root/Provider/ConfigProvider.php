@@ -18,6 +18,7 @@ use Kraken\Container\ServiceProviderInterface;
 use Kraken\Filesystem\Filesystem;
 use Kraken\Filesystem\FilesystemAdapterFactory;
 use Kraken\Runtime\Runtime;
+use Kraken\Throwable\Exception\Runtime\ReadException;
 use Kraken\Util\Support\ArraySupport;
 use Kraken\Util\Support\StringSupport;
 
@@ -64,11 +65,31 @@ class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
         $dir  = $this->getDir($context->getName(), $context->getType());
         $name = $context->getName();
 
-        $prefix   = $core->getDataPath() . '/config/' . $dir;
-        $typePath = $prefix . '/config\.([a-zA-Z]*?)$';
-        $namePath = $prefix . '/' . $name . '/config\.([a-zA-Z]*?)$';
+        $prefix = $core->getDataPath() . '/config';
+        $paths = [
+            $prefix . '/' . $dir . '/' . $name,
+            $prefix . '/Runtime/' . $name,
+            $prefix . '/' . $dir,
+            $prefix . '/Runtime'
+        ];
 
-        $path = is_dir($prefix . '/' . $name) ? $namePath : $typePath;
+        $path = '';
+        $pathFound = false;
+
+        foreach ($paths as $path)
+        {
+            if (is_dir($path))
+            {
+                $path .= '/config\.([a-zA-Z]*?)$';
+                $pathFound = true;
+                break;
+            }
+        }
+
+        if (!$pathFound)
+        {
+            throw new ReadException('There is no valid configuration file.');
+        }
 
         $data = $core->config();
         $data['imports'] = [];
