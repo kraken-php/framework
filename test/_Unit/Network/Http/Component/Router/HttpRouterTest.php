@@ -312,7 +312,7 @@ class HttpRouterTest extends TUnit
             ->will($this->returnValue('origin'));
 
         $server = $this->createServer();
-        $router = $this->createRouter($server, [ 'close' ]);
+        $router = $this->createRouter($server, [ 'close' ], [ 'checkOrigin' => true ]);
         $router
             ->expects($this->once())
             ->method('close')
@@ -581,11 +581,12 @@ class HttpRouterTest extends TUnit
     /**
      * @param ServerComponentAwareInterface $aware
      * @param string[]|null $methods
+     * @param mixed[] $params
      * @return HttpRouter|\PHPUnit_Framework_MockObject_MockObject
      */
-    public function createRouter($aware, $methods = null)
+    public function createRouter($aware, $methods = null, $params = [])
     {
-        $this->router = $this->getMock(HttpRouter::class, $methods, [ $aware ]);
+        $this->router = $this->getMock(HttpRouter::class, $methods, [ $aware, $params ]);
 
         return $this->router;
     }

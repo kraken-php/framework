@@ -36,23 +36,40 @@ class HttpRouter implements HttpRouterInterface
     protected $matcher;
 
     /**
+     * @var string
+     */
+    protected $host;
+
+    /**
+     * @var bool
+     */
+    protected $checkOrigin;
+
+    /**
      * @var string[]
      */
     protected $allowedOrigins;
 
     /**
      * @param ServerComponentAwareInterface $aware
-     * @param RouteCollection|null $routes
-     * @param RequestContext|null $context
+     * @param mixed[] $params
      */
-    public function __construct(ServerComponentAwareInterface $aware = null, RouteCollection $routes = null, RequestContext $context = null)
+    public function __construct(ServerComponentAwareInterface $aware = null, $params = [])
     {
-        $this->routes = ($routes !== null) ? $routes : new RouteCollection();
-        $this->context = ($context !== null) ? $context : new RequestContext();
+        $this->routes = (isset($params['routes']) && $params['routes'] instanceof RouteCollection)
+            ? $params['routes']
+            : new RouteCollection();
+        $this->context = (isset($params['context']) && $params['context'] instanceof RequestContext)
+            ? $params['context']
+            : new RequestContext();
+
         $this->matcher = new UrlMatcher(
             $this->routes,
             $this->context
         );
+
+        $this->host = isset($params['host']) ? $params['host'] : 'localhost';
+        $this->checkOrigin = isset($params['checkOrigin']) ? $params['checkOrigin'] : false;
         $this->allowedOrigins = [];
 
         if ($aware !== null)
@@ -69,6 +86,8 @@ class HttpRouter implements HttpRouterInterface
         unset($this->routes);
         unset($this->matcher);
         unset($this->matcher);
+        unset($this->params);
+        unset($this->checkOrigin);
         unset($this->allowedOrigins);
     }
 
@@ -135,9 +154,9 @@ class HttpRouter implements HttpRouterInterface
             new Route(
                 $path,
                 [ '_controller' => $component ],
-                [ 'Origin' => 'localhost' ],
+                $this->checkOrigin ? [] : [ 'Origin' => $this->host ],
                 [],
-                'localhost'
+                $this->checkOrigin ? '' : $this->host
             )
         );
 
@@ -190,7 +209,7 @@ class HttpRouter implements HttpRouterInterface
             return $conn->controller->handleMessage($conn, $message);
         }
 
-        if (($header = $message->getHeaderLine('Origin')) !== '')
+        if ($this->checkOrigin && ($header = $message->getHeaderLine('Origin')) !== '')
         {
             $origin = parse_url($header, PHP_URL_HOST) ?: $header;
 

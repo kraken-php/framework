@@ -39,23 +39,23 @@ class NetworkServer implements NetworkServerInterface
     /**
      * @var HttpRouterInterface
      */
-    protected $router;
+    public $router;
 
     /**
      * @param SocketListenerInterface $listener
+     * @param mixed[] $params
      * @throws InstantiationException
      */
-    public function __construct(SocketListenerInterface $listener)
+    public function __construct(SocketListenerInterface $listener, $params = [])
     {
         try
         {
             $router = new HttpRouter(
                 $http = new HttpServer(
                     $server = new SocketServer($listener)
-                )
+                ),
+                $params
             );
-
-            $router->allowOrigin($listener->getLocalAddress());
 
             $this->listener = $listener;
             $this->server = $server;
