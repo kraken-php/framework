@@ -63,9 +63,9 @@ class RequestTest extends TUnit
     {
         $req = $this->createRequest('name', 'secret');
         $expected = [
-            'timeout'           => 3.0,
-            'retriesLimit'      => 6,
-            'retriesInterval'   => 2.0
+            'timeout'           => 2.0,
+            'retriesLimit'      => 10,
+            'retriesInterval'   => 0.25
         ];
         $params = $this->getProtectedProperty($req, 'params');
 

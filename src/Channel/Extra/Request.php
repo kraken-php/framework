@@ -53,9 +53,9 @@ class Request
         $this->name = $name;
         $this->message = ($message instanceof ProtocolInterface) ? $message : $this->channel->createProtocol($message);
         $this->params = [
-            'timeout'           => isset($params['timeout']) ? $params['timeout'] : 3.0,
-            'retriesLimit'      => isset($params['retriesLimit']) ? $params['retriesLimit'] : 6,
-            'retriesInterval'   => isset($params['retriesInterval']) ? $params['retriesInterval'] : 2.0
+            'timeout'           => isset($params['timeout']) ? $params['timeout'] : 2.0,
+            'retriesLimit'      => isset($params['retriesLimit']) ? $params['retriesLimit'] : 10,
+            'retriesInterval'   => isset($params['retriesInterval']) ? $params['retriesInterval'] : 0.25
         ];
         $this->counter = 1;
         $this->message->setTimestamp(
