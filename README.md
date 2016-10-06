@@ -16,9 +16,7 @@
 
 ## Description
 
-Kraken is the first and only multi-processed, multi-threaded, fault-tolerant framework for PHP. It has been written to 
-provide easy and reliable API for creating distributed applications using PHP. Kraken aims to solve typical problems of 
-writing such applications and to provide developers with powerful yet elegant tools for dealing with them. 
+Kraken is the first and only multi-processed, multi-threaded, fault-tolerant framework for PHP. It has been written to provide easy and reliable API for creating distributed applications using PHP. Kraken aims to solve typical problems of writing such applications and to provide developers with powerful yet elegant tools for dealing with them. 
 
 The main focus of Kraken Framework is put on: 
 * __Concurrency__ : create systems that are asynchronous and concurrent by design,
@@ -28,9 +26,7 @@ The main focus of Kraken Framework is put on:
 * __High performance__ : handle up to thousands of connections per second on each container,
 * __Extensibility__ : use available options to easily extend and adapt framework features for your needs.
 
-Start writing applications that were previously marked as impossible or hard to implement in PHP right know. Servers, 
-service-oriented architecture, agent-based models, games, complex daemons, socket programs, schedulers and much, much 
-more - nothing is impossible with Kraken! 
+Start writing applications that were previously marked as impossible or hard to implement in PHP right know. Servers, service-oriented architecture, agent-based models, games, complex daemons, socket programs, schedulers and much, much more - nothing is impossible with Kraken! 
 
 ## Feature Highlights
 
@@ -56,8 +52,7 @@ Full list of features can be found on [official website][1].
 
 ## Modules
 
-Kraken Framework is fully modular and each of its components can be used separately. If for some reason you don't want
-to download full application stack, you can require any of the following components:
+Kraken Framework is fully modular and each of its components can be used separately. If for some reason you don't want to download full application stack, you can require any of the following components:
 
 * [__Kraken/Channel__](https://github.com/kraken-php/channel) : IPC abstractions,
 * [__Kraken/Config__](https://github.com/kraken-php/config) : Default configurator,
@@ -82,9 +77,7 @@ to download full application stack, you can require any of the following compone
 
 ## Performance
 
-Kraken is able to emit millions of events and thousands of messages and connections per second using single container.
-It is scalable for multiple processes and threads, faster than traditional PHP approach and able to handle same or 
-higher amount of connections that Node.js.
+Kraken is able to emit millions of events and thousands of messages and connections per second using single container. It is scalable for multiple processes and threads, faster than traditional PHP approach and able to handle same or higher amount of connections that Node.js.
 
 <p align="center">
 <img src="https://docs.google.com/uc?export=download&id=0B_FVuB10kPjVT21lY3JzVTRwT3c" width="882" height="334" />
@@ -100,6 +93,14 @@ higher amount of connections that Node.js.
 
 Documentation for the framework can be found in the [official documentation][2] page. To see installation instructions, 
 please check out [application skeleton](https://github.com/kraken-php/kraken) or go to [installation guide][3].
+
+## Examples
+
+There are few examples you can try, before deciding to use Kraken:
+
+- [Distributed Chat Application](https://github.com/kraken-php/demo-chat).
+
+If you have written your own demo application for Kraken, and want to list it here, contact us!
 
 ## Frequently Asked Questions
 
