@@ -7,7 +7,7 @@
 [![Gitter](https://badges.gitter.im/kraken-php/framework.svg)](https://gitter.im/kraken-php/framework?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![@kraken_php on Twitter](https://img.shields.io/badge/twitter-%40kraken__php-blue.svg)](https://twitter.com/kraken_php)
 
-> **Note:** This repository contains the core of the Kraken Framework. If you want to start developing new application with Kraken, check out [Kraken Application Skeleton](https://github.com/kraken-php/kraken). If you want to learn more visit [offical website](http://kraken-php.com).
+> **Note:** This repository contains the core of the Kraken Framework. If you want to start developing new application with Kraken, check out [Kraken Application Skeleton](https://github.com/kraken-php/kraken). If you want to learn more visit [official website](http://kraken-php.com).
 
 <br>
 <p align="center">
