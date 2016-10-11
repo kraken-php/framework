@@ -21,7 +21,7 @@ Kraken is the first and only multi-processed, multi-threaded, fault-tolerant fra
 The main focus of Kraken Framework is put on: 
 * __Concurrency__ : create systems that are asynchronous and concurrent by design,
 * __Distribution__ : divide your application into several containers and run them on multiple threads, processors or hosts,
-* __Faul tolerance__ : write systems that self-heal using remote and local supervision hierarchies,
+* __Fault tolerance__ : write systems that self-heal using remote and local supervision hierarchies,
 * __Elasticity__ : modify existing architecture in realtime without need to change in code,
 * __High performance__ : handle up to thousands of connections per second on each container,
 * __Extensibility__ : use available options to easily extend and adapt framework features for your needs.
