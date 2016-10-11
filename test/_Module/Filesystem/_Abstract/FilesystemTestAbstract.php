@@ -160,6 +160,7 @@ abstract class FilesystemTestAbstract extends TModule
         file_put_contents($path . '/FILE_B.txt', 'FILE_B_TEXT');
         file_put_contents($path . '/DIR_A/FILE_C', 'FILE_C_TEXT');
         file_put_contents($path . '/FILE_D', 'FILE_D_TEXT');
+        file_put_contents($path . '/FILE_E', '<?php return "FILE_E_TEXT";');
         chmod($path . '/DIR_D',  0700);
         chmod($path . '/FILE_D', 0700);
     }
@@ -175,7 +176,6 @@ abstract class FilesystemTestAbstract extends TModule
     /**
      * @param string $path
      * @param bool $recursive
-     * @param callable $nameFilter
      * @return array
      */
     private function getPathAllData($path, $recursive)

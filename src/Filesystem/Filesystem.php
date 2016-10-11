@@ -448,7 +448,7 @@ class Filesystem implements FilesystemInterface
      */
     public function req($path)
     {
-        return "data://text/plain;base64," . base64_encode($this->read($path));
+        return eval('?>' . $this->read($path));
     }
 
     /**

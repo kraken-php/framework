@@ -37,19 +37,16 @@ class ConfigFactory extends SimpleFactory implements ConfigFactoryInterface
             $data = [];
             $config = new Config($data, $overwriteHandler);
 
-            foreach ($files as $file)
-            {
+            foreach ($files as $file) {
                 $ext = $file['extension'];
-                $contents = $fs->read($file['path']);
                 $data = [];
-
-                if ($ext === 'php')
-                {
-                    $data = require "data://text/plain;base64," . base64_encode($contents);
-                }
-                else if (isset($parsers[$ext]))
-                {
-                    $data = $parsers[$ext]->decode($contents);
+                if ($ext === 'php') {
+                    $data = $fs->req($file['path']);
+                } else {
+                    if (isset($parsers[$ext])) {
+                        $contents = $fs->read($file['path']);
+                        $data = $parsers[$ext]->decode($contents);
+                    }
                 }
 
                 $config->merge($data);

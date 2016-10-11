@@ -56,19 +56,19 @@ trait FsApiReqPartial
     {
         $test = $this->getTest();
         $fs = $this->createFilesystem();
-        $contents = $this->encodeReq('FILE_A_TEXT');
+        $contents = 'FILE_E_TEXT';
 
-        $test->assertEquals($contents, $fs->req($this->getPrefixed('FILE_A')));
+        $test->assertEquals($contents, $fs->req($this->getPrefixed('FILE_E')));
     }
 
     /**
      *
      */
-    public function testApiReq_ReturnsEmptyString_WhenPathDoesExistButIsNotValid()
+    public function testApiReq_ReturnsNull_WhenPathDoesExistButIsNotValid()
     {
         $test = $this->getTest();
         $fs = $this->createFilesystem();
-        $contents = $this->encodeReq('');
+        $contents = null;
 
         $test->assertEquals($contents, $fs->req($this->getPrefixed('DIR_A')));
     }
@@ -84,14 +84,5 @@ trait FsApiReqPartial
         $test->setExpectedException(ReadException::class);
 
         $fs->req($this->getPrefixed('FILE_NULL'));
-    }
-
-    /**
-     * @param string $str
-     * @return string
-     */
-    private function encodeReq($str)
-    {
-        return "data://text/plain;base64," . base64_encode($str);
     }
 }
