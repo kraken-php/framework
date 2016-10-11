@@ -21,7 +21,7 @@ Container features:
 
 * Support for binding objects, classes, params and factory methods to container,
 * Support for modifying container and removal of its definitions on fly,
-* Autoresolve for not defined classes or servies,
+* Autoresolve for not defined classes or services,
 * Autowiring for simple and nested dependencies,
 * Service providers with configurable requirements and providees,
 * Service registers,

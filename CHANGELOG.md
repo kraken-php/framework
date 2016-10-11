@@ -6,7 +6,7 @@ This changelog references the relevant changes, bug and security fixes done.
 
 ### Additions
 
-- Added unviersal namespace for creating container definitions which do not care whether they are processes or threads ([#31](https://github.com/kraken-php/framework/issues/31)).
+- Added universal namespace for creating container definitions which do not care whether they are processes or threads ([#31](https://github.com/kraken-php/framework/issues/31)).
 - Added possibility of creating universal bootstrap files.
 - Added possibility of creating universal config files.
 - Added `sendCommand` method to each class implementing `Kraken\Runtime\RuntimeManagerInterface` ([#34](https://github.com/kraken-php/framework/issues/34)).

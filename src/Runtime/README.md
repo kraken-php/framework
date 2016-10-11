@@ -25,7 +25,7 @@ Runtime features:
 * Command-based controls to pass orders between containers,
 * Built-in Process local and remote managers,
 * Built-in Thread local and remote managers,
-* Built-in Runtime managers abstracting managment of processes and threads,
+* Built-in Runtime managers abstracting management of processes and threads,
 * Supervision mechanisms with separation of local and remote errors,
 * Supervision problem solvers,
 * Kraken Framework compatibility,
