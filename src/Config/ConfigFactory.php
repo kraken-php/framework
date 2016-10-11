@@ -40,15 +40,14 @@ class ConfigFactory extends SimpleFactory implements ConfigFactoryInterface
             foreach ($files as $file)
             {
                 $ext = $file['extension'];
-                $contents = $fs->read($file['path']);
                 $data = [];
-
                 if ($ext === 'php')
                 {
-                    $data = require "data://text/plain;base64," . base64_encode($contents);
+                    $data = $fs->req($file['path']);
                 }
                 else if (isset($parsers[$ext]))
                 {
+                    $contents = $fs->read($file['path']);
                     $data = $parsers[$ext]->decode($contents);
                 }
 

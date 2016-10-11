@@ -678,15 +678,16 @@ class FilesystemTest extends TUnit
     /**
      *
      */
-    public function testApiReq_UsesDataStreamToIncludePhpFilesFromExternalSources()
+    public function testApiReq_UsesEvalToIncludePhpFilesFromExternalSources()
     {
         $path = 'path';
+        $code = '<?php return "XYZ";';
         $str = 'XYZ';
 
-        $this->expect('read', [ $path ])->willReturn($str);
+        $this->expect('read', [ $path ])->willReturn($code);
 
         $this->assertEquals(
-            "data://text/plain;base64," . base64_encode($str),
+            $str,
             $this->fs->req($path)
         );
     }
