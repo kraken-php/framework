@@ -448,7 +448,13 @@ class Filesystem implements FilesystemInterface
      */
     public function req($path)
     {
-        return eval('?>' . $this->read($path));
+        $result = eval('?>' . $this->read($path));
+        if (is_null($result))
+        {
+            $result = '';
+        }
+
+        return $result;
     }
 
     /**

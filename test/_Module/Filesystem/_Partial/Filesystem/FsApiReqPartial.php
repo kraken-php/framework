@@ -64,11 +64,11 @@ trait FsApiReqPartial
     /**
      *
      */
-    public function testApiReq_ReturnsNull_WhenPathDoesExistButIsNotValid()
+    public function testApiReq_ReturnsEmptyString_WhenPathDoesExistButIsNotValid()
     {
         $test = $this->getTest();
         $fs = $this->createFilesystem();
-        $contents = null;
+        $contents = '';
 
         $test->assertEquals($contents, $fs->req($this->getPrefixed('DIR_A')));
     }
