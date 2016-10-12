@@ -154,9 +154,9 @@ class HttpRouter implements HttpRouterInterface
             new Route(
                 $path,
                 [ '_controller' => $component ],
-                $this->checkOrigin ? [] : [ 'Origin' => $this->host ],
+                $this->checkOrigin ? [ 'Origin' => $this->host ] : [],
                 [],
-                $this->checkOrigin ? '' : $this->host
+                $this->checkOrigin ? $this->host : ''
             )
         );
 
