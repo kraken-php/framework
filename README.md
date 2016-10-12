@@ -104,6 +104,10 @@ If you have written your own demo application for Kraken, and want to list it he
 
 ## Frequently Asked Questions
 
+#### Is Kraken a framework or a set of libraries?
+
+> Kraken is both. It gives developer a fully working and pre-configured framework to start writing asynchronous applications easily, but at the same moment it provides a set of independent modules. The choice is up to developer whether he wants to use the full application stack, or build something different using only selected components.
+
 #### Is PHP GC able to handle daemonized, long-running application?
 
 > In most cases yes, but developers still have to keep an eye on application memory usage. PHP 5.5+, which is required for 
