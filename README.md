@@ -108,6 +108,10 @@ If you have written your own demo application for Kraken, and want to list it he
 
 > Kraken is both. It gives developer a fully working and pre-configured framework to start writing asynchronous applications easily, but at the same moment it provides a set of independent modules. The choice is up to developer whether he wants to use the full application stack, or build something different using only selected components.
 
+#### How does the Kraken differ from other PHP async libraries?
+
+> In comparison to already existing PHP async libraries, Kraken gives the developer not only the async tools, but also do the most of the dirty work of creating distributed applications. It gives you consistent interface for working with processes and threads, implements fault-tolerance mechanisms, allows usage of remote and local supervision hierarchies, gives IPC abstractions and implements most important messaging patterns such as routing, heartbeating and much, much more. Instead of thinking how to use async libraries in the new project and how to design the project with them, developer can simply start Kraken instance and focus on its business logic!
+
 #### Is PHP GC able to handle daemonized, long-running application?
 
 > In most cases yes, but developers still have to keep an eye on application memory usage. PHP 5.5+, which is required for 
