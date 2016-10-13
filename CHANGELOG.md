@@ -2,6 +2,13 @@
 
 This changelog references the relevant changes, bug and security fixes done.
 
+## v0.3.2 (2016-10-13)
+
+### Fixes
+
+- Changed include method of external PHP scripts to not require allow_url_include flag ([#41](https://github.com/kraken-php/framework/pull/41)).
+- Fixed the wrong behaviour of checkOrigin flag in WsRouter ([#46](https://github.com/kraken-php/framework/issues/46)).
+
 ## v0.3.1 (2016-09-30)
 
 ### Additions
