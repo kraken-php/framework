@@ -146,8 +146,6 @@ class ProcessBoot
 
         $controller = (new ReflectionClass($controllerClass))->newInstanceArgs($this->controllerParams);
 
-        var_dump($controllerClass);
-
         $params = array_merge(
             [
                 'type'      => $type = Runtime::UNIT_PROCESS,
