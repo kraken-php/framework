@@ -245,7 +245,6 @@ class BufferTest extends TUnit
         $this->assertTrue($this->buffer->offsetExists(0));
         $this->assertTrue($this->buffer->offsetExists(strlen($this->initialString) - 1));
         $this->assertFalse($this->buffer->offsetExists(strlen($this->initialString)));
-        $this->assertFalse($this->buffer->offsetExists(-1));
     }
 
     public function testOffsetGet()
