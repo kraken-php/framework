@@ -467,7 +467,7 @@ class ChannelModelTest extends TModule
                     $sim->emit('pass');
                 });
 
-                $sim->onStart(function() use($slaver, $master, $slaver) {
+                $sim->onStart(function() use($slaver, $master) {
                     $master->start();
                     $slaver->start();
                 });
