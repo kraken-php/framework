@@ -135,21 +135,13 @@ class WsServer implements WsServerInterface, NetworkComponentAwareInterface
             return;
         }
 
-        if ($conn->WebSocket->established === false)
+        if ($conn->WebSocket->established === true)
         {
-            return $this->attemptUpgrade($conn);
+            $conn->WebSocket->version->wsMessage($this->connCollection[$conn], $message);
+            return;
         }
 
-        try
-        {
-            return $conn->WebSocket->version->wsMessage($this->connCollection[$conn], $message);
-        }
-        catch (Error $ex)
-        {}
-        catch (Exception $ex)
-        {}
-
-        $this->handleError($conn, $ex);
+        $this->attemptUpgrade($conn);
     }
 
     /**
@@ -164,7 +156,7 @@ class WsServer implements WsServerInterface, NetworkComponentAwareInterface
         }
         else
         {
-            $this->close($conn, 500);
+            $conn->close();
         }
     }
 
@@ -209,16 +201,7 @@ class WsServer implements WsServerInterface, NetworkComponentAwareInterface
 
         $upgraded->WebSocket->established = true;
 
-        try
-        {
-            return $this->wsServer->handleConnect($upgraded);
-        }
-        catch (Error $ex)
-        {}
-        catch (Exception $ex)
-        {}
-
-        $this->close($conn, 500);
+        $this->wsServer->handleConnect($upgraded);
     }
 
     /**
