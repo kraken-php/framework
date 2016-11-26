@@ -77,11 +77,13 @@ Kraken Framework is fully modular and each of its components can be used separat
 
 ## Performance
 
-Kraken is able to emit millions of events and thousands of messages and connections per second using single container. It is scalable for multiple processes and threads, faster than traditional PHP approach and able to handle same or higher amount of connections that Node.js.
+Kraken is able to emit millions of events and thousands of messages and connections per second using single container. It is scalable for multiple processes and threads, faster than traditional PHP approach and able to handle similar amount of connections as Node.js.
 
 <p align="center">
 <img src="https://docs.google.com/uc?export=download&id=0B_FVuB10kPjVT21lY3JzVTRwT3c" width="882" height="334" />
 </p>
+
+> **Note:** Keep in mind that Kraken project does not solely focus around HTTP performance. It provides a set of distinct asynchronous libraries to use in PHP. The attached graph's main intention is to show that PHP is fast enough to compete with the leading technologies available on the market. The HTTP component has been chosen as it is the only one that can be easily compared between asynchronous and synchronous MVC frameworks. Do not treat it as an actual benchmark.
 
 ## Requirements
 
