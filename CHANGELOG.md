@@ -2,6 +2,16 @@
 
 This changelog references the relevant changes, bug and security fixes done.
 
+## v0.3.3 (2016-11-26)
+
+### Fixes
+
+- Fixed log tests for Monlog v1.22
+
+### Miscellaneous
+
+- Added support for PHP 7.1 ([#46](https://github.com/kraken-php/framework/pull/51)).
+
 ## v0.3.2 (2016-10-13)
 
 ### Fixes

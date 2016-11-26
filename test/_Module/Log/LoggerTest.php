@@ -277,8 +277,9 @@ class LoggerTest extends TModule
     {
         $sub = '%context.A%,%context.B%';
 
-        foreach ($context as $key=>$val)
+        foreach ([ 'A', 'B' ] as $key)
         {
+            $val = isset($context[$key]) ? $context[$key] : '';
             $sub = str_replace("%context.$key%", $val, $sub);
         }
 
