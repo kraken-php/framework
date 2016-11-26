@@ -98,7 +98,9 @@ please check out [application skeleton](https://github.com/kraken-php/kraken) or
 
 There are few examples you can try, before deciding to use Kraken:
 
-- [Distributed Chat Application](https://github.com/kraken-php/demo-chat).
+- [Chat Application](https://github.com/kraken-php/demo-chat).
+- [Symfony Integration & Websockets Bundle](https://github.com/kraken-collective/ws-symfony).
+- [Symfony Integration & Websockets Bundle Example](https://github.com/kraken-collective/ws-symfony-example).
 
 If you have written your own demo application for Kraken, and want to list it here, contact us!
 
