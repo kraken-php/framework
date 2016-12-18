@@ -135,17 +135,17 @@ class AsyncStream extends Stream implements AsyncStreamInterface
      */
     public function resume()
     {
-        if ($this->readable && $this->paused)
+        if (($this->writable || $this->readable) && $this->paused)
         {
             $this->paused = false;
 
-            if ($this->readingStarted)
+            if ($this->readable && $this->readingStarted)
             {
                 $this->reading = true;
                 $this->loop->addReadStream($this->resource, [ $this, 'handleRead' ]);
             }
 
-            if ($this->buffer->isEmpty() === false)
+            if ($this->writable && $this->buffer->isEmpty() === false)
             {
                 $this->writing = true;
                 $this->loop->addWriteStream($this->resource, [ $this, 'handleWrite' ]);
