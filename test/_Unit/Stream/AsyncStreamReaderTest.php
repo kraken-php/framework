@@ -35,6 +35,8 @@ class AsyncStreamReaderTest extends StreamSeekerTest
 
         $this->assertSame($expectedData, $capturedData);
         $this->assertSame($stream, $capturedOrigin);
+
+        unset($loop);
     }
 
     /**

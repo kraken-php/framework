@@ -30,6 +30,8 @@ class AsyncStreamWriterTest extends StreamSeekerTest
 
         $stream->rewind();
         $this->assertSame($expectedData, fread($resource, (int) $stream->getBufferSize()*2));
+
+        unset($loop);
     }
 
     /**
