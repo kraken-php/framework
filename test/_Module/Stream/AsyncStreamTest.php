@@ -41,7 +41,9 @@ class AsyncStreamTest extends TModule
                     $sim->expect('data', $data);
                     $conn->close();
                 });
+                $reader->on('end', $this->expectCallableOnce());
                 $reader->on('drain', $this->expectCallableNever());
+                $reader->on('finish', $this->expectCallableNever());
                 $reader->on('error', $this->expectCallableNever());
                 $reader->on('close', function() use($sim, &$cnt) {
                     $sim->expect('close');
@@ -56,10 +58,12 @@ class AsyncStreamTest extends TModule
                     $loop
                 );
                 $writer->on('data', $this->expectCallableNever());
+                $writer->on('end', $this->expectCallableNever());
                 $writer->on('drain', function(AsyncStreamWriterInterface $writer) use($sim) {
                     $sim->expect('drain');
                     $writer->close();
                 });
+                $writer->on('finish', $this->expectCallableOnce());
                 $writer->on('error', $this->expectCallableNever());
                 $writer->on('close', function() use($sim, &$cnt) {
                     $sim->expect('close');

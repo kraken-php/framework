@@ -2,14 +2,17 @@
 
 namespace Kraken\_Unit\Stream;
 
+use Kraken\Loop\Loop;
 use Kraken\Loop\LoopInterface;
+use Kraken\Loop\Model\SelectLoop;
 use Kraken\Stream\AsyncStreamReader;
 
 class AsyncStreamReaderTest extends StreamSeekerTest
 {
     public function testApiRead_ReadsDataProperly()
     {
-        $stream = $this->createAsyncStreamReaderMock();
+        $loop = new Loop(new SelectLoop);
+        $stream = $this->createAsyncStreamReaderMock(null, $loop);
         $resource = $stream->getResource();
 
         $expectedData = "foobar\n";
@@ -20,10 +23,15 @@ class AsyncStreamReaderTest extends StreamSeekerTest
             $capturedOrigin = $origin;
             $capturedData = $data;
         });
+        $stream->on('end', $this->expectCallableOnce());
 
         fwrite($resource, $expectedData);
         rewind($resource);
-        $stream->handleData($stream->getResource());
+
+        $loop->addTimer(1e-1, function() use($loop) {
+            $loop->stop();
+        });
+        $loop->start();
 
         $this->assertSame($expectedData, $capturedData);
         $this->assertSame($stream, $capturedOrigin);

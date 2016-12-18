@@ -40,9 +40,11 @@ class StreamWriterTest extends StreamSeekerTest
         $expectedData = "foobar\n";
         $capturedData = null;
 
-        $stream->on('drain', $this->expectCallableOnce());
+        $stream->on('drain', $this->expectCallableTwice());
+        $stream->on('finish', $this->expectCallableTwice());
 
-        $stream->write($expectedData);
+        $stream->write(substr($expectedData, 0, 2));
+        $stream->write(substr($expectedData, 2));
         $stream->rewind();
 
         $this->assertSame($expectedData, fread($resource, $stream->getBufferSize()));

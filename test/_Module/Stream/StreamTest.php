@@ -34,10 +34,12 @@ class StreamTest extends TModule
         $reader->on('data', function($origin, $data) use(&$capturedData) {
             $capturedData = $data;
         });
+        $reader->on('end', $this->expectCallableOnce());
         $reader->on('error', $this->expectCallableNever());
         $reader->on('close', $this->expectCallableOnce());
 
         $writer->on('drain', $this->expectCallableOnce());
+        $writer->on('finish', $this->expectCallableOnce());
         $writer->on('error', $this->expectCallableNever());
         $writer->on('close', $this->expectCallableOnce());
 

@@ -32,6 +32,7 @@ class StreamTest extends StreamWriterTest
             $capturedOrigin = $origin;
             $capturedData = $data;
         });
+        $stream->on('end', $this->expectCallableOnce());
 
         fwrite($resource, $expectedData);
         rewind($resource);

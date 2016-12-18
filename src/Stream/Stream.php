@@ -108,6 +108,7 @@ class Stream extends StreamSeeker implements StreamInterface
         }
 
         $this->emit('drain', [ $this ]);
+        $this->emit('finish', [ $this ]);
 
         return true;
     }
@@ -141,6 +142,11 @@ class Stream extends StreamSeeker implements StreamInterface
         else if ($ret !== '')
         {
             $this->emit('data', [ $this, $ret ]);
+
+            if (strlen($ret) < $length)
+            {
+                $this->emit('end', [ $this ]);
+            }
         }
 
         return $ret;

@@ -181,7 +181,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
     public function handleWrite()
     {
         $text = $this->buffer->peek();
-        $sent = fwrite($this->resource, $text);
+        $sent = fwrite($this->resource, $text, $this->bufferSize);
 
         if ($sent === false)
         {
@@ -202,6 +202,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
             $this->loop->removeWriteStream($this->resource);
             $this->listening = false;
             $this->emit('drain', [ $this ]);
+            $this->emit('finish', [ $this ]);
         }
 
         if ($this->closing)

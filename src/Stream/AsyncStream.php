@@ -188,7 +188,7 @@ class AsyncStream extends Stream implements AsyncStreamInterface
     public function handleWrite()
     {
         $text = $this->buffer->peek();
-        $sent = fwrite($this->resource, $text);
+        $sent = fwrite($this->resource, $text, $this->bufferSize);
 
         if ($sent === false)
         {
@@ -209,6 +209,7 @@ class AsyncStream extends Stream implements AsyncStreamInterface
             $this->loop->removeWriteStream($this->resource);
             $this->listening = false;
             $this->emit('drain', [ $this ]);
+            $this->emit('finish', [ $this ]);
         }
     }
 

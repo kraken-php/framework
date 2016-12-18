@@ -45,6 +45,7 @@ class StreamReaderTest extends StreamSeekerTest
             $capturedOrigin = $origin;
             $capturedData = $data;
         });
+        $stream->on('end', $this->expectCallableOnce());
 
         fwrite($resource, $expectedData);
         rewind($resource);
