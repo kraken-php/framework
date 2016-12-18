@@ -18,7 +18,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
     /**
      * @var bool
      */
-    protected $listening;
+    protected $writing;
 
     /**
      * @var bool
@@ -46,7 +46,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
         }
 
         $this->loop = $loop;
-        $this->listening = false;
+        $this->writing = false;
         $this->paused = true;
         $this->buffer = new Buffer();
 
@@ -61,7 +61,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
         parent::__destruct();
 
         unset($this->loop);
-        unset($this->listening);
+        unset($this->writing);
         unset($this->paused);
         unset($this->buffer);
     }
@@ -102,7 +102,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
         if (!$this->paused)
         {
             $this->paused = true;
-            $this->listening = false;
+            $this->writing = false;
             $this->loop->removeWriteStream($this->resource);
         }
     }
@@ -118,7 +118,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
             $this->paused = false;
             if ($this->buffer->isEmpty() === false)
             {
-                $this->listening = true;
+                $this->writing = true;
                 $this->loop->addWriteStream($this->resource, [ $this, 'handleWrite' ]);
             }
         }
@@ -139,9 +139,9 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
 
         $this->buffer->push($text);
 
-        if (!$this->listening && !$this->paused)
+        if (!$this->writing && !$this->paused)
         {
-            $this->listening = true;
+            $this->writing = true;
             $this->loop->addWriteStream($this->resource, [ $this, 'handleWrite' ]);
         }
 
@@ -200,14 +200,9 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
         else if ($lenAfter === 0)
         {
             $this->loop->removeWriteStream($this->resource);
-            $this->listening = false;
+            $this->writing = false;
             $this->emit('drain', [ $this ]);
             $this->emit('finish', [ $this ]);
-        }
-
-        if ($this->closing)
-        {
-            $this->close();
         }
     }
 

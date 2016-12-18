@@ -42,6 +42,8 @@ class Socket extends AsyncStream implements SocketInterface
             }
 
             parent::__construct($endpointOrResource, $loop);
+
+            $this->read();
         }
         catch (Error $ex)
         {
@@ -190,7 +192,7 @@ class Socket extends AsyncStream implements SocketInterface
      * @override
      * @inheritDoc
      */
-    public function handleData()
+    public function handleRead()
     {
         $data = stream_socket_recvfrom($this->resource, $this->bufferSize);
 

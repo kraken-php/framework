@@ -32,6 +32,7 @@ class AsyncStreamReaderTest extends StreamSeekerTest
             $capturedData = $data;
         });
         $stream->on('end', $this->expectCallableOnce());
+        $stream->read();
 
         fwrite($resource, $expectedData);
         rewind($resource);

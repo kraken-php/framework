@@ -37,7 +37,7 @@ class AsyncStreamTest extends AsyncStreamWriterTest
 
         $stream->write($expectedData);
         $stream->rewind();
-        $stream->handleData($stream->getResource());
+        $stream->handleRead($stream->getResource());
 
         $this->assertSame($expectedData, $capturedData);
         $this->assertSame($stream, $capturedOrigin);

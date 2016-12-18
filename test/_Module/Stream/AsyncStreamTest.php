@@ -74,6 +74,7 @@ class AsyncStreamTest extends TModule
                 });
 
                 $writer->write('message!');
+                $reader->read();
             })
             ->expect([
                 [ 'drain' ],

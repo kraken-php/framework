@@ -2,9 +2,10 @@
 
 namespace Kraken\Stream;
 
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
+use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
+use Kraken\Throwable\Exception\Runtime\ReadException;
 use Error;
 use Exception;
 
@@ -15,7 +16,12 @@ class AsyncStreamReader extends StreamReader implements AsyncStreamReaderInterfa
     /**
      * @var bool
      */
-    protected $listening;
+    protected $reading;
+
+    /**
+     * @var bool
+     */
+    protected $readingStarted;
 
     /**
      * @var bool
@@ -38,7 +44,8 @@ class AsyncStreamReader extends StreamReader implements AsyncStreamReaderInterfa
         }
 
         $this->loop = $loop;
-        $this->listening = false;
+        $this->reading = false;
+        $this->readingStarted = false;
         $this->paused = true;
 
         $this->resume();
@@ -52,7 +59,8 @@ class AsyncStreamReader extends StreamReader implements AsyncStreamReaderInterfa
         parent::__destruct();
 
         unset($this->loop);
-        unset($this->listening);
+        unset($this->reading);
+        unset($this->readingStarted);
         unset($this->paused);
     }
 
@@ -92,6 +100,7 @@ class AsyncStreamReader extends StreamReader implements AsyncStreamReaderInterfa
         if (!$this->paused)
         {
             $this->paused = true;
+            $this->reading = false;
             $this->loop->removeReadStream($this->resource);
         }
     }
@@ -105,8 +114,35 @@ class AsyncStreamReader extends StreamReader implements AsyncStreamReaderInterfa
         if ($this->paused)
         {
             $this->paused = false;
-            $this->loop->addReadStream($this->resource, [ $this, 'handleData' ]);
+            if ($this->readingStarted)
+            {
+                $this->reading = true;
+                $this->loop->addReadStream($this->resource, [ $this, 'handleRead' ]);
+            }
         }
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function read($length = null)
+    {
+        if (!$this->readable)
+        {
+            return $this->throwAndEmitException(
+                new ReadException('Stream is no longer readable.')
+            );
+        }
+
+        if (!$this->reading && !$this->paused)
+        {
+            $this->reading = true;
+            $this->readingStarted = true;
+            $this->loop->addReadStream($this->resource, [ $this, 'handleRead' ]);
+        }
+
+        return '';
     }
 
     /**
@@ -114,16 +150,28 @@ class AsyncStreamReader extends StreamReader implements AsyncStreamReaderInterfa
      *
      * @internal
      */
-    public function handleData()
+    public function handleRead()
     {
-        try
+        $length = $this->bufferSize;
+        $ret = fread($this->resource, $length);
+
+        if ($ret === false)
         {
-            $this->read();
+            $this->emit('error', [ $this, new ReadException('Error occurred while reading from the stream resource.') ]);
+            return;
         }
-        catch (Error $ex)
-        {}
-        catch (Exception $ex)
-        {}
+
+        if ($ret !== '')
+        {
+            $this->emit('data', [ $this, $ret ]);
+
+            if (strlen($ret) < $length)
+            {
+                $this->loop->removeReadStream($this->resource);
+                $this->reading = false;
+                $this->emit('end', [ $this ]);
+            }
+        }
     }
 
     /**
