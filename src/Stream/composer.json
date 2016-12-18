@@ -1,6 +1,6 @@
 {
     "name": "kraken-php/stream",
-    "description": "Kraken Framework Stream Component.",
+    "description": "Asynchronous Stream Library.",
     "keywords": [
         "kraken", "kraken-php", "stream", "async", "asynchronous"
     ],
