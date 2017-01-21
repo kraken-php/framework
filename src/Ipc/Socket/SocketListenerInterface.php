@@ -12,6 +12,13 @@ use Kraken\Stream\StreamBaseInterface;
 interface SocketListenerInterface extends EventEmitterInterface, LoopResourceInterface, StreamBaseInterface
 {
     /**
+     * Star listener and underlying resource object.
+     *
+     * @return void
+     */
+    public function start();
+
+    /**
      * Stop listener and underlying resource object. It is an alias for close() method.
      *
      * @see StreamBaseInterface::close

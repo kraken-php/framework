@@ -36,6 +36,7 @@ class SocketTest extends TModule
                 $server->on('close', function() use($sim) {
                     $sim->expect('close');
                 });
+                $server->start();
 
                 $client = new Socket($endpoint, $loop);
                 $client->on('data', function(SocketInterface $conn, $data) use($loop, $sim) {

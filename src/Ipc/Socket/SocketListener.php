@@ -36,6 +36,16 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
     protected $paused;
 
     /**
+     * @var array
+     */
+    protected $config;
+
+    /**
+     * @var string|resource
+     */
+    protected $endpoint;
+
+    /**
      * @param string|resource $endpointOrResource
      * @param LoopInterface $loop
      * @param mixed[] $config
@@ -43,28 +53,11 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
      */
     public function __construct($endpointOrResource, LoopInterface $loop, $config = [])
     {
-        try
-        {
-            if (!is_resource($endpointOrResource))
-            {
-                $endpointOrResource = $this->createServer($endpointOrResource, $config);
-            }
-
-            $this->socket = $endpointOrResource;
-            $this->loop = $loop;
-            $this->open = true;
-            $this->paused = true;
-
-            $this->resume();
-        }
-        catch (Error $ex)
-        {
-            throw new InstantiationException('SocketServer could not be created.', $ex);
-        }
-        catch (Exception $ex)
-        {
-            throw new InstantiationException('SocketServer could not be created.', $ex);
-        }
+        $this->endpoint = $endpointOrResource;
+        $this->socket = null;
+        $this->loop = $loop;
+        $this->open = false;
+        $this->paused = true;
     }
 
     /**
@@ -80,7 +73,44 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
         unset($this->loop);
         unset($this->open);
         unset($this->paused);
+        unset($this->config);
+        unset($this->endpoint);
     }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function start()
+    {
+        if ($this->isOpen())
+        {
+            return ;
+        }
+
+        try
+        {
+            if (!is_resource($this->endpoint))
+            {
+                $this->socket = $this->createServer($this->endpoint, $this->config);
+            }
+            else
+            {
+                $this->socket = &$this->endpoint;
+            }
+            $this->resume();
+            $this->open = true;
+        }
+        catch (Error $ex)
+        {
+            throw new InstantiationException('SocketServer could not be created.', $ex);
+        }
+        catch (Exception $ex)
+        {
+            throw new InstantiationException('SocketServer could not be created.', $ex);
+        }
+    }
+
 
     /**
      * @override
@@ -157,7 +187,11 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
      */
     public function getMetadata()
     {
-        return stream_get_meta_data($this->socket);
+        if ($this->isOpen())
+        {
+            return stream_get_meta_data($this->socket);
+        }
+        return [];
     }
 
     /**
@@ -375,34 +409,38 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
      */
     private function parseEndpoint()
     {
-        $name = stream_socket_get_name($this->socket, false);
-        $type = $this->getStreamType();
-
-        switch ($type)
+        if ($this->isOpen())
         {
-            case Socket::TYPE_UNIX:
-                $endpoint = 'unix://' . $name;
-                break;
+            $name = stream_socket_get_name($this->socket, false);
+            $type = $this->getStreamType();
 
-            case Socket::TYPE_TCP:
-                if (substr_count($name, ':') > 1)
-                {
-                    $parts = explode(':', $name);
-                    $count = count($parts);
-                    $port = $parts[$count - 1];
-                    unset($parts[$count - 1]);
-                    $endpoint = 'tcp://[' . implode(':', $parts) . ']:' . $port;
-                }
-                else
-                {
-                    $endpoint = 'tcp://' . $name;
-                }
-                break;
+            switch ($type) {
+                case Socket::TYPE_UNIX:
+                    $endpoint = 'unix://' . $name;
+                    break;
 
-            default:
-                $endpoint = '';
+                case Socket::TYPE_TCP:
+                    if (substr_count($name, ':') > 1) {
+                        $parts = explode(':', $name);
+                        $count = count($parts);
+                        $port = $parts[$count - 1];
+                        unset($parts[$count - 1]);
+                        $endpoint = 'tcp://[' . implode(':', $parts) . ']:' . $port;
+                    } else {
+                        $endpoint = 'tcp://' . $name;
+                    }
+                    break;
+
+                default:
+                    $endpoint = '';
+            }
+
+            return $endpoint;
+        }
+        else
+        {
+            return is_string($this->endpoint)?$this->endpoint:'';
         }
 
-        return $endpoint;
     }
 }
