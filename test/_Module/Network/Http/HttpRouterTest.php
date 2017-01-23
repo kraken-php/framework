@@ -200,6 +200,7 @@ class HttpRouterTest extends TModule
     public function createServer(LoopInterface $loop)
     {
         $this->listener = new SocketListener($this->endpoint, $loop);
+        $this->listener->start();
         $this->server   = new SocketServer($this->listener);
         $this->http     = new HttpServer($this->server);
         $this->router   = new HttpRouter($this->http);

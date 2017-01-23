@@ -404,18 +404,19 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
     protected function createBinder()
     {
         $binder = $this;
-        $socket = new \Kraken\Ipc\Socket\SocketListener($this->endpoint, $this->loop);
+        $socketListener = new \Kraken\Ipc\Socket\SocketListener($this->endpoint, $this->loop);
 
-        $socket->on('connect', function(SocketListenerInterface $server, SocketInterface $client) use($binder) {
+        $socketListener->on('connect', function(SocketListenerInterface $server, SocketInterface $client) use($binder) {
             $client->on('data', function(SocketInterface $client, $data) use($binder) {
                 $binder->onData($client, $data);
             });
         });
-        $socket->on('close', function() use($binder) {
+        $socketListener->on('close', function() use($binder) {
             $binder->stop();
         });
+        $socketListener->start();
 
-        return $socket;
+        return $socketListener;
     }
 
     /**

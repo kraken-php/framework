@@ -33,20 +33,22 @@ class SocketListenerTest extends TUnit
     /**
      *
      */
-    public function testConstructor_ThrowsException_OnInvalidResource()
+    public function testStart_ThrowsException_OnInvalidResource()
     {
         $this->setExpectedException(InstantiationException::class);
         $socket = $this->createSocketListenerMock('invalid');
+        $socket->start();
     }
 
     /**
      *
      */
-    public function testConstructor_ThrowsException_OnOccupiedEndpoint()
+    public function testStart_ThrowsException_OnOccupiedEndpoint()
     {
         $server = stream_socket_server($this->tempSocketRemoteAddress());
         $this->setExpectedException(InstantiationException::class);
         $socket = $this->createSocketListenerMock();
+        $socket->start();
     }
 
     /**
@@ -100,6 +102,7 @@ class SocketListenerTest extends TUnit
     public function testApiGetResource_ReturnsResource()
     {
         $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+        $socket->start();
         $this->assertTrue(is_resource($socket->getResource()));
     }
 
@@ -109,6 +112,7 @@ class SocketListenerTest extends TUnit
     public function testApiGetResourceId_ReturnsResourceId()
     {
         $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+        $socket->start();
         $this->assertTrue(is_numeric($socket->getResourceId()));
     }
 
@@ -127,6 +131,7 @@ class SocketListenerTest extends TUnit
     public function testApiGetStreamType_ReturnsStreamType()
     {
         $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+        $socket->start();
         $this->assertSame('tcp_socket/ssl', $socket->getStreamType());
     }
 
@@ -145,9 +150,9 @@ class SocketListenerTest extends TUnit
     public function testApiIsOpen_ReturnsIfSocketIsOpened()
     {
         $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
-        $this->assertTrue($socket->isOpen());
-        $socket->close();
         $this->assertFalse($socket->isOpen());
+        $socket->start();
+        $this->assertTrue($socket->isOpen());
     }
 
     /**
@@ -156,9 +161,20 @@ class SocketListenerTest extends TUnit
     public function testApiIsPaused_ReturnsIfSocketIsPaused()
     {
         $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
-        $this->assertFalse($socket->isPaused());
-        $socket->pause();
         $this->assertTrue($socket->isPaused());
+        $socket->start();
+        $this->assertFalse($socket->isPaused());
+    }
+
+    /**
+     *
+     */
+    public function testApiStart_StartSocket()
+    {
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+        $this->assertFalse($socket->isOpen());
+        $socket->start();
+        $this->assertTrue($socket->isOpen());
     }
 
     /**
@@ -167,6 +183,7 @@ class SocketListenerTest extends TUnit
     public function testApiClose_ClosesSocket()
     {
         $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+        $socket->start();
         $this->assertTrue($socket->isOpen());
         $socket->close();
         $this->assertFalse($socket->isOpen());
@@ -178,6 +195,7 @@ class SocketListenerTest extends TUnit
     public function testApiPause_PausesSocket()
     {
         $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+        $socket->start();
         $this->assertFalse($socket->isPaused());
         $socket->pause();
         $this->assertTrue($socket->isPaused());
@@ -195,6 +213,31 @@ class SocketListenerTest extends TUnit
 
         $socket->resume();
         $this->assertFalse($socket->isPaused());
+    }
+
+    //todo
+    public function testApiStart_CannotBeInvokedMoreThanOnce()
+    {
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+    }
+
+    //todo
+    public function testApiStop_CannotBeInvokedMoreThanOnce()
+    {
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+    }
+
+    //todo
+    public function testApiStart_CanBeInvokedAfterStop()
+    {
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+
+    }
+
+    //todo
+    public function testApiStop_CanBeInvokedAfterStart()
+    {
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
     }
 
     /**

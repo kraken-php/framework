@@ -109,6 +109,7 @@ class SocketServerTest extends TModule
     public function createServer(NetworkComponentInterface $component, LoopInterface $loop)
     {
         $this->listener = new SocketListener($this->endpoint, $loop);
+        $this->listener->start();
         $this->server   = new SocketServer($this->listener, $component);
 
         return $this->server;
