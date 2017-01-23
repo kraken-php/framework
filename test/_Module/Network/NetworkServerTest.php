@@ -151,6 +151,7 @@ class NetworkServerTest extends TModule
     public function createServer(LoopInterface $loop)
     {
         $this->listener = new SocketListener($this->endpoint, $loop);
+        $this->listener->start();
         $this->server = new NetworkServer($this->listener);
 
         return $this->server;

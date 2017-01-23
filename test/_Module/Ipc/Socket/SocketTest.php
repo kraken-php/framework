@@ -25,6 +25,7 @@ class SocketTest extends TModule
                 $loop = $sim->getLoop();
 
                 $server = new SocketListener($endpoint, $loop);
+                $server->start();
                 $server->on('connect', function(SocketListenerInterface $server, SocketInterface $conn) use($sim) {
                     $conn->on('data', function(SocketInterface $conn, $data) use($server, $sim) {
                         $sim->expect('data', $data);

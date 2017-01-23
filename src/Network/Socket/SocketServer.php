@@ -49,6 +49,15 @@ class SocketServer implements SocketServerInterface, NetworkComponentAwareInterf
      * @override
      * @inheritDoc
      */
+    public function start()
+    {
+        $this->socket->start();
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
     public function stop()
     {
         $this->socket->close();
