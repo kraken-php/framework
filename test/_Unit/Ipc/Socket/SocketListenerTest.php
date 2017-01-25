@@ -10,6 +10,10 @@ use Kraken\Test\TUnit;
 
 class SocketListenerTest extends TUnit
 {
+    protected $local_pem = '/_Data//cert.pem';
+    protected $local_pk = '/_Data//key.pem';
+    protected $passphrase = 'secret';
+
     /**
      *
      */
@@ -166,6 +170,31 @@ class SocketListenerTest extends TUnit
         $this->assertFalse($socket->isPaused());
     }
 
+    //todo
+    public function testApiStart_CannotBeInvokedMoreThanOnce()
+    {
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+    }
+
+    //todo
+    public function testApiStop_CannotBeInvokedMoreThanOnce()
+    {
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+    }
+
+    //todo
+    public function testApiStart_CanBeInvokedAfterStop()
+    {
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+
+    }
+
+    //todo
+    public function testApiStop_CanBeInvokedAfterStart()
+    {
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+    }
+
     /**
      *
      */
@@ -215,59 +244,115 @@ class SocketListenerTest extends TUnit
         $this->assertFalse($socket->isPaused());
     }
 
-    //todo
-    public function testApiStart_CannotBeInvokedMoreThanOnce()
+    /**
+     * @throws InstantiationException
+     */
+    public function testApiStart_SslSocket()
     {
-        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+        $config = [
+            'ssl' => true,
+            'local_cert'=>$this->local_pem,
+            'passphrase'=>$this->passphrase,
+            'local_pk'=>$this->local_pk,
+        ];
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress('ssl'),null,$config);
+
+        $this->assertFalse($socket->isOpen());
+        $socket->start();
+
+        $this->assertTrue($socket->isOpen());
     }
 
-    //todo
-    public function testApiStop_CannotBeInvokedMoreThanOnce()
+    /**
+     * @throws InstantiationException
+     */
+    public function testApiClose_SslSocket()
     {
-        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+        $config = [
+            'ssl' => true,
+            'local_cert'=>$this->local_pem,
+            'passphrase'=>$this->passphrase,
+            'local_pk'=>$this->local_pk,
+        ];
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress('ssl'),null,$config);
+        $socket->start();
+
+        $this->assertTrue($socket->isOpen());
+        $socket->close();
+
+        $this->assertFalse($socket->isOpen());
     }
 
-    //todo
-    public function testApiStart_CanBeInvokedAfterStop()
+    /**
+     * @throws InstantiationException
+     */
+    public function testApiPause_SslSocket()
     {
-        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+        $config = [
+            'ssl' => true,
+            'local_cert'=>$this->local_pem,
+            'passphrase'=>$this->passphrase,
+            'local_pk'=>$this->local_pk,
+        ];
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress('ssl'),null,$config);
+        $socket->start();
 
+        $this->assertFalse($socket->isPaused());
+        $socket->pause();
+
+        $this->assertTrue($socket->isPaused());
     }
 
-    //todo
-    public function testApiStop_CanBeInvokedAfterStart()
+    /**
+     * @throws InstantiationException
+     */
+    public function testApiResume_SslSocket()
     {
-        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+        $config = [
+            'ssl' => true,
+            'local_cert'=>$this->local_pem,
+            'passphrase'=>$this->passphrase,
+            'local_pk'=>$this->local_pk,
+        ];
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress('ssl'),null,$config);
+        $socket->pause();
+        $this->assertTrue($socket->isPaused());
+
+        $socket->resume();
+        $this->assertFalse($socket->isPaused());
     }
 
     /**
      * @param resource|null $resource
      * @param LoopInterface $loop
+     * @param array $config
      * @return SocketListener
      */
-    protected function createSocketListenerMock($resource = null, LoopInterface $loop = null)
+    protected function createSocketListenerMock($resource = null, LoopInterface $loop = null , $config = [])
     {
         return $this->createSocketListenerInjection(
             is_null($resource) ? $this->tempSocketRemoteAddress() : $resource,
-            is_null($loop) ? $this->createLoopMock() : $loop
+            is_null($loop) ? $this->createLoopMock() : $loop , $config
         );
     }
 
     /**
      * @param string|resource $endpointOrResource
      * @param LoopInterface $loop
+     * @param array $config
      * @return SocketListener
      */
-    protected function createSocketListenerInjection($endpointOrResource, LoopInterface $loop)
+    protected function createSocketListenerInjection($endpointOrResource, LoopInterface $loop , $config = [])
     {
-        return new SocketListener($endpointOrResource, $loop);
+        return new SocketListener($endpointOrResource, $loop ,$config);
     }
 
     /**
+     * @param string $transport
      * @return string
      */
-    private function tempSocketRemoteAddress()
+    private function tempSocketRemoteAddress($transport = 'tcp')
     {
-        return 'tcp://127.0.0.1:10080';
+        return $transport.'://127.0.0.1:10080';
     }
 }

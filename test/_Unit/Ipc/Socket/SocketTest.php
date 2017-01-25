@@ -4,6 +4,7 @@ namespace Kraken\_Unit\Ipc\Socket;
 
 use Kraken\Ipc\Socket\Socket;
 use Kraken\Ipc\Socket\SocketInterface;
+use Kraken\Ipc\Socket\SocketListener;
 use Kraken\Loop\LoopInterface;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Test\TUnit;
@@ -25,9 +26,6 @@ class SocketTest extends TUnit
         parent::tearDown();
     }
 
-    /**
-     *
-     */
     public function testApiConstructor_CreatesInstance()
     {
         $server = stream_socket_server($this->tempSocketAddress());
@@ -84,7 +82,7 @@ class SocketTest extends TUnit
      */
     public function testApiGetLocalEndpoint_ReturnsEndpoint()
     {
-        $server = stream_socket_server($this->tempSocketRemoteAddress());
+        $server = stream_socket_server($this->tempSocketRemoteAddress(),$errno,$errstr,STREAM_SERVER_BIND);
         $socket = $this->createSocketMock($this->tempSocketRemoteAddress());
 
         $this->assertRegExp('#^tcp://(([0-9]*?)\.){3}([0-9]*?):([0-9]*?)$#si', $socket->getLocalEndpoint());
@@ -96,8 +94,9 @@ class SocketTest extends TUnit
     public function testApiGetRemoteEndpoint_ReturnsEndpoint()
     {
         $remote = $this->tempSocketRemoteAddress();
-        $server = stream_socket_server($remote);
+        $server = stream_socket_server($remote,$errno,$errstr);
         $socket = $this->createSocketMock($remote);
+        
         $this->assertEquals($remote, $socket->getRemoteEndpoint());
     }
 
@@ -108,7 +107,6 @@ class SocketTest extends TUnit
     {
         $server = stream_socket_server($this->tempSocketRemoteAddress());
         $socket = $this->createSocketMock($this->tempSocketRemoteAddress());
-
         $pattern = '#^(([0-9]*?)\.){3}([0-9]*?):([0-9]*?)$#si';
 
         $this->assertRegExp($pattern, $socket->getLocalAddress());
@@ -180,27 +178,48 @@ class SocketTest extends TUnit
         $this->assertRegExp($pattern, $socket->getRemotePort());
     }
 
+    public function testApiGetLocalTransport_ReturnsTransport()
+    {
+        $server = stream_socket_server($this->tempSocketRemoteAddress());
+        $socket = $this->createSocketMock($this->tempSocketRemoteAddress());
+
+        $transports = stream_get_transports();
+        $this->assertTrue(in_array($socket->getLocalTransport(), $transports));
+    }
+
+    public function testApiGetRemoteTransport_ReturnsTransport()
+    {
+        $server = stream_socket_server($this->tempSocketRemoteAddress());
+        $socket = $this->createSocketMock($this->tempSocketRemoteAddress());
+
+        $transports = stream_get_transports();
+
+        $this->assertTrue(in_array($socket->getRemoteTransport(), $transports));
+    }
+
     /**
      * @param resource|null $resource
      * @param LoopInterface $loop
+     * @param array $config
      * @return Socket
      */
-    protected function createSocketMock($resource = null, LoopInterface $loop = null)
+    protected function createSocketMock($resource = null, LoopInterface $loop = null, $config = [])
     {
         return $this->createSocketInjection(
             is_null($resource) ? $this->tempSocketAddress() : $resource,
-            is_null($loop) ? $this->createLoopMock() : $loop
+            is_null($loop) ? $this->createLoopMock() : $loop, $config
         );
     }
 
     /**
      * @param string|resource $endpointOrResource
      * @param LoopInterface $loop
+     * @param array $config
      * @return Socket
      */
-    protected function createSocketInjection($endpointOrResource, LoopInterface $loop)
+    protected function createSocketInjection($endpointOrResource, LoopInterface $loop, $config = [])
     {
-        return new Socket($endpointOrResource, $loop);
+        return new Socket($endpointOrResource, $loop ,$config);
     }
 
     /**

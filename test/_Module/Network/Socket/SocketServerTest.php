@@ -53,12 +53,61 @@ class SocketServerTest extends TModule
                 $server    = $this->createServer($component, $loop);
                 $client    = $this->createClient($loop);
 
+                $server->start();
+
                 $component->on('connect', function(NetworkConnectionInterface $conn) use($sim) {
                     $sim->expect('connect');
                 });
+
                 $component->on('disconnect', function(NetworkConnectionInterface $conn) use($sim) {
                     $sim->expect('disconnect');
                 });
+
+                $component->on('message', function(NetworkConnectionInterface $conn, NetworkMessageInterface $message) use($sim) {
+                    $sim->expect('message', [ $message->read() ]);
+                    $sim->done();
+                });
+
+                $sim->onStart(function() use($client) {
+                    $client->write('multipart');
+                    $client->write('rawdata');
+                });
+                $sim->onStop(function() use($client, $server) {
+                    $client->stop();
+                    $server->stop();
+                });
+
+                unset($server);
+                unset($component);
+                unset($loop);
+            })
+            ->expect([
+                [ 'connect' ],
+                [ 'message', [ 'multipartrawdata' ] ],
+                [ 'disconnect' ]
+            ]);
+    }
+
+    //todo
+    public function toDotestCaseSslSocketServer_HandlesIncomingMessages()
+    {
+        $this
+            ->simulate(function(SimulationInterface $sim) {
+                $component = $this->createComponent();
+                $loop      = $sim->getLoop();
+                $server    = $this->createSslServer($component, $loop);
+                $client    = $this->createSslClient($loop);
+
+                $server->start();
+
+                $component->on('connect', function(NetworkConnectionInterface $conn) use($sim) {
+                    $sim->expect('connect');
+                });
+
+                $component->on('disconnect', function(NetworkConnectionInterface $conn) use($sim) {
+                    $sim->expect('disconnect');
+                });
+
                 $component->on('message', function(NetworkConnectionInterface $conn, NetworkMessageInterface $message) use($sim) {
                     $sim->expect('message', [ $message->read() ]);
                     $sim->done();
@@ -101,6 +150,16 @@ class SocketServerTest extends TModule
         return new Socket($this->endpoint, $loop);
     }
 
+    public function createSslClient(LoopInterface $loop)
+    {
+        $config = [
+            'ssl' => true,
+            'cafile'=>realpath(__DIR__.'/../../../../test/cert.pem'),
+        ];
+
+        return new Socket('ssl://127.0.0.1:10080', $loop, $config);
+    }
+
     /**
      * @param NetworkComponentInterface $component
      * @param LoopInterface $loop
@@ -109,8 +168,24 @@ class SocketServerTest extends TModule
     public function createServer(NetworkComponentInterface $component, LoopInterface $loop)
     {
         $this->listener = new SocketListener($this->endpoint, $loop);
-        $this->listener->start();
         $this->server   = new SocketServer($this->listener, $component);
+        $this->server->start();
+
+        return $this->server;
+    }
+
+    public function createSslServer(NetworkComponentInterface $component, LoopInterface $loop)
+    {
+        $config = [
+            'ssl' => true,
+            'local_cert'=>realpath(__DIR__.'/../../../../test/cert.pem'),
+            'passphrase'=>'secret',
+            'local_pk'=>realpath(__DIR__.'/../../../../test/key.pem'),
+        ];
+
+        $this->listener = new SocketListener('ssl://127.0.0.1:10080', $loop, $config);
+        $this->server   = new SocketServer($this->listener, $component);
+        $this->server->start();
 
         return $this->server;
     }

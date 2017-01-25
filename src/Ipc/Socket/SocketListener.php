@@ -51,13 +51,14 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
      * @param mixed[] $config
      * @throws InstantiationException
      */
-    public function __construct($endpointOrResource, LoopInterface $loop, $config = [])
+    public function __construct($endpointOrResource, LoopInterface $loop, $config = ['ssl'=>false])
     {
         $this->endpoint = $endpointOrResource;
         $this->socket = null;
         $this->loop = $loop;
         $this->open = false;
         $this->paused = true;
+        $this->config = $config;
     }
 
     /**
@@ -97,7 +98,18 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
             else
             {
                 $this->socket = &$this->endpoint;
+
+                if ($this->config['ssl'] === true)
+                {
+                    stream_context_set_option($this->socket, 'ssl', 'verify_peer', false);
+                    stream_context_set_option($this->socket, 'ssl', 'allow_self_signed', true);
+                    stream_context_set_option($this->socket,'ssl','verify_peer_name',false);
+                    stream_context_set_option($this->socket, 'ssl', 'local_cert', $this->config['local_cert']);
+                    stream_context_set_option($this->socket, 'ssl', 'local_pk', $this->config['local_pk']);
+                    stream_context_set_option($this->socket, 'ssl', 'passphrase', $this->config['passphrase']);
+                }
             }
+
             $this->resume();
             $this->open = true;
         }
@@ -110,7 +122,6 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
             throw new InstantiationException('SocketServer could not be created.', $ex);
         }
     }
-
 
     /**
      * @override
@@ -161,6 +172,17 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
         $address = explode(':', $this->getLocalAddress(), 2);
 
         return isset($address[1]) ? $address[1] : '';
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getLocalTransport()
+    {
+        $endpoint = explode('://', $this->getLocalEndpoint(), 2);
+
+        return isset($endpoint[0])?$endpoint[0]:'';
     }
 
     /**
@@ -232,6 +254,15 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
     public function isPaused()
     {
         return $this->paused;
+    }
+
+    /**
+     * @internal
+     * @return bool
+     */
+    public function isEncrypt()
+    {
+        return $this->encrypt && true;
     }
 
     /**
@@ -316,26 +347,41 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
             }
         }
 
+        $ssl = (bool) ((isset($config['ssl'])) ? $config['ssl'] : false);
         $backlog = (int) (isset($config['backlog']) ? $config['backlog'] : self::DEFAULT_BACKLOG);
         $reuseaddr = (bool) (isset($config['reuseaddr']) ? $config['reuseaddr'] : false);
         $reuseport = (bool) (isset($config['reuseport']) ? $config['reuseport'] : false);
 
-        $context = [];
         $context['socket'] = [
-            'bindto'        => $endpoint,
-            'backlog'       => $backlog,
-            'ipv6_v6only'   => true,
-            'so_reuseaddr'  => $reuseaddr,
-            'so_reuseport'  => $reuseport,
+            'bindto' => $endpoint,
+            'backlog' => $backlog,
+            'ipv6_v6only' => true,
+            'so_reuseaddr' => $reuseaddr,
+            'so_reuseport' => $reuseport,
         ];
 
+        if($ssl) {
+            $context['ssl'] = [
+                'verify_peer'=>false,
+                'verify_peer_name' => false,
+                'allow_self_signed'=> true,
+                'local_cert' => $config['local_cert'],
+                'local_pk' => $config['local_pk'],
+                'passphrase' => $config['passphrase'],
+            ];
+
+        }
+
+        $bitmask = STREAM_SERVER_BIND | STREAM_SERVER_LISTEN;
+
         $context = stream_context_create($context);
+
         // Error reporting suppressed since stream_socket_server() emits an E_WARNING on failure.
-        $socket = @stream_socket_server(
+        $socket = stream_socket_server(
             $endpoint,
             $errno,
             $errstr,
-            STREAM_SERVER_BIND | STREAM_SERVER_LISTEN,
+            $bitmask,
             $context
         );
 
@@ -414,21 +460,32 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
             $name = stream_socket_get_name($this->socket, false);
             $type = $this->getStreamType();
 
-            switch ($type) {
+            switch ($type)
+            {
                 case Socket::TYPE_UNIX:
-                    $endpoint = 'unix://' . $name;
+                    $transport = 'unix://';
+                    $endpoint = $transport . $name;
                     break;
 
                 case Socket::TYPE_TCP:
-                    if (substr_count($name, ':') > 1) {
+                    $transport = 'tcp://';
+                    if (substr_count($name, ':') > 1)
+                    {
                         $parts = explode(':', $name);
                         $count = count($parts);
                         $port = $parts[$count - 1];
                         unset($parts[$count - 1]);
-                        $endpoint = 'tcp://[' . implode(':', $parts) . ']:' . $port;
-                    } else {
-                        $endpoint = 'tcp://' . $name;
+                        $endpoint = $transport.'[' . implode(':', $parts) . ']:' . $port;
                     }
+                    else
+                    {
+                        $endpoint = $transport . $name;
+                    }
+                    break;
+
+                case Socket::TYPE_UDP:
+                    $transport = 'udp://';
+                    $endpoint = $transport . $name;
                     break;
 
                 default:
