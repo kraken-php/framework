@@ -167,6 +167,17 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
      * @override
      * @inheritDoc
      */
+    public function getLocalTransport()
+    {
+        $endpoint = explode('://', $this->getLocalEndpoint(), 2);
+
+        return isset($endpoint[0])?$endpoint[0]:'';
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
     public function getResource()
     {
         return $this->socket;
@@ -320,22 +331,74 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
         $reuseaddr = (bool) (isset($config['reuseaddr']) ? $config['reuseaddr'] : false);
         $reuseport = (bool) (isset($config['reuseport']) ? $config['reuseport'] : false);
 
-        $context = [];
-        $context['socket'] = [
-            'bindto'        => $endpoint,
-            'backlog'       => $backlog,
-            'ipv6_v6only'   => true,
-            'so_reuseaddr'  => $reuseaddr,
-            'so_reuseport'  => $reuseport,
-        ];
+        $transport = $this->getLocalTransport();
+
+        switch ($transport)
+        {
+            case SocketListener::TRANSPORT_TCP:
+                $context['socket'] = [
+                    'bindto'        => $endpoint,
+                    'backlog'       => $backlog,
+                    'ipv6_v6only'   => true,
+                    'so_reuseaddr'  => $reuseaddr,
+                    'so_reuseport'  => $reuseport,
+                ];
+                $bitmask = STREAM_SERVER_BIND | STREAM_SERVER_LISTEN;
+
+                break;
+            case SocketListener::TRANSPORT_UDP:
+                $context['socket'] = [
+                    'bindto'        => $endpoint,
+                    'backlog'       => $backlog,
+                    'ipv6_v6only'   => true,
+                    'so_reuseaddr'  => $reuseaddr,
+                    'so_reuseport'  => $reuseport,
+                ];
+                $bitmask = STREAM_SERVER_BIND;
+
+
+                break;
+            case SocketListener::TRANSPORT_SSL:
+                $context['ssl'] = [
+                    'verify_peer'=>false,
+                    'allow_self_signed'=>true,
+                    'disable_compresstion' => isset($config['disable_compresstion'])?$config['disable_compresstion']:false,
+                ];
+                $context['ssl']['local_cert'] = isset($config['local_cert'])?$config['local_cert']:'';
+                $context['ssl']['local_pk'] = $config['local_pk']?$config['local_pk']:'';
+                $context['ssl']['passphrase'] = $config['passphrase']?$config['passphrase']:'';
+                $context['ssl']['ciphers'] = isset($config['ciphers'])?$config['ciphers']:'';
+                $context['ssl']['verify_depth'] = isset($config['verify_depth'])?$config['verify_depth']:0;
+
+                break;
+            case SocketListener::TRANSPORT_TLS:
+                $context['tls'] = [
+                    'verify_peer'=>false,
+                    'allow_self_signed'=>true,
+                    'disable_compresstion' => isset($config['disable_compresstion'])?$config['disable_compresstion']:false,
+                ];
+                $context['tls']['local_cert'] = isset($config['local_cert'])?$config['local_cert']:'';
+                $context['tls']['local_pk'] = $config['local_pk']?$config['local_pk']:'';
+                $context['tls']['passphrase'] = $config['passphrase']?$config['passphrase']:'';
+                $context['tls']['ciphers'] = isset($config['ciphers'])?$config['ciphers']:'';
+                $context['tls']['verify_depth'] = isset($config['verify_depth'])?$config['verify_depth']:0;
+
+                break;
+            default:
+                $context = [];
+                $bitmask = STREAM_SERVER_BIND | STREAM_SERVER_LISTEN;
+
+                break;
+        }
 
         $context = stream_context_create($context);
+
         // Error reporting suppressed since stream_socket_server() emits an E_WARNING on failure.
         $socket = @stream_socket_server(
             $endpoint,
             $errno,
             $errstr,
-            STREAM_SERVER_BIND | STREAM_SERVER_LISTEN,
+            $bitmask,
             $context
         );
 

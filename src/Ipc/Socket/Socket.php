@@ -22,6 +22,11 @@ class Socket extends AsyncStream implements SocketInterface
     const TYPE_TCP = 'tcp_socket/ssl';
 
     /**
+     * @var string
+     */
+    const TYPE_UDP = 'udp_socket';
+
+    /**
      * @var bool[]
      */
     private $cachedEndpoint = [];
@@ -119,6 +124,17 @@ class Socket extends AsyncStream implements SocketInterface
      * @override
      * @inheritDoc
      */
+    public function getLocalTransport()
+    {
+        $endpoint = explode('://', $this->getLocalEndpoint(), 2);
+
+        return isset($endpoint[0])?$endpoint[0]:'';
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
     public function getRemoteAddress()
     {
         $endpoint = explode('://', $this->getRemoteEndpoint(), 2);
@@ -148,6 +164,16 @@ class Socket extends AsyncStream implements SocketInterface
         return isset($address[1]) ? $address[1] : '';
     }
 
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getRemoteTransport()
+    {
+        $endpoint = explode('://', $this->getRemoteEndpoint(), 2);
+
+        return isset($endpoint[0])?$endpoint[0]:'';
+    }
 
     /**
      * Create the client resource.
@@ -245,26 +271,32 @@ class Socket extends AsyncStream implements SocketInterface
 
         $name = stream_socket_get_name($this->resource, $wantPeer);
         $type = $this->getStreamType();
-
         switch ($type)
         {
             case Socket::TYPE_UNIX:
-                $endpoint = 'unix://' . $name;
+                $transport = 'unix://';
+                $endpoint = $transport . $name;
                 break;
 
             case Socket::TYPE_TCP:
+                $transport = 'tcp://';
                 if (substr_count($name, ':') > 1)
                 {
                     $parts = explode(':', $name);
                     $count = count($parts);
                     $port = $parts[$count - 1];
                     unset($parts[$count - 1]);
-                    $endpoint = 'tcp://[' . implode(':', $parts) . ']:' . $port;
+                    $endpoint = $transport.'[' . implode(':', $parts) . ']:' . $port;
                 }
                 else
                 {
-                    $endpoint = 'tcp://' . $name;
+                    $endpoint = $transport . $name;
                 }
+                break;
+
+            case Socket::TYPE_UDP:
+                $transport = 'udp://';
+                $endpoint = $transport . $name;
                 break;
 
             default:

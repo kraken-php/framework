@@ -11,6 +11,11 @@ use Kraken\Stream\StreamBaseInterface;
  */
 interface SocketListenerInterface extends EventEmitterInterface, LoopResourceInterface, StreamBaseInterface
 {
+    const TRANSPORT_TCP = 'tcp';
+    const TRANSPORT_UDP = 'udp';
+    const TRANSPORT_SSL = 'ssl';
+    const TRANSPORT_TLS = 'tls';
+
     /**
      * Star listener and underlying resource object.
      *

@@ -166,6 +166,31 @@ class SocketListenerTest extends TUnit
         $this->assertFalse($socket->isPaused());
     }
 
+    //todo
+    public function testApiStart_CannotBeInvokedMoreThanOnce()
+    {
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+    }
+
+    //todo
+    public function testApiStop_CannotBeInvokedMoreThanOnce()
+    {
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+    }
+
+    //todo
+    public function testApiStart_CanBeInvokedAfterStop()
+    {
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+
+    }
+
+    //todo
+    public function testApiStop_CanBeInvokedAfterStart()
+    {
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+    }
+
     /**
      *
      */
@@ -215,59 +240,232 @@ class SocketListenerTest extends TUnit
         $this->assertFalse($socket->isPaused());
     }
 
-    //todo
-    public function testApiStart_CannotBeInvokedMoreThanOnce()
+    /**
+     *
+     */
+    public function testApiStart_StartUdpSocket()
     {
-        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress('udp'));
+
+        $this->assertFalse($socket->isOpen());
+        $socket->start();
+
+        $this->assertTrue($socket->isOpen());
     }
 
-    //todo
-    public function testApiStop_CannotBeInvokedMoreThanOnce()
+    /**
+     *
+     */
+    public function testApiClose_ClosesUdpSocket()
     {
-        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress('udp'));
+        $socket->start();
+
+        $this->assertTrue($socket->isOpen());
+        $socket->close();
+
+        $this->assertFalse($socket->isOpen());
     }
 
-    //todo
-    public function testApiStart_CanBeInvokedAfterStop()
+    /**
+     *
+     */
+    public function testApiPause_PausesUdpSocket()
     {
-        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress('udp'));
+        $socket->start();
 
+        $this->assertFalse($socket->isPaused());
+        $socket->pause();
+
+        $this->assertTrue($socket->isPaused());
     }
 
-    //todo
-    public function testApiStop_CanBeInvokedAfterStart()
+    /**
+     *
+     */
+    public function testApiResume_ResumesUdpSocket()
     {
-        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress());
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress('udp'));
+
+        $socket->pause();
+        $this->assertTrue($socket->isPaused());
+
+        $socket->resume();
+        $this->assertFalse($socket->isPaused());
+    }
+
+    /**
+     * @throws InstantiationException
+     */
+    public function testApiStart_SslSocket()
+    {
+        $config = [
+            'local_pem' => '/Users/TianChen/Documents/openSourceCodeRepo/framework/test/server.pem',
+            'passphrase' => 'abracadabra',
+        ];
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress('ssl'),null,$config);
+
+        $this->assertFalse($socket->isOpen());
+        $socket->start();
+
+        $this->assertTrue($socket->isOpen());
+    }
+
+    /**
+     * @throws InstantiationException
+     */
+    public function testApiClose_SslSocket()
+    {
+        $config = [
+            'local_pem' => '/Users/TianChen/Documents/openSourceCodeRepo/framework/test/server.pem',
+            'passphrase' => 'abracadabra',
+        ];
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress('ssl'),null,$config);
+        $socket->start();
+
+        $this->assertTrue($socket->isOpen());
+        $socket->close();
+
+        $this->assertFalse($socket->isOpen());
+    }
+
+    /**
+     * @throws InstantiationException
+     */
+    public function testApiPause_SslSocket()
+    {
+        $config = [
+            'local_pem' => '/Users/TianChen/Documents/openSourceCodeRepo/framework/test/server.pem',
+            'passphrase' => 'abracadabra',
+        ];
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress('ssl'),null,$config);
+        $socket->start();
+
+        $this->assertFalse($socket->isPaused());
+        $socket->pause();
+
+        $this->assertTrue($socket->isPaused());
+    }
+
+    /**
+     * @throws InstantiationException
+     */
+    public function testApiResume_SslSocket()
+    {
+        $config = [
+            'local_pem' => '/Users/TianChen/Documents/openSourceCodeRepo/framework/test/server.pem',
+            'passphrase' => 'abracadabra',
+        ];
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress('ssl'),null,$config);
+        $socket->pause();
+        $this->assertTrue($socket->isPaused());
+
+        $socket->resume();
+        $this->assertFalse($socket->isPaused());
+    }
+
+    /**
+     * @throws InstantiationException
+     */
+    public function testApiStart_TlsSocket()
+    {
+        $config = [
+            'local_pem' => '/Users/TianChen/Documents/openSourceCodeRepo/framework/test/server.pem',
+            'passphrase' => 'abracadabra',
+        ];
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress('tls'),null,$config);
+
+        $this->assertFalse($socket->isOpen());
+        $socket->start();
+
+        $this->assertTrue($socket->isOpen());
+    }
+
+    /**
+     * @throws InstantiationException
+     */
+    public function testApiClose_TlsSocket()
+    {
+        $config = [
+            'local_pem' => '/Users/TianChen/Documents/openSourceCodeRepo/framework/test/server.pem',
+            'passphrase' => 'abracadabra',
+        ];
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress('tls'),null,$config);
+        $socket->start();
+
+        $this->assertTrue($socket->isOpen());
+        $socket->close();
+
+        $this->assertFalse($socket->isOpen());
+    }
+
+    /**
+     * @throws InstantiationException
+     */
+    public function testApiPause_TlsSocket()
+    {
+        $config = [
+            'local_pem' => '/Users/TianChen/Documents/openSourceCodeRepo/framework/test/server.pem',
+            'passphrase' => 'abracadabra',
+        ];
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress('tls'),null,$config);
+        $socket->start();
+
+        $this->assertFalse($socket->isPaused());
+        $socket->pause();
+
+        $this->assertTrue($socket->isPaused());
+    }
+
+    /**
+     * @throws InstantiationException
+     */
+    public function testApiResume_TlsSocket()
+    {
+        $config = [
+            'local_pem' => '/Users/TianChen/Documents/openSourceCodeRepo/framework/test/server.pem',
+            'passphrase' => 'abracadabra',
+        ];
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress('tls'),null,$config);
+        $socket->pause();
+        $this->assertTrue($socket->isPaused());
+
+        $socket->resume();
+        $this->assertFalse($socket->isPaused());
     }
 
     /**
      * @param resource|null $resource
      * @param LoopInterface $loop
+     * @param array $config
      * @return SocketListener
      */
-    protected function createSocketListenerMock($resource = null, LoopInterface $loop = null)
+    protected function createSocketListenerMock($resource = null, LoopInterface $loop = null , $config = [])
     {
         return $this->createSocketListenerInjection(
             is_null($resource) ? $this->tempSocketRemoteAddress() : $resource,
-            is_null($loop) ? $this->createLoopMock() : $loop
+            is_null($loop) ? $this->createLoopMock() : $loop , $config
         );
     }
 
     /**
      * @param string|resource $endpointOrResource
      * @param LoopInterface $loop
+     * @param array $config
      * @return SocketListener
      */
-    protected function createSocketListenerInjection($endpointOrResource, LoopInterface $loop)
+    protected function createSocketListenerInjection($endpointOrResource, LoopInterface $loop , $config = [])
     {
-        return new SocketListener($endpointOrResource, $loop);
+        return new SocketListener($endpointOrResource, $loop ,$config);
     }
 
     /**
+     * @param string $transport
      * @return string
      */
-    private function tempSocketRemoteAddress()
+    private function tempSocketRemoteAddress($transport = 'tcp')
     {
-        return 'tcp://127.0.0.1:10080';
+        return $transport.'://127.0.0.1:10080';
     }
 }

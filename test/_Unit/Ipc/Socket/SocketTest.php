@@ -84,7 +84,7 @@ class SocketTest extends TUnit
      */
     public function testApiGetLocalEndpoint_ReturnsEndpoint()
     {
-        $server = stream_socket_server($this->tempSocketRemoteAddress());
+        $server = stream_socket_server($this->tempSocketRemoteAddress(),$errno,$errstr,STREAM_SERVER_BIND);
         $socket = $this->createSocketMock($this->tempSocketRemoteAddress());
 
         $this->assertRegExp('#^tcp://(([0-9]*?)\.){3}([0-9]*?):([0-9]*?)$#si', $socket->getLocalEndpoint());
@@ -96,8 +96,9 @@ class SocketTest extends TUnit
     public function testApiGetRemoteEndpoint_ReturnsEndpoint()
     {
         $remote = $this->tempSocketRemoteAddress();
-        $server = stream_socket_server($remote);
+        $server = stream_socket_server($remote,$errno,$errstr);
         $socket = $this->createSocketMock($remote);
+        
         $this->assertEquals($remote, $socket->getRemoteEndpoint());
     }
 
@@ -108,7 +109,6 @@ class SocketTest extends TUnit
     {
         $server = stream_socket_server($this->tempSocketRemoteAddress());
         $socket = $this->createSocketMock($this->tempSocketRemoteAddress());
-
         $pattern = '#^(([0-9]*?)\.){3}([0-9]*?):([0-9]*?)$#si';
 
         $this->assertRegExp($pattern, $socket->getLocalAddress());
@@ -178,6 +178,26 @@ class SocketTest extends TUnit
         $pattern = '#^([0-9]*?)$#si';
 
         $this->assertRegExp($pattern, $socket->getRemotePort());
+    }
+
+    public function testApiGetLocalTransport_ReturnsTransport()
+    {
+        $server = stream_socket_server($this->tempSocketRemoteAddress());
+        $socket = $this->createSocketMock($this->tempSocketRemoteAddress());
+
+        $transports = stream_get_transports();
+
+        $this->assertTrue(in_array($socket->getLocalTransport(), $transports));
+    }
+
+    public function testApiGetRemoteTransport_ReturnsTransport()
+    {
+        $server = stream_socket_server($this->tempSocketRemoteAddress());
+        $socket = $this->createSocketMock($this->tempSocketRemoteAddress());
+
+        $transports = stream_get_transports();
+
+        $this->assertTrue(in_array($socket->getRemoteTransport(), $transports));
     }
 
     /**
