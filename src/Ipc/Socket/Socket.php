@@ -22,6 +22,24 @@ class Socket extends AsyncStream implements SocketInterface
     const TYPE_TCP = 'tcp_socket/ssl';
 
     /**
+     * @var string
+     */
+    const TYPE_UDP = 'udp_socket';
+
+    /**
+     * @var string
+     */
+    const TYPE_UNKNOWN = 'Unknown';
+
+    const TRANSPORT_TCP = 'tcp';
+
+    const TRANSPORT_UDP = 'udp';
+
+    const TRANSPORT_SSL = 'ssl';
+
+    const TRANSPORT_TLS = 'tls';
+
+    /**
      * @var bool[]
      */
     private $cachedEndpoint = [];
@@ -47,11 +65,11 @@ class Socket extends AsyncStream implements SocketInterface
         }
         catch (Error $ex)
         {
-            throw new InstantiationException('SocketClient could not be created.');
+            throw new InstantiationException('SocketClient could not be created.', $ex);
         }
         catch (Exception $ex)
         {
-            throw new InstantiationException('SocketClient could not be created.');
+            throw new InstantiationException('SocketClient could not be created.', $ex);
         }
     }
 
@@ -119,6 +137,17 @@ class Socket extends AsyncStream implements SocketInterface
      * @override
      * @inheritDoc
      */
+    public function getLocalTransport()
+    {
+        $endpoint = explode('://', $this->getLocalEndpoint(), 2);
+
+        return isset($endpoint[0])?$endpoint[0]:'';
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
     public function getRemoteAddress()
     {
         $endpoint = explode('://', $this->getRemoteEndpoint(), 2);
@@ -148,6 +177,16 @@ class Socket extends AsyncStream implements SocketInterface
         return isset($address[1]) ? $address[1] : '';
     }
 
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function getRemoteTransport()
+    {
+        $endpoint = explode('://', $this->getRemoteEndpoint(), 2);
+
+        return isset($endpoint[0])?$endpoint[0]:'';
+    }
 
     /**
      * Create the client resource.
@@ -159,12 +198,23 @@ class Socket extends AsyncStream implements SocketInterface
      * @return resource
      * @throws LogicException
      */
-    protected function createClient($endpoint, $options = [])
+    protected function createClient($endpoint, $options = ['ssl'=> false])
     {
-        $context = [];
         $context['socket'] = [
-            'connect'       => $endpoint
+            'connect' => $endpoint
         ];
+
+        $ssl = (bool) (isset($options['ssl']) ? $options['ssl'] : false);
+
+        if ($ssl === true)
+        {
+            $context['ssl'] = [
+                'verify_peer' => true,
+                'verify_peer_name'=>false,
+                'allow_self_signed' => true,
+                'cafile'=>$options['cafile'],
+            ];
+        }
 
         $context = stream_context_create($context);
         // Error reporting suppressed since stream_socket_client() emits an E_WARNING on failure.
@@ -172,7 +222,7 @@ class Socket extends AsyncStream implements SocketInterface
             $endpoint,
             $errno,
             $errstr,
-            null, // Timeout does not apply for async connect.
+            0, // Timeout does not apply for async connect.
             STREAM_CLIENT_CONNECT | STREAM_CLIENT_ASYNC_CONNECT,
             $context
         );
@@ -194,7 +244,7 @@ class Socket extends AsyncStream implements SocketInterface
      */
     public function handleRead()
     {
-        $data = stream_socket_recvfrom($this->resource, $this->bufferSize);
+        $data = fread($this->resource, $this->bufferSize);
 
         if ($data !== '' && $data !== false)
         {
@@ -238,7 +288,7 @@ class Socket extends AsyncStream implements SocketInterface
             return $this->cachedEndpoint[$wantIndex];
         }
 
-        if (get_resource_type($this->resource) === 'Unknown')
+        if (get_resource_type($this->resource) === Socket::TYPE_UNKNOWN)
         {
             return '';
         }
@@ -249,22 +299,29 @@ class Socket extends AsyncStream implements SocketInterface
         switch ($type)
         {
             case Socket::TYPE_UNIX:
-                $endpoint = 'unix://' . $name;
+                $transport = 'unix://';
+                $endpoint = $transport . $name;
                 break;
 
             case Socket::TYPE_TCP:
+                $transport = 'tcp://';
                 if (substr_count($name, ':') > 1)
                 {
                     $parts = explode(':', $name);
                     $count = count($parts);
                     $port = $parts[$count - 1];
                     unset($parts[$count - 1]);
-                    $endpoint = 'tcp://[' . implode(':', $parts) . ']:' . $port;
+                    $endpoint = $transport.'[' . implode(':', $parts) . ']:' . $port;
                 }
                 else
                 {
-                    $endpoint = 'tcp://' . $name;
+                    $endpoint = $transport . $name;
                 }
+                break;
+
+            case Socket::TYPE_UDP:
+                $transport = 'udp://';
+                $endpoint = $transport . $name;
                 break;
 
             default:
