@@ -16,7 +16,6 @@
     "require": {
         "php": ">=5.5.9",
         "kraken-php/promise": "0.3.*",
-        "kraken-php/supervision": "0.3.*",
         "kraken-php/throwable": "0.3.*",
         "kraken-php/util": "0.3.*"
     },
