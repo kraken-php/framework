@@ -23,7 +23,7 @@ interface StreamWriterInterface extends EventEmitterInterface, StreamSeekerInter
      * @param string $text
      * @return bool
      */
-    public function write($text);
+    public function write($text = '');
 
     /**
      * Set the size of stream buffer in bytes.

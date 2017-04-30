@@ -28,14 +28,15 @@
         "vlucas/phpdotenv": "^2.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.8.*|5.2.*"
+        "phpunit/phpunit": "4.8.*|5.3.*"
     },
     "suggest": {
         "ext-libevent": ">=0.1.0",
         "ext-event": "~1.0",
         "ext-libev": "*",
         "ext-zmq": "*",
-        "ext-fileinfo": "*"
+        "ext-fileinfo": "*",
+        "ext-ssh2": "*"
     },
     "replace": {
         "kraken-php/channel": "self.version",
@@ -53,6 +54,7 @@
         "kraken-php/promise": "self.version",
         "kraken-php/root": "self.version",
         "kraken-php/runtime": "self.version",
+        "kraken-php/ssh": "self.version",
         "kraken-php/stream": "self.version",
         "kraken-php/supervision": "self.version",
         "kraken-php/test": "self.version",

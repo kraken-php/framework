@@ -111,7 +111,7 @@ class AsyncStreamReader extends StreamReader implements AsyncStreamReaderInterfa
      */
     public function resume()
     {
-        if ($this->paused)
+        if ($this->readable && $this->paused)
         {
             $this->paused = false;
             if ($this->readingStarted)

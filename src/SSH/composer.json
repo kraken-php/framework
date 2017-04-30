@@ -1,0 +1,46 @@
+{
+    "name": "kraken-php/ssh",
+    "description": "Kraken Asynchronous SSH.",
+    "keywords": [
+        "kraken", "kraken-php", "async", "asynchronous", "ssh", "ssh2", "driver"
+    ],
+    "license": "MIT",
+    "homepage": "http://kraken-php.com",
+    "support": {
+        "issues": "https://github.com/kraken-php/framework/issues",
+        "source": "https://github.com/kraken-php/framework"
+    },
+    "authors": [
+        {
+            "name":     "Kamil Jamroz",
+            "homepage": "https://github.com/khelle"
+        },
+        {
+            "name":     "The contributors",
+            "homepage": "http://github.com/kraken-php/framework/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "kraken-php/event": "0.3.*",
+        "kraken-php/loop": "0.3.*",
+        "kraken-php/stream": "0.3.*",
+        "kraken-php/throwable": "0.3.*",
+        "kraken-php/util": "0.3.*"
+    },
+    "suggest": {
+        "ext-ssh2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kraken\\SSH\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.4-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
