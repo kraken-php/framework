@@ -36,13 +36,13 @@ class LoaderTest extends TUnit
     {
         $loader = $this->createLoader();
 
-        $this->assertNotSame('2048M', $loader->getEnvironmentVariable('INI_MEMORY_LIMIT'));
-        $this->assertNotSame('2048M', ini_get('memory_limit'));
+        $this->assertNotSame('4096M', $loader->getEnvironmentVariable('INI_MEMORY_LIMIT'));
+        $this->assertNotSame('4096M', ini_get('memory_limit'));
 
-        $loader->setEnvironmentVariable('INI_MEMORY_LIMIT', '2048M');
+        $loader->setEnvironmentVariable('INI_MEMORY_LIMIT', '4096M');
 
-        $this->assertSame('2048M', $loader->getEnvironmentVariable('INI_MEMORY_LIMIT'));
-        $this->assertSame('2048M', ini_get('memory_limit'));
+        $this->assertSame('4096M', $loader->getEnvironmentVariable('INI_MEMORY_LIMIT'));
+        $this->assertSame('4096M', ini_get('memory_limit'));
     }
 
     /**
@@ -52,15 +52,15 @@ class LoaderTest extends TUnit
     {
         $loader = $this->createLoader();
 
-        $loader->setEnvironmentVariable('INI_MEMORY_LIMIT', '2048M');
+        $loader->setEnvironmentVariable('INI_MEMORY_LIMIT', '4096M');
 
-        $this->assertSame('2048M', $loader->getEnvironmentVariable('INI_MEMORY_LIMIT'));
-        $this->assertSame('2048M', ini_get('memory_limit'));
+        $this->assertSame('4096M', $loader->getEnvironmentVariable('INI_MEMORY_LIMIT'));
+        $this->assertSame('4096M', ini_get('memory_limit'));
 
         $loader->clearEnvironmentVariable('INI_MEMORY_LIMIT');
 
-        $this->assertNotSame('2048M', $loader->getEnvironmentVariable('INI_MEMORY_LIMIT'));
-        $this->assertNotSame('2048M', ini_get('memory_limit'));
+        $this->assertNotSame('4096M', $loader->getEnvironmentVariable('INI_MEMORY_LIMIT'));
+        $this->assertNotSame('4096M', ini_get('memory_limit'));
     }
     
     /**
