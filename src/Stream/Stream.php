@@ -89,7 +89,7 @@ class Stream extends StreamSeeker implements StreamInterface
      * @override
      * @inheritDoc
      */
-    public function write($text)
+    public function write($text = '')
     {
         if (!$this->writable)
         {

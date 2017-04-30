@@ -128,7 +128,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
      * @override
      * @inheritDoc
      */
-    public function write($text)
+    public function write($text = '')
     {
         if (!$this->writable)
         {
