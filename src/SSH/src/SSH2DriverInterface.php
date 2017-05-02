@@ -9,9 +9,11 @@ use Kraken\Throwable\Exception\LogicException;
 /**
  * Interface SSH2DriverInterface
  *
- * @event connect    : callable(SSH2DriverInterface)
- * @event disconnect : callable(SSH2DriverInterface)
- * @event error      : callable(SSH2DriverInterface, Error|Exception)
+ * @event connect        : callable(SSH2DriverInterface)
+ * @event disconnect     : callable(SSH2DriverInterface)
+ * @event error          : callable(SSH2DriverInterface, Error|Exception)
+ * @event resource:open  : callable(SSH2DriverInterface, SSH2ResourceInterface)
+ * @event resource:close : callable(SSH2DriverInterface, SSH2ResourceInterface)
  */
 interface SSH2DriverInterface extends EventEmitterInterface, LoopResourceInterface
 {

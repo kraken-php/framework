@@ -237,8 +237,12 @@ class Sftp implements SSH2DriverInterface
         }
 
         $resource = new SftpResource($this, $stream);
+        $resource->on('open', function(SSH2ResourceInterface $resource) {
+            $this->emit('resource:open', [ $this, $resource ]);
+        });
         $resource->on('close', function(SSH2ResourceInterface $resource) {
             $this->removeResource($resource->getId());
+            $this->emit('resource:close', [ $this, $resource ]);
         });
 
         $this->resources[$resource->getId()] = $resource;
