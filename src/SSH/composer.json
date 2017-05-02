@@ -33,7 +33,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Kraken\\SSH\\": ""
+            "Kraken\\SSH\\": "src"
         }
     },
     "extra": {
