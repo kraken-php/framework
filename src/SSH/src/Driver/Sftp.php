@@ -233,7 +233,7 @@ class Sftp implements SSH2DriverInterface
 
         if (!$stream)
         {
-            throw new ResourceUndefinedException('SFTP connection is not be supported!');
+            throw new ResourceUndefinedException("Access to SFTP resource [$resource] denied!");
         }
 
         $resource = new SftpResource($this, $stream);
