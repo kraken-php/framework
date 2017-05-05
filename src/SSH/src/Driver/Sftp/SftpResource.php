@@ -1,18 +1,19 @@
 <?php
 
-namespace Kraken\Stream;
+namespace Kraken\SSH\Driver\Sftp;
 
+use Kraken\Loop\LoopAwareTrait;
+use Kraken\SSH\SSH2DriverInterface;
+use Kraken\SSH\SSH2ResourceInterface;
+use Kraken\Stream\Stream;
 use Kraken\Throwable\Exception\Runtime\ReadException;
 use Kraken\Throwable\Exception\Runtime\WriteException;
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
-use Kraken\Loop\LoopAwareTrait;
-use Kraken\Loop\LoopInterface;
 use Kraken\Util\Buffer\Buffer;
 use Kraken\Util\Buffer\BufferInterface;
 use Error;
 use Exception;
 
-class AsyncStream extends Stream implements AsyncStreamInterface
+class SftpResource extends Stream implements SSH2ResourceInterface
 {
     use LoopAwareTrait;
 
@@ -42,48 +43,27 @@ class AsyncStream extends Stream implements AsyncStreamInterface
     protected $buffer;
 
     /**
+     * @param SSH2DriverInterface $driver
      * @param resource $resource
-     * @param LoopInterface $loop
-     * @param bool $autoClose
-     * @throws InvalidArgumentException
      */
-    public function __construct($resource, LoopInterface $loop, $autoClose = true)
+    public function __construct(SSH2DriverInterface $driver, $resource)
     {
-        parent::__construct($resource, $autoClose);
+        parent::__construct($resource);
 
-        if (function_exists('stream_set_read_buffer'))
-        {
-            stream_set_read_buffer($this->resource, 0);
-        }
-
-        if (function_exists('stream_set_write_buffer'))
-        {
-            stream_set_write_buffer($this->resource, 0);
-        }
-
-        $this->loop = $loop;
+        $this->loop = $driver->getLoop();
         $this->writing = false;
         $this->reading = false;
         $this->readingStarted = false;
-        $this->paused = true;
+        $this->paused = false;
         $this->buffer = new Buffer();
-
-        $this->resume();
     }
 
     /**
-     *
+     * @return string
      */
-    public function __destruct()
+    public function getId()
     {
-        parent::__destruct();
-
-        unset($this->loop);
-        unset($this->writing);
-        unset($this->reading);
-        unset($this->readingStarted);
-        unset($this->paused);
-        unset($this->buffer);
+        return (string) $this->getResourceId();
     }
 
     /**
@@ -124,8 +104,6 @@ class AsyncStream extends Stream implements AsyncStreamInterface
             $this->paused = true;
             $this->writing = false;
             $this->reading = false;
-            $this->loop->removeWriteStream($this->resource);
-            $this->loop->removeReadStream($this->resource);
         }
     }
 
@@ -142,13 +120,11 @@ class AsyncStream extends Stream implements AsyncStreamInterface
             if ($this->readable && $this->readingStarted)
             {
                 $this->reading = true;
-                $this->loop->addReadStream($this->resource, [ $this, 'handleRead' ]);
             }
 
             if ($this->writable && $this->buffer->isEmpty() === false)
             {
                 $this->writing = true;
-                $this->loop->addWriteStream($this->resource, [ $this, 'handleWrite' ]);
             }
         }
     }
@@ -171,7 +147,6 @@ class AsyncStream extends Stream implements AsyncStreamInterface
         if (!$this->writing && !$this->paused)
         {
             $this->writing = true;
-            $this->loop->addWriteStream($this->resource, [ $this, 'handleWrite' ]);
         }
 
         return $this->buffer->length() < $this->bufferSize;
@@ -194,7 +169,6 @@ class AsyncStream extends Stream implements AsyncStreamInterface
         {
             $this->reading = true;
             $this->readingStarted = true;
-            $this->loop->addReadStream($this->resource, [ $this, 'handleRead' ]);
         }
 
         return '';
@@ -232,29 +206,49 @@ class AsyncStream extends Stream implements AsyncStreamInterface
      */
     public function handleWrite()
     {
-        $text = $this->buffer->peek();
-        $sent = fwrite($this->resource, $text, $this->bufferSize);
-
-        if ($sent === false)
+        try
         {
-            $this->emit('error', [ $this, new WriteException('Error occurred while writing to the stream resource.') ]);
-            return;
-        }
+            if (!$this->writing)
+            {
+                return;
+            }
 
-        $lenBefore = strlen($text);
-        $lenAfter = $lenBefore - $sent;
-        $this->buffer->remove($sent);
+            $text = $this->buffer->peek();
 
-        if ($lenAfter > 0 && $lenBefore >= $this->bufferSize && $lenAfter < $this->bufferSize)
-        {
+            if ($text !== '')
+            {
+                $sent = fwrite($this->resource, $text);
+            }
+            else
+            {
+                $sent = 0;
+            }
+
+            if ($text !== '' && !$sent)
+            {
+                $this->emit('error', [ $this, new WriteException('Error occurred while writing to the stream resource.') ]);
+                return;
+            }
+
+            $lenBefore = strlen($text);
+            $lenAfter = $lenBefore - $sent;
+            $this->buffer->remove($sent);
+
             $this->emit('drain', [ $this ]);
+
+            if ($lenAfter === 0 && $this->buffer->isEmpty())
+            {
+                $this->writing = false;
+                $this->emit('finish', [ $this ]);
+            }
         }
-        else if ($lenAfter === 0)
+        catch (Error $ex)
         {
-            $this->loop->removeWriteStream($this->resource);
-            $this->writing = false;
-            $this->emit('drain', [ $this ]);
-            $this->emit('finish', [ $this ]);
+            $this->emit('error', [ $this, $ex ]);
+        }
+        catch (Exception $ex)
+        {
+            $this->emit('error', [ $this, $ex ]);
         }
     }
 
@@ -265,25 +259,40 @@ class AsyncStream extends Stream implements AsyncStreamInterface
      */
     public function handleRead()
     {
-        $length = $this->bufferSize;
-        $ret = fread($this->resource, $length);
-
-        if ($ret === false)
+        try
         {
-            $this->emit('error', [ $this, new ReadException('Error occurred while reading from the stream resource.') ]);
-            return;
-        }
-
-        if ($ret !== '')
-        {
-            $this->emit('data', [ $this, $ret ]);
-
-            if (strlen($ret) < $length)
+            if (!$this->reading)
             {
-                $this->loop->removeReadStream($this->resource);
-                $this->reading = false;
-                $this->emit('end', [ $this ]);
+                return;
             }
+
+            $length = $this->bufferSize;
+            $ret = fread($this->resource, $length);
+
+            if ($ret === false)
+            {
+                $this->emit('error', [ $this, new ReadException('Error occurred while reading from the stream resource.') ]);
+                return;
+            }
+
+            if ($ret !== '')
+            {
+                $this->emit('data', [ $this, $ret ]);
+
+                if (strlen($ret) < $length)
+                {
+                    $this->reading = false;
+                    $this->emit('end', [ $this ]);
+                }
+            }
+        }
+        catch (Error $ex)
+        {
+            $this->emit('error', [ $this, $ex ]);
+        }
+        catch (Exception $ex)
+        {
+            $this->emit('error', [ $this, $ex ]);
         }
     }
 

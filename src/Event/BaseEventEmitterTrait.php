@@ -343,4 +343,15 @@ trait BaseEventEmitterTrait
             return call_user_func_array($listener, func_get_args());
         };
     }
+
+    /**
+     * Destruct method.
+     */
+    private function destructEventEmitterTrait()
+    {
+        $this->emitterBlocked = EventEmitter::EVENTS_FORWARD;
+        $this->eventPointers = [];
+        $this->eventListeners = [];
+        $this->forwardListeners = [];
+    }
 }

@@ -68,7 +68,6 @@ class SocketTest extends TModule
     {
         return [
             [ 'tcp://127.0.0.1:2080' ],
-            [ 'tcp://[::1]:2080' ],
             [ 'unix://mysocket.sock' ]
         ];
     }

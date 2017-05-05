@@ -35,17 +35,15 @@ class TModule extends TUnit
     /**
      * @var Simulation
      */
-    private $simulation;
+    private $sim;
 
     /**
      *
      */
     public function setUp()
     {
-        $this->loop = new Loop(new SelectLoop);
-        $this->loop->erase(true);
-
-        $this->simulation = new Simulation($this->loop);
+        $this->loop = null;
+        $this->sim = null;
     }
 
     /**
@@ -53,12 +51,12 @@ class TModule extends TUnit
      */
     public function tearDown()
     {
-        unset($this->simulation);
+        unset($this->sim);
         unset($this->loop);
     }
 
     /**
-     * @return LoopInterface
+     * @return LoopInterface|null
      */
     public function getLoop()
     {
@@ -75,8 +73,12 @@ class TModule extends TUnit
     {
         try
         {
-            $this->simulation->setScenario($scenario);
-            $this->simulation->begin();
+            $this->loop = new Loop(new SelectLoop);
+            $this->loop->erase(true);
+
+            $this->sim = new Simulation($this->loop);
+            $this->sim->setScenario($scenario);
+            $this->sim->begin();
         }
         catch (Exception $ex)
         {
@@ -102,7 +104,7 @@ class TModule extends TUnit
         }
 
         $this->assertEvents(
-            $this->simulation->getExpectations(),
+            $this->sim->getExpectations(),
             $expectedEvents,
             $flags
         );

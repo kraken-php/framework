@@ -113,7 +113,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
      */
     public function resume()
     {
-        if ($this->paused)
+        if ($this->writable && $this->paused)
         {
             $this->paused = false;
             if ($this->buffer->isEmpty() === false)
@@ -128,7 +128,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
      * @override
      * @inheritDoc
      */
-    public function write($text)
+    public function write($text = '')
     {
         if (!$this->writable)
         {

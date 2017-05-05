@@ -78,7 +78,7 @@ class EventListener
      */
     public function getListener()
     {
-        return $this->listener;
+        return isset($this->listener) ? $this->listener : function() {};
     }
 
     /**

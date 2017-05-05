@@ -72,7 +72,7 @@ class StreamWriter extends StreamSeeker implements StreamWriterInterface
      * @override
      * @inheritDoc
      */
-    public function write($text)
+    public function write($text = '')
     {
         if (!$this->writable)
         {
