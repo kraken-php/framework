@@ -2,6 +2,8 @@
 
 namespace Kraken\Redis;
 
+use GuzzleHttp\Promise\Promise;
+use Kraken\Channel\Model\Socket\Socket;
 use Kraken\Event\EventEmitter;
 use Kraken\Stream\AsyncStream;
 use Kraken\Promise\Deferred;
@@ -30,9 +32,27 @@ class AsyncRedisClient extends EventEmitter implements Client
     private $psubscribed = 0;
     private $monitoring = false;
 
-    public function __construct(AsyncStream $stream, ParserInterface $parser = null, SerializerInterface $serializer = null)
+    public static function client($uri,$loop)
     {
-        parent::__construct($stream->getLoop());
+        $stream = new Socket($uri,$loop);
+        try {
+            $parts = self::parseUrl($uri);
+        } catch (InvalidArgumentException $e) {
+            $promise = new Promise(null, $e);
+
+            return $promise;
+//            return Promise\reject($e);
+        }
+        $promise = $this->connector->create($parts['host'], $parts['port'])->then(function (Socket $stream) use ($protocol) {
+            return new StreamingClient($stream, $protocol->createResponseParser(), $protocol->createSerializer());
+        },function (Stream $stream) { echo 'reject';},function(Stream $stream){ echo 'progress';});
+
+        return self::__construct($stream);
+    }
+
+    public function __construct(Socket $stream, ParserInterface $parser = null, SerializerInterface $serializer = null)
+    {
+        parent::__construct();
 
         if ($parser === null || $serializer === null) {
             $factory = new ProtocolFactory();
@@ -198,5 +218,53 @@ class AsyncRedisClient extends EventEmitter implements Client
     {
         // Check status '1409172115.207170 [0 127.0.0.1:58567] "ping"' contains otherwise uncommon '] "'
         return ($message instanceof StatusReply && strpos($message->getValueNative(), '] "') !== false);
+    }
+
+    /**
+     * @param string|null $target
+     * @return array with keys host, port, auth and db
+     * @throws InvalidArgumentException
+     */
+    private function parseUrl($target)
+    {
+        if ($target === null) {
+            $target = 'tcp://127.0.0.1';
+        }
+        if (strpos($target, '://') === false) {
+            $target = 'tcp://' . $target;
+        }
+
+        $parts = parse_url($target);
+        if ($parts === false || !isset($parts['host']) || $parts['scheme'] !== 'tcp') {
+            throw new InvalidArgumentException('Given URL can not be parsed');
+        }
+
+        if (!isset($parts['port'])) {
+            $parts['port'] = 6379;
+        }
+
+        if ($parts['host'] === 'localhost') {
+            $parts['host'] = '127.0.0.1';
+        }
+
+        $auth = null;
+        if (isset($parts['user'])) {
+            $auth = $parts['user'];
+        }
+        if (isset($parts['pass'])) {
+            $auth .= ':' . $parts['pass'];
+        }
+        if ($auth !== null) {
+            $parts['auth'] = $auth;
+        }
+
+        if (isset($parts['path']) && $parts['path'] !== '') {
+            // skip first slash
+            $parts['db'] = substr($parts['path'], 1);
+        }
+
+        unset($parts['scheme'], $parts['user'], $parts['pass'], $parts['path']);
+
+        return $parts;
     }
 }
