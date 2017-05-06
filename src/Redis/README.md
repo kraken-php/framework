@@ -1,9 +1,6 @@
 # Kraken Event Component
 
 [![Build Status](https://travis-ci.org/kraken-php/framework.svg)](https://travis-ci.org/kraken-php/framework)
-[![Total Downloads](https://poser.pugx.org/kraken-php/event/downloads)](https://packagist.org/packages/kraken-php/event) 
-[![Latest Stable Version](https://poser.pugx.org/kraken-php/event/v/stable)](https://packagist.org/packages/kraken-php/event) 
-[![Latest Unstable Version](https://poser.pugx.org/kraken-php/event/v/unstable)](https://packagist.org/packages/kraken-php/event) 
 [![License](https://poser.pugx.org/kraken-php/framework/license)](https://packagist.org/packages/kraken-php/framework)
 [![Kraken Compatible](https://img.shields.io/badge/kraken-compatible-6b02af.svg)](https://github.com/kraken-php/framework)
 
@@ -13,21 +10,13 @@ are interested in more asynchronous components for PHP, check out the rest of [K
 
 ## Description
 
-Event provides classes to implement event-based architecture.
 
 ## Feature Highlights
 
-Event features:
 
-* Both asynchronous and synchronous event emitters,
-* Event handlers,
-* Expanded interface for attaching listeners and managing events propagation,
-* Kraken Framework compatibility,
-* ...and more.
 
 ## Examples
 
-See more examples in [official documentation][2].
 
 ## Requirements
 
@@ -36,17 +25,13 @@ See more examples in [official documentation][2].
 
 ## Installation
 
-```
-composer require kraken-php/event
-```
+
 
 ## Tests
 
-Tests are provided within our write-only [Framework repository][3].
 
 ## Documentation
 
-Documentation for this module can be found in the [official documentation][2].
 
 ## Contributing
 

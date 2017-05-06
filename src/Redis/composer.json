@@ -17,7 +17,8 @@
         "php": ">=5.5.9",
         "kraken-php/promise" :"0.3.*",
         "kraken-php/ipc" : "0.3.*",
-        "clue/redis-protocol": "0.3.*"
+        "clue/redis-protocol": "0.3.*",
+        "clue/redis-react": "^1.0"
     },
     "autoload": {
         "psr-4": {
