@@ -117,7 +117,7 @@ class AsyncStreamReader extends StreamReader implements AsyncStreamReaderInterfa
             if ($this->readingStarted)
             {
                 $this->reading = true;
-                $this->loop->addReadStream($this->resource, [ $this, 'handleRead' ]);
+                $this->loop->addReadStream($this->resource, $this->getHandleReadFunction());
             }
         }
     }
@@ -139,7 +139,7 @@ class AsyncStreamReader extends StreamReader implements AsyncStreamReaderInterfa
         {
             $this->reading = true;
             $this->readingStarted = true;
-            $this->loop->addReadStream($this->resource, [ $this, 'handleRead' ]);
+            $this->loop->addReadStream($this->resource, $this->getHandleReadFunction());
         }
 
         return '';
@@ -172,6 +172,16 @@ class AsyncStreamReader extends StreamReader implements AsyncStreamReaderInterfa
                 $this->emit('end', [ $this ]);
             }
         }
+    }
+
+    /**
+     * Get function that should be invoked on read event.
+     *
+     * @return callable
+     */
+    protected function getHandleReadFunction()
+    {
+        return [ $this, 'handleRead' ];
     }
 
     /**

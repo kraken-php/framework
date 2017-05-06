@@ -119,7 +119,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
             if ($this->buffer->isEmpty() === false)
             {
                 $this->writing = true;
-                $this->loop->addWriteStream($this->resource, [ $this, 'handleWrite' ]);
+                $this->loop->addWriteStream($this->resource, $this->getHandleWriteFunction());
             }
         }
     }
@@ -142,7 +142,7 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
         if (!$this->writing && !$this->paused)
         {
             $this->writing = true;
-            $this->loop->addWriteStream($this->resource, [ $this, 'handleWrite' ]);
+            $this->loop->addWriteStream($this->resource, $this->getHandleWriteFunction());
         }
 
         return $this->buffer->length() < $this->bufferSize;
@@ -216,6 +216,16 @@ class AsyncStreamWriter extends StreamWriter implements AsyncStreamWriterInterfa
         $this->pause();
 
         parent::handleClose();
+    }
+
+    /**
+     * Get function that should be invoked on write event.
+     *
+     * @return callable
+     */
+    protected function getHandleWriteFunction()
+    {
+        return [ $this, 'handleWrite' ];
     }
 
     /**

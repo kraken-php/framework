@@ -48,6 +48,18 @@ class AsyncStreamReaderTest extends StreamSeekerTest
         unset($loop);
     }
 
+    public function testApiHandleRead_ReturnsProperHandler()
+    {
+        $loop = new Loop(new SelectLoop);
+        $stream = $this->createAsyncStreamReaderMock(null, $loop);
+
+        $expected = [ $stream, 'handleRead' ];
+        $actual = $this->callProtectedMethod($stream, 'getHandleReadFunction');
+
+        $this->assertSame($expected, $actual);
+        $this->assertTrue(is_callable($expected));
+    }
+
     /**
      * @param resource|null $resource
      * @param LoopInterface|null $loop

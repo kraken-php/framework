@@ -142,13 +142,13 @@ class AsyncStream extends Stream implements AsyncStreamInterface
             if ($this->readable && $this->readingStarted)
             {
                 $this->reading = true;
-                $this->loop->addReadStream($this->resource, [ $this, 'handleRead' ]);
+                $this->loop->addReadStream($this->resource, $this->getHandleReadFunction());
             }
 
             if ($this->writable && $this->buffer->isEmpty() === false)
             {
                 $this->writing = true;
-                $this->loop->addWriteStream($this->resource, [ $this, 'handleWrite' ]);
+                $this->loop->addWriteStream($this->resource, $this->getHandleWriteFunction());
             }
         }
     }
@@ -171,7 +171,7 @@ class AsyncStream extends Stream implements AsyncStreamInterface
         if (!$this->writing && !$this->paused)
         {
             $this->writing = true;
-            $this->loop->addWriteStream($this->resource, [ $this, 'handleWrite' ]);
+            $this->loop->addWriteStream($this->resource, $this->getHandleWriteFunction());
         }
 
         return $this->buffer->length() < $this->bufferSize;
@@ -194,7 +194,7 @@ class AsyncStream extends Stream implements AsyncStreamInterface
         {
             $this->reading = true;
             $this->readingStarted = true;
-            $this->loop->addReadStream($this->resource, [ $this, 'handleRead' ]);
+            $this->loop->addReadStream($this->resource, $this->getHandleReadFunction());
         }
 
         return '';
@@ -297,6 +297,26 @@ class AsyncStream extends Stream implements AsyncStreamInterface
         $this->pause();
 
         parent::handleClose();
+    }
+
+    /**
+     * Get function that should be invoked on read event.
+     *
+     * @return callable
+     */
+    protected function getHandleReadFunction()
+    {
+        return [ $this, 'handleRead' ];
+    }
+
+    /**
+     * Get function that should be invoked on write event.
+     *
+     * @return callable
+     */
+    protected function getHandleWriteFunction()
+    {
+        return [ $this, 'handleWrite' ];
     }
 
     /**

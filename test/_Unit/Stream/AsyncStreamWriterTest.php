@@ -42,6 +42,18 @@ class AsyncStreamWriterTest extends StreamSeekerTest
         unset($loop);
     }
 
+    public function testApiHandleWrite_ReturnsProperHandler()
+    {
+        $loop = new Loop(new SelectLoop);
+        $stream = $this->createAsyncStreamWriterMock(null, $loop);
+
+        $expected = [ $stream, 'handleWrite' ];
+        $actual = $this->callProtectedMethod($stream, 'getHandleWriteFunction');
+
+        $this->assertSame($expected, $actual);
+        $this->assertTrue(is_callable($expected));
+    }
+
     /**
      * @param resource|null $resource
      * @param LoopInterface|null $loop
