@@ -374,6 +374,7 @@ class Socket extends AsyncStream implements SocketInterface
             if ($data !== '' && $data !== false)
             {
                 $this->emit('data', [ $this, $data ]);
+                $this->emit('end', [ $this ]);
             }
 
             if ($data === '' || $data === false || !is_resource($this->resource) || feof($this->resource))
