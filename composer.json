@@ -12,9 +12,16 @@
         "issues": "https://github.com/kraken-php/framework/issues",
         "source": "https://github.com/kraken-php/framework"
     },
-    "authors": [{
-        "name": "Kamil Jamroz"
-    }],
+    "authors": [
+        {
+            "name":     "Kamil Jamroz",
+            "homepage": "https://github.com/khelle"
+        },
+        {
+            "name":     "The contributors",
+            "homepage": "http://github.com/kraken-php/framework/contributors"
+        }
+    ],
     "require": {
         "php": ">=5.5.9",
         "symfony/console": "^3.0",
