@@ -15,10 +15,10 @@
     }],
     "require": {
         "php": ">=5.5.9",
-        "kraken-php/event": "0.3.*",
-        "kraken-php/loop": "0.3.*",
-        "kraken-php/throwable": "0.3.*",
-        "kraken-php/util": "0.3.*"
+        "kraken-php/event": "0.4.*",
+        "kraken-php/loop": "0.4.*",
+        "kraken-php/throwable": "0.4.*",
+        "kraken-php/util": "0.4.*"
     },
     "autoload": {
         "psr-4": {
@@ -27,7 +27,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.4-dev"
+            "dev-master": "0.5-dev"
         }
     },
     "minimum-stability": "dev",

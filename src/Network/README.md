@@ -21,8 +21,12 @@ protocols, including TCP, HTTP and WebSockets.
 Network features:
 
 * Asynchronous TCP server,
-* Asynchronous HTTP/1.1 server,
-* Asynchronous WebSocket server with support for RFC6455 and HyBi10 protocols,
+* Asynchronous HTTP server,
+* Asynchronous WebSocket server,
+* Support for HTTP/1.0 protocol,
+* Support for HTTP/1.1 protocol,
+* Support for WebSocket RFC6455 protocol,
+* Support for WebSocket HyBi10 protocol,
 * Connections firewall,
 * HTTP request and response abstraction,
 * HTTP routing,

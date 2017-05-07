@@ -2,6 +2,18 @@
 
 This changelog references the relevant changes, bug and security fixes done.
 
+## v0.4.0 (2017-05-07)
+
+### Additions
+
+- Implemented async SSH driver ([#56](https://github.com/kraken-php/framework/issues/56)).
+- Implemented SSL encryption on Socket and Socket listeners ([#69](https://github.com/kraken-php/framework/issues/69)).
+
+### Fixes
+
+- Fixed missing events that should indicate end of reading/writing ([#54](https://github.com/kraken-php/framework/issues/54)).
+- Fixed automatic reading on async streams ([#55](https://github.com/kraken-php/framework/issues/55)).
+
 ## v0.3.3 (2016-11-26)
 
 ### Fixes

@@ -15,10 +15,10 @@
     }],
     "require": {
         "php": ">=5.5.9",
-        "kraken-php/ipc": "0.3.*",
-        "kraken-php/loop": "0.3.*",
-        "kraken-php/throwable": "0.3.*",
-        "kraken-php/util": "0.3.*",
+        "kraken-php/ipc": "0.4.*",
+        "kraken-php/loop": "0.4.*",
+        "kraken-php/throwable": "0.4.*",
+        "kraken-php/util": "0.4.*",
         "cboden/ratchet": "^0.3",
         "guzzlehttp/guzzle": "^6.1",
         "symfony/http-foundation": "^3.0",
@@ -31,7 +31,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.4-dev"
+            "dev-master": "0.5-dev"
         }
     },
     "minimum-stability": "dev",

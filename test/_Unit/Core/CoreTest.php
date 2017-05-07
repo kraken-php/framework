@@ -23,7 +23,7 @@ class CoreTest extends TUnit
      */
     public function testCaseVersionConst_HasVersion()
     {
-        $this->assertSame('0.3.3', Core::VERSION);
+        $this->assertSame('0.4.0', Core::VERSION);
     }
 
     /**

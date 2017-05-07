@@ -15,24 +15,24 @@
     }],
     "require": {
         "php": ">=5.5.9",
-        "kraken-php/channel": "0.3.*",
-        "kraken-php/config": "0.3.*",
-        "kraken-php/console": "0.3.*",
-        "kraken-php/container": "0.3.*",
-        "kraken-php/core": "0.3.*",
-        "kraken-php/environment": "0.3.*",
-        "kraken-php/event": "0.3.*",
-        "kraken-php/filesystem": "0.3.*",
-        "kraken-php/ipc": "0.3.*",
-        "kraken-php/log": "0.3.*",
-        "kraken-php/loop": "0.3.*",
-        "kraken-php/network": "0.3.*",
-        "kraken-php/promise": "0.3.*",
-        "kraken-php/runtime": "0.3.*",
-        "kraken-php/stream": "0.3.*",
-        "kraken-php/supervision": "0.3.*",
-        "kraken-php/throwable": "0.3.*",
-        "kraken-php/util": "0.3.*"
+        "kraken-php/channel": "0.4.*",
+        "kraken-php/config": "0.4.*",
+        "kraken-php/console": "0.4.*",
+        "kraken-php/container": "0.4.*",
+        "kraken-php/core": "0.4.*",
+        "kraken-php/environment": "0.4.*",
+        "kraken-php/event": "0.4.*",
+        "kraken-php/filesystem": "0.4.*",
+        "kraken-php/ipc": "0.4.*",
+        "kraken-php/log": "0.4.*",
+        "kraken-php/loop": "0.4.*",
+        "kraken-php/network": "0.4.*",
+        "kraken-php/promise": "0.4.*",
+        "kraken-php/runtime": "0.4.*",
+        "kraken-php/stream": "0.4.*",
+        "kraken-php/supervision": "0.4.*",
+        "kraken-php/throwable": "0.4.*",
+        "kraken-php/util": "0.4.*"
     },
     "autoload": {
         "psr-4": {
@@ -41,7 +41,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.4-dev"
+            "dev-master": "0.5-dev"
         }
     },
     "minimum-stability": "dev",
