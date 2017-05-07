@@ -54,4 +54,18 @@ interface SocketListenerInterface extends EventEmitterInterface, LoopResourceInt
      * @return string
      */
     public function getLocalPort();
+
+    /**
+     * Get socket local protocol.
+     *
+     * @return string
+     */
+    public function getLocalProtocol();
+
+    /**
+     * Return bool indicating whether the listener is encrypted.
+     *
+     * @return bool
+     */
+    public function isEncrypted();
 }

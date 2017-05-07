@@ -20,45 +20,96 @@ class SocketTest extends TModule
      */
     public function testSocketWritesAndReadsDataCorrectly($endpoint)
     {
-        $this
-            ->simulate(function(SimulationInterface $sim) use($endpoint) {
-                $loop = $sim->getLoop();
+        $sim = $this->simulate(function(SimulationInterface $sim) use($endpoint) {
+            $loop = $sim->getLoop();
 
-                $server = new SocketListener($endpoint, $loop);
-                $server->start();
-                $server->on('connect', function(SocketListenerInterface $server, SocketInterface $conn) use($sim) {
-                    $conn->on('data', function(SocketInterface $conn, $data) use($server, $sim) {
-                        $sim->expect('data', $data);
-                        $conn->write('secret answer!');
-                        $server->close();
-                    });
-                });
-                $server->on('error', $this->expectCallableNever());
-                $server->on('close', function() use($sim) {
-                    $sim->expect('close');
-                });
-                $server->start();
-
-                $client = new Socket($endpoint, $loop);
-                $client->on('data', function(SocketInterface $conn, $data) use($loop, $sim) {
+            $server = new SocketListener($endpoint, $loop);
+            $server->start();
+            $server->on('connect', function(SocketListenerInterface $server, SocketInterface $conn) use($sim) {
+                $conn->on('data', function(SocketInterface $conn, $data) use($server, $sim) {
                     $sim->expect('data', $data);
-                    $conn->close();
-                    $sim->done();
+                    $conn->write('secret answer!');
+                    $server->close();
                 });
-                $client->on('error', $this->expectCallableNever());
-                $client->on('close', function() use($sim) {
-                    $sim->expect('close');
-                });
+            });
+            $server->on('error', $this->expectCallableNever());
+            $server->on('close', function() use($sim) {
+                $sim->expect('close');
+            });
+            $server->start();
 
-                $client->write('secret question!');
-            })
-            ->expect([
-                [ 'data', 'secret question!' ],
-                [ 'close' ],
-                [ 'data', 'secret answer!' ],
-                [ 'close' ]
-            ])
-        ;
+            $client = new Socket($endpoint, $loop);
+            $client->on('data', function(SocketInterface $conn, $data) use($loop, $sim) {
+                $sim->expect('data', $data);
+                $conn->close();
+                $sim->done();
+            });
+            $client->on('error', $this->expectCallableNever());
+            $client->on('close', function() use($sim) {
+                $sim->expect('close');
+            });
+
+            $client->write('secret question!');
+        });
+        $sim = $sim->expect([
+            [ 'data', 'secret question!' ],
+            [ 'close' ],
+            [ 'data', 'secret answer!' ],
+            [ 'close' ]
+        ]);
+    }
+
+    /**
+     * @dataProvider endpointSSLProvider
+     */
+    public function testSocketWritesAndReadsDataCorrectly_WithSSLConfiguration($endpoint)
+    {
+        $sim = $this->simulate(function(SimulationInterface $sim) use($endpoint) {
+            $loop = $sim->getLoop();
+
+            $serverConfig = [
+                'ssl' => true,
+                'ssl_cert' => __DIR__ . '/_Data/_ssl_cert.pem',
+                'ssl_key' => __DIR__ . '/_Data/_ssl_key.pem',
+                'ssl_secret' => 'secret',
+            ];
+
+            $server = new SocketListener($endpoint, $loop, $serverConfig);
+            $server->on('connect', function(SocketListenerInterface $server, SocketInterface $conn) use($sim) {
+                $conn->on('data', function(SocketInterface $conn, $data) use($server, $sim) {
+                    $sim->expect('data', $data);
+                    $conn->write('secret answer!');
+                    $server->close();
+                });
+            });
+            $server->on('error', $this->expectCallableNever());
+            $server->on('close', function() use($sim) {
+                $sim->expect('close');
+            });
+            $server->start();
+
+            $clientConfig = [
+                'ssl' => true,
+            ];
+            $client = new Socket($endpoint, $loop, $clientConfig);
+            $client->on('data', function(SocketInterface $conn, $data) use($loop, $sim) {
+                $sim->expect('data', $data);
+                $conn->close();
+                $sim->done();
+            });
+            $client->on('error', $this->expectCallableNever());
+            $client->on('close', function() use($sim) {
+                $sim->expect('close');
+            });
+
+            $client->write('secret question!');
+        });
+        $sim = $sim->expect([
+            [ 'data', 'secret question!' ],
+            [ 'close' ],
+            [ 'data', 'secret answer!' ],
+            [ 'close' ]
+        ]);
     }
 
     /**
@@ -69,6 +120,16 @@ class SocketTest extends TModule
         return [
             [ 'tcp://127.0.0.1:2080' ],
             [ 'unix://mysocket.sock' ]
+        ];
+    }
+
+    /**
+     * @return string[][]
+     */
+    public function endpointSSLProvider()
+    {
+        return [
+            [ 'tcp://127.0.0.1:2080' ],
         ];
     }
 }

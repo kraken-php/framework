@@ -3,6 +3,7 @@
 namespace Kraken\Ipc\Socket;
 
 use Kraken\Event\BaseEventEmitter;
+use Kraken\Throwable\Exception\Runtime\ExecutionException;
 use Kraken\Throwable\Exception\Runtime\ReadException;
 use Kraken\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Throwable\Exception\LogicException;
@@ -21,6 +22,36 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
     const DEFAULT_BACKLOG = 1024;
 
     /**
+     * @var mixed
+     */
+    const CONFIG_DEFAULT_SSL = false;
+
+    /**
+     * @var mixed
+     */
+    const CONFIG_DEFAULT_SSL_METHOD = STREAM_CRYPTO_METHOD_TLSv1_2_SERVER;
+
+    /**
+     * @var mixed
+     */
+    const CONFIG_DEFAULT_SSL_NAME = '';
+
+    /**
+     * @var mixed
+     */
+    const CONFIG_DEFAULT_SSL_VERIFY_SIGN = false;
+
+    /**
+     * @var mixed
+     */
+    const CONFIG_DEFAULT_SSL_VERIFY_PEER = false;
+
+    /**
+     * @var mixed
+     */
+    const CONFIG_DEFAULT_SSL_VERIFY_DEPTH = 10;
+
+    /**
      * @var resource
      */
     protected $socket;
@@ -28,7 +59,7 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
     /**
      * @var bool
      */
-    protected $open;
+    protected $started;
 
     /**
      * @var bool
@@ -51,14 +82,14 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
      * @param mixed[] $config
      * @throws InstantiationException
      */
-    public function __construct($endpointOrResource, LoopInterface $loop, $config = ['ssl'=>false])
+    public function __construct($endpointOrResource, LoopInterface $loop, $config = [])
     {
+        $this->configure($config);
         $this->endpoint = $endpointOrResource;
         $this->socket = null;
         $this->loop = $loop;
-        $this->open = false;
+        $this->started = false;
         $this->paused = true;
-        $this->config = $config;
     }
 
     /**
@@ -72,7 +103,7 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
 
         unset($this->socket);
         unset($this->loop);
-        unset($this->open);
+        unset($this->started);
         unset($this->paused);
         unset($this->config);
         unset($this->endpoint);
@@ -86,7 +117,7 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
     {
         if ($this->isOpen())
         {
-            return ;
+            return;
         }
 
         try
@@ -98,28 +129,18 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
             else
             {
                 $this->socket = &$this->endpoint;
-
-                if ($this->config['ssl'] === true)
-                {
-                    stream_context_set_option($this->socket, 'ssl', 'verify_peer', false);
-                    stream_context_set_option($this->socket, 'ssl', 'allow_self_signed', true);
-                    stream_context_set_option($this->socket,'ssl','verify_peer_name',false);
-                    stream_context_set_option($this->socket, 'ssl', 'local_cert', $this->config['local_cert']);
-                    stream_context_set_option($this->socket, 'ssl', 'local_pk', $this->config['local_pk']);
-                    stream_context_set_option($this->socket, 'ssl', 'passphrase', $this->config['passphrase']);
-                }
             }
 
             $this->resume();
-            $this->open = true;
+            $this->started = true;
         }
         catch (Error $ex)
         {
-            throw new InstantiationException('SocketServer could not be created.', $ex);
+            throw new InstantiationException('SocketListener could not be created.', $ex);
         }
         catch (Exception $ex)
         {
-            throw new InstantiationException('SocketServer could not be created.', $ex);
+            throw new InstantiationException('SocketListener could not be created.', $ex);
         }
     }
 
@@ -178,11 +199,11 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
      * @override
      * @inheritDoc
      */
-    public function getLocalTransport()
+    public function getLocalProtocol()
     {
         $endpoint = explode('://', $this->getLocalEndpoint(), 2);
 
-        return isset($endpoint[0])?$endpoint[0]:'';
+        return isset($endpoint[0]) ? $endpoint[0]:'';
     }
 
     /**
@@ -244,7 +265,7 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
      */
     public function isOpen()
     {
-        return $this->open;
+        return $this->started;
     }
 
     /**
@@ -257,12 +278,12 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
     }
 
     /**
-     * @internal
-     * @return bool
+     * @override
+     * @inheritDoc
      */
-    public function isEncrypt()
+    public function isEncrypted()
     {
-        return $this->encrypt && true;
+        return isset($this->config['ssl']) && $this->config['ssl'] === true;
     }
 
     /**
@@ -276,7 +297,7 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
             return;
         }
 
-        $this->open = false;
+        $this->started = false;
 
         $this->emit('close', [ $this ]);
         $this->handleClose();
@@ -347,7 +368,12 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
             }
         }
 
-        $ssl = (bool) ((isset($config['ssl'])) ? $config['ssl'] : false);
+        $ssl = $this->config['ssl'];
+        $name = $this->config['ssl_name'];
+        $verifySign = $this->config['ssl_verify_sign'];
+        $verifyPeer = $this->config['ssl_verify_peer'];
+        $verifyDepth = $this->config['ssl_verify_depth'];
+
         $backlog = (int) (isset($config['backlog']) ? $config['backlog'] : self::DEFAULT_BACKLOG);
         $reuseaddr = (bool) (isset($config['reuseaddr']) ? $config['reuseaddr'] : false);
         $reuseport = (bool) (isset($config['reuseport']) ? $config['reuseport'] : false);
@@ -360,16 +386,30 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
             'so_reuseport' => $reuseport,
         ];
 
-        if($ssl) {
-            $context['ssl'] = [
-                'verify_peer'=>false,
-                'verify_peer_name' => false,
-                'allow_self_signed'=> true,
-                'local_cert' => $config['local_cert'],
-                'local_pk' => $config['local_pk'],
-                'passphrase' => $config['passphrase'],
-            ];
+        $context['ssl'] = [
+            'allow_self_signed' => !$verifySign,
+            'verify_peer' => $verifyPeer,
+            'verify_peer_name' => $verifyPeer,
+            'verify_depth' => $verifyDepth,
+            'disable_compression' => true,
+            'SNI_enabled' => $name !== '',
+            'SNI_server_name' => $name,
+            'peer_name' => $name,
+        ];
 
+        if ($ssl && isset($config['ssl_cert']))
+        {
+            $context['ssl']['local_cert'] = $config['ssl_cert'];
+        }
+
+        if ($ssl && isset($config['ssl_key']))
+        {
+            $context['ssl']['local_pk'] = $config['ssl_key'];
+        }
+
+        if ($ssl && isset($config['ssl_secret']))
+        {
+            $context['ssl']['passphrase'] = $config['ssl_secret'];
         }
 
         $bitmask = STREAM_SERVER_BIND | STREAM_SERVER_LISTEN;
@@ -401,11 +441,12 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
      * This method creates client resource for socket connections.
      *
      * @param resource $resource
+     * @param string[] $config
      * @return SocketInterface
      */
-    protected function createClient($resource)
+    protected function createClient($resource, $config = [])
     {
-        return new Socket($resource, $this->loop);
+        return new Socket($resource, $this->loop, $config);
     }
 
     /**
@@ -415,19 +456,47 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
      */
     public function handleConnect()
     {
-        $newSocket = @stream_socket_accept($this->socket);
+        $socket = @stream_socket_accept($this->socket);
 
-        if ($newSocket === false)
+        if ($socket === false)
         {
             $this->emit('error', [ $this, new ReadException('Socket could not accept new connection.') ]);
             return;
         }
 
-        stream_set_blocking($newSocket, 0);
+        $client = null;
+        $ex = null;
 
-        $client = $this->createClient($newSocket);
+        try
+        {
+            $client = $this->createClient($socket, [
+                'ssl' => $this->config['ssl'],
+                'ssl_method' => $this->config['ssl_method'],
+            ]);
 
-        $this->emit('connect', [ $this, $client ]);
+            $this->emit('connect', [ $this, $client ]);
+        }
+        catch (Error $ex)
+        {}
+        catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
+        {
+            $this->handleDisconnect($socket);
+            $this->emit('error', [ $this, new ReadException('Socket could not wrap new connection!') ]);
+        }
+    }
+
+    private function handleDisconnect($resource)
+    {
+        if (is_resource($resource))
+        {
+            // http://chat.stackoverflow.com/transcript/message/7727858#7727858
+            stream_socket_shutdown($resource, STREAM_SHUT_RDWR);
+            stream_set_blocking($resource, 0);
+            fclose($resource);
+        }
     }
 
     /**
@@ -448,6 +517,34 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
             }
             fclose($this->socket);
         }
+    }
+
+    /**
+     * Configure socket.
+     *
+     * @param string[] $config
+     */
+    private function configure($config = [])
+    {
+        $this->config = $config;
+
+        $this->configureVariable('ssl');
+        $this->configureVariable('ssl_method');
+        $this->configureVariable('ssl_name');
+        $this->configureVariable('ssl_verify_sign');
+        $this->configureVariable('ssl_verify_peer');
+        $this->configureVariable('ssl_verify_depth');
+    }
+
+    /**
+     * Configure static key
+     *
+     * @param $configKey
+     */
+    private function configureVariable($configKey)
+    {
+        $configStaticKey = 'CONFIG_DEFAULT_' . strtoupper($configKey);
+        $this->config[$configKey] = isset($this->config[$configKey]) ? $this->config[$configKey] : constant("static::$configStaticKey");
     }
 
     /**
@@ -496,8 +593,7 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
         }
         else
         {
-            return is_string($this->endpoint)?$this->endpoint:'';
+            return is_string($this->endpoint) ? $this->endpoint : '';
         }
-
     }
 }

@@ -2,10 +2,11 @@
 
 namespace Kraken\Ipc\Socket;
 
-use Kraken\Throwable\Exception\Logic\InstantiationException;
-use Kraken\Throwable\Exception\LogicException;
 use Kraken\Loop\LoopInterface;
 use Kraken\Stream\AsyncStream;
+use Kraken\Throwable\Exception\Logic\InstantiationException;
+use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Kraken\Throwable\Exception\LogicException;
 use Error;
 use Exception;
 
@@ -31,13 +32,65 @@ class Socket extends AsyncStream implements SocketInterface
      */
     const TYPE_UNKNOWN = 'Unknown';
 
-    const TRANSPORT_TCP = 'tcp';
+    /**
+     * @var int
+     */
+    const CRYPTO_TYPE_UNKNOWN = 0;
 
-    const TRANSPORT_UDP = 'udp';
+    /**
+     * @var int
+     */
+    const CRYPTO_TYPE_SERVER = 1;
 
-    const TRANSPORT_SSL = 'ssl';
+    /**
+     * @var int
+     */
+    const CRYPTO_TYPE_CLIENT = 2;
 
-    const TRANSPORT_TLS = 'tls';
+    /**
+     * @var mixed
+     */
+    const CONFIG_DEFAULT_SSL = false;
+
+    /**
+     * @var mixed
+     */
+    const CONFIG_DEFAULT_SSL_METHOD = STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
+
+    /**
+     * @var mixed
+     */
+    const CONFIG_DEFAULT_SSL_NAME = '';
+
+    /**
+     * @var mixed
+     */
+    const CONFIG_DEFAULT_SSL_VERIFY_SIGN = false;
+
+    /**
+     * @var mixed
+     */
+    const CONFIG_DEFAULT_SSL_VERIFY_PEER = false;
+
+    /**
+     * @var mixed
+     */
+    const CONFIG_DEFAULT_SSL_VERIFY_DEPTH = 10;
+
+    /**
+     * @var int
+     */
+    protected $crypto = 0;
+
+    /**
+     * @var int
+     */
+    protected $cryptoMethod = 0;
+
+    /**
+     * @var array
+     */
+    protected $config = [];
 
     /**
      * @var bool[]
@@ -54,6 +107,8 @@ class Socket extends AsyncStream implements SocketInterface
     {
         try
         {
+            $this->configure($config);
+
             if (!is_resource($endpointOrResource))
             {
                 $endpointOrResource = $this->createClient($endpointOrResource, $config);
@@ -137,11 +192,11 @@ class Socket extends AsyncStream implements SocketInterface
      * @override
      * @inheritDoc
      */
-    public function getLocalTransport()
+    public function getLocalProtocol()
     {
         $endpoint = explode('://', $this->getLocalEndpoint(), 2);
 
-        return isset($endpoint[0])?$endpoint[0]:'';
+        return isset($endpoint[0]) ? $endpoint[0] : '';
     }
 
     /**
@@ -181,11 +236,20 @@ class Socket extends AsyncStream implements SocketInterface
      * @override
      * @inheritDoc
      */
-    public function getRemoteTransport()
+    public function getRemoteProtocol()
     {
         $endpoint = explode('://', $this->getRemoteEndpoint(), 2);
 
-        return isset($endpoint[0])?$endpoint[0]:'';
+        return isset($endpoint[0]) ? $endpoint[0] : '';
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    public function isEncrypted()
+    {
+        return $this->crypto !== 0;
     }
 
     /**
@@ -194,26 +258,45 @@ class Socket extends AsyncStream implements SocketInterface
      * This method creates client resource for socket connections.
      *
      * @param string $endpoint
-     * @param mixed[] $options
+     * @param mixed[] $config
      * @return resource
      * @throws LogicException
      */
-    protected function createClient($endpoint, $options = ['ssl'=> false])
+    protected function createClient($endpoint, $config = [])
     {
+        $ssl = $this->config['ssl'];
+        $name = $this->config['ssl_name'];
+        $verifySign = $this->config['ssl_verify_sign'];
+        $verifyPeer = $this->config['ssl_verify_peer'];
+        $verifyDepth = $this->config['ssl_verify_depth'];
+
         $context['socket'] = [
             'connect' => $endpoint
         ];
 
-        $ssl = (bool) (isset($options['ssl']) ? $options['ssl'] : false);
+        $context['ssl'] = [
+            'capture_peer_cert' => true,
+            'capture_peer_chain' => true,
+            'capture_peer_cert_chain' => true,
+            'allow_self_signed' => !$verifySign,
+            'verify_peer' => $verifyPeer,
+            'verify_peer_name' => $verifyPeer,
+            'verify_depth' => $verifyDepth,
+            'SNI_enabled' => $name !== '',
+            'SNI_server_name' => $name,
+            'peer_name' => $name,
+            'disable_compression' => true,
+            'honor_cipher_order' => true,
+        ];
 
-        if ($ssl === true)
+        if ($ssl && isset($config['ssl_cafile']))
         {
-            $context['ssl'] = [
-                'verify_peer' => true,
-                'verify_peer_name'=>false,
-                'allow_self_signed' => true,
-                'cafile'=>$options['cafile'],
-            ];
+            $context['ssl']['cafile'] = $config['ssl_cafile'];
+        }
+
+        if ($ssl && isset($config['ssl_capath']))
+        {
+            $context['ssl']['capath'] = $config['ssl_capath'];
         }
 
         $context = stream_context_create($context);
@@ -234,7 +317,45 @@ class Socket extends AsyncStream implements SocketInterface
             );
         }
 
+        stream_set_blocking($socket, false);
+
         return $socket;
+    }
+
+    /**
+     * Handle socket encryption.
+     *
+     * @internal
+     */
+    public function handleEncrypt()
+    {
+        $ex = null;
+
+        try
+        {
+            if ($this->isEncrypted())
+            {
+                return;
+            }
+
+            $this->encrypt($this->config['ssl_method']);
+
+            if ($this->isEncrypted())
+            {
+                $this->pause();
+                $this->resume();
+            }
+        }
+        catch (Error $ex)
+        {}
+        catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
+        {
+            $this->close();
+            $this->emit('error', [ $this, $ex ]);
+        }
     }
 
     /**
@@ -244,16 +365,54 @@ class Socket extends AsyncStream implements SocketInterface
      */
     public function handleRead()
     {
-        $data = fread($this->resource, $this->bufferSize);
+        $ex = null;
 
-        if ($data !== '' && $data !== false)
+        try
         {
-            $this->emit('data', [ $this, $data ]);
+            $data = fread($this->resource, $this->bufferSize);
+
+            if ($data !== '' && $data !== false)
+            {
+                $this->emit('data', [ $this, $data ]);
+            }
+
+            if ($data === '' || $data === false || !is_resource($this->resource) || feof($this->resource))
+            {
+                $this->close();
+            }
         }
+        catch (Error $ex)
+        {}
+        catch (Exception $ex)
+        {}
 
-        if ($data === '' || $data === false || !is_resource($this->resource) || feof($this->resource))
+        if ($ex !== null)
         {
-            $this->close();
+            $this->emit('error', [ $this, $ex ]);
+        }
+    }
+
+    /**
+     * @internal
+     * @override
+     * @inheritDoc
+     */
+    public function handleWrite()
+    {
+        $ex = null;
+
+        try
+        {
+            parent::handleWrite();
+        }
+        catch (Error $ex)
+        {}
+        catch (Exception $ex)
+        {}
+
+        if ($ex !== null)
+        {
+            $this->emit('error', [ $this, $ex ]);
         }
     }
 
@@ -273,6 +432,58 @@ class Socket extends AsyncStream implements SocketInterface
             stream_set_blocking($this->resource, 0);
             fclose($this->resource);
         }
+    }
+
+    /**
+     * Get function that should be invoked on read event.
+     *
+     * @return callable
+     */
+    protected function getHandleReadFunction()
+    {
+        return $this->config['ssl'] === true && !$this->isEncrypted()
+            ? [ $this, 'handleEncrypt' ]
+            : [ $this, 'handleRead' ];
+    }
+
+    /**
+     * Get function that should be invoked on write event.
+     *
+     * @return callable
+     */
+    protected function getHandleWriteFunction()
+    {
+        return $this->config['ssl'] === true && !$this->isEncrypted()
+            ? [ $this, 'handleEncrypt' ]
+            : [ $this, 'handleWrite' ];
+    }
+
+    /**
+     * Configure socket.
+     *
+     * @param string[] $config
+     */
+    private function configure($config = [])
+    {
+        $this->config = $config;
+
+        $this->configureVariable('ssl');
+        $this->configureVariable('ssl_method');
+        $this->configureVariable('ssl_name');
+        $this->configureVariable('ssl_verify_sign');
+        $this->configureVariable('ssl_verify_peer');
+        $this->configureVariable('ssl_verify_depth');
+    }
+
+    /**
+     * Configure config variable.
+     *
+     * @param $configKey
+     */
+    private function configureVariable($configKey)
+    {
+        $configStaticKey = 'CONFIG_DEFAULT_' . strtoupper($configKey);
+        $this->config[$configKey] = isset($this->config[$configKey]) ? $this->config[$configKey] : constant("static::$configStaticKey");
     }
 
     /**
@@ -331,5 +542,114 @@ class Socket extends AsyncStream implements SocketInterface
         $this->cachedEndpoint[$wantIndex] = $endpoint;
 
         return $endpoint;
+    }
+
+    /**
+     * @override
+     * @inheritDoc
+     */
+    private function encrypt($method)
+    {
+        $type = $this->selectCryptoType($method);
+
+        if ($type === self::CRYPTO_TYPE_UNKNOWN)
+        {
+            throw new ExecutionException('Socket encryption method is invalid!');
+        }
+
+        $resource = $this->getResource();
+
+        if ($type === self::CRYPTO_TYPE_SERVER && $this->cryptoMethod === 0)
+        {
+            $raw = @stream_socket_recvfrom($resource, 11, STREAM_PEEK);
+
+            if ($raw === '')
+            {
+                return;
+            }
+
+            if (11 > strlen($raw))
+            {
+                throw new ExecutionException('Failed to read crypto handshake.');
+            }
+
+            $data = unpack('ctype/nversion/nlength/Nembed/nmax-version', $raw);
+            if (0x16 !== $data['type'])
+            {
+                throw new ExecutionException('Invalid crypto handshake.');
+            }
+
+            // Check if version was available in $method.
+            $version = $this->selectCryptoVersion($data['max-version']);
+            if ($method & $version)
+            {
+                $method = $version;
+            }
+        }
+
+        $this->cryptoMethod = $method;
+        $result = @stream_socket_enable_crypto($resource, true, $this->cryptoMethod);
+
+        if ($result === 0)
+        {
+            return;
+        }
+        else if (!$result)
+        {
+            $message = 'Socket encryption failed.';
+            if ($error = error_get_last())
+            {
+                $message .= sprintf(' Errno: %d; %s', $error['type'], $error['message']);
+            }
+            throw new ExecutionException($message);
+        }
+        else
+        {
+            $this->crypto = $this->cryptoMethod;
+        }
+    }
+
+    /**
+     * Checks type of crypto.
+     *
+     * @param int $version
+     * @return int
+     */
+    private function selectCryptoType($version)
+    {
+        switch ($version)
+        {
+            case STREAM_CRYPTO_METHOD_SSLv3_SERVER:
+            case STREAM_CRYPTO_METHOD_TLSv1_0_SERVER:
+            case STREAM_CRYPTO_METHOD_TLSv1_1_SERVER:
+            case STREAM_CRYPTO_METHOD_TLSv1_2_SERVER:
+                return self::CRYPTO_TYPE_SERVER;
+
+            case STREAM_CRYPTO_METHOD_SSLv3_CLIENT:
+            case STREAM_CRYPTO_METHOD_TLSv1_0_CLIENT:
+            case STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT:
+            case STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT:
+                return self::CRYPTO_TYPE_CLIENT;
+
+            default:
+                return self::CRYPTO_TYPE_UNKNOWN;
+        }
+    }
+
+    /**
+     * Returns highest supported crypto method constant based on protocol version identifier.
+     *
+     * @param int $version
+     * @return int
+     */
+    private function selectCryptoVersion($version)
+    {
+        switch ($version)
+        {
+            case 0x300: return STREAM_CRYPTO_METHOD_SSLv3_SERVER;
+            case 0x301: return STREAM_CRYPTO_METHOD_TLSv1_0_SERVER;
+            case 0x302: return STREAM_CRYPTO_METHOD_TLSv1_1_SERVER;
+            default:    return STREAM_CRYPTO_METHOD_TLSv1_2_SERVER;
+        }
     }
 }

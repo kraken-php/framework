@@ -178,23 +178,23 @@ class SocketTest extends TUnit
         $this->assertRegExp($pattern, $socket->getRemotePort());
     }
 
-    public function testApiGetLocalTransport_ReturnsTransport()
+    public function testApiGetLocalProtocol_ReturnsProtocol()
     {
         $server = stream_socket_server($this->tempSocketRemoteAddress());
         $socket = $this->createSocketMock($this->tempSocketRemoteAddress());
 
         $transports = stream_get_transports();
-        $this->assertTrue(in_array($socket->getLocalTransport(), $transports));
+        $this->assertTrue(in_array($socket->getLocalProtocol(), $transports));
     }
 
-    public function testApiGetRemoteTransport_ReturnsTransport()
+    public function testApiGetRemoteProtocol_ReturnsProtocol()
     {
         $server = stream_socket_server($this->tempSocketRemoteAddress());
         $socket = $this->createSocketMock($this->tempSocketRemoteAddress());
 
         $transports = stream_get_transports();
 
-        $this->assertTrue(in_array($socket->getRemoteTransport(), $transports));
+        $this->assertTrue(in_array($socket->getRemoteProtocol(), $transports));
     }
 
     /**

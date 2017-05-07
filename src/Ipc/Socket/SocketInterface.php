@@ -3,6 +3,7 @@
 namespace Kraken\Ipc\Socket;
 
 use Kraken\Stream\AsyncStreamInterface;
+use Kraken\Throwable\Exception\Runtime\ExecutionException;
 
 interface SocketInterface extends AsyncStreamInterface
 {
@@ -72,4 +73,25 @@ interface SocketInterface extends AsyncStreamInterface
      * @return string
      */
     public function getRemotePort();
+
+    /**
+     * Get socket local protocol.
+     *
+     * @return string
+     */
+    public function getLocalProtocol();
+
+    /**
+     * Get socket remote protocol.
+     *
+     * @return string
+     */
+    public function getRemoteProtocol();
+
+    /**
+     * Return bool indicating whether the listener is encrypted.
+     *
+     * @return bool
+     */
+    public function isEncrypted();
 }

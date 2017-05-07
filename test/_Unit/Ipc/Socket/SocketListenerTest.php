@@ -10,10 +10,6 @@ use Kraken\Test\TUnit;
 
 class SocketListenerTest extends TUnit
 {
-    protected $local_pem = '/_Data//cert.pem';
-    protected $local_pk = '/_Data//key.pem';
-    protected $passphrase = 'secret';
-
     /**
      *
      */
@@ -251,11 +247,11 @@ class SocketListenerTest extends TUnit
     {
         $config = [
             'ssl' => true,
-            'local_cert'=>$this->local_pem,
-            'passphrase'=>$this->passphrase,
-            'local_pk'=>$this->local_pk,
+            'ssl_cert' => __DIR__ . '/_Data/_ssl_cert.pem',
+            'ssl_secret' => __DIR__ . '/_Data/_ssl_key.pem',
+            'ssl_key'=> 'secret',
         ];
-        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress('ssl'),null,$config);
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress(), null, $config);
 
         $this->assertFalse($socket->isOpen());
         $socket->start();
@@ -270,11 +266,11 @@ class SocketListenerTest extends TUnit
     {
         $config = [
             'ssl' => true,
-            'local_cert'=>$this->local_pem,
-            'passphrase'=>$this->passphrase,
-            'local_pk'=>$this->local_pk,
+            'ssl_cert' => __DIR__ . '/_Data/_ssl_cert.pem',
+            'ssl_secret' => __DIR__ . '/_Data/_ssl_key.pem',
+            'ssl_key'=> 'secret',
         ];
-        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress('ssl'),null,$config);
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress(), null, $config);
         $socket->start();
 
         $this->assertTrue($socket->isOpen());
@@ -290,11 +286,11 @@ class SocketListenerTest extends TUnit
     {
         $config = [
             'ssl' => true,
-            'local_cert'=>$this->local_pem,
-            'passphrase'=>$this->passphrase,
-            'local_pk'=>$this->local_pk,
+            'ssl_cert' => __DIR__ . '/_Data/_ssl_cert.pem',
+            'ssl_secret' => __DIR__ . '/_Data/_ssl_key.pem',
+            'ssl_key'=> 'secret',
         ];
-        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress('ssl'),null,$config);
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress(), null, $config);
         $socket->start();
 
         $this->assertFalse($socket->isPaused());
@@ -310,11 +306,11 @@ class SocketListenerTest extends TUnit
     {
         $config = [
             'ssl' => true,
-            'local_cert'=>$this->local_pem,
-            'passphrase'=>$this->passphrase,
-            'local_pk'=>$this->local_pk,
+            'ssl_cert' => __DIR__ . '/_Data/_ssl_cert.pem',
+            'ssl_secret' => __DIR__ . '/_Data/_ssl_key.pem',
+            'ssl_key'=> 'secret',
         ];
-        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress('ssl'),null,$config);
+        $socket = $this->createSocketListenerMock($this->tempSocketRemoteAddress(), null, $config);
         $socket->pause();
         $this->assertTrue($socket->isPaused());
 
@@ -344,15 +340,14 @@ class SocketListenerTest extends TUnit
      */
     protected function createSocketListenerInjection($endpointOrResource, LoopInterface $loop , $config = [])
     {
-        return new SocketListener($endpointOrResource, $loop ,$config);
+        return new SocketListener($endpointOrResource, $loop, $config);
     }
 
     /**
-     * @param string $transport
      * @return string
      */
-    private function tempSocketRemoteAddress($transport = 'tcp')
+    private function tempSocketRemoteAddress()
     {
-        return $transport.'://127.0.0.1:10080';
+        return 'tcp://127.0.0.1:10080';
     }
 }
