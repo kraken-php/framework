@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Kraken\\Event\\": ""
+            "Kraken\\Event\\": "src"
         }
     },
     "extra": {

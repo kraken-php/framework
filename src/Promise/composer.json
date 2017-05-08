@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Kraken\\Promise\\": ""
+            "Kraken\\Promise\\": "src"
         }
     },
     "extra": {

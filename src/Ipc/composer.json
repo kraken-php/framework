@@ -25,7 +25,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Kraken\\Ipc\\": ""
+            "Kraken\\Ipc\\": "src"
         }
     },
     "extra": {

@@ -29,7 +29,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Kraken\\Console\\": ""
+            "Kraken\\Console\\": "src"
         }
     },
     "extra": {

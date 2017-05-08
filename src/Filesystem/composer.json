@@ -24,7 +24,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Kraken\\Filesystem\\": ""
+            "Kraken\\Filesystem\\": "src"
         }
     },
     "extra": {
