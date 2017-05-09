@@ -53,7 +53,6 @@ class Client extends Dispatcher implements ClientInterface
     {
         $this->loop = $loop;
         $this->uri = $uri;
-        $this->dispatcher = new DispatcherInterface;
         self::$protocol = new ProtocolFactory();
     }
 

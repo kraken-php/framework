@@ -2,8 +2,6 @@
 
 namespace Kraken\Redis\Command\Traits;
 
-use Kraken\Redis\Command\FoundationInterface;
-
 trait Foundation
 {
     public function auth($password)
