@@ -88,9 +88,9 @@ Kraken is able to emit millions of events and thousands of messages and connecti
 
 ## Requirements
 
-* PHP-5.5, PHP-5.6 or PHP-7.0+,
-* [Pthreads](http://php.net/manual/en/book.pthreads.php) extension enabled (only if you want to use threading),
-* UNIX OS.
+* PHP-5.6 or PHP-7.0+,
+* UNIX or Windows OS,
+* Additional constraints based on which components you do plan to use.
 
 ## Installation and Official Documentation
 

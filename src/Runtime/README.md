@@ -37,8 +37,10 @@ See more examples in [official documentation][2].
 
 ## Requirements
 
-* PHP-5.5, PHP-5.6 or PHP-7.0+,
-* UNIX or ~~Windows~~ OS.
+* PHP-5.6 or PHP-7.0+,
+* UNIX for multi-processing,
+* PHP [Pthreads](http://php.net/manual/en/book.pthreads.php) extension enabled for multi-threading,
+
 
 ## Installation
 
