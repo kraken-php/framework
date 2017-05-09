@@ -96,7 +96,6 @@ class SocketTest extends TUnit
         $remote = $this->tempSocketRemoteAddress();
         $server = stream_socket_server($remote,$errno,$errstr);
         $socket = $this->createSocketMock($remote);
-        
         $this->assertEquals($remote, $socket->getRemoteEndpoint());
     }
 
