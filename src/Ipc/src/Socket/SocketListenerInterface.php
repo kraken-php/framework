@@ -11,7 +11,6 @@ use Kraken\Stream\StreamBaseInterface;
  */
 interface SocketListenerInterface extends EventEmitterInterface, LoopResourceInterface, StreamBaseInterface
 {
-
     /**
      * Star listener and underlying resource object.
      *
