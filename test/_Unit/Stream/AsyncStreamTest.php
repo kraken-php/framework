@@ -43,6 +43,28 @@ class AsyncStreamTest extends AsyncStreamWriterTest
         $this->assertSame($stream, $capturedOrigin);
     }
 
+    public function testApiHandleRead_ReturnsProperHandler()
+    {
+        $stream = $this->createStreamMock();
+
+        $expected = [ $stream, 'handleRead' ];
+        $actual = $this->callProtectedMethod($stream, 'getHandleReadFunction');
+
+        $this->assertSame($expected, $actual);
+        $this->assertTrue(is_callable($expected));
+    }
+
+    public function testApiHandleWrite_ReturnsProperHandler()
+    {
+        $stream = $this->createStreamMock();
+
+        $expected = [ $stream, 'handleWrite' ];
+        $actual = $this->callProtectedMethod($stream, 'getHandleWriteFunction');
+
+        $this->assertSame($expected, $actual);
+        $this->assertTrue(is_callable($expected));
+    }
+
     /**
      * @param resource|null $resource
      * @param LoopInterface|null $loop

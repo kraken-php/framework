@@ -70,6 +70,7 @@ Kraken Framework is fully modular and each of its components can be used separat
 * [__Kraken/Root__](https://github.com/kraken-php/root) : Default composition root,
 * [__Kraken/Runtime__](https://github.com/kraken-php/runtime) : Process and Thread abstractions,
 * [__Kraken/Stream__](https://github.com/kraken-php/stream) : Stream wrappers,
+* [__Kraken/SSH__](https://github.com/kraken-php/ssh) : async SSH driver,
 * [__Kraken/Supervision__](https://github.com/kraken-php/supervision) : Supervisors and problem solvers,
 * [__Kraken/Test__](https://github.com/kraken-php/test) : Test helpers,
 * [__Kraken/Throwable__](https://github.com/kraken-php/throwable) : Throwable hierarchy,
@@ -127,8 +128,9 @@ If you have written your own demo application for Kraken, and want to list it he
 > of code in separated container and restart it cyclically when it reaches its memory limits.
 
 <br>
+
 If there are any additional questions that you have about framework, please check whether the answers for them have been 
-already posted in [faq section][4] or ask on our [gitter room][8].
+already posted in [issues][4] or ask on our [gitter room][8].
 
 
 ## Contributing
@@ -142,7 +144,7 @@ Kraken Framework is open-sourced software licensed under the [MIT license][6]. T
 [1]: http://kraken-php.com
 [2]: http://kraken-php.com/docs
 [3]: http://kraken-php.com/docs/installation
-[4]: http://kraken-php.com/faqs
+[4]: https://github.com/kraken-php/framework/issues
 [5]: https://github.com/kraken-php/framework/blob/master/CONTRIBUTING.md
 [6]: http://opensource.org/licenses/MIT
 [7]: https://www.gnu.org/licenses/fdl-1.3.en.html

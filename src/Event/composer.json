@@ -15,16 +15,16 @@
     }],
     "require": {
         "php": ">=5.5.9",
-        "kraken-php/loop": "0.3.*"
+        "kraken-php/loop": "0.4.*"
     },
     "autoload": {
         "psr-4": {
-            "Kraken\\Event\\": ""
+            "Kraken\\Event\\": "src"
         }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.4-dev"
+            "dev-master": "0.5-dev"
         }
     },
     "minimum-stability": "dev",

@@ -18,12 +18,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Kraken\\Throwable\\": ""
+            "Kraken\\Throwable\\": "src"
         }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.4-dev"
+            "dev-master": "0.5-dev"
         }
     },
     "minimum-stability": "dev",

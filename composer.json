@@ -12,9 +12,16 @@
         "issues": "https://github.com/kraken-php/framework/issues",
         "source": "https://github.com/kraken-php/framework"
     },
-    "authors": [{
-        "name": "Kamil Jamroz"
-    }],
+    "authors": [
+        {
+            "name":     "Kamil Jamroz",
+            "homepage": "https://github.com/khelle"
+        },
+        {
+            "name":     "The contributors",
+            "homepage": "http://github.com/kraken-php/framework/contributors"
+        }
+    ],
     "require": {
         "php": ">=5.5.9",
         "symfony/console": "^3.0",
@@ -63,7 +70,27 @@
     },
     "autoload": {
         "psr-4": {
+            "Kraken\\Channel\\": "src/Channel/src",
+            "Kraken\\Config\\": "src/Config/src",
+            "Kraken\\Console\\": "src/Console/src",
+            "Kraken\\Container\\": "src/Container/src",
+            "Kraken\\Core\\": "src/Core/src",
+            "Kraken\\Environment\\": "src/Environment/src",
+            "Kraken\\Event\\": "src/Event/src",
+            "Kraken\\Filesystem\\": "src/Filesystem/src",
+            "Kraken\\Ipc\\": "src/Ipc/src",
+            "Kraken\\Log\\": "src/Log/src",
+            "Kraken\\Loop\\": "src/Loop/src",
+            "Kraken\\Network\\": "src/Network/src",
+            "Kraken\\Promise\\": "src/Promise/src",
+            "Kraken\\Root\\": "src/Root/src",
+            "Kraken\\Runtime\\": "src/Runtime/src",
             "Kraken\\SSH\\": "src/SSH/src",
+            "Kraken\\Stream\\": "src/Stream/src",
+            "Kraken\\Supervision\\": "src/Supervision/src",
+            "Kraken\\Test\\": "src/Test/src",
+            "Kraken\\Throwable\\": "src/Throwable/src",
+            "Kraken\\Util\\": "src/Util/src",
             "Kraken\\": "src"
         }
     },
@@ -78,7 +105,7 @@
     "prefer-stable": true,
     "extra": {
         "branch-alias": {
-            "dev-master": "0.4-dev"
+            "dev-master": "0.5-dev"
         }
     }
 }

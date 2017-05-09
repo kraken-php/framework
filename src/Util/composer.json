@@ -15,16 +15,16 @@
     }],
     "require": {
         "php": ">=5.5.9",
-        "kraken-php/throwable": "0.3.*"
+        "kraken-php/throwable": "0.4.*"
     },
     "autoload": {
         "psr-4": {
-            "Kraken\\Util\\": ""
+            "Kraken\\Util\\": "src"
         }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.4-dev"
+            "dev-master": "0.5-dev"
         }
     },
     "minimum-stability": "dev",
