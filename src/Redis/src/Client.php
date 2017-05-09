@@ -5,11 +5,11 @@ namespace Kraken\Redis;
 use Kraken\Loop\Loop;
 use Kraken\Ipc\Socket\Socket;
 use Kraken\Promise\Promise;
+use Kraken\Event\EventEmitter;
 use Kraken\Loop\LoopInterface;
 use Kraken\Loop\Model\SelectLoop;
 use Kraken\Promise\PromiseInterface;
 
-use Evenement\EventEmitter;
 use Clue\Redis\Protocol\Model\ErrorReply;
 use Clue\Redis\Protocol\Model\ModelInterface;
 use Clue\Redis\Protocol\Model\MultiBulkReply;
@@ -17,22 +17,11 @@ use Clue\Redis\Protocol\Model\StatusReply;
 use Clue\Redis\Protocol\Factory as ProtocolFactory;
 use Clue\Redis\Protocol\Serializer\SerializerInterface;
 
-
 use UnderflowException;
 use RuntimeException;
 use InvalidArgumentException;
 use React\Promise\Deferred;
 use Clue\Redis\Protocol\Parser\ParserException;
-
-/**
- * @package Kraken\Redis
- *
- * @see https://redis.io/commands
- * @method PromiseInterface set(string $key, string $value)
- * @method PromiseInterface append(string $key, string $value)
- * @method PromiseInterface get(string $key)
- * @method PromiseInterface incr(string $key)
- */
 
 class Client extends EventEmitter implements ClientInterface
 {
@@ -63,6 +52,7 @@ class Client extends EventEmitter implements ClientInterface
     {
         $this->loop = $loop;
         $this->uri = $uri;
+        $this->dispatcher = new DispatcherInterface;
         self::$protocol = new ProtocolFactory();
     }
 
@@ -118,7 +108,7 @@ class Client extends EventEmitter implements ClientInterface
         }
 
         if (isset($parts['db'])) {
-            $promise = $promise->then(function (StreamingClient $client) use ($parts) {
+            $promise = $promise->then(function (Client $client) use ($parts) {
                 return $client->select($parts['db'])->then(
                     function () use ($client) {
                         return $client;

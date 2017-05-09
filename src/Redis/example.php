@@ -31,12 +31,4 @@ $client->end();
 
 $client->connect()->then($of);
 
-$bigLoop->onStart(function () use ($loop) {
 $loop->start();
-});
-
-$bigLoop->onStop(function () use ($loop) {
-$loop->stop();
-});
-
-$bigLoop->start();

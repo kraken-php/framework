@@ -2,8 +2,8 @@
 
 namespace Kraken\Redis;
 
-use Evenement\EventEmitterInterface;
-use React\Promise\PromiseInterface;
+use Kraken\Event\EventEmitterInterface;
+use Kraken\Promise\PromiseInterface;
 
 /**
  * Simple interface for executing redis commands
@@ -26,17 +26,32 @@ use React\Promise\PromiseInterface;
 
 interface ClientInterface extends EventEmitterInterface
 {
-    /**
-     * Invoke the given command and return a Promise that will be resolved when the request has been replied to
-     *
-     * This is a magic method that will be invoked when calling any redis
-     * command on this instance.
-     *
-     * @param string   $name
-     * @param string[] $args
-     * @return PromiseInterface Promise<mixed, Exception>
-     */
-    public function __call($name, $args);
+    public function append($key,$value);
+    public function auth($password);
+    public function bgrewriteaof();
+    public function bgsave();
+    public function bitcount($key,$start=0,$end=0);
+    //todo : definition
+    public function bitfield();
+    public function bitop($operation,$dstKey,...$keys);
+    public function bitpos($key,$bit,$start=0,$end=0);
+    public function decr($key);
+    public function decrby($key,$decrement);
+    public function get($key);
+    public function getbit($key,$offset);
+    public function getrange($key,$start,$end);
+    public function getset($key,$value);
+    public function incr($key);
+    public function incrby($key,$increment);
+    public function incrbyfloat($key,$increment);
+    public function mget($key,...$values);
+    public function mset(array $kvMap);
+    public function msetnx();
+    public function psetex();
+    public function set();
+    public function setbit();
+
+
 
     /**
      * Checks if the client is busy, i.e. still has any requests pending
