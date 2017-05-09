@@ -17,13 +17,14 @@ use Clue\Redis\Protocol\Model\StatusReply;
 use Clue\Redis\Protocol\Factory as ProtocolFactory;
 use Clue\Redis\Protocol\Serializer\SerializerInterface;
 
+use Kraken\Redis\Dispatcher\Dispatcher;
 use UnderflowException;
 use RuntimeException;
 use InvalidArgumentException;
 use React\Promise\Deferred;
 use Clue\Redis\Protocol\Parser\ParserException;
 
-class Client extends EventEmitter implements ClientInterface
+class Client extends Dispatcher implements ClientInterface
 {
     protected $loop;
     protected static $protocol;
