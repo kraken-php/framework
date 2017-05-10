@@ -2,6 +2,7 @@
 
 namespace Kraken\Redis;
 
+use Kraken\Console\Client\ClientInterface;
 use Kraken\Loop\Loop;
 use Kraken\Ipc\Socket\Socket;
 use Kraken\Promise\Promise;
@@ -9,35 +10,16 @@ use Kraken\Event\EventEmitter;
 use Kraken\Loop\LoopInterface;
 use Kraken\Loop\Model\SelectLoop;
 use Kraken\Promise\PromiseInterface;
-
-use Clue\Redis\Protocol\Model\ErrorReply;
-use Clue\Redis\Protocol\Model\ModelInterface;
-use Clue\Redis\Protocol\Model\MultiBulkReply;
-use Clue\Redis\Protocol\Model\StatusReply;
-use Clue\Redis\Protocol\Factory as ProtocolFactory;
-use Clue\Redis\Protocol\Serializer\SerializerInterface;
-
-use Kraken\Redis\Dispatcher\Dispatcher;
+use Kraken\Redis\Protocol\Data\Arrays;
+use Kraken\Redis\Protocol\Data\Errors;
+use Kraken\Redis\Protocol\Model\ModelInterface;
+use Kraken\Redis\Protocol\Data\SimpleStrings;
 use UnderflowException;
 use RuntimeException;
-use InvalidArgumentException;
 use React\Promise\Deferred;
-use Clue\Redis\Protocol\Parser\ParserException;
 
-class Client extends Dispatcher implements ClientInterface
+class Client extends ClientStub implements ClientStubInterface
 {
-    protected $loop;
-    protected static $protocol;
-    /**
-     * @var Socket
-     */
-    private $stream;
-    private $parser;
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
-    private $requests = array();
     private $ending = false;
     private $closed = false;
     private $subscribed = 0;
@@ -46,181 +28,24 @@ class Client extends Dispatcher implements ClientInterface
 
     /**
      * @overwrite
-     * @param \React\Stream\Stream $uri
+     * @param string $uri
      * @param LoopInterface $loop
      */
     public function __construct($uri, LoopInterface $loop)
     {
-        $this->loop = $loop;
         $this->uri = $uri;
-        self::$protocol = new ProtocolFactory();
+        parent::__construct($loop);
     }
 
     public function connect()
     {
-        $uri = $this->uri;
-        $socket = new Socket($uri, $this->loop);
-        $parser = self::$protocol->createResponseParser();
-        $serializer = self::$protocol->createSerializer();
-        $parts = $this->parseUrl($uri);
-        $that = $this;
-        $this->stream = $socket;
-        $this->parser = $parser;
-        $this->serializer = $serializer;
-        $socket->on('data', function($socket, $chunk) use ($parser, $that) {
-            try {
-                $models = $parser->pushIncoming($chunk);
-            }
-            catch (ParserException $error) {
-                $that->emit('error', array($error));
-                $that->close();
-                return;
-            }
-
-            foreach ($models as $data) {
-                try {
-                    $that->handleMessage($data);
-                }
-                catch (UnderflowException $error) {
-                    $that->emit('error', array($error));
-                    $that->close();
-                    return;
-                }
-            }
-        });
-
-        $socket->on('close', array($this, 'close'));
-
-        $promise = Promise::doResolve($that);
-
-        if (isset($parts['auth'])) {
-            $promise = $promise->then(function (Client $client) use ($parts) {
-                return $client->auth($parts['auth'])->then(
-                    function () use ($client) {
-                        return $client;
-                    },
-                    function ($error) use ($client) {
-                        $client->close();
-                        throw $error;
-                    }
-                );
-            });
-        }
-
-        if (isset($parts['db'])) {
-            $promise = $promise->then(function (Client $client) use ($parts) {
-                return $client->select($parts['db'])->then(
-                    function () use ($client) {
-                        return $client;
-                    },
-                    function ($error) use ($client) {
-                        $client->close();
-                        throw $error;
-                    }
-                );
-            });
-        }
-
-        return $promise;
-    }
-
-    /**
-     * @param string|null $target
-     * @return array with keys host, port, auth and db
-     * @throws InvalidArgumentException
-     */
-    private function parseUrl($target)
-    {
-        if ($target === null) {
-            $target = 'tcp://127.0.0.1';
-        }
-        if (strpos($target, '://') === false) {
-            $target = 'tcp://' . $target;
-        }
-
-        $parts = parse_url($target);
-        if ($parts === false || !isset($parts['host']) || $parts['scheme'] !== 'tcp') {
-            throw new InvalidArgumentException('Given URL can not be parsed');
-        }
-
-        if (!isset($parts['port'])) {
-            $parts['port'] = 6379;
-        }
-
-        if ($parts['host'] === 'localhost') {
-            $parts['host'] = '127.0.0.1';
-        }
-
-        $auth = null;
-        if (isset($parts['user'])) {
-            $auth = $parts['user'];
-        }
-        if (isset($parts['pass'])) {
-            $auth .= ':' . $parts['pass'];
-        }
-        if ($auth !== null) {
-            $parts['auth'] = $auth;
-        }
-
-        if (isset($parts['path']) && $parts['path'] !== '') {
-            // skip first slash
-            $parts['db'] = substr($parts['path'], 1);
-        }
-
-        unset($parts['scheme'], $parts['user'], $parts['pass'], $parts['path']);
-
-        return $parts;
-    }
-
-    public function __call($name, $args)
-    {
-        $request = new Deferred();
-        $promise = $request->promise();
-
-        $name = strtolower($name);
-
-        // special (p)(un)subscribe commands only accept a single parameter and have custom response logic applied
-        static $pubsubs = array('subscribe', 'unsubscribe', 'psubscribe', 'punsubscribe');
-
-        if ($this->ending) {
-            $request->reject(new RuntimeException('Connection closed'));
-        } elseif (count($args) !== 1 && in_array($name, $pubsubs)) {
-            $request->reject(new InvalidArgumentException('PubSub commands limited to single argument'));
-        } else {
-            $this->stream->write($this->serializer->getRequestMessage($name, $args));
-            $this->requests []= $request;
-        }
-
-        if ($name === 'monitor') {
-            $monitoring =& $this->monitoring;
-            $promise->then(function () use (&$monitoring) {
-                $monitoring = true;
-            });
-        } elseif (in_array($name, $pubsubs)) {
-            $that = $this;
-            $subscribed =& $this->subscribed;
-            $psubscribed =& $this->psubscribed;
-
-            $promise->then(function ($array) use ($that, &$subscribed, &$psubscribed) {
-                $first = array_shift($array);
-
-                // (p)(un)subscribe messages are to be forwarded
-                $that->emit($first, $array);
-
-                // remember number of (p)subscribe topics
-                if ($first === 'subscribe' || $first === 'unsubscribe') {
-                    $subscribed = $array[1];
-                } else {
-                    $psubscribed = $array[1];
-                }
-            });
-        }
-
-        return $promise;
+        return parent::create($this->uri);
     }
 
     public function handleMessage(ModelInterface $message)
     {
+        $this->on('close',[$this,'end']);
+
         $this->emit('data', array($message));
 
         if ($this->monitoring && $this->isMonitorMessage($message)) {
@@ -228,8 +53,8 @@ class Client extends Dispatcher implements ClientInterface
             return;
         }
 
-        if (($this->subscribed !== 0 || $this->psubscribed !== 0) && $message instanceof MultiBulkReply) {
-            $array = $message->getValueNative();
+        if (($this->subscribed !== 0 || $this->psubscribed !== 0) && $message instanceof Arrays) {
+            $array = $message->raw();
             $first = array_shift($array);
 
             // pub/sub messages are to be forwarded and should not be processed as request responses
@@ -244,28 +69,34 @@ class Client extends Dispatcher implements ClientInterface
         }
 
         $request = array_shift($this->requests);
-        /* @var $request Deferred */
 
-        if ($message instanceof ErrorReply) {
+        /* @var Deferred $request */
+
+        if ($message instanceof Errors) {
             $request->reject($message);
         } else {
-            $request->resolve($message->getValueNative());
+            $request->resolve($message->raw());
         }
 
         if ($this->ending && !$this->isBusy()) {
-            $this->close();
+            $this->emit('close');
         }
+    }
+
+    private function isMonitorMessage(ModelInterface $message)
+    {
+        // Check status '1409172115.207170 [0 127.0.0.1:58567] "ping"' contains otherwise uncommon '] "'
+        return ($message instanceof SimpleStrings && strpos($message->raw(), '] "') !== false);
     }
 
     public function isBusy()
     {
-        return !!$this->requests;
+        return empty($this->requests) ? false : true;
     }
 
     public function end()
     {
         $this->ending = true;
-
         if (!$this->isBusy()) {
             $this->close();
         }
@@ -276,11 +107,9 @@ class Client extends Dispatcher implements ClientInterface
         if ($this->closed) {
             return;
         }
-
         $this->ending = true;
         $this->closed = true;
-
-        $this->stream->close();
+        $this->getStream()->close();
 
         $this->emit('close');
 
@@ -293,13 +122,16 @@ class Client extends Dispatcher implements ClientInterface
         /**
          * @var Loop $loop
          */
-        $loop  = $this->stream->getLoop();
+        $loop  = $this->getLoop();
         $loop->stop();
     }
 
-    private function isMonitorMessage(ModelInterface $message)
+    public function reply()
     {
-        // Check status '1409172115.207170 [0 127.0.0.1:58567] "ping"' contains otherwise uncommon '] "'
-        return ($message instanceof StatusReply && strpos($message->getValueNative(), '] "') !== false);
+        /**
+         * @var Loop $loop
+         */
+        $loop  = $this->getLoop();
+        $loop->start();
     }
 };

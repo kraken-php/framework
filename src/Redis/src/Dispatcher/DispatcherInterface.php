@@ -2,10 +2,10 @@
 
 namespace Kraken\Redis\Dispatcher;
 
-use Kraken\Redis\Command\Command;
-use Kraken\Redis\Command\FoundationInterface;
+use Kraken\Event\EventEmitterInterface;
+use Kraken\Redis\Protocol\Data\Request;
 
-interface DispatcherInterface extends FoundationInterface
+interface DispatcherInterface extends EventEmitterInterface
 {
-    public function dispatch(Command $command);
+    public function dispatch(Request $command);
 }

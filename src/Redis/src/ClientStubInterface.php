@@ -3,8 +3,13 @@
 namespace Kraken\Redis;
 
 
-interface ClientStubInterface extends \RequestInterface,\ResponseInterface
+use Kraken\Redis\Command\FoundationInterface;
+use Kraken\Redis\Dispatcher\DispatcherInterface;
+use Kraken\Redis\Protocol\Model\ModelInterface;
+
+interface ClientStubInterface extends DispatcherInterface,FoundationInterface
 {
-    public function buildRequst();
-    public function parseResponse();
+    public function handleMessage(ModelInterface $message);
+
+    public function close();
 }

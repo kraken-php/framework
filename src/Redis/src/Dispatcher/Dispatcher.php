@@ -4,15 +4,22 @@ namespace Kraken\Redis\Dispatcher;
 
 use Kraken\Event\EventEmitter;
 use Kraken\Event\EventEmitterInterface;
-use Kraken\Redis\ClientStubInterface;
-use Kraken\Redis\Command\Traits\Foundation;
+use Kraken\Promise\Deferred;
 
-class Dispatcher extends EventEmitter implements DispatcherInterface,EventEmitterInterface
+abstract class Dispatcher extends EventEmitter implements DispatcherInterface,EventEmitterInterface
 {
-    use Foundation;
-
-    public function __construct()
+    private $loop;
+    /**
+     * Dispatcher constructor.
+     */
+    public function __construct($loop)
     {
-        $stub = new ClientStubInterface;
+        $this->loop = $loop;
+        parent::__construct($loop);
+    }
+
+    public function getLoop()
+    {
+        return $this->loop;
     }
 }

@@ -2,10 +2,24 @@
 
 namespace Kraken\Redis\Command;
 
-abstract class Command
+
+class Command
 {
-    public function build()
+    private $command;
+    private $args;
+
+    public function __construct($command,$args)
     {
-        //todo : implements
+
+    }
+
+    public function getCommand()
+    {
+
+    }
+
+    public function getArgs()
+    {
+        
     }
 }

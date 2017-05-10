@@ -2,16 +2,28 @@
 
 namespace Kraken\Redis\Command\Traits;
 
+use Kraken\Redis\Protocol\RespProtocol;
+use Kraken\Redis\Command\FoundationInterface;
+
 trait Foundation
 {
+    private $command;
+    private $args;
+
     public function auth($password)
     {
-        // TODO: Implement auth() method.
+        $this->command = '';
+        $this->args = '';
+
+        return $this;
     }
 
     public function append($key, $value)
     {
-        // TODO: Implement append() method.
+        $this->command = 'append';
+        $this->args = [$key, $value];
+
+        return $this;
     }
 
     public function bgRewriteAoF()
@@ -96,7 +108,10 @@ trait Foundation
 
     public function get($key)
     {
-        // TODO: Implement get() method.
+        $this->command = 'get';
+        $this->args = [$key];
+
+        return $this;
     }
 
     public function getBit($key, $offset)
@@ -116,7 +131,10 @@ trait Foundation
 
     public function incr($key)
     {
-        // TODO: Implement incr() method.
+        $this->command = 'incr';
+        $this->args = [$key];
+
+        return $this;
     }
 
     public function incrBy($key, $increment)
@@ -197,11 +215,16 @@ trait Foundation
     public function select($index)
     {
         // TODO: Implement select() method.
+        return $this;
     }
 
     public function set($key, $value, array $options)
     {
-        // TODO: Implement set() method.
+        $this->command = 'set';
+        array_unshift($options, $key, $value);
+        $this->args = $options;
+
+        return $this;
     }
 
     public function setBit($key, $offset, $value)

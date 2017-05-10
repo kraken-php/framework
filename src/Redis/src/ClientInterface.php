@@ -4,7 +4,6 @@ namespace Kraken\Redis;
 
 use Kraken\Event\EventEmitterInterface;
 use Kraken\Promise\PromiseInterface;
-use Kraken\Redis\Dispatcher\DispatcherInterface;
 
 /**
  * Simple interface for executing redis commands
@@ -25,7 +24,7 @@ use Kraken\Redis\Dispatcher\DispatcherInterface;
  *
  */
 
-interface ClientInterface extends EventEmitterInterface,DispatcherInterface
+interface ClientInterface extends ClientStubInterface
 {
     /**
      * Checks if the client is busy, i.e. still has any requests pending
