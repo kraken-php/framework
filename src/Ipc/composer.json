@@ -14,7 +14,7 @@
         "name": "Kamil Jamroz"
     }],
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=5.6.7",
         "kraken-php/event": "0.4.*",
         "kraken-php/loop": "0.4.*",
         "kraken-php/stream": "0.4.*",
