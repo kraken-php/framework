@@ -22,6 +22,15 @@ install:
 
 before_script:
   - ulimit -c unlimited -S || true
+  - echo '/tmp/core_%e.%p' | sudo tee /proc/sys/kernel/core_pattern &> /dev/null
 
 script:
   - vendor/bin/phpunit -d memory_limit=1024M --coverage-text
+
+after_failure:
+  - bash build-ci/install_failure.sh
+
+addons:
+  apt:
+    packages:
+      - gdb
