@@ -1,17 +1,27 @@
 language: php
 
+dist: trusty
+sudo: required
+
 php:
   - 5.6
   - 7.0
   - 7.1
 
-before_script:
-  - sudo apt-get update -qq
-  - sudo apt-get install -y -qq libssh2-1-dev libssh2-php
-  - pecl install -f ssh2-beta < .noninteractive
+before_install:
+  - sudo ln -s /home/travis/.phpenv/versions/$(phpenv version-name)/bin/phpize /usr/bin/
+  - sudo ln -s /home/travis/.phpenv/versions/$(phpenv version-name)/bin/php-config /usr/bin/
+  - export PHP_MAJOR="$(echo $TRAVIS_PHP_VERSION | cut -d '.' -f 1,2)"
+
+install:
   - composer self-update
-  - composer install --no-interaction --prefer-source
-  - echo `whoami`":1234" | sudo chpasswd
+  - composer install --prefer-source --no-interaction --ignore-platform-reqs
+  - sudo apt-get -qq update
+  - bash build-ci/install_prereqs_$PHP_MAJOR.sh
+  - php -m
+
+before_script:
+  - ulimit -c unlimited -S || true
 
 script:
   - vendor/bin/phpunit -d memory_limit=1024M --coverage-text
