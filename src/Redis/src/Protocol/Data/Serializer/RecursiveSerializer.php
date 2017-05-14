@@ -2,26 +2,30 @@
 
 namespace Kraken\Redis\Protocol\Data\Serializer;
 
-use Clue\Redis\Protocol\Model\StatusReply;
 use InvalidArgumentException;
 use Exception;
 use Kraken\Redis\Protocol\Data\Arrays;
 use Kraken\Redis\Protocol\Data\BulkStrings;
-use Kraken\Redis\Protocol\Data\SimpleStrings;
 use Kraken\Redis\Protocol\Data\Errors;
 use Kraken\Redis\Protocol\Data\Integers;
-use Kraken\Redis\Command\Builder;
 use Kraken\Redis\Protocol\Data\Request;
 use Kraken\Redis\Protocol\Model\ModelInterface;
 
 class RecursiveSerializer implements SerializerInterface
 {
+    /**
+     * @param string $command
+     * @param array $args
+     * @return string
+     */
     public function getRequestMessage($command, array $args = array())
     {
-        $data = '*' . (count($args) + 1) . "\r\n$" . strlen($command) . "\r\n" . $command . "\r\n";
+        $data = '*' . (count($args) + 1) .static::CRLF .
+                "$" . strlen($command) . static::CRLF . $command . static::CRLF;
         foreach ($args as $arg) {
-            $data .= '$' . strlen($arg) . "\r\n" . $arg . "\r\n";
+            $data .= '$' . strlen($arg) . static::CRLF . $arg . static::CRLF;
         }
+
         return $data;
     }
 

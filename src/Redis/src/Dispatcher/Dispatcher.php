@@ -6,7 +6,7 @@ use Kraken\Event\EventEmitter;
 use Kraken\Event\EventEmitterInterface;
 use Kraken\Promise\Deferred;
 
-abstract class Dispatcher extends EventEmitter implements DispatcherInterface,EventEmitterInterface
+abstract class Dispatcher extends EventEmitter implements DispatcherInterface
 {
     private $loop;
     /**

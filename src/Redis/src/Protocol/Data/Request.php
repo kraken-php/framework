@@ -2,8 +2,6 @@
 
 namespace Kraken\Redis\Protocol\Data;
 
-use Kraken\Redis\Protocol\Data\Arrays;
-use Kraken\Redis\Protocol\Data\BulkStrings;
 use Kraken\Redis\Protocol\Model\ModelInterface;
 use Kraken\Redis\Protocol\Data\Serializer\SerializerInterface;
 

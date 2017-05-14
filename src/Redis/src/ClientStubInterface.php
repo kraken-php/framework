@@ -10,6 +10,4 @@ use Kraken\Redis\Protocol\Model\ModelInterface;
 interface ClientStubInterface extends DispatcherInterface,FoundationInterface
 {
     public function handleMessage(ModelInterface $message);
-
-    public function close();
 }

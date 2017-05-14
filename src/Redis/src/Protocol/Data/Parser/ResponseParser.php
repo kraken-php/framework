@@ -122,7 +122,7 @@ class ResponseParser implements ParserInterface
             case '*':
                 $count = (int)substr($reply, 1);
                 if ($count === -1) {
-                    return new MultiBulkReply(null);
+                    return new Arrays(null);
                 }
                 $response = array();
                 for ($i = 0; $i < $count; $i++) {
