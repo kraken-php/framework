@@ -190,6 +190,7 @@ See more examples in **example directory** or in [official documentation][2].
 ## Requirements
 
 * PHP-5.6 or PHP-7.0+,
+* UNIX or Windows OS,
 * PHP SSH2 extension enabled.
 
 ## Installation
