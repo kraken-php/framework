@@ -145,7 +145,7 @@ class Enum
     const SDIFF = 'SDIFF';
     const SDIFFSTORE = 'SDIFFSTORE';
     const SELECT = 'SELECT';
-    const SET =' SET';
+    const SET = 'SET';
     const SETBIT = 'SETBIT';
     const SETEX = 'SETEX';
     const SETNX = 'SETNX';

@@ -116,8 +116,7 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
     {
         $this->on('close', [$this, 'handleClose']);
         $this->on('disconnect',[$this, 'handleDisconnect']);
-        $this->stream->emit('data', [$this->stream, $message]);
-
+        $this->stream->emit('data', [$this->stream, $message->getValueNative()]);
         if (!$this->requests) {
             throw new UnderflowException('Unexpected reply received, no matching request found');
         }
@@ -461,7 +460,7 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
         return $this;
     }
 
-    public function set($key, $value, array $options)
+    public function set($key, $value, array $options = [])
     {
         $command = Enum::SET;
         array_unshift($options, $key, $value);
