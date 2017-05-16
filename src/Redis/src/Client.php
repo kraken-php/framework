@@ -2,7 +2,6 @@
 
 namespace Kraken\Redis;
 
-use Kraken\Redis\Protocol\Resp;
 use RuntimeException;
 use Kraken\Loop\Loop;
 use UnderflowException;
@@ -10,6 +9,7 @@ use Kraken\Promise\Promise;
 use Kraken\Promise\Deferred;
 use Kraken\Ipc\Socket\Socket;
 use Kraken\Redis\Command\Enum;
+use Kraken\Redis\Protocol\Resp;
 use Kraken\Redis\Command\Builder;
 use Kraken\Event\EventEmitter;
 use Kraken\Loop\LoopInterface;
@@ -17,11 +17,12 @@ use Kraken\Loop\Model\SelectLoop;
 use Kraken\Promise\PromiseInterface;
 use Clue\Redis\Protocol\Model\Request;
 use Kraken\Event\EventEmitterInterface;
+use Kraken\Redis\Command\CommandInterface;
 use Clue\Redis\Protocol\Model\ErrorReply;
 use Clue\Redis\Protocol\Model\ModelInterface;
 use Clue\Redis\Protocol\Parser\ParserException;
 
-class Client extends EventEmitter implements EventEmitterInterface,ClientInterface
+class Client extends EventEmitter implements EventEmitterInterface,CommandInterface
 {
     private $ending;
     private $closed;
@@ -49,7 +50,7 @@ class Client extends EventEmitter implements EventEmitterInterface,ClientInterfa
         $this->uri = $uri;
         $this->loop = $loop;
         $this->stream = null;
-        $this->protocl = new Resp();
+        $this->protocol = new Resp();
         $this->requests = [];
         $this->ending = false;
         $this->closed = false;
@@ -63,10 +64,13 @@ class Client extends EventEmitter implements EventEmitterInterface,ClientInterfa
         }
 
         $this->stream = $this->connection($this->uri);
+        if ($this->stream != null) {
+            $this->on('connect',[$this , 'handleConnect']);
+        }
 
         //todo ; patch missing pub/sub,pipeline,auth
 
-        $this->emit('connect', [ $this ,'handleConnect']);
+        $this->emit('connect', [$this]);
     }
 
     public function handleDisconnect()
@@ -79,14 +83,40 @@ class Client extends EventEmitter implements EventEmitterInterface,ClientInterfa
 
     public function handleConnect()
     {
+        $protocol = $this->protocol;
+        $that = $this;
+        $this->stream->on('data', function($socket, $chunk) use ($protocol, $that) {
+            try {
+                $models = $protocol->parseResponse($chunk);
+            }
+            catch (ParserException $error) {
+                $that->emit('error', array($error));
+                $this->ending = true;
+                $that->emit('close');
+                return;
+            }
 
+            foreach ($models as $data) {
+                try {
+                    $that->handleMessage($data);
+                }
+                catch (UnderflowException $error) {
+                    $that->emit('error', array($error));
+                    $this->ending = true;
+                    $this->emit('close');
+                    return;
+                }
+            }
+        });
+
+        $this->stream->on('close', [$this, 'handleClose']);
     }
 
     public function handleMessage(ModelInterface $message)
     {
         $this->on('close', [$this, 'handleClose']);
         $this->on('disconnect',[$this, 'handleDisconnect']);
-        $this->emit('data', [$message]);
+        $this->stream->emit('data', [$this->stream, $message]);
 
         if (!$this->requests) {
             throw new UnderflowException('Unexpected reply received, no matching request found');
@@ -98,7 +128,6 @@ class Client extends EventEmitter implements EventEmitterInterface,ClientInterfa
         } else {
             $request->resolve($message->getValueNative());
         }
-
         if ($this->ending && !$this->isBusy()) {
             $this->emit('close');
         }
@@ -124,45 +153,21 @@ class Client extends EventEmitter implements EventEmitterInterface,ClientInterfa
 
     public function connection($uri)
     {
-        $this->stream = new Socket($uri, $this->loop);
-        $protocol = $this->protocol;
-        $that = $this;
+        $stream = new Socket($uri, $this->loop);
 
-        $this->stream->on('data', function($socket, $chunk) use ($protocol, $that) {
-            try {
-                $models = $protocol->parseResponse($chunk);
-            }
-            catch (ParserException $error) {
-                $that->emit('error', array($error));
-                $that->close();
-                return;
-            }
-
-            foreach ($models as $data) {
-                try {
-                    $that->handleMessage($data);
-                }
-                catch (UnderflowException $error) {
-                    $that->emit('error', array($error));
-                    $that->close();
-                    return;
-                }
-            }
-        });
-
-        $this->stream->on('close', [$that, 'close']);
-
-        $promise = Promise::doResolve($that);
-
-        return $promise;
+        return $stream;
     }
 
     public function dispatch(Request $command)
     {
         $request = new Deferred();
         $promise = $request->getPromise();
-        $this->stream->write($this->protocol->commands($command));
-        $this->requests[]= $request;
+        if ($this->ending) {
+            $request->reject(new RuntimeException('Connection closed'));
+        } else {
+            $this->stream->write($this->protocol->commands($command));
+            $this->requests[] = $request;
+        }
 
         return $promise;
     }
@@ -311,7 +316,7 @@ class Client extends EventEmitter implements EventEmitterInterface,ClientInterfa
         $command = Enum::GET;
         $args = [$key];
 
-        return Builder::build($command, $args);
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function getBit($key, $offset)
