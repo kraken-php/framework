@@ -1,5 +1,12 @@
 <?php
-namespace Kraken\Redis\Command {
+namespace Kraken\Redis\Command;
+
+use Kraken\Util\Enum\EnumTrait;
+
+class Enum
+{
+    use EnumTrait;
+
     const APPEND = 'APPEND';
     const AUTH = 'AUTH';
     const BGREWRITEAOF = 'BGREWRITEAOF';
