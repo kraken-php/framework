@@ -2,7 +2,7 @@
 
 namespace Kraken\Redis\Protocol;
 
-use Kraken\Redis\Protocol\Data\Request;
+use Clue\Redis\Protocol\Model\Request;
 
 interface RespProtocol
 {

@@ -2,7 +2,7 @@
 
 namespace Kraken\Redis\Command;
 
-use Kraken\Redis\Protocol\Data\Request;
+use Clue\Redis\Protocol\Model\Request;
 
 class Builder
 {

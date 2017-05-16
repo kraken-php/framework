@@ -175,7 +175,7 @@ class Enum
     const UNSUBSCRIBE = 'UNSUBSCRIBE';
     const UNLINK = 'UNLINK';
     const UNWATCH = 'UNWATCH';
-    const WATI = 'WAIT';
+    const WAIT = 'WAIT';
     const WATCH = 'WATCH';
     const ZADD = 'ZADD';
     const ZCARD = 'ZCARD';
