@@ -687,78 +687,120 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
     {
         // TODO: Implement hGet() method.
         $command = Enum::HGET;
+        $args = [$key, $field];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function hGetAll($key)
     {
         // TODO: Implement hGetAll() method.
         $command = Enum::HGETALL;
+        $args = [$key];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
-    public function hIncrBy($key, $field, $incrment)
+    public function hIncrBy($key, $field, $increment)
     {
         // TODO: Implement hIncrBy() method.
         $command = Enum::HINCRBY;
+        $args = [$key, $field, $increment];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function hIncrByFloat($key, $field, $increment)
     {
         // TODO: Implement hIncrByFloat() method.
         $command = Enum::HINCRBYFLOAT;
+        $args = [$key, $field, $increment];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function hKeys($key)
     {
         // TODO: Implement hKeys() method.
         $command = Enum::HKEYS;
+        $args = [$key];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function hLen($key)
     {
         // TODO: Implement hLen() method.
         $command = Enum::HLEN;
+        $args = [$key];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function hMGet($key, ...$fields)
     {
         // TODO: Implement hMGet() method.
         $command = Enum::HMGET;
+        $args = [$key];
+        $args = array_merge($args, $fields);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function hMSet($key, array $fvMap)
     {
         // TODO: Implement hMSet() method.
         $command = Enum::HMSET;
+        $args = [$key];
+        $args = array_merge($args, $fvMap);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function hSet($key, $field, $value)
     {
         // TODO: Implement hSet() method.
         $command = Enum::HSET;
+        $args = [$key, $field, $value];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function hSetNx($key, $filed, $value)
     {
         // TODO: Implement hSetNx() method.
         $command = Enum::HSETNX;
+        $args = [$key, $filed, $value];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function hStrLen($key, $field)
     {
         // TODO: Implement hStrLen() method.
         $command = Enum::HSTRLEN;
+        $args = [$key, $field];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function hVals($key)
     {
         // TODO: Implement hVals() method.
         $command = Enum::HVALS;
+        $args = [$key];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function geoAdd($key, array $coordinates)
     {
         // TODO: Implement geoAdd() method.
         $command = Enum::GEOADD;
+        $args = [$key];
+        $args = array_merge($args, $coordinates);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function geoHash($key, ...$members)
@@ -771,207 +813,317 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
     {
         // TODO: Implement geoPos() method.
         $command = Enum::GEOPOS;
+        $args = [$key];
+        $args = array_merge($args, $members);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function geoDist($key, $memberA, $memberB, $unit)
     {
         // TODO: Implement geoDist() method.
         $command = Enum::GEODIST;
+        $args = [$key, $memberA, $memberB ,$unit];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function geoRadius($key, $longitude, $latitude, $unit, $command, $count, $sort)
     {
         // TODO: Implement geoRadius() method.
         $command = Enum::GEORADIUS;
+        $args = [$key, $longitude, $latitude, $unit, $command, $count, $sort];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function geoRadiusByMember($key, $member, $unit, $command, $count, $sort, $store, $storeDist)
     {
         // TODO: Implement geoRadiusByMember() method.
         $command = Enum::GEORADIUSBYMEMBER;
+        $args = [$key, $member, $unit, $command, $count, $sort, $store, $storeDist];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function pSubscribe(...$patterns)
     {
         // TODO: Implement pSubscribe() method.
         $command = Enum::PSUBSCRIBE;
+        $args = $patterns;
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function pubSub($command, array $args = [])
     {
         // TODO: Implement pubSub() method.
         $command = Enum::PUBSUB;
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function publish($channel, $message)
     {
         // TODO: Implement publish() method.
         $command = Enum::PUBLISH;
+        $args = [$channel, $message];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function pUnsubscribe(...$patterns)
     {
         // TODO: Implement pUnsubscribe() method.
         $command = Enum::PUNSUBSCRIBE;
+        $args = $patterns;
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function unSubscribe(...$channels)
     {
         // TODO: Implement unSubscribe() method.
         $command = Enum::UNSUBSCRIBE;
+        $args = $channels;
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function lIndex($key, $index)
     {
         // TODO: Implement lIndex() method.
         $command = Enum::LINDEX;
+        $args = [$key, $index];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function lInsert($key, $action, $pivot, $value)
     {
         // TODO: Implement lInsert() method.
         $command = Enum::LINSERT;
+        $args = [$key, $action, $pivot, $value];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function lLen($key)
     {
         // TODO: Implement lLen() method.
         $command = Enum::LLEN;
+        $args = [$key];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function lPop($key)
     {
         // TODO: Implement lPop() method.
         $command = Enum::LPOP;
+        $args = [$key];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function lPush(array $kvMap)
     {
         // TODO: Implement lPush() method.
         $command = Enum::LPUSH;
+        $args = $kvMap;
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function lPushX($key, $value)
     {
         // TODO: Implement lPushX() method.
         $command = Enum::LPUSHX;
+        $args = [$key, $value];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function lRange($key, $start, $stop)
     {
         // TODO: Implement lRange() method.
         $command = Enum::LRANGE;
+        $args = [$key, $start, $stop];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function lRem($key, $count, $value)
     {
         // TODO: Implement lRem() method.
         $command = Enum::LREM;
+        $args = [$key, $count, $value];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function lSet($key, $index, $value)
     {
         // TODO: Implement lSet() method.
         $command = Enum::LSET;
+        $args = [$key, $index, $value];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function lTrim($key, $start, $stop)
     {
         // TODO: Implement lTrim() method.
         $command = Enum::LTRIM;
+        $args = [$key, $start, $stop];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function mGet($key, ...$values)
     {
         // TODO: Implement mGet() method.
         $command = Enum::MGET;
+        $args = [$key];
+        $args = array_merge($args, $values);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function mSet(array $kvMap)
     {
         // TODO: Implement mSet() method.
         $command = Enum::MSET;
+        $args = $kvMap;
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function monitor()
     {
         // TODO: Implement monitor() method.
         $command = Enum::MONITOR;
+
+        return $this->dispatch(Builder::build($command));
     }
 
     public function move($key, $db)
     {
         // TODO: Implement move() method.
         $command = Enum::MOVE;
+        $args = [$key, $db];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function mSetNx($kvMap)
     {
         // TODO: Implement mSetNx() method.
         $command = Enum::MSETNX;
+        $args = $kvMap;
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function rPop($key)
     {
         // TODO: Implement rPop() method.
         $command = Enum::RPOP;
+        $args = [$key];
 
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function rPopLPush($src, $dst)
     {
         // TODO: Implement rPopLPush() method.
         $command = Enum::RPOPLPUSH;
+        $args = [$src, $dst];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function rPush($key, ...$values)
     {
         // TODO: Implement rPush() method.
         $command = Enum::RPUSH;
+        $args = [$key];
+        $args = array_merge($args, $values);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function rPushX($key, $value)
     {
         // TODO: Implement rPushX() method.
         $command = Enum::RPUSHX;
+        $args = [$key, $value];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function pFAdd($key, ...$elements)
     {
         // TODO: Implement pFAdd() method.
         $command = Enum::PFADD;
+        $args = [$key];
+        $args = array_merge($args, $elements);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function pFCount(...$keys)
     {
         // TODO: Implement pFCount() method.
         $command = Enum::PFCOUNT;
+        $args = $keys;
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function pFMerge(array $dsKeyMap)
     {
         // TODO: Implement pFMerge() method.
         $command = Enum::PFMERGE;
+        $args = $dsKeyMap;
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function clusterAddSlots(...$slots)
     {
         // TODO: Implement clusterAddSlots() method.
+        $command = Enum::CLUSTER_ADDSLOTS;
+        $args = $slots;
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function clusterCountFailureReports($nodeId)
     {
         // TODO: Implement clusterCountFailureReports() method.
+        $command = Enum::CLUSTER_COUNT_FAILURE_REPORTS;
+        $args = [$nodeId];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function clusterCountKeysInSlot($slot)
     {
         // TODO: Implement clusterCountKeysInSlot() method.
+        $command = Enum::CLUSTER_COUNTKEYSINSLOT;
+        $args = $slot;
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function clusterDelSlots(...$slots)
     {
         // TODO: Implement clusterDelSlots() method.
+        $command = Enum::CLUSTER_DELSLOTS;
+        $args = $slots;
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function clusterFailOver($operation)
@@ -992,16 +1144,27 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
     public function clusterInfo()
     {
         // TODO: Implement clusterInfo() method.
+        $command = Enum::CLUSTER_INFO;
+
+        return $this->dispatch(Builder::build($command));
     }
 
     public function clusterKeySlot($key)
     {
         // TODO: Implement clusterKeySlot() method.
+        $command = Enum::CLUSTER_KEYSLOT;
+        $args = [$key];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function clusterMeet($ip, $port)
     {
         // TODO: Implement clusterMeet() method.
+        $command = Enum::CLUSTER_MEET;
+        $args = [$ip, $port];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function clusterNodes()
@@ -1038,6 +1201,10 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
     public function clusterSetSlot($command, $nodeId)
     {
         // TODO: Implement clusterSetSlot() method.
+        $command = Enum::CLUSTER_SETSLOT;
+        $args = [$command, $nodeId];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     /**
@@ -1046,6 +1213,10 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
     public function clusterSlaves($nodeId)
     {
         // TODO: Implement clusterSlaves() method.
+        $command = Enum::CLUSTER_SLAVES;
+        $args = [$nodeId];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     /**
@@ -1054,236 +1225,442 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
     public function clusterSlots()
     {
         // TODO: Implement clusterSlots() method.
+        $command = Enum::CLUSTER_SLOTS;
+
+        return $this->dispatch(Builder::build($command));
     }
 
     public function flushAll($isAsync)
     {
         // TODO: Implement flushAll() method.
+        $command = Enum::FLUSHALL;
+        $args = [$isAsync];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function flushDb($isAsync)
     {
         // TODO: Implement flushDb() method.
+        $command = Enum::FLUSHDB;
+        $args = [$isAsync];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function zAdd($key, array $options = [])
     {
         // TODO: Implement zAdd() method.
+        $command = Enum::ZADD;
+        $args = [$key];
+        $args = array_merge($args, $options);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function zCard($key)
     {
         // TODO: Implement zCard() method.
+        $command = Enum::ZCARD;
+        $args = [$key];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function zCount($key, $min, $max)
     {
         // TODO: Implement zCount() method.
+        $command = Enum::ZCOUNT;
+        $args = [$key, $min, $max];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function zIncrBy($key, $increment, $member)
     {
         // TODO: Implement zIncrBy() method.
+        $command = Enum::ZINCRBY;
+        $args = [$key, $increment, $member];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function zInterStore($dst, $numKeys)
     {
         // TODO: Implement zInterStore() method.
+        $command = Enum::ZINTERSTORE;
+        $args = [$dst, $numKeys];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function zLexCount($key, $min, $max)
     {
         // TODO: Implement zLexCount() method.
+        $command = Enum::ZLEXCOUNT;
+        $args = [$key, $min, $max];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function zRange($key, $star, $stop, array $options = [])
     {
         // TODO: Implement zRange() method.
+        $command = Enum::ZRANGE;
+        $args = [$key, $star,$stop];
+        $args = array_merge($args, $options);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function zRangeByLex($key, $min, $max, array $options = [])
     {
         // TODO: Implement zRangeByLex() method.
+        $command = Enum::ZRANGEBYLEX;
+        $args = [$key, $min, $max];
+        $args = array_merge($args,$options);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function zRevRangeByLex($key, $max, $min, array $options = [])
     {
         // TODO: Implement zRevRangeByLex() method.
+        $command = Enum::ZREVRANGEBYLEX;
+        $args = [$key, $max,$min];
+        $args = array_merge($args,$options);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function zRangeByScore($key, $min, $max, array $options = [])
     {
         // TODO: Implement zRangeByScore() method.
+        $command = Enum::ZRANGEBYSCORE;
+        $args = [$key, $min,$max];
+        $args = array_merge($args, $options);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function zRank($key, $member)
     {
         // TODO: Implement zRank() method.
+        $command = Enum::ZRANK;
+        $args = [$key,$member];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function zRem($key, ...$members)
     {
         // TODO: Implement zRem() method.
+        $command = Enum::ZREM;
+        $args = [$key];
+        $args = array_merge($args, $members);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function zRemRangeByLex($key, $min, $max)
     {
         // TODO: Implement zRemRangeByLex() method.
+        $command = Enum::ZREMRANGEBYLEX;
+        $args = [$key, $min, $max];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function zRemRangeByRank($key, $start, $stop)
     {
         // TODO: Implement zRemRangeByRank() method.
+        $command = Enum::ZREMRANGEBYRANK;
+        $args = [$key, $start,$stop];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function zRemRangeByScore($key, $min, $max)
     {
         // TODO: Implement zRemRangeByScore() method.
+        $command = Enum::ZREMRANGEBYSCORE;
+        $args = [$key, $min, $max];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function zRevRange($key, $start, $stop, array $options = [])
     {
         // TODO: Implement zRevRange() method.
+        $command = Enum::ZREVRANGE;
+        $args = [$key, $start, $stop];
+        $args = array_merge($args, $options);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function zRevRangeByScore($key, $max, $min, array $options = [])
     {
         // TODO: Implement zRevRangeByScore() method.
+        $command = Enum::ZREVRANGEBYSCORE;
+        $args = [$key,$max,$min];
+        $args = array_merge($args, $options);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function zRevRank($key, $member)
     {
         // TODO: Implement zRevRank() method.
+        $command = Enum::ZREVRANK;
+        $args = [$key,$member];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function zScore($key, $member)
     {
         // TODO: Implement zScore() method.
+        $command = Enum::ZSCORE;
+        $args = [$key,$member];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function scan($cursor, array $options = [])
     {
         // TODO: Implement scan() method.
+        $command = Enum::SCAN;
+        $args = [$cursor];
+        $args = array_merge($args, $options);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function sScan($key, $cursor, array $options = [])
     {
         // TODO: Implement sScan() method.
+        $command = Enum::SSCAN;
+        $args = [$key, $cursor];
+        $args = array_merge($args, $options);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function hScan($key, $cursor, array $options = [])
     {
         // TODO: Implement hScan() method.
+        $command = Enum::HSCAN;
+        $args = [$key, $cursor];
+        $args = array_merge($args, $options);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function zScan($key, $cursor, array $options = [])
     {
         // TODO: Implement zScan() method.
+        $command = Enum::ZSCAN;
+        $args = [$key , $cursor];
+        $args = array_merge($args, $options);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function sInter(...$keys)
     {
         // TODO: Implement sInter() method.
+        $command = Enum::SINTER;
+        $args = $keys;
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function sInterStore($dst, ...$keys)
     {
         // TODO: Implement sInterStore() method.
+        $command = Enum::SINTERSTORE;
+        $args = [$dst];
+        $args = array_merge($args, $keys);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function sIsMember($key, $member)
     {
         // TODO: Implement sIsMember() method.
+        $command = Enum::SISMEMBER;
+        $args = [$key ,$member];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function slaveOf($host, $port)
     {
         // TODO: Implement slaveOf() method.
+        $command = Enum::SLAVEOF;
+        $args = [$host, $port];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function sLowLog($command, array $args = [])
     {
         // TODO: Implement sLowLog() method.
+        $command = Enum::SLOWLOG;
+        $args = array_merge([$command],$args);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function sMembers($key)
     {
         // TODO: Implement sMembers() method.
+        $command = Enum::SMEMBERS;
+        $args = [$key];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function sMove($src, $dst, $members)
     {
         // TODO: Implement sMove() method.
+        $command = Enum::SMOVE;
+        $args = [$src, $dst];
+        $args = array_merge( $args, $members);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function sort($key, array $options = [])
     {
         // TODO: Implement sort() method.
+        $command = Enum::SORT;
+        $args = [$key];
+        $args = array_merge($args, $options);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function sPop($key, $count)
     {
         // TODO: Implement sPop() method.
+        $command = Enum::SPOP;
+        $args = [$key, $count];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function sRandMember($key, $count)
     {
         // TODO: Implement sRandMember() method.
+        $command = Enum::SRANDMEMBER;
+        $args = [$key, $count];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function sRem($key, ...$members)
     {
         // TODO: Implement sRem() method.
+        $command = Enum::SREM;
+        $args = [$key];
+        $args = array_merge($args, $members);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function strLen($key)
     {
         // TODO: Implement strLen() method.
+        $command = Enum::STRLEN;
+        $args = [$key];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function subscribe(...$channels)
     {
         // TODO: Implement subscribe() method.
+        $command = Enum::SUBSCRIBE;
+        $args = $channels;
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function sUnion(...$keys)
     {
         // TODO: Implement sUnion() method.
+        $command = Enum::SUNION;
+        $args = $keys;
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function sUnionStore($dst, ...$keys)
     {
         // TODO: Implement sUnionStore() method.
+        $command = Enum::SUNIONSTORE;
+        $args = [$dst];
+        $args = array_merge($args, $keys);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function sWapBb($opt, $dst, ...$keys)
     {
         // TODO: Implement sWapBb() method.
+        $command = Enum::SWAPDB;
+        $args = [$opt, $dst];
+        $args = array_merge($args, $keys);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function sAdd($key, ...$members)
     {
         // TODO: Implement sAdd() method.
+        $command = Enum::SADD;
+        $args = [$key];
+        $args = array_merge($args, $members);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function save()
     {
         // TODO: Implement save() method.
+        $command = Enum::SAVE;
+
+        return $this->dispatch(Builder::build($command));
     }
 
     public function sCard($key)
     {
         // TODO: Implement sCard() method.
+        $command = Enum::SCARD;
+        $args = [$key];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function sDiff(...$keys)
     {
         // TODO: Implement sDiff() method.
+        $command = Enum::SDIFF;
+        $args = $keys;
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     public function sDiffStore($dst, ...$keys)
     {
         // TODO: Implement sDiffStore() method.
+        $command = Enum::SDIFFSTORE;
+        $args = [$dst];
+        $args = array_merge($args, $keys);
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     /**
@@ -1292,6 +1669,10 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
     public function hExists($key, $field)
     {
         // TODO: Implement hExists() method.
+        $command = Enum::HEXISTS;
+        $args = [$key, $field];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 
     /**
@@ -1300,6 +1681,9 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
     public function readWrite()
     {
         // TODO: Implement readWrite() method.
+        $command = Enum::READWRITE;
+
+        return $this->dispatch(Builder::build($command));
     }
 
     /**
@@ -1308,5 +1692,9 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
     public function zUnionScore($dst, $numKeys)
     {
         // TODO: Implement zUnionScore() method.
+        $command = Enum::ZUNIIONSCORE;
+        $args = [$dst, $numKeys];
+
+        return $this->dispatch(Builder::build($command, $args));
     }
 };
