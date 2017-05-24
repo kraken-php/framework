@@ -150,7 +150,7 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
         $this->loop->stop();
     }
 
-    public function connection($uri)
+    private function connection($uri)
     {
         $stream = new Socket($uri, $this->loop);
 
