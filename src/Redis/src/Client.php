@@ -26,6 +26,7 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 {
     private $ending;
     private $closed;
+    public $serverVersion;
     /**
      * @var Socket
      */
@@ -55,6 +56,32 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
         $this->ending = false;
         $this->closed = false;
         parent::__construct($loop);
+    }
+
+    private function connection($uri)
+    {
+        $stream = new Socket($uri, $this->loop);
+
+        return $stream;
+    }
+
+    private function dispatch(Request $command)
+    {
+        $request = new Deferred();
+        $promise = $request->getPromise();
+        if ($this->ending) {
+            $request->reject(new RuntimeException('Connection closed'));
+        } else {
+            $this->stream->write($this->protocol->commands($command));
+            $this->requests[] = $request;
+        }
+
+        return $promise;
+    }
+
+    protected function isBusy()
+    {
+        return empty($this->requests) ? false : true;
     }
 
     public function connect()
@@ -106,7 +133,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
                 }
             }
         });
-
         $this->stream->on('close', [$this, 'handleClose']);
     }
 
@@ -148,39 +174,12 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
         $this->loop->stop();
     }
 
-    private function connection($uri)
-    {
-        $stream = new Socket($uri, $this->loop);
-
-        return $stream;
-    }
-
-    public function dispatch(Request $command)
-    {
-        $request = new Deferred();
-        $promise = $request->getPromise();
-        if ($this->ending) {
-            $request->reject(new RuntimeException('Connection closed'));
-        } else {
-            $this->stream->write($this->protocol->commands($command));
-            $this->requests[] = $request;
-        }
-
-        return $promise;
-    }
-
     public function end()
     {
-        if (!$this->isBusy() && !$this->ending) {
+        if (!$this->ending) {
             $this->ending = true;
         }
     }
-
-    protected function isBusy()
-    {
-        return empty($this->requests) ? false : true;
-    }
-
 
     /**
      * Commands ...
@@ -318,6 +317,15 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
         // TODO: Implement decrBy() method.
         $command = Enum::DECRBY;
         $args = [$key, $decrement];
+
+        return $this->dispatch(Builder::build($command, $args));
+    }
+
+    public function del($key,...$keys)
+    {
+        $command = Enum::DEL;
+        $keys[] = $key;
+        $args = $keys;
 
         return $this->dispatch(Builder::build($command, $args));
     }
@@ -1230,22 +1238,49 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
         return $this->dispatch(Builder::build($command));
     }
 
-    public function flushAll($isAsync)
+    public function flushAll()
     {
         // TODO: Implement flushAll() method.
         $command = Enum::FLUSHALL;
-        $args = [$isAsync];
 
-        return $this->dispatch(Builder::build($command, $args));
+        return $this->dispatch(Builder::build($command));
     }
 
-    public function flushDb($isAsync)
+    public function flushDb()
     {
         // TODO: Implement flushDb() method.
         $command = Enum::FLUSHDB;
-        $args = [$isAsync];
 
-        return $this->dispatch(Builder::build($command, $args));
+        return $this->dispatch(Builder::build($command));
+    }
+
+    public function info($section = [])
+    {
+        $command = Enum::INFO;
+
+        return $this->dispatch(Builder::build($command, $section))->then(function ($value) {
+            if ($value) {
+                $ret = explode(PHP_EOL, $value);
+                $handled = [];
+                $lastKey = '';
+                foreach ($ret as $_ => $v) {
+                    if (($pos = strpos($v, '#')) !== false) {
+                        $lastKey = strtolower(substr($v,$pos+2));
+                        $handled[$lastKey] = [];
+                        continue;
+                    }
+                    $statMap = explode(':', $v);
+                    if ($statMap[0]) {
+                        list($name, $stat) = explode(':', $v);
+                        $handled[$lastKey][$name] = $stat;
+                    }
+                }
+
+                return $handled;
+            }
+
+            return $value;
+        });
     }
 
     public function zAdd($key, array $options = [])

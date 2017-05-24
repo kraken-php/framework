@@ -32,10 +32,11 @@
         "league/flysystem": "^1.0",
         "league/container": "^2.2",
         "monolog/monolog": "^1.21",
-        "vlucas/phpdotenv": "^2.3"
+        "vlucas/phpdotenv": "^2.3",
+        "clue/redis-protocol": "^0.3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "5.3.*"
+        "phpunit/phpunit": ">=4.8,<5.4"
     },
     "suggest": {
         "ext-libevent": ">=0.1.0",
@@ -83,6 +84,7 @@
             "Kraken\\Loop\\": "src/Loop/src",
             "Kraken\\Network\\": "src/Network/src",
             "Kraken\\Promise\\": "src/Promise/src",
+            "Kraken\\Redis\\" : "src/Redis/src",
             "Kraken\\Root\\": "src/Root/src",
             "Kraken\\Runtime\\": "src/Runtime/src",
             "Kraken\\SSH\\": "src/SSH/src",

@@ -121,6 +121,15 @@ interface CommandInterface
     public function decrBy($key,$decrement);
 
     /**
+     * @doc https://redis.io/commands/del
+     * @since 1.0.0
+     * @param $key
+     * @param ...$keys
+     * @return mixed
+     */
+    public function del($key,...$keys);
+
+    /**
      * @doc https://redis.io/commands/discard
      * @since 2.0.0
      * @return mixed
@@ -1050,18 +1059,24 @@ interface CommandInterface
     /**
      * @doc https://redis.io/commands/flushall
      * @since 1.0.0
-     * @param $isAsync
      * @return mixed
      */
-    public function flushAll($isAsync);
+    public function flushAll();
 
     /**
      * @doc https://redis.io/commands/flushdb
      * @since 1.0.0
-     * @param $isAsync
      * @return mixed
      */
-    public function flushDb($isAsync);
+    public function flushDb();
+
+    /**
+     * @doc https://redis.io/commands/info
+     * @since 1.0.0
+     * @param array $section
+     * @return mixed
+     */
+    public function info($section = []);
 
     /**
      * @doc https://redis.io/commands/zadd

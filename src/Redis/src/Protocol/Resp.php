@@ -43,7 +43,9 @@ class Resp implements RespProtocol
      */
     public function replies($data)
     {
-        return $this->serializer->createReplyModel($data);
+        $model = $this->serializer->createReplyModel($data);
+
+        return $model;
     }
     /**
      * @return RecursiveSerializer

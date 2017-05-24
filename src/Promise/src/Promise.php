@@ -251,7 +251,7 @@ class Promise implements PromiseInterface
     public function resolve($value = null)
     {
         if (null !== $this->result || $value === $this)
-        {
+        {;
             return $this->result;
         }
 
