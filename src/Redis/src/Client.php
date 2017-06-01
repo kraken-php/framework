@@ -2,6 +2,7 @@
 
 namespace Kraken\Redis;
 
+use Kraken\Throwable\Exception\LogicException;
 use RuntimeException;
 use Kraken\Loop\Loop;
 use UnderflowException;
@@ -21,6 +22,7 @@ use Kraken\Redis\Command\CommandInterface;
 use Clue\Redis\Protocol\Model\ErrorReply;
 use Clue\Redis\Protocol\Model\ModelInterface;
 use Clue\Redis\Protocol\Parser\ParserException;
+use Closure;
 
 class Client extends EventEmitter implements EventEmitterInterface,CommandInterface
 {
@@ -55,14 +57,28 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
         $this->requests = [];
         $this->ending = false;
         $this->closed = false;
+        $that = $this;
         parent::__construct($loop);
+        $this->on('close', function () use ($that) {
+            $that->loop->stop();
+        });
     }
 
     private function connection($uri)
     {
-        $stream = new Socket($uri, $this->loop);
+        try {
+            $stream = new Socket($uri, $this->loop);
 
-        return $stream;
+            return $stream;
+        } catch (LogicException $e) {
+            $this->end();
+            $this->loop->stop();
+        } catch (\Exception $e) {
+            $this->end();
+            $this->loop->stop();
+        }
+
+        return null;
     }
 
     private function dispatch(Request $command)
@@ -98,6 +114,20 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
         //todo ; patch missing pub/sub,pipeline,auth
 
         $this->emit('connect', [$this]);
+    }
+
+    public function run(Closure $onConnect = null, Closure $onDisconnect = null)
+    {
+        if ($onConnect) {
+            $this->on('connect', $onConnect);
+        }
+
+        if ($onDisconnect) {
+            $this->on('disconnect', $onDisconnect);
+        }
+
+        $this->connect();
+        $this->loop->start();
     }
 
     public function handleDisconnect()
@@ -151,7 +181,7 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
         } else {
             $request->resolve($message->getValueNative());
         }
-        if ($this->ending && !$this->isBusy()) {
+        if (!$this->isBusy()) {
             $this->emit('close');
         }
     }

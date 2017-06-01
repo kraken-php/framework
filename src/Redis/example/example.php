@@ -21,7 +21,9 @@ $client->on('connect', function (Client $client) {
     });
 
     $client->set('test1','test1');
+
     $client->set('test2','test2');
+
     $client->set('test','Hello Kraken Redis!')->then(function ($value) {
         global $ret;
         $ret[] = $value;
