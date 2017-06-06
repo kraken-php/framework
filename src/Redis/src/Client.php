@@ -28,6 +28,21 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 {
     private $ending;
     private $closed;
+    private $keys;
+    private $cluster;
+    private $connection;
+    private $geo;
+    private $hashed;
+    private $hypeLogLog;
+    private $lists;
+    private $pubSub;
+    private $scripting;
+    private $server;
+    private $sets;
+    private $sortedSets;
+    private $strings;
+    private $transactions;
+
     public $serverVersion;
     /**
      * @var Socket
@@ -50,6 +65,7 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
      */
     public function __construct($uri, LoopInterface $loop)
     {
+        parent::__construct($loop);
         $this->uri = $uri;
         $this->loop = $loop;
         $this->stream = null;
@@ -57,11 +73,9 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
         $this->requests = [];
         $this->ending = false;
         $this->closed = false;
-        $that = $this;
-        parent::__construct($loop);
-        $this->on('close', function () use ($that) {
-            $that->loop->stop();
-        });
+        $this->on('response',[$this, 'handleResponse']);
+        $this->on('close', [$this, 'handleClose']);
+        $this->on('disconnect',[$this, 'handleDisconnect']);
     }
 
     private function connection($uri)
@@ -107,12 +121,11 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
         }
 
         $this->stream = $this->connection($this->uri);
-        if ($this->stream != null) {
+        if ($this->stream->isOpen()) {
             $this->on('connect',[$this , 'handleConnect']);
         }
 
         //todo ; patch missing pub/sub,pipeline,auth
-
         $this->emit('connect', [$this]);
     }
 
@@ -130,47 +143,42 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
         $this->loop->start();
     }
 
-    public function handleDisconnect()
-    {
-        $this->removeListener('connect', [ $this, 'handleConnect' ]);
-        $this->removeListener('disconnect', [ $this, 'handleDisconnect' ]);
-        $this->removeListener('error', [ $this, 'handleError' ]);
-        $this->removeListener('close', [ $this, 'handleClose']);
-    }
-
+    /**
+     * @internal
+     */
     public function handleConnect()
     {
         $protocol = $this->protocol;
         $that = $this;
-        $this->stream->on('data', function($socket, $chunk) use ($protocol, $that) {
+
+        $this->stream->on('data', function($_, $chunk) use ($protocol, $that) {
             try {
                 $models = $protocol->parseResponse($chunk);
             } catch (ParserException $error) {
-                $that->emit('error', array($error));
                 $this->ending = true;
+                $that->emit('error', [$error]);
                 $that->emit('close');
+
                 return;
             }
 
             foreach ($models as $data) {
                 try {
-                    $that->handleMessage($data);
+                    $this->emit('response', [$data]);
                 } catch (UnderflowException $error) {
-                    $that->emit('error', array($error));
                     $this->ending = true;
+                    $that->emit('error', [$error]);
                     $this->emit('close');
-                    return;
                 }
             }
         });
-        $this->stream->on('close', [$this, 'handleClose']);
     }
 
-    public function handleMessage(ModelInterface $message)
+    /**
+     * @internal
+     */
+    public function handleResponse(ModelInterface $message)
     {
-        $this->on('close', [$this, 'handleClose']);
-        $this->on('disconnect',[$this, 'handleDisconnect']);
-        $this->stream->emit('data', [$this->stream, $message->getValueNative()]);
         if (!$this->requests) {
             throw new UnderflowException('Unexpected reply received, no matching request found');
         }
@@ -186,6 +194,20 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
         }
     }
 
+    /**
+     * @internal
+     */
+    public function handleDisconnect()
+    {
+        $this->removeListener('connect', [ $this, 'handleConnect' ]);
+        $this->removeListener('disconnect', [ $this, 'handleDisconnect' ]);
+        $this->removeListener('error', [ $this, 'handleError' ]);
+        $this->removeListener('close', [ $this, 'handleClose']);
+    }
+
+    /**
+     * @internal
+     */
     public function handleClose()
     {
         if ($this->closed) {
@@ -309,8 +331,21 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
         $command = Enum::BLPOP;
         $keys[] = $timeout;
         $args = $keys;
+        $promise = $this->dispatch(Builder::build($command, $args));
+        $promise = $promise->then(function ($value) {
+            if (is_array($value)) {
+                list($k,$v) = $value;
 
-        return $this->dispatch(Builder::build($command, $args));
+                return [
+                    'key'=>$k,
+                    'value'=>$v
+                ];
+            }
+
+            return $value;
+        });
+
+        return $promise;
     }
 
     public function brPop(array $keys, $timeout)
@@ -319,9 +354,21 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
         $command = Enum::BRPOP;
         $keys[] = $timeout;
         $args = $keys;
+        $promise = $this->dispatch(Builder::build($command, $args));
+        $promise = $promise->then(function ($value) {
+            if (is_array($value)) {
+                list($k,$v) = $value;
 
-        return $this->dispatch(Builder::build($command, $args));
+                return [
+                    'key'=>$k,
+                    'value'=>$v
+                ];
+            }
 
+            return $value;
+        });
+
+        return $promise;
     }
 
     public function brPopLPush($src, $dst, $timeout)
@@ -476,7 +523,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function persist($key)
     {
-        // TODO: Implement persist() method.
         $command = Enum::PERSIST;
         $args = [$key];
 
@@ -538,7 +584,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function type($key)
     {
-        // TODO: Implement type() method.
         $command = Enum::TYPE;
         $args = [$key];
 
@@ -653,7 +698,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function renameNx($key, $newKey)
     {
-        // TODO: Implement renameNx() method.
         $command = Enum::RENAMENX;
         $args = [$key, $newKey];
 
@@ -680,7 +724,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function quit()
     {
-        // TODO: Implement quit() method.
         $command = Enum::QUIT;
 
         return $this->dispatch(Builder::build($command));
@@ -964,27 +1007,24 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
         return $this->dispatch(Builder::build($command, $args));
     }
 
-    public function lPush(array $kvMap)
+    public function lPush($key,...$values)
     {
-        // TODO: Implement lPush() method.
         $command = Enum::LPUSH;
-        $args = $kvMap;
+        array_unshift($values, $key);
 
-        return $this->dispatch(Builder::build($command, $args));
+        return $this->dispatch(Builder::build($command, $values));
     }
 
     public function lPushX($key, $value)
     {
-        // TODO: Implement lPushX() method.
         $command = Enum::LPUSHX;
         $args = [$key, $value];
 
         return $this->dispatch(Builder::build($command, $args));
     }
 
-    public function lRange($key, $start, $stop)
+    public function lRange($key, $start = 0, $stop = -1)
     {
-        // TODO: Implement lRange() method.
         $command = Enum::LRANGE;
         $args = [$key, $start, $stop];
 
@@ -1065,7 +1105,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function rPop($key)
     {
-        // TODO: Implement rPop() method.
         $command = Enum::RPOP;
         $args = [$key];
 
@@ -1083,7 +1122,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function rPush($key, ...$values)
     {
-        // TODO: Implement rPush() method.
         $command = Enum::RPUSH;
         $args = [$key];
         $args = array_merge($args, $values);
@@ -1093,7 +1131,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function rPushX($key, $value)
     {
-        // TODO: Implement rPushX() method.
         $command = Enum::RPUSHX;
         $args = [$key, $value];
 
@@ -1270,7 +1307,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function flushAll()
     {
-        // TODO: Implement flushAll() method.
         $command = Enum::FLUSHALL;
 
         return $this->dispatch(Builder::build($command));
@@ -1494,7 +1530,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function scan($cursor, array $options = [])
     {
-        // TODO: Implement scan() method.
         $command = Enum::SCAN;
         $args = [$cursor];
         $args = array_merge($args, $options);

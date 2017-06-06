@@ -752,10 +752,11 @@ interface CommandInterface
     /**
      * @doc https://redis.io/commands/lpush
      * @since 1.0.0
-     * @param array $kvMap
+     * @param string $key
+     * @param ...$values
      * @return mixed
      */
-    public function lPush(array $kvMap);
+    public function lPush($key,...$values);
 
     /**
      * @doc https://redis.io/commands/lpushx

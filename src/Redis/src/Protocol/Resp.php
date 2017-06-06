@@ -32,11 +32,10 @@ class Resp implements RespProtocol
      */
     public function commands(Request $request)
     {
-
-        $args = $request->getArgs();
-        $command= $request->getCommand();
-
-        return $this->serializer->getRequestMessage($command, $args);
+        return $this->serializer->getRequestMessage(
+            $request->getCommand(),
+            $request->getArgs()
+        );
     }
     /**
      * @inheritDoc
