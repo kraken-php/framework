@@ -614,6 +614,274 @@ class ClientTest extends TUnit
         $this->assertEquals(['two','three'], $ret);
     }
 
+    // \/--Hashes--\/
+
+    /**
+     * @group passed
+     */
+    public function testHdel()
+    {
+        $this->case->run(function (Client $client) {
+            $client->hSet('k','f','v');
+            $client->hDel('k','f')->then(function ($resp) {
+                    global $ret;
+                    $ret = $resp;
+            });
+            $client->flushDb();
+        });
+
+        global $ret;
+        $this->assertEquals(1, $ret);
+    }
+
+    /**
+     * @group passed
+     */
+    public function testHExists()
+    {
+        $this->case->run(function (Client $client) {
+            $client->hSet('k','f','v')->then(function ($resp) use ($client){
+                $client->hExists('k')->then(function ($resp) {
+                    global $ret;
+                    $ret = $resp;
+                }); 
+                $client->flushDb();
+            });
+        });
+
+        global $ret;
+        $this->assertEquals(1, $ret);
+    }
+
+    /**
+     * @group passed
+     */
+    public function testHget()
+    {
+        $this->case->run(function (Client $client) {
+            $client->hSet('k','f','v')->then(function ($_) use ($client) {
+               
+                $client->hGet('k','f')->then(function ($resp) {
+                    global $ret;
+                    $ret = $resp;
+                });
+                $client->flushDb();
+            });
+        });
+        global $ret;
+        $this->assertEquals('v', $ret);
+    }
+
+    /**
+     * @group passed
+     */
+    public function testHGetAll()
+    {
+        $this->case->run(function (Client $client) {
+            $client->hMSet('k', ['f1'=>'v1','f2'=>'v2','f3'=>'v3'])->then(function ($_) use ($client) {
+                $client->hGetAll('k')->then(function ($resp) {
+                    global $ret;
+                    $ret = $resp;
+                });
+                $client->flushDb();
+            });
+        });
+        global $ret;
+        $this->assertEquals(['f1'=>'v1','f2'=>'v2','f3'=>'v3'], $ret);
+    }
+
+    /**
+     * @group passed
+     */
+    public function testHIncrBy()
+    {
+         $this->case->run(function (Client $client) {
+            $client->hMSet('k', ['f1'=>1,'f2'=>2,'f3'=>3])->then(function ($_) use ($client) {
+                $client->hIncrBy('k', 'f1', 1)->then(function ($resp) {
+                    global $ret;
+                    $ret = $resp;
+                });
+                $client->flushDb();
+            });
+        });
+        global $ret;
+        $this->assertEquals(2, $ret);
+    }
+
+    /**
+     * @group passed
+     */
+    public function testIncrByFloat()
+    {
+         $this->case->run(function (Client $client) {
+            $client->hMSet('k', ['f1'=>1,'f2'=>2,'f3'=>3])->then(function ($_) use ($client) {
+                $client->hIncrByFloat('k', 'f1', 1.5)->then(function ($resp) {
+                    global $ret;
+                    $ret = $resp;
+                });
+                $client->flushDb();
+            });
+        });
+        global $ret;
+        $this->assertEquals(2.5, $ret);
+    }
+
+    /**
+     * @group passed
+     */
+    public function testHKeys()
+    {
+        $this->case->run(function (Client $client) {
+            $client->hMSet('k', ['f1'=>'v1','f2'=>'v2','f3'=>'v3'])->then(function ($_) use ($client) {
+                $client->hKeys('k')->then(function ($resp) {
+                    global $ret;
+                    $ret = $resp;
+                });
+                $client->flushDb();
+            });
+        });
+        global $ret;
+        $this->assertEquals(['f1','f2','f3'], $ret);
+    }
+    
+    /**
+     * @group passed
+     */
+    public function testHLen()
+    {
+        $this->case->run(function (Client $client) {
+            $client->hMSet('k', ['f1'=>'v1','f2'=>'v2','f3'=>'v3'])->then(function ($_) use ($client) {
+                $client->hLen('k')->then(function ($resp) {
+                    global $ret;
+                    $ret = $resp;
+                });
+                $client->flushDb();
+            });
+        });
+        global $ret;
+        $this->assertEquals(3, $ret);
+    }
+
+     /**
+     * @group passed
+     */
+    public function testHMGet()
+    {
+        $this->case->run(function (Client $client) {
+            $client->hMSet('k', ['f1'=>'v1','f2'=>'v2','f3'=>'v3'])->then(function ($_) use ($client) {
+                $client->hMGet('k','f1','f2','f3')->then(function ($resp) {
+                    global $ret;
+                    $ret = $resp;
+                });
+                $client->flushDb();
+            });
+        });
+        global $ret;
+        $this->assertEquals(['v1','v2','v3'], $ret);
+    }
+
+    /**
+     * @group passed
+     */
+    public function testHMSet()
+    {
+        $this->case->run(function (Client $client) {
+            $fv = [
+                'f1' => 'v1',
+                'f2' => 'v2',
+                'f3' => 'v3',
+            ];
+            $client->hMSet('k', $fv)->then(function ($resp) {
+                global $ret;
+                $ret = $resp;
+            });
+            $client->flushDb();
+        });
+        global $ret;
+        $this->assertEquals('OK', $ret);
+    }
+
+    /**
+     * @group passed
+     */
+    public function testHSet()
+    {
+        $this->case->run(function (Client $client) {
+            $client->hSet('k','f','v')->then(function ($resp) {
+                global $ret;
+                $ret = $resp;
+            });
+            $client->flushDb();
+        });
+        global $ret;
+        $this->assertEquals(1, $ret);
+    }
+
+    /**
+     * @group testing
+     */
+    public function testHSetNx()
+    {
+        $this->case->run(function (Client $client) {
+            $client->hSetNx('k','f','v')->then(function ($resp) {
+                global $ret;
+                $ret = $resp;
+            });
+            $client->flushDb();
+        });
+        global $ret;
+        $this->assertEquals(1, $ret);
+    }
+
+    /**
+     * @group testing
+     */
+    public function testHStrlen()
+    {
+        $this->case->run(function (Client $client) {
+            $client->hSet('k','f','hello')->then(function ($_) use ($client) {
+                $client->hStrLen('k', 'f')->then(function ($resp) {
+                    global $ret;
+                    $ret = $resp;
+                });
+                $client->flushDb();
+            });
+        });
+        global $ret;
+        $this->assertEquals(strlen('hello'), $ret);
+    }
+
+    /**
+     * @group testing
+     */
+    public function testHVals()
+    {
+        $this->case->run(function (Client $client) {
+            $fv = [
+                'f1' => 'v1',
+                'f2' => 'v2',
+                'f3' => 'v3',
+            ];
+            $client->hMSet('k', $fv)->then(function ($_) use ($client) {
+                $client->hVals('k')->then(function ($resp) {
+                    global $ret;
+                    $ret = $resp;
+                });
+                $client->flushDb();
+            });
+        });
+        global $ret;
+        $this->assertEquals(['v1','v2','v3'], $ret);
+    }
+
+    /**
+     * @group testing
+     */
+    public function testScan()
+    {
+
+    }
+
     /**
      * @group passed
      */
@@ -628,7 +896,6 @@ class ClientTest extends TUnit
         global $ret;
         $this->assertEquals('OK', $ret);
     }
-
 
     /**
      * @group passed

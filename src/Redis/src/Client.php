@@ -565,7 +565,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function touch($key, ...$keys)
     {
-        // TODO: Implement touch() method.
         $command = Enum::TOUCH;
         $args = [$key];
         $args = array_merge($args, $keys);
@@ -592,7 +591,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function unLink($key, ...$keys)
     {
-        // TODO: Implement unLink() method.
         $command = Enum::UNLINK;
         $args = [$key];
         $args = array_merge($args, $keys);
@@ -655,7 +653,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function setEx($key, $seconds, $value)
     {
-        // TODO: Implement setEx() method.
         $command = Enum::SETEX;
         $args = [$key, $seconds, $value];
 
@@ -664,7 +661,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function setNx($key, $value)
     {
-        // TODO: Implement setNx() method.
         $command = Enum::SETNX;
         $args = [$key, $value];
 
@@ -689,7 +685,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function rename($key, $newKey)
     {
-        // TODO: Implement rename() method.
         $command = Enum::RENAME;
         $args = [$key, $newKey];
 
@@ -715,7 +710,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function ping($message = 'PING')
     {
-        // TODO: Implement ping() method.
         $command = Enum::PING;
         $args = [$message];
 
@@ -731,7 +725,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function setRange($key, $offset, $value)
     {
-        //
         $command = Enum::SETRANGE;
         $args = [$key, $offset, $value];
 
@@ -756,7 +749,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function hDel($key, ...$fields)
     {
-        // TODO: Implement hDel() method.
         $command = Enum::HDEL;
         $args = [$key];
         $args = array_merge($args, $fields);
@@ -766,7 +758,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function hGet($key, $field)
     {
-        // TODO: Implement hGet() method.
         $command = Enum::HGET;
         $args = [$key, $field];
 
@@ -775,16 +766,27 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function hGetAll($key)
     {
-        // TODO: Implement hGetAll() method.
         $command = Enum::HGETALL;
         $args = [$key];
 
-        return $this->dispatch(Builder::build($command, $args));
+        return $this->dispatch(Builder::build($command, $args))->then(function ($value) {
+            if (!empty($value)) {
+                $tmp = [];
+                $size = count($value);
+                for ($i=0; $i<$size; $i+=2) {
+                    $field = $value[$i];
+                    $val = $value[$i+1];
+                    $tmp[$field] = $val;
+                }
+                $value = $tmp;
+            }
+        
+            return $value;
+        });
     }
 
     public function hIncrBy($key, $field, $increment)
     {
-        // TODO: Implement hIncrBy() method.
         $command = Enum::HINCRBY;
         $args = [$key, $field, $increment];
 
@@ -793,7 +795,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function hIncrByFloat($key, $field, $increment)
     {
-        // TODO: Implement hIncrByFloat() method.
         $command = Enum::HINCRBYFLOAT;
         $args = [$key, $field, $increment];
 
@@ -802,7 +803,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function hKeys($key)
     {
-        // TODO: Implement hKeys() method.
         $command = Enum::HKEYS;
         $args = [$key];
 
@@ -811,7 +811,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function hLen($key)
     {
-        // TODO: Implement hLen() method.
         $command = Enum::HLEN;
         $args = [$key];
 
@@ -820,7 +819,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function hMGet($key, ...$fields)
     {
-        // TODO: Implement hMGet() method.
         $command = Enum::HMGET;
         $args = [$key];
         $args = array_merge($args, $fields);
@@ -830,9 +828,15 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function hMSet($key, array $fvMap)
     {
-        // TODO: Implement hMSet() method.
         $command = Enum::HMSET;
         $args = [$key];
+        if (!empty($fvMap)) {
+            foreach ($fvMap as $field => $value) {
+                $tmp[] = $field;
+                $tmp[] = $value;
+            }
+            $fvMap = $tmp;        
+        }
         $args = array_merge($args, $fvMap);
 
         return $this->dispatch(Builder::build($command, $args));
@@ -840,7 +844,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function hSet($key, $field, $value)
     {
-        // TODO: Implement hSet() method.
         $command = Enum::HSET;
         $args = [$key, $field, $value];
 
@@ -849,7 +852,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function hSetNx($key, $filed, $value)
     {
-        // TODO: Implement hSetNx() method.
         $command = Enum::HSETNX;
         $args = [$key, $filed, $value];
 
@@ -858,7 +860,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function hStrLen($key, $field)
     {
-        // TODO: Implement hStrLen() method.
         $command = Enum::HSTRLEN;
         $args = [$key, $field];
 
@@ -867,7 +868,6 @@ class Client extends EventEmitter implements EventEmitterInterface,CommandInterf
 
     public function hVals($key)
     {
-        // TODO: Implement hVals() method.
         $command = Enum::HVALS;
         $args = [$key];
 
