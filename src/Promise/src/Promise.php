@@ -136,13 +136,13 @@ class Promise implements PromiseInterface
     {
         return $this->then(
             function($values) use($onFulfilled) {
-                return call_user_func_array($onFulfilled, (array) $values);
+                return $onFulfilled(...((array) $values));
             },
             function($rejections) use($onRejected) {
-                return call_user_func_array($onRejected, (array) $rejections);
+                return $onRejected(...((array) $rejections));
             },
             function($reasons) use($onCancel) {
-                return call_user_func_array($onCancel, (array) $reasons);
+                return $onCancel(...((array) $reasons));
             }
         );
     }

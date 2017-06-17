@@ -89,7 +89,7 @@ class PromiseFulfilled implements PromiseInterface
     {
         return $this->then(
             function($values) use($onFulfilled) {
-                return call_user_func_array($onFulfilled, (array) $values);
+                return $onFulfilled(...((array) $values));
             }
         );
     }

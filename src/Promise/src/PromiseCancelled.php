@@ -103,7 +103,7 @@ class PromiseCancelled implements PromiseInterface
             null,
             null,
             function($reasons) use($onCancel) {
-                return call_user_func_array($onCancel, (array) $reasons);
+                return $onCancel(...((array) $reasons));
             }
         );
     }

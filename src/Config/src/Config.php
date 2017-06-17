@@ -143,7 +143,7 @@ class Config implements ConfigInterface
             $handler = $this->overwriteHandler;
         }
 
-        return call_user_func_array($handler, [ $current, $new ]);
+        return $handler($current, $new);
     }
 
     /**

@@ -34,6 +34,7 @@ class RuleNegate
      */
     public function __invoke($name, ProtocolInterface $protocol)
     {
-        return !call_user_func_array($this->rule, [ $name, $protocol ]);
+        $call = $this->rule;
+        return !$call($name, $protocol);
     }
 }

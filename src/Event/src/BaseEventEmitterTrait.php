@@ -131,10 +131,10 @@ trait BaseEventEmitterTrait
     public function delay($event, $ticks, callable $listener)
     {
         $counter = 0;
-        return $this->on($event, function() use(&$counter, $event, $ticks, $listener) {
+        return $this->on($event, function(...$args) use(&$counter, $event, $ticks, $listener) {
             if (++$counter >= $ticks)
             {
-                call_user_func_array($listener, func_get_args());
+                $listener(...$args);
             }
         });
     }
@@ -145,10 +145,10 @@ trait BaseEventEmitterTrait
     public function delayOnce($event, $ticks, callable $listener)
     {
         $counter = 0;
-        return $this->times($event, $ticks, function() use(&$counter, $event, $ticks, $listener) {
+        return $this->times($event, $ticks, function(...$args) use(&$counter, $event, $ticks, $listener) {
             if (++$counter >= $ticks)
             {
-                call_user_func_array($listener, func_get_args());
+                $listener(...$args);
             }
         });
     }
@@ -159,10 +159,10 @@ trait BaseEventEmitterTrait
     public function delayTimes($event, $ticks, $limit, callable $listener)
     {
         $counter = 0;
-        return $this->times($event, $ticks+$limit-1, function() use(&$counter, $event, $ticks, $listener) {
+        return $this->times($event, $ticks+$limit-1, function(...$args) use(&$counter, $event, $ticks, $listener) {
             if (++$counter >= $ticks)
             {
-                call_user_func_array($listener, func_get_args());
+                $listener(...$args);
             }
         });
     }
@@ -316,10 +316,10 @@ trait BaseEventEmitterTrait
     protected function attachOnceListener($pointer, $event, callable $listener)
     {
         $emitter = $this;
-        return function() use($emitter, $listener, $event, $pointer) {
+        return function(...$args) use($emitter, $listener, $event, $pointer) {
             unset($emitter->eventListeners[$event][$pointer]);
 
-            return call_user_func_array($listener, func_get_args());
+            return $listener(...$args);
         };
     }
 
@@ -333,14 +333,13 @@ trait BaseEventEmitterTrait
     protected function attachTimesListener($pointer, $event, $limit, callable $listener)
     {
         $emitter = $this;
-        return function() use($emitter, $listener, $event, $pointer, &$limit) {
+        return function(...$args) use($emitter, $listener, $event, $pointer, &$limit) {
             if (--$limit === 0)
             {
                 unset($limit);
                 unset($emitter->eventListeners[$event][$pointer]);
             }
-
-            return call_user_func_array($listener, func_get_args());
+            return $listener(...$args);
         };
     }
 

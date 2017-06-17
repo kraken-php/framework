@@ -97,7 +97,7 @@ class PromiseRejected implements PromiseInterface
         return $this->then(
             null,
             function($rejections) use($onRejected) {
-                return call_user_func_array($onRejected, (array) $rejections);
+                return $onRejected(...((array) $rejections));
             }
         );
     }
