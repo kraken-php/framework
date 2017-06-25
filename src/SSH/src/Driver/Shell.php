@@ -3,8 +3,8 @@
 namespace Kraken\SSH\Driver;
 
 use Kraken\Event\BaseEventEmitterTrait;
-use Kraken\Loop\Timer\TimerInterface;
-use Kraken\Loop\LoopAwareTrait;
+use Dazzle\Loop\Timer\TimerInterface;
+use Dazzle\Loop\LoopAwareTrait;
 use Kraken\SSH\Driver\Shell\ShellResource;
 use Kraken\SSH\SSH2;
 use Kraken\SSH\SSH2DriverInterface;

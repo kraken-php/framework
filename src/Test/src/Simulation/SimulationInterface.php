@@ -3,7 +3,7 @@
 namespace Kraken\Test\Simulation;
 
 use Kraken\Event\EventEmitterInterface;
-use Kraken\Loop\LoopInterface;
+use Dazzle\Loop\LoopInterface;
 use Kraken\Promise\PromiseInterface;
 
 interface SimulationInterface extends EventEmitterInterface

@@ -2,7 +2,7 @@
 
 namespace Kraken\SSH\Driver\Sftp;
 
-use Kraken\Loop\LoopAwareTrait;
+use Dazzle\Loop\LoopAwareTrait;
 use Kraken\SSH\SSH2DriverInterface;
 use Kraken\SSH\SSH2ResourceInterface;
 use Kraken\Stream\Stream;

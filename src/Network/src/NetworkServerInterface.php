@@ -2,7 +2,7 @@
 
 namespace Kraken\Network;
 
-use Kraken\Loop\LoopResourceInterface;
+use Dazzle\Loop\LoopResourceInterface;
 
 interface NetworkServerInterface extends LoopResourceInterface
 {

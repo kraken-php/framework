@@ -3,7 +3,7 @@
 namespace Kraken\Runtime\Container\Process;
 
 use Composer\Autoload\ClassLoader;
-use Kraken\Loop\Flow\FlowController;
+use Dazzle\Loop\Flow\FlowController;
 
 class ProcessController extends FlowController
 {

@@ -5,7 +5,7 @@ namespace Kraken\_Module\Network\Http;
 use Kraken\_Module\Network\_Mock\ComponentMock;
 use Kraken\Ipc\Socket\Socket;
 use Kraken\Ipc\Socket\SocketListener;
-use Kraken\Loop\LoopInterface;
+use Dazzle\Loop\LoopInterface;
 use Kraken\Test\Simulation\Simulation;
 use Kraken\Network\Http\Component\Router\HttpRouter;
 use Kraken\Network\Http\HttpRequest;

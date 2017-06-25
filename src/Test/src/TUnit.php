@@ -2,7 +2,7 @@
 
 namespace Kraken\Test;
 
-use Kraken\Loop\LoopInterface;
+use Dazzle\Loop\LoopInterface;
 use Kraken\Test\Stub\Callback;
 use ReflectionClass;
 
@@ -110,7 +110,7 @@ class TUnit extends \PHPUnit_Framework_TestCase
      */
     public function createLoopMock()
     {
-        return $this->getMock('Kraken\Loop\LoopInterface');
+        return $this->getMock('Dazzle\Loop\LoopInterface');
     }
 
     /**

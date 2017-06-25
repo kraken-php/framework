@@ -3,8 +3,8 @@
 namespace Kraken\Test\Simulation;
 
 use Kraken\Event\BaseEventEmitter;
-use Kraken\Loop\LoopExtendedInterface;
-use Kraken\Loop\LoopInterface;
+use Dazzle\Loop\LoopExtendedInterface;
+use Dazzle\Loop\LoopInterface;
 use Kraken\Promise\PromiseInterface;
 use Exception;
 use ReflectionClass;
@@ -193,7 +193,7 @@ class Simulation extends BaseEventEmitter implements SimulationInterface
     {
         foreach ($config as $key=>$value)
         {
-            if ($value === 'Kraken\Loop\Loop' || $value === 'Kraken\Loop\LoopInterface')
+            if ($value === 'Dazzle\Loop\Loop' || $value === 'Dazzle\Loop\LoopInterface')
             {
                 $config[$key] = $this->getLoop();
             }

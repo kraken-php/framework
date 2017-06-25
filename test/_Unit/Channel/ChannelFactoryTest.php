@@ -8,7 +8,7 @@ use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelComposite;
 use Kraken\Channel\ChannelFactory;
 use Kraken\Channel\ChannelModelFactory;
-use Kraken\Loop\Loop;
+use Dazzle\Loop\Loop;
 use Kraken\Test\TUnit;
 
 class ChannelFactoryTest extends TUnit

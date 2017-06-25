@@ -5,7 +5,7 @@ namespace Kraken\_Unit\Console\_Case;
 use Kraken\Core\Core;
 use Kraken\Event\EventEmitter;
 use Kraken\Event\EventListener;
-use Kraken\Loop\Loop;
+use Dazzle\Loop\Loop;
 use Kraken\Promise\Promise;
 use Kraken\Runtime\RuntimeContainer;
 use Kraken\Runtime\RuntimeContainerInterface;

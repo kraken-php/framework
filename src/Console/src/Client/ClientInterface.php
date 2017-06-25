@@ -5,7 +5,7 @@ namespace Kraken\Console\Client;
 use Kraken\Core\CoreSetterAwareInterface;
 use Kraken\Runtime\RuntimeContextInterface;
 use Kraken\Event\EventListener;
-use Kraken\Loop\LoopExtendedAwareInterface;
+use Dazzle\Loop\LoopExtendedAwareInterface;
 
 /**
  * @event start   : callable()

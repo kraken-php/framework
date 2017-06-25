@@ -2,8 +2,8 @@
 
 namespace Kraken\Stream;
 
-use Kraken\Loop\LoopAwareTrait;
-use Kraken\Loop\LoopInterface;
+use Dazzle\Loop\LoopAwareTrait;
+use Dazzle\Loop\LoopInterface;
 use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
 use Dazzle\Throwable\Exception\Runtime\ReadException;
 use Error;

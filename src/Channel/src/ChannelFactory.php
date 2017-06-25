@@ -6,7 +6,7 @@ use Kraken\Channel\Encoder\Encoder;
 use Kraken\Channel\Encoder\EncoderInterface;
 use Kraken\Channel\Router\Router;
 use Kraken\Channel\Router\RouterComposite;
-use Kraken\Loop\LoopInterface;
+use Dazzle\Loop\LoopInterface;
 use Dazzle\Util\Factory\Factory;
 use Dazzle\Util\Parser\Json\JsonParser;
 

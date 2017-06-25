@@ -3,7 +3,7 @@
 namespace Kraken\Network;
 
 use Kraken\Ipc\Socket\SocketListenerInterface;
-use Kraken\Loop\LoopInterface;
+use Dazzle\Loop\LoopInterface;
 use Dazzle\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Network\Http\Component\Router\HttpRouter;
 use Kraken\Network\Http\Component\Router\HttpRouterInterface;

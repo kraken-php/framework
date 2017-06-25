@@ -3,8 +3,8 @@
 namespace Kraken\SSH;
 
 use Kraken\Event\BaseEventEmitterTrait;
-use Kraken\Loop\LoopAwareTrait;
-use Kraken\Loop\LoopInterface;
+use Dazzle\Loop\LoopAwareTrait;
+use Dazzle\Loop\LoopInterface;
 use Kraken\SSH\Driver\Sftp;
 use Kraken\SSH\Driver\Shell;
 use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;

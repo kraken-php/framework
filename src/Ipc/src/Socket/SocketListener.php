@@ -7,8 +7,8 @@ use Dazzle\Throwable\Exception\Runtime\ExecutionException;
 use Dazzle\Throwable\Exception\Runtime\ReadException;
 use Dazzle\Throwable\Exception\Logic\InstantiationException;
 use Dazzle\Throwable\Exception\LogicException;
-use Kraken\Loop\LoopAwareTrait;
-use Kraken\Loop\LoopInterface;
+use Dazzle\Loop\LoopAwareTrait;
+use Dazzle\Loop\LoopInterface;
 use Error;
 use Exception;
 

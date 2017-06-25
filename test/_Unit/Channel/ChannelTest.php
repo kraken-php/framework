@@ -12,8 +12,8 @@ use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\ChannelModelInterface;
 use Kraken\Event\EventListener;
-use Kraken\Loop\Loop;
-use Kraken\Loop\LoopInterface;
+use Dazzle\Loop\Loop;
+use Dazzle\Loop\LoopInterface;
 use Kraken\Test\TUnit;
 
 class ChannelTest extends TUnit

@@ -5,7 +5,7 @@ namespace Kraken\Runtime;
 use Kraken\Core\CoreAwareInterface;
 use Kraken\Supervision\SupervisorAwareInterface;
 use Kraken\Event\EventEmitterAwareInterface;
-use Kraken\Loop\LoopExtendedAwareInterface;
+use Dazzle\Loop\LoopExtendedAwareInterface;
 use Kraken\Promise\PromiseInterface;
 use Error;
 use Exception;

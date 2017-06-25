@@ -6,7 +6,7 @@ use Kraken\Channel\Channel;
 use Kraken\Channel\Model\Socket\Socket;
 use Kraken\Channel\ChannelModelInterface;
 use Kraken\Ipc\Socket\SocketListenerInterface;
-use Kraken\Loop\Loop;
+use Dazzle\Loop\Loop;
 use Kraken\Test\TUnit;
 
 class SocketTest extends TUnit

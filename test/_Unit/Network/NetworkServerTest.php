@@ -3,7 +3,7 @@
 namespace Kraken\_Unit\Network;
 
 use Kraken\Ipc\Socket\SocketListener;
-use Kraken\Loop\Loop;
+use Dazzle\Loop\Loop;
 use Kraken\Network\Http\Component\Router\HttpRouter;
 use Kraken\Network\NetworkComponentInterface;
 use Kraken\Network\Socket\Component\Firewall\SocketFirewall;

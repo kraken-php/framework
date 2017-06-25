@@ -5,7 +5,7 @@ namespace Kraken\_Unit\Ipc\Socket;
 use Kraken\Ipc\Socket\Socket;
 use Kraken\Ipc\Socket\SocketInterface;
 use Kraken\Ipc\Socket\SocketListener;
-use Kraken\Loop\LoopInterface;
+use Dazzle\Loop\LoopInterface;
 use Dazzle\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Test\TUnit;
 

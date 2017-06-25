@@ -8,7 +8,7 @@ use Kraken\Channel\Router\RouterCompositeInterface;
 use Kraken\Channel\Router\RouterInterface;
 use Kraken\Event\EventEmitterInterface;
 use Kraken\Event\EventListener;
-use Kraken\Loop\LoopAwareInterface;
+use Dazzle\Loop\LoopAwareInterface;
 use Dazzle\Throwable\Exception\Logic\ResourceUndefinedException;
 
 /**

@@ -6,7 +6,7 @@ use Kraken\Channel\Extra\Request;
 use Kraken\Channel\Protocol\Protocol;
 use Kraken\Channel\Protocol\ProtocolInterface;
 use Kraken\Channel\Channel;
-use Kraken\Loop\Loop;
+use Dazzle\Loop\Loop;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseFulfilled;
 use Kraken\Promise\PromiseInterface;

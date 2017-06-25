@@ -72,7 +72,7 @@ class ChannelConsoleProvider extends ServiceProvider implements ServiceProviderI
         $runtime = $container->make('Kraken\Runtime\RuntimeContainerInterface');
         $channel = $container->make('Kraken\Runtime\Service\ChannelInternal');
         $console = $container->make('Kraken\Runtime\Service\ChannelConsole');
-        $loop    = $container->make('Kraken\Loop\LoopInterface');
+        $loop    = $container->make('Dazzle\Loop\LoopInterface');
 
         $this->applyConsoleRouting($channel, $console);
 

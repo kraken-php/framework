@@ -4,7 +4,7 @@ namespace Kraken\_Unit\Event;
 
 use Kraken\Event\EventEmitter;
 use Kraken\Event\EventEmitterInterface;
-use Kraken\Loop\LoopInterface;
+use Dazzle\Loop\LoopInterface;
 use Kraken\Test\TUnit;
 
 class EventEmitterTest extends TUnit

@@ -5,7 +5,7 @@ namespace Kraken\Root\Provider;
 use Kraken\Container\ContainerInterface;
 use Kraken\Container\ServiceProvider;
 use Kraken\Container\ServiceProviderInterface;
-use Kraken\Loop\Loop;
+use Dazzle\Loop\Loop;
 
 class LoopProvider extends ServiceProvider implements ServiceProviderInterface
 {
@@ -20,8 +20,8 @@ class LoopProvider extends ServiceProvider implements ServiceProviderInterface
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Loop\LoopInterface',
-        'Kraken\Loop\LoopExtendedInterface'
+        'Dazzle\Loop\LoopInterface',
+        'Dazzle\Loop\LoopExtendedInterface'
     ];
 
     /**
@@ -35,12 +35,12 @@ class LoopProvider extends ServiceProvider implements ServiceProviderInterface
         $loop = new Loop(new $model());
 
         $container->instance(
-            'Kraken\Loop\LoopInterface',
+            'Dazzle\Loop\LoopInterface',
             $loop
         );
 
         $container->instance(
-            'Kraken\Loop\LoopExtendedInterface',
+            'Dazzle\Loop\LoopExtendedInterface',
             $loop
         );
     }
@@ -51,11 +51,11 @@ class LoopProvider extends ServiceProvider implements ServiceProviderInterface
     protected function unregister(ContainerInterface $container)
     {
         $container->remove(
-            'Kraken\Loop\LoopInterface'
+            'Dazzle\Loop\LoopInterface'
         );
 
         $container->remove(
-            'Kraken\Loop\LoopExtendedInterface'
+            'Dazzle\Loop\LoopExtendedInterface'
         );
     }
 }

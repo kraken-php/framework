@@ -60,7 +60,7 @@ class ThreadCore extends Core implements CoreInterface
             'Filesystem.Disk'   => 'Kraken\Filesystem\FilesystemInterface',
             'Filesystem.Cloud'  => 'Kraken\Filesystem\FilesystemManagerInterface',
             'Logger'            => 'Kraken\Log\LoggerInterface',
-            'Loop'              => 'Kraken\Loop\LoopInterface',
+            'Loop'              => 'Dazzle\Loop\LoopInterface',
             'Runtime'           => 'Kraken\Runtime\RuntimeContainerInterface',
             'Runtime.Context'   => 'Kraken\Runtime\RuntimeContextInterface',
             'Runtime.Manager'   => 'Kraken\Runtime\RuntimeManagerInterface',

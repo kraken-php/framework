@@ -5,7 +5,7 @@ namespace Kraken\_Unit\Channel\Model\Zmq;
 use Kraken\Channel\ChannelModelInterface;
 use Kraken\Channel\Model\Zmq\ZmqDealer;
 use Kraken\Channel\Model\Zmq\ZmqModel;
-use Kraken\Loop\Loop;
+use Dazzle\Loop\Loop;
 use Kraken\Test\TUnit;
 
 class ZmqDealerTest extends TUnit

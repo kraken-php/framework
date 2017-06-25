@@ -12,7 +12,7 @@ class RuntimeBootProvider extends ServiceProvider implements ServiceProviderInte
      * @var string[]
      */
     protected $requires = [
-        'Kraken\Loop\LoopExtendedInterface',
+        'Dazzle\Loop\LoopExtendedInterface',
         'Kraken\Runtime\RuntimeContainerInterface',
         'Kraken\Runtime\Supervision\SupervisorBaseInterface',
         'Kraken\Runtime\RuntimeManagerInterface'
@@ -23,7 +23,7 @@ class RuntimeBootProvider extends ServiceProvider implements ServiceProviderInte
      */
     protected function register(ContainerInterface $container)
     {
-        $loop    = $container->make('Kraken\Loop\LoopExtendedInterface');
+        $loop    = $container->make('Dazzle\Loop\LoopExtendedInterface');
         $runtime = $container->make('Kraken\Runtime\RuntimeContainerInterface');
         $error   = $container->make('Kraken\Runtime\Supervision\SupervisorBaseInterface');
         $manager = $container->make('Kraken\Runtime\RuntimeManagerInterface');

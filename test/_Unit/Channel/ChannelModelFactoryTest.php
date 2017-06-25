@@ -5,7 +5,7 @@ namespace Kraken\_Unit\Channel;
 use Kraken\Channel\Model\Null\NullModel;
 use Kraken\Channel\Model\Zmq\ZmqDealer;
 use Kraken\Channel\ChannelModelFactory;
-use Kraken\Loop\Loop;
+use Dazzle\Loop\Loop;
 use Kraken\Test\TUnit;
 
 class ChannelModelFactoryTest extends TUnit

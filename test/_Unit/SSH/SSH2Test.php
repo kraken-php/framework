@@ -2,7 +2,7 @@
 
 namespace Kraken\_Unit\SSH;
 
-use Kraken\Loop\LoopInterface;
+use Dazzle\Loop\LoopInterface;
 use Kraken\SSH\Driver\Sftp;
 use Kraken\SSH\Driver\Shell;
 use Kraken\SSH\SSH2;

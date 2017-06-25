@@ -7,7 +7,7 @@ use Kraken\Config\ConfigInterface;
 use Kraken\Container\ContainerInterface;
 use Kraken\Container\ServiceProvider;
 use Kraken\Container\ServiceProviderInterface;
-use Kraken\Loop\Timer\TimerCollection;
+use Dazzle\Loop\Timer\TimerCollection;
 use Kraken\Runtime\Container\ProcessManagerFactory;
 use Kraken\Runtime\Container\ThreadManagerFactory;
 use Kraken\Runtime\Runtime;

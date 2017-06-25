@@ -2,9 +2,9 @@
 
 namespace Kraken\_Unit\SSH\Driver;
 
-use Kraken\Loop\Loop;
-use Kraken\Loop\LoopInterface;
-use Kraken\Loop\Timer\TimerInterface;
+use Dazzle\Loop\Loop;
+use Dazzle\Loop\LoopInterface;
+use Dazzle\Loop\Timer\TimerInterface;
 use Kraken\SSH\Driver\Shell;
 use Kraken\SSH\Driver\Shell\ShellResource;
 use Kraken\SSH\SSH2;

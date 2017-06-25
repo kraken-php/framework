@@ -2,7 +2,7 @@
 
 namespace Kraken\Event;
 
-use Kraken\Loop\LoopAwareTrait;
+use Dazzle\Loop\LoopAwareTrait;
 
 trait AsyncEventEmitterTrait
 {

@@ -5,7 +5,7 @@ namespace Kraken\_Module\Channel;
 use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelModelInterface;
 use Kraken\Channel\Model\Zmq\ZmqDealer;
-use Kraken\Loop\LoopInterface;
+use Dazzle\Loop\LoopInterface;
 use Kraken\Test\Simulation\Simulation;
 use Kraken\Test\Simulation\SimulationInterface;
 use Kraken\Test\TModule;

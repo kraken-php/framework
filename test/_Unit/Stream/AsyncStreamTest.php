@@ -2,7 +2,7 @@
 
 namespace Kraken\_Unit\Stream;
 
-use Kraken\Loop\LoopInterface;
+use Dazzle\Loop\LoopInterface;
 use Kraken\Stream\AsyncStream;
 
 class AsyncStreamTest extends AsyncStreamWriterTest

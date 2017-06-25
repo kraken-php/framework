@@ -54,7 +54,7 @@ class ConsoleProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function boot(ContainerInterface $container)
     {
         $console = $container->make('Kraken\Console\Client\ClientInterface');
-        $loop    = $container->make('Kraken\Loop\LoopExtendedInterface');
+        $loop    = $container->make('Dazzle\Loop\LoopExtendedInterface');
 
         $console->setLoop($loop);
     }

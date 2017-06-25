@@ -370,7 +370,7 @@ return [
          * This variable should contain className of object that implements Loop\LoopModelInterface
          * -------------------------------------------------------------------------------------------------------------
          */
-        'model' => 'Kraken\Loop\Model\SelectLoop'
+        'model' => 'Dazzle\Loop\Model\SelectLoop'
     ],
 
     /**

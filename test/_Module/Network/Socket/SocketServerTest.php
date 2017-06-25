@@ -5,7 +5,7 @@ namespace Kraken\_Module\Network\Socket;
 use Kraken\_Module\Network\_Mock\ComponentMock;
 use Kraken\Ipc\Socket\Socket;
 use Kraken\Ipc\Socket\SocketListener;
-use Kraken\Loop\LoopInterface;
+use Dazzle\Loop\LoopInterface;
 use Kraken\Test\Simulation\SimulationInterface;
 use Kraken\Network\Socket\SocketServer;
 use Kraken\Test\TModule;

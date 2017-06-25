@@ -13,7 +13,7 @@ class EventProvider extends ServiceProvider implements ServiceProviderInterface
      * @var string[]
      */
     protected $requires = [
-        'Kraken\Loop\LoopInterface'
+        'Dazzle\Loop\LoopInterface'
     ];
 
     /**
@@ -29,7 +29,7 @@ class EventProvider extends ServiceProvider implements ServiceProviderInterface
     protected function register(ContainerInterface $container)
     {
         $emitter = new EventEmitter(
-            $container->make('Kraken\Loop\LoopInterface')
+            $container->make('Dazzle\Loop\LoopInterface')
         );
 
         $container->instance(

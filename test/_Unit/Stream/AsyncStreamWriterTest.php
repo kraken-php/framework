@@ -2,9 +2,9 @@
 
 namespace Kraken\_Unit\Stream;
 
-use Kraken\Loop\Model\SelectLoop;
-use Kraken\Loop\Loop;
-use Kraken\Loop\LoopInterface;
+use Dazzle\Loop\Model\SelectLoop;
+use Dazzle\Loop\Loop;
+use Dazzle\Loop\LoopInterface;
 use Kraken\Stream\AsyncStreamWriter;
 
 class AsyncStreamWriterTest extends StreamSeekerTest

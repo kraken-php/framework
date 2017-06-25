@@ -2,10 +2,10 @@
 
 namespace Kraken\Test;
 
-use Kraken\Loop\Model\SelectLoop;
-use Kraken\Loop\Loop;
-use Kraken\Loop\LoopExtendedInterface;
-use Kraken\Loop\LoopInterface;
+use Dazzle\Loop\Model\SelectLoop;
+use Dazzle\Loop\Loop;
+use Dazzle\Loop\LoopExtendedInterface;
+use Dazzle\Loop\LoopInterface;
 use Kraken\Test\Simulation\Event;
 use Kraken\Test\Simulation\Simulation;
 use Exception;

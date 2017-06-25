@@ -4,9 +4,9 @@ namespace Kraken\_Unit\Runtime;
 
 use Kraken\Core\Core;
 use Kraken\Event\EventEmitter;
-use Kraken\Loop\Loop;
-use Kraken\Loop\LoopInterface;
-use Kraken\Loop\Model\SelectLoop;
+use Dazzle\Loop\Loop;
+use Dazzle\Loop\LoopInterface;
+use Dazzle\Loop\Model\SelectLoop;
 use Kraken\Promise\PromiseFulfilled;
 use Kraken\Promise\PromiseRejected;
 use Kraken\Runtime\Runtime;

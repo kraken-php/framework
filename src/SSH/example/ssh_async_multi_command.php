@@ -10,8 +10,8 @@
 
 require __DIR__ . '/../../autoload.php';
 
-use Kraken\Loop\Model\SelectLoop;
-use Kraken\Loop\Loop;
+use Dazzle\Loop\Model\SelectLoop;
+use Dazzle\Loop\Loop;
 use Kraken\SSH\Auth\SSH2Password;
 use Kraken\SSH\SSH2;
 use Kraken\SSH\SSH2Config;

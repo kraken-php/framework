@@ -9,7 +9,6 @@ git subsplit publish --heads="master 0.4" --no-tags src/Event:git@github.com:kra
 git subsplit publish --heads="master 0.4" --no-tags src/Filesystem:git@github.com:kraken-php/filesystem.git
 git subsplit publish --heads="master 0.4" --no-tags src/Ipc:git@github.com:kraken-php/ipc.git
 git subsplit publish --heads="master 0.4" --no-tags src/Log:git@github.com:kraken-php/log.git
-git subsplit publish --heads="master 0.4" --no-tags src/Loop:git@github.com:kraken-php/loop.git
 git subsplit publish --heads="master 0.4" --no-tags src/Network:git@github.com:kraken-php/network.git
 git subsplit publish --heads="master 0.4" --no-tags src/Promise:git@github.com:kraken-php/promise.git
 git subsplit publish --heads="master 0.4" --no-tags src/Root:git@github.com:kraken-php/root.git

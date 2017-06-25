@@ -59,7 +59,7 @@ class ServerCore extends Core implements CoreInterface
             'Filesystem.Disk'   => 'Kraken\Filesystem\FilesystemInterface',
             'Filesystem.Cloud'  => 'Kraken\Filesystem\FilesystemManagerInterface',
             'Logger'            => 'Kraken\Log\LoggerInterface',
-            'Loop'              => 'Kraken\Loop\LoopInterface',
+            'Loop'              => 'Dazzle\Loop\LoopInterface',
             'Project.Manager'   => 'Kraken\Console\Server\Manager\ProjectManagerInterface',
             'Runtime'           => 'Kraken\Runtime\RuntimeContainerInterface',
             'Runtime.Context'   => 'Kraken\Runtime\RuntimeContextInterface',

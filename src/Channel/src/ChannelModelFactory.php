@@ -5,7 +5,7 @@ namespace Kraken\Channel;
 use Kraken\Channel\Model\Null\NullModel;
 use Kraken\Channel\Model\Socket\Socket;
 use Kraken\Channel\Model\Zmq\ZmqDealer;
-use Kraken\Loop\LoopInterface;
+use Dazzle\Loop\LoopInterface;
 use Dazzle\Util\Factory\Factory;
 
 class ChannelModelFactory extends Factory implements ChannelModelFactoryInterface

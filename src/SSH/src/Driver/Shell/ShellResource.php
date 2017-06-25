@@ -3,7 +3,7 @@
 namespace Kraken\SSH\Driver\Shell;
 
 use Kraken\Event\BaseEventEmitterTrait;
-use Kraken\Loop\LoopInterface;
+use Dazzle\Loop\LoopInterface;
 use Kraken\SSH\SSH2DriverInterface;
 use Kraken\SSH\SSH2ResourceInterface;
 use Dazzle\Throwable\Exception\Runtime\ReadException;

@@ -10,7 +10,7 @@ use Kraken\Channel\Router\RuleHandle\RuleHandler;
 use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\ChannelComposite;
-use Kraken\Loop\LoopInterface;
+use Dazzle\Loop\LoopInterface;
 use Kraken\Test\Simulation\Simulation;
 use Dazzle\Util\Parser\Json\JsonParser;
 use Kraken\Test\Simulation\SimulationInterface;
