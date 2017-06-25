@@ -26,10 +26,12 @@
         "php": ">=5.6.7",
         "dazzle-php/event": "0.5.*",
         "dazzle-php/loop": "0.5.*",
+        "dazzle-php/socket": "0.5.*",
         "dazzle-php/stream": "0.5.*",
         "dazzle-php/ssh": "0.5.*",
         "dazzle-php/throwable": "0.5.*",
         "dazzle-php/util": "0.5.*",
+        "dazzle-php/zmq": "0.5.*",
         "symfony/console": "^3.0",
         "symfony/http-foundation": "^3.0",
         "symfony/routing": "^3.0",
@@ -44,9 +46,7 @@
         "phpunit/phpunit": ">=4.8.0 <5.4.0"
     },
     "suggest": {
-        "ext-zmq": "*",
-        "ext-fileinfo": "*",
-        "ext-ssh2": "*"
+        "ext-fileinfo": "*"
     },
     "replace": {
         "kraken-php/channel": "self.version",
@@ -56,7 +56,6 @@
         "kraken-php/core": "self.version",
         "kraken-php/environment": "self.version",
         "kraken-php/filesystem": "self.version",
-        "kraken-php/ipc": "self.version",
         "kraken-php/log": "self.version",
         "kraken-php/network": "self.version",
         "kraken-php/promise": "self.version",
@@ -74,7 +73,6 @@
             "Kraken\\Core\\": "src/Core/src",
             "Kraken\\Environment\\": "src/Environment/src",
             "Kraken\\Filesystem\\": "src/Filesystem/src",
-            "Kraken\\Ipc\\": "src/Ipc/src",
             "Kraken\\Log\\": "src/Log/src",
             "Kraken\\Network\\": "src/Network/src",
             "Kraken\\Promise\\": "src/Promise/src",

@@ -2,7 +2,7 @@
 
 namespace Kraken\_Unit\Network\Socket;
 
-use Kraken\Ipc\Socket\SocketInterface;
+use Dazzle\Socket\SocketInterface;
 use Kraken\Network\NetworkConnection;
 use Kraken\Network\NetworkConnectionInterface;
 use Kraken\Test\TUnit;

@@ -2,7 +2,7 @@
 
 namespace Kraken\_Unit\Network;
 
-use Kraken\Ipc\Socket\SocketListener;
+use Dazzle\Socket\SocketListener;
 use Dazzle\Loop\Loop;
 use Kraken\Network\Http\Component\Router\HttpRouter;
 use Kraken\Network\NetworkComponentInterface;

@@ -1,8 +1,8 @@
 <?php
 namespace Kraken\Network\Socket;
 
-use Kraken\Ipc\Socket\SocketInterface;
-use Kraken\Ipc\Socket\SocketListenerInterface;
+use Dazzle\Socket\SocketInterface;
+use Dazzle\Socket\SocketListenerInterface;
 use Kraken\Network\Null\NullServer;
 use Kraken\Network\NetworkComponentAwareInterface;
 use Kraken\Network\NetworkConnection;

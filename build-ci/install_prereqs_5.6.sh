@@ -12,5 +12,3 @@ TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR:-$(dirname $(dirname $CURRENT_DIR))}"
 
 source ${TRAVIS_BUILD_DIR}/build-ci/install_php_common.sh
 source ${TRAVIS_BUILD_DIR}/build-ci/install_php_5.sh
-
-install_ssh2

@@ -8,8 +8,8 @@ use Kraken\Channel\Model\Socket\Connection\ConnectionPool;
 use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelModelInterface;
 use Dazzle\Event\BaseEventEmitter;
-use Kraken\Ipc\Socket\SocketInterface;
-use Kraken\Ipc\Socket\SocketListenerInterface;
+use Dazzle\Socket\SocketInterface;
+use Dazzle\Socket\SocketListenerInterface;
 use Dazzle\Loop\Timer\TimerInterface;
 use Dazzle\Loop\LoopInterface;
 use Dazzle\Throwable\Exception\Runtime\ExecutionException;
@@ -404,7 +404,7 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
     protected function createBinder()
     {
         $binder = $this;
-        $socketListener = new \Kraken\Ipc\Socket\SocketListener($this->endpoint, $this->loop);
+        $socketListener = new \Dazzle\Socket\SocketListener($this->endpoint, $this->loop);
 
         $socketListener->on('connect', function(SocketListenerInterface $server, SocketInterface $client) use($binder) {
             $client->on('data', function(SocketInterface $client, $data) use($binder) {
@@ -426,7 +426,7 @@ class Socket extends BaseEventEmitter implements ChannelModelInterface
     {
         $connector = $this;
         $loop = $this->loop;
-        $socket = new \Kraken\Ipc\Socket\Socket($this->endpoint, $loop);
+        $socket = new \Dazzle\Socket\Socket($this->endpoint, $loop);
 
         $socket->on('data', function(SocketInterface $client, $data) use($connector) {
             $connector->onData($client, $data);

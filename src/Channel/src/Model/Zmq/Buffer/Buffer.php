@@ -2,7 +2,7 @@
 
 namespace Kraken\Channel\Model\Zmq\Buffer;
 
-use Kraken\Ipc\Zmq\ZmqSocket;
+use Dazzle\Zmq\ZmqSocket;
 
 /**
  * @codeCoverageIgnore

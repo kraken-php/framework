@@ -2,7 +2,7 @@
 
 namespace Kraken\Channel\Model\Socket\Connection;
 
-use Kraken\Ipc\Socket\SocketInterface;
+use Dazzle\Socket\SocketInterface;
 
 /**
  * @codeCoverageIgnore

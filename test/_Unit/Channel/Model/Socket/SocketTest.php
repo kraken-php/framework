@@ -5,7 +5,7 @@ namespace Kraken\_Unit\Channel\Model\Socket;
 use Kraken\Channel\Channel;
 use Kraken\Channel\Model\Socket\Socket;
 use Kraken\Channel\ChannelModelInterface;
-use Kraken\Ipc\Socket\SocketListenerInterface;
+use Dazzle\Socket\SocketListenerInterface;
 use Dazzle\Loop\Loop;
 use Kraken\Test\TUnit;
 

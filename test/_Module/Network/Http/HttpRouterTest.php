@@ -3,8 +3,8 @@
 namespace Kraken\_Module\Network\Http;
 
 use Kraken\_Module\Network\_Mock\ComponentMock;
-use Kraken\Ipc\Socket\Socket;
-use Kraken\Ipc\Socket\SocketListener;
+use Dazzle\Socket\Socket;
+use Dazzle\Socket\SocketListener;
 use Dazzle\Loop\LoopInterface;
 use Kraken\Test\Simulation\Simulation;
 use Kraken\Network\Http\Component\Router\HttpRouter;

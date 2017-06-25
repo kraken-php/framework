@@ -2,7 +2,7 @@
 
 namespace Kraken\_Unit\Network\Socket\Component\Firewall;
 
-use Kraken\Ipc\Socket\SocketListener;
+use Dazzle\Socket\SocketListener;
 use Kraken\Network\Null\NullServer;
 use Kraken\Network\NetworkComponentAwareInterface;
 use Kraken\Network\NetworkComponentInterface;

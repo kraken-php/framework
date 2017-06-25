@@ -2,7 +2,7 @@
 
 namespace Kraken\Network;
 
-use Kraken\Ipc\Socket\SocketInterface;
+use Dazzle\Socket\SocketInterface;
 
 class NetworkConnection implements NetworkConnectionInterface
 {

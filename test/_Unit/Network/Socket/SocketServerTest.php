@@ -2,9 +2,9 @@
 
 namespace Kraken\_Unit\Network\Socket;
 
-use Kraken\Ipc\Socket\SocketInterface;
-use Kraken\Ipc\Socket\SocketListener;
-use Kraken\Ipc\Socket\SocketListenerInterface;
+use Dazzle\Socket\SocketInterface;
+use Dazzle\Socket\SocketListener;
+use Dazzle\Socket\SocketListenerInterface;
 use Kraken\Network\Null\NullServer;
 use Kraken\Network\Socket\SocketServer;
 use Kraken\Network\Socket\SocketServerInterface;
