@@ -27,6 +27,7 @@
         "dazzle-php/event": "0.5.*",
         "dazzle-php/loop": "0.5.*",
         "dazzle-php/stream": "0.5.*",
+        "dazzle-php/ssh": "0.5.*",
         "dazzle-php/throwable": "0.5.*",
         "dazzle-php/util": "0.5.*",
         "symfony/console": "^3.0",
@@ -61,7 +62,6 @@
         "kraken-php/promise": "self.version",
         "kraken-php/root": "self.version",
         "kraken-php/runtime": "self.version",
-        "kraken-php/ssh": "self.version",
         "kraken-php/supervision": "self.version",
         "kraken-php/test": "self.version"
     },
@@ -80,7 +80,6 @@
             "Kraken\\Promise\\": "src/Promise/src",
             "Kraken\\Root\\": "src/Root/src",
             "Kraken\\Runtime\\": "src/Runtime/src",
-            "Kraken\\SSH\\": "src/SSH/src",
             "Kraken\\Supervision\\": "src/Supervision/src",
             "Kraken\\Test\\": "src/Test/src",
             "Kraken\\": "src"
