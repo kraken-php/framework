@@ -4,7 +4,7 @@ namespace Kraken\Log;
 
 use Kraken\Log\Handler\HandlerInterface;
 use Dazzle\Throwable\Exception\Runtime\WriteException;
-use Kraken\Util\Enum\EnumInterface;
+use Dazzle\Util\Enum\EnumInterface;
 use Psr\Log\LoggerInterface as PsrLoggerInterface;
 
 interface LoggerInterface extends EnumInterface, PsrLoggerInterface

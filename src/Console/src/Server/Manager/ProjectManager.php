@@ -12,7 +12,7 @@ use Kraken\Runtime\RuntimeContainerInterface;
 use Dazzle\Throwable\Exception\Logic\InstantiationException;
 use Dazzle\Throwable\Exception\Logic\ResourceOccupiedException;
 use Dazzle\Throwable\Exception\Runtime\ReadException;
-use Kraken\Util\System\SystemInterface;
+use Dazzle\Util\System\SystemInterface;
 use Error;
 use Exception;
 

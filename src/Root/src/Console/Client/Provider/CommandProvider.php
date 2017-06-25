@@ -9,7 +9,7 @@ use Kraken\Container\ServiceProviderInterface;
 use Kraken\Container\ContainerInterface;
 use Dazzle\Throwable\Exception\Logic\ResourceUndefinedException;
 use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
-use Kraken\Util\Factory\FactoryPluginInterface;
+use Dazzle\Util\Factory\FactoryPluginInterface;
 use Exception;
 
 class CommandProvider extends ServiceProvider implements ServiceProviderInterface

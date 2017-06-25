@@ -5,7 +5,7 @@ namespace Kraken\_Module\Log;
 use Kraken\Log\Handler\HandlerInterface;
 use Kraken\Log\Logger;
 use Kraken\Log\LoggerFactory;
-use Kraken\Util\Support\StringSupport;
+use Dazzle\Util\Support\StringSupport;
 use Kraken\Test\TModule;
 use Monolog\Processor\TagProcessor;
 

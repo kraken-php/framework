@@ -5,7 +5,7 @@ namespace Kraken\Runtime\Container;
 use Kraken\Runtime\Container\Manager\ThreadManagerBase;
 use Kraken\Runtime\Container\Manager\ThreadManagerRemote;
 use Kraken\Runtime\Container\Manager\ThreadManagerNull;
-use Kraken\Util\Factory\Factory;
+use Dazzle\Util\Factory\Factory;
 use ReflectionClass;
 
 class ThreadManagerFactory extends Factory implements ThreadManagerFactoryInterface

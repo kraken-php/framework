@@ -4,7 +4,7 @@ namespace Kraken\_Unit\Config\Overwrite;
 
 use Kraken\Config\Overwrite\OverwriteIsolater;
 use Kraken\Test\TUnit;
-use Kraken\Util\Support\ArraySupport;
+use Dazzle\Util\Support\ArraySupport;
 
 class OverwriteIsolaterTest extends TUnit
 {

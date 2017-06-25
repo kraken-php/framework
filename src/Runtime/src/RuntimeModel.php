@@ -12,7 +12,7 @@ use Dazzle\Throwable\Exception\LogicException;
 use Dazzle\Throwable\Exception\Runtime\RejectionException;
 use Error;
 use Exception;
-use Kraken\Util\Support\HashSupport;
+use Dazzle\Util\Support\HashSupport;
 use ReflectionClass;
 
 class RuntimeModel implements RuntimeModelInterface

@@ -7,7 +7,7 @@ use Kraken\Config\Overwrite\OverwriteMerger;
 use Kraken\Filesystem\Filesystem;
 use Kraken\Filesystem\FilesystemAdapterFactory;
 use Kraken\Test\TModule;
-use Kraken\Util\Parser\Json\JsonParser;
+use Dazzle\Util\Parser\Json\JsonParser;
 
 /**
  * @runTestsInSeparateProcesses

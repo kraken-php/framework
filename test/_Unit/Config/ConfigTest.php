@@ -4,7 +4,7 @@ namespace Kraken\_Unit\Config;
 
 use Kraken\Config\Config;
 use Kraken\Config\Overwrite\OverwriteMerger;
-use Kraken\Util\Support\ArraySupport;
+use Dazzle\Util\Support\ArraySupport;
 use Kraken\Test\TUnit;
 
 class ConfigTest extends TUnit

@@ -2,7 +2,7 @@
 
 namespace Kraken\Config\Overwrite;
 
-use Kraken\Util\Support\ArraySupport;
+use Dazzle\Util\Support\ArraySupport;
 
 class OverwriteMerger
 {

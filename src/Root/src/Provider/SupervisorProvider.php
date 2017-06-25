@@ -10,7 +10,7 @@ use Kraken\Supervision\SolverFactoryInterface;
 use Kraken\Supervision\Supervisor;
 use Dazzle\Throwable\Exception\Logic\ResourceUndefinedException;
 use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
-use Kraken\Util\Factory\FactoryPluginInterface;
+use Dazzle\Util\Factory\FactoryPluginInterface;
 use Exception;
 
 class SupervisorProvider extends ServiceProvider implements ServiceProviderInterface

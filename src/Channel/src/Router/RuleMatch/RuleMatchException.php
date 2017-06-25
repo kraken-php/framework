@@ -3,7 +3,7 @@
 namespace Kraken\Channel\Router\RuleMatch;
 
 use Kraken\Channel\Protocol\ProtocolInterface;
-use Kraken\Util\Support\StringSupport;
+use Dazzle\Util\Support\StringSupport;
 
 class RuleMatchException
 {

@@ -4,7 +4,7 @@ namespace Kraken\Filesystem\Factory;
 
 use Kraken\Filesystem\Adapter\AdapterLocal;
 use Kraken\Filesystem\FilesystemAdapterSimpleFactory;
-use Kraken\Util\Factory\SimpleFactoryInterface;
+use Dazzle\Util\Factory\SimpleFactoryInterface;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\AdapterInterface;
 

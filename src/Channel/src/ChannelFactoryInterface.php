@@ -2,7 +2,7 @@
 
 namespace Kraken\Channel;
 
-use Kraken\Util\Factory\FactoryInterface;
+use Dazzle\Util\Factory\FactoryInterface;
 
 interface ChannelFactoryInterface extends FactoryInterface
 {}

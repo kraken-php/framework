@@ -9,7 +9,7 @@ use Kraken\Network\Null\NullServer;
 use Kraken\Network\NetworkMessageInterface;
 use Kraken\Network\NetworkComponentInterface;
 use Kraken\Network\NetworkConnectionInterface;
-use Kraken\Util\Buffer\Buffer;
+use Dazzle\Util\Buffer\Buffer;
 use Error;
 use Exception;
 

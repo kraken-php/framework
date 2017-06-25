@@ -2,7 +2,7 @@
 
 namespace Kraken\Network\Websocket\Driver\Version;
 
-use Kraken\Util\Factory\Factory;
+use Dazzle\Util\Factory\Factory;
 use Ratchet\WebSocket\Encoding\ValidatorInterface;
 
 class VersionFactory extends Factory implements VersionFactoryInterface

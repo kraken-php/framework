@@ -105,7 +105,7 @@ class ProcessCoreTest extends TUnit
             'Supervisor'        => 'Kraken\Runtime\Supervision\SupervisorBaseInterface',
             'Supervisor.Base'   => 'Kraken\Runtime\Supervision\SupervisorBaseInterface',
             'Supervisor.Remote' => 'Kraken\Runtime\Supervision\SupervisorRemoteInterface',
-            'System'            => 'Kraken\Util\System\SystemInterface'
+            'System'            => 'Dazzle\Util\System\SystemInterface'
         ];
     }
 

@@ -19,8 +19,8 @@ use Kraken\Filesystem\Filesystem;
 use Kraken\Filesystem\FilesystemAdapterFactory;
 use Kraken\Runtime\Runtime;
 use Dazzle\Throwable\Exception\Runtime\ReadException;
-use Kraken\Util\Support\ArraySupport;
-use Kraken\Util\Support\StringSupport;
+use Dazzle\Util\Support\ArraySupport;
+use Dazzle\Util\Support\StringSupport;
 
 class ConfigProvider extends ServiceProvider implements ServiceProviderInterface
 {

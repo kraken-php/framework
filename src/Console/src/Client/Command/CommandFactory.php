@@ -2,7 +2,7 @@
 
 namespace Kraken\Console\Client\Command;
 
-use Kraken\Util\Factory\Factory;
+use Dazzle\Util\Factory\Factory;
 
 class CommandFactory extends Factory implements CommandFactoryInterface
 {

@@ -4,7 +4,7 @@ namespace Kraken\Network\Http\Driver\Reader;
 
 use Kraken\Network\Http\HttpRequestInterface;
 use Kraken\Network\Http\HttpResponseInterface;
-use Kraken\Util\Buffer\BufferInterface;
+use Dazzle\Util\Buffer\BufferInterface;
 use Exception;
 
 interface HttpReaderInterface

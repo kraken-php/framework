@@ -3,7 +3,7 @@
 namespace Kraken\Config;
 
 use Kraken\Config\Overwrite\OverwriteMerger;
-use Kraken\Util\Support\ArraySupport;
+use Dazzle\Util\Support\ArraySupport;
 
 class Config implements ConfigInterface
 {

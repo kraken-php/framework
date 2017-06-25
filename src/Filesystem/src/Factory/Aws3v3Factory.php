@@ -3,7 +3,7 @@
 namespace Kraken\Filesystem\Factory;
 
 use Kraken\Filesystem\FilesystemAdapterSimpleFactory;
-use Kraken\Util\Factory\SimpleFactoryInterface;
+use Dazzle\Util\Factory\SimpleFactoryInterface;
 use Aws\S3\S3Client;
 use League\Flysystem\AwsS3v3\AwsS3Adapter;
 use League\Flysystem\AdapterInterface;

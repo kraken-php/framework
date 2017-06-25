@@ -3,7 +3,7 @@
 namespace Kraken\Root\Console\Client\Boot;
 
 use Kraken\Console\Client\ClientInterface;
-use Kraken\Util\Support\StringSupport;
+use Dazzle\Util\Support\StringSupport;
 use ReflectionClass;
 
 class ClientBoot

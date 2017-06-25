@@ -3,7 +3,7 @@
 namespace Kraken\Filesystem\Factory;
 
 use Kraken\Filesystem\FilesystemAdapterSimpleFactory;
-use Kraken\Util\Factory\SimpleFactoryInterface;
+use Dazzle\Util\Factory\SimpleFactoryInterface;
 use Danhunsaker\Flysystem\Redis\RedisAdapter;
 use League\Flysystem\AdapterInterface;
 use Predis\Client;

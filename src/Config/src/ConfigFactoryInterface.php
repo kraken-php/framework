@@ -2,7 +2,7 @@
 
 namespace Kraken\Config;
 
-use Kraken\Util\Factory\SimpleFactoryInterface;
+use Dazzle\Util\Factory\SimpleFactoryInterface;
 
 interface ConfigFactoryInterface extends SimpleFactoryInterface
 {}

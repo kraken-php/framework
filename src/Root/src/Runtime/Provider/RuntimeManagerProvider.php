@@ -17,8 +17,8 @@ use Kraken\Runtime\RuntimeManagerFactoryInterface;
 use Kraken\Runtime\RuntimeManagerInterface;
 use Dazzle\Throwable\Exception\System\ChildUnresponsiveException;
 use Dazzle\Throwable\Exception\System\ParentUnresponsiveException;
-use Kraken\Util\Support\ArraySupport;
-use Kraken\Util\System\SystemUnix;
+use Dazzle\Util\Support\ArraySupport;
+use Dazzle\Util\System\SystemUnix;
 
 class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderInterface
 {
@@ -31,7 +31,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
         'Kraken\Filesystem\FilesystemInterface',
         'Kraken\Runtime\RuntimeContainerInterface',
         'Kraken\Runtime\Service\ChannelInternal',
-        'Kraken\Util\System\SystemInterface'
+        'Dazzle\Util\System\SystemInterface'
     ];
 
     /**
@@ -48,7 +48,7 @@ class RuntimeManagerProvider extends ServiceProvider implements ServiceProviderI
      */
     protected function register(ContainerInterface $container)
     {
-        $system  = $container->make('Kraken\Util\System\SystemInterface');
+        $system  = $container->make('Dazzle\Util\System\SystemInterface');
         $core    = $container->make('Kraken\Core\CoreInterface');
         $config  = $container->make('Kraken\Config\ConfigInterface');
         $fs      = $container->make('Kraken\Filesystem\FilesystemInterface');

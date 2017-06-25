@@ -14,7 +14,7 @@ use Kraken\Network\NetworkComponentInterface;
 use Kraken\Network\NetworkConnectionInterface;
 use Kraken\Network\NetworkMessage;
 use Kraken\Network\NetworkMessageInterface;
-use Kraken\Util\Buffer\Buffer;
+use Dazzle\Util\Buffer\Buffer;
 use Kraken\Test\TUnit;
 use Exception;
 

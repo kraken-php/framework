@@ -5,7 +5,7 @@ namespace Kraken\Log;
 use Kraken\Log\Handler\HandlerInterface;
 use Dazzle\Throwable\Exception\Logic\InstantiationException;
 use Dazzle\Throwable\Exception\Runtime\WriteException;
-use Kraken\Util\Enum\EnumTrait;
+use Dazzle\Util\Enum\EnumTrait;
 use Monolog\Logger as Monolog;
 use Error;
 use Exception;

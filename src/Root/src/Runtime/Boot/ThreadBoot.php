@@ -6,7 +6,7 @@ use Kraken\Runtime\Container\Thread\ThreadController;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeContainerInterface;
 use Dazzle\Throwable\Exception\Logic\InstantiationException;
-use Kraken\Util\Support\StringSupport;
+use Dazzle\Util\Support\StringSupport;
 use Exception;
 use ReflectionClass;
 

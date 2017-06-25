@@ -11,8 +11,8 @@ use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
 use Dazzle\Throwable\Exception\Logic\ResourceOccupiedException;
 use Dazzle\Throwable\Exception\Logic\ResourceUndefinedException;
-use Kraken\Util\Support\GeneratorSupport;
-use Kraken\Util\Support\TimeSupport;
+use Dazzle\Util\Support\GeneratorSupport;
+use Dazzle\Util\Support\TimeSupport;
 
 class ChannelComposite extends BaseEventEmitter implements ChannelCompositeInterface
 {

@@ -6,8 +6,8 @@ use Kraken\Container\ContainerInterface;
 use Kraken\Container\ServiceProvider;
 use Kraken\Container\ServiceProviderInterface;
 use Kraken\Runtime\Runtime;
-use Kraken\Util\Isolate\Isolate;
-use Kraken\Util\System\SystemUnix;
+use Dazzle\Util\Isolate\Isolate;
+use Dazzle\Util\System\SystemUnix;
 
 class SystemProvider extends ServiceProvider implements ServiceProviderInterface
 {
@@ -15,7 +15,7 @@ class SystemProvider extends ServiceProvider implements ServiceProviderInterface
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Util\System\SystemInterface'
+        'Dazzle\Util\System\SystemInterface'
     ];
 
     /**
@@ -27,7 +27,7 @@ class SystemProvider extends ServiceProvider implements ServiceProviderInterface
         $system  = new SystemUnix($isolate);
 
         $container->instance(
-            'Kraken\Util\System\SystemInterface',
+            'Dazzle\Util\System\SystemInterface',
             $system
         );
     }
@@ -38,7 +38,7 @@ class SystemProvider extends ServiceProvider implements ServiceProviderInterface
     protected function unregister(ContainerInterface $container)
     {
         $container->remove(
-            'Kraken\Util\System\SystemInterface'
+            'Dazzle\Util\System\SystemInterface'
         );
     }
 }

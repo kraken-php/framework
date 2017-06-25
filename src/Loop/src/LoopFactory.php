@@ -3,8 +3,8 @@
 namespace Kraken\Loop;
 
 use Kraken\Loop\Model\SelectLoop;
-use Kraken\Util\Factory\Factory;
-use Kraken\Util\Factory\FactoryInterface;
+use Dazzle\Util\Factory\Factory;
+use Dazzle\Util\Factory\FactoryInterface;
 
 class LoopFactory extends Factory implements FactoryInterface
 {

@@ -3,8 +3,8 @@
 namespace Kraken\_Unit\Environment\_Mock;
 
 use Kraken\Environment\Environment;
-use Kraken\Util\Invoker\Invoker;
-use Kraken\Util\Invoker\InvokerInterface;
+use Dazzle\Util\Invoker\Invoker;
+use Dazzle\Util\Invoker\InvokerInterface;
 
 class EnvironmentMock extends Environment
 {

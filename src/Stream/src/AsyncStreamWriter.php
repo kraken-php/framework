@@ -6,8 +6,8 @@ use Dazzle\Throwable\Exception\Runtime\WriteException;
 use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
-use Kraken\Util\Buffer\Buffer;
-use Kraken\Util\Buffer\BufferInterface;
+use Dazzle\Util\Buffer\Buffer;
+use Dazzle\Util\Buffer\BufferInterface;
 use Error;
 use Exception;
 

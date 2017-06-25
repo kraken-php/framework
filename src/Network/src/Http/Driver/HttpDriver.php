@@ -4,7 +4,7 @@ namespace Kraken\Network\Http\Driver;
 
 use Kraken\Network\Http\Driver\Reader\HttpReader;
 use Kraken\Network\Http\Driver\Reader\HttpReaderInterface;
-use Kraken\Util\Buffer\BufferInterface;
+use Dazzle\Util\Buffer\BufferInterface;
 
 class HttpDriver implements HttpDriverInterface
 {

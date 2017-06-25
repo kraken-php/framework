@@ -3,8 +3,8 @@
 namespace Kraken\Config;
 
 use Kraken\Filesystem\FilesystemInterface;
-use Kraken\Util\Factory\SimpleFactory;
-use Kraken\Util\Parser\ParserInterface;
+use Dazzle\Util\Factory\SimpleFactory;
+use Dazzle\Util\Parser\ParserInterface;
 
 class ConfigFactory extends SimpleFactory implements ConfigFactoryInterface
 {

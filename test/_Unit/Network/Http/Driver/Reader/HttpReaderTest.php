@@ -7,7 +7,7 @@ use Dazzle\Throwable\Exception\Runtime\ReadException;
 use Kraken\Network\Http\Driver\Parser\HttpParser;
 use Kraken\Network\Http\Driver\Reader\HttpReader;
 use Kraken\Network\Http\Driver\Reader\HttpReaderInterface;
-use Kraken\Util\Buffer\Buffer;
+use Dazzle\Util\Buffer\Buffer;
 use Kraken\Test\TUnit;
 use Exception;
 use StdClass;

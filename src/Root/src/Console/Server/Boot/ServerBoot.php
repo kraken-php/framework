@@ -4,7 +4,7 @@ namespace Kraken\Root\Console\Server\Boot;
 
 use Kraken\Runtime\Container\Process\ProcessController;
 use Kraken\Runtime\RuntimeContainerInterface;
-use Kraken\Util\Support\StringSupport;
+use Dazzle\Util\Support\StringSupport;
 use ReflectionClass;
 
 class ServerBoot

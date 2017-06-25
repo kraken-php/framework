@@ -2,7 +2,7 @@
 
 namespace Kraken\Filesystem;
 
-use Kraken\Util\Factory\FactoryInterface;
+use Dazzle\Util\Factory\FactoryInterface;
 
 interface FilesystemAdapterFactoryInterface extends FactoryInterface
 {}

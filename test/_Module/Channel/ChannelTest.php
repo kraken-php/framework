@@ -11,7 +11,7 @@ use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelInterface;
 use Kraken\Loop\LoopInterface;
 use Kraken\Test\Simulation\Simulation;
-use Kraken\Util\Parser\Json\JsonParser;
+use Dazzle\Util\Parser\Json\JsonParser;
 use Kraken\Test\Simulation\SimulationInterface;
 use Kraken\Test\TModule;
 use ReflectionClass;

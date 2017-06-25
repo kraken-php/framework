@@ -3,7 +3,7 @@
 namespace Kraken\Filesystem\Factory;
 
 use Kraken\Filesystem\FilesystemAdapterSimpleFactory;
-use Kraken\Util\Factory\SimpleFactoryInterface;
+use Dazzle\Util\Factory\SimpleFactoryInterface;
 use League\Flysystem\Rackspace\RackspaceAdapter;
 use League\Flysystem\AdapterInterface;
 use OpenCloud\Rackspace;

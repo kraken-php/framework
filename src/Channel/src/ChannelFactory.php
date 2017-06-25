@@ -7,8 +7,8 @@ use Kraken\Channel\Encoder\EncoderInterface;
 use Kraken\Channel\Router\Router;
 use Kraken\Channel\Router\RouterComposite;
 use Kraken\Loop\LoopInterface;
-use Kraken\Util\Factory\Factory;
-use Kraken\Util\Parser\Json\JsonParser;
+use Dazzle\Util\Factory\Factory;
+use Dazzle\Util\Parser\Json\JsonParser;
 
 class ChannelFactory extends Factory implements ChannelFactoryInterface
 {

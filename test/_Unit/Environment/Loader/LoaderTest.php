@@ -5,7 +5,7 @@ namespace Kraken\_Unit\Environment;
 use Kraken\Runtime\RuntimeContextInterface;
 use Kraken\Environment\Loader\Loader;
 use Kraken\Test\TUnit;
-use Kraken\Util\Invoker\Invoker;
+use Dazzle\Util\Invoker\Invoker;
 
 class LoaderTest extends TUnit
 {

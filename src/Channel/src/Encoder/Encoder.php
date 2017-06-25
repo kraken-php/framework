@@ -3,7 +3,7 @@
 namespace Kraken\Channel\Encoder;
 
 use Kraken\Channel\Protocol\ProtocolInterface;
-use Kraken\Util\Parser\ParserInterface;
+use Dazzle\Util\Parser\ParserInterface;
 
 class Encoder implements EncoderInterface
 {

@@ -3,7 +3,7 @@
 namespace Kraken\Filesystem\Factory;
 
 use Kraken\Filesystem\FilesystemAdapterSimpleFactory;
-use Kraken\Util\Factory\SimpleFactoryInterface;
+use Dazzle\Util\Factory\SimpleFactoryInterface;
 use League\Flysystem\WebDAV\WebDAVAdapter;
 use League\Flysystem\AdapterInterface;
 use Sabre\DAV\Client;

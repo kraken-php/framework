@@ -8,7 +8,7 @@ use Kraken\Environment\Environment;
 use Kraken\Environment\EnvironmentInterface;
 use Kraken\Environment\Loader\Loader;
 use Kraken\Test\TUnit;
-use Kraken\Util\Invoker\Invoker;
+use Dazzle\Util\Invoker\Invoker;
 
 class EnvironmentTest extends TUnit
 {

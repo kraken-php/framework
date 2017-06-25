@@ -4,7 +4,7 @@ namespace Kraken\_Unit\Channel\Record;
 
 use Kraken\_Unit\Channel\_Mock\Record\ResponseRecordStorage;
 use Kraken\Channel\Record\ResponseRecord;
-use Kraken\Util\Support\TimeSupport;
+use Dazzle\Util\Support\TimeSupport;
 use Kraken\Test\TUnit;
 use Exception;
 

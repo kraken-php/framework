@@ -6,7 +6,7 @@ use Kraken\Network\Http\Driver\HttpDriverInterface;
 use Kraken\Network\Http\Driver\Reader\HttpReader;
 use Kraken\Network\Http\Driver\HttpDriver;
 use Kraken\Test\TUnit;
-use Kraken\Util\Buffer\Buffer;
+use Dazzle\Util\Buffer\Buffer;
 use StdClass;
 
 class HttpDriverTest extends TUnit

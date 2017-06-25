@@ -6,7 +6,7 @@ use Kraken\Console\Server\Manager\ProjectManager;
 use Kraken\Container\ContainerInterface;
 use Kraken\Container\ServiceProvider;
 use Kraken\Container\ServiceProviderInterface;
-use Kraken\Util\System\SystemUnix;
+use Dazzle\Util\System\SystemUnix;
 
 class ProjectProvider extends ServiceProvider implements ServiceProviderInterface
 {
@@ -18,7 +18,7 @@ class ProjectProvider extends ServiceProvider implements ServiceProviderInterfac
         'Kraken\Filesystem\FilesystemInterface',
         'Kraken\Runtime\RuntimeContainerInterface',
         'Kraken\Runtime\Service\ChannelInternal',
-        'Kraken\Util\System\SystemInterface'
+        'Dazzle\Util\System\SystemInterface'
     ];
 
     /**
@@ -36,7 +36,7 @@ class ProjectProvider extends ServiceProvider implements ServiceProviderInterfac
         $config  = $container->make('Kraken\Config\ConfigInterface');
         $runtime = $container->make('Kraken\Runtime\RuntimeContainerInterface');
         $channel = $container->make('Kraken\Runtime\Service\ChannelInternal');
-        $system  = $container->make('Kraken\Util\System\SystemInterface');
+        $system  = $container->make('Dazzle\Util\System\SystemInterface');
         $fs      = $container->make('Kraken\Filesystem\FilesystemInterface');
 
         $manager = new ProjectManager($runtime, $channel, $system, $fs);

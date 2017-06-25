@@ -5,7 +5,7 @@ namespace Kraken\Runtime\Container;
 use Kraken\Runtime\Container\Manager\ProcessManagerBase;
 use Kraken\Runtime\Container\Manager\ProcessManagerRemote;
 use Kraken\Runtime\Container\Manager\ProcessManagerNull;
-use Kraken\Util\Factory\Factory;
+use Dazzle\Util\Factory\Factory;
 use ReflectionClass;
 
 class ProcessManagerFactory extends Factory implements ProcessManagerFactoryInterface

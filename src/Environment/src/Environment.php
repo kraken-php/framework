@@ -4,8 +4,8 @@ namespace Kraken\Environment;
 
 use Kraken\Runtime\RuntimeContextInterface;
 use Kraken\Environment\Loader\Loader;
-use Kraken\Util\Invoker\Invoker;
-use Kraken\Util\Invoker\InvokerInterface;
+use Dazzle\Util\Invoker\Invoker;
+use Dazzle\Util\Invoker\InvokerInterface;
 
 class Environment implements EnvironmentInterface
 {

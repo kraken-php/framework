@@ -6,7 +6,7 @@ use Kraken\Channel\Encoder\Encoder;
 use Kraken\Channel\Protocol\Protocol;
 use Kraken\Channel\Protocol\ProtocolInterface;
 use Kraken\Test\TUnit;
-use Kraken\Util\Parser\ParserInterface;
+use Dazzle\Util\Parser\ParserInterface;
 
 class EncoderTest extends TUnit
 {

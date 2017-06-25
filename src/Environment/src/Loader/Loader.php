@@ -2,8 +2,8 @@
 
 namespace Kraken\Environment\Loader;
 
-use Kraken\Util\Invoker\Invoker;
-use Kraken\Util\Invoker\InvokerInterface;
+use Dazzle\Util\Invoker\Invoker;
+use Dazzle\Util\Invoker\InvokerInterface;
 
 class Loader extends \Dotenv\Loader
 {

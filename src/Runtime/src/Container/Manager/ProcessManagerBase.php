@@ -16,7 +16,7 @@ use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
 use Dazzle\Throwable\Exception\Logic\ResourceOccupiedException;
 use Dazzle\Throwable\Exception\Runtime\ReadException;
 use Dazzle\Throwable\Exception\Runtime\RejectionException;
-use Kraken\Util\System\SystemInterface;
+use Dazzle\Util\System\SystemInterface;
 use Error;
 use Exception;
 

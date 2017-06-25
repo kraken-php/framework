@@ -6,7 +6,7 @@ use Dazzle\Throwable\Exception\Runtime\ReadException;
 use Dazzle\Throwable\Exception\Logic\InvalidFormatException;
 use Kraken\Network\Http\Driver\Parser\HttpParser;
 use Kraken\Network\Http\Driver\Parser\HttpParserInterface;
-use Kraken\Util\Buffer\BufferInterface;
+use Dazzle\Util\Buffer\BufferInterface;
 use GuzzleHttp\Psr7;
 use Error;
 use Exception;

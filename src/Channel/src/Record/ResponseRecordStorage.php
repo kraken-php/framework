@@ -2,7 +2,7 @@
 
 namespace Kraken\Channel\Record;
 
-use Kraken\Util\Support\TimeSupport;
+use Dazzle\Util\Support\TimeSupport;
 use Dazzle\Throwable\Exception\System\TaskIncompleteException;
 
 trait ResponseRecordStorage
