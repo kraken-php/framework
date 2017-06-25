@@ -5,7 +5,7 @@ namespace Kraken\SSH\Driver\Sftp;
 use Dazzle\Loop\LoopAwareTrait;
 use Kraken\SSH\SSH2DriverInterface;
 use Kraken\SSH\SSH2ResourceInterface;
-use Kraken\Stream\Stream;
+use Dazzle\Stream\Stream;
 use Dazzle\Throwable\Exception\Runtime\ReadException;
 use Dazzle\Throwable\Exception\Runtime\WriteException;
 use Dazzle\Util\Buffer\Buffer;

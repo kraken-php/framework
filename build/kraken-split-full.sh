@@ -12,7 +12,6 @@ git subsplit publish --heads="master 0.4" src/Network:git@github.com:kraken-php/
 git subsplit publish --heads="master 0.4" src/Promise:git@github.com:kraken-php/promise.git
 git subsplit publish --heads="master 0.4" src/Root:git@github.com:kraken-php/root.git
 git subsplit publish --heads="master 0.4" src/Runtime:git@github.com:kraken-php/runtime.git
-git subsplit publish --heads="master 0.4" src/Stream:git@github.com:kraken-php/stream.git
 git subsplit publish --heads="master 0.4" src/SSH:git@github.com:kraken-php/ssh.git
 git subsplit publish --heads="master 0.4" src/Supervision:git@github.com:kraken-php/supervision.git
 git subsplit publish --heads="master 0.4" src/Test:git@github.com:kraken-php/test.git

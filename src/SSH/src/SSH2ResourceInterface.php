@@ -2,7 +2,7 @@
 
 namespace Kraken\SSH;
 
-use Kraken\Stream\AsyncStreamInterface;
+use Dazzle\Stream\AsyncStreamInterface;
 
 interface SSH2ResourceInterface extends AsyncStreamInterface
 {

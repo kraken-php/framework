@@ -4,7 +4,7 @@ namespace Kraken\Ipc\Socket;
 
 use Dazzle\Event\EventEmitterInterface;
 use Dazzle\Loop\LoopResourceInterface;
-use Kraken\Stream\StreamBaseInterface;
+use Dazzle\Stream\StreamBaseInterface;
 
 /**
  * @event connect : callable(object, SocketInterface)

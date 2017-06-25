@@ -3,7 +3,7 @@
 namespace Kraken\Ipc\Socket;
 
 use Dazzle\Loop\LoopInterface;
-use Kraken\Stream\AsyncStream;
+use Dazzle\Stream\AsyncStream;
 use Dazzle\Throwable\Exception\Logic\InstantiationException;
 use Dazzle\Throwable\Exception\Runtime\ExecutionException;
 use Dazzle\Throwable\Exception\LogicException;
