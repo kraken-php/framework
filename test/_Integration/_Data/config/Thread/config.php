@@ -109,21 +109,21 @@ return [
          */
         'channels' => [
             'master' => [
-                'class'  => 'Kraken\Channel\Model\Socket\Socket',
+                'class'  => 'Dazzle\ChannelSocket\Socket',
                 'config' => [
                     'type'      => '%channel.connector%',
                     'endpoint'  => '%inherited.master.endpoint%'
                 ]
             ],
             'slave' => [
-                'class'  => 'Kraken\Channel\Model\Socket\Socket',
+                'class'  => 'Dazzle\ChannelSocket\Socket',
                 'config' => [
                     'type'      => '%channel.binder%',
                     'endpoint'  => 'unix://%datapath%/temp/socket/%alias%.sock'
                 ]
             ],
             'console' => [
-                'class'  => 'Kraken\Channel\Model\Socket\Socket',
+                'class'  => 'Dazzle\ChannelSocket\Socket',
                 'config' => [
                     'type'      => '%channel.binder%',
                     'endpoint'  => 'tcp://%localhost%:2061'

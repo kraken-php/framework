@@ -3,9 +3,9 @@
 namespace Kraken\_Unit\Runtime\Supervision;
 
 use Kraken\_Unit\Runtime\_T\TSolver;
-use Kraken\Channel\Extra\Request;
-use Kraken\Channel\Protocol\Protocol;
-use Kraken\Channel\ChannelInterface;
+use Dazzle\Channel\Extra\Request;
+use Dazzle\Channel\Protocol\Protocol;
+use Dazzle\Channel\ChannelInterface;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\Supervision\Cmd\CmdEscalate;
 use Exception;

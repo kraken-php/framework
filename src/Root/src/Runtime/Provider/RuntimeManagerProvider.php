@@ -2,7 +2,7 @@
 
 namespace Kraken\Root\Runtime\Provider;
 
-use Kraken\Channel\ChannelCompositeInterface;
+use Dazzle\Channel\ChannelCompositeInterface;
 use Kraken\Config\ConfigInterface;
 use Kraken\Container\ContainerInterface;
 use Kraken\Container\ServiceProvider;

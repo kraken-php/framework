@@ -2,8 +2,8 @@
 
 namespace Kraken\_Unit\Console\Server\_T;
 
-use Kraken\Channel\Channel;
-use Kraken\Channel\ChannelInterface;
+use Dazzle\Channel\Channel;
+use Dazzle\Channel\ChannelInterface;
 use Kraken\Console\Server\Manager\ProjectManager;
 use Kraken\Console\Server\Manager\ProjectManagerInterface;
 use Kraken\Runtime\Command\CommandInterface;

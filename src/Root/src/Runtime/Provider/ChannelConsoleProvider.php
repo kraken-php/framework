@@ -2,9 +2,9 @@
 
 namespace Kraken\Root\Runtime\Provider;
 
-use Kraken\Channel\ChannelInterface;
-use Kraken\Channel\ChannelCompositeInterface;
-use Kraken\Channel\Router\RuleHandle\RuleHandler;
+use Dazzle\Channel\ChannelInterface;
+use Dazzle\Channel\ChannelCompositeInterface;
+use Dazzle\Channel\Router\RuleHandle\RuleHandler;
 use Kraken\Container\ContainerInterface;
 use Kraken\Container\ServiceProvider;
 use Kraken\Container\ServiceProviderInterface;
@@ -17,7 +17,7 @@ class ChannelConsoleProvider extends ServiceProvider implements ServiceProviderI
      */
     protected $requires = [
         'Kraken\Config\ConfigInterface',
-        'Kraken\Channel\ChannelFactoryInterface',
+        'Dazzle\Channel\ChannelFactoryInterface',
         'Kraken\Runtime\RuntimeContainerInterface',
         'Kraken\Runtime\Command\CommandManagerInterface'
     ];
@@ -35,13 +35,13 @@ class ChannelConsoleProvider extends ServiceProvider implements ServiceProviderI
     protected function register(ContainerInterface $container)
     {
         $config  = $container->make('Kraken\Config\ConfigInterface');
-        $factory = $container->make('Kraken\Channel\ChannelFactoryInterface');
+        $factory = $container->make('Dazzle\Channel\ChannelFactoryInterface');
         $runtime = $container->make('Kraken\Runtime\RuntimeContainerInterface');
 
-        $console = $factory->create('Kraken\Channel\Channel', [
+        $console = $factory->create('Dazzle\Channel\Channel', [
             $runtime->getParent() === null
                 ? $config->get('channel.channels.console.class')
-                : 'Kraken\Channel\Model\Null\NullModel',
+                : 'Dazzle\Channel\Model\Null\NullModel',
             array_merge(
                 $config->get('channel.channels.console.config'),
                 [ 'host' => Runtime::RESERVED_CONSOLE_CLIENT ]

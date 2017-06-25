@@ -2,8 +2,8 @@
 
 namespace Kraken\_Unit\Runtime\Command\_T;
 
-use Kraken\Channel\Channel;
-use Kraken\Channel\ChannelInterface;
+use Dazzle\Channel\Channel;
+use Dazzle\Channel\ChannelInterface;
 use Kraken\Runtime\Command\CommandInterface;
 use Kraken\Core\Core;
 use Kraken\Core\CoreInterface;

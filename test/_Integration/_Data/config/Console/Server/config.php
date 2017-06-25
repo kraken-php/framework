@@ -97,14 +97,14 @@ return [
          */
         'channels' => [
             'master' => [
-                'class'  => 'Kraken\Channel\Model\Socket\Socket',
+                'class'  => 'Dazzle\ChannelSocket\Socket',
                 'config' => [
                     'type'      => '%channel.binder%',
                     'endpoint'  => 'tcp://%localhost%:2060'
                 ]
             ],
             'slave' => [
-                'class'  => 'Kraken\Channel\Model\Socket\Socket',
+                'class'  => 'Dazzle\ChannelSocket\Socket',
                 'config' => [
                     'type'      => '%channel.connector%',
                     'endpoint'  => 'tcp://%localhost%:2061'

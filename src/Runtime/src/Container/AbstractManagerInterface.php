@@ -2,8 +2,8 @@
 
 namespace Kraken\Runtime\Container;
 
-use Kraken\Channel\Protocol\ProtocolInterface;
-use Kraken\Channel\Channel;
+use Dazzle\Channel\Protocol\ProtocolInterface;
+use Dazzle\Channel\Channel;
 use Dazzle\Promise\PromiseInterface;
 
 interface AbstractManagerInterface

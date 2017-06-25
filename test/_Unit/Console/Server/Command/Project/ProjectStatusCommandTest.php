@@ -3,9 +3,9 @@
 namespace Kraken\_Unit\Console\Server\Command\Project;
 
 use Kraken\_Unit\Console\Server\_T\TCommand;
-use Kraken\Channel\Extra\Request;
-use Kraken\Channel\Protocol\Protocol;
-use Kraken\Channel\ChannelInterface;
+use Dazzle\Channel\Extra\Request;
+use Dazzle\Channel\Protocol\Protocol;
+use Dazzle\Channel\ChannelInterface;
 use Kraken\Config\ConfigInterface;
 use Kraken\Console\Server\Command\Project\ProjectStatusCommand;
 use Dazzle\Promise\PromiseFulfilled;

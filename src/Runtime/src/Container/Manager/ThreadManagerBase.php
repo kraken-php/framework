@@ -2,9 +2,9 @@
 
 namespace Kraken\Runtime\Container\Manager;
 
-use Kraken\Channel\Channel;
-use Kraken\Channel\Extra\Request;
-use Kraken\Channel\ChannelInterface;
+use Dazzle\Channel\Channel;
+use Dazzle\Channel\Extra\Request;
+use Dazzle\Channel\ChannelInterface;
 use Dazzle\Promise\Promise;
 use Kraken\Runtime\Container\Thread\ThreadController;
 use Kraken\Runtime\Runtime;

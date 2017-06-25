@@ -2,12 +2,12 @@
 
 namespace Kraken\Root\Console\Server\Provider;
 
-use Kraken\Channel\Extra\Response;
-use Kraken\Channel\Protocol\ProtocolInterface;
-use Kraken\Channel\Router\RuleHandle\RuleHandler;
-use Kraken\Channel\Router\RuleMatch\RuleMatchDestination;
-use Kraken\Channel\Channel;
-use Kraken\Channel\ChannelCompositeInterface;
+use Dazzle\Channel\Extra\Response;
+use Dazzle\Channel\Protocol\ProtocolInterface;
+use Dazzle\Channel\Router\RuleHandle\RuleHandler;
+use Dazzle\Channel\Router\RuleMatch\RuleMatchDestination;
+use Dazzle\Channel\Channel;
+use Dazzle\Channel\ChannelCompositeInterface;
 use Kraken\Runtime\Command\CommandManagerInterface;
 use Kraken\Container\ContainerInterface;
 use Kraken\Container\ServiceProvider;
@@ -27,7 +27,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
     protected $requires = [
         'Kraken\Runtime\Command\CommandManagerInterface',
         'Kraken\Config\ConfigInterface',
-        'Kraken\Channel\ChannelFactoryInterface',
+        'Dazzle\Channel\ChannelFactoryInterface',
         'Kraken\Runtime\RuntimeContainerInterface'
     ];
 
@@ -52,14 +52,14 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
 
         $config  = $container->make('Kraken\Config\ConfigInterface');
         $runtime = $container->make('Kraken\Runtime\RuntimeContainerInterface');
-        $factory = $container->make('Kraken\Channel\ChannelFactoryInterface');
+        $factory = $container->make('Dazzle\Channel\ChannelFactoryInterface');
 
-        $master = $factory->create('Kraken\Channel\Channel', [
+        $master = $factory->create('Dazzle\Channel\Channel', [
             $config->get('channel.channels.master.class'),
             $config->get('channel.channels.master.config')
         ]);
 
-        $slave = $factory->create('Kraken\Channel\Channel', [
+        $slave = $factory->create('Dazzle\Channel\Channel', [
             $config->get('channel.channels.slave.class'),
             array_merge(
                 $config->get('channel.channels.slave.config'),
@@ -67,7 +67,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
             )
         ]);
 
-        $composite = $factory->create('Kraken\Channel\ChannelComposite')
+        $composite = $factory->create('Dazzle\Channel\ChannelComposite')
             ->setBus('master', $master)
             ->setBus('slave', $slave)
         ;

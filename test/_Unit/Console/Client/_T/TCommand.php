@@ -2,7 +2,7 @@
 
 namespace Kraken\_Unit\Console\Client\_T;
 
-use Kraken\Channel\ChannelInterface;
+use Dazzle\Channel\ChannelInterface;
 use Kraken\Runtime\Command\CommandInterface;
 use Kraken\Console\Client\Command\Command;
 use Kraken\Test\TUnit;

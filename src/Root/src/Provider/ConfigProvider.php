@@ -2,7 +2,7 @@
 
 namespace Kraken\Root\Provider;
 
-use Kraken\Channel\Channel;
+use Dazzle\Channel\Channel;
 use Kraken\Config\Config;
 use Kraken\Config\ConfigFactory;
 use Kraken\Config\ConfigInterface;

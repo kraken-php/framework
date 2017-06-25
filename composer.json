@@ -24,6 +24,9 @@
     ],
     "require": {
         "php": ">=5.6.7",
+        "dazzle-php/channel": "0.5.*",
+        "dazzle-php/channel-socket": "0.5.*",
+        "dazzle-php/channel-zmq": "0.5.*",
         "dazzle-php/event": "0.5.*",
         "dazzle-php/loop": "0.5.*",
         "dazzle-php/promise": "0.5.*",
@@ -50,7 +53,6 @@
         "ext-fileinfo": "*"
     },
     "replace": {
-        "kraken-php/channel": "self.version",
         "kraken-php/config": "self.version",
         "kraken-php/console": "self.version",
         "kraken-php/container": "self.version",
@@ -66,7 +68,6 @@
     },
     "autoload": {
         "psr-4": {
-            "Kraken\\Channel\\": "src/Channel/src",
             "Kraken\\Config\\": "src/Config/src",
             "Kraken\\Console\\": "src/Console/src",
             "Kraken\\Container\\": "src/Container/src",

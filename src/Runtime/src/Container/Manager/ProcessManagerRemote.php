@@ -2,10 +2,10 @@
 
 namespace Kraken\Runtime\Container\Manager;
 
-use Kraken\Channel\Channel;
+use Dazzle\Channel\Channel;
 use Dazzle\Promise\Promise;
-use Kraken\Channel\ChannelInterface;
-use Kraken\Channel\Extra\Request;
+use Dazzle\Channel\ChannelInterface;
+use Dazzle\Channel\Extra\Request;
 use Kraken\Runtime\Container\ProcessManagerInterface;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\Runtime;

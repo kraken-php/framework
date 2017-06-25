@@ -2,8 +2,11 @@
 
 namespace Kraken\Root\Provider;
 
-use Kraken\Channel\ChannelFactory;
-use Kraken\Channel\ChannelModelFactory;
+use Dazzle\Channel\Model\ModelFactory;
+use Dazzle\Channel\Channel;
+use Dazzle\Channel\ChannelFactory;
+use Dazzle\ChannelSocket\Socket;
+use Dazzle\ChannelZmq\ZmqDealer;
 use Kraken\Container\ContainerInterface;
 use Kraken\Container\ServiceProvider;
 use Kraken\Container\ServiceProviderInterface;
@@ -26,11 +29,11 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Channel\ChannelModelFactoryInterface',
-        'Kraken\Channel\ChannelModelInterface',
-        'Kraken\Channel\ChannelFactoryInterface',
-        'Kraken\Channel\ChannelInterface',
-        'Kraken\Channel\ChannelCompositeInterface'
+        'Dazzle\Channel\Model\ModelFactoryInterface',
+        'Dazzle\Channel\Model\ModelInterface',
+        'Dazzle\Channel\ChannelFactoryInterface',
+        'Dazzle\Channel\ChannelInterface',
+        'Dazzle\Channel\ChannelCompositeInterface'
     ];
 
     /**
@@ -41,33 +44,64 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
         $loop    = $container->make('Dazzle\Loop\LoopInterface');
         $context = $container->make('Kraken\Runtime\RuntimeContextInterface');
 
-        $modelFactory = new ChannelModelFactory($context->getAlias(), $loop);
+        $modelFactory = new ModelFactory($context->getAlias(), $loop);
+        $modelFactory
+            ->define(Socket::class, function($config = []) use($modelFactory) {
+                return new Socket(
+                    isset($config['loop']) ? $config['loop'] : $modelFactory->getParam('loop'),
+                    array_merge(
+                        [
+                            'id'        => isset($config['name']) ? $config['name'] : $modelFactory->getParam('name'),
+                            'endpoint'  => '',
+                            'type'      => Channel::BINDER,
+                            'host'      => isset($config['name']) ? $config['name'] : $modelFactory->getParam('name')
+                        ],
+                        $config
+                    )
+                );
+            })
+            ->define(ZmqDealer::class, function($config = []) use($modelFactory) {
+                return new ZmqDealer(
+                    isset($config['loop']) ? $config['loop'] : $modelFactory->getParam('loop'),
+                    array_merge(
+                        [
+                            'id'        => isset($config['name']) ? $config['name'] : $modelFactory->getParam('name'),
+                            'endpoint'  => '',
+                            'type'      => Channel::BINDER,
+                            'host '     => isset($config['name']) ? $config['name'] : $modelFactory->getParam('name')
+                        ],
+                        $config
+                    )
+                );
+            })
+        ;
+
         $factory = new ChannelFactory($context->getAlias(), $modelFactory, $loop);
 
         $container->instance(
-            'Kraken\Channel\ChannelModelFactoryInterface',
+            'Dazzle\Channel\Model\ModelFactoryInterface',
             $modelFactory
         );
 
         $container->factory(
-            'Kraken\Channel\ChannelModelInterface',
+            'Dazzle\Channel\Model\ModelInterface',
             function() use($modelFactory) {
-                return $modelFactory->create('Kraken\Channel\Model\Null\NullModel');
+                return $modelFactory->create('Dazzle\Channel\Model\Null\NullModel');
             }
         );
 
         $container->instance(
-            'Kraken\Channel\ChannelFactoryInterface',
+            'Dazzle\Channel\ChannelFactoryInterface',
             $factory
         );
 
         $container->factory(
-            'Kraken\Channel\ChannelInterface',
+            'Dazzle\Channel\ChannelInterface',
             [ $factory, 'create' ]
         );
 
         $container->factory(
-            'Kraken\Channel\ChannelCompositeInterface',
+            'Dazzle\Channel\ChannelCompositeInterface',
             [ $factory, 'create' ]
         );
     }
@@ -78,23 +112,23 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function unregister(ContainerInterface $container)
     {
         $container->remove(
-            'Kraken\Channel\ChannelModelFactoryInterface'
+            'Dazzle\Channel\Model\ModelFactoryInterface'
         );
 
         $container->remove(
-            'Kraken\Channel\ChannelModelInterface'
+            'Dazzle\Channel\Model\ModelInterface'
         );
 
         $container->remove(
-            'Kraken\Channel\ChannelFactoryInterface'
+            'Dazzle\Channel\ChannelFactoryInterface'
         );
 
         $container->remove(
-            'Kraken\Channel\ChannelInterface'
+            'Dazzle\Channel\ChannelInterface'
         );
 
         $container->remove(
-            'Kraken\Channel\ChannelCompositeInterface'
+            'Dazzle\Channel\ChannelCompositeInterface'
         );
     }
 
@@ -105,7 +139,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
     protected function boot(ContainerInterface $container)
     {
         $config  = $container->make('Kraken\Config\ConfigInterface');
-        $factory = $container->make('Kraken\Channel\ChannelModelFactoryInterface');
+        $factory = $container->make('Dazzle\Channel\Model\ModelFactoryInterface');
 
         $models = (array) $config->get('channel.models');
         foreach ($models as $modelClass)

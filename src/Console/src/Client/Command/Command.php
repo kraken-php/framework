@@ -2,8 +2,8 @@
 
 namespace Kraken\Console\Client\Command;
 
-use Kraken\Channel\ChannelInterface;
-use Kraken\Channel\Extra\Request;
+use Dazzle\Channel\ChannelInterface;
+use Dazzle\Channel\Extra\Request;
 use Dazzle\Promise\Promise;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeCommand;

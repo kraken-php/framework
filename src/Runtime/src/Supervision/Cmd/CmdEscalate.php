@@ -2,9 +2,9 @@
 
 namespace Kraken\Runtime\Supervision\Cmd;
 
-use Kraken\Channel\Channel;
-use Kraken\Channel\ChannelInterface;
-use Kraken\Channel\Extra\Request;
+use Dazzle\Channel\Channel;
+use Dazzle\Channel\ChannelInterface;
+use Dazzle\Channel\Extra\Request;
 use Kraken\Runtime\Supervision\Solver;
 use Kraken\Supervision\SolverInterface;
 use Kraken\Runtime\RuntimeCommand;

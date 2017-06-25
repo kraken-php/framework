@@ -2,7 +2,7 @@
 
 namespace Kraken\Runtime\Service;
 
-use Kraken\Channel\ChannelInterface;
+use Dazzle\Channel\ChannelInterface;
 
 interface ChannelConsole extends ChannelInterface
 {}

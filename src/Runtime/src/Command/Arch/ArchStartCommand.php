@@ -2,8 +2,8 @@
 
 namespace Kraken\Runtime\Command\Arch;
 
-use Kraken\Channel\ChannelInterface;
-use Kraken\Channel\Extra\Request;
+use Dazzle\Channel\ChannelInterface;
+use Dazzle\Channel\Extra\Request;
 use Kraken\Runtime\Command\Command;
 use Kraken\Runtime\Command\CommandInterface;
 use Dazzle\Throwable\Exception\Runtime\RejectionException;

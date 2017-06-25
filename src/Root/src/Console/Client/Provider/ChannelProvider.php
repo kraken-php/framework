@@ -2,8 +2,8 @@
 
 namespace Kraken\Root\Console\Client\Provider;
 
-use Kraken\Channel\ChannelInterface;
-use Kraken\Channel\Router\RuleHandle\RuleHandler;
+use Dazzle\Channel\ChannelInterface;
+use Dazzle\Channel\Router\RuleHandle\RuleHandler;
 use Kraken\Container\ContainerInterface;
 use Kraken\Container\ServiceProvider;
 use Kraken\Container\ServiceProviderInterface;
@@ -17,7 +17,7 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
     protected $requires = [
         'Kraken\Config\ConfigInterface',
         'Kraken\Console\Client\ClientInterface',
-        'Kraken\Channel\ChannelFactoryInterface'
+        'Dazzle\Channel\ChannelFactoryInterface'
     ];
 
     /**
@@ -32,11 +32,11 @@ class ChannelProvider extends ServiceProvider implements ServiceProviderInterfac
      */
     protected function register(ContainerInterface $container)
     {
-        $factory = $container->make('Kraken\Channel\ChannelFactoryInterface');
+        $factory = $container->make('Dazzle\Channel\ChannelFactoryInterface');
         $config  = $container->make('Kraken\Config\ConfigInterface');
         $console = $container->make('Kraken\Console\Client\ClientInterface');
 
-        $channel = $factory->create('Kraken\Channel\Channel', [
+        $channel = $factory->create('Dazzle\Channel\Channel', [
             $config->get('channel.channels.console.class'),
             array_merge(
                 $config->get('channel.channels.console.config'),

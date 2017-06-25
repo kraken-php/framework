@@ -2,9 +2,9 @@
 
 namespace Kraken\_Unit\Runtime\Container\Manager;
 
-use Kraken\Channel\Extra\Request;
-use Kraken\Channel\Protocol\Protocol;
-use Kraken\Channel\ChannelInterface;
+use Dazzle\Channel\Extra\Request;
+use Dazzle\Channel\Protocol\Protocol;
+use Dazzle\Channel\ChannelInterface;
 use Dazzle\Promise\PromiseFulfilled;
 use Kraken\Runtime\Container\Manager\ThreadManagerRemote;
 use Kraken\Runtime\Container\ThreadManagerInterface;

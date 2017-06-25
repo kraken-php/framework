@@ -2,9 +2,9 @@
 
 namespace Kraken\Runtime;
 
-use Kraken\Channel\Channel;
-use Kraken\Channel\Extra\Request;
-use Kraken\Channel\ChannelInterface;
+use Dazzle\Channel\Channel;
+use Dazzle\Channel\Extra\Request;
+use Dazzle\Channel\ChannelInterface;
 use Dazzle\Promise\Promise;
 use Dazzle\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Runtime\Container\ProcessManagerInterface;
