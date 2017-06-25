@@ -2,7 +2,7 @@
 
 namespace Kraken\SSH;
 
-use Kraken\Event\BaseEventEmitterTrait;
+use Dazzle\Event\BaseEventEmitterTrait;
 use Dazzle\Loop\LoopAwareTrait;
 use Dazzle\Loop\LoopInterface;
 use Kraken\SSH\Driver\Sftp;

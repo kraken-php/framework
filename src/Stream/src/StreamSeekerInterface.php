@@ -2,7 +2,7 @@
 
 namespace Kraken\Stream;
 
-use Kraken\Event\EventEmitterInterface;
+use Dazzle\Event\EventEmitterInterface;
 use Dazzle\Throwable\Exception\Runtime\ReadException;
 use Dazzle\Throwable\Exception\Runtime\WriteException;
 

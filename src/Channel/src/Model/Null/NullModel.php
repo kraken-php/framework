@@ -3,7 +3,7 @@
 namespace Kraken\Channel\Model\Null;
 
 use Kraken\Channel\ChannelModelInterface;
-use Kraken\Event\BaseEventEmitter;
+use Dazzle\Event\BaseEventEmitter;
 
 class NullModel extends BaseEventEmitter implements ChannelModelInterface
 {

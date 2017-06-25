@@ -2,7 +2,7 @@
 
 namespace Kraken\Ipc\Socket;
 
-use Kraken\Event\BaseEventEmitter;
+use Dazzle\Event\BaseEventEmitter;
 use Dazzle\Throwable\Exception\Runtime\ExecutionException;
 use Dazzle\Throwable\Exception\Runtime\ReadException;
 use Dazzle\Throwable\Exception\Logic\InstantiationException;

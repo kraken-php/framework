@@ -2,7 +2,7 @@
 
 namespace Kraken\Test\Simulation;
 
-use Kraken\Event\EventEmitterInterface;
+use Dazzle\Event\EventEmitterInterface;
 use Dazzle\Loop\LoopInterface;
 use Kraken\Promise\PromiseInterface;
 

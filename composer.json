@@ -24,6 +24,7 @@
     ],
     "require": {
         "php": ">=5.6.7",
+        "dazzle-php/event": "0.5.*",
         "dazzle-php/loop": "0.5.*",
         "dazzle-php/throwable": "0.5.*",
         "dazzle-php/util": "0.5.*",
@@ -52,7 +53,6 @@
         "kraken-php/container": "self.version",
         "kraken-php/core": "self.version",
         "kraken-php/environment": "self.version",
-        "kraken-php/event": "self.version",
         "kraken-php/filesystem": "self.version",
         "kraken-php/ipc": "self.version",
         "kraken-php/log": "self.version",
@@ -73,7 +73,6 @@
             "Kraken\\Container\\": "src/Container/src",
             "Kraken\\Core\\": "src/Core/src",
             "Kraken\\Environment\\": "src/Environment/src",
-            "Kraken\\Event\\": "src/Event/src",
             "Kraken\\Filesystem\\": "src/Filesystem/src",
             "Kraken\\Ipc\\": "src/Ipc/src",
             "Kraken\\Log\\": "src/Log/src",

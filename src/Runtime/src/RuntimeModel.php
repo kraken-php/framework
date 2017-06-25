@@ -2,7 +2,7 @@
 
 namespace Kraken\Runtime;
 
-use Kraken\Event\EventEmitterInterface;
+use Dazzle\Event\EventEmitterInterface;
 use Kraken\Core\CoreInterface;
 use Kraken\Promise\Promise;
 use Kraken\Supervision\SupervisorInterface;

@@ -7,7 +7,7 @@ use Kraken\Channel\Model\Socket\Connection\Connection;
 use Kraken\Channel\Model\Socket\Connection\ConnectionPool;
 use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelModelInterface;
-use Kraken\Event\BaseEventEmitter;
+use Dazzle\Event\BaseEventEmitter;
 use Kraken\Ipc\Socket\SocketInterface;
 use Kraken\Ipc\Socket\SocketListenerInterface;
 use Dazzle\Loop\Timer\TimerInterface;

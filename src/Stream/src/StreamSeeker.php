@@ -2,7 +2,7 @@
 
 namespace Kraken\Stream;
 
-use Kraken\Event\BaseEventEmitter;
+use Dazzle\Event\BaseEventEmitter;
 use Dazzle\Throwable\Exception\Runtime\ReadException;
 use Dazzle\Throwable\Exception\Runtime\WriteException;
 use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;

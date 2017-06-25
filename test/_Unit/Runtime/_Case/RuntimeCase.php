@@ -3,8 +3,8 @@
 namespace Kraken\_Unit\Runtime\_Case;
 
 use Kraken\Core\Core;
-use Kraken\Event\EventEmitter;
-use Kraken\Event\EventListener;
+use Dazzle\Event\EventEmitter;
+use Dazzle\Event\EventListener;
 use Dazzle\Loop\Loop;
 use Kraken\Promise\Promise;
 use Kraken\Runtime\RuntimeContainer;

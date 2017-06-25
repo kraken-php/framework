@@ -53,7 +53,7 @@ class ServerCore extends Core implements CoreInterface
             'Config'            => 'Kraken\Config\ConfigInterface',
             'Container'         => 'Kraken\Container\ContainerInterface',
             'Core'              => 'Kraken\Core\CoreInterface',
-            'Emitter'           => 'Kraken\Event\EventEmitterInterface',
+            'Emitter'           => 'Dazzle\Event\EventEmitterInterface',
             'Environment'       => 'Kraken\Environment\EnvironmentInterface',
             'Filesystem'        => 'Kraken\Filesystem\FilesystemInterface',
             'Filesystem.Disk'   => 'Kraken\Filesystem\FilesystemInterface',

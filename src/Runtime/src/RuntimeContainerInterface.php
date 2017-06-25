@@ -3,8 +3,8 @@
 namespace Kraken\Runtime;
 
 use Kraken\Core\CoreGetterAwareInterface;
-use Kraken\Event\EventEmitterInterface;
-use Kraken\Event\EventListener;
+use Dazzle\Event\EventEmitterInterface;
+use Dazzle\Event\EventListener;
 use Dazzle\Loop\LoopGetterAwareInterface;
 use Kraken\Promise\PromiseInterface;
 use Error;

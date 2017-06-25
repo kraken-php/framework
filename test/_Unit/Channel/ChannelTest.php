@@ -11,7 +11,7 @@ use Kraken\Channel\Router\RouterCompositeInterface;
 use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\ChannelModelInterface;
-use Kraken\Event\EventListener;
+use Dazzle\Event\EventListener;
 use Dazzle\Loop\Loop;
 use Dazzle\Loop\LoopInterface;
 use Kraken\Test\TUnit;

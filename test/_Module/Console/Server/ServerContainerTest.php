@@ -6,7 +6,7 @@ use Kraken\_Module\Console\Server\_Mock\Supervision\ModelContinue;
 use Kraken\Console\Server\Server;
 use Kraken\Core\Core;
 use Kraken\Core\CoreInterface;
-use Kraken\Event\EventEmitterInterface;
+use Dazzle\Event\EventEmitterInterface;
 use Dazzle\Loop\Model\SelectLoop;
 use Dazzle\Loop\Loop;
 use Kraken\Runtime\Runtime;

@@ -4,7 +4,7 @@ namespace Kraken\_Unit\Console\Client;
 
 use Kraken\Console\Client\Client;
 use Kraken\Core\Core;
-use Kraken\Event\EventListener;
+use Dazzle\Event\EventListener;
 use Dazzle\Loop\Loop;
 use Kraken\Runtime\RuntimeContainer;
 use Kraken\Test\TUnit;

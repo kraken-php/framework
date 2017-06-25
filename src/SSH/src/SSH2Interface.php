@@ -2,7 +2,7 @@
 
 namespace Kraken\SSH;
 
-use Kraken\Event\EventEmitterInterface;
+use Dazzle\Event\EventEmitterInterface;
 use Dazzle\Loop\LoopGetterAwareInterface;
 use Dazzle\Throwable\Exception\LogicException;
 use Dazzle\Throwable\Exception\RuntimeException;

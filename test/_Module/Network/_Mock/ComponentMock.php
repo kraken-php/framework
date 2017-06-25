@@ -4,7 +4,7 @@ namespace Kraken\_Module\Network\_Mock;
 
 use Error;
 use Exception;
-use Kraken\Event\BaseEventEmitter;
+use Dazzle\Event\BaseEventEmitter;
 use Kraken\Network\Http\HttpRequestInterface;
 use Kraken\Network\NetworkComponentInterface;
 use Kraken\Network\NetworkConnectionInterface;

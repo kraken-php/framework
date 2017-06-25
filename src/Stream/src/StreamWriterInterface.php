@@ -2,7 +2,7 @@
 
 namespace Kraken\Stream;
 
-use Kraken\Event\EventEmitterInterface;
+use Dazzle\Event\EventEmitterInterface;
 
 /**
  * @event drain  : callable(object)

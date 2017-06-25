@@ -5,7 +5,6 @@ git subsplit publish --heads="master 0.4" src/Console:git@github.com:kraken-php/
 git subsplit publish --heads="master 0.4" src/Container:git@github.com:kraken-php/container.git
 git subsplit publish --heads="master 0.4" src/Core:git@github.com:kraken-php/core.git
 git subsplit publish --heads="master 0.4" src/Environment:git@github.com:kraken-php/environment.git
-git subsplit publish --heads="master 0.4" src/Event:git@github.com:kraken-php/event.git
 git subsplit publish --heads="master 0.4" src/Filesystem:git@github.com:kraken-php/filesystem.git
 git subsplit publish --heads="master 0.4" src/Ipc:git@github.com:kraken-php/ipc.git
 git subsplit publish --heads="master 0.4" src/Log:git@github.com:kraken-php/log.git

@@ -5,7 +5,7 @@ namespace Kraken\_Module\Runtime;
 use Kraken\_Module\Runtime\_Mock\Supervision\ModelContinue;
 use Kraken\Core\Core;
 use Kraken\Core\CoreInterface;
-use Kraken\Event\EventEmitterInterface;
+use Dazzle\Event\EventEmitterInterface;
 use Dazzle\Loop\Model\SelectLoop;
 use Dazzle\Loop\Loop;
 use Kraken\Runtime\Runtime;

@@ -4,7 +4,7 @@ namespace Kraken\Console\Client;
 
 use Kraken\Core\CoreAwareTrait;
 use Kraken\Core\CoreInterface;
-use Kraken\Event\BaseEventEmitter;
+use Dazzle\Event\BaseEventEmitter;
 use Dazzle\Loop\LoopExtendedAwareTrait;
 
 class Client extends BaseEventEmitter implements ClientInterface

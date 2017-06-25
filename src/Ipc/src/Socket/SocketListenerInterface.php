@@ -2,7 +2,7 @@
 
 namespace Kraken\Ipc\Socket;
 
-use Kraken\Event\EventEmitterInterface;
+use Dazzle\Event\EventEmitterInterface;
 use Dazzle\Loop\LoopResourceInterface;
 use Kraken\Stream\StreamBaseInterface;
 

@@ -2,7 +2,7 @@
 
 namespace Kraken\SSH\Driver;
 
-use Kraken\Event\BaseEventEmitterTrait;
+use Dazzle\Event\BaseEventEmitterTrait;
 use Dazzle\Loop\Timer\TimerInterface;
 use Dazzle\Loop\LoopAwareTrait;
 use Kraken\SSH\Driver\Sftp\SftpResource;

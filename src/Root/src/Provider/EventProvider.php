@@ -5,7 +5,7 @@ namespace Kraken\Root\Provider;
 use Kraken\Container\ContainerInterface;
 use Kraken\Container\ServiceProvider;
 use Kraken\Container\ServiceProviderInterface;
-use Kraken\Event\EventEmitter;
+use Dazzle\Event\EventEmitter;
 
 class EventProvider extends ServiceProvider implements ServiceProviderInterface
 {
@@ -20,7 +20,7 @@ class EventProvider extends ServiceProvider implements ServiceProviderInterface
      * @var string[]
      */
     protected $provides = [
-        'Kraken\Event\EventEmitterInterface'
+        'Dazzle\Event\EventEmitterInterface'
     ];
 
     /**
@@ -33,7 +33,7 @@ class EventProvider extends ServiceProvider implements ServiceProviderInterface
         );
 
         $container->instance(
-            'Kraken\Event\EventEmitterInterface',
+            'Dazzle\Event\EventEmitterInterface',
             $emitter
         );
     }
@@ -44,7 +44,7 @@ class EventProvider extends ServiceProvider implements ServiceProviderInterface
     protected function unregister(ContainerInterface $container)
     {
         $container->remove(
-            'Kraken\Event\EventEmitterInterface'
+            'Dazzle\Event\EventEmitterInterface'
         );
     }
 }

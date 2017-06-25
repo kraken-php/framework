@@ -2,7 +2,7 @@
 
 namespace Kraken\Channel;
 
-use Kraken\Event\EventEmitterInterface;
+use Dazzle\Event\EventEmitterInterface;
 
 /**
  * @event start : callable()

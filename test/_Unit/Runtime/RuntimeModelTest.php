@@ -3,7 +3,7 @@
 namespace Kraken\_Unit\Runtime;
 
 use Kraken\Core\Core;
-use Kraken\Event\EventEmitter;
+use Dazzle\Event\EventEmitter;
 use Dazzle\Loop\Loop;
 use Dazzle\Loop\LoopInterface;
 use Dazzle\Loop\Model\SelectLoop;

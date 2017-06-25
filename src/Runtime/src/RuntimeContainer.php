@@ -3,7 +3,7 @@
 namespace Kraken\Runtime;
 
 use Kraken\Core\CoreInterface;
-use Kraken\Event\EventEmitter;
+use Dazzle\Event\EventEmitter;
 use Error;
 
 class RuntimeContainer extends EventEmitter implements RuntimeContainerInterface

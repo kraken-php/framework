@@ -2,7 +2,7 @@
 
 namespace Kraken\Ipc\Zmq;
 
-use Kraken\Event\BaseEventEmitter;
+use Dazzle\Event\BaseEventEmitter;
 use Dazzle\Loop\LoopInterface;
 use ZMQ;
 use ZMQSocket as RawZMQSocket;

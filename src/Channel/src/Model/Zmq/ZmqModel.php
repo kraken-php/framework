@@ -7,7 +7,7 @@ use Kraken\Channel\ChannelModelInterface;
 use Kraken\Channel\Model\Zmq\Connection\Connection;
 use Kraken\Channel\Model\Zmq\Connection\ConnectionPool;
 use Kraken\Channel\Model\Zmq\Buffer\Buffer;
-use Kraken\Event\BaseEventEmitter;
+use Dazzle\Event\BaseEventEmitter;
 use Kraken\Ipc\Zmq\ZmqContext;
 use Kraken\Ipc\Zmq\ZmqSocket;
 use Dazzle\Loop\LoopInterface;

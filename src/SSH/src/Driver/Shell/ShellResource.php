@@ -2,7 +2,7 @@
 
 namespace Kraken\SSH\Driver\Shell;
 
-use Kraken\Event\BaseEventEmitterTrait;
+use Dazzle\Event\BaseEventEmitterTrait;
 use Dazzle\Loop\LoopInterface;
 use Kraken\SSH\SSH2DriverInterface;
 use Kraken\SSH\SSH2ResourceInterface;
