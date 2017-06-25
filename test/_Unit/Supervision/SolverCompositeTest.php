@@ -2,7 +2,7 @@
 
 namespace Kraken\_Unit\Supervision;
 
-use Kraken\Promise\Promise;
+use Dazzle\Promise\Promise;
 use Kraken\Supervision\Solver;
 use Kraken\Supervision\SolverComposite;
 use Kraken\Supervision\SolverInterface;

@@ -2,7 +2,7 @@
 
 namespace Kraken\Supervision;
 
-use Kraken\Promise\PromiseInterface;
+use Dazzle\Promise\PromiseInterface;
 use Dazzle\Throwable\Exception\Logic\IllegalCallException;
 use Dazzle\Throwable\Exception\Runtime\ExecutionException;
 use Error;

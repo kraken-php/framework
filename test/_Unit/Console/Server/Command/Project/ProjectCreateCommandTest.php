@@ -5,7 +5,7 @@ namespace Kraken\_Unit\Console\Server\Command\Project;
 use Kraken\_Unit\Console\Server\_T\TCommand;
 use Kraken\Config\ConfigInterface;
 use Kraken\Console\Server\Command\Project\ProjectCreateCommand;
-use Kraken\Promise\PromiseFulfilled;
+use Dazzle\Promise\PromiseFulfilled;
 use Dazzle\Throwable\Exception\Runtime\RejectionException;
 
 class ProjectCreateCommandTest extends TCommand

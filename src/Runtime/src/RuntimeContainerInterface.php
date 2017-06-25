@@ -6,7 +6,7 @@ use Kraken\Core\CoreGetterAwareInterface;
 use Dazzle\Event\EventEmitterInterface;
 use Dazzle\Event\EventListener;
 use Dazzle\Loop\LoopGetterAwareInterface;
-use Kraken\Promise\PromiseInterface;
+use Dazzle\Promise\PromiseInterface;
 use Error;
 use Exception;
 

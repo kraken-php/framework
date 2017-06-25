@@ -3,7 +3,7 @@
 namespace Kraken\Runtime\Container\Manager;
 
 use Kraken\Channel\Channel;
-use Kraken\Promise\Promise;
+use Dazzle\Promise\Promise;
 use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\Extra\Request;
 use Kraken\Runtime\Container\ProcessManagerInterface;

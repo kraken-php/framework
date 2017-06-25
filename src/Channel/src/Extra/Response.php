@@ -2,8 +2,8 @@
 
 namespace Kraken\Channel\Extra;
 
-use Kraken\Promise\Promise;
-use Kraken\Promise\PromiseInterface;
+use Dazzle\Promise\Promise;
+use Dazzle\Promise\PromiseInterface;
 use Kraken\Channel\Protocol\ProtocolInterface;
 use Kraken\Channel\Channel;
 use Kraken\Channel\ChannelInterface;

@@ -2,7 +2,7 @@
 
 namespace Kraken\Supervision;
 
-use Kraken\Promise\PromiseInterface;
+use Dazzle\Promise\PromiseInterface;
 use Error;
 use Exception;
 

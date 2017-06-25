@@ -2,7 +2,7 @@
 
 namespace Kraken\Runtime\Command\Container;
 
-use Kraken\Promise\Promise;
+use Dazzle\Promise\Promise;
 use Kraken\Runtime\Command\Command;
 use Kraken\Runtime\Command\CommandInterface;
 

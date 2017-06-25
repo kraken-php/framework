@@ -5,7 +5,7 @@ namespace Kraken\Console\Server\Manager;
 use Kraken\Channel\Extra\Request;
 use Kraken\Channel\ChannelInterface;
 use Kraken\Filesystem\FilesystemInterface;
-use Kraken\Promise\Promise;
+use Dazzle\Promise\Promise;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeContainerInterface;

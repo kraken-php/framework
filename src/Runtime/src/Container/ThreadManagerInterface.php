@@ -2,7 +2,7 @@
 
 namespace Kraken\Runtime\Container;
 
-use Kraken\Promise\PromiseInterface;
+use Dazzle\Promise\PromiseInterface;
 use Kraken\Runtime\Runtime;
 
 interface ThreadManagerInterface extends AbstractManagerInterface

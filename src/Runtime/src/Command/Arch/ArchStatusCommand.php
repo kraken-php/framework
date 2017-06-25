@@ -5,7 +5,7 @@ namespace Kraken\Runtime\Command\Arch;
 use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\Extra\Request;
 use Kraken\Runtime\Command\CommandInterface;
-use Kraken\Promise\Promise;
+use Dazzle\Promise\Promise;
 use Kraken\Runtime\Command\Command;
 use Kraken\Runtime\RuntimeCommand;
 

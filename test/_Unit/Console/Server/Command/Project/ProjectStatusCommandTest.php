@@ -8,7 +8,7 @@ use Kraken\Channel\Protocol\Protocol;
 use Kraken\Channel\ChannelInterface;
 use Kraken\Config\ConfigInterface;
 use Kraken\Console\Server\Command\Project\ProjectStatusCommand;
-use Kraken\Promise\PromiseFulfilled;
+use Dazzle\Promise\PromiseFulfilled;
 use Kraken\Runtime\RuntimeCommand;
 
 class ProjectStatusCommandTest extends TCommand

@@ -6,7 +6,7 @@ use Kraken\Core\Core;
 use Dazzle\Event\EventEmitter;
 use Dazzle\Event\EventListener;
 use Dazzle\Loop\Loop;
-use Kraken\Promise\Promise;
+use Dazzle\Promise\Promise;
 use Kraken\Runtime\RuntimeContainer;
 use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Runtime\RuntimeManager;

@@ -7,7 +7,7 @@ use Kraken\Channel\Extra\Request;
 use Kraken\Runtime\Command\Command;
 use Kraken\Runtime\Command\CommandInterface;
 use Dazzle\Throwable\Exception\Runtime\RejectionException;
-use Kraken\Promise\Promise;
+use Dazzle\Promise\Promise;
 use Kraken\Runtime\RuntimeCommand;
 
 class ArchStopCommand extends Command implements CommandInterface

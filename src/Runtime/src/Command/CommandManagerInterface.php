@@ -2,7 +2,7 @@
 
 namespace Kraken\Runtime\Command;
 
-use Kraken\Promise\PromiseInterface;
+use Dazzle\Promise\PromiseInterface;
 use Dazzle\Throwable\Exception\Runtime\ExecutionException;
 
 interface CommandManagerInterface

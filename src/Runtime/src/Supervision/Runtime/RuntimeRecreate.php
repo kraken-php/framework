@@ -2,7 +2,7 @@
 
 namespace Kraken\Runtime\Supervision\Runtime;
 
-use Kraken\Promise\Promise;
+use Dazzle\Promise\Promise;
 use Kraken\Runtime\Supervision\Solver;
 use Kraken\Supervision\SolverInterface;
 use Dazzle\Throwable\Exception\Runtime\RejectionException;

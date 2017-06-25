@@ -6,7 +6,7 @@ use Kraken\_Unit\Runtime\Command\_T\TCommand;
 use Kraken\Channel\Extra\Request;
 use Kraken\Channel\Protocol\Protocol;
 use Kraken\Channel\ChannelInterface;
-use Kraken\Promise\PromiseFulfilled;
+use Dazzle\Promise\PromiseFulfilled;
 use Kraken\Runtime\Command\Arch\ArchStopCommand;
 
 class ArchStopCommandTest extends TCommand

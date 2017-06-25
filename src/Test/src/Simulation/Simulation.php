@@ -5,7 +5,7 @@ namespace Kraken\Test\Simulation;
 use Dazzle\Event\BaseEventEmitter;
 use Dazzle\Loop\LoopExtendedInterface;
 use Dazzle\Loop\LoopInterface;
-use Kraken\Promise\PromiseInterface;
+use Dazzle\Promise\PromiseInterface;
 use Exception;
 use ReflectionClass;
 

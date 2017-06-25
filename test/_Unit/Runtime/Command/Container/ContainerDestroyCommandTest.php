@@ -3,9 +3,9 @@
 namespace Kraken\_Unit\Runtime\Command\Container;
 
 use Kraken\_Unit\Runtime\Command\_T\TCommand;
-use Kraken\Promise\PromiseCancelled;
-use Kraken\Promise\PromiseFulfilled;
-use Kraken\Promise\PromiseRejected;
+use Dazzle\Promise\PromiseCancelled;
+use Dazzle\Promise\PromiseFulfilled;
+use Dazzle\Promise\PromiseRejected;
 use Kraken\Runtime\Command\Container\ContainerDestroyCommand;
 
 class ContainerDestroyCommandTest extends TCommand

@@ -4,8 +4,8 @@ namespace Kraken\_Unit\Runtime;
 
 use Kraken\_Unit\Runtime\_Mock\RuntimeManagerMock;
 use Kraken\Channel\ChannelInterface;
-use Kraken\Promise\Promise;
-use Kraken\Promise\PromiseFulfilled;
+use Dazzle\Promise\Promise;
+use Dazzle\Promise\PromiseFulfilled;
 use Kraken\Runtime\Container\ProcessManagerInterface;
 use Kraken\Runtime\Container\ThreadManagerInterface;
 use Kraken\Runtime\RuntimeManager;

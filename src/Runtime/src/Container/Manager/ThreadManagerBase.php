@@ -5,7 +5,7 @@ namespace Kraken\Runtime\Container\Manager;
 use Kraken\Channel\Channel;
 use Kraken\Channel\Extra\Request;
 use Kraken\Channel\ChannelInterface;
-use Kraken\Promise\Promise;
+use Dazzle\Promise\Promise;
 use Kraken\Runtime\Container\Thread\ThreadController;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeCommand;

@@ -2,7 +2,7 @@
 
 namespace Kraken\Runtime;
 
-use Kraken\Promise\PromiseInterface;
+use Dazzle\Promise\PromiseInterface;
 use Kraken\Runtime\Container\ProcessManagerInterface;
 use Kraken\Runtime\Container\ThreadManagerInterface;
 

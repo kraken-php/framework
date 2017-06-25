@@ -4,7 +4,7 @@ namespace Kraken\Runtime\Supervision\Cmd;
 
 use Kraken\Runtime\Supervision\Solver;
 use Kraken\Supervision\SolverInterface;
-use Kraken\Promise\Promise;
+use Dazzle\Promise\Promise;
 use Error;
 use Exception;
 

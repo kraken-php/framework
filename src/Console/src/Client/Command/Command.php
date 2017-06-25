@@ -4,7 +4,7 @@ namespace Kraken\Console\Client\Command;
 
 use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\Extra\Request;
-use Kraken\Promise\Promise;
+use Dazzle\Promise\Promise;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeCommand;
 use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;

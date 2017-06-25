@@ -2,7 +2,7 @@
 
 namespace Kraken\Console\Server\Manager;
 
-use Kraken\Promise\PromiseInterface;
+use Dazzle\Promise\PromiseInterface;
 use Kraken\Runtime\Runtime;
 
 interface ProjectManagerInterface

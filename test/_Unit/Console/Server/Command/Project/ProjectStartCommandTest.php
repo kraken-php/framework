@@ -5,7 +5,7 @@ namespace Kraken\_Unit\Console\Server\Command\Project;
 use Kraken\_Unit\Console\Server\_T\TCommand;
 use Kraken\Config\ConfigInterface;
 use Kraken\Console\Server\Command\Project\ProjectStartCommand;
-use Kraken\Promise\PromiseFulfilled;
+use Dazzle\Promise\PromiseFulfilled;
 
 class ProjectStartCommandTest extends TCommand
 {

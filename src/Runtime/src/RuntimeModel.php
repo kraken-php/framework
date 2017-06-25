@@ -4,7 +4,7 @@ namespace Kraken\Runtime;
 
 use Dazzle\Event\EventEmitterInterface;
 use Kraken\Core\CoreInterface;
-use Kraken\Promise\Promise;
+use Dazzle\Promise\Promise;
 use Kraken\Supervision\SupervisorInterface;
 use Dazzle\Loop\Loop;
 use Dazzle\Loop\LoopExtendedInterface;

@@ -2,7 +2,7 @@
 
 namespace Kraken\Runtime\Command;
 
-use Kraken\Promise\Promise;
+use Dazzle\Promise\Promise;
 use Kraken\Runtime\RuntimeContainerInterface;
 use Dazzle\Throwable\Exception\Logic\InstantiationException;
 use Dazzle\Throwable\Exception\Runtime\RejectionException;
