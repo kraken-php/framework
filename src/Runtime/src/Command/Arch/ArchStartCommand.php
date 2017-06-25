@@ -6,7 +6,7 @@ use Kraken\Channel\ChannelInterface;
 use Kraken\Channel\Extra\Request;
 use Kraken\Runtime\Command\Command;
 use Kraken\Runtime\Command\CommandInterface;
-use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Dazzle\Throwable\Exception\Runtime\RejectionException;
 use Kraken\Promise\Promise;
 use Kraken\Runtime\RuntimeCommand;
 

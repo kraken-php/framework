@@ -2,7 +2,7 @@
 
 namespace Kraken\Container;
 
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Dazzle\Throwable\Exception\Runtime\ExecutionException;
 use Error;
 use Exception;
 
@@ -154,6 +154,6 @@ class ServiceProvider implements ServiceProviderInterface
      */
     private function throwException($ex)
     {
-        throw new ExecutionException("ServiceProvider [" . get_class($this) . "] raised an error.", $ex);
+        throw new ExecutionException("ServiceProvider [" . get_class($this) . "] raised an error.", 0, $ex);
     }
 }

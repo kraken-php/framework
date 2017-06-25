@@ -5,7 +5,7 @@ namespace Kraken\Console\Server\Command\Project;
 use Kraken\Console\Server\Manager\ProjectManagerInterface;
 use Kraken\Runtime\Command\Command;
 use Kraken\Runtime\Command\CommandInterface;
-use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Dazzle\Throwable\Exception\Runtime\RejectionException;
 
 class ProjectDestroyCommand extends Command implements CommandInterface
 {

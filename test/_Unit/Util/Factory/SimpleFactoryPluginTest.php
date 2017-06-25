@@ -4,7 +4,7 @@ namespace Kraken\_Unit\Util\Factory;
 
 use Kraken\_Unit\Util\Factory\_Mock\SimpleFactoryPluginMock;
 use Kraken\Test\TUnit;
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Dazzle\Throwable\Exception\Runtime\ExecutionException;
 use Kraken\Util\Factory\SimpleFactory;
 use Kraken\Util\Factory\SimpleFactoryInterface;
 use Kraken\Util\Factory\SimpleFactoryPluginInterface;

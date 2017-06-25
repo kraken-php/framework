@@ -2,8 +2,8 @@
 
 namespace Kraken\Stream;
 
-use Kraken\Throwable\Exception\Runtime\WriteException;
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
+use Dazzle\Throwable\Exception\Runtime\WriteException;
+use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
 
 class StreamWriter extends StreamSeeker implements StreamWriterInterface
 {

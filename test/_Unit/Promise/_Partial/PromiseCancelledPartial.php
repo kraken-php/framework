@@ -6,7 +6,7 @@ use Kraken\Promise\DeferredInterface;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseCancelled;
 use Kraken\Promise\PromiseInterface;
-use Kraken\Throwable\Exception\Runtime\CancellationException;
+use Dazzle\Throwable\Exception\Runtime\CancellationException;
 use Kraken\Test\TUnit;
 use Exception;
 

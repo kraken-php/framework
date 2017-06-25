@@ -2,7 +2,7 @@
 
 namespace Kraken\Network\Http\Driver\Parser;
 
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
+use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Network\Http\HttpRequest;
 use Kraken\Network\Http\HttpResponse;
 use GuzzleHttp\Psr7;

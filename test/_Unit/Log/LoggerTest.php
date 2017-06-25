@@ -9,7 +9,7 @@ use Kraken\Log\Handler\HandlerInterface;
 use Kraken\Log\Logger;
 use Kraken\Log\LoggerWrapper;
 use Kraken\Test\TUnit;
-use Kraken\Throwable\Exception\Runtime\WriteException;
+use Dazzle\Throwable\Exception\Runtime\WriteException;
 use Monolog\Handler\NullHandler;
 use Prophecy\Argument;
 use Prophecy\Prophecy\MethodProphecy;

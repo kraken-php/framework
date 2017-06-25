@@ -2,9 +2,9 @@
 
 namespace Kraken\Filesystem;
 
-use Kraken\Throwable\Exception\Runtime\ReadException;
-use Kraken\Throwable\Exception\Runtime\WriteException;
-use Kraken\Throwable\Exception\Logic\InstantiationException;
+use Dazzle\Throwable\Exception\Runtime\ReadException;
+use Dazzle\Throwable\Exception\Runtime\WriteException;
+use Dazzle\Throwable\Exception\Logic\InstantiationException;
 use League\Flysystem\AdapterInterface as LeagueAdapterInterface;
 use League\Flysystem\Filesystem as LeagueFilesystem;
 use League\Flysystem\FilesystemInterface as LeagueFilesystemInterface;
@@ -55,11 +55,11 @@ class Filesystem implements FilesystemInterface
         }
         catch (Error $ex)
         {
-            throw new InstantiationException('Filesystem could not be initialized.', $ex);
+            throw new InstantiationException('Filesystem could not be initialized.', 0, $ex);
         }
         catch (Exception $ex)
         {
-            throw new InstantiationException('Filesystem could not be initialized.', $ex);
+            throw new InstantiationException('Filesystem could not be initialized.', 0, $ex);
         }
     }
 
@@ -86,7 +86,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new ReadException("File $path does not exist.", $ex);
+        throw new ReadException("File $path does not exist.", 0, $ex);
     }
 
     /**
@@ -104,7 +104,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new ReadException("Path $path could not be determined to be file or not.", $ex);
+        throw new ReadException("Path $path could not be determined to be file or not.", 0, $ex);
     }
 
     /**
@@ -122,7 +122,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new ReadException("Path $path could not be determined to be directory or not.", $ex);
+        throw new ReadException("Path $path could not be determined to be directory or not.", 0, $ex);
     }
 
     /**
@@ -165,7 +165,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new ReadException("Directory $directory items could not be listed.", $ex);
+        throw new ReadException("Directory $directory items could not be listed.", 0, $ex);
     }
 
     /**
@@ -212,7 +212,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new ReadException("Directory $directory files could not be listed.", $ex);
+        throw new ReadException("Directory $directory files could not be listed.", 0, $ex);
     }
 
     /**
@@ -259,7 +259,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new ReadException("Directory $directory subdirectories could not be listed.", $ex);
+        throw new ReadException("Directory $directory subdirectories could not be listed.", 0, $ex);
     }
 
     /**
@@ -277,7 +277,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new ReadException("File $path visibility could not be determined.", $ex);
+        throw new ReadException("File $path visibility could not be determined.", 0, $ex);
     }
 
     /**
@@ -318,7 +318,7 @@ class Filesystem implements FilesystemInterface
 
         if (!$result || $ex !== null)
         {
-            throw new WriteException("File $path visibility could not be set to $visibility.", $ex);
+            throw new WriteException("File $path visibility could not be set to $visibility.", 0, $ex);
         }
     }
 
@@ -356,7 +356,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new WriteException("File $path could not be created.", $ex);
+        throw new WriteException("File $path could not be created.", 0, $ex);
     }
 
     /**
@@ -375,7 +375,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new WriteException("File $path could not be overwritten.", $ex);
+        throw new WriteException("File $path could not be overwritten.", 0, $ex);
     }
 
     /**
@@ -394,7 +394,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new WriteException("File $path could not be appeneded.", $ex);
+        throw new WriteException("File $path could not be appeneded.", 0, $ex);
     }
 
     /**
@@ -413,7 +413,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new WriteException("File $path could not be prepended.", $ex);
+        throw new WriteException("File $path could not be prepended.", 0, $ex);
     }
 
     /**
@@ -436,7 +436,7 @@ class Filesystem implements FilesystemInterface
 
         if ($ret === false || $ex !== null)
         {
-            throw new ReadException("File $path could not be read.", $ex);
+            throw new ReadException("File $path could not be read.", 0, $ex);
         }
 
         return $ret;
@@ -473,7 +473,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new ReadException("File $path size could not be determined.", $ex);
+        throw new ReadException("File $path size could not be determined.", 0, $ex);
     }
 
     /**
@@ -491,7 +491,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new ReadException("File $path type could not be determined.", $ex);
+        throw new ReadException("File $path type could not be determined.", 0, $ex);
     }
 
     /**
@@ -509,7 +509,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new ReadException("File $path mimetype could not be determined.", $ex);
+        throw new ReadException("File $path mimetype could not be determined.", 0, $ex);
     }
 
     /**
@@ -527,7 +527,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new ReadException("File $path timestamp could not be determined.", $ex);
+        throw new ReadException("File $path timestamp could not be determined.", 0, $ex);
     }
 
     /**
@@ -550,7 +550,7 @@ class Filesystem implements FilesystemInterface
 
         if (!$status || $ex !== null)
         {
-            throw new WriteException("File $source could not be moved to $destination.", $ex);
+            throw new WriteException("File $source could not be moved to $destination.", 0, $ex);
         }
     }
 
@@ -570,7 +570,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new WriteException("File $path could not be created.", $ex);
+        throw new WriteException("File $path could not be created.", 0, $ex);
     }
 
     /**
@@ -589,7 +589,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new WriteException("File $source could not have been copied to $destination.", $ex);
+        throw new WriteException("File $source could not have been copied to $destination.", 0, $ex);
     }
 
     /**
@@ -608,7 +608,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new WriteException("File $path could not be removed.", $ex);
+        throw new WriteException("File $path could not be removed.", 0, $ex);
     }
 
     /**
@@ -627,7 +627,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new WriteException("File $path could not be erased.", $ex);
+        throw new WriteException("File $path could not be erased.", 0, $ex);
     }
 
     /**
@@ -651,7 +651,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new WriteException("Directory $dirname could not be created.", $ex);
+        throw new WriteException("Directory $dirname could not be created.", 0, $ex);
     }
 
     /**
@@ -778,7 +778,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new WriteException("Directory $dirname could not be removed.", $ex);
+        throw new WriteException("Directory $dirname could not be removed.", 0, $ex);
     }
 
     /**
@@ -812,7 +812,7 @@ class Filesystem implements FilesystemInterface
         catch (Exception $ex)
         {}
 
-        throw new WriteException("Directory $dirname could not be erased.", $ex);
+        throw new WriteException("Directory $dirname could not be erased.", 0, $ex);
     }
 
     /**

@@ -4,7 +4,7 @@ namespace Kraken\Root\Runtime\Core;
 
 use Kraken\Core\Core;
 use Kraken\Runtime\Runtime;
-use Kraken\Throwable\Exception\Logic\InstantiationException;
+use Dazzle\Throwable\Exception\Logic\InstantiationException;
 
 class Factory
 {

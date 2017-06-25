@@ -3,10 +3,10 @@
 namespace Kraken\Ipc\Socket;
 
 use Kraken\Event\BaseEventEmitter;
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
-use Kraken\Throwable\Exception\Runtime\ReadException;
-use Kraken\Throwable\Exception\Logic\InstantiationException;
-use Kraken\Throwable\Exception\LogicException;
+use Dazzle\Throwable\Exception\Runtime\ExecutionException;
+use Dazzle\Throwable\Exception\Runtime\ReadException;
+use Dazzle\Throwable\Exception\Logic\InstantiationException;
+use Dazzle\Throwable\Exception\LogicException;
 use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
 use Error;
@@ -136,11 +136,11 @@ class SocketListener extends BaseEventEmitter implements SocketListenerInterface
         }
         catch (Error $ex)
         {
-            throw new InstantiationException('SocketListener could not be created.', $ex);
+            throw new InstantiationException('SocketListener could not be created.', 0, $ex);
         }
         catch (Exception $ex)
         {
-            throw new InstantiationException('SocketListener could not be created.', $ex);
+            throw new InstantiationException('SocketListener could not be created.', 0, $ex);
         }
     }
 

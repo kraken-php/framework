@@ -10,7 +10,7 @@ use Kraken\Runtime\Container\ProcessManagerInterface;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeContainerInterface;
-use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Dazzle\Throwable\Exception\Runtime\RejectionException;
 
 class ProcessManagerRemote implements ProcessManagerInterface
 {

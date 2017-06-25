@@ -16,8 +16,8 @@ use Kraken\Channel\ChannelModelInterface;
 use Kraken\Event\EventListener;
 use Kraken\Loop\Loop;
 use Kraken\Loop\LoopInterface;
-use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
-use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
+use Dazzle\Throwable\Exception\Logic\ResourceOccupiedException;
+use Dazzle\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Test\TUnit;
 
 class ChannelCompositeTest extends TUnit

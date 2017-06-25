@@ -11,7 +11,7 @@ use Kraken\Runtime\Container\ThreadManagerInterface;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Test\TUnit;
-use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Dazzle\Throwable\Exception\Runtime\RejectionException;
 
 class ThreadManagerRemoteTest extends TUnit
 {

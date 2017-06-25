@@ -15,9 +15,9 @@ use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Test\TUnit;
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
-use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
-use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
+use Dazzle\Throwable\Exception\Logic\ResourceOccupiedException;
+use Dazzle\Throwable\Exception\Runtime\RejectionException;
 use Kraken\Util\System\SystemInterface;
 use StdClass;
 

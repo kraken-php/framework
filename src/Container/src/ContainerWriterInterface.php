@@ -2,7 +2,7 @@
 
 namespace Kraken\Container;
 
-use Kraken\Throwable\Exception\Runtime\WriteException;
+use Dazzle\Throwable\Exception\Runtime\WriteException;
 
 interface ContainerWriterInterface
 {

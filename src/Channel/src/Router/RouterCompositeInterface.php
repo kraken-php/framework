@@ -3,7 +3,7 @@
 namespace Kraken\Channel\Router;
 
 use Kraken\Channel\ChannelCompositeInterface;
-use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
+use Dazzle\Throwable\Exception\Logic\ResourceUndefinedException;
 
 interface RouterCompositeInterface extends RouterInterface
 {

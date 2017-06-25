@@ -7,7 +7,7 @@ use Kraken\Channel\Extra\Request;
 use Kraken\Promise\Promise;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeCommand;
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
+use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

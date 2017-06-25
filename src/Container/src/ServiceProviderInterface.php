@@ -2,7 +2,7 @@
 
 namespace Kraken\Container;
 
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Dazzle\Throwable\Exception\Runtime\ExecutionException;
 
 interface ServiceProviderInterface
 {

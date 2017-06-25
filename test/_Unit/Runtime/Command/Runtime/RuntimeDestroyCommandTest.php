@@ -4,7 +4,7 @@ namespace Kraken\_Unit\Runtime\Command\Runtime;
 
 use Kraken\_Unit\Runtime\Command\_T\TCommand;
 use Kraken\Runtime\Command\Runtime\RuntimeDestroyCommand;
-use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Dazzle\Throwable\Exception\Runtime\RejectionException;
 use StdClass;
 
 class RuntimeDestroyCommandTest extends TCommand

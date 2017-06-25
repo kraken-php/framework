@@ -8,7 +8,7 @@ use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseFulfilled;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Test\TUnit;
-use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Dazzle\Throwable\Exception\Runtime\RejectionException;
 use stdClass;
 
 trait PromiseFulfilledPartial

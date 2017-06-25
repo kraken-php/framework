@@ -18,7 +18,7 @@ use Kraken\Container\ServiceProviderInterface;
 use Kraken\Filesystem\Filesystem;
 use Kraken\Filesystem\FilesystemAdapterFactory;
 use Kraken\Runtime\Runtime;
-use Kraken\Throwable\Exception\Runtime\ReadException;
+use Dazzle\Throwable\Exception\Runtime\ReadException;
 use Kraken\Util\Support\ArraySupport;
 use Kraken\Util\Support\StringSupport;
 

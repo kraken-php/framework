@@ -3,8 +3,8 @@
 namespace Kraken\Log;
 
 use Kraken\Log\Handler\HandlerInterface;
-use Kraken\Throwable\Exception\Logic\InstantiationException;
-use Kraken\Throwable\Exception\Runtime\WriteException;
+use Dazzle\Throwable\Exception\Logic\InstantiationException;
+use Dazzle\Throwable\Exception\Runtime\WriteException;
 use Kraken\Util\Enum\EnumTrait;
 use Monolog\Logger as Monolog;
 use Error;
@@ -73,11 +73,11 @@ class Logger implements LoggerInterface
         }
         catch (Error $ex)
         {
-            throw new InstantiationException("Logger could not be constructed.", $ex);
+            throw new InstantiationException("Logger could not be constructed.", 0, $ex);
         }
         catch (Exception $ex)
         {
-            throw new InstantiationException("Logger could not be constructed.", $ex);
+            throw new InstantiationException("Logger could not be constructed.", 0, $ex);
         }
     }
 
@@ -150,7 +150,7 @@ class Logger implements LoggerInterface
         catch (Exception $ex)
         {}
 
-        throw new WriteException("Processor could not be pushed.", $ex);
+        throw new WriteException("Processor could not be pushed.", 0, $ex);
     }
 
     /**
@@ -240,7 +240,7 @@ class Logger implements LoggerInterface
         catch (Exception $ex)
         {}
 
-        throw new WriteException("Record with undefined level could not be logged.", $ex);
+        throw new WriteException("Record with undefined level could not be logged.", 0, $ex);
     }
 
     /**
@@ -264,7 +264,7 @@ class Logger implements LoggerInterface
         catch (Exception $ex)
         {}
 
-        throw new WriteException("Record with debug level could not be logged.", $ex);
+        throw new WriteException("Record with debug level could not be logged.", 0, $ex);
     }
 
     /**
@@ -288,7 +288,7 @@ class Logger implements LoggerInterface
         catch (Exception $ex)
         {}
 
-        throw new WriteException("Record with debug level could not be logged.", $ex);
+        throw new WriteException("Record with debug level could not be logged.", 0, $ex);
     }
 
     /**
@@ -312,7 +312,7 @@ class Logger implements LoggerInterface
         catch (Exception $ex)
         {}
 
-        throw new WriteException("Record with debug level could not be logged.", $ex);
+        throw new WriteException("Record with debug level could not be logged.", 0, $ex);
     }
 
     /**
@@ -336,7 +336,7 @@ class Logger implements LoggerInterface
         catch (Exception $ex)
         {}
 
-        throw new WriteException("Record with debug level could not be logged.", $ex);
+        throw new WriteException("Record with debug level could not be logged.", 0, $ex);
     }
 
     /**
@@ -360,7 +360,7 @@ class Logger implements LoggerInterface
         catch (Exception $ex)
         {}
 
-        throw new WriteException("Record with warning level could not be logged.", $ex);
+        throw new WriteException("Record with warning level could not be logged.", 0, $ex);
     }
 
     /**
@@ -384,7 +384,7 @@ class Logger implements LoggerInterface
         catch (Exception $ex)
         {}
 
-        throw new WriteException("Record with info level could not be logged.", $ex);
+        throw new WriteException("Record with info level could not be logged.", 0, $ex);
     }
 
     /**
@@ -408,7 +408,7 @@ class Logger implements LoggerInterface
         catch (Exception $ex)
         {}
 
-        throw new WriteException("Record with notice level could not be logged.", $ex);
+        throw new WriteException("Record with notice level could not be logged.", 0, $ex);
     }
 
     /**
@@ -432,7 +432,7 @@ class Logger implements LoggerInterface
         catch (Exception $ex)
         {}
 
-        throw new WriteException("Record with debug level could not be logged.", $ex);
+        throw new WriteException("Record with debug level could not be logged.", 0, $ex);
     }
 
     /**

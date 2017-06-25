@@ -3,8 +3,8 @@
 namespace Kraken\Stream;
 
 use Kraken\Event\EventEmitterInterface;
-use Kraken\Throwable\Exception\Runtime\ReadException;
-use Kraken\Throwable\Exception\Runtime\WriteException;
+use Dazzle\Throwable\Exception\Runtime\ReadException;
+use Dazzle\Throwable\Exception\Runtime\WriteException;
 
 /**
  * @event seek : callable(object, int)

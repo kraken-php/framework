@@ -12,7 +12,7 @@ use Kraken\Ipc\Socket\SocketInterface;
 use Kraken\Ipc\Socket\SocketListenerInterface;
 use Kraken\Loop\Timer\TimerInterface;
 use Kraken\Loop\LoopInterface;
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Dazzle\Throwable\Exception\Runtime\ExecutionException;
 use Error;
 use Exception;
 

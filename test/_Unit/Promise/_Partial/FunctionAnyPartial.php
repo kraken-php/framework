@@ -5,7 +5,7 @@ namespace Kraken\_Unit\Promise\_Partial;
 use Kraken\Promise\Deferred;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
-use Kraken\Throwable\Exception\Runtime\UnderflowException;
+use Dazzle\Throwable\Exception\Runtime\UnderflowException;
 use Kraken\Test\TUnit;
 
 trait FunctionAnyPartial

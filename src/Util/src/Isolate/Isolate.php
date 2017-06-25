@@ -4,8 +4,8 @@ namespace Kraken\Util\Isolate;
 
 use Error;
 use Exception;
-use Kraken\Throwable\Exception\Logic\InstantiationException;
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Dazzle\Throwable\Exception\Logic\InstantiationException;
+use Dazzle\Throwable\Exception\Runtime\ExecutionException;
 
 class Isolate implements IsolateInterface
 {

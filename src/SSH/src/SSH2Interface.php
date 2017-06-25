@@ -4,8 +4,8 @@ namespace Kraken\SSH;
 
 use Kraken\Event\EventEmitterInterface;
 use Kraken\Loop\LoopGetterAwareInterface;
-use Kraken\Throwable\Exception\LogicException;
-use Kraken\Throwable\Exception\RuntimeException;
+use Dazzle\Throwable\Exception\LogicException;
+use Dazzle\Throwable\Exception\RuntimeException;
 
 /**
  * Interface SSH2Interface

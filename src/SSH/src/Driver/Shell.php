@@ -10,9 +10,9 @@ use Kraken\SSH\SSH2;
 use Kraken\SSH\SSH2DriverInterface;
 use Kraken\SSH\SSH2Interface;
 use Kraken\SSH\SSH2ResourceInterface;
-use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
-use Kraken\Throwable\Exception\Runtime\ReadException;
+use Dazzle\Throwable\Exception\Logic\ResourceUndefinedException;
+use Dazzle\Throwable\Exception\Runtime\ExecutionException;
+use Dazzle\Throwable\Exception\Runtime\ReadException;
 
 class Shell implements SSH2DriverInterface
 {

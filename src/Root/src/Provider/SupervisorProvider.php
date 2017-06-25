@@ -8,8 +8,8 @@ use Kraken\Container\ServiceProviderInterface;
 use Kraken\Runtime\Supervision\SolverFactory;
 use Kraken\Supervision\SolverFactoryInterface;
 use Kraken\Supervision\Supervisor;
-use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
+use Dazzle\Throwable\Exception\Logic\ResourceUndefinedException;
+use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Util\Factory\FactoryPluginInterface;
 use Exception;
 

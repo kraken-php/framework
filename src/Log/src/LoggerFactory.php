@@ -6,7 +6,7 @@ use Kraken\Log\Formatter\Formatter;
 use Kraken\Log\Formatter\FormatterInterface;
 use Kraken\Log\Handler\Handler;
 use Kraken\Log\Handler\HandlerInterface;
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
+use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
 use ReflectionClass;
 
 class LoggerFactory

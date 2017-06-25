@@ -9,8 +9,8 @@ use Kraken\SSH\Driver\Sftp\SftpResource;
 use Kraken\SSH\SSH2DriverInterface;
 use Kraken\SSH\SSH2Interface;
 use Kraken\SSH\SSH2ResourceInterface;
-use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Dazzle\Throwable\Exception\Logic\ResourceUndefinedException;
+use Dazzle\Throwable\Exception\Runtime\ExecutionException;
 use Error;
 use Exception;
 

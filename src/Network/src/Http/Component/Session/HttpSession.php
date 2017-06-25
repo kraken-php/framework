@@ -7,7 +7,7 @@ use Kraken\Network\NetworkComponentAwareInterface;
 use Kraken\Network\NetworkComponentInterface;
 use Kraken\Network\NetworkConnectionInterface;
 use Kraken\Network\NetworkMessageInterface;
-use Kraken\Throwable\Exception\RuntimeException;
+use Dazzle\Throwable\Exception\RuntimeException;
 use Ratchet\Session\Serialize\HandlerInterface;
 use Ratchet\Session\Storage\VirtualSessionStorage;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\NullSessionHandler;

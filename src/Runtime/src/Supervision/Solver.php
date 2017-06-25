@@ -3,7 +3,7 @@
 namespace Kraken\Runtime\Supervision;
 
 use Kraken\Supervision\SolverInterface;
-use Kraken\Throwable\Exception\Logic\InstantiationException;
+use Dazzle\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Runtime\RuntimeContainerInterface;
 
 class Solver extends \Kraken\Supervision\Solver implements SolverInterface

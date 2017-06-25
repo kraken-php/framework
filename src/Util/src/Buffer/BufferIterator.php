@@ -2,7 +2,7 @@
 
 namespace Kraken\Util\Buffer;
 
-use Kraken\Throwable\Exception\Runtime\OutOfBoundsException;
+use Dazzle\Throwable\Exception\Runtime\OutOfBoundsException;
 use SeekableIterator;
 
 class BufferIterator implements SeekableIterator

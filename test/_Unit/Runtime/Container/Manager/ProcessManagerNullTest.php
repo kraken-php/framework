@@ -5,7 +5,7 @@ namespace Kraken\_Unit\Runtime\Container\Manager;
 use Kraken\Runtime\Container\Manager\ProcessManagerNull;
 use Kraken\Runtime\Container\ProcessManagerInterface;
 use Kraken\Test\TUnit;
-use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Dazzle\Throwable\Exception\Runtime\RejectionException;
 
 class ProcessManagerNullTest extends TUnit
 {

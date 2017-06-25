@@ -19,7 +19,7 @@ use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeContainerInterface;
 use Error;
 use Exception;
-use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Dazzle\Throwable\Exception\Runtime\RejectionException;
 
 class ChannelProvider extends ServiceProvider implements ServiceProviderInterface
 {

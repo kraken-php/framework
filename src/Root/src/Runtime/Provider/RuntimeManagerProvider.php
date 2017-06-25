@@ -15,8 +15,8 @@ use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Runtime\RuntimeManager;
 use Kraken\Runtime\RuntimeManagerFactoryInterface;
 use Kraken\Runtime\RuntimeManagerInterface;
-use Kraken\Throwable\Exception\System\ChildUnresponsiveException;
-use Kraken\Throwable\Exception\System\ParentUnresponsiveException;
+use Dazzle\Throwable\Exception\System\ChildUnresponsiveException;
+use Dazzle\Throwable\Exception\System\ParentUnresponsiveException;
 use Kraken\Util\Support\ArraySupport;
 use Kraken\Util\System\SystemUnix;
 

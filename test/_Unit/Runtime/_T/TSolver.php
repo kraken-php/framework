@@ -12,7 +12,7 @@ use Kraken\Runtime\RuntimeManagerInterface;
 use Kraken\Runtime\Supervision\Solver;
 use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Supervision\SolverInterface;
-use Kraken\Throwable\Exception\Logic\InstantiationException;
+use Dazzle\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Test\TUnit;
 use Exception;
 

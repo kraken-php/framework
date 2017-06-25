@@ -9,9 +9,9 @@ use Kraken\Promise\Promise;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeContainerInterface;
-use Kraken\Throwable\Exception\Logic\InstantiationException;
-use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
-use Kraken\Throwable\Exception\Runtime\ReadException;
+use Dazzle\Throwable\Exception\Logic\InstantiationException;
+use Dazzle\Throwable\Exception\Logic\ResourceOccupiedException;
+use Dazzle\Throwable\Exception\Runtime\ReadException;
 use Kraken\Util\System\SystemInterface;
 use Error;
 use Exception;
@@ -90,11 +90,11 @@ class ProjectManager implements ProjectManagerInterface
         }
         catch (Error $ex)
         {
-            throw new InstantiationException('ProjectManager could not be initialized.', $ex);
+            throw new InstantiationException('ProjectManager could not be initialized.', 0, $ex);
         }
         catch (Exception $ex)
         {
-            throw new InstantiationException('ProjectManager could not be initialized.', $ex);
+            throw new InstantiationException('ProjectManager could not be initialized.', 0, $ex);
         }
     }
 

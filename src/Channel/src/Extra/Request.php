@@ -8,9 +8,9 @@ use Kraken\Channel\ChannelInterface;
 use Kraken\Promise\Promise;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Util\Support\TimeSupport;
-use Kraken\Throwable\Exception\Runtime\TimeoutException;
-use Kraken\Throwable\Exception\System\TaskIncompleteException;
-use Kraken\Throwable\ThrowableProxy;
+use Dazzle\Throwable\Exception\Runtime\TimeoutException;
+use Dazzle\Throwable\Exception\System\TaskIncompleteException;
+use Dazzle\Throwable\ThrowableProxy;
 use Error;
 use Exception;
 

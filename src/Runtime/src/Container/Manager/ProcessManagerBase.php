@@ -11,11 +11,11 @@ use Kraken\Runtime\Container\ProcessManagerInterface;
 use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeContainerInterface;
-use Kraken\Throwable\Exception\Logic\InstantiationException;
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
-use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
-use Kraken\Throwable\Exception\Runtime\ReadException;
-use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Dazzle\Throwable\Exception\Logic\InstantiationException;
+use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
+use Dazzle\Throwable\Exception\Logic\ResourceOccupiedException;
+use Dazzle\Throwable\Exception\Runtime\ReadException;
+use Dazzle\Throwable\Exception\Runtime\RejectionException;
 use Kraken\Util\System\SystemInterface;
 use Error;
 use Exception;
@@ -89,11 +89,11 @@ class ProcessManagerBase implements ProcessManagerInterface
         }
         catch (Error $ex)
         {
-            throw new InstantiationException('ProcessManagerBase could not be initialized.', $ex);
+            throw new InstantiationException('ProcessManagerBase could not be initialized.', 0, $ex);
         }
         catch (Exception $ex)
         {
-            throw new InstantiationException('ProcessManagerBase could not be initialized.', $ex);
+            throw new InstantiationException('ProcessManagerBase could not be initialized.', 0, $ex);
         }
     }
 

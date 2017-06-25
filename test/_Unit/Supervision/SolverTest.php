@@ -4,8 +4,8 @@ namespace Kraken\_Unit\Supervision;
 
 use Kraken\Supervision\Solver;
 use Kraken\Supervision\SolverInterface;
-use Kraken\Throwable\Exception\Logic\IllegalCallException;
-use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Dazzle\Throwable\Exception\Logic\IllegalCallException;
+use Dazzle\Throwable\Exception\Runtime\RejectionException;
 use Kraken\Test\TUnit;
 use Exception;
 

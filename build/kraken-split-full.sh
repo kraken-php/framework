@@ -18,6 +18,5 @@ git subsplit publish --heads="master 0.4" src/Stream:git@github.com:kraken-php/s
 git subsplit publish --heads="master 0.4" src/SSH:git@github.com:kraken-php/ssh.git
 git subsplit publish --heads="master 0.4" src/Supervision:git@github.com:kraken-php/supervision.git
 git subsplit publish --heads="master 0.4" src/Test:git@github.com:kraken-php/test.git
-git subsplit publish --heads="master 0.4" src/Throwable:git@github.com:kraken-php/throwable.git
 git subsplit publish --heads="master 0.4" src/Util:git@github.com:kraken-php/util.git
 rm -rf .subsplit/

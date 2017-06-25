@@ -6,7 +6,7 @@ use Kraken\Channel\Protocol\Protocol;
 use Kraken\Channel\Router\Router;
 use Kraken\Channel\Router\RouterInterface;
 use Kraken\Channel\Router\RouterComposite;
-use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
+use Dazzle\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Test\TUnit;
 
 class RouterCompositeTest extends TUnit

@@ -7,7 +7,7 @@ use Kraken\Supervision\SupervisorInterface;
 use Kraken\Supervision\SupervisorPlugin;
 use Kraken\Supervision\SupervisorPluginInterface;
 use Kraken\Test\TUnit;
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Dazzle\Throwable\Exception\Runtime\ExecutionException;
 use Exception;
 
 class SupervisorPluginTest extends TUnit

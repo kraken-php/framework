@@ -12,9 +12,9 @@ use Kraken\Runtime\RuntimeCommand;
 use Kraken\Runtime\RuntimeContainerInterface;
 use Kraken\Runtime\Container\Thread\ThreadWrapper;
 use Kraken\Runtime\Container\ThreadManagerInterface;
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
-use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
-use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
+use Dazzle\Throwable\Exception\Logic\ResourceOccupiedException;
+use Dazzle\Throwable\Exception\Runtime\RejectionException;
 
 class ThreadManagerBase implements ThreadManagerInterface
 {

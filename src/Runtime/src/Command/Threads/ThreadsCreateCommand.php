@@ -4,7 +4,7 @@ namespace Kraken\Runtime\Command\Threads;
 
 use Kraken\Runtime\Command\CommandInterface;
 use Kraken\Runtime\Command\Command;
-use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Dazzle\Throwable\Exception\Runtime\RejectionException;
 
 class ThreadsCreateCommand extends Command implements CommandInterface
 {

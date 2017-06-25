@@ -4,9 +4,9 @@ namespace Kraken\Ipc\Socket;
 
 use Kraken\Loop\LoopInterface;
 use Kraken\Stream\AsyncStream;
-use Kraken\Throwable\Exception\Logic\InstantiationException;
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
-use Kraken\Throwable\Exception\LogicException;
+use Dazzle\Throwable\Exception\Logic\InstantiationException;
+use Dazzle\Throwable\Exception\Runtime\ExecutionException;
+use Dazzle\Throwable\Exception\LogicException;
 use Error;
 use Exception;
 
@@ -120,11 +120,11 @@ class Socket extends AsyncStream implements SocketInterface
         }
         catch (Error $ex)
         {
-            throw new InstantiationException('SocketClient could not be created.', $ex);
+            throw new InstantiationException('SocketClient could not be created.', 0, $ex);
         }
         catch (Exception $ex)
         {
-            throw new InstantiationException('SocketClient could not be created.', $ex);
+            throw new InstantiationException('SocketClient could not be created.', 0, $ex);
         }
     }
 

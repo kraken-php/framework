@@ -46,7 +46,7 @@ class CmdLog extends Solver implements SolverInterface
     {
         $this->logger->log(
             $this->context['level'],
-            \Kraken\Throwable\Exception::toString($ex)
+            \Dazzle\Throwable\Exception::toString($ex)
         );
     }
 }

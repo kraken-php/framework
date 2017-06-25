@@ -2,8 +2,8 @@
 
 namespace Kraken\Network\Http\Driver\Reader;
 
-use Kraken\Throwable\Exception\Runtime\ReadException;
-use Kraken\Throwable\Exception\Logic\InvalidFormatException;
+use Dazzle\Throwable\Exception\Runtime\ReadException;
+use Dazzle\Throwable\Exception\Logic\InvalidFormatException;
 use Kraken\Network\Http\Driver\Parser\HttpParser;
 use Kraken\Network\Http\Driver\Parser\HttpParserInterface;
 use Kraken\Util\Buffer\BufferInterface;
@@ -88,7 +88,7 @@ class HttpReader implements HttpReaderInterface
         catch (Exception $ex)
         {}
 
-        throw new InvalidFormatException('Could not parse start line.', $ex);
+        throw new InvalidFormatException('Could not parse start line.', 0, $ex);
     }
 
     /**

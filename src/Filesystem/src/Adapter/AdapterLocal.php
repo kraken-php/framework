@@ -3,7 +3,7 @@
 namespace Kraken\Filesystem\Adapter;
 
 use Kraken\Filesystem\FilesystemAdapterInterface;
-use Kraken\Throwable\Exception\Logic\InstantiationException;
+use Dazzle\Throwable\Exception\Logic\InstantiationException;
 use League\Flysystem\Adapter\Local;
 use Error;
 use Exception;
@@ -43,7 +43,7 @@ class AdapterLocal extends Local implements FilesystemAdapterInterface
 
         if ($ex !== null)
         {
-            throw new InstantiationException("AdapterLocal could not be initalized.", $ex);
+            throw new InstantiationException("AdapterLocal could not be initalized.", 0, $ex);
         }
     }
 }

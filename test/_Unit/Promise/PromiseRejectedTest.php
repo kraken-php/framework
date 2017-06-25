@@ -8,7 +8,7 @@ use Kraken\Promise\DeferredInterface;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Promise\PromiseRejected;
 use Kraken\Test\TUnit;
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
+use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
 use Exception;
 
 class PromiseRejectedTest extends TUnit

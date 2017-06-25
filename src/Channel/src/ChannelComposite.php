@@ -9,8 +9,8 @@ use Kraken\Event\BaseEventEmitter;
 use Kraken\Event\EventListener;
 use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
-use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
-use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
+use Dazzle\Throwable\Exception\Logic\ResourceOccupiedException;
+use Dazzle\Throwable\Exception\Logic\ResourceUndefinedException;
 use Kraken\Util\Support\GeneratorSupport;
 use Kraken\Util\Support\TimeSupport;
 

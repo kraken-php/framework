@@ -7,7 +7,7 @@ use Kraken\Container\ServiceProvider;
 use Kraken\Container\ServiceProviderInterface;
 use Kraken\Environment\Environment;
 use Kraken\Runtime\Runtime;
-use Kraken\Throwable\ErrorHandler;
+use Dazzle\Throwable\ErrorHandler;
 
 class EnvironmentProvider extends ServiceProvider implements ServiceProviderInterface
 {
@@ -40,11 +40,11 @@ class EnvironmentProvider extends ServiceProvider implements ServiceProviderInte
         $env->setOption('log_errors', '1');
         $env->setOption('display_errors', '0');
 
-        $env->registerErrorHandler([ 'Kraken\Throwable\ErrorHandler', 'handleError' ]);
+        $env->registerErrorHandler([ 'Dazzle\Throwable\ErrorHandler', 'handleError' ]);
         $env->registerShutdownHandler(function() use($context) {
             ErrorHandler::handleShutdown($context->getType() === Runtime::UNIT_PROCESS);
         });
-        $env->registerExceptionHandler([ 'Kraken\Throwable\ExceptionHandler', 'handleException' ]);
+        $env->registerExceptionHandler([ 'Dazzle\Throwable\ExceptionHandler', 'handleException' ]);
 
         $container->instance(
             'Kraken\Environment\EnvironmentInterface',

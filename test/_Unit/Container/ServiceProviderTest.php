@@ -4,7 +4,7 @@ namespace Kraken\_Unit\Container;
 
 use Kraken\Container\Container;
 use Kraken\Container\ServiceProvider;
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Dazzle\Throwable\Exception\Runtime\ExecutionException;
 use Kraken\Test\TUnit;
 use Exception;
 

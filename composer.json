@@ -32,10 +32,11 @@
         "league/flysystem": "^1.0",
         "league/container": "^2.2",
         "monolog/monolog": "^1.21",
-        "vlucas/phpdotenv": "^2.3"
+        "vlucas/phpdotenv": "^2.3",
+        "dazzle-php/throwable": "0.5.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "5.3.*"
+        "phpunit/phpunit": ">=4.8.0 <5.4.0"
     },
     "suggest": {
         "ext-libevent": ">=0.1.0",
@@ -65,7 +66,6 @@
         "kraken-php/stream": "self.version",
         "kraken-php/supervision": "self.version",
         "kraken-php/test": "self.version",
-        "kraken-php/throwable": "self.version",
         "kraken-php/util": "self.version"
     },
     "autoload": {
@@ -89,7 +89,6 @@
             "Kraken\\Stream\\": "src/Stream/src",
             "Kraken\\Supervision\\": "src/Supervision/src",
             "Kraken\\Test\\": "src/Test/src",
-            "Kraken\\Throwable\\": "src/Throwable/src",
             "Kraken\\Util\\": "src/Util/src",
             "Kraken\\": "src"
         }

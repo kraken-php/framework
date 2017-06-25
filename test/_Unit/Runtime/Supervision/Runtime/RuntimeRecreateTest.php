@@ -5,9 +5,9 @@ namespace Kraken\_Unit\Runtime\Command;
 use Kraken\_Unit\Runtime\_T\TSolver;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\Supervision\Runtime\RuntimeRecreate;
-use Kraken\Throwable\Exception\Logic\IllegalCallException;
+use Dazzle\Throwable\Exception\Logic\IllegalCallException;
 use Exception;
-use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Dazzle\Throwable\Exception\Runtime\RejectionException;
 use StdClass;
 
 class RuntimeRecreateTest extends TSolver

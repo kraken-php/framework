@@ -5,7 +5,7 @@ namespace Kraken\_Unit\Stream;
 use Kraken\Stream\StreamInterface;
 use Kraken\Stream\StreamSeeker;
 use Kraken\Test\TUnit;
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
+use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
 
 class StreamSeekerTest extends TUnit
 {

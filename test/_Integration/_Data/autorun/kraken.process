@@ -41,9 +41,9 @@ try
 }
 catch (\Error $ex)
 {
-    echo \Kraken\Throwable\Error::toString($ex) . PHP_EOL;
+    echo \Dazzle\Throwable\Error::toString($ex) . PHP_EOL;
 }
 catch (\Exception $ex)
 {
-    echo \Kraken\Throwable\Exception::toString($ex) . PHP_EOL;
+    echo \Dazzle\Throwable\Exception::toString($ex) . PHP_EOL;
 }

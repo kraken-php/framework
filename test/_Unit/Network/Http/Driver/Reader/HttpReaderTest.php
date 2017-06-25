@@ -2,8 +2,8 @@
 
 namespace Kraken\_Unit\Network\Http\Driver\Reader;
 
-use Kraken\Throwable\Exception\Logic\InvalidFormatException;
-use Kraken\Throwable\Exception\Runtime\ReadException;
+use Dazzle\Throwable\Exception\Logic\InvalidFormatException;
+use Dazzle\Throwable\Exception\Runtime\ReadException;
 use Kraken\Network\Http\Driver\Parser\HttpParser;
 use Kraken\Network\Http\Driver\Reader\HttpReader;
 use Kraken\Network\Http\Driver\Reader\HttpReaderInterface;

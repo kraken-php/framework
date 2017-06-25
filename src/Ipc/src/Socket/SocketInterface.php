@@ -3,7 +3,7 @@
 namespace Kraken\Ipc\Socket;
 
 use Kraken\Stream\AsyncStreamInterface;
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Dazzle\Throwable\Exception\Runtime\ExecutionException;
 
 interface SocketInterface extends AsyncStreamInterface
 {

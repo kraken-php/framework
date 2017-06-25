@@ -5,7 +5,7 @@ namespace Kraken\Root\Runtime\Boot;
 use Kraken\Runtime\Container\Thread\ThreadController;
 use Kraken\Runtime\Runtime;
 use Kraken\Runtime\RuntimeContainerInterface;
-use Kraken\Throwable\Exception\Logic\InstantiationException;
+use Dazzle\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Util\Support\StringSupport;
 use Exception;
 use ReflectionClass;

@@ -10,8 +10,8 @@ use Kraken\SSH\SSH2AuthInterface;
 use Kraken\SSH\SSH2Config;
 use Kraken\SSH\SSH2DriverInterface;
 use Kraken\SSH\SSH2Interface;
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
+use Dazzle\Throwable\Exception\Runtime\ExecutionException;
 use Kraken\Test\TUnit;
 
 class SSH2Test extends TUnit

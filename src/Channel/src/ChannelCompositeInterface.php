@@ -2,7 +2,7 @@
 
 namespace Kraken\Channel;
 
-use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
+use Dazzle\Throwable\Exception\Logic\ResourceUndefinedException;
 
 interface ChannelCompositeInterface extends ChannelInterface
 {

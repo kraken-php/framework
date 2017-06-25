@@ -6,8 +6,8 @@ use Kraken\Event\BaseEventEmitterTrait;
 use Kraken\Loop\LoopInterface;
 use Kraken\SSH\SSH2DriverInterface;
 use Kraken\SSH\SSH2ResourceInterface;
-use Kraken\Throwable\Exception\Runtime\ReadException;
-use Kraken\Throwable\Exception\Runtime\WriteException;
+use Dazzle\Throwable\Exception\Runtime\ReadException;
+use Dazzle\Throwable\Exception\Runtime\WriteException;
 use Error;
 use Exception;
 

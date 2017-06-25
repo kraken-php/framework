@@ -4,7 +4,7 @@ namespace Kraken\_Module\Filesystem\_Partial\Filesystem;
 
 use Kraken\Filesystem\FilesystemInterface;
 use Kraken\Test\TModule;
-use Kraken\Throwable\Exception\Runtime\ReadException;
+use Dazzle\Throwable\Exception\Runtime\ReadException;
 
 trait FsApiGetVisibilityPartial
 {

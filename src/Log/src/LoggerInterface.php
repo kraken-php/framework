@@ -3,7 +3,7 @@
 namespace Kraken\Log;
 
 use Kraken\Log\Handler\HandlerInterface;
-use Kraken\Throwable\Exception\Runtime\WriteException;
+use Dazzle\Throwable\Exception\Runtime\WriteException;
 use Kraken\Util\Enum\EnumInterface;
 use Psr\Log\LoggerInterface as PsrLoggerInterface;
 

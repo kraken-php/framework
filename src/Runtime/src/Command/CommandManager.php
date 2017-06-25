@@ -2,7 +2,7 @@
 
 namespace Kraken\Runtime\Command;
 
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Dazzle\Throwable\Exception\Runtime\ExecutionException;
 
 class CommandManager implements CommandManagerInterface
 {

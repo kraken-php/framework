@@ -2,8 +2,8 @@
 
 namespace Kraken\Filesystem;
 
-use Kraken\Throwable\Exception\Runtime\ReadException;
-use Kraken\Throwable\Exception\Runtime\WriteException;
+use Dazzle\Throwable\Exception\Runtime\ReadException;
+use Dazzle\Throwable\Exception\Runtime\WriteException;
 use Error;
 use Exception;
 
@@ -469,7 +469,7 @@ class FilesystemManager implements FilesystemManagerInterface
         catch (Exception $ex)
         {}
 
-        throw new WriteException("Move operation from [$source] to [$destination] could not be completed.", $ex);
+        throw new WriteException("Move operation from [$source] to [$destination] could not be completed.", 0, $ex);
     }
 
     /**

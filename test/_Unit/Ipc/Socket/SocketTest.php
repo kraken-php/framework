@@ -6,7 +6,7 @@ use Kraken\Ipc\Socket\Socket;
 use Kraken\Ipc\Socket\SocketInterface;
 use Kraken\Ipc\Socket\SocketListener;
 use Kraken\Loop\LoopInterface;
-use Kraken\Throwable\Exception\Logic\InstantiationException;
+use Dazzle\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Test\TUnit;
 
 class SocketTest extends TUnit

@@ -8,7 +8,7 @@ use Kraken\Promise\DeferredInterface;
 use Kraken\Promise\PromiseCancelled;
 use Kraken\Promise\PromiseInterface;
 use Kraken\Test\TUnit;
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
+use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
 use Exception;
 
 class PromiseCancelledTest extends TUnit

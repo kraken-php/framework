@@ -4,7 +4,7 @@ namespace Kraken\_Unit\Promise\_Partial;
 
 use Kraken\Promise\Promise;
 use Kraken\Promise\DeferredInterface;
-use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Dazzle\Throwable\Exception\Runtime\RejectionException;
 use Kraken\Test\TUnit;
 use Exception;
 use StdClass;

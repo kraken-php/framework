@@ -19,11 +19,11 @@ use Kraken\Loop\LoopInterface;
 use Kraken\Util\Support\GeneratorSupport;
 use Kraken\Util\Support\StringSupport;
 use Kraken\Util\Support\TimeSupport;
-use Kraken\Throwable\Exception\System\TaskIncompleteException;
-use Kraken\Throwable\Exception\Logic\InstantiationException;
-use Kraken\Throwable\Exception\LogicException;
-use Kraken\Throwable\Exception;
-use Kraken\Throwable\ThrowableProxy;
+use Dazzle\Throwable\Exception\System\TaskIncompleteException;
+use Dazzle\Throwable\Exception\Logic\InstantiationException;
+use Dazzle\Throwable\Exception\LogicException;
+use Dazzle\Throwable\Exception;
+use Dazzle\Throwable\ThrowableProxy;
 
 class Channel extends EventEmitter implements ChannelInterface
 {

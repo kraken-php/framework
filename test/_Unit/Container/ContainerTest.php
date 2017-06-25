@@ -9,8 +9,8 @@ use Kraken\Container\Container;
 use Kraken\Container\Model\ContainerModel;
 use Kraken\Container\Model\ContainerReflection;
 use Kraken\Test\TUnit;
-use Kraken\Throwable\Exception\Runtime\ReadException;
-use Kraken\Throwable\Exception\Runtime\WriteException;
+use Dazzle\Throwable\Exception\Runtime\ReadException;
+use Dazzle\Throwable\Exception\Runtime\WriteException;
 use Prophecy\Argument;
 use Exception;
 

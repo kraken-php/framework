@@ -2,7 +2,7 @@
 
 namespace Kraken\Util\Factory;
 
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Dazzle\Throwable\Exception\Runtime\ExecutionException;
 
 interface SimpleFactoryPluginInterface
 {

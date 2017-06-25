@@ -3,7 +3,7 @@
 namespace Kraken\Runtime\Container\Manager;
 
 use Kraken\Channel\Channel;
-use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Dazzle\Throwable\Exception\Runtime\RejectionException;
 use Kraken\Promise\Promise;
 use Kraken\Runtime\Container\ProcessManagerInterface;
 use Kraken\Runtime\Runtime;

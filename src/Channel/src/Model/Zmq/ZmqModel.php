@@ -12,7 +12,7 @@ use Kraken\Ipc\Zmq\ZmqContext;
 use Kraken\Ipc\Zmq\ZmqSocket;
 use Kraken\Loop\LoopInterface;
 use Kraken\Loop\Timer\TimerInterface;
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Dazzle\Throwable\Exception\Runtime\ExecutionException;
 
 abstract class ZmqModel extends BaseEventEmitter implements ChannelModelInterface
 {

@@ -4,7 +4,7 @@ namespace Kraken\_Unit\Runtime\Command;
 
 use Kraken\_Unit\Runtime\_T\TSolver;
 use Kraken\Runtime\Supervision\Runtime\RuntimeStop;
-use Kraken\Throwable\Exception\Logic\IllegalCallException;
+use Dazzle\Throwable\Exception\Logic\IllegalCallException;
 use Exception;
 use StdClass;
 

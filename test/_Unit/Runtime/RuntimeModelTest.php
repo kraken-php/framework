@@ -14,8 +14,8 @@ use Kraken\Runtime\RuntimeManager;
 use Kraken\Runtime\RuntimeModel;
 use Kraken\Runtime\RuntimeModelInterface;
 use Kraken\Supervision\Supervisor;
-use Kraken\Throwable\Exception\LogicException;
-use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Dazzle\Throwable\Exception\LogicException;
+use Dazzle\Throwable\Exception\Runtime\RejectionException;
 use Kraken\Test\TUnit;
 use Exception;
 

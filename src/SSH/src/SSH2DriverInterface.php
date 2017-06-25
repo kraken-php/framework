@@ -4,7 +4,7 @@ namespace Kraken\SSH;
 
 use Kraken\Event\EventEmitterInterface;
 use Kraken\Loop\LoopResourceInterface;
-use Kraken\Throwable\Exception\LogicException;
+use Dazzle\Throwable\Exception\LogicException;
 
 /**
  * Interface SSH2DriverInterface

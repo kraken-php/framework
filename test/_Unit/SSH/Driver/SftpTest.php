@@ -10,7 +10,7 @@ use Kraken\SSH\Driver\Sftp\SftpResource;
 use Kraken\SSH\SSH2;
 use Kraken\SSH\SSH2DriverInterface;
 use Kraken\SSH\SSH2Interface;
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Dazzle\Throwable\Exception\Runtime\ExecutionException;
 use Kraken\Test\TUnit;
 
 class SftpTest extends TUnit

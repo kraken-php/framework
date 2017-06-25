@@ -3,12 +3,12 @@
 namespace Kraken\Container;
 
 use Kraken\Container\Service\ServiceSorter;
-use Kraken\Throwable\Exception\Logic\IllegalCallException;
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
-use Kraken\Throwable\Exception\Logic\ResourceOccupiedException;
-use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
-use Kraken\Throwable\Exception\Runtime\OverflowException;
+use Dazzle\Throwable\Exception\Logic\IllegalCallException;
+use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
+use Dazzle\Throwable\Exception\Logic\ResourceOccupiedException;
+use Dazzle\Throwable\Exception\Logic\ResourceUndefinedException;
+use Dazzle\Throwable\Exception\Runtime\ExecutionException;
+use Dazzle\Throwable\Exception\Runtime\OverflowException;
 use Error;
 use Exception;
 
@@ -89,7 +89,7 @@ class ServiceRegister implements ServiceRegisterInterface
         catch (Exception $ex)
         {}
 
-        throw new ExecutionException("ServiceRegister could not be booted.", $ex);
+        throw new ExecutionException("ServiceRegister could not be booted.", 0, $ex);
     }
 
     /**
@@ -124,7 +124,7 @@ class ServiceRegister implements ServiceRegisterInterface
 
         if ($ex !== null)
         {
-            throw new ExecutionException("ServiceProvider " . $this->getProviderClass($provider) . " failed during registration.", $ex);
+            throw new ExecutionException("ServiceProvider " . $this->getProviderClass($provider) . " failed during registration.", 0, $ex);
         }
 
         $this->markProviderRegistered($provider);
@@ -242,7 +242,7 @@ class ServiceRegister implements ServiceRegisterInterface
 
             if ($ex !== null)
             {
-                throw new ExecutionException("Alias [$alias] could not be registered.", $ex);
+                throw new ExecutionException("Alias [$alias] could not be registered.", 0, $ex);
             }
         }
     }
@@ -349,7 +349,7 @@ class ServiceRegister implements ServiceRegisterInterface
 
             if ($ex !== null)
             {
-                throw new ExecutionException("ServiceProvider " . $this->getProviderClass($provider) . " failed during registration.", $ex);
+                throw new ExecutionException("ServiceProvider " . $this->getProviderClass($provider) . " failed during registration.", 0, $ex);
             }
         }
     }
@@ -374,7 +374,7 @@ class ServiceRegister implements ServiceRegisterInterface
 
             if ($ex !== null)
             {
-                throw new ExecutionException("Alias [$alias] could not have be registered.", $ex);
+                throw new ExecutionException("Alias [$alias] could not have be registered.", 0, $ex);
             }
         }
     }
@@ -399,7 +399,7 @@ class ServiceRegister implements ServiceRegisterInterface
 
             if ($ex !== null)
             {
-                throw new ExecutionException("ServiceProvider " . $this->getProviderClass($provider) . " failed during boot.", $ex);
+                throw new ExecutionException("ServiceProvider " . $this->getProviderClass($provider) . " failed during boot.", 0, $ex);
             }
         }
     }

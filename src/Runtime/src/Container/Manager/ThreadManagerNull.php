@@ -6,7 +6,7 @@ use Kraken\Channel\Channel;
 use Kraken\Promise\Promise;
 use Kraken\Runtime\Container\ThreadManagerInterface;
 use Kraken\Runtime\Runtime;
-use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Dazzle\Throwable\Exception\Runtime\RejectionException;
 
 class ThreadManagerNull implements ThreadManagerInterface
 {

@@ -5,7 +5,7 @@ namespace Kraken\_Module\Util\Factory;
 use Kraken\_Unit\Util\Factory\_Mock\FactoryPluginMock;
 use Kraken\_Unit\Util\Factory\_Mock\SimpleFactoryPluginMock;
 use Kraken\Test\TModule;
-use Kraken\Throwable\Exception\Logic\IllegalCallException;
+use Dazzle\Throwable\Exception\Logic\IllegalCallException;
 use Kraken\Util\Factory\Factory;
 use Kraken\Util\Factory\FactoryInterface;
 use Kraken\Util\Factory\FactoryPluginInterface;

@@ -4,8 +4,8 @@ namespace Kraken\Core;
 
 use Kraken\Container\Container;
 use Kraken\Container\ServiceRegister;
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
-use Kraken\Throwable\Exception\Logic\InstantiationException;
+use Dazzle\Throwable\Exception\Runtime\ExecutionException;
+use Dazzle\Throwable\Exception\Logic\InstantiationException;
 use Error;
 use Exception;
 
@@ -76,7 +76,7 @@ class Core extends Container implements CoreInterface
         catch (Exception $ex)
         {}
 
-        throw new InstantiationException("Core module could not be booted.", $ex);
+        throw new InstantiationException("Core module could not be booted.", 0, $ex);
     }
 
     /**
@@ -166,7 +166,7 @@ class Core extends Container implements CoreInterface
         catch (Exception $ex)
         {}
 
-        throw new ExecutionException("Provider could not be registered.", $ex);
+        throw new ExecutionException("Provider could not be registered.", 0, $ex);
     }
 
     /**
@@ -185,7 +185,7 @@ class Core extends Container implements CoreInterface
         catch (Exception $ex)
         {}
 
-        throw new ExecutionException("Provider could not be unregistered.", $ex);
+        throw new ExecutionException("Provider could not be unregistered.", 0, $ex);
     }
 
     /**
@@ -252,7 +252,7 @@ class Core extends Container implements CoreInterface
         catch (Exception $ex)
         {}
 
-        throw new ExecutionException("Alias could not be registered.", $ex);
+        throw new ExecutionException("Alias could not be registered.", 0, $ex);
     }
 
     /**
@@ -271,7 +271,7 @@ class Core extends Container implements CoreInterface
         catch (Exception $ex)
         {}
 
-        throw new ExecutionException("Alias could not be unregistered.", $ex);
+        throw new ExecutionException("Alias could not be unregistered.", 0, $ex);
     }
 
     /**

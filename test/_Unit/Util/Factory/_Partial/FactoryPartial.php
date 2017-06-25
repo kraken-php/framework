@@ -3,8 +3,8 @@
 namespace Kraken\_Unit\Util\Factory\_Partial;
 
 use Kraken\_Unit\TestCase;
-use Kraken\Throwable\Exception\Logic\IllegalCallException;
-use Kraken\Throwable\Exception\Logic\IllegalFieldException;
+use Dazzle\Throwable\Exception\Logic\IllegalCallException;
+use Dazzle\Throwable\Exception\Logic\IllegalFieldException;
 use Kraken\Util\Factory\FactoryInterface;
 use StdClass;
 

@@ -2,7 +2,7 @@
 
 namespace Kraken\Supervision;
 
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Dazzle\Throwable\Exception\Runtime\ExecutionException;
 use Error;
 use Exception;
 
@@ -73,6 +73,6 @@ class SupervisorPlugin implements SupervisorPluginInterface
      */
     private function throwException($ex)
     {
-        throw new ExecutionException("SupervisorPlugin [" . get_class($this) . "] raised an error.", $ex);
+        throw new ExecutionException("SupervisorPlugin [" . get_class($this) . "] raised an error.", 0, $ex);
     }
 }

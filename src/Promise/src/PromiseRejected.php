@@ -2,9 +2,9 @@
 
 namespace Kraken\Promise;
 
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
-use Kraken\Throwable\Exception\Runtime\RejectionException;
-use Kraken\Throwable\ThrowableProxy;
+use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
+use Dazzle\Throwable\Exception\Runtime\RejectionException;
+use Dazzle\Throwable\ThrowableProxy;
 use Error;
 use Exception;
 

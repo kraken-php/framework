@@ -4,8 +4,8 @@ namespace Kraken\Runtime\Command;
 
 use Kraken\Promise\Promise;
 use Kraken\Runtime\RuntimeContainerInterface;
-use Kraken\Throwable\Exception\Logic\InstantiationException;
-use Kraken\Throwable\Exception\Runtime\RejectionException;
+use Dazzle\Throwable\Exception\Logic\InstantiationException;
+use Dazzle\Throwable\Exception\Runtime\RejectionException;
 
 class Command implements CommandInterface
 {

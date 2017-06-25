@@ -3,8 +3,8 @@
 namespace Kraken\Container\Service;
 
 use Kraken\Container\ServiceProviderInterface;
-use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
-use Kraken\Throwable\Exception\Runtime\OverflowException;
+use Dazzle\Throwable\Exception\Logic\ResourceUndefinedException;
+use Dazzle\Throwable\Exception\Runtime\OverflowException;
 
 class ServiceSorter
 {

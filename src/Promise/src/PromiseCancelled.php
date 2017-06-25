@@ -2,8 +2,8 @@
 
 namespace Kraken\Promise;
 
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
-use Kraken\Throwable\Exception\Runtime\CancellationException;
+use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
+use Dazzle\Throwable\Exception\Runtime\CancellationException;
 use Error;
 use Exception;
 

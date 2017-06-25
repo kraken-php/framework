@@ -7,7 +7,7 @@ use Kraken\Log\Handler\HandlerInterface;
 use Kraken\Log\Logger;
 use Kraken\Log\LoggerFactory;
 use Kraken\Test\TUnit;
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
+use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\NullHandler;
 use Monolog\Processor\TagProcessor;

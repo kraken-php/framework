@@ -2,7 +2,7 @@
 
 namespace Kraken\Promise;
 
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
+use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
 use Error;
 use Exception;
 

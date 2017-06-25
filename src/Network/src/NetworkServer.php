@@ -4,7 +4,7 @@ namespace Kraken\Network;
 
 use Kraken\Ipc\Socket\SocketListenerInterface;
 use Kraken\Loop\LoopInterface;
-use Kraken\Throwable\Exception\Logic\InstantiationException;
+use Dazzle\Throwable\Exception\Logic\InstantiationException;
 use Kraken\Network\Http\Component\Router\HttpRouter;
 use Kraken\Network\Http\Component\Router\HttpRouterInterface;
 use Kraken\Network\Http\HttpServer;
@@ -65,11 +65,11 @@ class NetworkServer implements NetworkServerInterface
         }
         catch (Error $ex)
         {
-            throw new InstantiationException("[" . __CLASS__ . "] could not be created.", $ex);
+            throw new InstantiationException("[" . __CLASS__ . "] could not be created.", 0, $ex);
         }
         catch (Exception $ex)
         {
-            throw new InstantiationException("[" . __CLASS__ . "] could not be created.", $ex);
+            throw new InstantiationException("[" . __CLASS__ . "] could not be created.", 0, $ex);
         }
     }
 

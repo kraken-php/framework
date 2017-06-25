@@ -9,8 +9,8 @@ use Kraken\_Unit\Container\_Asset\BazInterface;
 use Kraken\_Unit\Container\_Asset\Foo;
 use Kraken\_Unit\Container\_Asset\Invokable;
 use Kraken\Container\Container;
-use Kraken\Throwable\Exception\Runtime\ReadException;
-use Kraken\Throwable\Exception\Runtime\WriteException;
+use Dazzle\Throwable\Exception\Runtime\ReadException;
+use Dazzle\Throwable\Exception\Runtime\WriteException;
 use Kraken\Test\TModule;
 use StdClass;
 

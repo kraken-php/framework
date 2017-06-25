@@ -7,8 +7,8 @@ use Kraken\Loop\LoopAwareTrait;
 use Kraken\Loop\LoopInterface;
 use Kraken\SSH\Driver\Sftp;
 use Kraken\SSH\Driver\Shell;
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
+use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
+use Dazzle\Throwable\Exception\Runtime\ExecutionException;
 use Error;
 use Exception;
 

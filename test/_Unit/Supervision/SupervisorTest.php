@@ -7,11 +7,11 @@ use Kraken\Supervision\SolverComposite;
 use Kraken\Supervision\SolverFactory;
 use Kraken\Supervision\SolverInterface;
 use Kraken\Supervision\Supervisor;
-use Kraken\Throwable\Exception\Logic\IllegalCallException;
-use Kraken\Throwable\Exception\Runtime\RejectionException;
-use Kraken\Throwable\Exception\Runtime\ExecutionException;
-use Kraken\Throwable\Exception\Runtime\WriteException;
-use Kraken\Throwable\Exception\RuntimeException;
+use Dazzle\Throwable\Exception\Logic\IllegalCallException;
+use Dazzle\Throwable\Exception\Runtime\RejectionException;
+use Dazzle\Throwable\Exception\Runtime\ExecutionException;
+use Dazzle\Throwable\Exception\Runtime\WriteException;
+use Dazzle\Throwable\Exception\RuntimeException;
 use Kraken\Test\TUnit;
 use Exception;
 

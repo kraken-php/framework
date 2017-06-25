@@ -3,8 +3,8 @@
 namespace Kraken\Channel\Record;
 
 use Kraken\Util\Support\TimeSupport;
-use Kraken\Throwable\Exception\Runtime\TimeoutException;
-use Kraken\Throwable\ThrowableProxy;
+use Dazzle\Throwable\Exception\Runtime\TimeoutException;
+use Dazzle\Throwable\ThrowableProxy;
 use Error;
 use Exception;
 

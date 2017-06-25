@@ -7,8 +7,8 @@ use Kraken\Container\ContainerInterface;
 use Kraken\Container\ServiceProvider;
 use Kraken\Container\ServiceProviderInterface;
 use Kraken\Runtime\Command\CommandFactory;
-use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
+use Dazzle\Throwable\Exception\Logic\ResourceUndefinedException;
+use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
 use Kraken\Util\Factory\FactoryPluginInterface;
 use Exception;
 

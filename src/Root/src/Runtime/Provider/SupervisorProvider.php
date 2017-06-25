@@ -9,8 +9,8 @@ use Kraken\Container\ServiceProviderInterface;
 use Kraken\Supervision\SolverInterface;
 use Kraken\Supervision\SupervisorInterface;
 use Kraken\Supervision\SupervisorPluginInterface;
-use Kraken\Throwable\Exception\Logic\ResourceUndefinedException;
-use Kraken\Throwable\Exception\Logic\InvalidArgumentException;
+use Dazzle\Throwable\Exception\Logic\ResourceUndefinedException;
+use Dazzle\Throwable\Exception\Logic\InvalidArgumentException;
 use Exception;
 
 class SupervisorProvider extends ServiceProvider implements ServiceProviderInterface
@@ -172,7 +172,7 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
      */
     private function systemError($error)
     {
-        return 'Kraken\Throwable\Error\\' . $error;
+        return 'Dazzle\Throwable\Error\\' . $error;
     }
 
     /**
@@ -181,6 +181,6 @@ class SupervisorProvider extends ServiceProvider implements ServiceProviderInter
      */
     private function systemException($exception)
     {
-        return 'Kraken\Throwable\Exception\System\\' . $exception;
+        return 'Dazzle\Throwable\Exception\System\\' . $exception;
     }
 }

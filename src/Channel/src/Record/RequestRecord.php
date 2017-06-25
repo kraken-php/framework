@@ -2,7 +2,7 @@
 
 namespace Kraken\Channel\Record;
 
-use Kraken\Throwable\ThrowableProxy;
+use Dazzle\Throwable\ThrowableProxy;
 use Error;
 use Exception;
 
