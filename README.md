@@ -52,29 +52,14 @@ Full list of features can be found on [official website][1].
 
 ## Modules
 
-Kraken Framework is fully modular and each of its components can be used separately. If for some reason you don't want to download full application stack, you can require any of the following components:
+Kraken Framework is built on top of asynchronous library named [Dazzle Project](https://github.com/dazzle-php/dazzle). If you are looking for a solution simpler than framework, you might consider using it instead.
 
-* [__Kraken/Channel__](https://github.com/kraken-php/channel) : IPC abstractions,
-* [__Kraken/Config__](https://github.com/kraken-php/config) : Default configurator,
-* [__Kraken/Console__](https://github.com/kraken-php/console) : Console and Server implementation,
-* [__Kraken/Container__](https://github.com/kraken-php/container) : Service container,
-* [__Kraken/Core__](https://github.com/kraken-php/core) : Framework core,
-* [__Kraken/Environment__](https://github.com/kraken-php/environment) : Environment controller,
-* [__Kraken/Event__](https://github.com/kraken-php/event) : Support for events,
-* [__Kraken/Filesystem__](https://github.com/kraken-php/filesystem) : Default filesystem,
-* [__Kraken/Ipc__](https://github.com/kraken-php/ipc) : IPC models,
-* [__Kraken/Log__](https://github.com/kraken-php/log) : Default logger,
-* [__Kraken/Loop__](https://github.com/kraken-php/loop) : Event-loop implementation,
-* [__Kraken/Network__](https://github.com/kraken-php/network) : Network protocols servers,
-* [__Kraken/Promise__](https://github.com/kraken-php/promise) : Promise/A+ implementation,
-* [__Kraken/Root__](https://github.com/kraken-php/root) : Default composition root,
-* [__Kraken/Runtime__](https://github.com/kraken-php/runtime) : Process and Thread abstractions,
-* [__Kraken/Stream__](https://github.com/kraken-php/stream) : Stream wrappers,
-* [__Kraken/SSH__](https://github.com/kraken-php/ssh) : async SSH driver,
-* [__Kraken/Supervision__](https://github.com/kraken-php/supervision) : Supervisors and problem solvers,
-* [__Kraken/Test__](https://github.com/kraken-php/test) : Test helpers,
-* [__Kraken/Throwable__](https://github.com/kraken-php/throwable) : Throwable hierarchy,
-* [__Kraken/Util__](https://github.com/kraken-php/util) : Utility classes and methods.
+#### Powered By
+
+<br>
+<p align="center">
+<img src="https://github.com/dazzle-php/dazzle/blob/master/media/dazzle-x125.png" />
+</p>
 
 ## Performance
 
@@ -108,10 +93,6 @@ There are few examples you can try, before deciding to use Kraken:
 If you have written your own demo application for Kraken, and want to list it here, contact us!
 
 ## Frequently Asked Questions
-
-#### Is Kraken a framework or a set of libraries?
-
-> Kraken is both. It gives developer a fully working and pre-configured framework to start writing asynchronous applications easily, but at the same moment it provides a set of independent modules. The choice is up to developer whether he wants to use the full application stack, or build something different using only selected components.
 
 #### How does the Kraken differ from other PHP async libraries?
 
