@@ -50,17 +50,6 @@ Kraken features:
 
 Full list of features can be found on [official website][1].
 
-## Modules
-
-Kraken Framework is built on top of asynchronous library named [Dazzle Project](https://github.com/dazzle-php/dazzle). If you are looking for a solution simpler than framework, you might consider using it instead.
-
-#### Powered By
-
-<br>
-<p align="center">
-<img src="https://github.com/dazzle-php/dazzle/blob/master/media/dazzle-x125.png" />
-</p>
-
 ## Performance
 
 Kraken is able to emit millions of events and thousands of messages and connections per second using single container. It is scalable for multiple processes and threads, faster than traditional PHP approach and able to handle similar amount of connections as Node.js.
@@ -70,6 +59,15 @@ Kraken is able to emit millions of events and thousands of messages and connecti
 </p>
 
 > **Note:** Keep in mind that Kraken project does not solely focus around HTTP performance. It provides a set of distinct asynchronous libraries to use in PHP. The attached graph's main intention is to show that PHP is fast enough to compete with the leading technologies available on the market. The HTTP component has been chosen as it is the only one that can be easily compared between asynchronous and synchronous MVC frameworks. Do not treat it as an actual benchmark.
+
+## Powered By
+
+Kraken Framework is built on top of asynchronous library named [Dazzle Project](https://github.com/dazzle-php/dazzle). If you are looking for a solution simpler than framework, you might consider using it instead.
+
+<br>
+<p align="center">
+<img src="https://github.com/dazzle-php/dazzle/blob/master/media/dazzle-x125.png" />
+</p>
 
 ## Requirements
 
